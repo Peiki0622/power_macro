@@ -1,0 +1,23 @@
+# Python bytecode is interpreter-specific intermediate output, never source.
+__pycache__/
+*.py[cod]
+
+# HSPICE creates these beside each generated deck.  Decks, listings, measures,
+# solver state and command logs are reproducible task outputs, not source.
+*.lis
+*.mt0
+*.mt0.csv
+*.tr0
+*.ic0
+*.st0
+*.pa0
+*.ms0
+hspice_command.log
+
+# Ignore all direct products of a task-owned delay-chain run: generated decks,
+# raw/derived tables, manifests, reports and scenario subdirectories.  Keep
+# only curated figures so repository history retains visual experiment evidence
+# without accumulating simulator databases and intermediate result artifacts.
+/delay_chain/**/runs/*/*
+!/delay_chain/**/runs/*/figures/
+!/delay_chain/**/runs/*/figures/**
