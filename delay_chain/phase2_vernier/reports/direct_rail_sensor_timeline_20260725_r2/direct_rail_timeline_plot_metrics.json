@@ -1,0 +1,30 @@
+{
+  "a_vdd_droop_peak_mv": 30.00000000000003,
+  "a_vdd_min_v": 1.07,
+  "baseline_code": 15,
+  "direct_droop_windows_s": [
+    {
+      "end_s": 4.48e-07,
+      "start_s": 2e-07
+    },
+    {
+      "end_s": 8.48e-07,
+      "start_s": 6e-07
+    },
+    {
+      "end_s": 1.248e-06,
+      "start_s": 1e-06
+    },
+    {
+      "end_s": 1.648e-06,
+      "start_s": 1.4e-06
+    }
+  ],
+  "invalid_capture_count": 0,
+  "sample_count": 500,
+  "status": "PASS",
+  "trace_duplicate_time_count": 9198,
+  "trace_record_count": 299062,
+  "vdd_ref_droop_peak_mv": 0.0,
+  "vdd_ref_min_v": 1.1
+}

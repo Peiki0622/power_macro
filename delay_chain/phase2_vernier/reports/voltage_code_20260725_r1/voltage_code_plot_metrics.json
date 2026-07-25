@@ -1,0 +1,15 @@
+{
+  "baseline_code": 15,
+  "bubble_scenario_count": 0,
+  "first_violation_code": 32,
+  "first_violation_code_delta": 17,
+  "first_violation_droop_mv": 52.526057199,
+  "invalid_scenarios": [],
+  "last_passing_code": 32,
+  "last_passing_droop_mv": 45.938672293,
+  "last_to_first_violation_code_delta": 0,
+  "metastability_risk_count": 266,
+  "monotonicity_violations": [],
+  "reset_failure_count": 0,
+  "scenario_count": 303
+}

@@ -1,0 +1,126 @@
+{
+  "chains": [
+    {
+      "anchors": {
+        "anchor_first_violation": {
+          "avg_power_w": 2.676e-06,
+          "chain_delay_s": 2.39e-10,
+          "peak_current_a": 4.271e-05,
+          "stage_delay_s": 1.311e-11,
+          "vdd_v": 1.047473942801
+        },
+        "anchor_last_passing": {
+          "avg_power_w": 2.699e-06,
+          "chain_delay_s": 2.354e-10,
+          "peak_current_a": 4.23e-05,
+          "stage_delay_s": 1.296e-11,
+          "vdd_v": 1.054061327707
+        },
+        "anchor_nominal": {
+          "avg_power_w": 2.956e-06,
+          "chain_delay_s": 2.15e-10,
+          "peak_current_a": 4.795e-05,
+          "stage_delay_s": 1.203e-11,
+          "vdd_v": 1.1
+        }
+      },
+      "chain_units": 16,
+      "epsilon_nominal_to_first_violation_s": 1.080000000000001e-12,
+      "last_passing_delay_delta_s": 9.300000000000003e-13,
+      "last_passing_relative_delay_change_percent": 7.730673316708232,
+      "relative_delay_change_percent": 8.977556109725695
+    },
+    {
+      "anchors": {
+        "anchor_first_violation": {
+          "avg_power_w": 5.438e-06,
+          "chain_delay_s": 4.824e-10,
+          "peak_current_a": 4.334e-05,
+          "stage_delay_s": 1.311e-11,
+          "vdd_v": 1.047473942801
+        },
+        "anchor_last_passing": {
+          "avg_power_w": 5.503e-06,
+          "chain_delay_s": 4.754e-10,
+          "peak_current_a": 4.257e-05,
+          "stage_delay_s": 1.296e-11,
+          "vdd_v": 1.054061327707
+        },
+        "anchor_nominal": {
+          "avg_power_w": 6.022e-06,
+          "chain_delay_s": 4.338e-10,
+          "peak_current_a": 4.816e-05,
+          "stage_delay_s": 1.203e-11,
+          "vdd_v": 1.1
+        }
+      },
+      "chain_units": 32,
+      "epsilon_nominal_to_first_violation_s": 1.080000000000001e-12,
+      "last_passing_delay_delta_s": 9.300000000000003e-13,
+      "last_passing_relative_delay_change_percent": 7.730673316708232,
+      "relative_delay_change_percent": 8.977556109725695
+    },
+    {
+      "anchors": {
+        "anchor_first_violation": {
+          "avg_power_w": 1.098e-05,
+          "chain_delay_s": 9.689e-10,
+          "peak_current_a": 4.234e-05,
+          "stage_delay_s": 1.311e-11,
+          "vdd_v": 1.047473942801
+        },
+        "anchor_last_passing": {
+          "avg_power_w": 1.112e-05,
+          "chain_delay_s": 9.555e-10,
+          "peak_current_a": 4.286e-05,
+          "stage_delay_s": 1.296e-11,
+          "vdd_v": 1.054061327707
+        },
+        "anchor_nominal": {
+          "avg_power_w": 1.215e-05,
+          "chain_delay_s": 8.712e-10,
+          "peak_current_a": 4.883e-05,
+          "stage_delay_s": 1.203e-11,
+          "vdd_v": 1.1
+        }
+      },
+      "chain_units": 64,
+      "epsilon_nominal_to_first_violation_s": 1.080000000000001e-12,
+      "last_passing_delay_delta_s": 9.300000000000003e-13,
+      "last_passing_relative_delay_change_percent": 7.730673316708232,
+      "relative_delay_change_percent": 8.977556109725695
+    }
+  ],
+  "schema_version": 1,
+  "selected_sense_stage_reference": {
+    "anchors": {
+      "anchor_first_violation": {
+        "avg_power_w": 2.676e-06,
+        "chain_delay_s": 2.39e-10,
+        "peak_current_a": 4.271e-05,
+        "stage_delay_s": 1.311e-11,
+        "vdd_v": 1.047473942801
+      },
+      "anchor_last_passing": {
+        "avg_power_w": 2.699e-06,
+        "chain_delay_s": 2.354e-10,
+        "peak_current_a": 4.23e-05,
+        "stage_delay_s": 1.296e-11,
+        "vdd_v": 1.054061327707
+      },
+      "anchor_nominal": {
+        "avg_power_w": 2.956e-06,
+        "chain_delay_s": 2.15e-10,
+        "peak_current_a": 4.795e-05,
+        "stage_delay_s": 1.203e-11,
+        "vdd_v": 1.1
+      }
+    },
+    "chain_units": 16,
+    "epsilon_nominal_to_first_violation_s": 1.080000000000001e-12,
+    "last_passing_delay_delta_s": 9.300000000000003e-13,
+    "last_passing_relative_delay_change_percent": 7.730673316708232,
+    "relative_delay_change_percent": 8.977556109725695
+  },
+  "source_csv": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/phase2_vernier/runs/phase1_anchors_20260724_r1/raw_anchor_metrics.csv"
+}

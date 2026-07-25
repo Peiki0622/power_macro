@@ -1,0 +1,76 @@
+{
+  "buffer": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A"
+    ],
+    "cell": "BUF_X0P7M_A9TR40",
+    "selection_reason": "smallest M-suffix non-inverting buffer; candidate only until cross-domain test proves need",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A"
+    ]
+  },
+  "dff": {
+    "cdl_ports": [
+      "Q",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "CK",
+      "D",
+      "R"
+    ],
+    "cell": "DFFRPQ_X0P5M_A9TR40",
+    "clock_polarity": "positive_edge",
+    "reset_pin": "R",
+    "reset_polarity": "active_high_async_clear",
+    "selection_reason": "smallest Q-output positive-edge DFF with one asynchronous clear pin",
+    "verilog_ports": [
+      "Q",
+      "VDD",
+      "VSS",
+      "CK",
+      "D",
+      "R"
+    ]
+  },
+  "level_shifter": {
+    "selected": null,
+    "selection_reason": "No level-shifter-named subcircuit exists in the configured base-rvt CDL; no custom circuit is substituted.",
+    "status": "NO_LEVEL_SHIFTER_CANDIDATE_FOUND"
+  },
+  "mux": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A",
+      "B",
+      "S0"
+    ],
+    "cell": "MXT2_X0P5M_A9TR40",
+    "select_pin": "S0",
+    "selection_reason": "smallest M-suffix 2:1 transmission-style mux with explicit A/B/S0 ports",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A",
+      "B",
+      "S0"
+    ]
+  },
+  "schema_version": 1,
+  "source_cdl": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+  "source_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+}
