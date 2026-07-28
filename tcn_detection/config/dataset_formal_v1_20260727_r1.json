@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "dataset_id": "formal_v1_20260727_r1",
+  "root_seed": 20260727,
+  "trace_samples": 500,
+  "sample_period_s": 4e-9,
+  "vnom_v": 1.1,
+  "m_stages": 32,
+  "baseline_code": 15,
+  "legacy": {
+    "dataset_id": "pilot_v2_20260725_r2",
+    "corpus": "power_macro/tcn_detection/data/corpus_v2_20260725_r2.jsonl",
+    "run_dir": "power_macro/tcn_detection/runs/pilot_v2_20260725_r2",
+    "trace_count": 96
+  },
+  "extension_split_counts": {"train": 72, "validation": 24, "iid_test": 24, "ood_test": 24},
+  "formal_split_counts": {"train": 120, "validation": 40, "iid_test": 40, "ood_test": 40},
+  "known_families": ["trapezoid", "triangle", "exponential", "staircase", "double_event", "plateau_with_jitter"],
+  "ood_families": ["rlc_ringing", "glitch_cluster", "partial_recovery_second_collapse", "asymmetric_double_peak", "random_walk_collapse"],
+  "training_background_modes": ["busy", "bursty", "mixed"],
+  "unseen_background_mode": "unseen_multiscale_bursty",
+  "event_duty_cycles": [0.01, 0.05, 0.10, 0.25],
+  "target_risk_strata": {
+    "near_warning": {"future_min_slack_ps_min_exclusive": 0.0, "future_min_slack_ps_max_inclusive": 5.0},
+    "near_critical": {"future_min_slack_ps_min_inclusive": -2.0, "future_min_slack_ps_max_inclusive": 0.0}
+  },
+  "hard_pair_type_counts": {
+    "same_current_code_future_trend": 2,
+    "same_minimum_different_fall_rate": 2,
+    "same_amplitude_different_hold": 2,
+    "same_slope_different_future": 1,
+    "same_saturation_different_duration": 1
+  }
+}

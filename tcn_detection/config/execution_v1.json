@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "hspice_executable": "/home/zhupl25/.local/bin/hspice",
+  "required_hspice_version": "W-2024.09",
+  "worker_count": 6,
+  "trace_timeout_s": 10800,
+  "retry_delay_s": 60,
+  "maximum_attempts": 2,
+  "minimum_free_gib": 128,
+  "emergency_free_gib": 64,
+  "per_active_trace_gib": 4,
+  "poll_interval_s": 30,
+  "failure_log_tail_bytes": 65536
+}

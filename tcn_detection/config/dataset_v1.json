@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "dataset_id": "pilot_v1",
+  "root_seed": 20260725,
+  "trace_samples": 500,
+  "sample_period_s": 4e-9,
+  "vnom_v": 1.1,
+  "m_stages": 32,
+  "baseline_code": 15,
+  "known_families": ["trapezoid", "triangle", "exponential", "staircase", "double_event", "plateau_with_jitter"],
+  "ood_families": ["rlc_ringing", "glitch_cluster", "partial_recovery_second_collapse", "asymmetric_double_peak", "random_walk_collapse"],
+  "background_modes": ["busy", "bursty", "mixed", "randomizer_like"],
+  "event_duty_cycles": [0.01, 0.05, 0.10, 0.25],
+  "droop_bounds_mv": [0.2, 100.0],
+  "pilot": {"train": 48, "validation": 16, "iid_test": 16, "ood_test": 16}
+}

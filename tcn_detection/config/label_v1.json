@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "prediction_horizon_samples": 8,
+  "warning_slack_ps": 5.0,
+  "recover_samples": 3,
+  "recover_safe_slack_ps": 6.0,
+  "labels": {"Safe": 0, "Warning": 1, "Critical": 2}
+}

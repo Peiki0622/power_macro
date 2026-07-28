@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "clock_frequency_mhz": 765.0,
+  "clock_period_ns": 1.307189542,
+  "vnom_v": 1.1,
+  "vth_v": 0.15,
+  "expected_path_count": 100,
+  "warning_boundary_points_v": [1.079, 1.078, 1.077, 1.076, 1.075, 1.074],
+  "critical_boundary_points_v": [1.053, 1.052, 1.051, 1.050, 1.049, 1.048]
+}

@@ -21,3 +21,19 @@ hspice_command.log
 /delay_chain/**/runs/*/*
 !/delay_chain/**/runs/*/figures/
 !/delay_chain/**/runs/*/figures/**
+
+# TCN run directories contain generated datasets, simulator products, model
+# checkpoints and other reproducible artifacts.  Keep the directory traversal
+# visible only so Markdown reports at any nesting depth can be versioned; every
+# non-Markdown file beneath this run root remains ignored.
+/tcn_detection/runs/**
+!/tcn_detection/runs/**/
+!/tcn_detection/runs/**/*.md
+
+# The V1 Pilot corpus was superseded by the corrected, authoritative V2 corpus
+# and is explicitly forbidden as a label source by the TCN README.  The two
+# top-level split summaries are duplicate pre-audit scratch outputs; canonical
+# human-readable audits remain versionable as Markdown beneath runs/.
+/tcn_detection/data/corpus_v1.jsonl
+/tcn_detection/data/split_audit_v1.json
+/tcn_detection/data/split_audit_v2_20260725_r2.json

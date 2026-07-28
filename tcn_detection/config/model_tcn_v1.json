@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "input_channels": 5,
+  "class_count": 3,
+  "hidden_channels": 16,
+  "kernel_size": 3,
+  "dilations": [1, 2, 4],
+  "dropout": 0.10,
+  "cnn_channels": [16, 16, 16],
+  "cae_channels": [8, 16],
+  "cae_normal_warning_quantile": 0.95,
+  "cae_normal_critical_quantile": 0.99
+}
