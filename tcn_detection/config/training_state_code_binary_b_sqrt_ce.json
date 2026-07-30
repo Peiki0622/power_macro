@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "cpu_threads_per_process": 8,
+  "batch_size": 256,
+  "max_epochs": 80,
+  "early_stopping_patience": 12,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "sampling_strategy": "natural",
+  "loss_type": "cross_entropy",
+  "class_weight_strategy": "sqrt_inverse",
+  "ordinal_positive_weight_strategy": "none",
+  "checkpoint_selection_metric": "critical_pr_auc"
+}

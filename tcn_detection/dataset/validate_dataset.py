@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Perform the final, full-corpus acceptance audit for the TCN pilot data.
+"""Perform the final, full-corpus acceptance audit for a TCN dataset release.
 
 This validator deliberately reads every compact trace, every labelled copy,
 and every L=8/16/32 window.  It is not a smoke test: its failure list is an
@@ -142,30 +142,156 @@ def validate_trace_layers(run_dir, label_dir, map_bounds, report):
     return traces, label_tables
 
 
-def validate_cleanup(run_dir, trace_ids, report):
-    """Check that every successful trace has a complete deletion ledger and no raw residue."""
+def cleanup_ledgers_by_trace(run_dir, expected_ids, origin, report):
+    """Validate one run's cleanup ledgers and return the accepted trace count.
 
-    ledgers = list((run_dir / "work").glob("*/attempt_*/cleanup.json"))
-    report["cleanup_ledger_count"] = len(ledgers)
-    ledger_ids = set()
-    for path in ledgers:
-        ledger_ids.add(path.parents[1].name)
-        ledger = json.loads(path.read_text(encoding="utf-8"))
-        files = ledger.get("files", [])
-        if not files or not all(entry.get("deleted") for entry in files):
-            add_failure(report, "cleanup ledger is incomplete: {}".format(path))
-    if ledger_ids != set(trace_ids):
-        add_failure(report, "cleanup-ledger trace IDs do not match compact trace IDs")
-    raw_residuals = []
+    ``expected_ids`` is deliberately supplied by the caller instead of being
+    inferred from ``compact/``.  A formal release may expose legacy compact
+    files through symlinks even though those HSPICE jobs and their deletion
+    ledgers belong to the immutable source run.  Treating every visible compact
+    CSV as locally simulated would therefore report 96 false missing-ledger
+    failures for the merged 240-trace dataset.
+    """
+
+    expected_ids = set(expected_ids)
+    ledger_paths = list((run_dir / "work").glob("*/attempt_*/cleanup.json"))
+    paths_by_id = defaultdict(list)
+    for path in ledger_paths:
+        paths_by_id[path.parents[1].name].append(path)
+
+    # Validate only the requested imported subset in a source run.  This keeps
+    # the validator correct if a future release imports a strict subset of a
+    # larger legacy run, while the local run still requires exact equality.
+    present_ids = set(paths_by_id) & expected_ids
+    missing_ids = expected_ids - set(paths_by_id)
+    if missing_ids:
+        add_failure(report, "{} cleanup ledgers are missing for trace IDs: {}".format(origin, sorted(missing_ids)[:10]))
+    if origin == "local":
+        unexpected_ids = set(paths_by_id) - expected_ids
+        if unexpected_ids:
+            add_failure(report, "local cleanup ledgers contain unexpected trace IDs: {}".format(sorted(unexpected_ids)[:10]))
+
+    for trace_id in sorted(present_ids):
+        paths = paths_by_id[trace_id]
+        if len(paths) != 1:
+            add_failure(report, "{} trace {} has {} cleanup ledgers".format(origin, trace_id, len(paths)))
+        for path in paths:
+            ledger = json.loads(path.read_text(encoding="utf-8"))
+            files = ledger.get("files", [])
+            if not files or not all(entry.get("deleted") for entry in files):
+                add_failure(report, "{} cleanup ledger is incomplete: {}".format(origin, path))
+    return len(present_ids)
+
+
+def raw_residuals(run_dir):
+    """Return raw simulator products still present below one run's work tree."""
+
+    residuals = []
     for path in (run_dir / "work").rglob("*"):
         if path.is_file() and (path.name in RAW_NAMES or path.suffix in RAW_SUFFIXES):
-            raw_residuals.append(str(path.relative_to(run_dir)))
-    report["raw_hspice_residual_count"] = len(raw_residuals)
-    if raw_residuals:
-        add_failure(report, "raw HSPICE files remain: {}".format(raw_residuals[:10]))
+            residuals.append(str(path.relative_to(run_dir)))
+    return residuals
 
 
-def validate_provenance(run_dir, label_dir, windows_dir, corpus_sha256, report):
+def imported_trace_ids(run_dir, trace_ids, report):
+    """Validate an optional legacy-import manifest and return its CSV trace IDs.
+
+    Formal collection keeps Pilot electrical evidence immutable by publishing
+    absolute symlinks plus a SHA256 for every imported CSV/JSON pair.  This
+    routine fails closed on malformed names, missing pairs, retargeted links,
+    or changed source bytes before cleanup validation trusts the legacy run.
+    A run without ``source_manifest.json`` remains a normal all-local Pilot.
+    """
+
+    manifest_path = run_dir / "source_manifest.json"
+    if not manifest_path.is_file():
+        return set(), None
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    entries = manifest.get("legacy_imports", [])
+    if not entries:
+        return set(), None
+
+    legacy_run_text = manifest.get("legacy_run", "")
+    legacy_run = Path(legacy_run_text) if legacy_run_text else None
+    if legacy_run is None or not legacy_run.is_dir():
+        add_failure(report, "legacy import manifest does not reference an accessible source run")
+        legacy_run = None
+
+    names = set()
+    suffixes_by_id = defaultdict(set)
+    for entry in entries:
+        name = entry.get("name", "")
+        source_text = entry.get("source", "")
+        if not name or Path(name).name != name or name in names or not source_text:
+            add_failure(report, "legacy import manifest contains a malformed or duplicate entry: {}".format(name))
+            continue
+        names.add(name)
+        suffix = Path(name).suffix
+        trace_id = Path(name).stem
+        if suffix not in {".csv", ".json"}:
+            add_failure(report, "legacy import has an unsupported artifact suffix: {}".format(name))
+            continue
+        suffixes_by_id[trace_id].add(suffix)
+        link = run_dir / "compact" / name
+        source = Path(source_text)
+        # A checksum alone does not establish ownership: an unrelated file can
+        # contain identical bytes.  Require the declared source to be the
+        # basename-matched artifact directly under the declared legacy
+        # ``compact`` directory before accepting it as imported evidence.
+        if legacy_run is not None and source.resolve().parent != (legacy_run / "compact").resolve():
+            add_failure(report, "legacy compact source lies outside the declared source run: {}".format(source))
+        try:
+            resolves_to_source = link.is_symlink() and link.resolve(strict=True) == source.resolve(strict=True)
+        except FileNotFoundError:
+            resolves_to_source = False
+        if not resolves_to_source:
+            add_failure(report, "legacy compact link does not resolve to its declared source: {}".format(link))
+            continue
+        if entry.get("sha256") != sha256_file(source):
+            add_failure(report, "legacy compact source digest mismatch: {}".format(source))
+
+    imported_ids = {trace_id for trace_id, suffixes in suffixes_by_id.items() if suffixes == {".csv", ".json"}}
+    incomplete_ids = {trace_id for trace_id, suffixes in suffixes_by_id.items() if suffixes != {".csv", ".json"}}
+    if incomplete_ids:
+        add_failure(report, "legacy imports lack a complete CSV/JSON pair: {}".format(sorted(incomplete_ids)[:10]))
+    if not imported_ids.issubset(set(trace_ids)):
+        add_failure(report, "legacy import manifest references trace IDs outside the compact dataset")
+
+    return imported_ids, legacy_run
+
+
+def validate_cleanup(run_dir, trace_ids, report):
+    """Check local and imported HSPICE cleanup lifecycles without conflating ownership."""
+
+    all_trace_ids = set(trace_ids)
+    imported_ids, legacy_run = imported_trace_ids(run_dir, all_trace_ids, report)
+    local_ids = all_trace_ids - imported_ids
+    local_count = cleanup_ledgers_by_trace(run_dir, local_ids, "local", report)
+    imported_count = 0
+    if imported_ids and legacy_run is not None:
+        imported_count = cleanup_ledgers_by_trace(legacy_run, imported_ids, "imported", report)
+
+    # Scan both ownership locations.  The imported source is part of the
+    # release's evidence chain, so retaining a raw waveform there would violate
+    # the same bounded-storage contract even though the formal run only links
+    # its compact products.
+    local_raw = raw_residuals(run_dir)
+    imported_raw = raw_residuals(legacy_run) if imported_ids and legacy_run is not None else []
+    report["local_trace_count"] = len(local_ids)
+    report["imported_trace_count"] = len(imported_ids)
+    report["local_cleanup_ledger_count"] = local_count
+    report["imported_cleanup_ledger_count"] = imported_count
+    report["cleanup_ledger_count"] = local_count + imported_count
+    report["local_raw_hspice_residual_count"] = len(local_raw)
+    report["imported_raw_hspice_residual_count"] = len(imported_raw)
+    report["raw_hspice_residual_count"] = len(local_raw) + len(imported_raw)
+    if local_raw:
+        add_failure(report, "raw HSPICE files remain in local run: {}".format(local_raw[:10]))
+    if imported_raw:
+        add_failure(report, "raw HSPICE files remain in imported source run: {}".format(imported_raw[:10]))
+
+
+def validate_provenance(run_dir, label_dir, windows_dir, corpus_sha256, trace_ids, report):
     """Bind derived artifacts to their published manifests and source digests.
 
     The label manifest captures both the canonical corpus and every copied
@@ -182,9 +308,17 @@ def validate_provenance(run_dir, label_dir, windows_dir, corpus_sha256, report):
         provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
         if provenance.get("corpus_sha256") != corpus_sha256:
             add_failure(report, "label provenance references a different corpus")
-        if provenance.get("source_trace_count") != 96:
+        expected_ids = set(trace_ids)
+        provenance_traces = provenance.get("traces", [])
+        provenance_ids = {entry.get("trace_id") for entry in provenance_traces}
+        # Check both list length and ID set.  Set equality alone would hide a
+        # duplicated provenance row when all expected trace IDs are otherwise
+        # present, weakening the intended one-to-one compact/label binding.
+        if (provenance.get("source_trace_count") != len(expected_ids)
+                or len(provenance_traces) != len(expected_ids)
+                or provenance_ids != expected_ids):
             add_failure(report, "label provenance has an unexpected trace count")
-        for entry in provenance.get("traces", []):
+        for entry in provenance_traces:
             source = run_dir / "compact" / entry["source_csv"]
             labelled = label_dir / entry["label_csv"]
             if not source.is_file() or not labelled.is_file() or entry.get("source_sha256") != sha256_file(source) or entry.get("label_sha256") != sha256_file(labelled):
@@ -193,7 +327,14 @@ def validate_provenance(run_dir, label_dir, windows_dir, corpus_sha256, report):
         add_failure(report, "missing window manifest")
     else:
         manifest = json.loads(window_manifest_path.read_text(encoding="utf-8"))
-        for filename, entry in manifest.get("files", {}).items():
+        manifest_files = manifest.get("files", {})
+        expected_files = {"windows_L8.csv", "windows_L16.csv", "windows_L32.csv"}
+        # The independent window validator below checks CSV contents, while
+        # this manifest check guarantees that every accepted index is also
+        # cryptographically covered by the published reproducibility record.
+        if set(manifest_files) != expected_files:
+            add_failure(report, "window manifest does not declare exactly the L=8/16/32 indexes")
+        for filename, entry in manifest_files.items():
             path = windows_dir / filename
             if not path.is_file() or entry.get("sha256") != sha256_file(path):
                 add_failure(report, "window manifest digest mismatch for {}".format(filename))
@@ -310,7 +451,7 @@ def main():
     if corpus_ids != set(traces):
         add_failure(report, "authoritative corpus trace IDs do not match compact trace IDs")
     validate_cleanup(args.run_dir, traces, report)
-    validate_provenance(args.run_dir, args.label_dir, args.windows_dir, report["corpus_sha256"], report)
+    validate_provenance(args.run_dir, args.label_dir, args.windows_dir, report["corpus_sha256"], traces, report)
     validate_windows(args.windows_dir, label_tables, traces, 15, 32, report)
     validate_hard_pairs(corpus_rows, traces, report)
     report["status"] = "PASS" if not report["failures"] else "FAIL"
@@ -321,13 +462,16 @@ def main():
         "# Dataset Validation V1\n\n"
         "- Status: **{}**\n"
         "- Compact / labelled traces: {} / {}\n"
-        "- Cleanup ledgers / raw residuals: {} / {}\n"
+        "- Cleanup ledgers (local/imported/total): {} / {} / {}\n"
+        "- Raw HSPICE residuals (local/imported/total): {} / {} / {}\n"
         "- Label classes: {}\n"
         "- Distinct base waveforms per class: {}\n"
         "- Window counts (L=8/16/32): {}\n"
         "- Hard pairs with equal measured prefix: {}\n"
         "- Failures: {}\n".format(report["status"], report.get("compact_trace_count", 0), report.get("label_trace_count", 0),
-                                   report.get("cleanup_ledger_count", 0), report.get("raw_hspice_residual_count", 0),
+                                   report.get("local_cleanup_ledger_count", 0), report.get("imported_cleanup_ledger_count", 0),
+                                   report.get("cleanup_ledger_count", 0), report.get("local_raw_hspice_residual_count", 0),
+                                   report.get("imported_raw_hspice_residual_count", 0), report.get("raw_hspice_residual_count", 0),
                                    report.get("label_class_counts", {}), report.get("label_class_base_waveform_counts", {}),
                                    report.get("window_counts_by_length", {}), report.get("hard_pair_count", 0),
                                    "none" if not report["failures"] else "; ".join(report["failures"])), encoding="utf-8")

@@ -53,7 +53,13 @@ def main():
     normalizer = fit_normalizer(filter_split(supervised, "train"))
     train_safe = apply_normalizer(load_safe_stride_one_windows(args.label_dir, "train"), normalizer)
     validation_safe = apply_normalizer(load_safe_stride_one_windows(args.label_dir, "validation"), normalizer)
-    train_loader = make_loader(train_safe.features, train_safe.labels, training_config["batch_size"], shuffle=True)
+    # The CAE still learns from the historical natural Safe-window population,
+    # but its shuffled batch order must be reproducible just like the v2
+    # classifiers.  Supplying the versioned experiment seed also satisfies the
+    # shared loader's guard against accidental unseeded training randomness;
+    # inference loaders remain ordered and therefore do not need a generator.
+    train_loader = make_loader(train_safe.features, train_safe.labels, training_config["batch_size"],
+                               shuffle=True, seed=training_config["seed"])
     model = ConvAutoencoder(input_channels=model_config["input_channels"], channels=model_config["cae_channels"], kernel_size=model_config["kernel_size"])
     optimizer = torch.optim.AdamW(model.parameters(), lr=float(training_config["learning_rate"]), weight_decay=float(training_config["weight_decay"]))
     args.output_dir.mkdir(parents=True, exist_ok=False)

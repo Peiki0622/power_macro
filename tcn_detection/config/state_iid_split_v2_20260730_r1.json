@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "policy_id": "state_code_iid_v2_20260730_r1",
+  "root_seed": 20260730,
+  "source_corpus": "power_macro/tcn_detection/data/corpus_formal_v1_20260727_r1.jsonl",
+  "source_current_state_labels": "power_macro/tcn_detection/runs/formal_v1_20260727_r1/labels/state_code_v1/traces",
+  "split_trace_quotas": {
+    "train": 144,
+    "validation": 48,
+    "iid_test": 48
+  },
+  "component_link_fields": [
+    "base_waveform_id",
+    "hard_pair_id"
+  ],
+  "rare_family_max_component_count": 3,
+  "family_all_split_min_component_count": 6,
+  "required_train_coverage": "every_waveform_family",
+  "required_all_split_coverage": [
+    "current_state_class",
+    "source_cohort",
+    "hard_pair_coarse_family"
+  ],
+  "coarse_family_groups": {
+    "background": ["background"],
+    "known": [
+      "double_event",
+      "exponential",
+      "plateau_with_jitter",
+      "staircase",
+      "trapezoid",
+      "triangle"
+    ],
+    "novel": [
+      "asymmetric_double_peak",
+      "glitch_cluster",
+      "partial_recovery_second_collapse",
+      "random_walk_collapse",
+      "rlc_ringing"
+    ],
+    "hard_pair": ["__hard_pair__"]
+  },
+  "optimization": {
+    "solver": "scipy.optimize.milp",
+    "stage_1": "minimize_max_current_state_proportion_deviation",
+    "stage_2": "minimize_supported_stratum_total_deviation",
+    "stage_3": "sha256_seeded_deterministic_tie_break"
+  },
+  "acceptance": {
+    "max_current_state_proportion_deviation": 0.01,
+    "max_supported_stratum_proportion_deviation": 0.05,
+    "supported_stratum_min_trace_count": 12
+  },
+  "source_hashes": {
+    "corpus_sha256": "d566f2978188c793012bc39e6cb56a3c4de7f35d67dc603bcefa2e5e74f45899",
+    "current_state_label_provenance_sha256": "3bfd7f483423ea2fc3232f9d0115666316269aa857b0e1558202fb9e512ace98",
+    "current_state_window_manifest_sha256": "472fb78b25b88a195045a2136b06e0da03fa5807a82fd507e504a28864d6ea16",
+    "frozen_candidate_sha256": "efd256e0966c917582a9d16abce62891e1e539de91a182a75e39e5e28b81158c",
+    "frozen_one_shot_report_sha256": "1d868c59f2693f106915273b44f531f6248b35a8ab5d6cedf8ef584625753e1d"
+  }
+}

@@ -6,27 +6,77 @@ from __future__ import print_function
 from collections import defaultdict
 
 import numpy as np
-from sklearn.metrics import (average_precision_score, confusion_matrix, f1_score, precision_recall_fscore_support,
-                             precision_score, recall_score)
+from sklearn.metrics import (average_precision_score, balanced_accuracy_score, confusion_matrix, f1_score,
+                             log_loss, precision_recall_fscore_support, precision_score, recall_score,
+                             roc_auc_score)
 
 
 SAMPLE_PERIOD_NS = 4.0
 
 
 def window_metrics(labels, predictions, probabilities=None):
-    """Return fixed three-class classification metrics without dropping absent labels."""
+    """Return comprehensive fixed-three-class classification metrics.
 
-    precision, recall, f1, support = precision_recall_fscore_support(labels, predictions, labels=[0, 1, 2], zero_division=0)
+    Macro-F1 is retained as an operating-point metric, but it cannot describe
+    probability quality or reveal which safety class failed.  V2 training
+    selects checkpoints with a configured weighted one-vs-rest PR-AUC score;
+    historical V1 configurations still use Macro-F1 for reproducibility.  This
+    report keeps the fixed Safe/Warning/Critical order for every scalar, vector,
+    and matrix, so results remain comparable if a prediction omits one class.
+
+    The multiclass Brier score is the mean squared Euclidean distance between
+    the three probabilities and the one-hot truth.  It therefore ranges from
+    zero for perfect probabilities to two for a confidently wrong prediction;
+    the per-class values are ordinary one-vs-rest binary Brier scores.
+    """
+
+    labels = np.asarray(labels, dtype=np.int64)
+    predictions = np.asarray(predictions, dtype=np.int64)
+    precision, recall, f1, support = precision_recall_fscore_support(
+        labels, predictions, labels=[0, 1, 2], zero_division=0)
+    safe_mask = labels == 0
     report = {"macro_f1": float(f1_score(labels, predictions, labels=[0, 1, 2], average="macro", zero_division=0)),
-              "accuracy": float(np.mean(np.asarray(labels) == np.asarray(predictions))),
+              "weighted_f1": float(f1_score(labels, predictions, labels=[0, 1, 2], average="weighted", zero_division=0)),
+              "accuracy": float(np.mean(labels == predictions)),
+              "balanced_accuracy": float(balanced_accuracy_score(labels, predictions)),
+              # A window-level false alarm is any Warning/Critical decision on
+              # a Safe target.  Event-level false alarms are computed separately
+              # after chronological K-confirmation and must not be conflated.
+              "safe_window_false_alarm_rate": float(np.mean(predictions[safe_mask] != 0)) if np.any(safe_mask) else None,
+              "critical_recall": float(recall[2]),
               "confusion_matrix": confusion_matrix(labels, predictions, labels=[0, 1, 2]).tolist(),
               "per_class": {str(class_id): {"precision": float(precision[class_id]), "recall": float(recall[class_id]),
                                              "f1": float(f1[class_id]), "support": int(support[class_id])}
                             for class_id in (0, 1, 2)}}
     if probabilities is not None:
-        binary = np.eye(3, dtype=np.int64)[np.asarray(labels, dtype=np.int64)]
+        probabilities = np.asarray(probabilities, dtype=np.float64)
+        if probabilities.shape != (len(labels), 3):
+            raise ValueError("probabilities must have shape [N,3]")
+        if (not np.all(np.isfinite(probabilities)) or np.any(probabilities < 0.0)
+                or np.any(probabilities > 1.0)
+                or not np.allclose(probabilities.sum(axis=1), 1.0, atol=1.0e-5)):
+            raise ValueError("probabilities must be finite values in [0,1] that sum to one")
+        # Prediction CSVs intentionally use nine significant digits.  Their
+        # row sums can therefore differ from one by a few parts per billion,
+        # which is valid persisted precision but triggers stricter sklearn
+        # warnings in log-loss.  Normalize only after the tolerance check so a
+        # genuinely malformed row cannot be hidden by this numerical cleanup.
+        probabilities = probabilities / probabilities.sum(axis=1, keepdims=True)
+        binary = np.eye(3, dtype=np.int64)[labels]
         report["pr_auc_ovr"] = {str(class_id): float(average_precision_score(binary[:, class_id], probabilities[:, class_id]))
                                 for class_id in (0, 1, 2)}
+        report["macro_pr_auc_ovr"] = float(np.mean(list(report["pr_auc_ovr"].values())))
+        report["roc_auc_ovr"] = {str(class_id): float(roc_auc_score(binary[:, class_id], probabilities[:, class_id]))
+                                 for class_id in (0, 1, 2)}
+        report["macro_roc_auc_ovr"] = float(roc_auc_score(
+            labels, probabilities, labels=[0, 1, 2], multi_class="ovr", average="macro"))
+        report["weighted_roc_auc_ovr"] = float(roc_auc_score(
+            labels, probabilities, labels=[0, 1, 2], multi_class="ovr", average="weighted"))
+        report["log_loss"] = float(log_loss(labels, probabilities, labels=[0, 1, 2]))
+        squared_errors = (probabilities - binary) ** 2
+        report["multiclass_brier_score"] = float(np.mean(np.sum(squared_errors, axis=1)))
+        report["brier_score_ovr"] = {str(class_id): float(np.mean(squared_errors[:, class_id]))
+                                     for class_id in (0, 1, 2)}
     return report
 
 

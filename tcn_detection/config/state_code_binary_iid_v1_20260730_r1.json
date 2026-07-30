@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "policy_id": "state_code_binary_iid_v1_20260730_r1",
+  "task": "same_sample_safe_critical_binary_monitoring",
+  "class_names": {"0": "Safe", "1": "Critical"},
+  "source_state_to_binary": {"0": 0, "1": 0, "2": 1},
+  "warning_policy": "merge_into_safe",
+  "split_policy": "reuse_state_code_iid_v2_20260730_r1",
+  "split_trace_counts": {"train": 144, "validation": 48, "iid_test": 48},
+  "window_lengths": [8, 16, 32],
+  "max_train_windows_per_trace": 240,
+  "seeds": [20260725, 20260726, 20260727],
+  "checkpoint_selection": {
+    "primary": "critical_pr_auc",
+    "tie_breaks": ["macro_f1", "balanced_accuracy", "critical_recall", "lower_safe_far", "earlier_epoch"]
+  },
+  "arms": {
+    "a_natural_ce": {"sampling_strategy": "natural", "loss_type": "cross_entropy", "class_weight_strategy": "none"},
+    "b_sqrt_ce": {"sampling_strategy": "natural", "loss_type": "cross_entropy", "class_weight_strategy": "sqrt_inverse"},
+    "c_sqrt_focal": {"sampling_strategy": "natural", "loss_type": "focal", "class_weight_strategy": "sqrt_inverse", "focal_gamma": 2.0},
+    "d_balanced_sampler_ce": {"sampling_strategy": "weighted_sampler", "loss_type": "cross_entropy", "class_weight_strategy": "none", "train_class_ratio": {"0": 0.5, "1": 0.5}}
+  },
+  "raw_gates": {
+    "accuracy_min": 0.95,
+    "balanced_accuracy_min": 0.90,
+    "macro_f1_min": 0.80,
+    "critical_recall_min": 0.95,
+    "safe_window_false_alarm_rate_max": 0.05
+  },
+  "postprocess": {
+    "filters": [
+      {"kind": "raw", "window": 1},
+      {"kind": "mean", "window": 3},
+      {"kind": "median", "window": 3},
+      {"kind": "median", "window": 5},
+      {"kind": "ewma", "alpha": 0.5, "window": 1}
+    ],
+    "critical_on_values": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+    "off_deltas": [0.05, 0.1, 0.2],
+    "k_on_values": [1, 2, 3],
+    "k_off_values": [1, 2, 3],
+    "event_gates": {
+      "critical_event_detection_rate_min": 0.98,
+      "median_critical_delay_ns_max": 4.0,
+      "p95_critical_delay_ns_max": 12.0,
+      "false_alarms_per_trace_max": 0.1,
+      "safe_window_false_alarm_rate_max": 0.05,
+      "mean_recovery_delay_samples_max": 3.0,
+      "postprocess_latency_ms_per_window_max_exclusive": 0.1
+    }
+  },
+  "source_hashes": {
+    "corpus_sha256": "029ad57b410210b1f5b27ca75aa70569634c82a6791113b52affe7a10a686875",
+    "split_provenance_sha256": "535aca249c9996be3e0dd82871a8a4dac33e217b05f530ffa0a7e9c8305c2fe6",
+    "state_label_provenance_sha256": "e9352e25a4d4ddb5cc06fe9566f97536f51d7940b88f20e1b3a8328da5182c09",
+    "state_windows_L8_sha256": "0674e5ba3e20bc0ac452c8ec3048d10a6e87463a14668bc57e13b3907bbb00e8",
+    "state_windows_L16_sha256": "9ce03156f1c399f5a2ed79c56acdf033855013b61527b0f2bbb23911ec7ae763",
+    "state_windows_L32_sha256": "79950fed80f60870cc34255f469549b3cf92c5b27e48be46c4f89ea80a84ba89",
+    "frozen_three_class_candidate_sha256": "fe0e7ac686c4b04fec65ea906851d5ade84210da2b59c99393dc32754e335fe6",
+    "frozen_three_class_evaluation_sha256": "110ebede1fee89b55a695f9c0d0660d1f4c4278e955be4102f5ccaf5f16a9f40"
+  }
+}
