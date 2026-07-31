@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "input_channels": 1,
+  "class_count": 2,
+  "class_names": {"0": "Safe", "1": "Critical"},
+  "cnn_channels": [16, 16, 16],
+  "cnn_dilations": [1, 2, 4],
+  "kernel_size": 5,
+  "dropout": 0.1,
+  "feature_contract": "normalized_sensor_code_only",
+  "target_contract": "warning_merged_into_safe",
+  "pooling_contract": "causal_endpoint",
+  "architecture_id": "dilated_k5_d124"
+}

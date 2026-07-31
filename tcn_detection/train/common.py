@@ -305,7 +305,11 @@ def build_classifier(name, model_config):
                                 kernel_size=model_config["kernel_size"],
                                 dilations=model_config["dilations"], dropout=model_config["dropout"])
     if name == "cnn":
-        return CNN1D(channels=model_config["cnn_channels"], **common)
+        return CNN1D(
+            channels=model_config["cnn_channels"],
+            pooling_contract=model_config.get(
+                "pooling_contract", "adaptive_average_over_past_window"),
+            dilations=model_config.get("cnn_dilations"), **common)
     raise ValueError("unknown classifier: {}".format(name))
 
 

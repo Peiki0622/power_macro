@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Launch the fixed Safe/Critical four-arm, three-seed TCN ablation."""
+"""Launch a fixed Safe/Critical four-arm, three-seed classifier ablation."""
 
 from __future__ import print_function
 
@@ -71,6 +71,7 @@ def build_jobs(args):
                 "command": [
                     sys.executable, "-m",
                     "power_macro.tcn_detection.train.train_binary_classifier",
+                    "--model", args.model,
                     "--windows", str(args.windows),
                     "--training-config", str(training_config),
                     "--model-config", str(args.model_config),
@@ -85,6 +86,9 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--windows", required=True, type=Path)
+    parser.add_argument(
+        "--model", choices=("tcn", "cnn"), default="tcn",
+        help="Classifier family; default TCN keeps historical launch commands stable.")
     parser.add_argument("--config-dir", required=True, type=Path)
     parser.add_argument("--model-config", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
@@ -100,6 +104,7 @@ def main():
     manifest_path = args.output_dir / "ablation_manifest.json"
     manifest = {
         "schema_version": 1, "task": "safe_critical_binary",
+        "model": args.model,
         "scope": "train_validation_only", "iid_metrics_computed": False,
         "status": "RUNNING", "started_at_utc": utc_now(),
         "finished_at_utc": None, "max_parallel": int(args.max_parallel),

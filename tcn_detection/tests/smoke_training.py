@@ -24,6 +24,8 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
 MODEL_CONFIG = REPOSITORY_ROOT / "power_macro" / "tcn_detection" / "config" / "model_tcn_v1.json"
 BINARY_MODEL_CONFIG = (REPOSITORY_ROOT / "power_macro" / "tcn_detection" /
                        "config" / "model_tcn_state_code_binary_v1.json")
+BINARY_CNN_MODEL_CONFIG = (REPOSITORY_ROOT / "power_macro" / "tcn_detection" /
+                           "config" / "model_cnn_state_code_binary_small_v1.json")
 
 
 def write_smoke_windows(path):
@@ -101,8 +103,15 @@ def run_checked(command):
     return completed.stdout
 
 
-def run_binary_smoke(root):
-    """Exercise the production binary trainer with tiny one-channel windows."""
+def run_binary_smoke(root, model_name="tcn", use_scheduler=False):
+    """Exercise a production binary trainer with tiny one-channel windows.
+
+    ``model_name`` is intentionally passed through the same command-line
+    interface used by formal jobs.  The smoke test therefore catches a common
+    regression where CNN configuration exists but the launcher silently keeps
+    constructing a TCN.  The synthetic table contains only development splits;
+    no frozen formal window is read by this test.
+    """
 
     windows_path = root / "windows_binary_L8.csv"
     fields = ["window_id", "trace_id", "split", "end_index", "length",
@@ -128,7 +137,7 @@ def run_binary_smoke(root):
         writer.writeheader()
         writer.writerows(rows)
     training_config = root / "binary_training_smoke.json"
-    training_config.write_text(json.dumps({
+    resolved_training = {
         "schema_version": 1, "cpu_threads_per_process": 1,
         "batch_size": 8, "max_epochs": 2, "early_stopping_patience": 1,
         "learning_rate": 0.001, "weight_decay": 0.0001,
@@ -136,15 +145,29 @@ def run_binary_smoke(root):
         "class_weight_strategy": "sqrt_inverse",
         "ordinal_positive_weight_strategy": "none",
         "checkpoint_selection_metric": "critical_pr_auc",
-    }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    output = root / "binary_model"
-    run_checked([
+    }
+    if use_scheduler:
+        # Two epochs are sufficient to execute construction and scheduler.step;
+        # this smoke test checks the production branch and persisted metadata,
+        # not whether a tiny synthetic validation curve actually reaches a
+        # plateau long enough to reduce the rate.
+        resolved_training.update({
+            "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5,
+            "scheduler_patience": 1, "scheduler_min_lr": 0.00001})
+    training_config.write_text(json.dumps(
+        resolved_training, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    output = root / ("binary_{}_model".format(model_name))
+    model_config = (BINARY_CNN_MODEL_CONFIG if model_name == "cnn"
+                    else BINARY_MODEL_CONFIG)
+    command = [
         sys.executable, "-m",
         "power_macro.tcn_detection.train.train_binary_classifier",
+        "--model", model_name,
         "--windows", str(windows_path), "--training-config", str(training_config),
-        "--model-config", str(BINARY_MODEL_CONFIG), "--seed", "20260725",
+        "--model-config", str(model_config), "--seed", "20260725",
         "--output-dir", str(output),
-    ])
+    ]
+    run_checked(command)
     with (output / "validation_predictions.csv").open(
             newline="", encoding="utf-8") as stream:
         reader = csv.DictReader(stream)
@@ -157,7 +180,7 @@ def run_binary_smoke(root):
     checkpoint = torch.load(output / "best_checkpoint.pt", map_location="cpu",
                             weights_only=False)
     from power_macro.tcn_detection.train.common import build_classifier
-    model = build_classifier("tcn", checkpoint["model_config"])
+    model = build_classifier(checkpoint["model"], checkpoint["model_config"])
     model.load_state_dict(checkpoint["state_dict"], strict=True)
     with torch.no_grad():
         logits = model(torch.zeros(2, 1, 8))
@@ -167,7 +190,11 @@ def run_binary_smoke(root):
     if (summary["checkpoint_selection_metric"] != "critical_pr_auc"
             or summary["iid_features_loaded"] is not False):
         raise AssertionError("binary smoke summary crossed selection/split contract")
-    print(json.dumps({"status": "PASS", "mode": "binary",
+    expected_scheduler = "reduce_on_plateau" if use_scheduler else "none"
+    if (summary.get("lr_scheduler", {}).get("kind") != expected_scheduler
+            or any("learning_rate" not in row for row in summary["history"])):
+        raise AssertionError("binary smoke did not persist scheduler/rate history")
+    print(json.dumps({"status": "PASS", "mode": "binary_{}".format(model_name),
                       "prediction_count": len(predictions)}, sort_keys=True))
 
 
@@ -179,14 +206,26 @@ def main():
                         help="Exercise explicit objective and weighted PR-AUC checkpoint contracts.")
     parser.add_argument("--binary", action="store_true",
                         help="Exercise the two-class Safe/Critical trainer and prediction schema.")
+    parser.add_argument("--binary-cnn", action="store_true",
+                        help="Exercise the two-class CNN trainer and prediction schema.")
+    parser.add_argument("--binary-cnn-scheduler", action="store_true",
+                        help="Exercise CNN training with validation-plateau LR scheduling.")
     args = parser.parse_args()
-    if args.v2 and args.binary:
-        raise ValueError("smoke modes --v2 and --binary are mutually exclusive")
+    if sum(bool(value) for value in (
+            args.v2, args.binary, args.binary_cnn,
+            args.binary_cnn_scheduler)) > 1:
+        raise ValueError("smoke modes are mutually exclusive")
 
     with tempfile.TemporaryDirectory(prefix="tcn_training_smoke_") as temporary:
         root = Path(temporary)
         if args.binary:
-            run_binary_smoke(root)
+            run_binary_smoke(root, "tcn")
+            return
+        if args.binary_cnn:
+            run_binary_smoke(root, "cnn")
+            return
+        if args.binary_cnn_scheduler:
+            run_binary_smoke(root, "cnn", use_scheduler=True)
             return
         windows_dir = root / "windows"
         labels_dir = root / "labels"

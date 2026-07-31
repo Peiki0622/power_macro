@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train one causal TCN for Safe/Critical current-state classification."""
+"""Train one CNN or TCN for Safe/Critical current-state classification."""
 
 from __future__ import print_function
 
@@ -26,6 +26,39 @@ from power_macro.tcn_detection.train.train_classifier import (
 
 
 BINARY_CLASS_IDS = (0, 1)
+
+
+def validate_binary_model_config(model_name, model_config):
+    """Validate the public two-class model contract before reading windows.
+
+    Keeping this check outside ``main`` lets smoke tests and launchers fail
+    before a large training table is parsed.  The common input/label checks
+    apply to both model families; the CNN-specific fields prevent accidentally
+    treating a three-class legacy CNN config as the final binary architecture.
+    """
+
+    if (int(model_config.get("class_count", -1)) != 2
+            or model_config.get("class_names") != {"0": "Safe", "1": "Critical"}):
+        raise ValueError("binary trainer requires a two-class Safe/Critical model config")
+    if (int(model_config.get("input_channels", -1)) != 1
+            or model_config.get("feature_contract") != "normalized_sensor_code_only"
+            or model_config.get("target_contract") != "warning_merged_into_safe"):
+        raise ValueError("binary trainer requires the one-channel code-only contract")
+    if model_name == "cnn":
+        pooling = model_config.get("pooling_contract")
+        allowed_pooling = {
+            "adaptive_average_over_past_window",
+            "multistat_average_max_endpoint",
+            "causal_endpoint",
+        }
+        if not model_config.get("cnn_channels") or pooling not in allowed_pooling:
+            raise ValueError("binary CNN requires explicit channels and pooling contract")
+        dilations = model_config.get("cnn_dilations")
+        if pooling == "causal_endpoint" and (
+                not isinstance(dilations, list)
+                or len(dilations) != len(model_config["cnn_channels"])
+                or any(int(value) < 1 for value in dilations)):
+            raise ValueError("causal endpoint CNN requires one positive dilation per stage")
 
 
 def checkpoint_metrics(labels, probabilities):
@@ -90,6 +123,10 @@ def parse_args():
     """Parse one immutable binary training run."""
 
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--model", choices=("tcn", "cnn"), default="tcn",
+        help=("Classifier family.  The TCN default preserves every historical "
+              "binary command; new lightweight experiments pass cnn explicitly."))
     parser.add_argument("--windows", required=True, type=Path)
     parser.add_argument("--training-config", required=True, type=Path)
     parser.add_argument("--model-config", required=True, type=Path)
@@ -106,9 +143,7 @@ def main():
         raise FileExistsError("refusing to overwrite binary model run")
     training_config = read_json(args.training_config)
     model_config = read_json(args.model_config)
-    if (int(model_config.get("class_count", -1)) != 2
-            or model_config.get("class_names") != {"0": "Safe", "1": "Critical"}):
-        raise ValueError("binary trainer requires a two-class Safe/Critical model config")
+    validate_binary_model_config(args.model, model_config)
     if training_config.get("checkpoint_selection_metric") != "critical_pr_auc":
         raise ValueError("binary checkpoint selection must be Critical PR-AUC")
     configure_cpu(args.seed, training_config["cpu_threads_per_process"])
@@ -131,10 +166,28 @@ def main():
     train_loader = make_loader(
         train.features, train.labels, training_config["batch_size"],
         shuffle=shuffle, sampler=sampler, seed=args.seed)
-    model = build_classifier("tcn", model_config)
+    model = build_classifier(args.model, model_config)
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=float(training_config["learning_rate"]),
         weight_decay=float(training_config["weight_decay"]))
+    scheduler_name = training_config.get("lr_scheduler", "none")
+    scheduler = None
+    scheduler_metadata = {"kind": scheduler_name}
+    if scheduler_name == "reduce_on_plateau":
+        factor = float(training_config.get("scheduler_factor", 0.5))
+        patience = int(training_config.get("scheduler_patience", 6))
+        minimum_lr = float(training_config.get("scheduler_min_lr", 1.0e-5))
+        if not 0.0 < factor < 1.0 or patience < 1 or minimum_lr < 0.0:
+            raise ValueError("invalid ReduceLROnPlateau configuration")
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, mode="max", factor=factor, patience=patience,
+            min_lr=minimum_lr)
+        scheduler_metadata.update(factor=factor, patience=patience,
+                                  minimum_lr=minimum_lr,
+                                  monitored_metric="validation_critical_pr_auc")
+    elif scheduler_name != "none":
+        raise ValueError("unknown binary learning-rate scheduler: {}".format(
+            scheduler_name))
 
     args.output_dir.mkdir(parents=True, exist_ok=False)
     checkpoint_path = args.output_dir / "best_checkpoint.pt"
@@ -160,10 +213,14 @@ def main():
         _, probabilities = predict(
             model, validation.features, training_config["batch_size"])
         if probabilities.shape != (len(validation.labels), 2):
-            raise ValueError("binary TCN did not emit [N,2] probabilities")
+            raise ValueError("binary classifier did not emit [N,2] probabilities")
         metrics = checkpoint_metrics(validation.labels, probabilities)
         selection_key = tuple(float(value) for value in metrics.pop("selection_key"))
-        record = {"epoch": epoch, "train_loss": float(np.mean(losses))}
+        # Record the rate that produced this epoch before a plateau scheduler
+        # potentially changes it for the next epoch.  This makes late-training
+        # improvements auditable without changing the checkpoint schema.
+        record = {"epoch": epoch, "train_loss": float(np.mean(losses)),
+                  "learning_rate": float(optimizer.param_groups[0]["lr"])}
         record.update(metrics)
         history.append(record)
         improved = best_key is None or selection_key > best_key
@@ -173,7 +230,10 @@ def main():
             stale_epochs = 0
             save_checkpoint_atomic({
                 "schema_version": 1, "task": "safe_critical_binary",
-                "model": "tcn", "model_config": model_config,
+                # Persist the actual family rather than inferring it later from
+                # state-dict keys.  Frozen evaluators reconstruct exactly this
+                # family and then use strict=True when loading all parameters.
+                "model": args.model, "model_config": model_config,
                 "window_length": table.length, "seed": int(args.seed),
                 "normalizer": normalizer, "state_dict": model.state_dict(),
                 "best_epoch": epoch, "selection_key": list(selection_key),
@@ -181,7 +241,13 @@ def main():
             }, checkpoint_path)
         else:
             stale_epochs += 1
+        # The scheduler sees validation Critical PR-AUC only after checkpoint
+        # selection has evaluated the current epoch.  It never reads IID and
+        # cannot retroactively change which weights produced this metric.
+        if scheduler is not None:
+            scheduler.step(metrics["validation_critical_pr_auc"])
         log_event("epoch", epoch=epoch, train_loss=record["train_loss"],
+                  learning_rate=record["learning_rate"],
                   validation_critical_pr_auc=metrics["validation_critical_pr_auc"],
                   validation_macro_f1=metrics["validation_macro_f1"],
                   best_epoch=best_epoch, stale_epochs=stale_epochs,
@@ -202,7 +268,7 @@ def main():
     final_metrics.pop("selection_key")
     summary = {
         "schema_version": 1, "task": "safe_critical_binary",
-        "model": "tcn", "seed": int(args.seed),
+        "model": args.model, "seed": int(args.seed),
         "window_length": table.length, "best_epoch": best_epoch,
         "epochs_completed": len(history), "history": history,
         "checkpoint_selection_metric": "critical_pr_auc",
@@ -210,6 +276,7 @@ def main():
         "best_validation_metrics": final_metrics,
         "train_observed_class_counts": strategy["observed_class_counts"],
         "training_strategy": strategy, "normalizer": normalizer,
+        "lr_scheduler": scheduler_metadata,
         "iid_features_loaded": False,
         "parameter_count": parameter_count(model),
         "estimated_macs_per_window": estimate_macs(

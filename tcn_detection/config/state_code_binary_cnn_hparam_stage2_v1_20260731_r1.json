@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "search_id": "state_code_binary_cnn_hparam_stage2_v1_20260731_r1",
+  "scope": "train_validation_only",
+  "model": "cnn",
+  "task": "safe_critical_binary",
+  "window_length": 32,
+  "seeds": [20260725, 20260726, 20260727],
+  "selection_order": [
+    "median_critical_pr_auc",
+    "median_macro_f1",
+    "worst_critical_recall",
+    "median_balanced_accuracy",
+    "lower_median_safe_far",
+    "lower_critical_pr_auc_std",
+    "arm_name"
+  ],
+  "fixed_training": {
+    "schema_version": 1,
+    "cpu_threads_per_process": 8,
+    "batch_size": 256,
+    "max_epochs": 80,
+    "early_stopping_patience": 12,
+    "sampling_strategy": "natural",
+    "loss_type": "cross_entropy",
+    "class_weight_strategy": "none",
+    "ordinal_positive_weight_strategy": "none",
+    "checkpoint_selection_metric": "critical_pr_auc"
+  },
+  "arms": [
+    {"name": "lr2em3_wd0", "learning_rate": 0.002, "weight_decay": 0.0},
+    {"name": "lr2em3_wd1em5", "learning_rate": 0.002, "weight_decay": 0.00001},
+    {"name": "lr2em3_wd5em5", "learning_rate": 0.002, "weight_decay": 0.00005},
+    {"name": "lr3em3_wd0", "learning_rate": 0.003, "weight_decay": 0.0},
+    {"name": "lr3em3_wd1em5", "learning_rate": 0.003, "weight_decay": 0.00001},
+    {"name": "lr3em3_wd5em5", "learning_rate": 0.003, "weight_decay": 0.00005},
+    {"name": "lr4p5em3_wd0", "learning_rate": 0.0045, "weight_decay": 0.0},
+    {"name": "lr4p5em3_wd1em5", "learning_rate": 0.0045, "weight_decay": 0.00001},
+    {"name": "lr4p5em3_wd5em5", "learning_rate": 0.0045, "weight_decay": 0.00005}
+  ],
+  "iid_policy": {
+    "features_loaded": false,
+    "metrics_computed": false,
+    "selection_allowed": false
+  }
+}

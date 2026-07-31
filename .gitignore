@@ -2,6 +2,25 @@
 __pycache__/
 *.py[cod]
 
+# Local Python quality tools regenerate these caches from tracked source and
+# configuration.  Keeping them out of status prevents test/lint invocations
+# from obscuring model, contract, and report changes that require review.
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Neural-training checkpoints and TensorBoard event streams are large,
+# environment-dependent run products.  Formal runs identify checkpoints by
+# SHA256 in versioned Markdown reports; the binary weights remain mounted in
+# the workspace and must not be committed even if a future launcher writes
+# them outside the already-ignored tcn_detection/runs tree.
+*.pt
+*.pth
+*.ckpt
+events.out.tfevents*
+
 # HSPICE creates these beside each generated deck.  Decks, listings, measures,
 # solver state and command logs are reproducible task outputs, not source.
 *.lis

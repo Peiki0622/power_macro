@@ -254,20 +254,28 @@ by validation Critical PR-AUC and seed `20260725` was frozen by the declared
 median-representative rule. Five-fold validation tuning froze a raw-score
 detector with Critical on/off thresholds `0.20/0.15` and `K_on=K_off=1`.
 
-This Safe/Critical L32 TCN is the authoritative final model for subsequent
-development; the earlier future-risk and three-class state models remain only
-as reproducibility baselines and must not be used as the default inference
-path. The selected arm uses
-`config/model_tcn_state_code_binary_v1.json` and
-`config/training_state_code_binary_b_sqrt_ce.json`. Its frozen seed is
-`20260725`, and the selected checkpoint SHA256 is
-`6135a38c3e6e720ec569d4fa3ce26a2597c8a76489381fe0919e7fe5e087e069`.
-Generated checkpoints remain excluded from Git by the repository artifact
-policy; the digest is the stable identity used to verify the mounted release.
-Choosing this model as authoritative does not override the acceptance gates or
-turn the current result into a deployment-readiness claim.
+The Safe/Critical L32 1D-CNN under
+`state_code_binary_cnn_iid_v1_20260731_r1` is the authoritative final model for
+subsequent development. It replaces the TCN because the project prioritizes a
+lower-compute state monitor, not because it achieved higher classification
+quality. Input, binary label mapping, and the 144/48/48 trace partition remain
+unchanged. The selected CNN uses three convolution stages with channels
+`[16,16,16]`, adaptive average pooling over an L32 history, natural sampling,
+unweighted cross entropy, and seed `20260725`. Its model/training configs are
+`config/model_cnn_state_code_binary_large_v1.json` and
+`config/training_state_code_binary_a_natural_ce.json`; checkpoint SHA256 is
+`21b5181ef5a8ad05bb5088cf087ed9805e4e1b2c662616412b4dd4d93bce4e98`.
 
-The binary IID holdout was evaluated exactly once. The run records
+The architecture and objective screens used validation data only. No screened
+CNN met the predeclared 98%-of-TCN Critical PR-AUC floor or the worst-seed
+Critical recall floor, so the documented fallback selected Large L32 and
+natural CE. The median-representative seed was frozen before IID was inspected.
+Five-fold validation tuning then selected a raw-score detector with Critical
+on/off thresholds `0.10/0.05` and `K_on=K_off=1`; its validation event gates did
+not pass. The frozen candidate manifest SHA256 is
+`1753347ce4c9755204fb7c13c7763efbc937d6bc759730a6ae71cd37e8308476`.
+
+The historical binary TCN IID holdout was evaluated exactly once. The run records
 `parameters_tuned_on_test=false`, `pristine_blind_test=false`, and
 `rerun_authorized=false`; it must not be rerun or used for further tuning. Raw
 IID accuracy, Macro-F1, Critical PR-AUC, and Critical recall are respectively
@@ -278,7 +286,26 @@ false alarms to 0.25/trace. Mean recovery delay remains 10.44 samples, so this
 result is an improvement in Critical sensitivity rather than evidence of
 deployment readiness.
 
-For a like-for-like binary comparison, the old three-class IID predictions
+The replacement CNN was also evaluated exactly once after its model and
+detector were frozen. Raw IID Accuracy/Macro-F1/Critical PR-AUC/Critical recall
+are 0.972193/0.891176/0.853293/0.847796. Frozen postprocessing changes
+Accuracy/Macro-F1/Critical recall to 0.955268/0.851552/0.925620, detects 74.07%
+of Critical events, has 20 ns median and 40.4 ns P95 Critical delay, produces
+0.2917 false alarms/trace, and has 22.16 samples mean recovery delay. These
+results are materially below the TCN baseline and do not pass deployment
+gates. The CNN nevertheless remains the final default according to the
+replacement decision frozen before IID; no threshold or model choice was
+changed after observing these metrics.
+
+The CNN has 1,666 parameters and 50,720 estimated MAC/window versus the TCN's
+4,050 parameters and 125,952 MAC/window, reductions of 58.86% and 59.73%.
+Training-run CPU measurements were 0.1943 versus 0.6775 ms/window, a 71.32%
+reduction under the recorded environment. The TCN is retained as a frozen
+historical quality baseline, not the default inference path. Generated
+checkpoints remain excluded from Git; their digests are the stable identities
+used to verify the mounted release.
+
+For the earlier like-for-like binary comparison, the old three-class IID predictions
 were read from their existing frozen CSV and projected as non-Critical versus
 Critical; the old model was not rerun. The new binary model improves
 postprocessed Critical event detection from 92.59% to 96.30% and P95 delay
@@ -286,6 +313,108 @@ from 11.2 ns to 4 ns, while its Critical PR-AUC is slightly lower (0.901720
 versus 0.906573) and Safe FAR is slightly higher (1.6429% versus 1.5907%). The
 machine-readable report and all scalar metric tables are under
 `runs/formal_v1_20260727_r1/reports/state_code_binary_iid_v1_20260730_r1/final_iid_comparison`.
+
+The final CNN/TCN comparison reads only their existing one-shot prediction
+CSVs and aligns all 22,512 IID endpoints. Its complete window, probability,
+confusion-matrix, event, hard-pair, paired-disagreement, and complexity tables
+are under
+`runs/formal_v1_20260727_r1/reports/state_code_binary_cnn_iid_v1_20260731_r1/final_iid_comparison`.
+
+### CNN training-parameter tuning
+
+A later optimizer search tested whether the CNN quality loss was partly caused
+by inherited training parameters. Both stages retained Large L32, one raw-code
+channel, natural unweighted cross entropy, batch 256, 80 maximum epochs, 12
+epochs of patience, and the same three seeds. Stage one evaluated a 3x3 grid of
+AdamW learning rates `{3e-4,1e-3,3e-3}` and weight decays
+`{0,1e-4,1e-3}`. Stage two refined the boundary around learning rate `3e-3`
+and very small weight decay. All 54 jobs loaded train/validation rows only;
+their checkpoints were restored strictly and every stored prediction row was
+verified as validation. No IID feature, prediction, or metric was reused.
+
+The original `lr=1e-3, wd=1e-4` arm had median validation Critical PR-AUC
+0.833067, Macro-F1 0.889535, and worst-seed Critical recall 0.861666. Pure
+PR-AUC ranking favors `lr=3e-3, wd=0`, reaching 0.863615 median PR-AUC and
+0.934884 Macro-F1, but its worst-seed Critical recall is only 0.865795. The
+quality-contract recommendation is therefore `lr=3e-3, wd=1e-5`: median
+PR-AUC 0.851604, Accuracy 0.981432, balanced accuracy 0.969382, Macro-F1
+0.929364, worst-seed Critical recall 0.951824, and Safe FAR 0.016525. It is the
+only tested optimizer arm that passes all six validation gates frozen before
+the original CNN IID evaluation.
+
+The median-representative validation checkpoint uses seed `20260725`, best
+epoch 17, and SHA256
+`3b690b8124d0ba4d5b4f6650a7ee348a5f2d0f2c8ea8dcf763bf9f89b562a2e9`.
+It is a next-release validation candidate, not a replacement IID result: the
+existing one-shot IID evaluation must not be rerun, and no deployment claim is
+made from validation metrics. Complete stage rankings and the quality-aware
+comparison are under
+`runs/formal_v1_20260727_r1/reports/state_code_binary_cnn_hparam_v1_20260731_r1`.
+
+### CNN structure refinement
+
+The next validation-only experiment tested whether the remaining CNN/TCN gap
+came from the original CNN's seven-sample receptive field and global-average
+head. The first structure screen compared average pooling, average/max/endpoint
+multistat pooling, wider kernels, and single-convolution dilated endpoint
+networks. A second local screen refined the strongest multistat/k5 branch by
+changing width, depth, and kernel size. Both stages fixed L32, the tuned AdamW
+parameters above, and the same three seeds. All 36 jobs were strictly restored
+and every prediction row was verified as validation; IID was not loaded or
+scored.
+
+The selected structure has three 18-channel `Conv1d(kernel_size=5)` stages and
+concatenates global-average, global-maximum, and final-position features before
+the two-class linear head. Its local receptive field is 13 samples. Compared
+with the prior tuned CNN, median validation Accuracy improves from 0.981432 to
+0.986763, Macro-F1 from 0.929364 to 0.948381, Critical PR-AUC from 0.851604 to
+0.894981, and Safe FAR from 0.016525 to 0.012536. Worst-seed Critical recall is
+0.964212, so the structure passes all six frozen validation gates.
+
+On the same three-seed validation aggregation, the TCN has Accuracy 0.978101,
+balanced accuracy 0.984853, Macro-F1 0.920481, Critical PR-AUC 0.861863,
+worst-seed Critical recall 0.982794, and Safe FAR 0.022223. The selected CNN is
+better on Accuracy, Macro-F1, PR-AUC, and FAR; the TCN remains better on balanced
+accuracy and worst-seed Critical recall. The CNN uses 3,494 parameters and
+106,668 estimated MAC/window versus 4,050 and 125,952 for the TCN. Recorded
+same-host latency is 0.2936 versus 0.6775 ms/window.
+
+The median-representative structure checkpoint uses seed `20260725`, best epoch
+50, and SHA256
+`e7df993fb75a7e4f609cd8f537cbaf9d25d729f05cbefb0ebddb88936351b9ea`.
+It is a next-release validation candidate rather than a new IID result. The
+existing one-shot IID evaluation remains unchanged and must not be rerun. Full
+rankings and comparisons are under
+`runs/formal_v1_20260727_r1/reports/state_code_binary_cnn_structure_v1_20260731_r1`.
+
+### Multistat CNN training refinement
+
+After fixing the `multistat_w18_k5` structure, a final validation-only search
+checked whether its original 80-epoch budget truncated late improvement. Stage
+one compared learning rates `{2e-3,3e-3,4e-3}` with either no scheduler or a
+validation-PR-AUC-driven ReduceLROnPlateau scheduler. Stage two refined learning
+rates `{4e-3,5e-3,6e-3}` and batch sizes `{128,256,512}` around the strongest
+arm. Every arm used AdamW with weight decay `1e-5`, at most 120 epochs, 25
+epochs of early-stopping patience, and seeds `20260725`, `20260726`, and
+`20260727`. All 54 jobs used train/validation data only; IID features,
+predictions, and metrics were neither loaded nor recomputed.
+
+The selected parameters are learning rate `4e-3`, batch size 256, weight decay
+`1e-5`, and no learning-rate scheduler. Relative to the same structure before
+retuning, median validation Accuracy improves from 0.986763 to 0.987873,
+balanced accuracy from 0.979563 to 0.981712, Macro-F1 from 0.948381 to
+0.952356, and Critical PR-AUC from 0.894981 to 0.900391. Median Safe FAR falls
+from 0.012536 to 0.011112, while worst-seed Critical recall remains 0.964212.
+The scheduler arms and the surrounding learning-rate/batch-size arms did not
+beat this candidate under the frozen quality-aware ranking.
+
+The representative checkpoint uses seed `20260727`, reaches its best epoch at
+84, and has SHA256
+`b6741281203fc4593b6434df584ace44cffa5daed23ece8745d1b14215a64814`.
+This remains a next-release validation candidate, not a replacement IID result.
+The complete search matrices, per-seed metrics, immutable input digests, and
+final comparison are under
+`runs/formal_v1_20260727_r1/reports/state_code_binary_multistat_training_v1_20260731_r1`.
 
 ## Reproduce Derived Data
 

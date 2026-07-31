@@ -26,19 +26,42 @@ from power_macro.tcn_detection.evaluate.frozen_binary_state_evaluation import (
     validate_checkpoint as validate_frozen_binary_checkpoint)
 from power_macro.tcn_detection.evaluate.compare_frozen_binary_iid import (
     paired_disagreements as binary_paired_disagreements)
+from power_macro.tcn_detection.evaluate.summarize_binary_cnn_screen import (
+    select_candidate as select_binary_cnn_candidate)
+from power_macro.tcn_detection.evaluate.summarize_binary_cnn_objectives import (
+    rank_arms as rank_binary_cnn_arms)
+from power_macro.tcn_detection.evaluate.summarize_binary_cnn_hparam_search import (
+    rank_arms as rank_binary_cnn_hparam_arms)
+from power_macro.tcn_detection.evaluate.summarize_binary_cnn_structure_search import (
+    rank_candidates as rank_binary_cnn_structures)
+from power_macro.tcn_detection.evaluate.freeze_binary_cnn_candidate import (
+    select_representative as select_binary_cnn_representative)
+from power_macro.tcn_detection.evaluate.frozen_binary_cnn_evaluation import (
+    validate_checkpoint as validate_frozen_binary_cnn_checkpoint)
+from power_macro.tcn_detection.evaluate.finalize_binary_cnn_hparam_search import (
+    feasibility as binary_cnn_hparam_feasibility)
 from power_macro.tcn_detection.evaluate.postprocess import apply_detector, causal_filter
 from power_macro.tcn_detection.evaluate.state_metrics import state_event_metrics
 from power_macro.tcn_detection.evaluate.summarize_ablation import rank_arms
 from power_macro.tcn_detection.evaluate.tune_state_postprocess import make_trace_folds
 from power_macro.tcn_detection.models.tcn1d import TCN1D
+from power_macro.tcn_detection.models.cnn1d import CNN1D
 from power_macro.tcn_detection.models.ordinal_tcn1d import OrdinalTCN1D, OrdinalTimeTCN1D
 from power_macro.tcn_detection.models.threshold_baseline import calibrate_thresholds
 from power_macro.tcn_detection.train.launch_parallel_training import aggregate_status, command_matrix
+from power_macro.tcn_detection.train.launch_binary_cnn_screen import (
+    build_jobs as build_binary_cnn_screen_jobs)
+from power_macro.tcn_detection.train.launch_binary_cnn_hparam_search import (
+    build_jobs as build_binary_cnn_hparam_jobs)
+from power_macro.tcn_detection.train.launch_binary_cnn_structure_search import (
+    build_jobs as build_binary_cnn_structure_jobs)
 from power_macro.tcn_detection.train.common import (OrdinalRiskCriticalLoss, OrdinalTimeLoss,
-                                                     class_weights,
-                                                     configure_training_objective, make_loader)
+                                                      class_weights,
+                                                     configure_training_objective, estimate_macs,
+                                                     make_loader, parameter_count)
 from power_macro.tcn_detection.train.train_binary_classifier import (
-    checkpoint_metrics as binary_checkpoint_metrics)
+    checkpoint_metrics as binary_checkpoint_metrics,
+    validate_binary_model_config)
 from power_macro.tcn_detection.train.train_classifier import save_checkpoint_atomic, validation_checkpoint_metrics
 
 
@@ -89,6 +112,158 @@ class ModelContractTests(unittest.TestCase):
             second = model.forward_sequence(changed)
         self.assertEqual(tuple(first.shape), (2, 2, 32))
         self.assertTrue(torch.equal(first[:, :, :21], second[:, :, :21]))
+
+    def test_binary_cnn_candidates_have_stable_shapes_and_lower_complexity(self):
+        """Every planned CNN length is two-class and cheaper than the TCN.
+
+        The exact parameter/MAC values are checked at L32 so a future change to
+        channel widths, pooling, or kernel accounting cannot silently invalidate
+        the Pareto-selection assumptions encoded in the experiment contract.
+        """
+
+        tcn_config = {"input_channels": 1, "class_count": 2,
+                      "hidden_channels": 16, "kernel_size": 3,
+                      "dilations": [1, 2, 4], "dropout": 0.1}
+        tcn = TCN1D(**tcn_config)
+        tcn_macs = estimate_macs(tcn, 32, 1)
+        tcn_parameters = parameter_count(tcn)
+        expected = {
+            "small": ([8, 8], 250, 6928),
+            "medium": ([8, 8, 8], 450, 13072),
+            "large": ([16, 16, 16], 1666, 50720),
+        }
+        for name, (channels, parameters, macs) in expected.items():
+            # CNN1D names its width argument ``channels``; keeping this
+            # explicit in the test makes the versioned JSON-to-constructor
+            # translation visible instead of relying on a hidden adapter.
+            model = CNN1D(input_channels=1, class_count=2, channels=channels,
+                          kernel_size=3, dropout=0.1)
+            self.assertEqual(parameter_count(model), parameters)
+            self.assertEqual(estimate_macs(model, 32, 1), macs)
+            self.assertLess(macs, tcn_macs)
+            self.assertLess(parameters, tcn_parameters)
+            for length in (8, 16, 32):
+                with torch.no_grad():
+                    logits = model(torch.zeros(2, 1, length))
+                self.assertEqual(tuple(logits.shape), (2, 2))
+
+    def test_binary_cnn_structure_variants_preserve_shape_causality_and_budget(self):
+        """Endpoint and multistat variants must remain cheaper than the TCN.
+
+        Exact complexity values bind the implemented graph to the reviewed
+        search contract.  The feature-prefix assertion separately proves that
+        a causal endpoint candidate cannot leak a later sample into an earlier
+        hidden position, even though deployment consumes only the final one.
+        """
+
+        variants = {
+            "multistat_k3": ({"channels": [16, 16, 16], "kernel_size": 3,
+                                "pooling_contract": "multistat_average_max_endpoint"},
+                               1730, 50784),
+            "multistat_k5": ({"channels": [16, 16, 16], "kernel_size": 5,
+                                "pooling_contract": "multistat_average_max_endpoint"},
+                               2786, 84576),
+            "dilated_k3": ({"channels": [16, 16, 16, 16], "kernel_size": 3,
+                              "pooling_contract": "causal_endpoint",
+                              "dilations": [1, 2, 4, 8]}, 2450, 75296),
+            "dilated_k5": ({"channels": [16, 16, 16], "kernel_size": 5,
+                              "pooling_contract": "causal_endpoint",
+                              "dilations": [1, 2, 4]}, 2722, 84512),
+            "dilated_w24": ({"channels": [24, 24, 24], "kernel_size": 3,
+                               "pooling_contract": "causal_endpoint",
+                               "dilations": [1, 2, 4]}, 3650, 112944),
+        }
+        for name, (config, parameters, macs) in variants.items():
+            model = CNN1D(input_channels=1, class_count=2, dropout=0.1, **config)
+            with torch.no_grad():
+                logits = model(torch.zeros(2, 1, 32))
+            self.assertEqual(tuple(logits.shape), (2, 2), name)
+            self.assertEqual(parameter_count(model), parameters, name)
+            self.assertEqual(estimate_macs(model, 32, 1), macs, name)
+            self.assertLess(parameters, 4050, name)
+            self.assertLess(macs, 125952, name)
+        causal = CNN1D(input_channels=1, class_count=2, channels=[16] * 4,
+                       kernel_size=3, dropout=0.0,
+                       pooling_contract="causal_endpoint",
+                       dilations=[1, 2, 4, 8])
+        causal.eval()
+        original = torch.randn(1, 1, 32)
+        changed = original.clone()
+        changed[:, :, 20:] += 100.0
+        with torch.no_grad():
+            first = causal.features(original)
+            second = causal.features(changed)
+        self.assertTrue(torch.equal(first[:, :, :20], second[:, :, :20]))
+
+    def test_binary_cnn_structure_ranking_prefers_feasible_quality(self):
+        """A feasible structure must outrank a higher-AP recall failure."""
+
+        def candidate(name, feasible, ap, recall, macs):
+            return {"name": name, "feasible": feasible,
+                    "median_critical_pr_auc": ap, "median_macro_f1": 0.93,
+                    "worst_critical_recall": recall,
+                    "median_balanced_accuracy": 0.96,
+                    "median_safe_far": 0.02,
+                    "estimated_macs_per_window": macs}
+
+        ranking = rank_binary_cnn_structures([
+            candidate("fragile", False, 0.90, 0.80, 50000),
+            candidate("feasible", True, 0.86, 0.96, 90000),
+        ])
+        self.assertEqual(ranking[0]["name"], "feasible")
+
+    def test_binary_model_config_rejects_wrong_family_contract(self):
+        """CNN training must fail closed on legacy three-class configurations."""
+
+        valid = {"input_channels": 1, "class_count": 2,
+                 "class_names": {"0": "Safe", "1": "Critical"},
+                 "feature_contract": "normalized_sensor_code_only",
+                 "target_contract": "warning_merged_into_safe",
+                 "cnn_channels": [8, 8],
+                 "pooling_contract": "adaptive_average_over_past_window"}
+        validate_binary_model_config("cnn", valid)
+        with self.assertRaisesRegex(ValueError, "one-channel"):
+            validate_binary_model_config("cnn", dict(valid, input_channels=5))
+        with self.assertRaisesRegex(ValueError, "two-class"):
+            validate_binary_model_config("cnn", dict(valid, class_count=3))
+        with self.assertRaisesRegex(ValueError, "pooling contract"):
+            validate_binary_model_config("cnn", dict(valid, pooling_contract="none"))
+
+    def test_frozen_binary_cnn_checkpoint_contract_rejects_family_and_normalizer_drift(self):
+        """One-shot CNN evaluation must fail closed before reading IID windows.
+
+        The positive case mirrors the frozen release schema.  The two negative
+        cases cover the highest-risk substitutions: loading a TCN checkpoint
+        through the CNN command and accepting normalization fitted outside the
+        training partition.
+        """
+
+        model_config = {
+            "input_channels": 1, "class_count": 2,
+            "class_names": {"0": "Safe", "1": "Critical"},
+            "feature_contract": "normalized_sensor_code_only",
+            "target_contract": "warning_merged_into_safe",
+            "cnn_channels": [16, 16, 16],
+        }
+        candidate = {"window_length": 32, "seed": 20260725}
+        checkpoint = {
+            "task": "safe_critical_binary", "model": "cnn",
+            "model_config": model_config, "window_length": 32,
+            "seed": 20260725,
+            "normalizer": {"source_split": "train", "window_length": 32,
+                           "mean": [0.12], "std": [0.29]},
+        }
+        validate_frozen_binary_cnn_checkpoint(
+            checkpoint, candidate, model_config)
+        with self.assertRaisesRegex(ValueError, "binary CNN"):
+            validate_frozen_binary_cnn_checkpoint(
+                dict(checkpoint, model="tcn"), candidate, model_config)
+        invalid_normalizer = dict(checkpoint)
+        invalid_normalizer["normalizer"] = dict(
+            checkpoint["normalizer"], source_split="validation")
+        with self.assertRaisesRegex(ValueError, "train-only"):
+            validate_frozen_binary_cnn_checkpoint(
+                invalid_normalizer, candidate, model_config)
 
     def test_one_channel_window_loader_and_normalizer_are_shape_generic(self):
         """The data/model boundary must retain state_code_v1's sole channel."""
@@ -313,6 +488,112 @@ class ModelContractTests(unittest.TestCase):
         self.assertEqual(counts["old_only_correct"], 1)
         self.assertEqual(counts["binary_only_correct"], 2)
 
+    def test_binary_cnn_selection_uses_frozen_feasible_and_fallback_orders(self):
+        """CNN selection must prefer low MAC only after quality feasibility."""
+
+        def candidate(name, macs, pr_auc, feasible, recall=0.96, far=0.02):
+            return {"name": name, "estimated_macs_per_window": macs,
+                    "parameter_count": macs // 10,
+                    "median_cpu_latency_ms": macs / 100000.0,
+                    "median_critical_pr_auc": pr_auc,
+                    "worst_seed_critical_recall": recall,
+                    "median_safe_window_false_alarm_rate": far,
+                    "feasible": feasible}
+
+        candidates = [candidate("small", 1000, 0.85, True),
+                      candidate("large", 5000, 0.91, True)]
+        selected, mode = select_binary_cnn_candidate(candidates)
+        self.assertEqual(selected["name"], "small")
+        self.assertEqual(mode, "lowest_complexity_within_quality_floor")
+
+        fallback = [candidate("small", 1000, 0.80, False),
+                    candidate("large", 5000, 0.83, False)]
+        selected, mode = select_binary_cnn_candidate(fallback)
+        self.assertEqual(selected["name"], "large")
+        self.assertEqual(mode, "mandatory_cnn_quality_fallback")
+
+    def test_binary_cnn_objective_ranking_prefers_feasible_then_quality(self):
+        """Objective selection must never rank an infeasible high AP arm first."""
+
+        def arm(ap, feasible, macro=0.9, balanced=0.95, recall=0.96, far=0.02):
+            return {"median_critical_pr_auc": ap, "median_macro_f1": macro,
+                    "median_balanced_accuracy": balanced,
+                    "worst_seed_critical_recall": recall,
+                    "median_safe_window_false_alarm_rate": far,
+                    "feasible": feasible}
+
+        arms = {"a": arm(0.91, False), "b": arm(0.86, True),
+                "c": arm(0.85, True)}
+        ranking, mode = rank_binary_cnn_arms(arms)
+        self.assertEqual(ranking[0], "b")
+        self.assertEqual(mode, "quality_feasible_arm")
+        fallback = {"a": arm(0.81, False), "b": arm(0.83, False)}
+        ranking, mode = rank_binary_cnn_arms(fallback)
+        self.assertEqual(ranking[0], "b")
+        self.assertEqual(mode, "mandatory_cnn_quality_fallback")
+
+    def test_binary_cnn_hparam_ranking_prioritizes_median_ap_then_robustness(self):
+        """Optimizer selection must follow the predeclared validation order."""
+
+        def arm(name, ap, macro=0.88, worst_recall=0.80, balanced=0.90,
+                far=0.02, deviation=0.01):
+            return {"name": name, "median_critical_pr_auc": ap,
+                    "median_macro_f1": macro,
+                    "worst_critical_recall": worst_recall,
+                    "median_balanced_accuracy": balanced,
+                    "median_safe_far": far,
+                    "critical_pr_auc_std": deviation}
+
+        # A lower AP arm cannot win through better recall.  When AP and Macro-F1
+        # tie, the worse-seed recall term chooses the more stable optimizer.
+        arms = [arm("lower_ap", 0.84, worst_recall=0.99),
+                arm("fragile", 0.85, worst_recall=0.70),
+                arm("robust", 0.85, worst_recall=0.82)]
+        ranking = rank_binary_cnn_hparam_arms(arms)
+        self.assertEqual([item["name"] for item in ranking],
+                         ["robust", "fragile", "lower_ap"])
+
+    def test_binary_cnn_hparam_feasibility_requires_all_frozen_gates(self):
+        """High validation PR-AUC cannot compensate for failed robust recall."""
+
+        gates = {"median_critical_pr_auc_min": 0.84,
+                 "median_accuracy_min": 0.95,
+                 "median_balanced_accuracy_min": 0.90,
+                 "median_macro_f1_min": 0.80,
+                 "worst_seed_critical_recall_min": 0.95,
+                 "median_safe_window_false_alarm_rate_max": 0.05}
+        candidate = {"median_critical_pr_auc": 0.86, "median_accuracy": 0.98,
+                     "median_balanced_accuracy": 0.96, "median_macro_f1": 0.93,
+                     "worst_critical_recall": 0.96, "median_safe_far": 0.02}
+        checks, feasible = binary_cnn_hparam_feasibility(candidate, gates)
+        self.assertTrue(feasible)
+        self.assertTrue(all(checks.values()))
+        checks, feasible = binary_cnn_hparam_feasibility(
+            dict(candidate, worst_critical_recall=0.94), gates)
+        self.assertFalse(feasible)
+        self.assertFalse(checks["critical_recall"])
+
+    def test_binary_cnn_representative_is_median_seed_not_best_seed(self):
+        """Frozen CNN checkpoint must represent the three-seed median AP."""
+
+        runs = [
+            {"seed": 1, "metrics": {"critical_pr_auc": 0.80, "macro_f1": 0.90,
+                                      "balanced_accuracy": 0.91,
+                                      "critical_recall": 0.92,
+                                      "safe_window_false_alarm_rate": 0.03}},
+            {"seed": 2, "metrics": {"critical_pr_auc": 0.84, "macro_f1": 0.88,
+                                      "balanced_accuracy": 0.90,
+                                      "critical_recall": 0.95,
+                                      "safe_window_false_alarm_rate": 0.02}},
+            {"seed": 3, "metrics": {"critical_pr_auc": 0.90, "macro_f1": 0.95,
+                                      "balanced_accuracy": 0.96,
+                                      "critical_recall": 0.97,
+                                      "safe_window_false_alarm_rate": 0.01}},
+        ]
+        representative, median_ap = select_binary_cnn_representative(runs)
+        self.assertEqual(representative["seed"], 2)
+        self.assertEqual(median_ap, 0.84)
+
     def test_ordinal_time_loss_adds_weighted_auxiliary_cross_entropy(self):
         """Time supervision must use class*4+bucket decoding and planned weights."""
 
@@ -401,6 +682,135 @@ class ModelContractTests(unittest.TestCase):
             command_matrix(args, ("tcn_L8", "tcn_L8"))
         with self.assertRaisesRegex(ValueError, "unknown training jobs"):
             command_matrix(args, ("tcn_L64",))
+
+    def test_binary_cnn_screen_matrix_is_exact_and_iid_free(self):
+        """The frozen architecture screen must build all and only 27 CNN jobs."""
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            config_dir = root / "config"
+            windows_dir = root / "windows"
+            output_dir = root / "output"
+            config_dir.mkdir()
+            windows_dir.mkdir()
+            required_configs = [
+                "training_state_code_binary_b_sqrt_ce.json",
+                "model_cnn_state_code_binary_small_v1.json",
+                "model_cnn_state_code_binary_medium_v1.json",
+                "model_cnn_state_code_binary_large_v1.json",
+            ]
+            for name in required_configs:
+                (config_dir / name).write_text("{}\n", encoding="utf-8")
+            for length in (8, 16, 32):
+                (windows_dir / "windows_L{}.csv".format(length)).write_text(
+                    "placeholder\n", encoding="utf-8")
+            args = SimpleNamespace(config_dir=config_dir, windows_dir=windows_dir,
+                                   output_dir=output_dir)
+            jobs = build_binary_cnn_screen_jobs(args)
+        self.assertEqual(len(jobs), 27)
+        self.assertEqual(len({job["name"] for job in jobs}), 27)
+        self.assertEqual({job["training_arm"] for job in jobs}, {"b_sqrt_ce"})
+        self.assertEqual({job["window_length"] for job in jobs}, {8, 16, 32})
+        self.assertTrue(all("--model" in job["command"]
+                            and "cnn" in job["command"] for job in jobs))
+        self.assertTrue(all("iid_test" not in " ".join(job["command"])
+                            for job in jobs))
+
+    def test_binary_cnn_hparam_matrix_is_exact_and_iid_free(self):
+        """Stage one must resolve nine optimizer arms across exactly three seeds."""
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            windows = root / "windows_L32.csv"
+            model_config = root / "model.json"
+            output = root / "search"
+            windows.write_text("placeholder\n", encoding="utf-8")
+            model_config.write_text("{}\n", encoding="utf-8")
+            output.mkdir()
+            fixed = {"schema_version": 1, "cpu_threads_per_process": 8,
+                     "batch_size": 256, "max_epochs": 80,
+                     "early_stopping_patience": 12,
+                     "sampling_strategy": "natural", "loss_type": "cross_entropy",
+                     "class_weight_strategy": "none",
+                     "ordinal_positive_weight_strategy": "none",
+                     "checkpoint_selection_metric": "critical_pr_auc"}
+            arms = [{"name": "lr{}_wd{}".format(left, right),
+                     "learning_rate": left, "weight_decay": right}
+                    for left in (0.0003, 0.001, 0.003)
+                    for right in (0.0, 0.0001, 0.001)]
+            contract = {"scope": "train_validation_only", "model": "cnn",
+                        "task": "safe_critical_binary", "window_length": 32,
+                        "seeds": [20260725, 20260726, 20260727],
+                        "iid_policy": {"features_loaded": False,
+                                       "metrics_computed": False,
+                                       "selection_allowed": False},
+                        "fixed_training": fixed, "arms": arms}
+            jobs = build_binary_cnn_hparam_jobs(
+                contract, windows, model_config, output, "python")
+        self.assertEqual(len(jobs), 27)
+        self.assertEqual(len({job["name"] for job in jobs}), 27)
+        self.assertEqual(len({job["training_config_sha256"] for job in jobs}), 9)
+        self.assertTrue(all("--model" in job["command"]
+                            and "cnn" in job["command"] for job in jobs))
+        self.assertTrue(all("iid" not in " ".join(job["command"]).lower()
+                            for job in jobs))
+
+    def test_multistat_cnn_scheduler_search_matrix_is_exact_and_iid_free(self):
+        """The new structure search must resolve 3 LRs x 3 schedulers x 3 seeds."""
+
+        project = Path(__file__).resolve().parents[1]
+        contract = json.loads((project / "config" /
+            "state_code_binary_cnn_multistat_training_stage1_v1_20260731_r1.json"
+        ).read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            windows = root / "windows_L32.csv"
+            windows.write_text("placeholder\n", encoding="utf-8")
+            output = root / "output"
+            output.mkdir()
+            jobs = build_binary_cnn_hparam_jobs(
+                contract, windows,
+                project / "config" /
+                "model_cnn_state_code_binary_multistat_w18_k5_v1.json",
+                output, "python")
+            resolved = [json.loads(Path(job["training_config"]).read_text(
+                encoding="utf-8")) for job in jobs]
+        self.assertEqual(len(jobs), 27)
+        self.assertEqual(len({job["name"] for job in jobs}), 27)
+        self.assertEqual({item["learning_rate"] for item in resolved},
+                         {0.002, 0.003, 0.004})
+        self.assertEqual({item["lr_scheduler"] for item in resolved},
+                         {"none", "reduce_on_plateau"})
+        self.assertEqual({item["scheduler_patience"] for item in resolved},
+                         {6, 10})
+        self.assertTrue(all(item["loss_type"] == "cross_entropy"
+                            and item["sampling_strategy"] == "natural"
+                            for item in resolved))
+        self.assertTrue(all("iid_test" not in " ".join(job["command"])
+                            for job in jobs))
+
+    def test_binary_cnn_structure_matrix_is_exact_and_below_tcn(self):
+        """The frozen structure contract must build 18 validation-only jobs."""
+
+        project = Path(__file__).resolve().parents[1]
+        config_dir = project / "config"
+        contract = json.loads((
+            config_dir / "state_code_binary_cnn_structure_v1_20260731_r1.json"
+        ).read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            windows = root / "windows_L32.csv"
+            windows.write_text("placeholder\n", encoding="utf-8")
+            jobs = build_binary_cnn_structure_jobs(
+                contract, config_dir, windows, root / "output", "python")
+        self.assertEqual(len(jobs), 18)
+        self.assertEqual(len({job["name"] for job in jobs}), 18)
+        self.assertEqual(len({job["candidate"] for job in jobs}), 6)
+        self.assertTrue(all(job["parameter_count"] < 4050 for job in jobs))
+        self.assertTrue(all(job["estimated_macs_per_window"] < 125952
+                            for job in jobs))
+        self.assertTrue(all("iid_test" not in " ".join(job["command"])
+                            for job in jobs))
 
     def test_parallel_manifest_status_transitions_are_conservative(self):
         """Aggregate PASS/FAIL is published only after every child terminates."""

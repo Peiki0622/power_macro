@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "search_id": "state_code_binary_cnn_structure_v1_20260731_r1",
+  "scope": "train_validation_only",
+  "task": "safe_critical_binary",
+  "model": "cnn",
+  "window_length": 32,
+  "seeds": [20260725, 20260726, 20260727],
+  "training_config": "training_state_code_binary_cnn_tuned_v1.json",
+  "candidates": [
+    {"name": "baseline_avg_k3", "model_config": "model_cnn_state_code_binary_large_v1.json", "receptive_field": 7},
+    {"name": "multistat_k3", "model_config": "model_cnn_state_code_binary_multistat_k3_v1.json", "receptive_field": 7},
+    {"name": "multistat_k5", "model_config": "model_cnn_state_code_binary_multistat_k5_v1.json", "receptive_field": 13},
+    {"name": "dilated_k3_d1248", "model_config": "model_cnn_state_code_binary_dilated_k3_d1248_v1.json", "receptive_field": 31},
+    {"name": "dilated_k5_d124", "model_config": "model_cnn_state_code_binary_dilated_k5_d124_v1.json", "receptive_field": 29},
+    {"name": "dilated_w24_k3_d124", "model_config": "model_cnn_state_code_binary_dilated_w24_k3_d124_v1.json", "receptive_field": 15}
+  ],
+  "quality_feasibility": {
+    "median_critical_pr_auc_min": 0.8446253995258016,
+    "median_accuracy_min": 0.95,
+    "median_balanced_accuracy_min": 0.90,
+    "median_macro_f1_min": 0.80,
+    "worst_seed_critical_recall_min": 0.95,
+    "median_safe_window_false_alarm_rate_max": 0.05
+  },
+  "tcn_comparison": {
+    "validation_critical_pr_auc": 0.8618626525773486,
+    "parameter_count": 4050,
+    "estimated_macs_per_window": 125952
+  },
+  "selection_order": [
+    "quality_feasible_first",
+    "median_critical_pr_auc",
+    "median_macro_f1",
+    "worst_critical_recall",
+    "median_balanced_accuracy",
+    "lower_median_safe_far",
+    "lower_macs",
+    "candidate_name"
+  ],
+  "iid_policy": {
+    "features_loaded": false,
+    "metrics_computed": false,
+    "selection_allowed": false
+  }
+}

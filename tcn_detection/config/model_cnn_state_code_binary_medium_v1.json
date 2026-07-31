@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "input_channels": 1,
+  "class_count": 2,
+  "class_names": {"0": "Safe", "1": "Critical"},
+  "cnn_channels": [8, 8, 8],
+  "kernel_size": 3,
+  "dropout": 0.1,
+  "feature_contract": "normalized_sensor_code_only",
+  "target_contract": "warning_merged_into_safe",
+  "pooling_contract": "adaptive_average_over_past_window",
+  "architecture_id": "medium"
+}

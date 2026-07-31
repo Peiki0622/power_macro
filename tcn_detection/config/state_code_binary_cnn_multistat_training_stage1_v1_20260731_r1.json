@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "search_id": "state_code_binary_cnn_multistat_training_stage1_v1_20260731_r1",
+  "scope": "train_validation_only",
+  "model": "cnn",
+  "task": "safe_critical_binary",
+  "window_length": 32,
+  "seeds": [20260725, 20260726, 20260727],
+  "expected_arm_count": 9,
+  "variable_keys": [
+    "learning_rate",
+    "lr_scheduler",
+    "scheduler_factor",
+    "scheduler_patience",
+    "scheduler_min_lr"
+  ],
+  "selection_order": [
+    "quality_feasible_first",
+    "median_critical_pr_auc",
+    "median_macro_f1",
+    "worst_critical_recall",
+    "median_balanced_accuracy",
+    "lower_median_safe_far",
+    "lower_critical_pr_auc_std",
+    "arm_name"
+  ],
+  "fixed_training": {
+    "schema_version": 1,
+    "cpu_threads_per_process": 8,
+    "batch_size": 256,
+    "max_epochs": 120,
+    "early_stopping_patience": 25,
+    "weight_decay": 0.00001,
+    "sampling_strategy": "natural",
+    "loss_type": "cross_entropy",
+    "class_weight_strategy": "none",
+    "ordinal_positive_weight_strategy": "none",
+    "checkpoint_selection_metric": "critical_pr_auc"
+  },
+  "arms": [
+    {"name": "lr2em3_none", "learning_rate": 0.002, "lr_scheduler": "none", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr2em3_plateau6", "learning_rate": 0.002, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr2em3_plateau10", "learning_rate": 0.002, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 10, "scheduler_min_lr": 0.00001},
+    {"name": "lr3em3_none", "learning_rate": 0.003, "lr_scheduler": "none", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr3em3_plateau6", "learning_rate": 0.003, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr3em3_plateau10", "learning_rate": 0.003, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 10, "scheduler_min_lr": 0.00001},
+    {"name": "lr4em3_none", "learning_rate": 0.004, "lr_scheduler": "none", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr4em3_plateau6", "learning_rate": 0.004, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 6, "scheduler_min_lr": 0.00001},
+    {"name": "lr4em3_plateau10", "learning_rate": 0.004, "lr_scheduler": "reduce_on_plateau", "scheduler_factor": 0.5, "scheduler_patience": 10, "scheduler_min_lr": 0.00001}
+  ],
+  "quality_feasibility": {
+    "median_critical_pr_auc_min": 0.8446253995258016,
+    "median_accuracy_min": 0.95,
+    "median_balanced_accuracy_min": 0.90,
+    "median_macro_f1_min": 0.80,
+    "worst_seed_critical_recall_min": 0.95,
+    "median_safe_window_false_alarm_rate_max": 0.05
+  },
+  "iid_policy": {
+    "features_loaded": false,
+    "metrics_computed": false,
+    "selection_allowed": false
+  }
+}

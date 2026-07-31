@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "policy_id": "state_code_binary_cnn_iid_v1_20260731_r1",
+  "task": "same_sample_safe_critical_binary_monitoring",
+  "model_family": "cnn1d",
+  "replacement_policy": "cnn_replaces_tcn_before_iid_evaluation",
+  "input_contract": "normalized_sensor_code_only",
+  "class_names": {"0": "Safe", "1": "Critical"},
+  "source_state_to_binary": {"0": 0, "1": 0, "2": 1},
+  "split_policy": "reuse_state_code_iid_v2_20260730_r1",
+  "split_trace_counts": {"train": 144, "validation": 48, "iid_test": 48},
+  "window_lengths": [8, 16, 32],
+  "seeds": [20260725, 20260726, 20260727],
+  "architecture_candidates": {
+    "small": {"cnn_channels": [8, 8]},
+    "medium": {"cnn_channels": [8, 8, 8]},
+    "large": {"cnn_channels": [16, 16, 16]}
+  },
+  "architecture_screen_training_arm": "b_sqrt_ce",
+  "objective_arms": [
+    "a_natural_ce",
+    "b_sqrt_ce",
+    "c_sqrt_focal",
+    "d_balanced_sampler_ce"
+  ],
+  "checkpoint_selection": {
+    "primary": "critical_pr_auc",
+    "tie_breaks": [
+      "macro_f1",
+      "balanced_accuracy",
+      "critical_recall",
+      "lower_safe_far",
+      "earlier_epoch"
+    ]
+  },
+  "quality_feasibility": {
+    "median_critical_pr_auc_min": 0.8446253995258016,
+    "median_accuracy_min": 0.95,
+    "median_balanced_accuracy_min": 0.90,
+    "median_macro_f1_min": 0.80,
+    "worst_seed_critical_recall_min": 0.95,
+    "median_safe_window_false_alarm_rate_max": 0.05
+  },
+  "architecture_selection": {
+    "feasible_order": [
+      "estimated_macs_per_window_ascending",
+      "parameter_count_ascending",
+      "median_cpu_latency_ms_ascending",
+      "median_critical_pr_auc_descending",
+      "name_ascending"
+    ],
+    "fallback_order": [
+      "median_critical_pr_auc_descending",
+      "worst_seed_critical_recall_descending",
+      "median_safe_window_false_alarm_rate_ascending",
+      "estimated_macs_per_window_ascending",
+      "name_ascending"
+    ]
+  },
+  "objective_selection": {
+    "order": [
+      "median_critical_pr_auc_descending",
+      "median_macro_f1_descending",
+      "median_balanced_accuracy_descending",
+      "worst_seed_critical_recall_descending",
+      "median_safe_window_false_alarm_rate_ascending",
+      "arm_ascending"
+    ],
+    "representative_seed_rule": "closest_to_median_critical_pr_auc_then_quality_then_seed"
+  },
+  "tcn_baseline": {
+    "parameter_count": 4050,
+    "estimated_macs_per_window_L32": 125952,
+    "median_cpu_latency_ms_L32": 0.6775074999999999,
+    "validation_critical_pr_auc": 0.8618626525773486,
+    "checkpoint_sha256": "6135a38c3e6e720ec569d4fa3ce26a2597c8a76489381fe0919e7fe5e087e069",
+    "iid_predictions_sha256": "739786d5b2298d4f4081f0f093fbc5124f77ef08a4298320bdcd4334feb9a62a"
+  },
+  "complexity_requirements": {
+    "parameter_count_strictly_below_tcn": true,
+    "estimated_macs_per_window_strictly_below_tcn": true,
+    "cpu_latency_is_diagnostic_only": true
+  },
+  "iid_policy": {
+    "development_load_allowed": false,
+    "evaluate_after_model_and_postprocess_freeze": true,
+    "maximum_successful_evaluations": 1,
+    "parameters_tuned_on_test": false,
+    "pristine_blind_test": false,
+    "rerun_authorized": false
+  },
+  "source_hashes": {
+    "corpus_sha256": "029ad57b410210b1f5b27ca75aa70569634c82a6791113b52affe7a10a686875",
+    "windows_L8_sha256": "1c892354bf846034f24e6441025c571479b2b792643ac784d6e5d490f447d356",
+    "windows_L16_sha256": "69a11f21e9c3512e1fc2df68e6c9a403aff797db43150b8ec80a12fa6649a129",
+    "windows_L32_sha256": "ccb8787a0766e46e79a56b6b78846aa0e0a4842d420c8a7bbd3000977b50d065",
+    "binary_postprocess_config_sha256": "08796898c65f0e0fc6d1466146d3ef6879a2f819bc3e70a20f3b61dbb607b72f"
+  }
+}
