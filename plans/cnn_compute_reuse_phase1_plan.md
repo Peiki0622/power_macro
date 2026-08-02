@@ -430,6 +430,164 @@ average and peak dynamic power, if available
 
 若目标工艺工具暂不可自动运行，Codex 应提供脚本、约束和结构检查，并明确标记未执行项，不得伪造结果。
 
+## 9A. 阶段 8-9：SMIC40LL 编译 ROM 与 500 MHz 流水实现计划
+
+本节是任务二 Step 2.3 至 Step 2.6 的后续执行清单。执行每个步骤前必须重新读取本节，
+并把步骤号、UTC 时间和本文件 SHA256 写入同一个任务专用 `rtl/cnn_monitor/runs/<tag>/evidence/plan_reads.log`。
+所有 ROM compiler、VCS、Design Compiler 中间文件和报告必须位于该 run 子树，禁止散落到源码目录。
+
+冻结实现口径如下：
+
+```text
+发布 MAC 配置：16 lanes
+ROM 宏：CNNW384X128，384 words x 128 bits，mux=8
+ROM 地址：0..9 Conv1，10..189 Conv2，190..369 Conv3，370..383 零填充
+ROM lane 0：Q[7:0]，即 RCF 每行最右侧 8 bit
+ROM 正常读控制：CEN=~read_enable, TEN=1, BEN=1, TCEN=1,
+                 TA=0, TQ=0, PGEN=0, KEN=1, EMA=3'b010
+时序验收：TT/1.10 V/25 C，500 MHz（2.000 ns）；传感器采样周期保持 4 ns
+量化包：既有 W8/A8，不重新量化；所有已冻结 validation 指标 delta 必须为零
+```
+
+### Step 8.1：建立认证 ROM 内容打包器
+
+要做什么：新增版本化 ROM 配置和 Python 打包器，从任务一认证权重包生成 384 行、每行
+128 bit 的 RCF；显式实现三层地址映射、lane 0 最低有效字节、未使用 lane 和尾部地址零填充，
+并输出内容 SHA256 与逐层地址清单。代码不得依赖工作目录或未经认证的权重文件。
+
+验证措施：穷举比较 384x16 个字节与任务一张量；检查每个有效权重恰好出现于预期地址/lane；
+检查 370..383 和无效 lane 全零；重复生成逐字节一致；篡改权重摘要必须在写 RCF 前失败。
+
+### Step 8.2：建立非 GUI ROM compiler 驱动器
+
+要做什么：新增宿主机非 GUI driver，先验证 compiler 路径、版本、合法 size/mux/view 参数，
+再在独立 run 子目录调用 SMIC40LL compiler 生成 simulation、Liberty、LEF/GDS 等可用视图；记录
+命令、环境、开始/结束时间和退出状态。driver 必须默认拒绝覆盖已有非空 run。
+
+验证措施：执行只读 preflight 和一次完整生成；日志中不得出现 fatal/error；核对实例名、
+384x128、mux=8、RCF 摘要以及预期视图清单，缺少任一综合或仿真必需视图即失败。
+
+### Step 8.3：认证并归档宏交付物
+
+要做什么：为 compiler 输出建立 manifest，记录每个视图的相对路径、字节数和 SHA256；从
+Liberty/LEF 抽取 pin、面积、同步读时序和 TT 工作条件，并将生成命令与工具版本一并归档。
+
+验证措施：用独立解析检查宏名和端口集合；确认 Liberty 的 `lc_shell` 转换 `.db` 可由已知
+稳定的 DC wrapper `~/.local/bin/dc_shell` 成功 `read_db/report_lib`；核对 TT 最小周期不超过
+2.000 ns，且报告不得扩展为全 PVT signoff 声明。
+
+### Step 8.4：实现可综合 ROM 适配器和仿真模型接入
+
+要做什么：新增独立 `cnn_weight_rom` 适配器，以模块化端口注释封装宏控制脚和一拍同步 Q；
+综合路径仅实例化 `CNNW384X128`，仿真路径使用 compiler 交付模型。适配器不使用 `function`、
+初始化块、`$readmem*` 或不可综合控制逻辑。
+
+验证措施：静态检查综合 RTL 无 `function`/`$readmem`；用 compiler 模型穷举读取 384 个地址，
+逐位比较 RCF 期望值，并验证 read disable 时接口保持合同和首个有效 Q 的周期位置。
+
+### Step 8.5：建立带宏的综合入口
+
+要做什么：调整 DC Tcl/driver，在 2.000 ns TT 约束下读入 ROM `.db`，禁止展开回组合 case-ROM，
+并用稳定 DC wrapper 运行；报告标准单元和 hard macro 的数量、面积与关键路径。
+
+验证措施：`link/check_design` 无 unresolved reference；`report_cell`/网表中恰有一个
+`CNNW384X128` 实例且不被替换为寄存器；约束、库角、wrapper 路径和命令均进入证据文件。
+
+### Step 8.6：完成阶段 8 门禁
+
+要做什么：汇总内容映射、compiler 交付物、仿真读回和综合识别结果，更新 README/基线报告
+中的 ROM 结构、物理尺寸、TT 时序以及非 signoff 边界。
+
+验证措施：运行全部 ROM 单元测试和交付物 manifest 复核；只有内容、仿真、Liberty 和 DC
+识别四项同时通过才进入阶段 9。
+
+### Step 9.1：先更新周期精确模型和冻结流水 schedule
+
+要做什么：在 Python cycle model 中加入同步 ROM 请求/Q、activation、product、accumulator，
+requantize prepare/write，pool operand prefetch，classifier operand/product/accumulate，以及 logit
+prepare/commit 的明确事件；冻结 16-lane 周期为 Conv1 640、Conv2 6080、Conv3 6080、Pooling 34、
+Classifier 58，总 latency 12892、II 12893。
+
+验证措施：所有任务一 golden tensor/logit 逐元素相等；trace 周期连续且事件计数符合冻结值；
+每个 ROM 请求与消费相隔规定拍数；对全部合法控制边界检查固定 latency 且无数据相关分支。
+
+### Step 9.2：重构卷积 ROM、activation、乘法和累加流水
+
+要做什么：修改卷积引擎，使同步 ROM 地址先发射，随后寄存 activation，再寄存乘积并在下一拍
+累加；每组用固定 drain 周期完成，保持 position/group/input/tap 顺序、padding 语义和 16-lane
+写地址不变。所有新增流水寄存器需有宽度、符号和有效位说明。
+
+验证措施：逐周期比较 RTL 与 cycle trace 的 ROM 地址、activation、product 和 retire 地址；
+在全部 golden 与 directed windows 上逐层比较 576 个激活；综合 lint/check_design 无锁存、
+多驱动、越界和不可综合结构。
+
+### Step 9.3：拆分卷积 requantize prepare/write
+
+要做什么：把长的 rounding/saturation/bound-check/writeback 路径拆成 prepare 和 write 两拍，
+寄存每 lane 的量化结果、有效掩码、目标 bank 和目标地址，确保最后一组/层切换无读写冲突。
+
+验证措施：穷举单元测试 ties-to-even 边界和饱和边界；逐层 tensor 与 W8/A8 golden 完全相等；
+断言每个有效输出只写一次、无效 lane 不写、层切换前最后一笔写已提交。
+
+### Step 9.4：流水化 pooling operand 读取
+
+要做什么：在不改变 34-cycle 总预算的前提下预取 conv3 position operand，并流水更新 sum/max/
+endpoint；拼接仍严格为 average、maximum、endpoint，各 18 项。
+
+验证措施：对 15 个 golden/directed 窗口逐元素比较 sum、average、maximum、endpoint 和 summary；
+专门覆盖 position 0/31 最大值、全零、全 127 和 ties-to-even average；检查恰好扫描 32 个位置。
+
+### Step 9.5：流水化 classifier 与 logit 提交
+
+要做什么：把 summary/weight 读取、乘法和 accumulator 更新分拍，并把 accumulator bound/左移
+饱和与最终 difference/decision 分为 prepare、commit；总 classifier 固定 58 cycles，tie 仍为 Safe。
+
+验证措施：逐周期核对 54 个 feature 地址和乘积退休顺序；所有窗口的两个 INT32 logits、33-bit
+difference 和 decision 与 bit-true 完全一致；覆盖正负饱和与 exact tie 的定向单元测试。
+
+### Step 9.6：同步顶层、配置、生成器和验证数据合同
+
+要做什么：更新顶层连接、JSON schedule、trace serializer、测试平台里程碑和 README；保留 4/8
+lane 地址兼容参数，但发布和本轮验收只使用 16 lanes，不对 feature bank 做额外 SRAM 化。
+
+验证措施：配置 schema/静态合同测试通过；生成文件可重复；全仓综合 RTL 扫描确认无 `function`、
+仿真系统任务和隐式 ROM；端口注释覆盖每个功能组及新增信号。
+
+### Step 9.7：执行软件与静态完整回归
+
+要做什么：运行参数认证、ROM pack、cycle model、RTL contract 及新增流水边界测试，并生成一份
+集中测试报告；不得读取或重跑 IID/OOD 数据。
+
+验证措施：完整测试集零失败；记录测试数、命令、Python 版本、输入摘要和退出码；再次核对既有
+W8/A8 validation 指标文件未被修改且指标摘要与冻结值一致。
+
+### Step 9.8：执行非 smoke RTL 全回归
+
+要做什么：使用 compiler ROM 仿真模型运行所有 8 个 task-one golden、7 个 directed window、
+逐周期首窗口 trace、连续采样、同拍 sample/request、最早二次请求、busy 非法请求、reset 中断恢复、
+非法 sensor code 和 tie/协议检查；所有产物进入同一 run 子树。
+
+验证措施：VCS 编译零 error；测试平台明确报告每个窗口和协议场景通过；每个内部 tensor、最终
+logit、endpoint、固定 12892-cycle latency 和 12893-cycle II 均由 self-checking testbench 验证。
+
+### Step 9.9：执行 500 MHz 宏感知综合与时序分析
+
+要做什么：使用 TT 标准单元库和生成 ROM `.db`，通过稳定 DC wrapper 对 16-lane RTL 进行完整
+compile/report，必要时只做局部、可验证的时序修正，不改变数值或固定 schedule。
+
+验证措施：宏实例数为 1；setup slack 在 2.000 ns 约束下非负；无未约束关键寄存器路径、无
+unresolved/multidriven/latch；报告总面积、宏面积、标准单元面积、关键路径、功耗口径和吞吐。
+
+### Step 9.10：完成量化零退化与任务二发布报告
+
+要做什么：更新 `RTL_BASELINE_REPORT.md` 和机器可读 summary，列出 ROM 生成复现方法、流水周期、
+500 MHz QoR、测试覆盖、限制以及任务二十项验收门槛；禁止重新量化或用 IID/OOD 调参。
+
+验证措施：认证 golden 回归证明整数输出逐位相等，因此相对既有 W8/A8 的 Accuracy 0.987251、
+Balanced Accuracy 0.986458、Macro-F1 0.951032、Critical PR-AUC 0.899175、Critical Recall
+0.985547、Safe FAR 0.012631 的 delta 全为 0；复核 run manifest、摘要、报告路径和 Git diff，
+确认没有散落中间产物或超出任务二范围的设计。
+
 ## 10. 任务二验收门槛
 
 必须同时满足：

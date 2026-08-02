@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "config_id": "cnn_smic40ll_weight_rom_v1",
+  "instance_name": "CNNW384X128",
+  "words": 384,
+  "bits": 128,
+  "mux": 8,
+  "lane_count": 16,
+  "lane_bits": 8,
+  "lane_zero_slice": "Q[7:0]",
+  "rcf_line_order": "Q[127] through Q[0], most-significant bit first",
+  "rtl_config": "cnn_rtl_config_v1.json",
+  "address_map": [
+    {
+      "layer": 1,
+      "tensor": "conv1.weights",
+      "first_address": 0,
+      "last_address": 9,
+      "input_channels": 1
+    },
+    {
+      "layer": 2,
+      "tensor": "conv2.weights",
+      "first_address": 10,
+      "last_address": 189,
+      "input_channels": 18
+    },
+    {
+      "layer": 3,
+      "tensor": "conv3.weights",
+      "first_address": 190,
+      "last_address": 369,
+      "input_channels": 18
+    }
+  ],
+  "zero_fill": {
+    "first_address": 370,
+    "last_address": 383
+  },
+  "normal_read_controls": {
+    "TEN": 1,
+    "BEN": 1,
+    "TCEN": 1,
+    "TA": 0,
+    "TQ": 0,
+    "PGEN": 0,
+    "KEN": 1,
+    "EMA": "010",
+    "CEN": "inverted_read_enable"
+  },
+  "compiler": {
+    "host": "zhupl@166.111.78.45",
+    "ssh_port": 40022,
+    "host_root": "/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/Memory/arm/smic/logic0040ll/rom_via_hdd_rvt_rvt/r1p1",
+    "container_root": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/Memory/arm/smic/logic0040ll/rom_via_hdd_rvt_rvt/r1p1",
+    "views": ["verilog", "liberty", "lef", "gds2"]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "config_id": "cnn_rtl_multistat_w18_k5_v1",
+  "architecture_id": "multistat_w18_k5",
+  "release_mac_lanes": 16,
+  "supported_mac_lanes": [4, 8, 16],
+  "clock": {
+    "preferred_frequency_mhz": 500.0,
+    "preferred_period_ns": 2.0,
+    "fallback_period_ns": 4.0,
+    "sample_period_ns": 4.0,
+    "sample_interface_clocking": "sample_valid_is_synchronous_to_clk"
+  },
+  "interface": {
+    "reset_polarity": "active_high_asynchronous",
+    "sensor_code_bits": 6,
+    "sensor_code_min": 0,
+    "sensor_code_max": 32,
+    "endpoint_index_bits": 32,
+    "request_policy": "explicit_ready_valid_snapshot",
+    "busy_request_policy": "reject_and_set_sticky_protocol_error",
+    "same_cycle_sample_request": "include_accepted_sample_when_window_already_full",
+    "result_valid_cycles": 1,
+    "logits_hold_until_next_result": true
+  },
+  "storage": {
+    "window_length": 32,
+    "channels": [1, 18, 18, 18],
+    "kernel_size": 5,
+    "sensor_code_storage_bits": 6,
+    "activation_bits": 8,
+    "input_circular_entries": 32,
+    "snapshot_entries": 32,
+    "feature_bank_entries": 576,
+    "feature_bank_count": 2
+  },
+  "numeric": {
+    "weight_bits": 8,
+    "activation_bits": 8,
+    "logit_bits": 32,
+    "logit_difference_bits": 33,
+    "conv1_accumulator_bits": 14,
+    "conv2_accumulator_bits": 20,
+    "conv3_accumulator_bits": 20,
+    "classifier_accumulator_bits": 20,
+    "pool_sum_bits": 13,
+    "activation_exponents": [-5, -3, -3],
+    "logit_exponent": -26,
+    "rounding": "round_to_nearest_ties_to_even",
+    "saturation": "signed_clamp_then_relu_for_convolutions",
+    "average_pool": "sum_32_then_ties_to_even_right_shift_5",
+    "decision": "critical_only_when_critical_logit_strictly_exceeds_safe_logit"
+  },
+  "schedule": {
+    "loop_order": ["position", "output_channel_group", "input_channel", "kernel_tap"],
+    "group_cycles": {
+      "bias_init": 1,
+      "rom_pipeline_drain": 2,
+      "requantize_prepare": 1,
+      "requantize_write": 1
+    },
+    "conv_fanin_macs": [5, 90, 90],
+    "pool_init_cycles": 1,
+    "pool_scan_cycles": 32,
+    "pool_finalize_cycles": 1,
+    "classifier_bias_init_cycles": 1,
+    "classifier_mac_cycles": 54,
+    "classifier_pipeline_drain_cycles": 1,
+    "classifier_logit_prepare_cycles": 1,
+    "classifier_result_cycles": 1,
+    "release_latency_cycles": 12892,
+    "release_initiation_interval_cycles": 12893
+  },
+  "task1_binding": {
+    "package_root": "power_macro/tcn_detection/runs/formal_v1_20260727_r1/fixed_point/multistat_w18_k5_v1_20260801_r1",
+    "manifest_sha256": "cae8e6fc012603c65c0be6a7b627c49632e6e45a8b41917e193b5902c57f5c72",
+    "quantization_config_sha256": "319c3097c732b96aca1a514a86dd0ae81a5d9533f4dbafad7529269707148adf",
+    "checkpoint_sha256": "b6741281203fc4593b6434df584ace44cffa5daed23ece8745d1b14215a64814"
+  },
+  "synthesis": {
+    "tool": "Synopsys Design Compiler W-2024.09",
+    "technology": "SMIC40LL sc9mc_base_rvt_c40",
+    "corner": "tt_typical_max_1p10v_25c",
+    "target_library": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_tt_typical_max_1p10v_25c.db"
+  }
+}

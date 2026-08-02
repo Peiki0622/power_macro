@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "config_id": "cnn_activity_codebook_v1",
+  "window_length": 32,
+  "sensor_code_min": 0,
+  "sensor_code_max": 32,
+  "mac_lanes": 16,
+  "repeat_count": 3,
+  "measurement_latency_cycles": 12892,
+  "real_control_categories": ["safe_slow_change", "critical_short_peak"],
+  "activity_separation_fraction": 0.05,
+  "max_repeat_cv_fraction": 0.001
+}

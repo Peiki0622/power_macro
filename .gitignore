@@ -11,6 +11,19 @@ __pycache__/
 .coverage
 htmlcov/
 
+# DC and Library Compiler write these files at the repository root when their
+# working directory is not redirected to a task-scoped run.  They are local
+# tool caches or transcripts, not design inputs: the real constraints, Tcl
+# drivers, source RTL, and curated reports remain version controlled.  These
+# are deliberately root-anchored rather than global filename globs so a
+# reviewed log or SVF deliberately stored under a source/report directory is
+# never hidden by this policy.
+/alib-*/
+/command.log
+/lc_shell_command.log
+/default.svf
+/ucli.key
+
 # Neural-training checkpoints and TensorBoard event streams are large,
 # environment-dependent run products.  Formal runs identify checkpoints by
 # SHA256 in versioned Markdown reports; the binary weights remain mounted in

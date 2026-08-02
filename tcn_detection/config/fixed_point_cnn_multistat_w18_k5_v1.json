@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "contract_id": "fixed_point_cnn_multistat_w18_k5_v1",
+  "architecture_id": "multistat_w18_k5",
+  "expected_checkpoint_sha256": "b6741281203fc4593b6434df584ace44cffa5daed23ece8745d1b14215a64814",
+  "model_contract": {
+    "input_channels": 1,
+    "window_length": 32,
+    "class_count": 2,
+    "class_names": {"0": "Safe", "1": "Critical"},
+    "channels": [18, 18, 18],
+    "kernel_size": 5,
+    "dilations": [1, 1, 1],
+    "same_padding": 2,
+    "pooling_contract": "multistat_average_max_endpoint",
+    "classifier_features": 54,
+    "sensor_code_min": 0,
+    "sensor_code_max": 32,
+    "sensor_code_baseline": 15,
+    "sensor_code_denominator": 17
+  },
+  "data_policy": {
+    "calibration_split": "train",
+    "selection_split": "validation",
+    "forbidden_splits": ["iid_test", "ood_test"],
+    "calibration_statistic": "full_range_max_abs",
+    "random_seed": 20260727
+  },
+  "quantization_policy": {
+    "scheme": "signed_symmetric",
+    "zero_point": 0,
+    "weight_granularity": "per_output_channel",
+    "activation_granularity": "per_layer",
+    "rounding": "round_to_nearest_ties_to_even",
+    "saturation": "clamp_to_signed_range_after_each_requantization",
+    "relu": "clamp_negative_to_zero_then_saturate",
+    "average_pool": "sum_32_then_round_to_nearest_ties_to_even_divide_by_32",
+    "bias_scale": "input_activation_scale_times_per_output_channel_weight_scale",
+    "scale_encoding": "decimal_plus_integer_multiplier_and_shift",
+    "scale_rounding": "ceil_to_power_of_two",
+    "classifier_output_bits": 32,
+    "logit_decision": "critical_if_logit_critical_minus_logit_safe_is_strictly_positive",
+    "tie_decision": "safe"
+  },
+  "candidates": [
+    {"candidate_id": "w8_a8", "weight_bits": 8, "activation_bits": 8},
+    {"candidate_id": "w16_a8", "weight_bits": 16, "activation_bits": 8},
+    {"candidate_id": "w8_a16", "weight_bits": 8, "activation_bits": 16},
+    {"candidate_id": "w16_a16", "weight_bits": 16, "activation_bits": 16}
+  ],
+  "candidate_priority": ["w8_a8", "w16_a8", "w8_a16", "w16_a16"],
+  "relative_degradation_limits": {
+    "accuracy": 0.005,
+    "balanced_accuracy": 0.01,
+    "macro_f1": 0.01,
+    "critical_pr_auc": 0.02,
+    "critical_recall": 0.01,
+    "safe_window_false_alarm_rate_increase": 0.01
+  },
+  "absolute_quality_floors": {
+    "accuracy_min": 0.95,
+    "balanced_accuracy_min": 0.90,
+    "macro_f1_min": 0.80,
+    "critical_pr_auc_min": 0.8446253995,
+    "critical_recall_min": 0.95,
+    "safe_window_false_alarm_rate_max": 0.05
+  }
+}
