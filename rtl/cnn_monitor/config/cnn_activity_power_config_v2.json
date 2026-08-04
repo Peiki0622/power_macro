@@ -1,0 +1,31 @@
+{
+  "schema_version": 2,
+  "config_id": "cnn_activity_power_codebook_v2",
+  "baseline_commit": "25366d29c970436f9addc5faddad86500bb338dc",
+  "window_length": 32,
+  "sensor_code_min": 0,
+  "sensor_code_max": 32,
+  "mac_lanes": 16,
+  "repeat_count": 3,
+  "compute_latency_cycles": 12892,
+  "initiation_interval_cycles": 12893,
+  "activity_separation_fraction": 0.05,
+  "max_repeat_cv_fraction": 0.001,
+  "minimum_patterns_per_tier": 3,
+  "required_tier_count": 3,
+  "required_valid_pattern_count": 36,
+  "required_candidate_pattern_count": 31,
+  "primary_input_annotation_fraction_min": 1.0,
+  "sequential_output_annotation_fraction_min": 0.95,
+  "rom_output_annotation_fraction_min": 1.0,
+  "overall_state_element_annotation_fraction_min": 0.95,
+  "reject_power_warning_ids": ["PWR-415", "PWR-428"],
+  "scope_reconciliation_residual_fraction_max": 0.02,
+  "control_pattern_ids": [
+    "control_all_0",
+    "control_all_15",
+    "control_all_32",
+    "control_real_safe_slow_change",
+    "control_real_critical_short_peak"
+  ]
+}
