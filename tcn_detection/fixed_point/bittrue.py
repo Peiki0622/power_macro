@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pure NumPy integer inference for the frozen multistat w18/k5 CNN.
+"""Pure NumPy integer inference for the configured multistat CNN.
 
 The reference intentionally avoids PyTorch's quantization runtime.  PyTorch is
 used only to collect train-split float activation ranges before this module is
@@ -118,17 +118,20 @@ def requantize_channels(accumulators, source_exponents, target_exponent,
 
 
 def integer_conv1d_same(inputs, weights, bias):
-    """Compute same-padded k=5 integer cross-correlation in RTL tensor order."""
+    """Compute same-padded odd-kernel integer cross-correlation in RTL order."""
 
     inputs = np.asarray(inputs, dtype=np.int64)
     weights = np.asarray(weights, dtype=np.int64)
     bias = np.asarray(bias, dtype=np.int64)
-    if (inputs.ndim != 3 or weights.ndim != 3 or weights.shape[2] != 5
-            or inputs.shape[1] != weights.shape[1]):
+    kernel = int(weights.shape[2]) if weights.ndim == 3 else 0
+    if (inputs.ndim != 3 or weights.ndim != 3 or kernel < 1
+            or kernel % 2 == 0 or inputs.shape[1] != weights.shape[1]):
         raise ValueError("integer convolution tensor shape mismatch")
-    padded = np.pad(inputs, ((0, 0), (0, 0), (2, 2)), mode="constant")
+    padding = kernel // 2
+    padded = np.pad(inputs, ((0, 0), (0, 0), (padding, padding)),
+                    mode="constant")
     windows = np.lib.stride_tricks.sliding_window_view(
-        padded, window_shape=5, axis=2)
+        padded, window_shape=kernel, axis=2)
     # Flattening [C,K] makes matrix multiplication follow the exported
     # [out][in][kernel] weight order.  NumPy int64 matmul performs integer MACs;
     # no floating point or hidden requantization occurs in this path.
@@ -303,6 +306,7 @@ def build_candidate(model, checkpoint, candidate_spec, calibration, config):
         "classifier": classifier,
         "accumulator_widths": accumulator_widths,
         "calibration_ranges": dict(calibration),
+        "architecture_id": config["architecture_id"],
         "normalization_fold": {
             "alpha": folded.alpha, "beta": folded.beta,
             "bias_shape": list(first_bias.shape),

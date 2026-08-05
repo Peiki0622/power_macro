@@ -28,12 +28,30 @@ class CNN1D(nn.Module):
     """
 
     def __init__(self, input_channels=5, class_count=3, channels=(16, 16, 16),
-                 kernel_size=3, dropout=0.1,
+                 kernel_size=3, dropout=0.1, kernel_sizes=None,
                  pooling_contract="adaptive_average_over_past_window",
                  dilations=None):
         super().__init__()
         self.pooling_contract = str(pooling_contract)
         widths = tuple(int(width) for width in channels)
+        if not widths or any(width < 1 for width in widths):
+            raise ValueError("CNN channels must be positive")
+        # Retain the resolved widths as part of the model contract so surgery
+        # and audit code can inspect a compact model without guessing from
+        # module positions or classifier dimensions.
+        self.channels = widths
+        if kernel_sizes is None:
+            resolved_kernel_sizes = tuple(int(kernel_size) for _ in widths)
+        else:
+            resolved_kernel_sizes = tuple(int(value) for value in kernel_sizes)
+        if len(resolved_kernel_sizes) != len(widths):
+            raise ValueError("CNN kernel count must match channel-stage count")
+        # Same-padding requires an odd kernel.  Keeping this invariant explicit
+        # prevents a silent one-sample length change that would alter the fixed
+        # L32 pooling contract and every downstream classifier shape.
+        if any(value < 1 or value % 2 == 0 for value in resolved_kernel_sizes):
+            raise ValueError("CNN kernels must be positive odd integers")
+        self.kernel_sizes = resolved_kernel_sizes
         resolved_dilations = (tuple(1 for _ in widths) if dilations is None
                               else tuple(int(value) for value in dilations))
         if len(resolved_dilations) != len(widths):
@@ -43,7 +61,8 @@ class CNN1D(nn.Module):
         endpoint_mode = self.pooling_contract == "causal_endpoint"
         layers = []
         current = int(input_channels)
-        for width, dilation in zip(widths, resolved_dilations):
+        for width, kernel, dilation in zip(
+                widths, resolved_kernel_sizes, resolved_dilations):
             # The historical average/multistat branches use conventional same
             # padding because their output summarizes a complete past-only
             # window.  The endpoint branch instead uses explicit left padding:
@@ -52,11 +71,11 @@ class CNN1D(nn.Module):
             # one convolution per stage, unlike the TCN's two-convolution
             # residual blocks and projection paths.
             convolution = (CausalConv1d(
-                current, width, int(kernel_size), dilation=dilation)
+                current, width, kernel, dilation=dilation)
                 if endpoint_mode else nn.Conv1d(
-                    current, width, kernel_size=int(kernel_size),
+                    current, width, kernel_size=kernel,
                     dilation=dilation,
-                    padding=((int(kernel_size) - 1) * dilation) // 2))
+                    padding=((kernel - 1) * dilation) // 2))
             layers.extend([convolution,
                            nn.ReLU(), nn.Dropout(float(dropout))])
             current = width
@@ -79,10 +98,47 @@ class CNN1D(nn.Module):
                 self.pooling_contract))
         self.classifier = nn.Linear(classifier_inputs, int(class_count))
 
-    def forward(self, inputs):
-        """Return one configured-class logit vector per complete history."""
+    def forward(self, inputs, return_intermediates=False):
+        """Return logits, optionally exposing the multistat training trace.
 
-        features = self.features(inputs)
+        The default branch deliberately calls the original ``Sequential``
+        graph unchanged, preserving operation order and deployment behavior.
+        The opt-in branch is restricted to the three-stage multistat contract
+        used by compression and returns post-Dropout stage activations; in eval
+        mode these are exactly the ReLU activations consumed by pooling.
+        """
+
+        if not return_intermediates:
+            features = self.features(inputs)
+            return self.classifier(self._summary(features))
+        if (len(self.kernel_sizes) != 3
+                or self.pooling_contract != "multistat_average_max_endpoint"):
+            raise ValueError(
+                "intermediate CNN output requires three-stage multistat pooling")
+        features = inputs
+        activations = []
+        # Keep the existing Conv/ReLU/Dropout triplet structure so the returned
+        # trace follows the exact graph used for the logits in training mode.
+        for module_index in range(0, len(self.features), 3):
+            features = self.features[module_index](features)
+            features = self.features[module_index + 1](features)
+            features = self.features[module_index + 2](features)
+            activations.append(features)
+        summary = self._summary(features)
+        logits = self.classifier(summary)
+        return {
+            "logits": logits,
+            "conv1_activation": activations[0],
+            "conv2_activation": activations[1],
+            "conv3_activation": activations[2],
+            "average_feature": self.pool(features).squeeze(-1),
+            "maximum_feature": self.max_pool(features).squeeze(-1),
+            "endpoint_feature": features[:, :, -1],
+        }
+
+    def _summary(self, features):
+        """Build the frozen pooling order from a final feature map."""
+
         if self.pooling_contract == "adaptive_average_over_past_window":
             summary = self.pool(features).squeeze(-1)
         elif self.pooling_contract == "multistat_average_max_endpoint":
@@ -95,4 +151,4 @@ class CNN1D(nn.Module):
                 self.max_pool(features).squeeze(-1), features[:, :, -1]), dim=1)
         else:
             summary = features[:, :, -1]
-        return self.classifier(summary)
+        return summary

@@ -85,7 +85,7 @@ def checkpoint_inputs(table, normalizer):
 
 
 def numpy_conv1d_same(inputs, weights, bias):
-    """Evaluate stride-one k=5 cross-correlation with PyTorch same padding.
+    """Evaluate stride-one odd-kernel cross-correlation with same padding.
 
     PyTorch ``Conv1d`` implements cross-correlation rather than reversing the
     kernel.  ``sliding_window_view`` exposes [N,C,L,K] neighborhoods, and the
@@ -98,13 +98,18 @@ def numpy_conv1d_same(inputs, weights, bias):
     inputs = np.asarray(inputs, dtype=np.float32)
     weights = np.asarray(weights, dtype=np.float32)
     bias = np.asarray(bias, dtype=np.float32)
-    if inputs.ndim != 3 or weights.ndim != 3 or weights.shape[2] != 5:
-        raise ValueError("float convolution requires [N,C,L] and [O,C,5]")
+    if inputs.ndim != 3 or weights.ndim != 3:
+        raise ValueError("float convolution requires [N,C,L] and [O,C,K]")
+    kernel = int(weights.shape[2])
+    if kernel < 1 or kernel % 2 == 0:
+        raise ValueError("float same convolution requires a positive odd kernel")
     if inputs.shape[1] != weights.shape[1] or bias.shape != (weights.shape[0],):
         raise ValueError("float convolution channel or bias mismatch")
-    padded = np.pad(inputs, ((0, 0), (0, 0), (2, 2)), mode="constant")
+    padding = kernel // 2
+    padded = np.pad(inputs, ((0, 0), (0, 0), (padding, padding)),
+                    mode="constant")
     windows = np.lib.stride_tricks.sliding_window_view(
-        padded, window_shape=5, axis=2)
+        padded, window_shape=kernel, axis=2)
     return (np.einsum("nclk,ock->nol", windows, weights,
                       optimize=True).astype(np.float32)
             + bias.reshape(1, -1, 1))
@@ -137,7 +142,7 @@ def numpy_float_forward(inputs, model):
 
 
 def torch_float_inference(inputs, model, batch_size=512):
-    """Run deterministic eval inference and retain only the 54-value summary."""
+    """Run deterministic eval inference and retain the configured summary."""
 
     inputs = np.asarray(inputs, dtype=np.float32)
     logits_batches = []
@@ -147,7 +152,8 @@ def torch_float_inference(inputs, model, batch_size=512):
         for start in range(0, len(inputs), int(batch_size)):
             batch = torch.from_numpy(inputs[start:start + int(batch_size)])
             # Calling convolution/ReLU modules explicitly avoids retaining all
-            # [N,18,32] intermediates for the 22,512-window validation set.
+            # Avoid retaining all [N,C,32] intermediates for the full validation
+            # set; C is taken from the model rather than a legacy width.
             # Dropout modules are skipped deliberately in eval mode; selected
             # golden windows receive the full trace from numpy_float_forward.
             features = batch
@@ -180,7 +186,7 @@ def select_golden_windows(table, codes, inference, model):
     """Select eight deterministic, trace-distinct validation windows.
 
     The first five categories use label, sensor-code shape, and decision margin
-    only.  The final three use the absolute contribution of each 18-feature
+    only.  The final three use the absolute contribution of each configured
     classifier segment to the Critical-minus-Safe logit.  This makes the words
     average/max/endpoint "dominant" numerically auditable without consulting
     VDD, slack, waveform family, or any future sample.
@@ -202,11 +208,19 @@ def select_golden_windows(table, codes, inference, model):
     margins = inference.logits[:, 1] - inference.logits[:, 0]
 
     classifier = model.classifier.weight.detach().cpu().numpy()
+    if classifier.shape[1] % 3 != 0:
+        raise ValueError("multistat classifier width must be divisible by three")
+    branch_width = classifier.shape[1] // 3
+    if inference.summaries.shape[1] != 3 * branch_width:
+        raise ValueError("summary width does not match classifier contract")
     difference_weights = classifier[1] - classifier[0]
     branch_contributions = np.stack((
-        np.sum(inference.summaries[:, 0:18] * difference_weights[0:18], axis=1),
-        np.sum(inference.summaries[:, 18:36] * difference_weights[18:36], axis=1),
-        np.sum(inference.summaries[:, 36:54] * difference_weights[36:54], axis=1),
+        np.sum(inference.summaries[:, 0:branch_width]
+               * difference_weights[0:branch_width], axis=1),
+        np.sum(inference.summaries[:, branch_width:2 * branch_width]
+               * difference_weights[branch_width:2 * branch_width], axis=1),
+        np.sum(inference.summaries[:, 2 * branch_width:3 * branch_width]
+               * difference_weights[2 * branch_width:3 * branch_width], axis=1),
     ), axis=1)
     absolute_contributions = np.abs(branch_contributions)
     branch_fraction = absolute_contributions / np.maximum(

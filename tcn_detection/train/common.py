@@ -309,7 +309,8 @@ def build_classifier(name, model_config):
             channels=model_config["cnn_channels"],
             pooling_contract=model_config.get(
                 "pooling_contract", "adaptive_average_over_past_window"),
-            dilations=model_config.get("cnn_dilations"), **common)
+            dilations=model_config.get("cnn_dilations"),
+            kernel_sizes=model_config.get("kernel_sizes"), **common)
     raise ValueError("unknown classifier: {}".format(name))
 
 

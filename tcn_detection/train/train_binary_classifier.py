@@ -53,6 +53,13 @@ def validate_binary_model_config(model_name, model_config):
         }
         if not model_config.get("cnn_channels") or pooling not in allowed_pooling:
             raise ValueError("binary CNN requires explicit channels and pooling contract")
+        kernel_sizes = model_config.get("kernel_sizes")
+        if kernel_sizes is not None:
+            if (not isinstance(kernel_sizes, list)
+                    or len(kernel_sizes) != len(model_config["cnn_channels"])
+                    or any(int(value) < 1 or int(value) % 2 == 0
+                           for value in kernel_sizes)):
+                raise ValueError("CNN kernel_sizes must be positive odd stage values")
         dilations = model_config.get("cnn_dilations")
         if pooling == "causal_endpoint" and (
                 not isinstance(dilations, list)

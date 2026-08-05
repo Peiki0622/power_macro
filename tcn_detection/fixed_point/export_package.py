@@ -138,8 +138,14 @@ def _write_weight_package(directory, package):
     return records
 
 
-def _format_document(records):
+def _format_document(records, package):
     """Describe the neutral memory representation without implementation lore."""
+
+    classifier_width = int(package["classifier"]["weights"].shape[1])
+    if classifier_width % 3 != 0:
+        raise ValueError("classifier summary width must contain three branches")
+    branch_width = classifier_width // 3
+    first_bias_shape = list(package["layers"][0]["bias"].shape)
 
     lines = [
         "# Fixed-Point Weight Memory Format", "",
@@ -148,10 +154,13 @@ def _format_document(records):
         "", "All tensors flatten in C order. Convolution weights use "
         "`[out_channel][in_channel][kernel]`; classifier weights use "
         "`[output_class][summary_feature]`. The summary order is average "
-        "features 0-17, maximum features 18-35, and endpoint features 36-53.",
-        "", "The first convolution bias is `[18][32]`, not `[18]`: its four "
-        "edge columns preserve zero padding after the train-only input "
-        "standardizer was folded into raw sensor-code arithmetic.", "",
+        "features 0-{0}, maximum features {1}-{2}, and endpoint features "
+        "{3}-{4}.".format(branch_width - 1, branch_width,
+                            2 * branch_width - 1, 2 * branch_width,
+                            3 * branch_width - 1),
+        "", "The first convolution bias is `{}` and retains position-specific "
+        "edge columns after the train-only input standardizer is folded into "
+        "raw sensor-code arithmetic.".format(first_bias_shape), "",
         "| File | Tensor | Shape | Signed bits | Entries | SHA256 |",
         "| --- | --- | --- | ---: | ---: | --- |",
     ]
@@ -200,6 +209,7 @@ def _package_metadata(package, records):
         })
     classifier = package["classifier"]
     return {
+        "architecture_id": package["architecture_id"],
         "candidate_id": package["candidate_id"],
         "weight_bits": int(package["weight_bits"]),
         "activation_bits": int(package["activation_bits"]),
@@ -287,7 +297,8 @@ def _report_markdown(search_report, package_metadata, fold_report,
     """Render the phase-one numeric acceptance report."""
 
     lines = [
-        "# Fixed-Point `multistat_w18_k5` Report", "",
+        "# Fixed-Point `{}` Report".format(
+            package_metadata["architecture_id"]), "",
         "Status: **PASS**. This is a validation-selected bit-true reference "
         "candidate, not a deployment-ready model and not a new IID result.", "",
         "## Selected Numeric Contract", "",
@@ -303,9 +314,10 @@ def _report_markdown(search_report, package_metadata, fold_report,
         "- Decision: compare two common-scale INT32 logits; exact ties select "
         "Safe, matching two-class argmax.",
         "- Input folding: alpha `{:.15g}`, beta `{:.15g}`, first bias shape "
-        "`[18,32]` to preserve standardized zero padding.".format(
+            "`{}` to preserve standardized zero padding.".format(
             package_metadata["normalization_fold"]["alpha"],
-            package_metadata["normalization_fold"]["beta"]), "",
+            package_metadata["normalization_fold"]["beta"],
+            package_metadata["normalization_fold"]["bias_shape"]), "",
         "## Validation Metrics", "",
         "| Candidate | Accuracy | Balanced acc. | Macro-F1 | Critical PR-AUC | "
         "Critical recall | Safe FAR | Gates |",
@@ -399,7 +411,7 @@ def export_package(args):
 
         records = _write_weight_package(temporary / "weights", selected_package)
         (temporary / "weights" / "FORMAT.md").write_text(
-            _format_document(records), encoding="utf-8")
+            _format_document(records, selected_package), encoding="utf-8")
         restored_package = _round_trip_weights(
             temporary / "weights", selected_package, records)
         package_metadata = _package_metadata(selected_package, records)
@@ -465,7 +477,7 @@ def export_package(args):
             encoding="utf-8")
         write_json(temporary / "manifest.json", {
             "schema_version": 1, "status": "PASS",
-            "architecture_id": "multistat_w18_k5",
+            "architecture_id": selected_package["architecture_id"],
             "selected_candidate": search_report["selected_candidate"],
             "checkpoint_sha256": provenance["checkpoint_sha256"],
             "quantization_config_sha256": sha256_file(

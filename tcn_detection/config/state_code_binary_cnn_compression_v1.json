@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "compression_id": "state_code_binary_cnn_compression_v1",
+  "task": "safe_critical_binary",
+  "architecture_id": "multistat_w18_k5",
+  "repository_root": ".",
+  "plan_path": "plans/cnn_structured_pruning_distillation_compression_plan.md",
+  "teacher": {
+    "checkpoint": "tcn_detection/runs/formal_v1_20260727_r1/models/state_code_binary_multistat_training_v1_20260731_r1/stage2/lr4em3_b256_seed20260727/best_checkpoint.pt",
+    "checkpoint_sha256": "b6741281203fc4593b6434df584ace44cffa5daed23ece8745d1b14215a64814",
+    "model_config": "tcn_detection/config/model_cnn_state_code_binary_multistat_w18_k5_v1.json",
+    "training_summary": "tcn_detection/runs/formal_v1_20260727_r1/models/state_code_binary_multistat_training_v1_20260731_r1/stage2/lr4em3_b256_seed20260727/training_summary.json",
+    "final_training_report": "tcn_detection/runs/formal_v1_20260727_r1/reports/state_code_binary_multistat_training_v1_20260731_r1/final/final_training.json",
+    "fixed_point_config": "tcn_detection/config/fixed_point_cnn_multistat_w18_k5_v1.json",
+    "representative_seed": 20260727,
+    "channels": [18, 18, 18],
+    "kernel_sizes": [5, 5, 5],
+    "pooling_contract": "multistat_average_max_endpoint",
+    "input_channels": 1,
+    "window_length": 32,
+    "class_names": {"0": "Safe", "1": "Critical"}
+  },
+  "data": {
+    "windows": "tcn_detection/runs/formal_v1_20260727_r1/windows/state_code_binary_iid_v1_20260730_r1/windows_L32.csv",
+    "windows_manifest": "tcn_detection/runs/formal_v1_20260727_r1/windows/state_code_binary_iid_v1_20260730_r1/windows_manifest_v1.json",
+    "allowed_training_splits": ["train"],
+    "selection_split": "validation",
+    "forbidden_splits": ["iid_test", "ood_test"],
+    "normalization": "(sensor_code - 15) / 17",
+    "sampling": "natural",
+    "supervised_loss": "unweighted_cross_entropy"
+  },
+  "calibration": {
+    "seed": 20260727,
+    "critical_count": 2184,
+    "safe_count": 2184,
+    "selection_rule": "smallest_sha256_seed_window_id"
+  },
+  "recovery": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.0004,
+    "weight_decay": 0.00001,
+    "batch_size": 256,
+    "sensitivity_epochs": 5,
+    "pruning_max_epochs": 20,
+    "pruning_patience": 6,
+    "distillation_max_epochs": 60,
+    "distillation_patience": 15,
+    "cpu_threads_per_process": 8
+  },
+  "formal_seeds": [20260725, 20260726, 20260727],
+  "status_flags": {
+    "iid_features_loaded": false,
+    "iid_metrics_computed": false,
+    "parameters_tuned_on_test": false
+  }
+}

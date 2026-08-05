@@ -62,6 +62,25 @@ hspice_command.log
 !/tcn_detection/runs/**/
 !/tcn_detection/runs/**/*.md
 
+# Result JSON records are ignored by semantic filename rather than by a
+# repository-wide ``*.json`` rule.  Configuration JSON under tcn_detection/
+# config remains reviewable source; these patterns only hide generated
+# summaries, manifests, provenance, complexity, and quantization reports if a
+# launcher writes them outside the normal runs/ directory.
+**/*_summary.json
+**/*_manifest.json
+**/complexity.json
+**/validation_metrics.json
+**/*_provenance.json
+**/*_report.json
+**/channel_importance.json
+**/input_manifest.json
+**/pruning_paths.json
+**/search_manifest.json
+**/teacher_contract.json
+**/quantization_*.json
+**/final_compression.json
+
 # The V1 Pilot corpus was superseded by the corrected, authoritative V2 corpus
 # and is explicitly forbidden as a label source by the TCN README.  The two
 # top-level split summaries are duplicate pre-audit scratch outputs; canonical

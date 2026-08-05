@@ -34,6 +34,40 @@ EXPECTED_PARAMETER_SHAPES = {
 }
 
 
+def parameter_shapes_for_contract(contract):
+    """Derive every CNN tensor shape from the explicit channel contract.
+
+    The legacy W18/K5 contract remains covered by the historical constant
+    above, while a physically pruned stage is validated from its own config.
+    """
+
+    channels = [int(value) for value in contract.get("channels", [])]
+    kernels = contract.get("kernel_sizes")
+    if kernels is None:
+        kernels = [int(contract.get("kernel_size", -1))] * len(channels)
+    kernels = [int(value) for value in kernels]
+    if len(channels) != 3 or len(kernels) != 3:
+        raise ValueError("fixed-point contract requires three CNN stages")
+    if any(value < 1 for value in channels + kernels):
+        raise ValueError("fixed-point channel and kernel values must be positive")
+    input_channels = int(contract.get("input_channels", -1))
+    class_count = int(contract.get("class_count", -1))
+    classifier_features = int(contract.get("classifier_features", -1))
+    if (input_channels < 1 or class_count < 1
+            or classifier_features != 3 * channels[-1]):
+        raise ValueError("fixed-point classifier dimensions are inconsistent")
+    return {
+        "features.0.weight": (channels[0], input_channels, kernels[0]),
+        "features.0.bias": (channels[0],),
+        "features.3.weight": (channels[1], channels[0], kernels[1]),
+        "features.3.bias": (channels[1],),
+        "features.6.weight": (channels[2], channels[1], kernels[2]),
+        "features.6.bias": (channels[2],),
+        "classifier.weight": (class_count, classifier_features),
+        "classifier.bias": (class_count,),
+    }
+
+
 def sha256_file(path):
     """Hash one artifact without loading a large checkpoint into memory."""
 
@@ -89,7 +123,8 @@ def _validate_model_contract(model_config, fixed_config):
             raise ValueError("model contract mismatch for {}".format(field))
     if (contract.get("dilations") != [1, 1, 1]
             or int(contract.get("same_padding", -1)) != 2
-            or int(contract.get("classifier_features", -1)) != 54
+            or int(contract.get("classifier_features", -1))
+            != 3 * int(contract["channels"][-1])
             or int(contract.get("window_length", -1)) != 32):
         raise ValueError("fixed-point config omits an explicit graph dimension")
 
@@ -145,9 +180,10 @@ def build_validated_model(model_config_path, checkpoint_path,
     state_dict = checkpoint.get("state_dict")
     if not isinstance(state_dict, dict):
         raise ValueError("checkpoint state_dict is missing")
+    expected_shapes = parameter_shapes_for_contract(fixed_config["model_contract"])
     observed_shapes = {name: tuple(tensor.shape)
                        for name, tensor in state_dict.items()}
-    if observed_shapes != EXPECTED_PARAMETER_SHAPES:
+    if observed_shapes != expected_shapes:
         raise ValueError("checkpoint parameter names or shapes differ from contract")
 
     contract = fixed_config["model_contract"]
@@ -191,8 +227,12 @@ def build_validated_model(model_config_path, checkpoint_path,
                         "relu3", "global_average", "global_maximum",
                         "endpoint", "concatenate_average_max_endpoint",
                         "linear_classifier"],
-        "pooling_feature_order": ["average[0:18]", "maximum[18:36]",
-                                  "endpoint[36:54]"],
+        "pooling_feature_order": [
+            "average[0:{}]".format(contract["channels"][-1]),
+            "maximum[{}:{}]".format(
+                contract["channels"][-1], 2 * contract["channels"][-1]),
+            "endpoint[{}:{}]".format(
+                2 * contract["channels"][-1], 3 * contract["channels"][-1])],
         "iid_features_loaded": False,
         "iid_metrics_computed": False,
     }

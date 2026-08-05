@@ -43,15 +43,19 @@ def derive_folded_first_layer(model, normalizer, baseline=15,
     original_weights = convolution.weight.detach().cpu().numpy().astype(
         np.float64)
     original_bias = convolution.bias.detach().cpu().numpy().astype(np.float64)
+    kernel = int(original_weights.shape[2])
+    if kernel < 1 or kernel % 2 == 0:
+        raise ValueError("folding requires a positive odd Conv1d kernel")
+    padding = kernel // 2
     folded_weights = original_weights * alpha
 
     biases = np.empty((original_weights.shape[0], int(length)), dtype=np.float64)
     for output_position in range(int(length)):
-        # For output p and padding=2, kernel tap k reads input p+k-2.  Only
+        # For output p and same padding, kernel tap k reads input p+k-padding. Only
         # in-range taps see beta.  Padding taps are zero in model-input space,
         # so adding beta for them would change the original Conv1d semantics.
-        valid_taps = [kernel_index for kernel_index in range(5)
-                      if 0 <= output_position + kernel_index - 2 < int(length)]
+        valid_taps = [kernel_index for kernel_index in range(kernel)
+                      if 0 <= output_position + kernel_index - padding < int(length)]
         beta_contribution = beta * original_weights[:, 0, valid_taps].sum(axis=1)
         biases[:, output_position] = original_bias + beta_contribution
     return FoldedFirstLayer(folded_weights, biases, alpha, beta)
@@ -66,12 +70,18 @@ def folded_first_layer_float(sensor_codes, folded, baseline=15):
     if np.any(codes < 0) or np.any(codes > 32):
         raise ValueError("folded first layer received an illegal sensor code")
     centered = codes.astype(np.float64) - float(baseline)
-    padded = np.pad(centered, ((0, 0), (0, 0), (2, 2)), mode="constant")
+    kernel = int(folded.weights.shape[2])
+    if kernel < 1 or kernel % 2 == 0:
+        raise ValueError("folded convolution requires a positive odd kernel")
+    padding = kernel // 2
+    padded = np.pad(centered, ((0, 0), (0, 0), (padding, padding)),
+                    mode="constant")
     windows = np.lib.stride_tricks.sliding_window_view(
-        padded, window_shape=5, axis=2)
+        padded, window_shape=kernel, axis=2)
     convolution = np.einsum(
         "nclk,ock->nol", windows, folded.weights, optimize=True)
-    return convolution + folded.biases.reshape(1, 18, 32)
+    return convolution + folded.biases.reshape(
+        1, folded.biases.shape[0], folded.biases.shape[1])
 
 
 def original_first_layer_float(sensor_codes, model, normalizer,
