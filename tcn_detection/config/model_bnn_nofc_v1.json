@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "architecture_id": "bnn_therm32_w1a1_nofc_l32",
+  "control_architecture_id": "fp_therm32_nofc_l32",
+  "input_contract": "thermometer32_sensor_code_only",
+  "sensor_code_range": [0, 32],
+  "window_length": 32,
+  "input_channels": 32,
+  "candidate_widths": [8, 16],
+  "conv1_kernel": 3,
+  "conv2_kernel": 3,
+  "head_kernel": 1,
+  "padding_bit": 0,
+  "head_tie_rule": "head_logit_greater_than_or_equal_zero_is_one",
+  "vote_rule": "alarm_when_count_greater_than_or_equal_to_K"
+}

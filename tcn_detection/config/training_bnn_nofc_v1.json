@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "seeds": [11, 22, 33],
+  "cpu_threads_per_process": 8,
+  "batch_size": 256,
+  "max_epochs": 80,
+  "early_stopping_patience": 12,
+  "learning_rate": 0.003,
+  "weight_decay": 0.00001,
+  "sampling_strategy": "natural",
+  "loss_type": "binary_cross_entropy_with_logits",
+  "checkpoint_selection_metric": "critical_pr_auc"
+}
