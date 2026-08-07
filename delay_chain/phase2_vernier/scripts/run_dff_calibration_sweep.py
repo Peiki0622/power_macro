@@ -37,20 +37,21 @@ def resolve_repo_path(value: str) -> Path:
     return path if path.is_absolute() else REPOSITORY_ROOT / path
 
 
-def candidate_for_tap(m_stages: int, dummy_load_count: int, cal_sel: int, offset_s: float) -> Dict[str, Any]:
-    """Describe one physical calibration setting with an explicit PULSE offset.
+def candidate_for_tap(m_stages: int, dummy_load_count: int, cal_sel: int) -> Dict[str, Any]:
+    """Describe one structural BUF/MUX launch selection for calibration.
 
-    This is the Phase-2 pre-layout representation of one eventual CAL_SEL
-    setting.  It exercises the actual sense/reference/DFF cell topology; only
-    the programmable delay source remains ideal while the library MUX/tap RTL
-    interface is prepared separately.
+    The candidate deliberately stores CAL_SEL rather than a prescribed delay.
+    ``run_dff_sweep.run_scenario`` recognizes this field, renders the exact
+    physical launch network, and records the measured input-to-output delay in
+    the resulting CSV.  This prevents later code from silently restoring the
+    historical ideal-PULSE approximation.
     """
 
     return {
         "candidate_id": "m{:02d}_d{}_cal_sel_{:03d}".format(m_stages, dummy_load_count, cal_sel),
         "m_stages": m_stages,
         "dummy_load_count": dummy_load_count,
-        "launch_offset_s": offset_s,
+        "cal_sel": cal_sel,
     }
 
 
@@ -65,11 +66,12 @@ def load_completed(
     measurements = run_dc_sweep.parse_measurements(measurement_path)
     m_stages = int(candidate["m_stages"])
     run_dff_sweep.require_measurements(measurements, m_stages)
+    measured_offset_s = run_dff_sweep.measured_launch_offset_s(measurements)
     decoded = run_dff_sweep.parse_bits(
         measurements,
         m_stages,
         float(config["vdd_ref_v"]),
-        float(candidate["launch_offset_s"]),
+        measured_offset_s,
         float(config["measurement_timing"]["dff_metastability_margin_s"]),
     )
     decoded.update(
@@ -81,7 +83,7 @@ def load_completed(
             "vdd_ref_v": float(config["vdd_ref_v"]),
             "m_stages": m_stages,
             "dummy_load_count": int(candidate["dummy_load_count"]),
-            "launch_offset_s": float(candidate["launch_offset_s"]),
+            "launch_offset_s": measured_offset_s,
             "comparator_avg_current_a": measurements["comparator_ref_avg_current_a"],
             "comparator_peak_current_a": measurements["comparator_ref_peak_current_a"],
             "warning_count": warning_count,
@@ -138,7 +140,7 @@ def main(argv: Iterable[str] = None) -> int:
 
     args = build_argument_parser().parse_args(argv)
     config = load_json(args.config)
-    offsets = [float(value) for value in config["calibration_launch_offsets_s"]]
+    tap_count = len(config["calibration_launch_offsets_s"])
     if args.sample_count <= 0:
         raise ValueError("sample_count must be positive")
     phase1 = load_json(resolve_repo_path(str(config["phase1_config_path"])))
@@ -149,7 +151,13 @@ def main(argv: Iterable[str] = None) -> int:
     if args.resume and not output_dir.is_dir():
         raise ValueError("--resume requires an existing calibration directory")
     output_dir.mkdir(parents=True, exist_ok=args.resume)
-    manifest = {"m_stages": args.m_stages, "dummy_load_count": args.dummy_load_count, "sample_count": args.sample_count, "tap_count": len(offsets)}
+    manifest = {
+        "m_stages": args.m_stages,
+        "dummy_load_count": args.dummy_load_count,
+        "sample_count": args.sample_count,
+        "tap_count": tap_count,
+        "launch_implementation": "physical_buf_mux_tree",
+    }
     manifest_path = output_dir / "manifest.json"
     if args.resume:
         if load_json(manifest_path) != manifest:
@@ -157,8 +165,8 @@ def main(argv: Iterable[str] = None) -> int:
     else:
         manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     rows = []
-    for cal_sel, offset_s in enumerate(offsets):
-        candidate = candidate_for_tap(args.m_stages, args.dummy_load_count, cal_sel, offset_s)
+    for cal_sel in range(tap_count):
+        candidate = candidate_for_tap(args.m_stages, args.dummy_load_count, cal_sel)
         for sample_index in range(args.sample_count):
             point_dir = output_dir / "scenarios" / run_dff_sweep.scenario_name(candidate, "sample_{:02d}".format(sample_index))
             if point_dir.exists():

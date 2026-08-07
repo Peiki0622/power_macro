@@ -89,6 +89,14 @@ class VoltageCodeSweepTests(unittest.TestCase):
         )
         self.assertEqual(result["metastability_risk_count"], 1)
 
+    def test_structural_calibration_retains_early_tap_crossing_evidence(self):
+        """A small physical tap may precede the balanced reference and is valid data."""
+
+        difference_s = run_dff_sweep.measured_launch_offset_s(
+            {"start_ref_cross": 1.100e-9, "start_sense_cross": 1.095e-9}
+        )
+        self.assertAlmostEqual(difference_s, -5.0e-12, places=24)
+
 
 if __name__ == "__main__":
     unittest.main()

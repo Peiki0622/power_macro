@@ -12,7 +12,7 @@ import argparse
 import json
 import math
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[4]
@@ -189,20 +189,29 @@ def render_ideal_deck(config: Dict[str, Any], m_stages: int, dummy_load_count: i
 
 
 def render_dff_deck(
-    config: Dict[str, Any], m_stages: int, dummy_load_count: int, vdd_a_v: float, launch_offset_s: float
+    config: Dict[str, Any],
+    m_stages: int,
+    dummy_load_count: int,
+    vdd_a_v: float,
+    launch_offset_s: float,
+    cal_sel: Optional[int] = None,
 ) -> str:
     """Render a complete reset/launch/capture deck with real DFF comparators.
 
     Port ownership is intentionally visible in every generated instance:
     ``S_i`` drives the D terminal across the tested voltage-domain boundary,
     ``R_i`` drives the positive-edge CK terminal, and all DFF supply/well pins
-    remain on the reference domain.  The launch offset is a positive delay on
-    the sense PULSE, matching the calibrated Vernier definition.
+    remain on the reference domain.  The normal characterization form uses a
+    positive delay on the sense PULSE.  Supplying ``cal_sel`` instead selects
+    the RTL-matched physical BUF/MUX launch network, making the measured sense
+    crossing itself the calibration delay evidence.
     """
 
     validate_request(config, m_stages, dummy_load_count, vdd_a_v)
     if launch_offset_s < 0.0:
         raise ValueError("real DFF deck requires a nonnegative sense launch offset")
+    if cal_sel is not None and (cal_sel < 0 or cal_sel > 7):
+        raise ValueError("structural calibration CAL_SEL must be in [0, 7]")
     collateral = load_collateral(config)
     phase1 = collateral["phase1"]
     timing = config["measurement_timing"]
@@ -214,6 +223,8 @@ def render_dff_deck(
         raise ValueError("DFF capture and transient-stop times must follow the sense launch")
     include_dir = PHASE2_ROOT / "spice"
     required_includes = [include_dir / "sense_stage.inc", include_dir / "reference_stage.inc", include_dir / "comparator_bank.inc"]
+    if cal_sel is not None:
+        required_includes.append(include_dir / "launch_calibration.inc")
     if any(not path.is_file() for path in required_includes):
         raise ValueError("required Phase 2 DFF include is missing")
 
@@ -244,16 +255,40 @@ def render_dff_deck(
             spice_number(float(timing["dff_reset_release_s"]) + float(timing["start_rise_s"])),
             spice_number(tran_stop_s),
         ),
-        "* Reference launch defines R_i timing; sense launch is delayed by the selected calibration offset.",
-        "V_START_REF start_ref vss_ref PULSE(0 'VDD_REF_VALUE' {} {} {} 1.000000000000e-07 2.000000000000e-07)".format(
-            spice_number(start_ref_s), spice_number(float(timing["start_rise_s"])), spice_number(float(timing["start_rise_s"]))
-        ),
-        "V_START_SENSE start_sense vss_a PULSE(0 'VDD_A_VALUE' {} {} {} 1.000000000000e-07 2.000000000000e-07)".format(
-            spice_number(start_sense_s), spice_number(float(timing["start_rise_s"])), spice_number(float(timing["start_rise_s"]))
-        ),
-        "",
-        "* S_i chain: each stage uses chiplet-A rails exclusively.",
     ]
+    if cal_sel is not None:
+        lines.insert(9, '.include "{}"'.format(required_includes[3]))
+    if cal_sel is None:
+        lines.extend(
+            [
+                "* Reference launch defines R_i timing; sense launch uses the recorded ideal calibration offset.",
+                "V_START_REF start_ref vss_ref PULSE(0 'VDD_REF_VALUE' {} {} {} 1.000000000000e-07 2.000000000000e-07)".format(
+                    spice_number(start_ref_s), spice_number(float(timing["start_rise_s"])), spice_number(float(timing["start_rise_s"]))
+                ),
+                "V_START_SENSE start_sense vss_a PULSE(0 'VDD_A_VALUE' {} {} {} 1.000000000000e-07 2.000000000000e-07)".format(
+                    spice_number(start_sense_s), spice_number(float(timing["start_rise_s"])), spice_number(float(timing["start_rise_s"]))
+                ),
+            ]
+        )
+    else:
+        # The three selector sources represent static calibration-latch outputs.
+        # They are held at valid reference-domain rails before reset releases,
+        # so the transient exercises only the selected real BUF/MUX path.
+        selector_values = ["'VDD_REF_VALUE'" if (cal_sel >> bit) & 1 else "0" for bit in range(3)]
+        lines.extend(
+            [
+                "* Structural calibration: PHASE2_LAUNCH_CAL supplies both the balanced reference and selected sense launches.",
+                "* CAL_SEL={} is applied as static reference-domain selector rails before the launch event.".format(cal_sel),
+                "V_START_REQ start_req vss_ref PULSE(0 'VDD_REF_VALUE' {} {} {} 1.000000000000e-07 2.000000000000e-07)".format(
+                    spice_number(start_ref_s), spice_number(float(timing["start_rise_s"])), spice_number(float(timing["start_rise_s"]))
+                ),
+                "V_CAL_SEL_0 cal_sel_0 vss_ref DC={}".format(selector_values[0]),
+                "V_CAL_SEL_1 cal_sel_1 vss_ref DC={}".format(selector_values[1]),
+                "V_CAL_SEL_2 cal_sel_2 vss_ref DC={}".format(selector_values[2]),
+                "XLAUNCH_CAL start_ref start_sense vdd_ref vss_ref start_req cal_sel_0 cal_sel_1 cal_sel_2 PHASE2_LAUNCH_CAL",
+            ]
+        )
+    lines.extend(["", "* S_i chain: each stage uses chiplet-A rails exclusively."])
     lines.extend(render_stage_chain("sense", "PHASE2_SENSE_STAGE", m_stages, "vdd_a", "vss_a", "start_sense"))
     lines.append("* R_i chain: each stage and dummy input load uses reference rails exclusively.")
     lines.extend(render_stage_chain("ref", stage_name(dummy_load_count), m_stages, "vdd_ref", "vss_ref", "start_ref"))
@@ -424,12 +459,26 @@ def render_dff_pwl_deck(
 
 
 def write_dff_deck(
-    config: Dict[str, Any], m_stages: int, dummy_load_count: int, vdd_a_v: float, launch_offset_s: float, output_path: Path
+    config: Dict[str, Any],
+    m_stages: int,
+    dummy_load_count: int,
+    vdd_a_v: float,
+    launch_offset_s: float,
+    output_path: Path,
+    cal_sel: Optional[int] = None,
 ) -> None:
-    """Write one real-comparator deck into its task-owned scenario directory."""
+    """Write one real-comparator deck into its task-owned scenario directory.
+
+    ``cal_sel`` is intentionally optional so historical voltage studies retain
+    their frozen ideal-offset deck, while the Stage 2A calibration runner can
+    request the separately audited structural launch form without duplicating
+    the DFF, rail, and measurement topology.
+    """
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(render_dff_deck(config, m_stages, dummy_load_count, vdd_a_v, launch_offset_s), encoding="ascii")
+    output_path.write_text(
+        render_dff_deck(config, m_stages, dummy_load_count, vdd_a_v, launch_offset_s, cal_sel), encoding="ascii"
+    )
 
 
 def write_dff_pwl_deck(

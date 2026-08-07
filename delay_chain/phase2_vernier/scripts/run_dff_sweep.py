@@ -132,6 +132,23 @@ def parse_bits(measurements: Dict[str, Any], m_stages: int, vdd_ref_v: float, la
     }
 
 
+def measured_launch_offset_s(measurements: Dict[str, Any]) -> float:
+    """Return the signed selected launch-path crossing difference.
+
+    Structural calibration must not inherit an ideal PULSE number.  The deck
+    measures the reference input launch and the selected BUF/MUX output on the
+    same reference-domain threshold, so their signed difference is the only
+    launch value recorded for a physical CAL_SEL scenario.  Small tap numbers
+    can legitimately make sense earlier than the balanced reference path; that
+    negative result is calibration evidence, not a simulation failure.
+    """
+
+    offset_s = float(measurements["start_sense_cross"]) - float(measurements["start_ref_cross"])
+    if not math.isfinite(offset_s):
+        raise ValueError("structural launch path has a non-finite measured crossing difference")
+    return offset_s
+
+
 def run_scenario(
     config: Dict[str, Any], hspice: Path, output_dir: Path, candidate: Dict[str, Any], voltage: Dict[str, Any], timeout_s: int
 ) -> Dict[str, Any]:
@@ -139,12 +156,18 @@ def run_scenario(
 
     m_stages = int(candidate["m_stages"])
     dummy_count = int(candidate["dummy_load_count"])
-    launch_offset_s = float(candidate["launch_offset_s"])
+    # Ordinary studies retain their explicit ideal PULSE offset.  A candidate
+    # carrying CAL_SEL instead selects the real launch network and records its
+    # measured delay after HSPICE completes.
+    launch_offset_s = float(candidate.get("launch_offset_s", 0.0))
+    cal_sel = candidate.get("cal_sel")
     vdd_a_v = float(voltage["vdd_a_v"])
     point_dir = output_dir / "scenarios" / scenario_name(candidate, str(voltage["label"]))
     point_dir.mkdir(parents=True, exist_ok=False)
     deck_path = point_dir / "vernier_dff.sp"
-    generate_vernier_deck.write_dff_deck(config, m_stages, dummy_count, vdd_a_v, launch_offset_s, deck_path)
+    generate_vernier_deck.write_dff_deck(
+        config, m_stages, dummy_count, vdd_a_v, launch_offset_s, deck_path, cal_sel=cal_sel
+    )
     result = run_dc_sweep.subprocess.run(
         [str(hspice), deck_path.name, "-o", "vernier_dff"],
         cwd=str(point_dir),
@@ -166,11 +189,12 @@ def run_scenario(
     measurement_path = run_dc_sweep.find_measurement_file(point_dir, "vernier_dff")
     measurements = run_dc_sweep.parse_measurements(measurement_path)
     require_measurements(measurements, m_stages)
+    reported_launch_offset_s = measured_launch_offset_s(measurements) if cal_sel is not None else launch_offset_s
     decoded = parse_bits(
         measurements,
         m_stages,
         float(config["vdd_ref_v"]),
-        launch_offset_s,
+        reported_launch_offset_s,
         float(config["measurement_timing"]["dff_metastability_margin_s"]),
     )
     decoded.update(
@@ -182,7 +206,7 @@ def run_scenario(
             "vdd_ref_v": float(config["vdd_ref_v"]),
             "m_stages": m_stages,
             "dummy_load_count": dummy_count,
-            "launch_offset_s": launch_offset_s,
+            "launch_offset_s": reported_launch_offset_s,
             "comparator_avg_current_a": measurements["comparator_ref_avg_current_a"],
             "comparator_peak_current_a": measurements["comparator_ref_peak_current_a"],
             "warning_count": warning_count,
