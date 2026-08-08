@@ -26,6 +26,7 @@ module phase3_frontend_struct (
     // earliest stage at bit 0 through the latest stage at bit 31.
     output logic [31:0] raw_thermometer_o
 );
+    import phase3_calibration_pkg::*;
     // Separate launch nodes are required because CAL_SEL intentionally delays
     // only the RVT branch; both nodes still traverse equal-depth MUX trees.
     logic rvt_launch;
@@ -55,8 +56,11 @@ module phase3_frontend_struct (
                 .a_i(rvt_tap[stage_index]), .y_o(rvt_tap[stage_index + 1])
             );
 
-            // LVT path: two selected LVT cells plus exactly one dummy input load.
-            phase3_lvt_stage_struct u_lvt_stage (
+            // The frozen mask selects a generate-time companion structure;
+            // no stage has a runtime topology control or dummy load.
+            phase3_companion_stage_struct #(
+                .ACTIVE_DIFFERENTIAL(WIDE_RANGE_ACTIVE_STAGE_MASK[stage_index])
+            ) u_companion_stage (
                 .vdd_a_i(vdd_a_i), .vss_a_i(vss_a_i),
                 .a_i(lvt_tap[stage_index]), .y_o(lvt_tap[stage_index + 1])
             );

@@ -54,6 +54,13 @@ hspice_command.log
 !/delay_chain/**/runs/*/figures/
 !/delay_chain/**/runs/*/figures/**
 
+# The Phase-3 wide-range conclusion is independently reviewable from one
+# compact code curve and one compact gate summary.  Keep this narrow exception
+# while every generated deck, listing, waveform, log, and scenario directory
+# remains ignored by the rule above.
+!/delay_chain/phase3/runs/wide_range_final/voltage_code.csv
+!/delay_chain/phase3/runs/wide_range_final/voltage_summary.json
+
 # TCN run directories contain generated datasets, simulator products, model
 # checkpoints and other reproducible artifacts.  Keep the directory traversal
 # visible only so Markdown reports at any nesting depth can be versioned; every

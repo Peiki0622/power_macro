@@ -32,6 +32,12 @@ generated TCN and delay-chain run data.  The rules are path-specific where
 possible; no catch-all `*.log`, `*.svf`, `*.json`, or `*.v` rule is used, since
 those suffixes can also describe intentional design inputs or reports.
 
+The only Phase-3 exception is the final wide-range code curve and its summary
+under `delay_chain/phase3/runs/wide_range_final/`.  They are small, curated
+evidence needed to reproduce the published 0.70--1.10 V conclusion; scenario
+directories, generated decks, listings, waveforms, command logs, and all
+screening outputs remain ignored.
+
 ## Verification And Maintenance
 
 Before a commit, inspect the effect with:

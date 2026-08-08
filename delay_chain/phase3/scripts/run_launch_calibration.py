@@ -54,7 +54,8 @@ def normalize_word(raw_word: str, invert: bool) -> str:
 
 def run_cal_sel(
     config: Dict[str, Any], selected: Dict[str, Any], phase1: Dict[str, Any], hspice: Path,
-    output_dir: Path, cal_sel: int, timeout_s: int,
+    output_dir: Path, cal_sel: int, timeout_s: int, active_mask: Optional[int] = None,
+    q_read_time_ns: float = 2.5, stop_time_ns: float = 4.0,
 ) -> Dict[str, Any]:
     """Simulate one static CAL_SEL value at nominal VDD with all 32 DFFs."""
 
@@ -77,6 +78,7 @@ def run_cal_sel(
         stages=int(config["stages"]), lvt_dummy_load_count=int(config["selected_dummy_load_count"]),
         launch_offset_ps=0.0, launch_delayed_path=str(config["ideal_launch_delayed_path"]),
         cal_sel=cal_sel, buffer_cell=str(config["rvt_buffer_cell"]), mux_cell=str(config["rvt_mux_cell"]),
+        active_stage_mask=active_mask, q_read_time_ns=q_read_time_ns, stop_time_ns=stop_time_ns,
     )
     result = subprocess.run(
         [str(hspice), deck_path.name, "-o", "phase3_launch_calibration"], cwd=str(point_dir),
@@ -139,6 +141,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--timeout-s", type=int, default=300)
+    parser.add_argument("--wide-range", action="store_true")
+    parser.add_argument("--active-stage-count", type=int)
     args = parser.parse_args(argv)
     config = load_json(args.config)
     selected = load_json(WORKSPACE_ROOT / "power_macro/delay_chain/phase3/discovery/selected_cells.json")
@@ -148,15 +152,29 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     if output_dir.exists():
         raise ValueError("refusing to overwrite launch-calibration run directory")
     output_dir.mkdir(parents=True)
-    rows = [run_cal_sel(config, selected, phase1, hspice, output_dir, cal_sel, args.timeout_s) for cal_sel in range(8)]
+    if args.active_stage_count is not None and not args.wide_range:
+        raise ValueError("--active-stage-count requires --wide-range")
+    active_mask = None if args.active_stage_count is None else generate_phase3_deck.active_stage_mask(int(config["stages"]), args.active_stage_count)
+    read_ns = float(config.get("wide_range", {}).get("characterization_read_time_ns", 2.5)) if args.wide_range else 2.5
+    stop_ns = float(config.get("wide_range", {}).get("characterization_stop_time_ns", 4.0)) if args.wide_range else 4.0
+    rows = [run_cal_sel(config, selected, phase1, hspice, output_dir, cal_sel, args.timeout_s, active_mask, read_ns, stop_ns) for cal_sel in range(8)]
     write_csv(output_dir / "calibration.csv", rows)
-    acceptable = [row for row in rows if row["code_valid"] and row["reset_failure_count"] == 0 and 14 <= row["sensor_code"] <= 18]
+    wide = config.get("wide_range", {})
+    minimum = int(wide.get("acceptable_nominal_code_min", 14)) if args.wide_range else 14
+    maximum = int(wide.get("acceptable_nominal_code_max", 18)) if args.wide_range else 18
+    target = int(wide.get("target_nominal_code", config["target_nominal_code"])) if args.wide_range else int(config["target_nominal_code"])
+    acceptable = [row for row in rows if row["code_valid"] and row["reset_failure_count"] == 0 and minimum <= row["sensor_code"] <= maximum]
+    valid = [row for row in rows if row["code_valid"] and row["reset_failure_count"] == 0]
     if not acceptable:
         (output_dir / "completion.rpt").write_text("status=FAIL\nreason=no_nominal_center_setting\n", encoding="ascii")
-        return 2
-    chosen = sorted(acceptable, key=lambda row: (abs(row["sensor_code"] - int(config["target_nominal_code"])), row["cal_sel"]))[0]
-    config.update({"selected_cal_sel": chosen["cal_sel"], "baseline_code": chosen["sensor_code"]})
-    args.config.write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        if args.wide_range and valid:
+            acceptable = valid
+        else:
+            return 2
+    chosen = sorted(acceptable, key=lambda row: (abs(row["sensor_code"] - target), row["sensor_code"], row["cal_sel"]))[0]
+    if not args.wide_range:
+        config.update({"selected_cal_sel": chosen["cal_sel"], "baseline_code": chosen["sensor_code"]})
+        args.config.write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (output_dir / "calibration_selection.json").write_text(json.dumps({"selected": chosen, "all_rows": rows}, indent=2) + "\n", encoding="utf-8")
     (output_dir / "completion.rpt").write_text("status=PASS\nselected_cal_sel={}\nbaseline_code={}\n".format(chosen["cal_sel"], chosen["sensor_code"]), encoding="ascii")
     return 0

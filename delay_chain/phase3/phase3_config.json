@@ -27,5 +27,26 @@
   "technology": "SMIC40LL",
   "temperature_c": 25.0,
   "thermometer_invert": true,
-  "vnom_v": 1.1
+  "vnom_v": 1.1,
+  "wide_range": {
+    "acceptable_nominal_code_max": 6,
+    "acceptable_nominal_code_min": 3,
+    "characterization_read_time_ns": 8.0,
+    "characterization_stop_time_ns": 10.0,
+    "coarse_step_v": 0.01,
+    "final_step_v": 0.005,
+    "screen_active_stage_counts": [16, 12, 8],
+    "screen_vdd_points_v": [1.1, 1.0, 0.9, 0.8, 0.7],
+    "target_nominal_code": 4,
+    "selected": {
+      "active_stage_count": 16,
+      "active_stage_indices": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+      "active_stage_mask": "0x55555555",
+      "baseline_code": 0,
+      "cal_sel": 0,
+      "topology": "sparse_lvt_rvt"
+    },
+    "vdd_max_v": 1.1,
+    "vdd_min_v": 0.7
+  }
 }

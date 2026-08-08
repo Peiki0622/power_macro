@@ -107,6 +107,28 @@ class Phase3ContractTests(unittest.TestCase):
         self.assertEqual(int(selected[0]["code_valid"]), 1)
         self.assertEqual(int(selected[0]["reset_failure_count"]), 0)
 
+    def test_wide_range_sparse_selection_and_final_evidence(self):
+        """Require the frozen sparse mask and complete real-DFF range result."""
+
+        config = read_config()
+        selected = config["wide_range"]["selected"]
+        self.assertEqual(selected["topology"], "sparse_lvt_rvt")
+        self.assertEqual(selected["active_stage_count"], 16)
+        self.assertEqual(selected["active_stage_indices"], list(range(0, 32, 2)))
+        self.assertEqual(selected["active_stage_mask"], "0x55555555")
+        summary = json.loads((RUNS / "wide_range_final/voltage_summary.json").read_text(encoding="utf-8"))
+        self.assertEqual(summary["scenario_count"], 83)
+        self.assertTrue(all(summary["gates"].values()))
+        self.assertIsNone(summary["first_saturation_v"])
+        self.assertIsNone(summary["first_invalid_v"])
+        frontend = (RTL / "phase3_frontend_struct.sv").read_text(encoding="ascii")
+        companion = (RTL / "phase3_companion_stage_struct.sv").read_text(encoding="ascii")
+        self.assertEqual(frontend.count("phase3_comparator_struct u_comparator"), 1)
+        self.assertIn("WIDE_RANGE_ACTIVE_STAGE_MASK[stage_index]", frontend)
+        self.assertIn("INV_X0P5M_A9TL40 u_first_lvt", companion)
+        self.assertIn("INV_X0P5M_A9TR40 u_second_rvt", companion)
+        self.assertNotIn("dummy", companion.lower())
+
     def test_rtl_source_has_no_forbidden_construct_or_reference_port(self):
         """Guard every synthesizable Phase-3 SV file against forbidden RTL."""
 

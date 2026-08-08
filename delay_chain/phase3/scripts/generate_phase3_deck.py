@@ -207,6 +207,62 @@ def render_vernier_chain(prefix: str, cell: str, stages: int, dummy_cell: str = 
     return "\n".join(lines)
 
 
+def active_stage_indices(stages: int, active_stage_count: int) -> List[int]:
+    """Return a deterministic, approximately uniform sparse-stage placement.
+
+    Stage zero is the earliest comparator tap and also mask bit zero.  The
+    integer-floor rule is intentionally simple and reproducible: it spreads
+    ``active_stage_count`` positions over the fixed stage count without any
+    fitted delay model or candidate search.  For example, 16 active stages in
+    a 32-stage chain are exactly the even stage indices.
+    """
+
+    if int(stages) <= 0:
+        raise ValueError("stages must be positive")
+    if int(active_stage_count) <= 0 or int(active_stage_count) > int(stages):
+        raise ValueError("active_stage_count must be in [1, stages]")
+    return [(ordinal * int(stages)) // int(active_stage_count) for ordinal in range(int(active_stage_count))]
+
+
+def active_stage_mask(stages: int, active_stage_count: int) -> int:
+    """Encode the ordered sparse-stage placement with bit ``i`` for stage ``i``."""
+
+    mask = 0
+    for index in active_stage_indices(stages, active_stage_count):
+        mask |= 1 << index
+    return mask
+
+
+def render_sparse_companion_chain(
+    rvt_cell: str, lvt_cell: str, stages: int, active_mask: int, start_node: str,
+) -> str:
+    """Render the wide-range companion without dummy loads or runtime choices.
+
+    A zero mask bit emits RVT->RVT, while a one bit emits LVT->RVT.  The
+    static Python integer is resolved while the deck is rendered, so HSPICE
+    receives only real inverter instances and never a topology-selecting mux.
+    The RVT second inverter makes every companion tap present an RVT driver to
+    the real DFF bank.
+    """
+
+    if int(active_mask) < 0 or int(active_mask) >= (1 << int(stages)):
+        raise ValueError("active_mask must fit the stage count")
+    lines = ["* Wide-range sparse companion: mask bit i selects LVT->RVT at stage i; no dummy load exists."]
+    previous = start_node
+    for index in range(int(stages)):
+        middle = "companion_mid_{:03d}".format(index)
+        tap = "lvt_tap_{:03d}".format(index)
+        first_cell = lvt_cell if ((int(active_mask) >> index) & 1) else rvt_cell
+        kind = "active LVT->RVT" if first_cell == lvt_cell else "neutral RVT->RVT"
+        lines.extend([
+            "* Companion stage {:03d}: {}.".format(index, kind),
+            render_cell_instance("XCOMPANION_STAGE_{:03d}_A".format(index), middle, previous, first_cell),
+            render_cell_instance("XCOMPANION_STAGE_{:03d}_B".format(index), tap, middle, rvt_cell),
+        ])
+        previous = tap
+    return "\n".join(lines)
+
+
 def render_ideal_vernier_deck(
     rvt_cdl: Path,
     lvt_cdl: Path,
@@ -431,6 +487,9 @@ def render_real_dff_vernier_deck(
     cal_sel: Optional[int] = None,
     buffer_cell: str = "",
     mux_cell: str = "",
+    active_stage_mask: Optional[int] = None,
+    q_read_time_ns: float = 2.5,
+    stop_time_ns: float = 4.0,
 ) -> str:
     """Render the Step-6 same-rail chain plus 32 real comparator DFFs.
 
@@ -451,6 +510,10 @@ def render_real_dff_vernier_deck(
         raise ValueError("cal_sel must be in [0, 7]")
     if cal_sel is not None and (not buffer_cell or not mux_cell):
         raise ValueError("physical CAL_SEL deck requires both BUF and MXT2 cell names")
+    if float(q_read_time_ns) <= 0.0 or float(stop_time_ns) <= float(q_read_time_ns):
+        raise ValueError("stop_time_ns must be greater than positive q_read_time_ns")
+    if active_stage_mask is not None and (int(active_stage_mask) < 0 or int(active_stage_mask) >= (1 << int(stages))):
+        raise ValueError("active_stage_mask must fit stages")
     if not rvt_cdl.is_file() or not lvt_cdl.is_file() or not model_library.is_file():
         raise ValueError("RVT CDL, LVT CDL, and model library must all exist")
     launch_rvt_s = 1.000000000000e-09 + (float(launch_offset_ps) * 1.0e-12 if launch_delayed_path == "rvt" else 0.0)
@@ -506,13 +569,14 @@ def render_real_dff_vernier_deck(
     lines.extend(
         [
             "* Active-high asynchronous reset: hold Q low through startup, then release before launch.",
-            "V_SENSOR_RESET sensor_reset vss_a PWL(0 'VDD_VALUE' 5.000000000000e-10 'VDD_VALUE' 5.100000000000e-10 0 4.000000000000e-09 0)",
+            "V_SENSOR_RESET sensor_reset vss_a PWL(0 'VDD_VALUE' 5.000000000000e-10 'VDD_VALUE' 5.100000000000e-10 0 {} 0)".format(spice(float(stop_time_ns) * 1.0e-09)),
             "",
             "* RVT path: every stage uses two real RVT inverters and common local wells.",
             render_vernier_chain("rvt", rvt_cell, stages, start_node=rvt_start_node),
             "",
-            "* LVT path: each tap carries the selected real LVT input dummy load.",
-            render_vernier_chain("lvt", lvt_cell, stages, dummy_cell=lvt_cell, dummy_load_count=lvt_dummy_load_count, start_node=lvt_start_node),
+            "* Companion path is either the preserved LVT+d1 topology or the static wide-range sparse topology.",
+            render_vernier_chain("lvt", lvt_cell, stages, dummy_cell=lvt_cell, dummy_load_count=lvt_dummy_load_count, start_node=lvt_start_node)
+            if active_stage_mask is None else render_sparse_companion_chain(rvt_cell, lvt_cell, stages, int(active_stage_mask), lvt_start_node),
             "",
             "* DFF port mapping: Q VDD VNW VPW VSS CK D R = raw_q vdd_a vdd_a vss_a vss_a rvt_tap lvt_tap sensor_reset.",
         ]
@@ -529,13 +593,13 @@ def render_real_dff_vernier_deck(
     lines.extend(
         [
             "",
-            ".tran 1.000000000000e-13 4.000000000000e-09",
+            ".tran 1.000000000000e-13 {}".format(spice(float(stop_time_ns) * 1.0e-09)),
             "* Read reset while asserted and Q after all stage clocks have arrived.",
             "* These four tap probes prove that the launch sources reach both chain ends under DFF loading.",
-            ".measure tran rvt_000_probe FIND v(rvt_tap_000,vss_a) AT=2.000000000000e-09",
-            ".measure tran rvt_031_probe FIND v(rvt_tap_031,vss_a) AT=2.500000000000e-09",
-            ".measure tran lvt_000_probe FIND v(lvt_tap_000,vss_a) AT=2.000000000000e-09",
-            ".measure tran lvt_031_probe FIND v(lvt_tap_031,vss_a) AT=2.500000000000e-09",
+            ".measure tran rvt_000_probe FIND v(rvt_tap_000,vss_a) AT={}".format(spice(float(q_read_time_ns) * 1.0e-09)),
+            ".measure tran rvt_031_probe FIND v(rvt_tap_031,vss_a) AT={}".format(spice(float(q_read_time_ns) * 1.0e-09)),
+            ".measure tran lvt_000_probe FIND v(lvt_tap_000,vss_a) AT={}".format(spice(float(q_read_time_ns) * 1.0e-09)),
+            ".measure tran lvt_031_probe FIND v(lvt_tap_031,vss_a) AT={}".format(spice(float(q_read_time_ns) * 1.0e-09)),
             "* Final-tap arrival measurements expose the accumulated physical RVT/LVT delay difference.",
             ".measure tran rvt_031_cross WHEN v(rvt_tap_031,vss_a) VAL='VDD_VALUE/2' RISE=1",
             ".measure tran lvt_031_cross WHEN v(lvt_tap_031,vss_a) VAL='VDD_VALUE/2' RISE=1",
@@ -546,7 +610,7 @@ def render_real_dff_vernier_deck(
         lines.extend(
             [
                 ".measure tran q_{:03d}_reset_level FIND v(raw_q_{:03d},vss_a) AT=2.500000000000e-10".format(index, index),
-                ".measure tran q_{:03d}_level FIND v(raw_q_{:03d},vss_a) AT=2.500000000000e-09".format(index, index),
+                ".measure tran q_{:03d}_level FIND v(raw_q_{:03d},vss_a) AT={}".format(index, index, spice(float(q_read_time_ns) * 1.0e-09)),
             ]
         )
     lines.extend([".end", ""])

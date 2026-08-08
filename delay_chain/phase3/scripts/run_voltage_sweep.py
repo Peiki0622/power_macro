@@ -65,6 +65,7 @@ CSV_FIELDS = [
     "rvt_031_cross_s",
     "lvt_031_cross_s",
     "rvt_lvt_diff_031_s",
+    "final_taps_arrived",
     "residual_code",
     "measurement_file",
 ]
@@ -119,6 +120,36 @@ def voltage_points(config: Dict[str, Any]) -> List[Dict[str, Any]]:
     ]
 
 
+def wide_voltage_points(config: Dict[str, Any], kind: str) -> List[Dict[str, Any]]:
+    """Build only the three voltage sets specified for the wide-range task.
+
+    This deliberately is not a generic sweep language.  ``baseline`` uses the
+    10 mV range-limit grid, ``screen`` uses the five fixed decision points, and
+    ``final`` uses the 5 mV characterization grid plus the two retained timing
+    anchors.  Decimal construction makes the evidence set exact and stable.
+    """
+
+    wide = config["wide_range"]
+    if kind == "screen":
+        return [{"vdd_v": float(value), "point_kind": "screen"} for value in wide["screen_vdd_points_v"]]
+    if kind not in ("baseline", "final"):
+        raise ValueError("wide-range kind must be baseline, screen, or final")
+    low = Decimal(str(wide["vdd_min_v"]))
+    high = Decimal(str(wide["vdd_max_v"]))
+    step = Decimal(str(wide["coarse_step_v"] if kind == "baseline" else wide["final_step_v"]))
+    points: Dict[Decimal, str] = {}
+    current = low
+    while current <= high:
+        points[current] = "grid"
+        current += step
+    if current - step != high:
+        raise ValueError("wide-range VDD grid does not land on its endpoint")
+    if kind == "final":
+        for voltage, label in ((Decimal(str(config["last_pass_v"])), "last_pass_anchor"), (Decimal(str(config["first_violation_v"])), "first_violation_anchor")):
+            points.setdefault(voltage, label)
+    return [{"vdd_v": float(voltage), "point_kind": label} for voltage, label in sorted(points.items())]
+
+
 def scenario_label(vdd_v: float) -> str:
     """Make a stable directory label without losing the twelve-digit voltage."""
 
@@ -170,6 +201,10 @@ def run_point(
     point: Dict[str, Any],
     mode: str,
     timeout_s: int,
+    active_mask: Optional[int] = None,
+    q_read_time_ns: float = 2.5,
+    stop_time_ns: float = 4.0,
+    baseline_code: Optional[int] = None,
 ) -> Dict[str, Any]:
     """Generate, execute, validate, and decode one physical voltage point."""
 
@@ -203,6 +238,9 @@ def run_point(
         cal_sel=int(config["selected_cal_sel"]),
         buffer_cell=str(config["rvt_buffer_cell"]),
         mux_cell=str(config["rvt_mux_cell"]),
+        active_stage_mask=active_mask,
+        q_read_time_ns=q_read_time_ns,
+        stop_time_ns=stop_time_ns,
     )
     prefix = "phase3_voltage_code"
     result = subprocess.run(
@@ -247,9 +285,11 @@ def run_point(
     rvt_cross = finite_or_none(values.get("rvt_031_cross"), "RVT final crossing")
     lvt_cross = finite_or_none(values.get("lvt_031_cross"), "LVT final crossing")
     differential = finite_or_none(values.get("rvt_lvt_diff_031"), "RVT/LVT final differential")
-    if rvt_cross is None or lvt_cross is None or differential is None:
-        raise ValueError("final-tap differential delay measure failed at {} V".format(voltage))
-    baseline = int(config["baseline_code"])
+    final_taps_arrived = int(
+        rvt_cross is not None and lvt_cross is not None and differential is not None
+        and rvt_cross <= q_read_time_ns * 1.0e-09 and lvt_cross <= q_read_time_ns * 1.0e-09
+    )
+    baseline = int(config["baseline_code"] if baseline_code is None else baseline_code)
     polarity = int(config["code_polarity"])
     return {
         "mode": mode,
@@ -267,6 +307,7 @@ def run_point(
         "rvt_031_cross_s": rvt_cross,
         "lvt_031_cross_s": lvt_cross,
         "rvt_lvt_diff_031_s": differential,
+        "final_taps_arrived": final_taps_arrived,
         "residual_code": polarity * (int(decoded["sensor_code"]) - baseline),
         "measurement_file": str(measurement.relative_to(output_dir)),
     }
@@ -379,6 +420,50 @@ def validate_rows(
     }
 
 
+def validate_wide_rows(rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str, Any]], baseline_code: int) -> Dict[str, Any]:
+    """Apply the narrow, physical wide-range completion contract.
+
+    Every point is retained, including an invalid word or a missing final-tap
+    crossing.  The summary therefore diagnoses saturation separately from a
+    low-voltage timing/settling limit instead of hiding either condition.
+    """
+
+    if len(rows) != len(points):
+        raise ValueError("wide-range row count does not match requested points")
+    ordered = sorted(rows, key=lambda row: float(row["droop_mv"]))
+    reversals = []
+    for previous, current in zip(ordered, ordered[1:]):
+        if int(current["residual_code"]) < int(previous["residual_code"]):
+            reversals.append(int(previous["residual_code"]) - int(current["residual_code"]))
+    invalid = [float(row["vdd_v"]) for row in rows if not int(row["code_valid"])]
+    resets = [float(row["vdd_v"]) for row in rows if int(row["reset_failure_count"]) != 0]
+    late = [float(row["vdd_v"]) for row in rows if not int(row["final_taps_arrived"])]
+    saturated = [float(row["vdd_v"]) for row in ordered if int(row["sensor_code"]) >= 32]
+    max_arrival = max(
+        [max(float(row["rvt_031_cross_s"]), float(row["lvt_031_cross_s"])) for row in rows if row["rvt_031_cross_s"] is not None and row["lvt_031_cross_s"] is not None] or [0.0]
+    )
+    gates = {
+        "all_code_words_valid": not invalid,
+        "all_resets_pass": not resets,
+        "all_final_taps_arrive_before_read": not late,
+        "no_pre_0p70_saturation": not [value for value in saturated if value > 0.700000000001],
+        "generally_monotonic_with_droop": len(reversals) <= 1 and max(reversals or [0]) <= 1,
+    }
+    return {
+        "status": "PASS" if all(gates.values()) else "FAIL",
+        "scenario_count": len(rows),
+        "baseline_code": int(baseline_code),
+        "nominal_code": next(int(row["sensor_code"]) for row in rows if abs(float(row["vdd_v"]) - 1.1) <= 1.0e-12),
+        "first_saturation_v": saturated[0] if saturated else None,
+        "first_invalid_v": invalid[0] if invalid else None,
+        "late_final_tap_v": late,
+        "maximum_final_tap_arrival_s": max_arrival,
+        "maximum_reversal_codes": max(reversals or [0]),
+        "monotonicity_violation_count": len(reversals),
+        "gates": gates,
+    }
+
+
 def write_report(path: Path, summary: Dict[str, Any], rows: Sequence[Dict[str, Any]], mode: str) -> None:
     """Write a concise sweep report with exact anchor and decimated curve data."""
 
@@ -425,6 +510,10 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--mode", choices=("rvt_lvt", "rvt_rvt"), default="rvt_lvt")
+    parser.add_argument("--wide-range-kind", choices=("baseline", "screen", "final"))
+    parser.add_argument("--active-stage-count", type=int)
+    parser.add_argument("--cal-sel", type=int)
+    parser.add_argument("--baseline-code", type=int)
     parser.add_argument("--timeout-s", type=int, default=300)
     return parser
 
@@ -442,7 +531,15 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     version = run_dc_sweep.hspice_version(hspice)
     if "W-2024.09" not in version:
         raise RuntimeError("unexpected HSPICE version: {}".format(version))
-    points = voltage_points(config)
+    wide_kind = args.wide_range_kind
+    points = wide_voltage_points(config, wide_kind) if wide_kind else voltage_points(config)
+    if wide_kind and (args.cal_sel is None or args.baseline_code is None):
+        raise ValueError("wide-range runs require --cal-sel and --baseline-code")
+    if args.active_stage_count is not None and not wide_kind:
+        raise ValueError("--active-stage-count is only valid for wide-range runs")
+    active_mask = None
+    if args.active_stage_count is not None:
+        active_mask = generate_phase3_deck.active_stage_mask(int(config["stages"]), args.active_stage_count)
     output_dir = args.output_dir.resolve()
     if output_dir.exists():
         raise ValueError("refusing to overwrite existing run directory: {}".format(output_dir))
@@ -452,23 +549,33 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         "mode": args.mode,
         "points": points,
         "hspice_version": version,
-        "selected_cal_sel": int(config["selected_cal_sel"]),
+        "selected_cal_sel": int(config["selected_cal_sel"] if args.cal_sel is None else args.cal_sel),
         "selected_lvt_cell": str(config["selected_lvt_cell"]),
-        "selected_dummy_load_count": int(config["selected_dummy_load_count"]),
+        "selected_dummy_load_count": int(config["selected_dummy_load_count"] if active_mask is None else 0),
+        "wide_range_kind": wide_kind,
+        "active_stage_mask": active_mask,
     }
     (output_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    rows = [run_point(config, selected, phase1, hspice, output_dir, point, args.mode, args.timeout_s) for point in points]
+    run_config = dict(config)
+    if args.cal_sel is not None:
+        run_config["selected_cal_sel"] = int(args.cal_sel)
+    rows = [run_point(run_config, selected, phase1, hspice, output_dir, point, args.mode, args.timeout_s, active_mask, float(config.get("wide_range", {}).get("characterization_read_time_ns", 2.5)) if wide_kind else 2.5, float(config.get("wide_range", {}).get("characterization_stop_time_ns", 4.0)) if wide_kind else 4.0, args.baseline_code) for point in points]
     write_csv(output_dir / "voltage_code.csv", rows)
-    summary = validate_rows(config, rows, points, args.mode)
+    summary = validate_wide_rows(rows, points, int(args.baseline_code)) if wide_kind else validate_rows(config, rows, points, args.mode)
     summary["hspice_version"] = version
-    summary["cal_sel"] = int(config["selected_cal_sel"])
+    summary["cal_sel"] = int(config["selected_cal_sel"] if args.cal_sel is None else args.cal_sel)
     summary["selected_lvt_cell"] = str(config["selected_lvt_cell"])
+    if wide_kind:
+        summary["wide_range_kind"] = wide_kind
+        summary["active_stage_count"] = args.active_stage_count
+        summary["active_stage_mask"] = active_mask
     (output_dir / "voltage_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    report_name = "VOLTAGE_SWEEP.md" if args.mode == "rvt_lvt" else "RVT_RVT_CONTROL_SWEEP.md"
-    write_report(WORKSPACE_ROOT / "power_macro/delay_chain/phase3/reports" / report_name, summary, rows, args.mode)
+    if not wide_kind:
+        report_name = "VOLTAGE_SWEEP.md" if args.mode == "rvt_lvt" else "RVT_RVT_CONTROL_SWEEP.md"
+        write_report(WORKSPACE_ROOT / "power_macro/delay_chain/phase3/reports" / report_name, summary, rows, args.mode)
     (output_dir / "completion.rpt").write_text(
         "status={}\nscenario_count={}\ndelta_code_last={}\ndelta_code_crit={}\n".format(
-            summary["status"], len(rows), summary["delta_code_last"], summary["delta_code_crit"]
+            summary["status"], len(rows), summary.get("delta_code_last", "n/a"), summary.get("delta_code_crit", "n/a")
         ),
         encoding="ascii",
     )
