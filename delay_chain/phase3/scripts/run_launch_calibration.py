@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""Select a physical same-rail CAL_SEL value with eight real DFF runs.
+
+This Step-7 runner never applies a source-time delay.  Each scenario instead
+instantiates the selected standard-cell BUF/MXT2 calibration topology from the
+deck renderer and obtains its thermometer word from the real DFF Q nodes.
+"""
+
+import argparse
+import csv
+import json
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any, Dict, Iterable, List, Optional
+
+
+WORKSPACE_ROOT = Path(__file__).resolve().parents[4]
+PHASE1_CONFIG = WORKSPACE_ROOT / "power_macro/delay_chain/phase1/phase1_config.json"
+PHASE1_SCRIPTS = WORKSPACE_ROOT / "power_macro/delay_chain/phase1/scripts"
+PHASE2_SCRIPTS = WORKSPACE_ROOT / "power_macro/delay_chain/phase2_vernier/scripts"
+PHASE3_SCRIPTS = Path(__file__).resolve().parent
+EMPTY_SUBCKT_INCLUDE = WORKSPACE_ROOT / "power_macro/delay_chain/phase3/spice/includes/empty_subckt.sp_cal"
+for import_path in (PHASE1_SCRIPTS, PHASE2_SCRIPTS, PHASE3_SCRIPTS):
+    if str(import_path) not in sys.path:
+        sys.path.insert(0, str(import_path))
+import decode_vernier_code  # noqa: E402  # Shared Phase-3 decoder contract.
+import generate_phase3_deck  # noqa: E402  # Physical BUF/MXT2/DFF deck renderer.
+import run_dc_sweep  # noqa: E402  # Reviewed HSPICE output validation.
+
+
+CSV_FIELDS = [
+    "cal_sel", "vdd_v", "raw_thermometer_word", "normalized_raw_word",
+    "corrected_thermometer_word", "sensor_code", "raw_bubble_count", "bubble_count",
+    "code_valid", "reset_failure_count", "measurement_file",
+]
+
+
+def load_json(path: Path) -> Dict[str, Any]:
+    """Read one required JSON object without silently supplying defaults."""
+
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError("expected JSON object: {}".format(path))
+    return value
+
+
+def normalize_word(raw_word: str, invert: bool) -> str:
+    """Apply the Step-5 raw bit direction before the standard decoder."""
+
+    return "".join("1" if bit == "0" else "0" for bit in raw_word) if invert else raw_word
+
+
+def run_cal_sel(
+    config: Dict[str, Any], selected: Dict[str, Any], phase1: Dict[str, Any], hspice: Path,
+    output_dir: Path, cal_sel: int, timeout_s: int,
+) -> Dict[str, Any]:
+    """Simulate one static CAL_SEL value at nominal VDD with all 32 DFFs."""
+
+    point_dir = output_dir / "scenarios" / "cal_sel_{:03b}".format(cal_sel)
+    point_dir.mkdir(parents=True, exist_ok=False)
+    # Preserve the installed LVT CDL's relative include requirement in the
+    # task-owned scenario directory.  The PDK itself remains untouched.
+    if not EMPTY_SUBCKT_INCLUDE.is_file():
+        raise ValueError("missing Phase-3 empty_subckt.sp_cal placeholder")
+    shutil.copyfile(EMPTY_SUBCKT_INCLUDE, point_dir / "empty_subckt.sp_cal")
+    deck_path = point_dir / "phase3_launch_calibration.sp"
+    generate_phase3_deck.write_real_dff_vernier_deck(
+        output_path=deck_path,
+        rvt_cdl=Path(selected["source_files"]["rvt_cdl"]),
+        lvt_cdl=Path(selected["source_files"]["lvt_cdl"]),
+        model_library=Path(phase1["model_library"]),
+        corner=str(config["corner"]), temperature_c=float(config["temperature_c"]),
+        vdd_v=float(config["vnom_v"]), rvt_cell=str(config["rvt_inverter_cell"]),
+        lvt_cell=str(config["selected_lvt_cell"]), dff_cell=str(config["rvt_dff_cell"]),
+        stages=int(config["stages"]), lvt_dummy_load_count=int(config["selected_dummy_load_count"]),
+        launch_offset_ps=0.0, launch_delayed_path=str(config["ideal_launch_delayed_path"]),
+        cal_sel=cal_sel, buffer_cell=str(config["rvt_buffer_cell"]), mux_cell=str(config["rvt_mux_cell"]),
+    )
+    result = subprocess.run(
+        [str(hspice), deck_path.name, "-o", "phase3_launch_calibration"], cwd=str(point_dir),
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True,
+        check=False, timeout=timeout_s,
+    )
+    (point_dir / "hspice_command.log").write_text(
+        "command={}\nreturncode={}\nstdout:\n{}\nstderr:\n{}\n".format(
+            " ".join([str(hspice), deck_path.name, "-o", "phase3_launch_calibration"]),
+            result.returncode, result.stdout, result.stderr,
+        ), encoding="utf-8"
+    )
+    if result.returncode != 0:
+        raise RuntimeError("HSPICE returned {} for {}".format(result.returncode, point_dir))
+    run_dc_sweep.validate_listing(point_dir / "phase3_launch_calibration.lis")
+    measurement = run_dc_sweep.find_measurement_file(point_dir, "phase3_launch_calibration")
+    values = run_dc_sweep.parse_measurements(measurement)
+    raw_bits: List[str] = []
+    reset_failures = 0
+    vdd_v = float(config["vnom_v"])
+    for index in range(int(config["stages"])):
+        reset_level = values.get("q_{:03d}_reset_level".format(index))
+        q_level = values.get("q_{:03d}_level".format(index))
+        if reset_level is None or q_level is None:
+            raise ValueError("missing DFF level measurement for stage {:03d}".format(index))
+        if float(reset_level) > 0.1 * vdd_v:
+            reset_failures += 1
+        raw_bits.append("1" if float(q_level) >= 0.5 * vdd_v else "0")
+    raw_word = "".join(raw_bits)
+    decoded = decode_vernier_code.decode_word(normalize_word(raw_word, bool(config["thermometer_invert"])))
+    return {
+        "cal_sel": cal_sel,
+        "vdd_v": vdd_v,
+        "raw_thermometer_word": raw_word,
+        "normalized_raw_word": decoded["raw_code"],
+        "corrected_thermometer_word": decoded["corrected_code"],
+        "sensor_code": int(decoded["sensor_code"]),
+        "raw_bubble_count": int(decoded["raw_bubble_count"]),
+        "bubble_count": int(decoded["bubble_count"]),
+        "code_valid": int(bool(decoded["code_valid"])),
+        "reset_failure_count": reset_failures,
+        "measurement_file": str(measurement.relative_to(output_dir)),
+    }
+
+
+def write_csv(path: Path, rows: List[Dict[str, Any]]) -> None:
+    """Write one compact record for every physical CAL_SEL option."""
+
+    with path.open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=CSV_FIELDS, extrasaction="raise")
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row[field] for field in CSV_FIELDS})
+
+
+def main(argv: Optional[Iterable[str]] = None) -> int:
+    """Run all eight settings, choose the nearest legal nominal center code, and update configuration."""
+
+    parser = argparse.ArgumentParser(description="run Phase-3 physical same-rail launch calibration")
+    parser.add_argument("--config", required=True, type=Path)
+    parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--timeout-s", type=int, default=300)
+    args = parser.parse_args(argv)
+    config = load_json(args.config)
+    selected = load_json(WORKSPACE_ROOT / "power_macro/delay_chain/phase3/discovery/selected_cells.json")
+    phase1 = load_json(PHASE1_CONFIG)
+    hspice = run_dc_sweep.require_regular_file(Path("/home/zhupl25/.local/bin/hspice"), "HSPICE", executable=True)
+    output_dir = args.output_dir.resolve()
+    if output_dir.exists():
+        raise ValueError("refusing to overwrite launch-calibration run directory")
+    output_dir.mkdir(parents=True)
+    rows = [run_cal_sel(config, selected, phase1, hspice, output_dir, cal_sel, args.timeout_s) for cal_sel in range(8)]
+    write_csv(output_dir / "calibration.csv", rows)
+    acceptable = [row for row in rows if row["code_valid"] and row["reset_failure_count"] == 0 and 14 <= row["sensor_code"] <= 18]
+    if not acceptable:
+        (output_dir / "completion.rpt").write_text("status=FAIL\nreason=no_nominal_center_setting\n", encoding="ascii")
+        return 2
+    chosen = sorted(acceptable, key=lambda row: (abs(row["sensor_code"] - int(config["target_nominal_code"])), row["cal_sel"]))[0]
+    config.update({"selected_cal_sel": chosen["cal_sel"], "baseline_code": chosen["sensor_code"]})
+    args.config.write_text(json.dumps(config, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (output_dir / "calibration_selection.json").write_text(json.dumps({"selected": chosen, "all_rows": rows}, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "completion.rpt").write_text("status=PASS\nselected_cal_sel={}\nbaseline_code={}\n".format(chosen["cal_sel"], chosen["sensor_code"]), encoding="ascii")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

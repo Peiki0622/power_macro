@@ -1,0 +1,4 @@
+* Phase-3 local no-op include for the vendor LVT CDL's historical placeholder.
+* The installed CDL references this filename but contains no dependent subckt.
+* Keeping this file empty except for comments preserves the read-only PDK CDL
+* and lets HSPICE resolve the include from each task-owned scenario directory.

@@ -1,0 +1,153 @@
+{
+  "lvt_inverter_candidates": [
+    {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A"
+      ],
+      "cdl_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+      "cell": "INV_X0P5M_A9TL40",
+      "drive_strength": 0.5,
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/verilog/sc9mc_logic0040ll_base_lvt_c40.v"
+    },
+    {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A"
+      ],
+      "cdl_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+      "cell": "INV_X0P6M_A9TL40",
+      "drive_strength": 0.6,
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/verilog/sc9mc_logic0040ll_base_lvt_c40.v"
+    },
+    {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A"
+      ],
+      "cdl_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+      "cell": "INV_X0P7M_A9TL40",
+      "drive_strength": 0.7,
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/verilog/sc9mc_logic0040ll_base_lvt_c40.v"
+    }
+  ],
+  "rvt": {
+    "BUF_X0P7M_A9TR40": {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A"
+      ],
+      "cdl_source_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+    },
+    "DFFRPQ_X0P5M_A9TR40": {
+      "cdl_ports": [
+        "Q",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "CK",
+        "D",
+        "R"
+      ],
+      "cdl_source_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+      "verilog_ports": [
+        "Q",
+        "VDD",
+        "VSS",
+        "CK",
+        "D",
+        "R"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+    },
+    "INV_X0P5M_A9TR40": {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A"
+      ],
+      "cdl_source_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+    },
+    "MXT2_X0P5M_A9TR40": {
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B",
+        "S0"
+      ],
+      "cdl_source_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B",
+        "S0"
+      ],
+      "verilog_source_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+    }
+  },
+  "schema_version": 1,
+  "source_files": {
+    "lvt_cdl": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+    "lvt_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/verilog/sc9mc_logic0040ll_base_lvt_c40.v",
+    "rvt_cdl": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+    "rvt_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+  }
+}
