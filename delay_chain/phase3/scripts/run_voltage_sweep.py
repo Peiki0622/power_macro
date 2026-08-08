@@ -207,8 +207,18 @@ def run_point(
     baseline_code: Optional[int] = None,
     launch_balance_load_count: int = 2,
     rvt_launch_load_count: int = 0,
+    rvt_fine_load_kind: str = "none",
+    rvt_fine_load_count: int = 0,
+    timing_probe_stages: Optional[Sequence[int]] = None,
 ) -> Dict[str, Any]:
-    """Generate, execute, validate, and decode one physical voltage point."""
+    """Generate, execute, validate, and decode one physical voltage point.
+
+    ``timing_probe_stages`` is a diagnostic-only list of physical stage
+    numbers.  Passing it causes the deck to add read-only crossing measures;
+    it never inserts a cell, changes a D/CK connection, or changes the CSV
+    contract used by normal screen/final characterizations.  The parsed probe
+    data is retained as an extra in-memory field for a separate compact JSON.
+    """
 
     voltage = float(point["vdd_v"])
     point_dir = output_dir / "scenarios" / scenario_label(voltage)
@@ -245,6 +255,9 @@ def run_point(
         stop_time_ns=stop_time_ns,
         launch_balance_load_count=launch_balance_load_count,
         rvt_launch_load_count=rvt_launch_load_count,
+        rvt_fine_load_kind=rvt_fine_load_kind,
+        rvt_fine_load_count=rvt_fine_load_count,
+        timing_probe_stages=list(timing_probe_stages) if timing_probe_stages else None,
     )
     prefix = "phase3_voltage_code"
     result = subprocess.run(
@@ -295,7 +308,7 @@ def run_point(
     )
     baseline = int(config["baseline_code"] if baseline_code is None else baseline_code)
     polarity = int(config["code_polarity"])
-    return {
+    row = {
         "mode": mode,
         "point_kind": str(point["point_kind"]),
         "vdd_v": voltage,
@@ -315,6 +328,24 @@ def run_point(
         "residual_code": polarity * (int(decoded["sensor_code"]) - baseline),
         "measurement_file": str(measurement.relative_to(output_dir)),
     }
+    if timing_probe_stages:
+        # Keep every probe explicit in JSON so a missing HSPICE measure cannot
+        # be silently interpreted as a zero timing margin.  CK is RVT and D is
+        # companion throughout, matching the actual DFF positional port order.
+        probes: Dict[str, Dict[str, float]] = {}
+        for stage in timing_probe_stages:
+            ck_name = "ck_{:03d}_cross".format(stage)
+            d_name = "d_{:03d}_cross".format(stage)
+            dck_name = "d_minus_ck_{:03d}".format(stage)
+            if ck_name not in values or d_name not in values or dck_name not in values:
+                raise ValueError("missing requested timing probe for stage {:03d}".format(stage))
+            probes["{:03d}".format(stage)] = {
+                "ck_cross_s": float(values[ck_name]),
+                "d_cross_s": float(values[d_name]),
+                "d_minus_ck_s": float(values[dck_name]),
+            }
+        row["timing_probes"] = probes
+    return row
 
 
 def render_value(value: Any) -> str:
@@ -337,6 +368,70 @@ def write_csv(path: Path, rows: Sequence[Dict[str, Any]]) -> None:
         writer.writeheader()
         for row in rows:
             writer.writerow({field: render_value(row[field]) for field in CSV_FIELDS})
+
+
+def write_aperture_timing_diagnostics(
+    path: Path, rows: Sequence[Dict[str, Any]], timing_probe_stages: Sequence[int],
+) -> None:
+    """Publish compact full-stage aperture evidence for placement decisions.
+
+    Rows are stored in descending VDD order.  For every requested stage, the
+    JSON records physical CK/D crossings, D-CK, the adjacent-stage D-CK
+    increment, and the finite-difference D-CK slope to the next lower-VDD
+    diagnostic point.  This is deliberately derived from measured HSPICE
+    numbers rather than an ideal delay equation or a fitted sensor curve.
+    """
+
+    if not timing_probe_stages:
+        raise ValueError("timing diagnostics require at least one probe stage")
+    ordered = sorted(rows, key=lambda row: float(row["vdd_v"]), reverse=True)
+    result_rows: List[Dict[str, Any]] = []
+    for row_index, row in enumerate(ordered):
+        probes = row.get("timing_probes")
+        if not isinstance(probes, dict):
+            raise ValueError("timing diagnostic row is missing probe data")
+        stage_rows: List[Dict[str, Any]] = []
+        previous_dck: Optional[float] = None
+        next_probes = ordered[row_index + 1].get("timing_probes") if row_index + 1 < len(ordered) else None
+        voltage_delta = (
+            float(row["vdd_v"]) - float(ordered[row_index + 1]["vdd_v"])
+            if row_index + 1 < len(ordered) else None
+        )
+        for stage in timing_probe_stages:
+            probe = probes["{:03d}".format(stage)]
+            dck = float(probe["d_minus_ck_s"])
+            slope = None
+            if next_probes is not None and voltage_delta is not None:
+                next_dck = float(next_probes["{:03d}".format(stage)]["d_minus_ck_s"])
+                slope = (next_dck - dck) / (-voltage_delta)
+            stage_rows.append(
+                {
+                    "stage": int(stage),
+                    "ck_cross_s": float(probe["ck_cross_s"]),
+                    "d_cross_s": float(probe["d_cross_s"]),
+                    "d_minus_ck_s": dck,
+                    "d_minus_ck_increment_from_previous_stage_s": None if previous_dck is None else dck - previous_dck,
+                    "d_minus_ck_slope_per_v_to_next_lower_vdd": slope,
+                }
+            )
+            previous_dck = dck
+        result_rows.append(
+            {
+                "vdd_v": float(row["vdd_v"]),
+                "sensor_code": int(row["sensor_code"]),
+                "code_valid": int(row["code_valid"]),
+                "bubble_count": int(row["bubble_count"]),
+                "stages": stage_rows,
+            }
+        )
+    path.write_text(
+        json.dumps(
+            {"study": "phase3_wide_range_aperture_diagnostic", "probe_stages": list(timing_probe_stages), "rows": result_rows},
+            indent=2,
+            sort_keys=True,
+        ) + "\n",
+        encoding="utf-8",
+    )
 
 
 def validate_rows(
@@ -427,12 +522,23 @@ def validate_rows(
 def validate_wide_rows(
     rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str, Any]], baseline_code: int,
     nominal_minimum: int = 3, nominal_maximum: int = 6,
+    require_stable_positive_by_50mv: bool = False,
+    require_single_code_forward_steps: bool = False,
 ) -> Dict[str, Any]:
     """Apply the narrow, physical wide-range completion contract.
 
     Every point is retained, including an invalid word or a missing final-tap
     crossing.  The summary therefore diagnoses saturation separately from a
     low-voltage timing/settling limit instead of hiding either condition.
+
+    The two optional resolution gates are deliberately opt-in.  Historical
+    baseline studies did not sample both 25 mV and 50 mV droop, so they cannot
+    honestly prove the tighter resolution target.  New ``screen`` and
+    ``final`` runs do sample both points and must prove that the code is at
+    least one above its measured 1.10 V nominal value at both points.  The
+    forward-step gate limits any neighbouring measured code advance to one;
+    it is evaluated on the actual requested point spacing, not on an inferred
+    interpolation between HSPICE simulations.
     """
 
     if len(rows) != len(points):
@@ -454,7 +560,35 @@ def validate_wide_rows(
     if len(nominal_rows) != 1:
         raise ValueError("wide-range result must contain exactly one 1.10 V nominal row")
     nominal_code = int(nominal_rows[0]["sensor_code"])
+    resolution_probe_voltages = (1.075, 1.050)
+    resolution_probe_rows: Dict[float, Dict[str, Any]] = {}
+    for voltage in resolution_probe_voltages:
+        matches = [row for row in rows if abs(float(row["vdd_v"]) - voltage) <= 1.0e-12]
+        if len(matches) == 1:
+            resolution_probe_rows[voltage] = matches[0]
+    if require_stable_positive_by_50mv and len(resolution_probe_rows) != len(resolution_probe_voltages):
+        raise ValueError("resolution gate requires exact 1.075 V and 1.050 V rows")
+    stable_positive_by_50mv = (
+        len(resolution_probe_rows) == len(resolution_probe_voltages)
+        and all(int(resolution_probe_rows[voltage]["sensor_code"]) >= nominal_code + 1 for voltage in resolution_probe_voltages)
+    )
     positive_rows = [row for row in ordered if int(row["residual_code"]) > 0]
+    forward_steps = [
+        int(current["sensor_code"]) - int(previous["sensor_code"])
+        for previous, current in zip(ordered, ordered[1:])
+    ]
+    maximum_forward_step_codes = max(forward_steps or [0])
+    # The short screen intentionally uses 100 mV intervals below 1.00 V to
+    # bound the usable range economically.  A multi-code aggregate change
+    # across such a broad interval is not a single voltage-step jump.  Limit
+    # the discontinuity gate to adjacent measurements separated by 50 mV or
+    # less; the final 5 mV grid consequently applies the same gate everywhere.
+    fine_forward_steps = [
+        int(current["sensor_code"]) - int(previous["sensor_code"])
+        for previous, current in zip(ordered, ordered[1:])
+        if float(current["droop_mv"]) - float(previous["droop_mv"]) <= 50.000001
+    ]
+    maximum_fine_forward_step_codes = max(fine_forward_steps or [0])
     max_arrival = max(
         [max(float(row["rvt_031_cross_s"]), float(row["lvt_031_cross_s"])) for row in rows if row["rvt_031_cross_s"] is not None and row["lvt_031_cross_s"] is not None] or [0.0]
     )
@@ -471,6 +605,10 @@ def validate_wide_rows(
         "no_pre_0p70_saturation": not [value for value in saturated if value > 0.700000000001],
         "generally_monotonic_with_droop": len(reversals) <= 1 and max(reversals or [0]) <= 1,
     }
+    if require_stable_positive_by_50mv:
+        gates["stable_positive_residual_by_50mv"] = stable_positive_by_50mv
+    if require_single_code_forward_steps:
+        gates["no_multi_code_forward_step_at_50mv_or_finer"] = maximum_fine_forward_step_codes <= 1
     return {
         "status": "PASS" if all(gates.values()) else "FAIL",
         "scenario_count": len(rows),
@@ -480,11 +618,17 @@ def validate_wide_rows(
         "maximum_sensor_code": maximum_code,
         "code_span": code_span,
         "first_positive_residual_v": float(positive_rows[0]["vdd_v"]) if positive_rows else None,
+        "resolution_probe_codes": {
+            "1.075": int(resolution_probe_rows[1.075]["sensor_code"]) if 1.075 in resolution_probe_rows else None,
+            "1.050": int(resolution_probe_rows[1.050]["sensor_code"]) if 1.050 in resolution_probe_rows else None,
+        },
         "first_saturation_v": saturated[0] if saturated else None,
         "first_invalid_v": invalid[0] if invalid else None,
         "late_final_tap_v": late,
         "maximum_final_tap_arrival_s": max_arrival,
         "maximum_reversal_codes": max(reversals or [0]),
+        "maximum_forward_step_codes": maximum_forward_step_codes,
+        "maximum_forward_step_at_50mv_or_finer_codes": maximum_fine_forward_step_codes,
         "monotonicity_violation_count": len(reversals),
         "gates": gates,
     }
@@ -537,6 +681,14 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--mode", choices=("rvt_lvt", "rvt_rvt"), default="rvt_lvt")
     parser.add_argument("--wide-range-kind", choices=("baseline", "screen", "final"))
+    parser.add_argument(
+        "--diagnostic-vdd", type=float, nargs="+",
+        help="explicit same-rail diagnostic VDD points; requires wide-range arguments and bypasses sweep completion gates",
+    )
+    parser.add_argument(
+        "--timing-probe-all", action="store_true",
+        help="measure D/CK crossings at every physical stage and write aperture_timing.json",
+    )
     parser.add_argument("--active-stage-count", type=int)
     parser.add_argument(
         "--active-stage-mask", type=lambda value: int(value, 0),
@@ -546,6 +698,14 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--baseline-code", type=int)
     parser.add_argument("--launch-balance-load-count", type=int, choices=(0, 1, 2), default=2)
     parser.add_argument("--rvt-launch-load-count", type=int, choices=range(8), default=0)
+    parser.add_argument(
+        "--rvt-fine-load-kind", choices=("none", "inv", "mxt2"), default="none",
+        help="static CK-side input-load cell kind; diagnostic/selected topology only, never a runtime choice",
+    )
+    parser.add_argument(
+        "--rvt-fine-load-count", type=int, choices=(0, 1, 2), default=0,
+        help="number of private CK-side fine-load inputs, bounded by the two-cell hardware budget",
+    )
     parser.add_argument("--timeout-s", type=int, default=300)
     return parser
 
@@ -564,7 +724,15 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     if "W-2024.09" not in version:
         raise RuntimeError("unexpected HSPICE version: {}".format(version))
     wide_kind = args.wide_range_kind
-    points = wide_voltage_points(config, wide_kind) if wide_kind else voltage_points(config)
+    diagnostic_mode = args.diagnostic_vdd is not None
+    if diagnostic_mode and not wide_kind:
+        raise ValueError("--diagnostic-vdd requires --wide-range-kind to preserve the wide read window")
+    if diagnostic_mode:
+        if len(set(args.diagnostic_vdd)) != len(args.diagnostic_vdd):
+            raise ValueError("--diagnostic-vdd must not repeat a voltage")
+        points = [{"vdd_v": float(voltage), "point_kind": "diagnostic"} for voltage in args.diagnostic_vdd]
+    else:
+        points = wide_voltage_points(config, wide_kind) if wide_kind else voltage_points(config)
     if wide_kind and (args.cal_sel is None or args.baseline_code is None):
         raise ValueError("wide-range runs require --cal-sel and --baseline-code")
     if args.active_stage_count is not None and not wide_kind:
@@ -573,6 +741,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         raise ValueError("--active-stage-mask is only valid for wide-range runs")
     if args.active_stage_count is not None and args.active_stage_mask is not None:
         raise ValueError("choose only one of --active-stage-count and --active-stage-mask")
+    if args.rvt_fine_load_kind == "none" and args.rvt_fine_load_count != 0:
+        raise ValueError("--rvt-fine-load-count requires --rvt-fine-load-kind inv or mxt2")
     active_mask = args.active_stage_mask
     if args.active_stage_count is not None:
         active_mask = generate_phase3_deck.active_stage_mask(int(config["stages"]), args.active_stage_count)
@@ -594,40 +764,69 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         "active_stage_mask": active_mask,
         "launch_balance_load_count": args.launch_balance_load_count,
         "rvt_launch_load_count": args.rvt_launch_load_count,
+        "rvt_fine_load_kind": args.rvt_fine_load_kind,
+        "rvt_fine_load_count": args.rvt_fine_load_count,
     }
     (output_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     run_config = dict(config)
     if args.cal_sel is not None:
         run_config["selected_cal_sel"] = int(args.cal_sel)
+    timing_probe_stages: Optional[Sequence[int]] = list(range(int(config["stages"]))) if args.timing_probe_all else None
     rows = [
         run_point(
             run_config, selected, phase1, hspice, output_dir, point, args.mode, args.timeout_s,
             active_mask,
             float(config.get("wide_range", {}).get("characterization_read_time_ns", 2.5)) if wide_kind else 2.5,
             float(config.get("wide_range", {}).get("characterization_stop_time_ns", 4.0)) if wide_kind else 4.0,
-            args.baseline_code, args.launch_balance_load_count, args.rvt_launch_load_count,
+            args.baseline_code,
+            args.launch_balance_load_count,
+            args.rvt_launch_load_count,
+            args.rvt_fine_load_kind,
+            args.rvt_fine_load_count,
+            timing_probe_stages,
         )
         for point in points
     ]
     write_csv(output_dir / "voltage_code.csv", rows)
-    summary = (
-        validate_wide_rows(
+    if timing_probe_stages:
+        write_aperture_timing_diagnostics(output_dir / "aperture_timing.json", rows, timing_probe_stages)
+    if diagnostic_mode:
+        # The diagnostic purpose is measurement, not a voltage-transfer
+        # acceptance decision.  It must complete even when an intentionally
+        # selected aperture point produces an endpoint or an invalid raw word.
+        summary = {
+            "status": "PASS",
+            "diagnostic_only": True,
+            "scenario_count": len(rows),
+            "probe_stage_count": len(timing_probe_stages or []),
+        }
+    elif wide_kind:
+        summary = validate_wide_rows(
             rows,
             points,
             int(args.baseline_code),
             int(config["wide_range"]["acceptable_nominal_code_min"]),
             int(config["wide_range"]["acceptable_nominal_code_max"]),
+            # The revised screen/final grids explicitly include the two
+            # small-droop proof points, while a historical 10 mV baseline
+            # grid does not.  Make the resolution requirement enforceable
+            # exactly where the physical evidence contains those voltages.
+            require_stable_positive_by_50mv=wide_kind in ("screen", "final"),
+            require_single_code_forward_steps=wide_kind in ("screen", "final"),
         )
-        if wide_kind else validate_rows(config, rows, points, args.mode)
-    )
+    else:
+        summary = validate_rows(config, rows, points, args.mode)
     summary["hspice_version"] = version
     summary["cal_sel"] = int(config["selected_cal_sel"] if args.cal_sel is None else args.cal_sel)
     summary["selected_lvt_cell"] = str(config["selected_lvt_cell"])
     if wide_kind:
         summary["wide_range_kind"] = wide_kind
         # A placement experiment supplies a static mask rather than a count;
-        # export its population so compact JSON remains self-describing.
-        summary["active_stage_count"] = active_mask.bit_count() if active_mask is not None else None
+        # export its population so compact JSON remains self-describing.  Do
+        # not use ``int.bit_count()`` here: the project host still supports a
+        # Python version predating that convenience method, while this string
+        # representation is available on every supported interpreter.
+        summary["active_stage_count"] = bin(active_mask).count("1") if active_mask is not None else None
         summary["active_stage_mask"] = active_mask
     (output_dir / "voltage_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if not wide_kind:

@@ -30,6 +30,7 @@ PHASE2_SCRIPT_DIR = ROOT / "delay_chain/phase2_vernier/scripts"
 sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(PHASE2_SCRIPT_DIR))
 import decode_vernier_code  # noqa: E402  # Python reference for bit-exact replay.
+import generate_phase3_deck  # noqa: E402  # Physical deck renderer under contract.
 import run_voltage_sweep  # noqa: E402  # Exact point-grid and raw CSV contract.
 import run_launch_calibration  # noqa: E402  # Endpoint-safe CAL selection policy.
 
@@ -48,11 +49,13 @@ def read_config():
 
 
 def physical_raw_vectors(config):
-    """Return raw physical words from both exact HSPICE voltage sweeps.
+    """Return raw physical words from narrow and wide exact HSPICE sweeps.
 
-    The selected RVT/LVT run is the source of retained SPICE vectors.  A
-    separate pair of all-zero/all-one legal words is appended to exercise both
-    decoder endpoints even if the physical sweep does not reach them.
+    The selected narrow RVT/LVT run and the final 83-point wide-range run are
+    both sources of retained SPICE vectors.  This proves decoder replay for
+    the original Phase-3 characterization and for the repaired sparse mask.
+    A separate pair of all-zero/all-one legal words is appended to exercise
+    both decoder endpoints even if a physical sweep does not reach them.
     """
 
     path = RUNS / "voltage_sweep/voltage_code.csv"
@@ -60,8 +63,14 @@ def physical_raw_vectors(config):
         words = [row["raw_thermometer_word"] for row in csv.DictReader(stream)]
     if len(words) != 123:
         raise AssertionError("expected 123 retained physical raw words")
+    wide_path = RUNS / "wide_range_resolution_early_late8_final/voltage_code.csv"
+    with wide_path.open(newline="", encoding="utf-8") as stream:
+        wide_words = [row["raw_thermometer_word"] for row in csv.DictReader(stream)]
+    if len(wide_words) != 83:
+        raise AssertionError("expected 83 retained final wide-range raw words")
     # These are raw words, not normalized words, because the selected physical
     # polarity is inverted by the RTL package before majority correction.
+    words.extend(wide_words)
     words.extend(["0" * 32, "1" * 32])
     return words
 
@@ -141,22 +150,173 @@ class Phase3ContractTests(unittest.TestCase):
         self.assertFalse(summary["gates"]["nominal_in_requested_window"])
         self.assertFalse(summary["gates"]["nonzero_code_span"])
 
+    def test_aperture_diagnostic_preserves_measured_stage_timing(self):
+        """Require explicit per-stage timing and finite-difference slope evidence.
+
+        This is a synthetic parser/output-contract test only: it proves the
+        diagnostic writer preserves measured crossing values, reports the
+        physical neighbouring-stage increment, and uses the next lower-VDD
+        row for the stated voltage slope.  It intentionally does not invoke
+        HSPICE, so a formatting regression cannot be hidden by a long analog
+        simulation run.
+        """
+
+        rows = [
+            {
+                "vdd_v": 1.050,
+                "sensor_code": 5,
+                "code_valid": 1,
+                "bubble_count": 0,
+                "timing_probes": {
+                    "000": {"ck_cross_s": 1.00e-9, "d_cross_s": 1.01e-9, "d_minus_ck_s": 1.00e-11},
+                    "001": {"ck_cross_s": 1.02e-9, "d_cross_s": 1.04e-9, "d_minus_ck_s": 2.00e-11},
+                },
+            },
+            {
+                "vdd_v": 1.100,
+                "sensor_code": 4,
+                "code_valid": 1,
+                "bubble_count": 0,
+                "timing_probes": {
+                    "000": {"ck_cross_s": 0.90e-9, "d_cross_s": 0.905e-9, "d_minus_ck_s": 5.00e-12},
+                    "001": {"ck_cross_s": 0.92e-9, "d_cross_s": 0.935e-9, "d_minus_ck_s": 1.50e-11},
+                },
+            },
+        ]
+        with tempfile.TemporaryDirectory(prefix="phase3_aperture_", dir=str(RUNS)) as temp_dir:
+            output = Path(temp_dir) / "aperture_timing.json"
+            run_voltage_sweep.write_aperture_timing_diagnostics(output, rows, [0, 1])
+            evidence = json.loads(output.read_text(encoding="utf-8"))
+
+        high_vdd_row = evidence["rows"][0]
+        self.assertEqual(high_vdd_row["vdd_v"], 1.100)
+        self.assertAlmostEqual(
+            high_vdd_row["stages"][1]["d_minus_ck_increment_from_previous_stage_s"],
+            1.00e-11,
+            places=20,
+        )
+        self.assertAlmostEqual(
+            high_vdd_row["stages"][0]["d_minus_ck_slope_per_v_to_next_lower_vdd"],
+            -1.00e-10,
+        )
+
+    def test_wide_range_resolution_gate_requires_two_stable_small_droop_codes(self):
+        """A new screen must prove +1 code at both 25 mV and 50 mV droop.
+
+        The rows intentionally include one additional 1.00 V point so the
+        one-code adjacent-forward-step gate is evaluated independently from
+        the two mandatory small-droop proof points.
+        """
+
+        points = [{"vdd_v": value} for value in (1.1, 1.075, 1.05, 1.0)]
+        rows = []
+        for voltage, code in ((1.1, 4), (1.075, 5), (1.05, 5), (1.0, 6)):
+            rows.append(
+                {
+                    "vdd_v": voltage,
+                    "droop_mv": (1.1 - voltage) * 1000.0,
+                    "sensor_code": code,
+                    "residual_code": code - 4,
+                    "code_valid": 1,
+                    "reset_failure_count": 0,
+                    "final_taps_arrived": 1,
+                    "rvt_031_cross_s": 2.0e-9,
+                    "lvt_031_cross_s": 2.1e-9,
+                }
+            )
+        summary = run_voltage_sweep.validate_wide_rows(
+            rows,
+            points,
+            4,
+            3,
+            6,
+            require_stable_positive_by_50mv=True,
+            require_single_code_forward_steps=True,
+        )
+        self.assertEqual(summary["status"], "PASS")
+        self.assertTrue(summary["gates"]["stable_positive_residual_by_50mv"])
+        self.assertTrue(summary["gates"]["no_multi_code_forward_step_at_50mv_or_finer"])
+        self.assertEqual(summary["resolution_probe_codes"], {"1.075": 5, "1.050": 5})
+
+    def test_fine_trim_loads_are_private_real_standard_cell_inputs(self):
+        """Fine-load rendering must never create a behavioral or series delay.
+
+        The test checks the two permitted cells' complete positional port
+        bindings.  INV has one data input; MXT2 ties both data inputs to the
+        CK launch and fixes S0 low, while both private Y nodes remain absent
+        from the timing path.  The count is intentionally one here because
+        the HSPICE A/B characterization decides whether either of the at-most
+        two budgeted cells is actually selected.
+        """
+
+        inv_text = "\n".join(
+            generate_phase3_deck.render_calibration_network(
+                "BUF_X0P7M_A9TR40",
+                "MXT2_X0P5M_A9TR40",
+                0,
+                0,
+                6,
+                "inv",
+                1,
+                "INV_X0P5M_A9TR40",
+            )
+        )
+        self.assertIn(
+            "XCAL_RVT_FINE_LOAD_INV_0 cal_rvt_fine_load_y0 vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 INV_X0P5M_A9TR40",
+            inv_text,
+        )
+        mxt2_text = "\n".join(
+            generate_phase3_deck.render_calibration_network(
+                "BUF_X0P7M_A9TR40",
+                "MXT2_X0P5M_A9TR40",
+                0,
+                0,
+                6,
+                "mxt2",
+                1,
+                "INV_X0P5M_A9TR40",
+            )
+        )
+        self.assertIn(
+            "XCAL_RVT_FINE_LOAD_MXT2_0 cal_rvt_fine_load_y0 vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 CAL_RVT_MUX_L2_0 vss_a MXT2_X0P5M_A9TR40",
+            mxt2_text,
+        )
+
     def test_wide_range_sparse_selection_and_final_evidence(self):
         """Require the frozen sparse mask and complete real-DFF range result."""
 
         config = read_config()
         selected = config["wide_range"]["selected"]
         self.assertEqual(selected["topology"], "sparse_lvt_rvt")
-        self.assertEqual(selected["active_stage_count"], 11)
-        self.assertEqual(selected["active_stage_indices"], [0, 2, 5, 8, 11, 14, 17, 20, 23, 26, 29])
-        self.assertEqual(selected["active_stage_mask"], "0x24924925")
+        self.assertEqual(selected["active_stage_count"], 8)
+        self.assertEqual(selected["active_stage_indices"], [0, 2, 3, 5, 28, 29, 30, 31])
+        self.assertEqual(selected["active_stage_mask"], "0xf000002d")
         self.assertEqual(selected["cal_sel"], 0)
-        self.assertEqual(selected["baseline_code"], 4)
+        self.assertEqual(selected["baseline_code"], 6)
         self.assertEqual(selected["launch_balance_load_count"], 0)
+        self.assertEqual(selected["rvt_fine_load_kind"], "none")
+        self.assertEqual(selected["rvt_fine_load_count"], 0)
         self.assertEqual(selected["rvt_launch_load_count"], 6)
-        summary = json.loads((RUNS / "wide_range_gain_11_screen/voltage_summary.json").read_text(encoding="utf-8"))
+        summary = json.loads((RUNS / "wide_range_resolution_mask_early_late8_screen/voltage_summary.json").read_text(encoding="utf-8"))
         self.assertEqual(summary["scenario_count"], 7)
         self.assertTrue(all(summary["gates"].values()))
+        self.assertEqual(summary["active_stage_mask"], int(selected["active_stage_mask"], 0))
+        self.assertEqual(summary["active_stage_count"], selected["active_stage_count"])
+        self.assertEqual(summary["cal_sel"], selected["cal_sel"])
+        self.assertEqual(summary["baseline_code"], selected["baseline_code"])
+        self.assertEqual(summary["nominal_code"], 6)
+        self.assertEqual(summary["resolution_probe_codes"], {"1.075": 7, "1.050": 7})
+        final_summary = json.loads(
+            (RUNS / "wide_range_resolution_early_late8_final/voltage_summary.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(final_summary["scenario_count"], 83)
+        self.assertTrue(all(final_summary["gates"].values()))
+        self.assertEqual(final_summary["active_stage_mask"], int(selected["active_stage_mask"], 0))
+        self.assertEqual(final_summary["active_stage_count"], selected["active_stage_count"])
+        self.assertEqual(final_summary["cal_sel"], selected["cal_sel"])
+        self.assertEqual(final_summary["baseline_code"], selected["baseline_code"])
+        self.assertEqual(final_summary["maximum_forward_step_codes"], 1)
+        self.assertEqual(final_summary["maximum_reversal_codes"], 0)
         frontend = (RTL / "phase3_frontend_struct.sv").read_text(encoding="ascii")
         companion = (RTL / "phase3_companion_stage_struct.sv").read_text(encoding="ascii")
         self.assertEqual(frontend.count("phase3_comparator_struct u_comparator"), 1)
@@ -172,13 +332,14 @@ class Phase3ContractTests(unittest.TestCase):
         package = (RTL / "phase3_calibration_pkg.sv").read_text(encoding="ascii")
         top = (RTL / "phase3_sensor.sv").read_text(encoding="ascii")
         launch = (RTL / "phase3_launch_cal_struct.sv").read_text(encoding="ascii")
-        self.assertIn("32'h2492_4925", package)
+        self.assertIn("32'hf000_002d", package)
         self.assertIn("WIDE_RANGE_DEFAULT_CAL_SEL = 3'd{}".format(config["cal_sel"]), package)
         self.assertIn("WIDE_RANGE_BASELINE_CODE = 6'd{}".format(config["baseline_code"]), package)
         self.assertIn("WIDE_RANGE_RVT_LAUNCH_LOAD_COUNT = 6", package)
         self.assertIn(".cal_sel_i(WIDE_RANGE_DEFAULT_CAL_SEL)", top)
         self.assertNotIn("u_lvt_balance_load", launch)
         self.assertIn("g_rvt_launch_load", launch)
+        self.assertNotIn("FINE_LOAD", launch)
 
     def test_rtl_source_has_no_forbidden_construct_or_reference_port(self):
         """Guard every synthesizable Phase-3 SV file against forbidden RTL."""

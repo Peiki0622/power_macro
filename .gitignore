@@ -85,6 +85,14 @@ hspice_command.log
 # generated-summary patterns.  Scenario decks/listings/logs remain ignored.
 !/delay_chain/phase3/runs/wide_range_repaired_final/voltage_code.csv
 !/delay_chain/phase3/runs/wide_range_repaired_final/voltage_summary.json
+# The resolution-repair screen establishes the 25/50 mV acceptance points;
+# the matching 83-point curve proves the same selected physical topology over
+# the entire range.  Keep only these compact CSV/JSON contracts, never their
+# generated decks, listings, waveforms, logs, or scenario directories.
+!/delay_chain/phase3/runs/wide_range_resolution_mask_early_late8_screen/voltage_code.csv
+!/delay_chain/phase3/runs/wide_range_resolution_mask_early_late8_screen/voltage_summary.json
+!/delay_chain/phase3/runs/wide_range_resolution_early_late8_final/voltage_code.csv
+!/delay_chain/phase3/runs/wide_range_resolution_early_late8_final/voltage_summary.json
 **/*_provenance.json
 **/*_report.json
 **/channel_importance.json

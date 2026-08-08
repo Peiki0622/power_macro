@@ -352,7 +352,8 @@ def write_ideal_vernier_deck(**kwargs: Any) -> str:
 
 def render_calibration_network(
     buffer_cell: str, mux_cell: str, cal_sel: int, launch_balance_load_count: int = 2,
-    rvt_launch_load_count: int = 0,
+    rvt_launch_load_count: int = 0, rvt_fine_load_kind: str = "none",
+    rvt_fine_load_count: int = 0, rvt_inverter_cell: str = "",
 ) -> List[str]:
     """Render the physical eight-tap, same-rail launch calibration network.
 
@@ -371,6 +372,10 @@ def render_calibration_network(
 
     ``cal_sel`` is emitted as static same-rail voltage sources in the deck,
     matching the eventual RTL selector bits without using a behavioral mux.
+    ``rvt_fine_load_kind`` optionally adds one or two *input-only* real-cell
+    loads after the already selected BUF loads.  It is a characterization
+    switch, not a programmable circuit: each rendered deck has one fixed
+    topology, private load outputs, and no series cell on the CK path.
     """
 
     if int(cal_sel) < 0 or int(cal_sel) > 7:
@@ -383,6 +388,14 @@ def render_calibration_network(
     # seventh case is a one-point aperture-edge diagnostic, not a sweep axis.
     if int(rvt_launch_load_count) < 0 or int(rvt_launch_load_count) > 7:
         raise ValueError("rvt_launch_load_count must be in [0, 7]")
+    if rvt_fine_load_kind not in ("none", "inv", "mxt2"):
+        raise ValueError("rvt_fine_load_kind must be none, inv, or mxt2")
+    if int(rvt_fine_load_count) < 0 or int(rvt_fine_load_count) > 2:
+        raise ValueError("rvt_fine_load_count must be in [0, 2]")
+    if rvt_fine_load_kind == "none" and int(rvt_fine_load_count) != 0:
+        raise ValueError("a fine-load count requires inv or mxt2 kind")
+    if rvt_fine_load_kind == "inv" and not rvt_inverter_cell:
+        raise ValueError("rvt_inverter_cell is required for an INV fine load")
     lines: List[str] = [
         "* Physical launch calibration: eight RVT BUF taps and two equal-depth MUX trees.",
         "* BUF/MXT2 supply and well pins all use vdd_a/vss_a; no separate rail exists.",
@@ -464,6 +477,32 @@ def render_calibration_network(
                 "XCAL_RVT_BALANCE_LOAD_{} cal_rvt_balance_y{} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 {}".format(index, index, buffer_cell),
             ]
         )
+    # A fine trim is physically an added receiver input capacitance only.  Its
+    # Y output has no fanout and therefore cannot become a hidden logic/delay
+    # stage.  The two legal choices use their documented positional CDL ports:
+    # INV is Y VDD VNW VPW VSS A; MXT2 is Y VDD VNW VPW VSS A B S0 with A=B
+    # and S0 tied low, so its data selection is static.
+    lines.append(
+        "* RVT fine input-load kind={} count={}; outputs are private CK-side sinks.".format(
+            rvt_fine_load_kind, int(rvt_fine_load_count)
+        )
+    )
+    for index in range(int(rvt_fine_load_count)):
+        output = "cal_rvt_fine_load_y{}".format(index)
+        if rvt_fine_load_kind == "inv":
+            lines.extend(
+                [
+                    "* RVT INV fine load {} ports Y VDD VNW VPW VSS A = {} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0.".format(index, output),
+                    "XCAL_RVT_FINE_LOAD_INV_{} {} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 {}".format(index, output, rvt_inverter_cell),
+                ]
+            )
+        elif rvt_fine_load_kind == "mxt2":
+            lines.extend(
+                [
+                    "* RVT MXT2 fine load {} ports Y VDD VNW VPW VSS A B S0 = {} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 CAL_RVT_MUX_L2_0 vss_a.".format(index, output),
+                    "XCAL_RVT_FINE_LOAD_MXT2_{} {} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 CAL_RVT_MUX_L2_0 vss_a {}".format(index, output, mux_cell),
+                ]
+            )
 
     # LVT leaves intentionally all name the same request node.  The same three
     # MUX levels therefore add the same common launch delay as the RVT branch,
@@ -519,6 +558,8 @@ def render_real_dff_vernier_deck(
     stop_time_ns: float = 4.0,
     launch_balance_load_count: int = 2,
     rvt_launch_load_count: int = 0,
+    rvt_fine_load_kind: str = "none",
+    rvt_fine_load_count: int = 0,
     timing_probe_stages: Optional[List[int]] = None,
 ) -> str:
     """Render the Step-6 same-rail chain plus 32 real comparator DFFs.
@@ -548,6 +589,12 @@ def render_real_dff_vernier_deck(
         raise ValueError("launch_balance_load_count must be 0, 1, or 2")
     if int(rvt_launch_load_count) < 0 or int(rvt_launch_load_count) > 7:
         raise ValueError("rvt_launch_load_count must be in [0, 7]")
+    if rvt_fine_load_kind not in ("none", "inv", "mxt2"):
+        raise ValueError("rvt_fine_load_kind must be none, inv, or mxt2")
+    if int(rvt_fine_load_count) < 0 or int(rvt_fine_load_count) > 2:
+        raise ValueError("rvt_fine_load_count must be in [0, 2]")
+    if rvt_fine_load_kind == "none" and int(rvt_fine_load_count) != 0:
+        raise ValueError("a fine-load count requires inv or mxt2 kind")
     if timing_probe_stages is not None and any(int(index) < 0 or int(index) >= int(stages) for index in timing_probe_stages):
         raise ValueError("timing_probe_stages must fit stages")
     if not rvt_cdl.is_file() or not lvt_cdl.is_file() or not model_library.is_file():
@@ -601,7 +648,14 @@ def render_real_dff_vernier_deck(
         )
         lines.extend(
             render_calibration_network(
-                buffer_cell, mux_cell, int(cal_sel), int(launch_balance_load_count), int(rvt_launch_load_count)
+                buffer_cell,
+                mux_cell,
+                int(cal_sel),
+                int(launch_balance_load_count),
+                int(rvt_launch_load_count),
+                rvt_fine_load_kind,
+                int(rvt_fine_load_count),
+                rvt_cell,
             )
         )
         rvt_start_node = "CAL_RVT_MUX_L2_0"
