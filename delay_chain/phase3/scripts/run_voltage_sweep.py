@@ -205,6 +205,8 @@ def run_point(
     q_read_time_ns: float = 2.5,
     stop_time_ns: float = 4.0,
     baseline_code: Optional[int] = None,
+    launch_balance_load_count: int = 2,
+    rvt_launch_load_count: int = 0,
 ) -> Dict[str, Any]:
     """Generate, execute, validate, and decode one physical voltage point."""
 
@@ -241,6 +243,8 @@ def run_point(
         active_stage_mask=active_mask,
         q_read_time_ns=q_read_time_ns,
         stop_time_ns=stop_time_ns,
+        launch_balance_load_count=launch_balance_load_count,
+        rvt_launch_load_count=rvt_launch_load_count,
     )
     prefix = "phase3_voltage_code"
     result = subprocess.run(
@@ -329,7 +333,7 @@ def write_csv(path: Path, rows: Sequence[Dict[str, Any]]) -> None:
     """Write all measured fields while rejecting accidental schema drift."""
 
     with path.open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=CSV_FIELDS, extrasaction="raise")
+        writer = csv.DictWriter(stream, fieldnames=CSV_FIELDS, extrasaction="raise", lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({field: render_value(row[field]) for field in CSV_FIELDS})
@@ -420,7 +424,10 @@ def validate_rows(
     }
 
 
-def validate_wide_rows(rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str, Any]], baseline_code: int) -> Dict[str, Any]:
+def validate_wide_rows(
+    rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str, Any]], baseline_code: int,
+    nominal_minimum: int = 3, nominal_maximum: int = 6,
+) -> Dict[str, Any]:
     """Apply the narrow, physical wide-range completion contract.
 
     Every point is retained, including an invalid word or a missing final-tap
@@ -439,6 +446,15 @@ def validate_wide_rows(rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str
     resets = [float(row["vdd_v"]) for row in rows if int(row["reset_failure_count"]) != 0]
     late = [float(row["vdd_v"]) for row in rows if not int(row["final_taps_arrived"])]
     saturated = [float(row["vdd_v"]) for row in ordered if int(row["sensor_code"]) >= 32]
+    codes = [int(row["sensor_code"]) for row in rows]
+    minimum_code = min(codes)
+    maximum_code = max(codes)
+    code_span = maximum_code - minimum_code
+    nominal_rows = [row for row in rows if abs(float(row["vdd_v"]) - 1.1) <= 1.0e-12]
+    if len(nominal_rows) != 1:
+        raise ValueError("wide-range result must contain exactly one 1.10 V nominal row")
+    nominal_code = int(nominal_rows[0]["sensor_code"])
+    positive_rows = [row for row in ordered if int(row["residual_code"]) > 0]
     max_arrival = max(
         [max(float(row["rvt_031_cross_s"]), float(row["lvt_031_cross_s"])) for row in rows if row["rvt_031_cross_s"] is not None and row["lvt_031_cross_s"] is not None] or [0.0]
     )
@@ -446,6 +462,12 @@ def validate_wide_rows(rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str
         "all_code_words_valid": not invalid,
         "all_resets_pass": not resets,
         "all_final_taps_arrive_before_read": not late,
+        # A syntactically valid thermometer endpoint is not a calibrated
+        # sensor.  These three gates prevent all-zero/all-32 curves from
+        # masquerading as a successful physical wide-range characterization.
+        "nominal_not_endpoint": 0 < nominal_code < 32,
+        "nominal_in_requested_window": nominal_minimum <= nominal_code <= nominal_maximum,
+        "nonzero_code_span": code_span > 0,
         "no_pre_0p70_saturation": not [value for value in saturated if value > 0.700000000001],
         "generally_monotonic_with_droop": len(reversals) <= 1 and max(reversals or [0]) <= 1,
     }
@@ -453,7 +475,11 @@ def validate_wide_rows(rows: Sequence[Dict[str, Any]], points: Sequence[Dict[str
         "status": "PASS" if all(gates.values()) else "FAIL",
         "scenario_count": len(rows),
         "baseline_code": int(baseline_code),
-        "nominal_code": next(int(row["sensor_code"]) for row in rows if abs(float(row["vdd_v"]) - 1.1) <= 1.0e-12),
+        "nominal_code": nominal_code,
+        "minimum_sensor_code": minimum_code,
+        "maximum_sensor_code": maximum_code,
+        "code_span": code_span,
+        "first_positive_residual_v": float(positive_rows[0]["vdd_v"]) if positive_rows else None,
         "first_saturation_v": saturated[0] if saturated else None,
         "first_invalid_v": invalid[0] if invalid else None,
         "late_final_tap_v": late,
@@ -512,8 +538,14 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument("--mode", choices=("rvt_lvt", "rvt_rvt"), default="rvt_lvt")
     parser.add_argument("--wide-range-kind", choices=("baseline", "screen", "final"))
     parser.add_argument("--active-stage-count", type=int)
+    parser.add_argument(
+        "--active-stage-mask", type=lambda value: int(value, 0),
+        help="static sparse mask for a measured placement experiment; mutually exclusive with --active-stage-count",
+    )
     parser.add_argument("--cal-sel", type=int)
     parser.add_argument("--baseline-code", type=int)
+    parser.add_argument("--launch-balance-load-count", type=int, choices=(0, 1, 2), default=2)
+    parser.add_argument("--rvt-launch-load-count", type=int, choices=range(8), default=0)
     parser.add_argument("--timeout-s", type=int, default=300)
     return parser
 
@@ -537,9 +569,15 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         raise ValueError("wide-range runs require --cal-sel and --baseline-code")
     if args.active_stage_count is not None and not wide_kind:
         raise ValueError("--active-stage-count is only valid for wide-range runs")
-    active_mask = None
+    if args.active_stage_mask is not None and not wide_kind:
+        raise ValueError("--active-stage-mask is only valid for wide-range runs")
+    if args.active_stage_count is not None and args.active_stage_mask is not None:
+        raise ValueError("choose only one of --active-stage-count and --active-stage-mask")
+    active_mask = args.active_stage_mask
     if args.active_stage_count is not None:
         active_mask = generate_phase3_deck.active_stage_mask(int(config["stages"]), args.active_stage_count)
+    if active_mask is not None and (active_mask < 0 or active_mask >= (1 << int(config["stages"]))):
+        raise ValueError("--active-stage-mask must fit the Phase-3 stage count")
     output_dir = args.output_dir.resolve()
     if output_dir.exists():
         raise ValueError("refusing to overwrite existing run directory: {}".format(output_dir))
@@ -554,20 +592,42 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         "selected_dummy_load_count": int(config["selected_dummy_load_count"] if active_mask is None else 0),
         "wide_range_kind": wide_kind,
         "active_stage_mask": active_mask,
+        "launch_balance_load_count": args.launch_balance_load_count,
+        "rvt_launch_load_count": args.rvt_launch_load_count,
     }
     (output_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     run_config = dict(config)
     if args.cal_sel is not None:
         run_config["selected_cal_sel"] = int(args.cal_sel)
-    rows = [run_point(run_config, selected, phase1, hspice, output_dir, point, args.mode, args.timeout_s, active_mask, float(config.get("wide_range", {}).get("characterization_read_time_ns", 2.5)) if wide_kind else 2.5, float(config.get("wide_range", {}).get("characterization_stop_time_ns", 4.0)) if wide_kind else 4.0, args.baseline_code) for point in points]
+    rows = [
+        run_point(
+            run_config, selected, phase1, hspice, output_dir, point, args.mode, args.timeout_s,
+            active_mask,
+            float(config.get("wide_range", {}).get("characterization_read_time_ns", 2.5)) if wide_kind else 2.5,
+            float(config.get("wide_range", {}).get("characterization_stop_time_ns", 4.0)) if wide_kind else 4.0,
+            args.baseline_code, args.launch_balance_load_count, args.rvt_launch_load_count,
+        )
+        for point in points
+    ]
     write_csv(output_dir / "voltage_code.csv", rows)
-    summary = validate_wide_rows(rows, points, int(args.baseline_code)) if wide_kind else validate_rows(config, rows, points, args.mode)
+    summary = (
+        validate_wide_rows(
+            rows,
+            points,
+            int(args.baseline_code),
+            int(config["wide_range"]["acceptable_nominal_code_min"]),
+            int(config["wide_range"]["acceptable_nominal_code_max"]),
+        )
+        if wide_kind else validate_rows(config, rows, points, args.mode)
+    )
     summary["hspice_version"] = version
     summary["cal_sel"] = int(config["selected_cal_sel"] if args.cal_sel is None else args.cal_sel)
     summary["selected_lvt_cell"] = str(config["selected_lvt_cell"])
     if wide_kind:
         summary["wide_range_kind"] = wide_kind
-        summary["active_stage_count"] = args.active_stage_count
+        # A placement experiment supplies a static mask rather than a count;
+        # export its population so compact JSON remains self-describing.
+        summary["active_stage_count"] = active_mask.bit_count() if active_mask is not None else None
         summary["active_stage_mask"] = active_mask
     (output_dir / "voltage_summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if not wide_kind:

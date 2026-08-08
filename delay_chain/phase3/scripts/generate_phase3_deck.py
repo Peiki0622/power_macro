@@ -351,7 +351,8 @@ def write_ideal_vernier_deck(**kwargs: Any) -> str:
 
 
 def render_calibration_network(
-    buffer_cell: str, mux_cell: str, cal_sel: int,
+    buffer_cell: str, mux_cell: str, cal_sel: int, launch_balance_load_count: int = 2,
+    rvt_launch_load_count: int = 0,
 ) -> List[str]:
     """Render the physical eight-tap, same-rail launch calibration network.
 
@@ -374,6 +375,14 @@ def render_calibration_network(
 
     if int(cal_sel) < 0 or int(cal_sel) > 7:
         raise ValueError("cal_sel must be in [0, 7]")
+    if int(launch_balance_load_count) not in (0, 1, 2):
+        raise ValueError("launch_balance_load_count must be 0, 1, or 2")
+    # The companion-side inherited count stays constrained to its historical
+    # 0/1/2 A/B study.  CK-side reuse/extension is separately bounded at six:
+    # two reused cells plus at most five measured fine-delay additions.  The
+    # seventh case is a one-point aperture-edge diagnostic, not a sweep axis.
+    if int(rvt_launch_load_count) < 0 or int(rvt_launch_load_count) > 7:
+        raise ValueError("rvt_launch_load_count must be in [0, 7]")
     lines: List[str] = [
         "* Physical launch calibration: eight RVT BUF taps and two equal-depth MUX trees.",
         "* BUF/MXT2 supply and well pins all use vdd_a/vss_a; no separate rail exists.",
@@ -443,6 +452,18 @@ def render_calibration_network(
     # device, so emit the generated devices and explanatory comment only.
     lines.extend(rvt_level2[:-1])
     lines.append("* Selected RVT launch node is CAL_RVT_MUX_L2_0.")
+    lines.append(
+        "* RVT launch input-load count={}: reused private BUF inputs delay CK without adding a series cell.".format(
+            int(rvt_launch_load_count)
+        )
+    )
+    for index in range(int(rvt_launch_load_count)):
+        lines.extend(
+            [
+                "* RVT load {} ports Y VDD VNW VPW VSS A = cal_rvt_balance_y{} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0.".format(index, index),
+                "XCAL_RVT_BALANCE_LOAD_{} cal_rvt_balance_y{} vdd_a vdd_a vss_a vss_a CAL_RVT_MUX_L2_0 {}".format(index, index, buffer_cell),
+            ]
+        )
 
     # LVT leaves intentionally all name the same request node.  The same three
     # MUX levels therefore add the same common launch delay as the RVT branch,
@@ -457,16 +478,22 @@ def render_calibration_network(
     # Apply the same final-level rule to the common-mode LVT tree; the final
     # output node is referenced by name below and must not be emitted alone.
     lines.extend(lvt_level2[:-1])
-    lines.extend(
-        [
-            "* Fixed LVT input-load match: two private BUF inputs load the selected launch node without adding signal delay.",
-            "* Load 0 ports Y VDD VNW VPW VSS A = cal_lvt_balance_y0 vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0.",
-            "XCAL_LVT_BALANCE_LOAD_0 cal_lvt_balance_y0 vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0 {}".format(buffer_cell),
-            "* Load 1 ports Y VDD VNW VPW VSS A = cal_lvt_balance_y1 vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0.",
-            "XCAL_LVT_BALANCE_LOAD_1 cal_lvt_balance_y1 vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0 {}".format(buffer_cell),
-            "* Selected LVT launch node remains CAL_LVT_MUX_L2_0; neither private Y node can feed the chain.",
-        ]
+    lines.append(
+        "* LVT balance input-load count={}: private BUF outputs never feed the chain or a DFF.".format(
+            int(launch_balance_load_count)
+        )
     )
+    for index in range(int(launch_balance_load_count)):
+        # This is a real standard-cell input capacitance, not an ideal C.
+        # The loop is resolved while generating the deck, leaving HSPICE a
+        # static physical topology for each diagnostic load-count experiment.
+        lines.extend(
+            [
+                "* Load {} ports Y VDD VNW VPW VSS A = cal_lvt_balance_y{} vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0.".format(index, index),
+                "XCAL_LVT_BALANCE_LOAD_{} cal_lvt_balance_y{} vdd_a vdd_a vss_a vss_a CAL_LVT_MUX_L2_0 {}".format(index, index, buffer_cell),
+            ]
+        )
+    lines.append("* Selected LVT launch node remains CAL_LVT_MUX_L2_0; private Y nodes cannot add series delay.")
     return lines
 
 
@@ -490,6 +517,9 @@ def render_real_dff_vernier_deck(
     active_stage_mask: Optional[int] = None,
     q_read_time_ns: float = 2.5,
     stop_time_ns: float = 4.0,
+    launch_balance_load_count: int = 2,
+    rvt_launch_load_count: int = 0,
+    timing_probe_stages: Optional[List[int]] = None,
 ) -> str:
     """Render the Step-6 same-rail chain plus 32 real comparator DFFs.
 
@@ -514,6 +544,12 @@ def render_real_dff_vernier_deck(
         raise ValueError("stop_time_ns must be greater than positive q_read_time_ns")
     if active_stage_mask is not None and (int(active_stage_mask) < 0 or int(active_stage_mask) >= (1 << int(stages))):
         raise ValueError("active_stage_mask must fit stages")
+    if int(launch_balance_load_count) not in (0, 1, 2):
+        raise ValueError("launch_balance_load_count must be 0, 1, or 2")
+    if int(rvt_launch_load_count) < 0 or int(rvt_launch_load_count) > 7:
+        raise ValueError("rvt_launch_load_count must be in [0, 7]")
+    if timing_probe_stages is not None and any(int(index) < 0 or int(index) >= int(stages) for index in timing_probe_stages):
+        raise ValueError("timing_probe_stages must fit stages")
     if not rvt_cdl.is_file() or not lvt_cdl.is_file() or not model_library.is_file():
         raise ValueError("RVT CDL, LVT CDL, and model library must all exist")
     launch_rvt_s = 1.000000000000e-09 + (float(launch_offset_ps) * 1.0e-12 if launch_delayed_path == "rvt" else 0.0)
@@ -563,7 +599,11 @@ def render_real_dff_vernier_deck(
                 "V_START_REQ start_req vss_a PULSE(0 'VDD_VALUE' 1.000000000000e-09 1.000000000000e-12 1.000000000000e-12 3.000000000000e-09 4.000000000000e-09)",
             ]
         )
-        lines.extend(render_calibration_network(buffer_cell, mux_cell, int(cal_sel)))
+        lines.extend(
+            render_calibration_network(
+                buffer_cell, mux_cell, int(cal_sel), int(launch_balance_load_count), int(rvt_launch_load_count)
+            )
+        )
         rvt_start_node = "CAL_RVT_MUX_L2_0"
         lvt_start_node = "CAL_LVT_MUX_L2_0"
     lines.extend(
@@ -606,6 +646,27 @@ def render_real_dff_vernier_deck(
             ".measure tran rvt_lvt_diff_031 PARAM='lvt_031_cross-rvt_031_cross'",
         ]
     )
+    if timing_probe_stages:
+        # Debug probes are .measure statements only: they neither connect a
+        # new electrical load nor change CK/D wiring.  Naming follows the
+        # exported CSV contract (CK=RVT, D=companion) for direct aperture
+        # inspection at five representative locations.
+        lines.extend(
+            [
+                "* Calibration timing probes: launch crossings and selected D/CK tap skews are read-only diagnostics.",
+                ".measure tran rvt_launch_cross WHEN v({},vss_a) VAL='VDD_VALUE/2' RISE=1".format(rvt_start_node),
+                ".measure tran companion_launch_cross WHEN v({},vss_a) VAL='VDD_VALUE/2' RISE=1".format(lvt_start_node),
+                ".measure tran launch_d_minus_ck PARAM='companion_launch_cross-rvt_launch_cross'",
+            ]
+        )
+        for index in timing_probe_stages:
+            lines.extend(
+                [
+                    ".measure tran ck_{:03d}_cross WHEN v(rvt_tap_{:03d},vss_a) VAL='VDD_VALUE/2' RISE=1".format(index, index),
+                    ".measure tran d_{:03d}_cross WHEN v(lvt_tap_{:03d},vss_a) VAL='VDD_VALUE/2' RISE=1".format(index, index),
+                    ".measure tran d_minus_ck_{:03d} PARAM='d_{:03d}_cross-ck_{:03d}_cross'".format(index, index, index),
+                ]
+            )
     for index in range(int(stages)):
         lines.extend(
             [

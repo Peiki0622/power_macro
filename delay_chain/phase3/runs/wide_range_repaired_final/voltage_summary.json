@@ -1,0 +1,32 @@
+{
+  "active_stage_count": 11,
+  "active_stage_mask": 613566757,
+  "baseline_code": 4,
+  "cal_sel": 0,
+  "code_span": 7,
+  "first_invalid_v": null,
+  "first_positive_residual_v": 0.97,
+  "first_saturation_v": null,
+  "gates": {
+    "all_code_words_valid": true,
+    "all_final_taps_arrive_before_read": true,
+    "all_resets_pass": true,
+    "generally_monotonic_with_droop": true,
+    "no_pre_0p70_saturation": true,
+    "nominal_in_requested_window": true,
+    "nominal_not_endpoint": true,
+    "nonzero_code_span": true
+  },
+  "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+  "late_final_tap_v": [],
+  "maximum_final_tap_arrival_s": 3.746516505e-09,
+  "maximum_reversal_codes": 0,
+  "maximum_sensor_code": 11,
+  "minimum_sensor_code": 4,
+  "monotonicity_violation_count": 0,
+  "nominal_code": 4,
+  "scenario_count": 83,
+  "selected_lvt_cell": "INV_X0P5M_A9TL40",
+  "status": "PASS",
+  "wide_range_kind": "final"
+}

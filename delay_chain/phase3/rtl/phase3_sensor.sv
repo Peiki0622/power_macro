@@ -52,12 +52,12 @@ module phase3_sensor (
         end
     end
 
-    // The physical frontend is permanently fixed to the selected CAL_SEL=1.
-    // There is no runtime calibration input, which prevents an unvalidated tap
-    // choice from changing the characterized same-rail sensing structure.
+    // The sparse frontend is permanently fixed to the separately characterized
+    // wide-range CAL_SEL.  There is no runtime calibration input, which keeps
+    // the HSPICE-qualified aperture and synthesizable hardware identical.
     phase3_frontend_struct u_frontend (
         .vdd_a_i(vdd_a_i), .vss_a_i(vss_a_i),
-        .launch_req_i(sample_req_i), .cal_sel_i(DEFAULT_CAL_SEL),
+        .launch_req_i(sample_req_i), .cal_sel_i(WIDE_RANGE_DEFAULT_CAL_SEL),
         .rst_i(rst_i), .raw_thermometer_o(raw_thermometer)
     );
 

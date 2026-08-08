@@ -31,6 +31,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(PHASE2_SCRIPT_DIR))
 import decode_vernier_code  # noqa: E402  # Python reference for bit-exact replay.
 import run_voltage_sweep  # noqa: E402  # Exact point-grid and raw CSV contract.
+import run_launch_calibration  # noqa: E402  # Endpoint-safe CAL selection policy.
 
 
 CASE_RE = re.compile(
@@ -107,20 +108,55 @@ class Phase3ContractTests(unittest.TestCase):
         self.assertEqual(int(selected[0]["code_valid"]), 1)
         self.assertEqual(int(selected[0]["reset_failure_count"]), 0)
 
+    def test_calibration_rejects_valid_endpoint_only_rows(self):
+        """A legal DFF word outside 3..6 is diagnostic evidence, never CAL PASS."""
+
+        rows = [
+            {"cal_sel": index, "sensor_code": 0 if index == 0 else 32,
+             "code_valid": 1, "reset_failure_count": 0}
+            for index in range(8)
+        ]
+        decision = run_launch_calibration.select_nominal_calibration(rows, 3, 6, 4)
+        self.assertEqual(decision["status"], "FAIL")
+        self.assertEqual(decision["reason"], "no_nominal_center_setting")
+        self.assertNotIn("selected", decision)
+        self.assertEqual(decision["nearest_valid_diagnostic"]["cal_sel"], 0)
+
+    def test_wide_range_validation_rejects_constant_endpoint_curve(self):
+        """All-zero physical words must fail even when timing and reset checks pass."""
+
+        points = [{"vdd_v": 1.1}, {"vdd_v": 1.0}, {"vdd_v": 0.7}]
+        rows = [
+            {
+                "vdd_v": point["vdd_v"], "droop_mv": (1.1 - point["vdd_v"]) * 1000.0,
+                "sensor_code": 0, "residual_code": 0, "code_valid": 1,
+                "reset_failure_count": 0, "final_taps_arrived": 1,
+                "rvt_031_cross_s": 2.0e-9, "lvt_031_cross_s": 2.1e-9,
+            }
+            for point in points
+        ]
+        summary = run_voltage_sweep.validate_wide_rows(rows, points, 0, 3, 6)
+        self.assertEqual(summary["status"], "FAIL")
+        self.assertFalse(summary["gates"]["nominal_not_endpoint"])
+        self.assertFalse(summary["gates"]["nominal_in_requested_window"])
+        self.assertFalse(summary["gates"]["nonzero_code_span"])
+
     def test_wide_range_sparse_selection_and_final_evidence(self):
         """Require the frozen sparse mask and complete real-DFF range result."""
 
         config = read_config()
         selected = config["wide_range"]["selected"]
         self.assertEqual(selected["topology"], "sparse_lvt_rvt")
-        self.assertEqual(selected["active_stage_count"], 16)
-        self.assertEqual(selected["active_stage_indices"], list(range(0, 32, 2)))
-        self.assertEqual(selected["active_stage_mask"], "0x55555555")
-        summary = json.loads((RUNS / "wide_range_final/voltage_summary.json").read_text(encoding="utf-8"))
-        self.assertEqual(summary["scenario_count"], 83)
+        self.assertEqual(selected["active_stage_count"], 11)
+        self.assertEqual(selected["active_stage_indices"], [0, 2, 5, 8, 11, 14, 17, 20, 23, 26, 29])
+        self.assertEqual(selected["active_stage_mask"], "0x24924925")
+        self.assertEqual(selected["cal_sel"], 0)
+        self.assertEqual(selected["baseline_code"], 4)
+        self.assertEqual(selected["launch_balance_load_count"], 0)
+        self.assertEqual(selected["rvt_launch_load_count"], 6)
+        summary = json.loads((RUNS / "wide_range_gain_11_screen/voltage_summary.json").read_text(encoding="utf-8"))
+        self.assertEqual(summary["scenario_count"], 7)
         self.assertTrue(all(summary["gates"].values()))
-        self.assertIsNone(summary["first_saturation_v"])
-        self.assertIsNone(summary["first_invalid_v"])
         frontend = (RTL / "phase3_frontend_struct.sv").read_text(encoding="ascii")
         companion = (RTL / "phase3_companion_stage_struct.sv").read_text(encoding="ascii")
         self.assertEqual(frontend.count("phase3_comparator_struct u_comparator"), 1)
@@ -128,6 +164,21 @@ class Phase3ContractTests(unittest.TestCase):
         self.assertIn("INV_X0P5M_A9TL40 u_first_lvt", companion)
         self.assertIn("INV_X0P5M_A9TR40 u_second_rvt", companion)
         self.assertNotIn("dummy", companion.lower())
+
+    def test_wide_range_rtl_matches_repaired_physical_selection(self):
+        """Keep static configuration, RTL mask/CAL, and CK load repair aligned."""
+
+        config = read_config()["wide_range"]["selected"]
+        package = (RTL / "phase3_calibration_pkg.sv").read_text(encoding="ascii")
+        top = (RTL / "phase3_sensor.sv").read_text(encoding="ascii")
+        launch = (RTL / "phase3_launch_cal_struct.sv").read_text(encoding="ascii")
+        self.assertIn("32'h2492_4925", package)
+        self.assertIn("WIDE_RANGE_DEFAULT_CAL_SEL = 3'd{}".format(config["cal_sel"]), package)
+        self.assertIn("WIDE_RANGE_BASELINE_CODE = 6'd{}".format(config["baseline_code"]), package)
+        self.assertIn("WIDE_RANGE_RVT_LAUNCH_LOAD_COUNT = 6", package)
+        self.assertIn(".cal_sel_i(WIDE_RANGE_DEFAULT_CAL_SEL)", top)
+        self.assertNotIn("u_lvt_balance_load", launch)
+        self.assertIn("g_rvt_launch_load", launch)
 
     def test_rtl_source_has_no_forbidden_construct_or_reference_port(self):
         """Guard every synthesizable Phase-3 SV file against forbidden RTL."""

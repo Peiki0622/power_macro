@@ -18,10 +18,14 @@ package phase3_calibration_pkg;
     // Wide-range constants are frozen only after the 83-point real-DFF sweep.
     // Bit i maps to companion stage i; the alternating mask has 16 active
     // LVT->RVT stages and 16 neutral RVT->RVT stages.
-    localparam logic [31:0] WIDE_RANGE_ACTIVE_STAGE_MASK = 32'h5555_5555;
-    localparam int WIDE_RANGE_ACTIVE_STAGE_COUNT = 16;
+    localparam logic [31:0] WIDE_RANGE_ACTIVE_STAGE_MASK = 32'h2492_4925;
+    localparam int WIDE_RANGE_ACTIVE_STAGE_COUNT = 11;
     localparam logic [2:0] WIDE_RANGE_DEFAULT_CAL_SEL = 3'd0;
-    localparam logic [5:0] WIDE_RANGE_BASELINE_CODE = 6'd0;
+    localparam logic [5:0] WIDE_RANGE_BASELINE_CODE = 6'd4;
+    // HSPICE-qualified static launch topology: no companion-side balance
+    // inputs, six CK/RVT-side BUF inputs.  These are cell counts, not delays.
+    localparam int WIDE_RANGE_COMPANION_LAUNCH_LOAD_COUNT = 0;
+    localparam int WIDE_RANGE_RVT_LAUNCH_LOAD_COUNT = 6;
 
     // Step 5 established that the raw DFF word is 1*0.  The frontend keeps
     // that physical direction and the decoder inverts it to the 0*1* contract.

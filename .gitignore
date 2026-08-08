@@ -60,6 +60,8 @@ hspice_command.log
 # remains ignored by the rule above.
 !/delay_chain/phase3/runs/wide_range_final/voltage_code.csv
 !/delay_chain/phase3/runs/wide_range_final/voltage_summary.json
+!/delay_chain/phase3/runs/wide_range_repaired_final/voltage_code.csv
+!/delay_chain/phase3/runs/wide_range_repaired_final/voltage_summary.json
 
 # TCN run directories contain generated datasets, simulator products, model
 # checkpoints and other reproducible artifacts.  Keep the directory traversal
@@ -78,6 +80,11 @@ hspice_command.log
 **/*_manifest.json
 **/complexity.json
 **/validation_metrics.json
+
+# Re-apply the two curated repaired-final evidence exceptions after generic
+# generated-summary patterns.  Scenario decks/listings/logs remain ignored.
+!/delay_chain/phase3/runs/wide_range_repaired_final/voltage_code.csv
+!/delay_chain/phase3/runs/wide_range_repaired_final/voltage_summary.json
 **/*_provenance.json
 **/*_report.json
 **/channel_importance.json

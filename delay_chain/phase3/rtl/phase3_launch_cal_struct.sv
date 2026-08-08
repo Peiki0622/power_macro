@@ -28,6 +28,11 @@ module phase3_launch_cal_struct (
     output logic       rvt_launch_o,
     output logic       lvt_launch_o
 );
+    // The selected CK input-load count is a package localparam shared with
+    // configuration checks.  Importing it here keeps this structural module
+    // self-contained when elaborated below the frontend hierarchy.
+    import phase3_calibration_pkg::*;
+
     // Eight RVT tap nodes.  Tap zero is intentionally direct; fine taps use
     // MXT2 A=B and coarse taps use BUF, matching the calibrated SPICE network.
     (* keep = "true", dont_touch = "true" *) logic rvt_tap_0;
@@ -92,7 +97,10 @@ module phase3_launch_cal_struct (
     // levels remain real cells so their propagation is common-mode with RVT.
     (* keep = "true", dont_touch = "true" *) logic lvt_mux_l0_0, lvt_mux_l0_1, lvt_mux_l0_2, lvt_mux_l0_3;
     (* keep = "true", dont_touch = "true" *) logic lvt_mux_l1_0, lvt_mux_l1_1;
-    (* keep = "true", dont_touch = "true" *) logic lvt_balance_sink_0, lvt_balance_sink_1;
+    // Private RVT sink outputs represent six real BUF input loads on CK.  The
+    // packed declaration is static hardware: each generated instance below
+    // receives one bit, and no sink output can feed a timing-path cell.
+    (* keep = "true", dont_touch = "true" *) logic [5:0] rvt_launch_load_sink;
     (* keep = "true", dont_touch = "true" *)
     MXT2_X0P5M_A9TR40 u_lvt_mux_l0_0 (.Y(lvt_mux_l0_0), .VDD(vdd_a_i), .VSS(vss_a_i), .A(launch_req_i), .B(launch_req_i), .S0(cal_sel_i[0]));
     (* keep = "true", dont_touch = "true" *)
@@ -108,13 +116,22 @@ module phase3_launch_cal_struct (
     (* keep = "true", dont_touch = "true" *)
     MXT2_X0P5M_A9TR40 u_lvt_mux_l2_0 (.Y(lvt_launch_o), .VDD(vdd_a_i), .VSS(vss_a_i), .A(lvt_mux_l1_0), .B(lvt_mux_l1_1), .S0(cal_sel_i[2]));
 
-    // Two private BUF inputs load the selected LVT launch exactly as in the
-    // final deck.  Their outputs are intentionally unconnected beyond local
-    // sinks, preserving input capacitance without adding series delay.
-    (* keep = "true", dont_touch = "true" *)
-    BUF_X0P7M_A9TR40 u_lvt_balance_load_0 (.Y(lvt_balance_sink_0), .VDD(vdd_a_i), .VSS(vss_a_i), .A(lvt_launch_o));
-    (* keep = "true", dont_touch = "true" *)
-    BUF_X0P7M_A9TR40 u_lvt_balance_load_1 (.Y(lvt_balance_sink_1), .VDD(vdd_a_i), .VSS(vss_a_i), .A(lvt_launch_o));
+    // The previous sparse implementation put two private BUF input loads on
+    // D/companion.  Physical A/B data showed that they moved D later, away
+    // from the aperture.  The repaired topology removes them and applies six
+    // real BUF inputs to CK/RVT instead.  A generate loop emits fixed cells at
+    // elaboration; it is fully synthesizable and adds no runtime selection.
+    generate
+        for (genvar load_index = 0;
+             load_index < WIDE_RANGE_RVT_LAUNCH_LOAD_COUNT;
+             load_index = load_index + 1) begin : g_rvt_launch_load
+            (* keep = "true", dont_touch = "true" *)
+            BUF_X0P7M_A9TR40 u_rvt_launch_load (
+                .Y(rvt_launch_load_sink[load_index]), .VDD(vdd_a_i),
+                .VSS(vss_a_i), .A(rvt_launch_o)
+            );
+        end
+    endgenerate
 endmodule
 
 `default_nettype wire
