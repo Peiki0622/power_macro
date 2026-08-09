@@ -1,0 +1,151 @@
+{
+  "delay_lvt": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A"
+    ],
+    "cell": "BUF_X0P7M_A9TL40",
+    "power_well_mapping": {
+      "VDD": "VDD_A",
+      "VNW": "VDD_A",
+      "VPW": "VSS_A",
+      "VSS": "VSS_A"
+    },
+    "truth_function": "Y = A",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A"
+    ],
+    "vt_class": "LVT"
+  },
+  "delay_rvt": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A"
+    ],
+    "cell": "BUF_X0P7M_A9TR40",
+    "power_well_mapping": {
+      "VDD": "VDD_A",
+      "VNW": "VDD_A",
+      "VPW": "VSS_A",
+      "VSS": "VSS_A"
+    },
+    "truth_function": "Y = A",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A"
+    ],
+    "vt_class": "RVT"
+  },
+  "dff": {
+    "cdl_ports": [
+      "Q",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "CK",
+      "D",
+      "R"
+    ],
+    "cell": "DFFRPQ_X0P5M_A9TR40",
+    "clock_pin": "CK",
+    "clock_polarity": "positive_edge",
+    "power_well_mapping": {
+      "VDD": "VDD_A",
+      "VNW": "VDD_A",
+      "VPW": "VSS_A",
+      "VSS": "VSS_A"
+    },
+    "reset_pin": "R",
+    "reset_polarity": "active_high_async_clear",
+    "truth_function": "Q samples D on CK rising edge; R asynchronously clears Q",
+    "verilog_ports": [
+      "Q",
+      "VDD",
+      "VSS",
+      "CK",
+      "D",
+      "R"
+    ],
+    "vt_class": "RVT"
+  },
+  "latch": {
+    "cdl_ports": [
+      "Q",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "D",
+      "G"
+    ],
+    "cell": "LATQ_X0P5M_A9TR40",
+    "enable_pin": "G",
+    "enable_polarity": "active_high",
+    "output_pin": "Q",
+    "power_well_mapping": {
+      "VDD": "VDD_A",
+      "VNW": "VDD_A",
+      "VPW": "VSS_A",
+      "VSS": "VSS_A"
+    },
+    "truth_function": "Q follows D while G is high",
+    "verilog_ports": [
+      "Q",
+      "VDD",
+      "VSS",
+      "D",
+      "G"
+    ],
+    "vt_class": "RVT"
+  },
+  "mapping_note": "FTC HVT path is intentionally mapped to RVT; target library has no HVT selection.",
+  "schema_version": 1,
+  "source_files": {
+    "lvt_cdl": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+    "lvt_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/verilog/sc9mc_logic0040ll_base_lvt_c40.v",
+    "rvt_cdl": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+    "rvt_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
+  },
+  "technology": "SMIC40LL",
+  "xor2": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A",
+      "B"
+    ],
+    "cell": "XOR2_X0P5M_A9TR40",
+    "power_well_mapping": {
+      "VDD": "VDD_A",
+      "VNW": "VDD_A",
+      "VPW": "VSS_A",
+      "VSS": "VSS_A"
+    },
+    "truth_function": "Y = A XOR B",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A",
+      "B"
+    ],
+    "vt_class": "RVT"
+  }
+}

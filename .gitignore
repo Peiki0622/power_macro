@@ -110,3 +110,45 @@ hspice_command.log
 /tcn_detection/data/corpus_v1.jsonl
 /tcn_detection/data/split_audit_v1.json
 /tcn_detection/data/split_audit_v2_20260725_r2.json
+
+# Reference Paper
+/reference_paper
+
+# FTC keeps only compact, reviewable electrical evidence under its task-owned
+# run directories.  Generated decks, listings, waveforms, solver state, and
+# command logs remain covered by the generic delay-chain run ignore policy.
+!/delay_chain/ftc/
+!/delay_chain/ftc/runs/
+!/delay_chain/ftc/runs/mechanism_nominal_search/
+!/delay_chain/ftc/runs/mechanism_nominal_search/search.csv
+!/delay_chain/ftc/runs/mechanism_nominal_search/selection.json
+!/delay_chain/ftc/runs/mechanism_coarse/
+!/delay_chain/ftc/runs/mechanism_coarse/voltage_xor.csv
+!/delay_chain/ftc/runs/mechanism_coarse/summary.json
+!/delay_chain/ftc/runs/xor_loading_nominal/
+!/delay_chain/ftc/runs/xor_loading_nominal/loading_comparison.json
+!/delay_chain/ftc/runs/capture_nominal/
+!/delay_chain/ftc/runs/capture_nominal/capture_phase.csv
+!/delay_chain/ftc/runs/capture_nominal/selection.json
+!/delay_chain/ftc/runs/integrated_coarse/
+!/delay_chain/ftc/runs/integrated_coarse/voltage_xor.csv
+!/delay_chain/ftc/runs/integrated_coarse/summary.json
+!/delay_chain/ftc/runs/integrated_coarse_phase300/
+!/delay_chain/ftc/runs/integrated_coarse_phase300/voltage_xor.csv
+!/delay_chain/ftc/runs/integrated_coarse_phase300/summary.json
+!/delay_chain/ftc/runs/static_fine/
+!/delay_chain/ftc/runs/static_fine/static_transfer.csv
+!/delay_chain/ftc/runs/static_fine/summary.json
+!/delay_chain/ftc/runs/phase_sensitivity/
+!/delay_chain/ftc/runs/phase_sensitivity/phase_sensitivity.csv
+!/delay_chain/ftc/runs/phase_sensitivity/summary.json
+!/delay_chain/ftc/runs/glitch_initial/
+!/delay_chain/ftc/runs/glitch_initial/glitch_matrix.csv
+!/delay_chain/ftc/runs/glitch_initial/summary.json
+
+# Final FTC worktree policy: simulator/VCS evidence and rendered figures are
+# reproducible artifacts, so keep them out of Git status.  The authored
+# Markdown reports remain reviewable source documents under reports/.
+/delay_chain/ftc/runs/**
+/delay_chain/ftc/reports/figures/**
+!/delay_chain/ftc/reports/*.md

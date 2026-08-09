@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "study_name": "smic40ll_ftc_style_rvt_lvt_reproduction",
+  "technology": "SMIC40LL",
+  "corner": "tt",
+  "temperature_c": 25.0,
+  "hspice": "/home/zhupl25/.local/bin/hspice",
+  "expected_hspice_version": "W-2024.09",
+  "model_library": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+  "nominal_vdd_v": 1.1,
+  "minimum_vdd_v": 0.75,
+  "coarse_vdd_v": [1.1, 1.05, 1.0, 0.95, 0.9, 0.85, 0.8, 0.75],
+  "observable_stages": 30,
+  "initial_rvt_stages": 0,
+  "initial_lvt_stages": 0,
+  "sampling_period_s": 6.0e-9,
+  "launch_time_s": 1.0e-9,
+  "capture_phase_s": 4.5e-10,
+  "ff_capture_delay_s": 2.0e-10,
+  "post_capture_read_delay_s": 2.0e-10,
+  "latch_open_offset_s": 1.0e-11,
+  "tran_max_step_s": 1.0e-12,
+  "nominal_search": {
+    "initial_rvt_stages": [0, 2, 4],
+    "initial_lvt_stages": [0],
+    "capture_phase_s": [2.5e-10, 3.5e-10, 4.5e-10, 5.5e-10, 6.5e-10]
+  },
+  "selected_operating_point": {
+    "initial_rvt_stages": 4,
+    "initial_lvt_stages": 0,
+    "capture_phase_s": 3.0e-10,
+    "ff_capture_delay_s": 2.0e-10,
+    "capture_phase_step_s": 1.3718435e-11,
+    "nominal_captured_xor_word": "000000000011111111100000000000",
+    "evidence_run": "integrated_coarse_phase300"
+  },
+  "fine_static_step_v": 0.01,
+  "glitch_cases": [
+    {"case_id": "shallow_short", "depth_v": 0.1, "width_s": 1.0e-10},
+    {"case_id": "medium_medium", "depth_v": 0.2, "width_s": 5.0e-10},
+    {"case_id": "deep_long", "depth_v": 0.4, "width_s": 2.0e-9}
+  ]
+}
