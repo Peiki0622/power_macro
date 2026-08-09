@@ -1,0 +1,122 @@
+{
+  "best": {
+    "case_summaries": [
+      {
+        "blind_intervals": [
+          {
+            "duration_s": 6.859217500000001e-11,
+            "end_s": -1.31407825e-10,
+            "start_s": -2e-10
+          },
+          {
+            "duration_s": 4.527083549999999e-10,
+            "end_s": 7.602904499999999e-10,
+            "start_s": 3.07582095e-10
+          }
+        ],
+        "case_id": "medium_200mv_200ps",
+        "detection_fraction": 0.45714285714285713,
+        "longest_common_blind_interval_s": 4.527083549999999e-10,
+        "total_common_blind_duration_s": 5.213005299999999e-10
+      }
+    ],
+    "detection_field": "jitter_aware_detected",
+    "phase_count": 2,
+    "phase_ids": [
+      "phi_m04",
+      "phi_p04"
+    ],
+    "worst_detection_fraction": 0.45714285714285713,
+    "worst_longest_common_blind_s": 4.527083549999999e-10
+  },
+  "ranking": [
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 6.859217500000001e-11,
+              "end_s": -1.31407825e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.527083549999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.07582095e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.45714285714285713,
+          "longest_common_blind_interval_s": 4.527083549999999e-10,
+          "total_common_blind_duration_s": 5.213005299999999e-10
+        }
+      ],
+      "detection_field": "jitter_aware_detected",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.45714285714285713,
+      "worst_longest_common_blind_s": 4.527083549999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 9.6029045e-11,
+              "end_s": -1.03970955e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.527083549999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.07582095e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.42857142857142855,
+          "longest_common_blind_interval_s": 4.527083549999999e-10,
+          "total_common_blind_duration_s": 5.487373999999999e-10
+        }
+      ],
+      "detection_field": "jitter_aware_detected",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.42857142857142855,
+      "worst_longest_common_blind_s": 4.527083549999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 6.859217500000001e-11,
+              "end_s": -1.31407825e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 5.487373999999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.1155305000000002e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.35714285714285715,
+          "longest_common_blind_interval_s": 5.487373999999999e-10,
+          "total_common_blind_duration_s": 6.173295749999999e-10
+        }
+      ],
+      "detection_field": "jitter_aware_detected",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_m04"
+      ],
+      "worst_detection_fraction": 0.35714285714285715,
+      "worst_longest_common_blind_s": 5.487373999999999e-10
+    }
+  ]
+}

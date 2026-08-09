@@ -1,0 +1,124 @@
+{
+  "candidate_count": 9,
+  "candidates": [
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 4,
+      "phase_id": "phi_m01",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 4,
+      "phase_id": "phi_m02",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 2,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 4,
+      "phase_id": "phi_m03",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 2,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 4,
+      "phase_id": "phi_m04",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 5,
+      "phase_id": "phi_p00",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 5,
+      "phase_id": "phi_p01",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 5,
+      "phase_id": "phi_p02",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 5,
+      "phase_id": "phi_p03",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    },
+    {
+      "anchor_valid": 1,
+      "boundary_points": 1,
+      "coarse_valid": 1,
+      "direction_consistent": 1,
+      "distinct_start_end_states": 8,
+      "eligible": 1,
+      "largest_adjacent_encoded_jump": 5,
+      "phase_id": "phi_p04",
+      "reason": "eligible",
+      "valid_coarse_points": 8
+    }
+  ],
+  "eligible_phase_ids": [
+    "phi_m01",
+    "phi_m02",
+    "phi_m03",
+    "phi_m04",
+    "phi_p00",
+    "phi_p01",
+    "phi_p02",
+    "phi_p03",
+    "phi_p04"
+  ]
+}

@@ -16,7 +16,7 @@ import statistics
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Sequence
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 
 FTC_ROOT = Path(__file__).resolve().parents[1]
@@ -498,13 +498,305 @@ def summarize_glitch_csv(output_dir: Path, baseline: str) -> None:
     (output_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def phase_diverse_settings(path: Path, base_config: Dict[str, Any]) -> Dict[str, Any]:
+    """Load and strictly validate the task-local phase-diversity contract.
+
+    This deliberately lives beside the existing runner rather than creating a
+    second HSPICE flow.  The base FTC configuration remains the immutable
+    single-phase reference while this object contains only the new candidate
+    phase and glitch-screening parameters.  Rejecting malformed inputs here
+    prevents an invalid voltage glitch from consuming a physical run.
+    """
+
+    settings = load_json(path)
+    required = (
+        "phase_reference_s", "phase_step_s", "candidate_multipliers",
+        "anchor_vdd_v", "coarse_vdd_v", "formal_minimum_vdd_v",
+        "maximum_glitch_depth_v", "medium_glitch", "representative_glitches",
+        "jitter_offset_multipliers",
+    )
+    if any(key not in settings for key in required):
+        raise ValueError("incomplete phase-diversity configuration: {}".format(path))
+    if float(settings["formal_minimum_vdd_v"]) != float(base_config["minimum_vdd_v"]):
+        raise ValueError("phase-diversity minimum VDD must match the frozen FTC range")
+    if float(settings["phase_reference_s"]) != float(base_config["selected_operating_point"]["capture_phase_s"]):
+        raise ValueError("phase-diversity reference phase must remain the frozen 300 ps point")
+    if float(settings["phase_step_s"]) != float(base_config["selected_operating_point"]["capture_phase_step_s"]):
+        raise ValueError("phase-diversity phase step must come from measured FTC evidence")
+    multipliers = settings["candidate_multipliers"]
+    if not isinstance(multipliers, list) or len(multipliers) < 2 or len(set(multipliers)) != len(multipliers):
+        raise ValueError("candidate phase multipliers must be a unique list containing at least two values")
+    if any(int(value) != value for value in multipliers):
+        raise ValueError("candidate phase multipliers must be integral measured-step offsets")
+    phases = [float(settings["phase_reference_s"]) + int(value) * float(settings["phase_step_s"]) for value in multipliers]
+    if any(phase <= 0.0 or phase >= float(base_config["sampling_period_s"]) for phase in phases):
+        raise ValueError("candidate capture phase lies outside the FTC sampling period")
+    if sorted(float(value) for value in settings["anchor_vdd_v"]) != [0.75, 0.9, 1.1]:
+        raise ValueError("phase-diversity anchors must be exactly 0.75, 0.90, and 1.10 V")
+    if any(float(value) < float(settings["formal_minimum_vdd_v"]) for value in settings["coarse_vdd_v"]):
+        raise ValueError("phase-diversity coarse sweep exceeds the formal minimum VDD")
+    if float(settings["maximum_glitch_depth_v"]) > float(base_config["nominal_vdd_v"]) - float(settings["formal_minimum_vdd_v"]):
+        raise ValueError("phase-diversity glitch ceiling would violate the formal minimum VDD")
+    for glitch in [settings["medium_glitch"]] + list(settings["representative_glitches"]):
+        if not isinstance(glitch, dict) or not isinstance(glitch.get("case_id"), str):
+            raise ValueError("every phase-diversity glitch needs a stable case_id")
+        if float(glitch.get("depth_v", 0.0)) <= 0.0 or float(glitch["depth_v"]) > float(settings["maximum_glitch_depth_v"]):
+            raise ValueError("phase-diversity glitch depth is outside the approved 0--350 mV range")
+        if float(glitch.get("width_s", 0.0)) <= 0.0:
+            raise ValueError("phase-diversity glitch width must be positive")
+    return settings
+
+
+def phase_diverse_candidates(settings: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Create deterministic phase IDs and values from the measured local step.
+
+    The ID encodes the signed measured-step multiplier rather than a rounded
+    time in picoseconds.  It is therefore stable across CSV, JSON, RTL
+    packaging, and future physical tap characterization.
+    """
+
+    result: List[Dict[str, Any]] = []
+    for multiplier in settings["candidate_multipliers"]:
+        signed = int(multiplier)
+        phase_id = "phi_{:+03d}".format(signed).replace("+", "p").replace("-", "m")
+        result.append({
+            "phase_id": phase_id,
+            "phase_multiplier": signed,
+            "capture_phase_s": float(settings["phase_reference_s"]) + signed * float(settings["phase_step_s"]),
+        })
+    return result
+
+
+def requested_phase_candidates(settings: Dict[str, Any], phase_ids: Optional[str]) -> List[Dict[str, Any]]:
+    """Resolve an optional comma-separated phase-ID subset without guessing IDs."""
+
+    candidates = phase_diverse_candidates(settings)
+    by_id = {str(item["phase_id"]): item for item in candidates}
+    if phase_ids is None:
+        return candidates
+    requested = [item.strip() for item in phase_ids.split(",") if item.strip()]
+    if not requested or len(set(requested)) != len(requested):
+        raise ValueError("phase-diversity phase IDs must be a nonempty unique comma-separated list")
+    unknown = [item for item in requested if item not in by_id]
+    if unknown:
+        raise ValueError("unknown phase-diversity phase IDs: {}".format(",".join(unknown)))
+    return [by_id[item] for item in requested]
+
+
+def phase_diverse_output(path: Path, config: Dict[str, Any], cells: Dict[str, Any]) -> Path:
+    """Open one resumable task-owned run root without overwriting evidence.
+
+    The anchor, coarse, jitter, and glitch subcommands write different compact
+    files below their own root.  A repeated command is allowed only when the
+    manifest proves that it uses the identical frozen FTC configuration and
+    selected real cells; raw scenario names remain unique because each stage
+    includes its phase and purpose in the label.
+    """
+
+    if not path.exists():
+        return prepare_output(path, config, cells)
+    manifest_path = path / "manifest.json"
+    if not manifest_path.is_file():
+        # Baseline analysis is intentionally pure data and may create its
+        # compact JSON before the first jitter simulation.  Permit exactly
+        # that ordering, but never reuse a directory that already contains
+        # raw scenarios without an auditable immutable-input manifest.
+        if (path / "scenarios").exists():
+            raise ValueError("existing phase-diversity scenarios lack a manifest: {}".format(path))
+        hspice = run_dc_sweep.require_regular_file(Path(config["hspice"]), "HSPICE", executable=True)
+        version = run_dc_sweep.hspice_version(hspice)
+        if str(config["expected_hspice_version"]) not in version:
+            raise RuntimeError("unexpected HSPICE version: {}".format(version))
+        for source in list(cells["source_files"].values()) + [config["model_library"]]:
+            run_dc_sweep.require_regular_file(Path(source), "FTC source collateral")
+        run_dc_sweep.require_regular_file(FTC_ROOT / "spice/empty_subckt.sp_cal", "FTC LVT compatibility include")
+        manifest_path.write_text(
+            json.dumps({"study": config["study_name"], "hspice_version": version, "config": config, "selected_cells": cells}, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        return hspice
+    manifest = load_json(manifest_path)
+    if manifest.get("config") != config or manifest.get("selected_cells") != cells:
+        raise ValueError("existing phase-diversity run has incompatible FTC inputs: {}".format(path))
+    return run_dc_sweep.require_regular_file(Path(config["hspice"]), "HSPICE", executable=True)
+
+
+def read_rows_if_present(path: Path) -> List[Dict[str, Any]]:
+    """Read a compact CSV before appending another disjoint physical campaign."""
+
+    if not path.is_file():
+        return []
+    with path.open(newline="", encoding="utf-8") as stream:
+        return [dict(row) for row in csv.DictReader(stream)]
+
+
+def run_phase_diverse_static(args: argparse.Namespace, config: Dict[str, Any], cells: Dict[str, Any]) -> None:
+    """Characterize caller-selected explicit phases at anchors or the coarse grid.
+
+    This is intentionally a separate stage from the frozen fine sweep.  It
+    keeps the physical front-end unchanged and records one independently
+    captured observation for every (phase, VDD) point, which is the required
+    evidence for later virtual same-launch union analysis.
+    """
+
+    settings = phase_diverse_settings(args.phase_diverse_config, config)
+    candidates = requested_phase_candidates(settings, args.phase_ids)
+    voltages = settings["anchor_vdd_v"] if args.screen == "anchor" else settings["coarse_vdd_v"]
+    out = args.output_dir.resolve()
+    hspice = phase_diverse_output(out, config, cells)
+    rows: List[Dict[str, Any]] = []
+    index = 0
+    for candidate in candidates:
+        for voltage in voltages:
+            record = capture_metrics(run_scenario(
+                hspice, out, config, cells, index,
+                "{}_{}".format(args.screen, candidate["phase_id"]), float(voltage), "capture",
+                int(config["selected_operating_point"]["initial_rvt_stages"]),
+                int(config["selected_operating_point"]["initial_lvt_stages"]),
+                float(candidate["capture_phase_s"]),
+            ))
+            record.update(candidate)
+            rows.append(record)
+            index += 1
+    output_name = "phase_candidate_anchor.csv" if args.screen == "anchor" else "phase_candidate_coarse.csv"
+    write_csv(out / output_name, rows)
+
+
+def run_phase_diverse_jitter(args: argparse.Namespace, config: Dict[str, Any], cells: Dict[str, Any]) -> None:
+    """Measure the bounded no-glitch phase envelope for already selected phases."""
+
+    settings = phase_diverse_settings(args.phase_diverse_config, config)
+    candidates = requested_phase_candidates(settings, args.phase_ids)
+    out = args.output_dir.resolve()
+    hspice = phase_diverse_output(out, config, cells)
+    rows: List[Dict[str, Any]] = []
+    index = 0
+    for candidate in candidates:
+        for voltage in settings["anchor_vdd_v"]:
+            for offset_multiplier in settings["jitter_offset_multipliers"]:
+                offset_s = float(offset_multiplier) * float(settings["phase_step_s"])
+                record = capture_metrics(run_scenario(
+                    hspice, out, config, cells, index,
+                    "jitter_{}_{}".format(candidate["phase_id"], str(offset_multiplier).replace("-", "m")),
+                    float(voltage), "capture",
+                    int(config["selected_operating_point"]["initial_rvt_stages"]),
+                    int(config["selected_operating_point"]["initial_lvt_stages"]),
+                    float(candidate["capture_phase_s"]) + offset_s,
+                ))
+                record.update(candidate)
+                record["phase_offset_s"] = offset_s
+                rows.append(record)
+                index += 1
+    write_csv(out / "phase_jitter.csv", rows)
+
+
+def phase_diverse_glitch_cases(settings: Dict[str, Any], requested_ids: str) -> List[Dict[str, Any]]:
+    """Resolve named bounded glitch families and reject accidental broad sweeps."""
+
+    all_cases = [settings["medium_glitch"]] + list(settings["representative_glitches"])
+    by_id = {str(item["case_id"]): item for item in all_cases}
+    requested = [item.strip() for item in requested_ids.split(",") if item.strip()]
+    if not requested or len(set(requested)) != len(requested):
+        raise ValueError("glitch case IDs must be a nonempty unique comma-separated list")
+    unknown = [item for item in requested if item not in by_id]
+    if unknown:
+        raise ValueError("unknown phase-diversity glitch IDs: {}".format(",".join(unknown)))
+    return [by_id[item] for item in requested]
+
+
+def parse_onsets(value: Optional[str], width_s: float, last_phase_s: float, config: Dict[str, Any], settings: Dict[str, Any]) -> List[float]:
+    """Build a finite relative-onset grid or consume explicit local refinements.
+
+    Default coverage begins one width before launch and ends only after the
+    latest selected capture plus its FF/read margin.  The coarse interval is
+    tied to measured stage timing and never becomes a gratuitous sub-ps grid.
+    """
+
+    if value is not None:
+        result = [float(item.strip()) for item in value.split(",") if item.strip()]
+        if not result:
+            raise ValueError("explicit onset list is empty")
+        return sorted(set(result))
+    step_s = min(float(settings["phase_step_s"]), float(width_s) / 4.0)
+    end_s = float(last_phase_s) + float(config["ff_capture_delay_s"]) + float(config["post_capture_read_delay_s"])
+    start_s = -float(width_s)
+    count = int((end_s - start_s) / step_s) + 1
+    return [start_s + index * step_s for index in range(count + 1) if start_s + index * step_s <= end_s + 1.0e-18]
+
+
+def run_phase_diverse_glitch(args: argparse.Namespace, config: Dict[str, Any], cells: Dict[str, Any]) -> None:
+    """Run a bounded onset-by-phase physical map against phase-specific baselines."""
+
+    settings = phase_diverse_settings(args.phase_diverse_config, config)
+    candidates = requested_phase_candidates(settings, args.phase_ids)
+    baselines = load_json(args.baseline_path)
+    by_phase = {str(item["phase_id"]): item for item in baselines.get("phases", [])}
+    if set(item["phase_id"] for item in candidates) - set(by_phase):
+        raise ValueError("glitch map lacks a phase-specific nominal baseline")
+    cases = phase_diverse_glitch_cases(settings, args.glitch_case_ids)
+    out = args.output_dir.resolve()
+    hspice = phase_diverse_output(out, config, cells)
+    existing = read_rows_if_present(out / "glitch_phase_map.csv")
+    rows: List[Dict[str, Any]] = []
+    index = len(existing)
+    last_phase = max(float(item["capture_phase_s"]) for item in candidates)
+    for case in cases:
+        for onset_s in parse_onsets(args.onsets_s, float(case["width_s"]), last_phase, config, settings):
+            glitch = {
+                "start_s": float(config["launch_time_s"]) + onset_s,
+                "width_s": float(case["width_s"]),
+                "depth_v": float(case["depth_v"]),
+            }
+            if glitch["start_s"] <= 0.0:
+                # The deck requires a positive absolute PWL time.  The formal
+                # relative interval is still represented by the earliest
+                # physically realizable start instead of silently clipping it.
+                continue
+            for candidate in candidates:
+                record = capture_metrics(run_scenario(
+                    hspice, out, config, cells, index,
+                    "glitch_{}_{}_o{:04d}".format(case["case_id"], candidate["phase_id"], index),
+                    float(config["nominal_vdd_v"]), "capture",
+                    int(config["selected_operating_point"]["initial_rvt_stages"]),
+                    int(config["selected_operating_point"]["initial_lvt_stages"]),
+                    float(candidate["capture_phase_s"]), glitch,
+                ))
+                baseline = by_phase[str(candidate["phase_id"])]
+                record.update(candidate)
+                record.update({
+                    "case_id": case["case_id"], "glitch_depth_v": float(case["depth_v"]),
+                    "glitch_width_s": float(case["width_s"]), "glitch_start_s": glitch["start_s"],
+                    "glitch_onset_rel_s": onset_s,
+                    "full_word_changed": int(record["captured_xor_word"] != baseline["captured_xor_word"]),
+                    "encoded_state_changed": int(
+                        int(record["start_index"]) != int(baseline["start_index"]) or
+                        int(record["end_index"]) != int(baseline["end_index"])
+                    ),
+                    "boundary_distance": abs(int(record["start_index"]) - int(baseline["start_index"])) +
+                                         abs(int(record["end_index"]) - int(baseline["end_index"])),
+                })
+                rows.append(record)
+                index += 1
+    write_csv(out / "glitch_phase_map.csv", existing + rows)
+
+
 def main(argv: Iterable[str] = None) -> int:
     """Dispatch only explicitly named FTC characterization stages."""
 
     parser = argparse.ArgumentParser(description="run standalone FTC physical characterizations")
-    parser.add_argument("stage", choices=("mechanism-search", "mechanism-coarse", "xor-loading", "capture-phase", "integrated-coarse", "fine", "phase-sensitivity", "glitch", "glitch-summary"))
+    parser.add_argument("stage", choices=(
+        "mechanism-search", "mechanism-coarse", "xor-loading", "capture-phase",
+        "integrated-coarse", "fine", "phase-sensitivity", "glitch", "glitch-summary",
+        "phase-diverse-static", "phase-diverse-jitter", "phase-diverse-glitch",
+    ))
     parser.add_argument("--config", required=True, type=Path)
     parser.add_argument("--output-dir", required=True, type=Path)
+    parser.add_argument("--phase-diverse-config", type=Path, help="task-local phase-diversity configuration")
+    parser.add_argument("--screen", choices=("anchor", "coarse"), help="phase-diverse static screen to execute")
+    parser.add_argument("--phase-ids", help="comma-separated explicit phase IDs; omitted means every configured candidate")
+    parser.add_argument("--glitch-case-ids", help="comma-separated bounded glitch family IDs")
+    parser.add_argument("--baseline-path", type=Path, help="phase-specific nominal baseline JSON for glitch scoring")
+    parser.add_argument("--onsets-s", help="comma-separated relative onset times for local boundary refinement")
     parser.add_argument("--initial-rvt-stages", type=int, help="explicit coarse-only window-placement retry value")
     parser.add_argument("--initial-lvt-stages", type=int, help="explicit coarse-only window-placement retry value")
     parser.add_argument("--capture-phase-s", type=float, help="explicit coarse-only window-placement retry phase")
@@ -520,6 +812,18 @@ def main(argv: Iterable[str] = None) -> int:
     elif args.stage == "fine": run_fine(args, config, cells)
     elif args.stage == "phase-sensitivity": run_phase_sensitivity(args, config, cells)
     elif args.stage == "glitch": run_glitch(args, config, cells)
+    elif args.stage == "phase-diverse-static":
+        if args.phase_diverse_config is None or args.screen is None:
+            parser.error("phase-diverse-static requires --phase-diverse-config and --screen")
+        run_phase_diverse_static(args, config, cells)
+    elif args.stage == "phase-diverse-jitter":
+        if args.phase_diverse_config is None:
+            parser.error("phase-diverse-jitter requires --phase-diverse-config")
+        run_phase_diverse_jitter(args, config, cells)
+    elif args.stage == "phase-diverse-glitch":
+        if args.phase_diverse_config is None or args.glitch_case_ids is None or args.baseline_path is None:
+            parser.error("phase-diverse-glitch requires --phase-diverse-config, --glitch-case-ids, and --baseline-path")
+        run_phase_diverse_glitch(args, config, cells)
     else: summarize_glitch_csv(args.output_dir.resolve(), str(selected_operating_point(config)["nominal_captured_xor_word"]))
     return 0
 

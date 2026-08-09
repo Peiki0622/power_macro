@@ -1,0 +1,789 @@
+{
+  "best": {
+    "case_summaries": [
+      {
+        "blind_intervals": [
+          {
+            "duration_s": 1.3718434999999987e-11,
+            "end_s": -1.7256313e-10,
+            "start_s": -1.86281565e-10
+          },
+          {
+            "duration_s": 4.389899199999999e-10,
+            "end_s": 7.602904499999999e-10,
+            "start_s": 3.2130053e-10
+          }
+        ],
+        "case_id": "medium_200mv_200ps",
+        "detection_fraction": 0.5285714285714286,
+        "longest_common_blind_interval_s": 4.389899199999999e-10,
+        "total_common_blind_duration_s": 4.527083549999999e-10
+      }
+    ],
+    "detection_field": "encoded_state_changed",
+    "phase_count": 2,
+    "phase_ids": [
+      "phi_m04",
+      "phi_p04"
+    ],
+    "worst_detection_fraction": 0.5285714285714286,
+    "worst_longest_common_blind_s": 4.389899199999999e-10
+  },
+  "ranking": [
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5285714285714286,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.527083549999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5285714285714286,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5285714285714286,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.527083549999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_m04",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5285714285714286,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5285714285714286,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.527083549999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p00",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5285714285714286,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5285714285714286,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.527083549999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p00",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5285714285714286,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5285714285714286,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.527083549999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p02",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5285714285714286,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.743687e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_p00",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_p00",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_p02",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.743687e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_m04",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p00",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p00",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p02",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5142857142857142,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.664267899999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_p00",
+        "phi_p02",
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5142857142857142,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 4.115530499999999e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.801452249999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 4.115530499999999e-11,
+              "end_s": -1.4512626e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.801452249999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_p04"
+      ],
+      "worst_detection_fraction": 0.5,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 4.115530499999999e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 4.389899199999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 3.2130053e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.5,
+          "longest_common_blind_interval_s": 4.389899199999999e-10,
+          "total_common_blind_duration_s": 4.801452249999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p02"
+      ],
+      "worst_detection_fraction": 0.5,
+      "worst_longest_common_blind_s": 4.389899199999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.80145225e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.8014522499999994e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.4857142857142857,
+          "longest_common_blind_interval_s": 4.80145225e-10,
+          "total_common_blind_duration_s": 4.9386366e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m04",
+        "phi_p00"
+      ],
+      "worst_detection_fraction": 0.4857142857142857,
+      "worst_longest_common_blind_s": 4.80145225e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 1.3718434999999987e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.80145225e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.8014522499999994e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.4857142857142857,
+          "longest_common_blind_interval_s": 4.80145225e-10,
+          "total_common_blind_duration_s": 4.9386366e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 3,
+      "phase_ids": [
+        "phi_m02",
+        "phi_m04",
+        "phi_p00"
+      ],
+      "worst_detection_fraction": 0.4857142857142857,
+      "worst_longest_common_blind_s": 4.80145225e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.80145225e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.8014522499999994e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.4714285714285714,
+          "longest_common_blind_interval_s": 4.80145225e-10,
+          "total_common_blind_duration_s": 5.075820949999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_p00"
+      ],
+      "worst_detection_fraction": 0.4714285714285714,
+      "worst_longest_common_blind_s": 4.80145225e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.7436869999999975e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -1.86281565e-10
+            },
+            {
+              "duration_s": 4.80145225e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.8014522499999994e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.4714285714285714,
+          "longest_common_blind_interval_s": 4.80145225e-10,
+          "total_common_blind_duration_s": 5.075820949999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m02",
+        "phi_p00"
+      ],
+      "worst_detection_fraction": 0.4714285714285714,
+      "worst_longest_common_blind_s": 4.80145225e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.743687e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 5.075820949999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.5270835499999996e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.44285714285714284,
+          "longest_common_blind_interval_s": 5.075820949999999e-10,
+          "total_common_blind_duration_s": 5.350189649999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_m04"
+      ],
+      "worst_detection_fraction": 0.44285714285714284,
+      "worst_longest_common_blind_s": 5.075820949999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 2.743687e-11,
+              "end_s": -1.7256313e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 5.075820949999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.5270835499999996e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.44285714285714284,
+          "longest_common_blind_interval_s": 5.075820949999999e-10,
+          "total_common_blind_duration_s": 5.350189649999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 2,
+      "phase_ids": [
+        "phi_m02",
+        "phi_m04"
+      ],
+      "worst_detection_fraction": 0.44285714285714284,
+      "worst_longest_common_blind_s": 5.075820949999999e-10
+    },
+    {
+      "case_summaries": [
+        {
+          "blind_intervals": [
+            {
+              "duration_s": 4.115530499999999e-11,
+              "end_s": -1.5884469500000002e-10,
+              "start_s": -2e-10
+            },
+            {
+              "duration_s": 5.075820949999999e-10,
+              "end_s": 7.602904499999999e-10,
+              "start_s": 2.5270835499999996e-10
+            }
+          ],
+          "case_id": "medium_200mv_200ps",
+          "detection_fraction": 0.42857142857142855,
+          "longest_common_blind_interval_s": 5.075820949999999e-10,
+          "total_common_blind_duration_s": 5.487373999999999e-10
+        }
+      ],
+      "detection_field": "encoded_state_changed",
+      "phase_count": 1,
+      "phase_ids": [
+        "phi_m02"
+      ],
+      "worst_detection_fraction": 0.42857142857142855,
+      "worst_longest_common_blind_s": 5.075820949999999e-10
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "case_id": "medium_200mv_200ps",
+      "full_cycle_unobserved_interval_lower_bound_s": 5.253427985e-09,
+      "per_phase_detection_fraction": {
+        "phi_m04": 0.35714285714285715,
+        "phi_p04": 0.42857142857142855
+      },
+      "persistent_two_cycle_coverage": null,
+      "persistent_two_cycle_reason": "not_measured: mapped glitch width is shorter than sampling period",
+      "same_launch_union_not_used": true,
+      "schedule": [
+        "phi_m04",
+        "phi_p04"
+      ],
+      "single_event_detection_fraction_unknown_parity": 0.39285714285714285,
+      "single_event_worst_phase_detection_fraction": 0.35714285714285715
+    }
+  ],
+  "sampling_period_s": 6e-09,
+  "schema_version": 1
+}

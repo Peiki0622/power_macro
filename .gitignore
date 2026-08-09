@@ -152,3 +152,31 @@ hspice_command.log
 /delay_chain/ftc/runs/**
 /delay_chain/ftc/reports/figures/**
 !/delay_chain/ftc/reports/*.md
+
+# Phase-diverse FTC keeps only the compact source evidence needed by the
+# post-processing regressions.  Each exception names a task-owned run root;
+# generated HSPICE decks, listings, waveforms, command logs, and scenario
+# directories remain ignored by the preceding catch-all rule.
+!/delay_chain/ftc/runs/phase_diverse_screen/
+!/delay_chain/ftc/runs/phase_diverse_screen/phase_candidate_anchor.csv
+!/delay_chain/ftc/runs/phase_diverse_screen/phase_candidate_coarse.csv
+!/delay_chain/ftc/runs/phase_diverse_screen/phase_candidate_summary.json
+!/delay_chain/ftc/runs/phase_diverse_screen/qualified_phases.json
+!/delay_chain/ftc/runs/phase_diverse_static/
+!/delay_chain/ftc/runs/phase_diverse_static/phase_baselines.json
+!/delay_chain/ftc/runs/phase_diverse_static/phase_jitter.csv
+!/delay_chain/ftc/runs/phase_diverse_static/phase_jitter_summary.json
+!/delay_chain/ftc/runs/phase_diverse_glitch/
+!/delay_chain/ftc/runs/phase_diverse_glitch/glitch_phase_map.csv
+!/delay_chain/ftc/runs/phase_diverse_glitch/glitch_phase_map_summary.json
+!/delay_chain/ftc/runs/phase_diverse_glitch/glitch_phase_map_jitter_aware.csv
+!/delay_chain/ftc/runs/phase_diverse_glitch/phase_jitter_summary.json
+!/delay_chain/ftc/runs/phase_diverse_glitch/phase_set_candidates.csv
+!/delay_chain/ftc/runs/phase_diverse_glitch/phase_set_selection.json
+!/delay_chain/ftc/runs/phase_diverse_glitch/phase_set_selection_jitter_aware.json
+!/delay_chain/ftc/runs/phase_diverse_glitch/sequential_schedule_summary.json
+!/delay_chain/ftc/runs/phase_diverse_final/
+!/delay_chain/ftc/runs/phase_diverse_final/static_transfer.csv
+!/delay_chain/ftc/runs/phase_diverse_final/static_summary.json
+!/delay_chain/ftc/runs/phase_diverse_final/final_glitch_map.csv
+!/delay_chain/ftc/runs/phase_diverse_final/final_glitch_summary.json

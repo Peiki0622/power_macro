@@ -1,0 +1,55 @@
+{
+  "phases": [
+    {
+      "capture_phase_s": 2.7256313e-10,
+      "captured_xor_word": "000000000111111110000000000000",
+      "end_index": 16,
+      "nominal_end": 16,
+      "nominal_length": 8,
+      "nominal_start": 9,
+      "phase_id": "phi_m02",
+      "start_index": 9
+    },
+    {
+      "capture_phase_s": 2.4512626e-10,
+      "captured_xor_word": "000000001111111000000000000000",
+      "end_index": 14,
+      "nominal_end": 14,
+      "nominal_length": 7,
+      "nominal_start": 8,
+      "phase_id": "phi_m04",
+      "start_index": 8
+    },
+    {
+      "capture_phase_s": 3e-10,
+      "captured_xor_word": "000000000011111111100000000000",
+      "end_index": 18,
+      "nominal_end": 18,
+      "nominal_length": 9,
+      "nominal_start": 10,
+      "phase_id": "phi_p00",
+      "start_index": 10
+    },
+    {
+      "capture_phase_s": 3.2743686999999997e-10,
+      "captured_xor_word": "000000000000111111111000000000",
+      "end_index": 20,
+      "nominal_end": 20,
+      "nominal_length": 9,
+      "nominal_start": 12,
+      "phase_id": "phi_p02",
+      "start_index": 12
+    },
+    {
+      "capture_phase_s": 3.5487374e-10,
+      "captured_xor_word": "000000000000011111111110000000",
+      "end_index": 22,
+      "nominal_end": 22,
+      "nominal_length": 10,
+      "nominal_start": 13,
+      "phase_id": "phi_p04",
+      "start_index": 13
+    }
+  ],
+  "schema_version": 1
+}
