@@ -1,0 +1,764 @@
+{
+  "formal_vdd_range_v": [
+    0.75,
+    1.1
+  ],
+  "matplotlib_backend": "Agg",
+  "matplotlib_version": "3.11.1",
+  "numpy_version": "2.5.1",
+  "phase_anchors_v": [
+    1.1,
+    0.9,
+    0.75
+  ],
+  "phase_row_count": 9,
+  "phase_sha256": "e591eb6c01d6208fabd2f3a124b2b3468f1b71c0f96ef980fad7d5cee1511614",
+  "phase_source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/phase_sensitivity/phase_sensitivity.csv",
+  "python_version": "3.12.13",
+  "representation_summary": {
+    "c": {
+      "plateau": {
+        "maximum": {
+          "point_count": 3,
+          "state": 23,
+          "vdd_high_v": 1.03,
+          "vdd_low_v": 1.01,
+          "width_v": 0.020000000000000018
+        },
+        "plateaus": [
+          {
+            "point_count": 2,
+            "state": 28,
+            "vdd_high_v": 1.1,
+            "vdd_low_v": 1.09,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 27,
+            "vdd_high_v": 1.08,
+            "vdd_low_v": 1.07,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 26,
+            "vdd_high_v": 1.06,
+            "vdd_low_v": 1.06,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 25,
+            "vdd_high_v": 1.05,
+            "vdd_low_v": 1.04,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 3,
+            "state": 23,
+            "vdd_high_v": 1.03,
+            "vdd_low_v": 1.01,
+            "width_v": 0.020000000000000018
+          },
+          {
+            "point_count": 2,
+            "state": 21,
+            "vdd_high_v": 1.0,
+            "vdd_low_v": 0.99,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 20,
+            "vdd_high_v": 0.98,
+            "vdd_low_v": 0.97,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 19,
+            "vdd_high_v": 0.96,
+            "vdd_low_v": 0.96,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 18,
+            "vdd_high_v": 0.95,
+            "vdd_low_v": 0.94,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 16,
+            "vdd_high_v": 0.93,
+            "vdd_low_v": 0.92,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 15,
+            "vdd_high_v": 0.91,
+            "vdd_low_v": 0.91,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 14,
+            "vdd_high_v": 0.9,
+            "vdd_low_v": 0.89,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 13,
+            "vdd_high_v": 0.88,
+            "vdd_low_v": 0.88,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": 12,
+            "vdd_high_v": 0.87,
+            "vdd_low_v": 0.87,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 11,
+            "vdd_high_v": 0.86,
+            "vdd_low_v": 0.85,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 9,
+            "vdd_high_v": 0.84,
+            "vdd_low_v": 0.83,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 8,
+            "vdd_high_v": 0.82,
+            "vdd_low_v": 0.82,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": 7,
+            "vdd_high_v": 0.81,
+            "vdd_low_v": 0.81,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 6,
+            "vdd_high_v": 0.8,
+            "vdd_low_v": 0.79,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 4,
+            "vdd_high_v": 0.78,
+            "vdd_low_v": 0.77,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 3,
+            "vdd_high_v": 0.76,
+            "vdd_low_v": 0.75,
+            "width_v": 0.010000000000000009
+          }
+        ]
+      },
+      "unique_states": 21
+    },
+    "c_w": {
+      "plateau": {
+        "maximum": {
+          "point_count": 3,
+          "state": [
+            23,
+            8
+          ],
+          "vdd_high_v": 1.03,
+          "vdd_low_v": 1.01,
+          "width_v": 0.020000000000000018
+        },
+        "plateaus": [
+          {
+            "point_count": 2,
+            "state": [
+              28,
+              9
+            ],
+            "vdd_high_v": 1.1,
+            "vdd_low_v": 1.09,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              27,
+              8
+            ],
+            "vdd_high_v": 1.08,
+            "vdd_low_v": 1.07,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              26,
+              9
+            ],
+            "vdd_high_v": 1.06,
+            "vdd_low_v": 1.06,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              25,
+              8
+            ],
+            "vdd_high_v": 1.05,
+            "vdd_low_v": 1.04,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 3,
+            "state": [
+              23,
+              8
+            ],
+            "vdd_high_v": 1.03,
+            "vdd_low_v": 1.01,
+            "width_v": 0.020000000000000018
+          },
+          {
+            "point_count": 2,
+            "state": [
+              21,
+              8
+            ],
+            "vdd_high_v": 1.0,
+            "vdd_low_v": 0.99,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              20,
+              7
+            ],
+            "vdd_high_v": 0.98,
+            "vdd_low_v": 0.97,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              19,
+              8
+            ],
+            "vdd_high_v": 0.96,
+            "vdd_low_v": 0.96,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              18,
+              7
+            ],
+            "vdd_high_v": 0.95,
+            "vdd_low_v": 0.94,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              16,
+              7
+            ],
+            "vdd_high_v": 0.93,
+            "vdd_low_v": 0.92,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              15,
+              6
+            ],
+            "vdd_high_v": 0.91,
+            "vdd_low_v": 0.91,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              14,
+              7
+            ],
+            "vdd_high_v": 0.9,
+            "vdd_low_v": 0.89,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              13,
+              6
+            ],
+            "vdd_high_v": 0.88,
+            "vdd_low_v": 0.88,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": [
+              12,
+              7
+            ],
+            "vdd_high_v": 0.87,
+            "vdd_low_v": 0.87,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              11,
+              6
+            ],
+            "vdd_high_v": 0.86,
+            "vdd_low_v": 0.85,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              9,
+              6
+            ],
+            "vdd_high_v": 0.84,
+            "vdd_low_v": 0.83,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              8,
+              5
+            ],
+            "vdd_high_v": 0.82,
+            "vdd_low_v": 0.82,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": [
+              7,
+              6
+            ],
+            "vdd_high_v": 0.81,
+            "vdd_low_v": 0.81,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              6,
+              5
+            ],
+            "vdd_high_v": 0.8,
+            "vdd_low_v": 0.79,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              4,
+              5
+            ],
+            "vdd_high_v": 0.78,
+            "vdd_low_v": 0.77,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              3,
+              4
+            ],
+            "vdd_high_v": 0.76,
+            "vdd_low_v": 0.75,
+            "width_v": 0.010000000000000009
+          }
+        ]
+      },
+      "unique_states": 21
+    },
+    "start_end": {
+      "plateau": {
+        "maximum": {
+          "point_count": 3,
+          "state": [
+            8,
+            15
+          ],
+          "vdd_high_v": 1.03,
+          "vdd_low_v": 1.01,
+          "width_v": 0.020000000000000018
+        },
+        "plateaus": [
+          {
+            "point_count": 2,
+            "state": [
+              10,
+              18
+            ],
+            "vdd_high_v": 1.1,
+            "vdd_low_v": 1.09,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              10,
+              17
+            ],
+            "vdd_high_v": 1.08,
+            "vdd_low_v": 1.07,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              9,
+              17
+            ],
+            "vdd_high_v": 1.06,
+            "vdd_low_v": 1.06,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              9,
+              16
+            ],
+            "vdd_high_v": 1.05,
+            "vdd_low_v": 1.04,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 3,
+            "state": [
+              8,
+              15
+            ],
+            "vdd_high_v": 1.03,
+            "vdd_low_v": 1.01,
+            "width_v": 0.020000000000000018
+          },
+          {
+            "point_count": 2,
+            "state": [
+              7,
+              14
+            ],
+            "vdd_high_v": 1.0,
+            "vdd_low_v": 0.99,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              7,
+              13
+            ],
+            "vdd_high_v": 0.98,
+            "vdd_low_v": 0.97,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              6,
+              13
+            ],
+            "vdd_high_v": 0.96,
+            "vdd_low_v": 0.96,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              6,
+              12
+            ],
+            "vdd_high_v": 0.95,
+            "vdd_low_v": 0.94,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              5,
+              11
+            ],
+            "vdd_high_v": 0.93,
+            "vdd_low_v": 0.92,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              5,
+              10
+            ],
+            "vdd_high_v": 0.91,
+            "vdd_low_v": 0.91,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              4,
+              10
+            ],
+            "vdd_high_v": 0.9,
+            "vdd_low_v": 0.89,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              4,
+              9
+            ],
+            "vdd_high_v": 0.88,
+            "vdd_low_v": 0.88,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": [
+              3,
+              9
+            ],
+            "vdd_high_v": 0.87,
+            "vdd_low_v": 0.87,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              3,
+              8
+            ],
+            "vdd_high_v": 0.86,
+            "vdd_low_v": 0.85,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              2,
+              7
+            ],
+            "vdd_high_v": 0.84,
+            "vdd_low_v": 0.83,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": [
+              2,
+              6
+            ],
+            "vdd_high_v": 0.82,
+            "vdd_low_v": 0.82,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": [
+              1,
+              6
+            ],
+            "vdd_high_v": 0.81,
+            "vdd_low_v": 0.81,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": [
+              1,
+              5
+            ],
+            "vdd_high_v": 0.8,
+            "vdd_low_v": 0.79,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              0,
+              4
+            ],
+            "vdd_high_v": 0.78,
+            "vdd_low_v": 0.77,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": [
+              0,
+              3
+            ],
+            "vdd_high_v": 0.76,
+            "vdd_low_v": 0.75,
+            "width_v": 0.010000000000000009
+          }
+        ]
+      },
+      "unique_states": 21
+    },
+    "w": {
+      "plateau": {
+        "maximum": {
+          "point_count": 7,
+          "state": 8,
+          "vdd_high_v": 1.05,
+          "vdd_low_v": 0.99,
+          "width_v": 0.06000000000000005
+        },
+        "plateaus": [
+          {
+            "point_count": 2,
+            "state": 9,
+            "vdd_high_v": 1.1,
+            "vdd_low_v": 1.09,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 2,
+            "state": 8,
+            "vdd_high_v": 1.08,
+            "vdd_low_v": 1.07,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 9,
+            "vdd_high_v": 1.06,
+            "vdd_low_v": 1.06,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 7,
+            "state": 8,
+            "vdd_high_v": 1.05,
+            "vdd_low_v": 0.99,
+            "width_v": 0.06000000000000005
+          },
+          {
+            "point_count": 2,
+            "state": 7,
+            "vdd_high_v": 0.98,
+            "vdd_low_v": 0.97,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 8,
+            "vdd_high_v": 0.96,
+            "vdd_low_v": 0.96,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 4,
+            "state": 7,
+            "vdd_high_v": 0.95,
+            "vdd_low_v": 0.92,
+            "width_v": 0.029999999999999916
+          },
+          {
+            "point_count": 1,
+            "state": 6,
+            "vdd_high_v": 0.91,
+            "vdd_low_v": 0.91,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 2,
+            "state": 7,
+            "vdd_high_v": 0.9,
+            "vdd_low_v": 0.89,
+            "width_v": 0.010000000000000009
+          },
+          {
+            "point_count": 1,
+            "state": 6,
+            "vdd_high_v": 0.88,
+            "vdd_low_v": 0.88,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": 7,
+            "vdd_high_v": 0.87,
+            "vdd_low_v": 0.87,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 4,
+            "state": 6,
+            "vdd_high_v": 0.86,
+            "vdd_low_v": 0.83,
+            "width_v": 0.030000000000000027
+          },
+          {
+            "point_count": 1,
+            "state": 5,
+            "vdd_high_v": 0.82,
+            "vdd_low_v": 0.82,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 1,
+            "state": 6,
+            "vdd_high_v": 0.81,
+            "vdd_low_v": 0.81,
+            "width_v": 0.0
+          },
+          {
+            "point_count": 4,
+            "state": 5,
+            "vdd_high_v": 0.8,
+            "vdd_low_v": 0.77,
+            "width_v": 0.030000000000000027
+          },
+          {
+            "point_count": 2,
+            "state": 4,
+            "vdd_high_v": 0.76,
+            "vdd_low_v": 0.75,
+            "width_v": 0.010000000000000009
+          }
+        ]
+      },
+      "unique_states": 6
+    }
+  },
+  "static_row_count": 36,
+  "static_sha256": "cd44a53713c81d37169af7899c4e3d1f326e2d5a04cb2230a00d3d923eb87167",
+  "static_source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/static_fine/static_transfer.csv"
+}

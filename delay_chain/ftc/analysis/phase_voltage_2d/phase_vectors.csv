@@ -1,0 +1,4 @@
+anchor_vdd,phase_delta_s,C_minus,W_minus,C_nominal,W_nominal,C_plus,W_plus,vPhi_C,vPhi_W,phase_span_C,phase_span_W,phase_insensitive
+1.1,1.3718435e-11,27,8,28,9,30,9,3,1,3,1,False
+0.9,1.3718435e-11,13,6,14,7,16,7,3,1,3,1,False
+0.75,1.3718435e-11,2,3,3,4,3,4,1,1,1,1,False

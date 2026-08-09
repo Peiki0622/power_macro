@@ -1,0 +1,114 @@
+{
+  "local_ambiguity": [
+    {
+      "anchor_vdd": 1.1,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "C",
+      "phase_span": 3.0,
+      "phase_to_voltage_ratio": 3.0,
+      "static_samples_used": [
+        1.1,
+        1.08
+      ],
+      "status": "defined"
+    },
+    {
+      "anchor_vdd": 0.9,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "C",
+      "phase_span": 3.0,
+      "phase_to_voltage_ratio": 3.0,
+      "static_samples_used": [
+        0.91,
+        0.89
+      ],
+      "status": "defined"
+    },
+    {
+      "anchor_vdd": 0.75,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "C",
+      "phase_span": 1.0,
+      "phase_to_voltage_ratio": 1.0,
+      "static_samples_used": [
+        0.77,
+        0.75
+      ],
+      "status": "defined"
+    },
+    {
+      "anchor_vdd": 1.1,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "W",
+      "phase_span": 1.0,
+      "phase_to_voltage_ratio": 1.0,
+      "static_samples_used": [
+        1.1,
+        1.08
+      ],
+      "status": "defined"
+    },
+    {
+      "anchor_vdd": 0.9,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "W",
+      "phase_span": 1.0,
+      "phase_to_voltage_ratio": 1.0,
+      "static_samples_used": [
+        0.91,
+        0.89
+      ],
+      "status": "defined"
+    },
+    {
+      "anchor_vdd": 0.75,
+      "local_20mV_voltage_span": 1.0,
+      "metric": "W",
+      "phase_span": 1.0,
+      "phase_to_voltage_ratio": 1.0,
+      "static_samples_used": [
+        0.77,
+        0.75
+      ],
+      "status": "defined"
+    }
+  ],
+  "per_anchor": [
+    {
+      "absolute_cosine_similarity": 0.9961298500253808,
+      "acute_angle_deg": 5.042451069171029,
+      "anchor_vdd": 1.1,
+      "cosine_similarity": -0.9961298500253808
+    },
+    {
+      "absolute_cosine_similarity": 0.9639926182060737,
+      "acute_angle_deg": 15.422161318738677,
+      "anchor_vdd": 0.9,
+      "cosine_similarity": -0.9639926182060737
+    },
+    {
+      "absolute_cosine_similarity": 0.8944271909999156,
+      "acute_angle_deg": 26.565051177078022,
+      "anchor_vdd": 0.75,
+      "cosine_similarity": -0.8944271909999156
+    }
+  ],
+  "phase_direction_variation": [
+    {
+      "anchor_vdd": 1.1,
+      "angle_to_pooled_deg": 2.1580137599327323
+    },
+    {
+      "anchor_vdd": 0.9,
+      "angle_to_pooled_deg": 2.1580137599327323
+    },
+    {
+      "anchor_vdd": 0.75,
+      "angle_to_pooled_deg": 24.407037417145183
+    }
+  ],
+  "pooled_phase_direction": [
+    0.936102744015548,
+    0.35172667320884415
+  ]
+}

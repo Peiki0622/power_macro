@@ -1,0 +1,555 @@
+{
+  "candidates": [],
+  "raw_comparison": {
+    "c": {
+      "phase_spans": {
+        "0.75": 1.0,
+        "0.90": 3.0,
+        "1.10": 3.0
+      },
+      "static": {
+        "distinct_states": 21,
+        "full_range": 25.0,
+        "maximum": 28.0,
+        "minimum": 3.0,
+        "monotonic_with_droop": false,
+        "plateau": {
+          "maximum": {
+            "point_count": 3,
+            "state": 23.0,
+            "vdd_high_v": 1.03,
+            "vdd_low_v": 1.01,
+            "width_v": 0.020000000000000018
+          },
+          "plateaus": [
+            {
+              "point_count": 2,
+              "state": 28.0,
+              "vdd_high_v": 1.1,
+              "vdd_low_v": 1.09,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 27.0,
+              "vdd_high_v": 1.08,
+              "vdd_low_v": 1.07,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 26.0,
+              "vdd_high_v": 1.06,
+              "vdd_low_v": 1.06,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 25.0,
+              "vdd_high_v": 1.05,
+              "vdd_low_v": 1.04,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 3,
+              "state": 23.0,
+              "vdd_high_v": 1.03,
+              "vdd_low_v": 1.01,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 2,
+              "state": 21.0,
+              "vdd_high_v": 1.0,
+              "vdd_low_v": 0.99,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 20.0,
+              "vdd_high_v": 0.98,
+              "vdd_low_v": 0.97,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 19.0,
+              "vdd_high_v": 0.96,
+              "vdd_low_v": 0.96,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 18.0,
+              "vdd_high_v": 0.95,
+              "vdd_low_v": 0.94,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 16.0,
+              "vdd_high_v": 0.93,
+              "vdd_low_v": 0.92,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 15.0,
+              "vdd_high_v": 0.91,
+              "vdd_low_v": 0.91,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 14.0,
+              "vdd_high_v": 0.9,
+              "vdd_low_v": 0.89,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 13.0,
+              "vdd_high_v": 0.88,
+              "vdd_low_v": 0.88,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 1,
+              "state": 12.0,
+              "vdd_high_v": 0.87,
+              "vdd_low_v": 0.87,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 11.0,
+              "vdd_high_v": 0.86,
+              "vdd_low_v": 0.85,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 9.0,
+              "vdd_high_v": 0.84,
+              "vdd_low_v": 0.83,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 8.0,
+              "vdd_high_v": 0.82,
+              "vdd_low_v": 0.82,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 1,
+              "state": 7.0,
+              "vdd_high_v": 0.81,
+              "vdd_low_v": 0.81,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 6.0,
+              "vdd_high_v": 0.8,
+              "vdd_low_v": 0.79,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 4.0,
+              "vdd_high_v": 0.78,
+              "vdd_low_v": 0.77,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 3.0,
+              "vdd_high_v": 0.76,
+              "vdd_low_v": 0.75,
+              "width_v": 0.010000000000000009
+            }
+          ]
+        }
+      }
+    },
+    "end": {
+      "phase_spans": {
+        "0.75": 1.0,
+        "0.90": 2.0,
+        "1.10": 2.0
+      },
+      "static": {
+        "distinct_states": 16,
+        "full_range": 15.0,
+        "maximum": 18.0,
+        "minimum": 3.0,
+        "monotonic_with_droop": false,
+        "plateau": {
+          "maximum": {
+            "point_count": 3,
+            "state": 17.0,
+            "vdd_high_v": 1.08,
+            "vdd_low_v": 1.06,
+            "width_v": 0.020000000000000018
+          },
+          "plateaus": [
+            {
+              "point_count": 2,
+              "state": 18.0,
+              "vdd_high_v": 1.1,
+              "vdd_low_v": 1.09,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 3,
+              "state": 17.0,
+              "vdd_high_v": 1.08,
+              "vdd_low_v": 1.06,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 2,
+              "state": 16.0,
+              "vdd_high_v": 1.05,
+              "vdd_low_v": 1.04,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 3,
+              "state": 15.0,
+              "vdd_high_v": 1.03,
+              "vdd_low_v": 1.01,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 2,
+              "state": 14.0,
+              "vdd_high_v": 1.0,
+              "vdd_low_v": 0.99,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 3,
+              "state": 13.0,
+              "vdd_high_v": 0.98,
+              "vdd_low_v": 0.96,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 2,
+              "state": 12.0,
+              "vdd_high_v": 0.95,
+              "vdd_low_v": 0.94,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 11.0,
+              "vdd_high_v": 0.93,
+              "vdd_low_v": 0.92,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 3,
+              "state": 10.0,
+              "vdd_high_v": 0.91,
+              "vdd_low_v": 0.89,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 2,
+              "state": 9.0,
+              "vdd_high_v": 0.88,
+              "vdd_low_v": 0.87,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 8.0,
+              "vdd_high_v": 0.86,
+              "vdd_low_v": 0.85,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 7.0,
+              "vdd_high_v": 0.84,
+              "vdd_low_v": 0.83,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 6.0,
+              "vdd_high_v": 0.82,
+              "vdd_low_v": 0.81,
+              "width_v": 0.009999999999999898
+            },
+            {
+              "point_count": 2,
+              "state": 5.0,
+              "vdd_high_v": 0.8,
+              "vdd_low_v": 0.79,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 4.0,
+              "vdd_high_v": 0.78,
+              "vdd_low_v": 0.77,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 3.0,
+              "vdd_high_v": 0.76,
+              "vdd_low_v": 0.75,
+              "width_v": 0.010000000000000009
+            }
+          ]
+        }
+      }
+    },
+    "start": {
+      "phase_spans": {
+        "0.75": 0.0,
+        "0.90": 1.0,
+        "1.10": 1.0
+      },
+      "static": {
+        "distinct_states": 11,
+        "full_range": 10.0,
+        "maximum": 10.0,
+        "minimum": 0.0,
+        "monotonic_with_droop": false,
+        "plateau": {
+          "maximum": {
+            "point_count": 4,
+            "state": 10.0,
+            "vdd_high_v": 1.1,
+            "vdd_low_v": 1.07,
+            "width_v": 0.030000000000000027
+          },
+          "plateaus": [
+            {
+              "point_count": 4,
+              "state": 10.0,
+              "vdd_high_v": 1.1,
+              "vdd_low_v": 1.07,
+              "width_v": 0.030000000000000027
+            },
+            {
+              "point_count": 3,
+              "state": 9.0,
+              "vdd_high_v": 1.06,
+              "vdd_low_v": 1.04,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 8.0,
+              "vdd_high_v": 1.03,
+              "vdd_low_v": 1.01,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 4,
+              "state": 7.0,
+              "vdd_high_v": 1.0,
+              "vdd_low_v": 0.97,
+              "width_v": 0.030000000000000027
+            },
+            {
+              "point_count": 3,
+              "state": 6.0,
+              "vdd_high_v": 0.96,
+              "vdd_low_v": 0.94,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 5.0,
+              "vdd_high_v": 0.93,
+              "vdd_low_v": 0.91,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 4.0,
+              "vdd_high_v": 0.9,
+              "vdd_low_v": 0.88,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 3.0,
+              "vdd_high_v": 0.87,
+              "vdd_low_v": 0.85,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 2.0,
+              "vdd_high_v": 0.84,
+              "vdd_low_v": 0.82,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 3,
+              "state": 1.0,
+              "vdd_high_v": 0.81,
+              "vdd_low_v": 0.79,
+              "width_v": 0.020000000000000018
+            },
+            {
+              "point_count": 4,
+              "state": 0.0,
+              "vdd_high_v": 0.78,
+              "vdd_low_v": 0.75,
+              "width_v": 0.030000000000000027
+            }
+          ]
+        }
+      }
+    },
+    "w": {
+      "phase_spans": {
+        "0.75": 1.0,
+        "0.90": 1.0,
+        "1.10": 1.0
+      },
+      "static": {
+        "distinct_states": 6,
+        "full_range": 5.0,
+        "maximum": 9.0,
+        "minimum": 4.0,
+        "monotonic_with_droop": false,
+        "plateau": {
+          "maximum": {
+            "point_count": 7,
+            "state": 8.0,
+            "vdd_high_v": 1.05,
+            "vdd_low_v": 0.99,
+            "width_v": 0.06000000000000005
+          },
+          "plateaus": [
+            {
+              "point_count": 2,
+              "state": 9.0,
+              "vdd_high_v": 1.1,
+              "vdd_low_v": 1.09,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 2,
+              "state": 8.0,
+              "vdd_high_v": 1.08,
+              "vdd_low_v": 1.07,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 9.0,
+              "vdd_high_v": 1.06,
+              "vdd_low_v": 1.06,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 7,
+              "state": 8.0,
+              "vdd_high_v": 1.05,
+              "vdd_low_v": 0.99,
+              "width_v": 0.06000000000000005
+            },
+            {
+              "point_count": 2,
+              "state": 7.0,
+              "vdd_high_v": 0.98,
+              "vdd_low_v": 0.97,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 8.0,
+              "vdd_high_v": 0.96,
+              "vdd_low_v": 0.96,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 4,
+              "state": 7.0,
+              "vdd_high_v": 0.95,
+              "vdd_low_v": 0.92,
+              "width_v": 0.029999999999999916
+            },
+            {
+              "point_count": 1,
+              "state": 6.0,
+              "vdd_high_v": 0.91,
+              "vdd_low_v": 0.91,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 2,
+              "state": 7.0,
+              "vdd_high_v": 0.9,
+              "vdd_low_v": 0.89,
+              "width_v": 0.010000000000000009
+            },
+            {
+              "point_count": 1,
+              "state": 6.0,
+              "vdd_high_v": 0.88,
+              "vdd_low_v": 0.88,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 1,
+              "state": 7.0,
+              "vdd_high_v": 0.87,
+              "vdd_low_v": 0.87,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 4,
+              "state": 6.0,
+              "vdd_high_v": 0.86,
+              "vdd_low_v": 0.83,
+              "width_v": 0.030000000000000027
+            },
+            {
+              "point_count": 1,
+              "state": 5.0,
+              "vdd_high_v": 0.82,
+              "vdd_low_v": 0.82,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 1,
+              "state": 6.0,
+              "vdd_high_v": 0.81,
+              "vdd_low_v": 0.81,
+              "width_v": 0.0
+            },
+            {
+              "point_count": 4,
+              "state": 5.0,
+              "vdd_high_v": 0.8,
+              "vdd_low_v": 0.77,
+              "width_v": 0.030000000000000027
+            },
+            {
+              "point_count": 2,
+              "state": 4.0,
+              "vdd_high_v": 0.76,
+              "vdd_low_v": 0.75,
+              "width_v": 0.010000000000000009
+            }
+          ]
+        }
+      }
+    }
+  },
+  "reason": "median acute separation 15.422 deg is below the 30.0 deg screening gate",
+  "status": "skipped_near_collinear"
+}
