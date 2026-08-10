@@ -1,0 +1,18 @@
+{
+  "available_process_corners": [
+    "tt",
+    "ff",
+    "ss",
+    "fnsp",
+    "snfp"
+  ],
+  "model_library": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+  "nominal_corner": "tt",
+  "selected_process_corners_for_screen": [
+    "tt",
+    "ff",
+    "ss",
+    "fnsp",
+    "snfp"
+  ]
+}
