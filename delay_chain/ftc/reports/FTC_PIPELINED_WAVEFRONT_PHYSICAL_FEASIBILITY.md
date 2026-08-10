@@ -26,9 +26,32 @@ Classification: **sensible**. `sensible` means a falling edge is independently d
 
 | VDD (V) | T_edge | Edge | Polarity | Level | Start--End | Runs |
 |---:|---:|---:|---|---:|---:|---:|
-| not run | not run | -- | -- | -- | -- | -- |
+| 0.75 | 750.0 ps | 0 | rise | 0 | 1--6 | 1 |
+| 0.75 | 750.0 ps | 1 | fall | 1 | 13--29 | 2 |
+| 0.75 | 750.0 ps | 2 | rise | 1 | 13--24 | 2 |
+| 0.75 | 750.0 ps | 3 | fall | 1 | 13--25 | 2 |
+| 0.75 | 750.0 ps | 4 | rise | 2 | 13--24 | 3 |
+| 0.75 | 750.0 ps | 5 | fall | 1 | 13--25 | 2 |
+| 0.75 | 750.0 ps | 6 | rise | 1 | 13--24 | 2 |
+| 0.75 | 750.0 ps | 7 | fall | 1 | 13--25 | 2 |
+| 0.90 | 750.0 ps | 0 | rise | 0 | 6--13 | 1 |
+| 0.90 | 750.0 ps | 1 | fall | 1 | 5--12 | 2 |
+| 0.90 | 750.0 ps | 2 | rise | 0 | 6--13 | 1 |
+| 0.90 | 750.0 ps | 3 | fall | 1 | 5--12 | 2 |
+| 0.90 | 750.0 ps | 4 | rise | 0 | 6--13 | 1 |
+| 0.90 | 750.0 ps | 5 | fall | 1 | 5--12 | 2 |
+| 0.90 | 750.0 ps | 6 | rise | 0 | 6--13 | 1 |
+| 0.90 | 750.0 ps | 7 | fall | 1 | 5--12 | 2 |
+| 1.10 | 750.0 ps | 0 | rise | 0 | 12--21 | 1 |
+| 1.10 | 750.0 ps | 1 | fall | 0 | 12--20 | 1 |
+| 1.10 | 750.0 ps | 2 | rise | 0 | 12--21 | 1 |
+| 1.10 | 750.0 ps | 3 | fall | 0 | 12--20 | 1 |
+| 1.10 | 750.0 ps | 4 | rise | 0 | 12--21 | 1 |
+| 1.10 | 750.0 ps | 5 | fall | 0 | 12--20 | 1 |
+| 1.10 | 750.0 ps | 6 | rise | 0 | 12--21 | 1 |
+| 1.10 | 750.0 ps | 7 | fall | 0 | 12--20 | 1 |
 
-The eight-edge HSPICE step was correctly not launched because no tested T_edge was both overlapping and decodable at all three voltage anchors.
+This one-spacing eight-edge result was explicitly requested after the Step-4 gate had failed. It is reported as diagnostic physical evidence and does not overturn the all-anchor NO-GO decision.
 
 ## Measured Physical Interval
 

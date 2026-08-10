@@ -1138,15 +1138,30 @@ def eight_edge_stable(rows: Sequence[Dict[str, Any]], falling_class: str) -> int
 
 
 def run_wavefront_eight_edge(args: argparse.Namespace, config: Dict[str, Any], cells: Dict[str, Any], settings: Dict[str, Any]) -> None:
-    """Test 8-edge periodicity, adding 0.90 V only after endpoint success."""
+    """Test 8-edge periodicity, retaining the normal gate unless explicitly overridden.
+
+    ``--wavefront-force-spacing-s`` exists solely for a user-requested
+    post-NO-GO characterization such as the 750 ps experiment.  It evaluates
+    exactly that one spacing at every anchor and records the override in the
+    compact summary; it never changes the normal Step-4 authorization rule or
+    promotes an exploratory result into the final architecture decision.
+    """
 
     root = args.output_dir.resolve()
     anchor = read_wavefront_summary(root, "two_edge_anchor", "two_edge_anchor_summary.json")
-    if anchor["status"] != "pass":
+    forced_spacing = args.wavefront_force_spacing_s
+    if forced_spacing is not None and float(forced_spacing) <= 0.0:
+        raise ValueError("wavefront forced spacing must be positive")
+    if anchor["status"] != "pass" and forced_spacing is None:
         raise RuntimeError("no three-anchor stable overlap exists; eight-edge experiment is not authorized")
     falling_class = str(anchor["falling_classification"])
-    stable = sorted((float(item["edge_spacing_s"]) for item in anchor["spacing_results"] if int(item["stable_overlap"])), reverse=True)
-    spacings = stable[:1] + ([stable[-1]] if len(stable) > 1 and stable[-1] != stable[0] else [])
+    if forced_spacing is None:
+        stable = sorted((float(item["edge_spacing_s"]) for item in anchor["spacing_results"] if int(item["stable_overlap"])), reverse=True)
+        spacings = stable[:1] + ([stable[-1]] if len(stable) > 1 and stable[-1] != stable[0] else [])
+    else:
+        # An explicit override is deliberately a one-point experiment.  Do
+        # not reuse it as permission for a surrounding spacing sweep.
+        spacings = [float(forced_spacing)]
     out = wavefront_stage_dir(root, "eight_edge")
     hspice = prepare_output(out, config, cells)
     rows: List[Dict[str, Any]] = []
@@ -1154,7 +1169,8 @@ def run_wavefront_eight_edge(args: argparse.Namespace, config: Dict[str, Any], c
     scenario_index = 0
     for spacing in spacings:
         voltage_results: List[Dict[str, Any]] = []
-        for voltage in (1.1, float(config["minimum_vdd_v"])):
+        endpoint_voltages = (1.1, float(config["minimum_vdd_v"]))
+        for voltage in endpoint_voltages:
             scenario_rows = run_wavefront_scenario(
                 hspice, out, config, cells, scenario_index,
                 "eight_t{}ps".format(int(round(spacing * 1.0e12))), voltage, settings, "eight_edge", spacing,
@@ -1162,7 +1178,10 @@ def run_wavefront_eight_edge(args: argparse.Namespace, config: Dict[str, Any], c
             scenario_index += 1
             rows.extend(scenario_rows)
             voltage_results.append({"vdd_v": voltage, "steady_state": eight_edge_stable(scenario_rows, falling_class)})
-        if all(int(item["steady_state"]) for item in voltage_results):
+        if forced_spacing is not None or all(int(item["steady_state"]) for item in voltage_results):
+            # A normal approved experiment adds 0.90 V only after endpoints
+            # pass.  The explicit user-requested diagnostic must instead
+            # answer all three anchors even when an endpoint already fails.
             scenario_rows = run_wavefront_scenario(
                 hspice, out, config, cells, scenario_index,
                 "eight_t{}ps".format(int(round(spacing * 1.0e12))), 0.9, settings, "eight_edge", spacing,
@@ -1176,6 +1195,7 @@ def run_wavefront_eight_edge(args: argparse.Namespace, config: Dict[str, Any], c
     write_wavefront_summary(out / "eight_edge_pipeline_summary.json", {
         "falling_classification": falling_class,
         "tested_spacings_s": spacings,
+        "forced_spacing_s": float(forced_spacing) if forced_spacing is not None else None,
         "spacing_results": results,
         "stable_three_anchor_count": sum(int(item["stable_three_anchor"]) for item in results),
         "status": "pass" if any(int(item["stable_three_anchor"]) for item in results) else "no_go",
@@ -1336,6 +1356,8 @@ def render_wavefront_report(root: Path, falling: Dict[str, Any], nominal: Option
     if not eight_rows:
         lines.append("| not run | not run | -- | -- | -- | -- | -- |")
         lines.extend(["", "The eight-edge HSPICE step was correctly not launched because no tested T_edge was both overlapping and decodable at all three voltage anchors."])
+    elif eight is not None and eight.get("forced_spacing_s") is not None:
+        lines.extend(["", "This one-spacing eight-edge result was explicitly requested after the Step-4 gate had failed. It is reported as diagnostic physical evidence and does not overturn the all-anchor NO-GO decision."])
     lines.extend([
         "",
         "## Measured Physical Interval",
@@ -1388,6 +1410,8 @@ def run_pipelined_wavefront(args: argparse.Namespace, config: Dict[str, Any], ce
 
     if args.wavefront_config is None or args.wavefront_step is None:
         raise ValueError("pipelined-wavefront requires --wavefront-config and --wavefront-step")
+    if args.wavefront_force_spacing_s is not None and args.wavefront_step != "eight-edge":
+        raise ValueError("--wavefront-force-spacing-s is valid only with pipelined-wavefront eight-edge")
     settings = load_wavefront_settings(args.wavefront_config, config)
     if args.wavefront_step == "falling":
         run_wavefront_falling(args, config, cells, settings)
@@ -1415,6 +1439,7 @@ def main(argv: Iterable[str] = None) -> int:
     parser.add_argument("--phase-diverse-config", type=Path, help="task-local phase-diversity configuration")
     parser.add_argument("--wavefront-config", type=Path, help="task-local finite edge-train configuration")
     parser.add_argument("--wavefront-step", choices=("falling", "two-edge-nominal", "two-edge-anchor", "eight-edge", "summarize"), help="one gated pipelined-wavefront physical step")
+    parser.add_argument("--wavefront-force-spacing-s", type=float, help="one explicit post-gate 8-edge diagnostic spacing; valid only with pipelined-wavefront eight-edge")
     parser.add_argument("--screen", choices=("anchor", "coarse"), help="phase-diverse static screen to execute")
     parser.add_argument("--phase-ids", help="comma-separated explicit phase IDs; omitted means every configured candidate")
     parser.add_argument("--glitch-case-ids", help="comma-separated bounded glitch family IDs")
