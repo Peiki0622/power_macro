@@ -1,0 +1,18 @@
+{
+  "best_tap": 29,
+  "decision": "GO",
+  "decision_reason": [
+    "30 tap(s) have stable path order, strict measured monotonicity, and nonzero VDD movement.",
+    "Existing repeat evidence is available and is used only as a same-run consistency check.",
+    "Authorize only real XOR-output pulse-width validation of the shortlist; no readout architecture is selected."
+  ],
+  "input_evidence_kind": "36-point fine evidence",
+  "input_source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/static_fine/static_transfer.csv",
+  "repeat_consistency_available": true,
+  "repeat_consistency_source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/phase_diverse_screen/phase_candidate_coarse.csv",
+  "shortlisted_taps": [
+    29
+  ],
+  "used_new_hspice": false,
+  "vdd_point_count": 36
+}
