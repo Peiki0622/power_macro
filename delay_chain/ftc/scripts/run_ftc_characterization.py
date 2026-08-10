@@ -72,7 +72,8 @@ def run_scenario(hspice: Path, output_dir: Path, config: Dict[str, Any], cells: 
                  index: int, label: str, vdd_v: float, mode: str, initial_rvt: int,
                  initial_lvt: int, capture_phase_s: float,
                  glitch: Optional[Dict[str, float]] = None,
-                 edge_train: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                 edge_train: Optional[Dict[str, Any]] = None,
+                 pulse_width_taps: Optional[List[int]] = None) -> Dict[str, Any]:
     """Generate, execute, validate, and retain one physical FTC scenario.
 
     The returned record is purely compact measurement data.  Full HSPICE files
@@ -91,6 +92,7 @@ def run_scenario(hspice: Path, output_dir: Path, config: Dict[str, Any], cells: 
         deck_path, config=config, cells=cells, vdd_v=float(vdd_v), mode=mode,
         initial_rvt_stages=int(initial_rvt), initial_lvt_stages=int(initial_lvt),
         capture_phase_s=float(capture_phase_s), glitch=glitch, edge_train=edge_train,
+        pulse_width_taps=pulse_width_taps,
     )
     result = subprocess.run(
         [str(hspice), deck_path.name, "-o", "ftc"], cwd=str(scenario_dir),
@@ -159,6 +161,21 @@ def run_scenario(hspice: Path, output_dir: Path, config: Dict[str, Any], cells: 
         if any(value is None for value in xor_levels):
             raise ValueError("FTC XOR measurement is incomplete: {}".format(scenario_dir))
         record["raw_xor_word"] = ftc_analysis.word(ftc_analysis.bits_from_levels(xor_levels, float(vdd_v) / 2.0))
+    if pulse_width_taps is not None:
+        # Keep optional real-XOR timing values beside the established compact
+        # record instead of changing legacy crossing arrays or raw-word
+        # semantics.  A failed HSPICE crossing stays ``None`` here so the
+        # task-owned analysis can classify a physical missing pulse as NO-GO
+        # rather than silently replacing it with a numerical width.
+        record["pulse_width_measurements"] = [
+            {
+                "tap_index": int(tap),
+                "xor_rise_s": values.get("xor_{:02d}_rise".format(tap)),
+                "xor_fall_s": values.get("xor_{:02d}_fall".format(tap)),
+                "xor_peak_v": values.get("xor_{:02d}_peak_v".format(tap)),
+            }
+            for tap in pulse_width_taps
+        ]
     if mode == "capture":
         latch_levels = [values.get("latch_{:02d}_level".format(index)) for index in range(stages)]
         ff_levels = [values.get("ff_{:02d}_level".format(index)) for index in range(stages)]

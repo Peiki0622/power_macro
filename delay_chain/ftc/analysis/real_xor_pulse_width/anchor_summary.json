@@ -1,0 +1,18 @@
+{
+  "decision": "GO",
+  "decision_reason": [
+    "All five anchors have complete pulses and strictly increase as VDD decreases."
+  ],
+  "measured_tap": 29,
+  "monotonic_class": "strict_increasing",
+  "monotonic_violation_count": 0,
+  "plateau_count": 0,
+  "vdd_point_count": 5,
+  "vdd_v": [
+    1.1,
+    1.0,
+    0.9,
+    0.8,
+    0.75
+  ]
+}

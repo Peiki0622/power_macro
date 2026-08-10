@@ -232,8 +232,18 @@ def render_edge_train(edge_train: Dict[str, Any], stop_time_s: float) -> List[st
 def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mode: str,
                 initial_rvt_stages: int, initial_lvt_stages: int, capture_phase_s: float,
                 glitch: Optional[Dict[str, float]] = None,
-                edge_train: Optional[Dict[str, Any]] = None) -> str:
-    """Render one complete, task-owned real-cell FTC transient deck."""
+                edge_train: Optional[Dict[str, Any]] = None,
+                pulse_width_taps: Optional[List[int]] = None) -> str:
+    """Render one complete, task-owned real-cell FTC transient deck.
+
+    ``pulse_width_taps`` is intentionally a narrow, opt-in measurement hook
+    for the real-XOR pulse-width experiment.  When it is ``None`` (the
+    default), this function emits byte-for-byte the legacy deck so completed
+    FTC flows retain their established source, topology, and measurements.
+    The hook is limited to one isolated rising-edge ``xor`` experiment: an
+    edge train or capture hierarchy would make ``RISE=1``/``FALL=1`` refer to
+    a different physical question than the requested first output pulse.
+    """
 
     require_mode(mode)
     stages = int(config["observable_stages"])
@@ -246,6 +256,19 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
         # latch/FF schedule for multiple edges would falsely imply a completed
         # pipelined capture architecture, which is outside physical feasibility.
         raise ValueError("edge_train supports mechanism or xor mode, not capture mode")
+    if pulse_width_taps is not None:
+        # Do not generalize this task-local interface into another FTC mode or
+        # a multi-edge experiment.  The existing normal source has exactly one
+        # rising launch before the transient ends, which gives the output
+        # measure an unambiguous first high pulse.
+        if mode != "xor" or edge_train is not None:
+            raise ValueError("pulse_width_taps supports only isolated xor-mode measurements")
+        if not isinstance(pulse_width_taps, list) or not pulse_width_taps:
+            raise ValueError("pulse_width_taps must be a nonempty list of observable tap indices")
+        if any(isinstance(tap, bool) or not isinstance(tap, int) or tap < 0 or tap >= stages for tap in pulse_width_taps):
+            raise ValueError("pulse_width_taps contains an invalid observable tap index")
+        if len(set(pulse_width_taps)) != len(pulse_width_taps):
+            raise ValueError("pulse_width_taps must not contain duplicate tap indices")
     sequence = normalize_edge_train(edge_train) if edge_train is not None else None
     absolute_close = launch + phase
     ff_capture = absolute_close + float(config["ff_capture_delay_s"])
@@ -328,6 +351,24 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
             sample_time = absolute_close - 5.0e-13
             for index, node in enumerate(xor["outputs"]):
                 lines.append(".measure tran xor_{:02d}_level FIND v({},vss_a) AT={}".format(index, node, spice(sample_time)))
+            if pulse_width_taps is not None:
+                # The source remains high from the 1 ns launch until its
+                # scheduled 4 ns falling edge.  Existing tap29 evidence puts
+                # both input crossings before 3 ns even at 0.75 V, so this
+                # fixed interval captures only the first rising-launch XOR
+                # pulse and cannot include the later falling-edge pulse.
+                peak_window_start = launch
+                peak_window_end = launch + float(config["sampling_period_s"]) / 2.0
+                lines.append("* Task-local real-XOR first-pulse crossing and peak measurements.")
+                for index in pulse_width_taps:
+                    node = xor["outputs"][index]
+                    lines.extend([
+                        ".measure tran xor_{:02d}_rise WHEN v({},vss_a)='VDD_VALUE/2' RISE=1".format(index, node),
+                        ".measure tran xor_{:02d}_fall WHEN v({},vss_a)='VDD_VALUE/2' FALL=1".format(index, node),
+                        ".measure tran xor_{:02d}_peak_v MAX v({},vss_a) FROM={} TO={}".format(
+                            index, node, spice(peak_window_start), spice(peak_window_end)
+                        ),
+                    ])
     else:
         for edge in sequence["edges"]:
             qualifier = "RISE" if edge["polarity"] == "rise" else "FALL"

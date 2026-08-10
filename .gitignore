@@ -180,3 +180,8 @@ hspice_command.log
 !/delay_chain/ftc/runs/phase_diverse_final/static_summary.json
 !/delay_chain/ftc/runs/phase_diverse_final/final_glitch_map.csv
 !/delay_chain/ftc/runs/phase_diverse_final/final_glitch_summary.json
+
+# The real-XOR anchor gate is a compact reviewed decision record, not a raw
+# simulator product.  Keep this one analysis artifact versionable while the
+# associated HSPICE decks, listings, databases, and command logs stay ignored.
+!/delay_chain/ftc/analysis/real_xor_pulse_width/anchor_summary.json
