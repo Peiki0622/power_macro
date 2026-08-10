@@ -55,26 +55,43 @@ def longest_one_run(bits: Sequence[int]) -> Dict[str, Any]:
     best_length = 0
     current_start = 0
     current_length = 0
-    run_count = 0
+    # Preserve every physical run length while scanning.  The existing FTC
+    # decoder only needs the longest run, but wavefront overlap can produce a
+    # second physical window.  Keeping the second-largest length beside the
+    # legacy result lets the experiment classify that condition without
+    # applying a new decoder or mutating the observed word.
+    run_lengths: List[int] = []
     previous = 0
     for index, bit in enumerate(bits):
         if bit:
             if not previous:
                 current_start = index
                 current_length = 0
-                run_count += 1
             current_length += 1
             if current_length > best_length:
                 best_start = current_start
                 best_length = current_length
+        elif previous:
+            # A run is complete only on its terminating zero.  The final run
+            # is appended after the loop so a right-boundary physical window
+            # remains observable and is not silently discarded.
+            run_lengths.append(current_length)
         previous = int(bool(bit))
+    if previous:
+        run_lengths.append(current_length)
+    sorted_lengths = sorted(run_lengths, reverse=True)
     end = best_start + best_length - 1 if best_length else 0
     return {
         "start_index": best_start if best_length else 0,
         "end_index": end,
         "one_run_length": best_length,
+        # Keep the legacy one_run_length field intact and expose the aliases
+        # requested by the wavefront evidence contract.  Downstream existing
+        # FTC reports therefore retain their historical schema.
+        "largest_run_length": best_length,
+        "second_largest_run_length": sorted_lengths[1] if len(sorted_lengths) > 1 else 0,
         "valid": int(best_length > 0),
-        "run_count": run_count,
+        "run_count": len(run_lengths),
         "bubble_count": bubble_count(bits),
         "touches_left_boundary": int(best_length > 0 and best_start == 0),
         "touches_right_boundary": int(best_length > 0 and end == len(bits) - 1),

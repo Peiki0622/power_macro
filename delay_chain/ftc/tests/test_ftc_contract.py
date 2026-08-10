@@ -70,9 +70,12 @@ class FtcContractTest(unittest.TestCase):
             temporary_path = Path(temporary)
             testbench = temporary_path / "ftc_hspice_replay_tb.sv"
             testbench.write_text("\n".join(lines) + "\n", encoding="ascii")
-            build = subprocess.run([str(VCS), "-full64", "-sverilog", "-o", str(temporary_path / "simv"), str(FTC_ROOT / "rtl/ftc_longest_run_encoder.sv"), str(testbench)], cwd=temporary_path, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+            # The configured EDA launcher currently places Python 3.6 first
+            # on PATH.  universal_newlines has the same decoded-text behavior
+            # as text=True here while retaining compatibility with that runner.
+            build = subprocess.run([str(VCS), "-full64", "-sverilog", "-o", str(temporary_path / "simv"), str(FTC_ROOT / "rtl/ftc_longest_run_encoder.sv"), str(testbench)], cwd=temporary_path, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             self.assertEqual(build.returncode, 0, build.stdout)
-            replay = subprocess.run([str(temporary_path / "simv")], cwd=temporary_path, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
+            replay = subprocess.run([str(temporary_path / "simv")], cwd=temporary_path, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False)
             self.assertEqual(replay.returncode, 0, replay.stdout)
             self.assertIn("FTC_HSPICE_REPLAY_PASS vectors=8", replay.stdout)
 

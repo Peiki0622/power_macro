@@ -22,17 +22,20 @@ class FtcLongestRunEncoderTest(unittest.TestCase):
         run_root.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="encoder_unit_", dir=run_root) as temporary:
             output_dir = Path(temporary)
+            # Use universal_newlines rather than text=True because the EDA
+            # environment's default Python is 3.6; output remains decoded
+            # text for the assertions below on both old and new interpreters.
             compile_result = subprocess.run(
                 [
                     str(VCS), "-full64", "-sverilog", "-o", str(output_dir / "simv"),
                     str(FTC_ROOT / "rtl" / "ftc_longest_run_encoder.sv"),
                     str(FTC_ROOT / "tests" / "ftc_longest_run_encoder_tb.sv"),
                 ],
-                cwd=output_dir, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
+                cwd=output_dir, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
             )
             self.assertEqual(compile_result.returncode, 0, compile_result.stdout)
             run_result = subprocess.run(
-                [str(output_dir / "simv")], cwd=output_dir, text=True,
+                [str(output_dir / "simv")], cwd=output_dir, universal_newlines=True,
                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=False,
             )
             self.assertEqual(run_result.returncode, 0, run_result.stdout)

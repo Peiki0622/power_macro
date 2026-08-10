@@ -142,9 +142,97 @@ def render_supply(vdd_v: float, stop_time_s: float, glitch: Optional[Dict[str, f
     ]
 
 
+def normalize_edge_train(edge_train: Dict[str, Any]) -> Dict[str, Any]:
+    """Validate and expand one finite, alternating input-edge sequence.
+
+    ``first_edge_time_s`` names the *midpoint* of the one-picosecond source
+    transition, so it is the same VDD/2 crossing convention used by the tap
+    measurements.  This avoids a hidden half-slew ambiguity in the documented
+    ``sample_i = edge_i + 300 ps`` relationship.  The source is intentionally
+    limited to a regular alternating sequence: it is sufficient for 1, 2, and
+    8 edge physical experiments while excluding an unneeded pattern generator.
+    """
+
+    required = ("first_edge_time_s", "edge_spacing_s", "edge_count", "initial_logic_level")
+    if not isinstance(edge_train, dict) or any(key not in edge_train for key in required):
+        raise ValueError("edge_train requires first_edge_time_s, edge_spacing_s, edge_count, and initial_logic_level")
+    first_edge = float(edge_train["first_edge_time_s"])
+    spacing = float(edge_train["edge_spacing_s"])
+    edge_count = int(edge_train["edge_count"])
+    initial_level = int(edge_train["initial_logic_level"])
+    # A finite one-picosecond source slew matches the established FTC launch
+    # source.  The planned sub-nanosecond spacings are far above this lower
+    # bound, which prevents adjacent PWL transitions from overlapping.
+    slew_s = 1.0e-12
+    if not math.isfinite(first_edge) or not math.isfinite(spacing) or first_edge <= slew_s / 2.0:
+        raise ValueError("edge_train first_edge_time_s and edge_spacing_s must be finite positive values")
+    if spacing <= slew_s or edge_count <= 0 or initial_level not in (0, 1):
+        raise ValueError("edge_train needs positive non-overlapping spacing, positive count, and initial logic level 0 or 1")
+    edges: List[Dict[str, Any]] = []
+    level = initial_level
+    rise_count = 0
+    fall_count = 0
+    for index in range(edge_count):
+        time_s = first_edge + index * spacing
+        next_level = 1 - level
+        polarity = "rise" if next_level else "fall"
+        if polarity == "rise":
+            rise_count += 1
+            occurrence = rise_count
+        else:
+            fall_count += 1
+            occurrence = fall_count
+        edges.append({
+            "edge_index": index,
+            "time_s": time_s,
+            "polarity": polarity,
+            # HSPICE RISE/FALL occurrence is ordinal within a polarity, not
+            # global edge index.  Keeping it explicit makes each .measure
+            # select exactly the intended propagating transition.
+            "occurrence": occurrence,
+            "old_level": level,
+            "new_level": next_level,
+        })
+        level = next_level
+    return {
+        "first_edge_time_s": first_edge,
+        "edge_spacing_s": spacing,
+        "edge_count": edge_count,
+        "initial_logic_level": initial_level,
+        "slew_s": slew_s,
+        "edges": edges,
+    }
+
+
+def render_edge_train(edge_train: Dict[str, Any], stop_time_s: float) -> List[str]:
+    """Render one bounded PWL source that contains exactly the requested edges.
+
+    A PWL source, rather than an indefinitely repeating PULSE, guarantees that
+    no unrequested ninth or later edge can contaminate an 8-edge observation.
+    The source remains at its last logic level through transient stop time.
+    """
+
+    sequence = normalize_edge_train(edge_train)
+    slew_s = float(sequence["slew_s"])
+    points: List[str] = ["0", "'VDD_VALUE'" if sequence["initial_logic_level"] else "0"]
+    for edge in sequence["edges"]:
+        before = float(edge["time_s"]) - slew_s / 2.0
+        after = float(edge["time_s"]) + slew_s / 2.0
+        old_value = "'VDD_VALUE'" if edge["old_level"] else "0"
+        new_value = "'VDD_VALUE'" if edge["new_level"] else "0"
+        points.extend([spice(before), old_value, spice(after), new_value])
+    final_value = "'VDD_VALUE'" if sequence["edges"][-1]["new_level"] else "0"
+    points.extend([spice(stop_time_s), final_value])
+    return [
+        "* Finite regular edge train; each configured edge time is its VDD/2 crossing.",
+        "V_SCLK s_clk vss_a PWL({})".format(" ".join(points)),
+    ]
+
+
 def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mode: str,
                 initial_rvt_stages: int, initial_lvt_stages: int, capture_phase_s: float,
-                glitch: Optional[Dict[str, float]] = None) -> str:
+                glitch: Optional[Dict[str, float]] = None,
+                edge_train: Optional[Dict[str, Any]] = None) -> str:
     """Render one complete, task-owned real-cell FTC transient deck."""
 
     require_mode(mode)
@@ -153,6 +241,12 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
     phase = float(capture_phase_s)
     if phase <= 0.0 or phase >= float(config["sampling_period_s"]):
         raise ValueError("capture phase must lie inside one sampling period")
+    if edge_train is not None and mode == "capture":
+        # This task intentionally observes raw XOR words.  Reusing the single
+        # latch/FF schedule for multiple edges would falsely imply a completed
+        # pipelined capture architecture, which is outside physical feasibility.
+        raise ValueError("edge_train supports mechanism or xor mode, not capture mode")
+    sequence = normalize_edge_train(edge_train) if edge_train is not None else None
     absolute_close = launch + phase
     ff_capture = absolute_close + float(config["ff_capture_delay_s"])
     read_time = ff_capture + float(config["post_capture_read_delay_s"])
@@ -164,6 +258,13 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
         read_time + float(config["post_capture_read_delay_s"]),
         launch + float(config["sampling_period_s"]) - float(config["tran_max_step_s"]),
     )
+    if sequence is not None:
+        # The existing six-nanosecond tail is deliberately retained after the
+        # final injected edge.  It is longer than the measured 30-stage delay
+        # at every approved anchor and therefore makes all per-edge tap
+        # transition measures meaningful, including the final 8-edge sample.
+        final_edge = float(sequence["edges"][-1]["time_s"])
+        stop = max(stop, final_edge + float(config["sampling_period_s"]) - float(config["tran_max_step_s"]))
     # A long transient may intentionally continue after the capture read.  The
     # deck remains valid by retaining the measurement instant while extending
     # only the simulation tail far enough to close the requested PWL event.
@@ -184,10 +285,13 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
         "",
         *render_supply(vdd_v, stop, glitch),
         "* s_clk is the one FTC sampling/launch source for both Vt paths.",
-        "V_SCLK s_clk vss_a PULSE(0 'VDD_VALUE' {} 1.000000000000e-12 1.000000000000e-12 {} {})".format(
-            spice(launch), spice(float(config["sampling_period_s"]) / 2.0), spice(float(config["sampling_period_s"]))
-        ),
     ]
+    if sequence is None:
+        lines.append("V_SCLK s_clk vss_a PULSE(0 'VDD_VALUE' {} 1.000000000000e-12 1.000000000000e-12 {} {})".format(
+            spice(launch), spice(float(config["sampling_period_s"]) / 2.0), spice(float(config["sampling_period_s"]))
+        ))
+    else:
+        lines.extend(render_edge_train(edge_train, stop))
     if mode == "capture":
         latch_open = launch + float(config["latch_open_offset_s"])
         lines.extend([
@@ -215,14 +319,32 @@ def render_deck(config: Dict[str, Any], cells: Dict[str, Any], vdd_v: float, mod
         capture = render_capture_bank(cells, xor["outputs"])
         lines.extend(["", "* Real FTC latch bank followed by real post-latch FF bank.", *capture["lines"]])
     lines.extend(["", ".tran {} {}".format(spice(float(config["tran_max_step_s"])), spice(stop))])
-    for index, node in enumerate(rvt["taps"]):
-        lines.append(".measure tran rvt_{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' RISE=1".format(index, node))
-    for index, node in enumerate(lvt["taps"]):
-        lines.append(".measure tran lvt_{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' RISE=1".format(index, node))
-    if xor is not None:
-        sample_time = absolute_close - 5.0e-13
-        for index, node in enumerate(xor["outputs"]):
-            lines.append(".measure tran xor_{:02d}_level FIND v({},vss_a) AT={}".format(index, node, spice(sample_time)))
+    if sequence is None:
+        for index, node in enumerate(rvt["taps"]):
+            lines.append(".measure tran rvt_{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' RISE=1".format(index, node))
+        for index, node in enumerate(lvt["taps"]):
+            lines.append(".measure tran lvt_{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' RISE=1".format(index, node))
+        if xor is not None:
+            sample_time = absolute_close - 5.0e-13
+            for index, node in enumerate(xor["outputs"]):
+                lines.append(".measure tran xor_{:02d}_level FIND v({},vss_a) AT={}".format(index, node, spice(sample_time)))
+    else:
+        for edge in sequence["edges"]:
+            qualifier = "RISE" if edge["polarity"] == "rise" else "FALL"
+            for index, node in enumerate(rvt["taps"]):
+                lines.append(".measure tran rvt_e{:02d}_t{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' {}={}".format(
+                    int(edge["edge_index"]), index, node, qualifier, int(edge["occurrence"])))
+            for index, node in enumerate(lvt["taps"]):
+                lines.append(".measure tran lvt_e{:02d}_t{:02d}_cross WHEN v({},vss_a)='VDD_VALUE/2' {}={}".format(
+                    int(edge["edge_index"]), index, node, qualifier, int(edge["occurrence"])))
+            if xor is not None:
+                # The configured edge time is the source midpoint; sample at
+                # exactly the documented relative 300 ps phase, without an
+                # implicit latch-close offset or a new capture structure.
+                sample_time = float(edge["time_s"]) + phase
+                for index, node in enumerate(xor["outputs"]):
+                    lines.append(".measure tran xor_e{:02d}_t{:02d}_level FIND v({},vss_a) AT={}".format(
+                        int(edge["edge_index"]), index, node, spice(sample_time)))
     if capture is not None:
         for index, node in enumerate(capture["latch_outputs"]):
             lines.append(".measure tran latch_{:02d}_level FIND v({},vss_a) AT={}".format(index, node, spice(absolute_close + 5.0e-12)))
