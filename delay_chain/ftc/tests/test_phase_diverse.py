@@ -44,10 +44,10 @@ class FtcPhaseDiverseTest(unittest.TestCase):
         self.assertAlmostEqual(candidates[-1]["capture_phase_s"], 3.5487374e-10)
 
     def test_qualification_allows_low_voltage_boundary_but_rejects_invalid(self):
-        """The 0.75 V endpoint is valid when decodable; a failed capture is not."""
+        """The 0.80 V endpoint is valid when decodable; a failed capture is not."""
 
-        anchors = [row("phi_p00", 0, 3e-10, vdd, start, end) for vdd, start, end in ((1.1, 10, 18), (0.9, 4, 10), (0.75, 0, 3))]
-        coarse = [row("phi_p00", 0, 3e-10, vdd, max(0, 10 - index), max(1, 18 - index)) for index, vdd in enumerate((1.1, 1.05, 1.0, 0.95, 0.9, 0.85, 0.8, 0.75))]
+        anchors = [row("phi_p00", 0, 3e-10, vdd, start, end) for vdd, start, end in ((1.1, 10, 18), (0.9, 4, 10), (0.8, 0, 3))]
+        coarse = [row("phi_p00", 0, 3e-10, vdd, max(0, 10 - index), max(1, 18 - index)) for index, vdd in enumerate((1.1, 1.05, 1.0, 0.95, 0.9, 0.85, 0.8))]
         qualified, summary = analysis.qualify_candidates(anchors, coarse)
         self.assertEqual(summary["eligible_phase_ids"], ["phi_p00"])
         self.assertEqual(qualified[0]["phase_id"], "phi_p00")

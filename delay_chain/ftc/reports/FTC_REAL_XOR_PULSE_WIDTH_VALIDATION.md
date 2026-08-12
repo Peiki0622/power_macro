@@ -1,46 +1,47 @@
 # FTC Real XOR Pulse-Width Validation
 
-## A. Why this experiment
+## Scope
 
-The prior GO established `|t_RVT - t_LVT|` as a VDD feature, not the high-pulse width at a physical XOR output. This experiment measures that output directly at tap29.
+Re-published for the formal 0.80--1.10 V range from completed TT/25 C physical `fine.csv` evidence. No HSPICE run was launched.
 
-## B. Exact physical topology
+## Result
 
-- SMIC40LL TT / 25 C; RVT `BUF_X0P7M_A9TR40`; LVT `BUF_X0P7M_A9TL40`.
-- 4 RVT initial stages, 0 LVT initial stages, 30 observable stages, and the full 30-real-XOR bank.
-- XOR cell `XOR2_X0P5M_A9TR40`; measured output `xor_29`; normal isolated rising launch; 1 ps transient maximum step.
+All 31 retained 10 mV points have valid real XOR pulses and strictly increasing `W_real` as VDD decreases.
 
-## C. Anchor result
+| VDD (V) | W_real (ps) | Valid |
+|---:|---:|---:|
+| 1.10 | 242.236 | 1 |
+| 1.09 | 248.409 | 1 |
+| 1.08 | 254.521 | 1 |
+| 1.07 | 261.289 | 1 |
+| 1.06 | 268.362 | 1 |
+| 1.05 | 275.420 | 1 |
+| 1.04 | 284.486 | 1 |
+| 1.03 | 292.845 | 1 |
+| 1.02 | 302.019 | 1 |
+| 1.01 | 311.390 | 1 |
+| 1.00 | 322.244 | 1 |
+| 0.99 | 331.766 | 1 |
+| 0.98 | 343.787 | 1 |
+| 0.97 | 356.327 | 1 |
+| 0.96 | 369.817 | 1 |
+| 0.95 | 383.481 | 1 |
+| 0.94 | 398.797 | 1 |
+| 0.93 | 415.010 | 1 |
+| 0.92 | 432.058 | 1 |
+| 0.91 | 449.750 | 1 |
+| 0.90 | 470.158 | 1 |
+| 0.89 | 491.489 | 1 |
+| 0.88 | 514.849 | 1 |
+| 0.87 | 539.571 | 1 |
+| 0.86 | 566.317 | 1 |
+| 0.85 | 596.477 | 1 |
+| 0.84 | 628.819 | 1 |
+| 0.83 | 662.095 | 1 |
+| 0.82 | 701.178 | 1 |
+| 0.81 | 743.988 | 1 |
+| 0.80 | 789.004 | 1 |
 
-| VDD (V) | W_proxy (ps) | W_real (ps) | Width error (ps) | Peak/VDD | Valid |
-|---:|---:|---:|---:|---:|---:|
-| 1.10 | 255.807 | 242.236 | -13.570 | 1.085 | 1 |
-| 1.00 | 338.937 | 322.244 | -16.693 | 1.094 | 1 |
-| 0.90 | 492.133 | 470.158 | -21.975 | 1.102 | 1 |
-| 0.80 | 820.436 | 789.004 | -31.432 | 1.103 | 1 |
-| 0.75 | 1135.821 | 1095.566 | -40.254 | 1.119 | 1 |
+## Decision
 
-Anchor decision: **GO**.
-- All five anchors have complete pulses and strictly increase as VDD decreases.
-
-## D. Fine transfer
-
-![Real versus proxy](../analysis/real_xor_pulse_width/fig1_real_vs_proxy.svg)
-
-![Width distortion](../analysis/real_xor_pulse_width/fig2_width_error_vs_vdd.svg)
-
-- Monotonic class: `strict_increasing`; plateaus: 0; reverse steps: 0.
-- Real span: 853.330 ps; adjacent 10 mV movement min/median/max: 6.112/17.049/74.994 ps.
-- |dW_real/dVDD| min/median/max: 61.125/170.485/749.941 ps / 100 mV.
-- Width error min/median/max: -40.254/-20.411/-13.570 ps; width ratio min/median/max: 0.947/0.954/0.965.
-
-## E. Physical interpretation
-
-All 36 measured outputs retain complete VDD/2 rise/fall pulses. `W_real` preserves the proxy transfer direction without calibration.
-Width error changes from -40.254 to -13.570 ps across VDD, so the XOR contribution is VDD-dependent distortion rather than a constant offset; its measured ratio remains within 0.947--0.965.
-No threshold, TDC, PVT, or glitch architecture is inferred from this physical-transfer result.
-
-## F. Final decision
-
-**GO**
-- All 36 points have complete pulses and strictly increase as VDD decreases.
+**GO for TT/25 C 0.80--1.10 V real-XOR pulse completeness and monotonicity.**

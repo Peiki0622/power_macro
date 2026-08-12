@@ -22,7 +22,7 @@ class FtcPhaseVoltage2DTest(unittest.TestCase):
 
     @staticmethod
     def static_rows(valid: int = 1):
-        """Build the exact 36-point static shape required by input validation.
+        """Build the exact 31-point static shape required by input validation.
 
         The codes vary only enough to keep the synthetic rows well formed.  A
         dedicated helper makes validation tests alter one intended condition
@@ -144,34 +144,25 @@ class FtcPhaseVoltage2DTest(unittest.TestCase):
         self.assertTrue(all(row["status"] == "local_plateau" for row in rows))
         self.assertTrue(all(row["phase_to_voltage_ratio"] is None for row in rows))
 
-    def test_completed_physical_evidence_regenerates_deterministically(self) -> None:
-        """Run the full local evidence path twice and compare metrics, report, and CSVs.
+    def test_historical_phase_evidence_is_rejected_without_a_0p80_anchor(self) -> None:
+        """Do not turn a historical 0.75 V phase study into new-range coverage.
 
-        This regression consumes the user's existing completed compact CSVs.
-        It intentionally fails with a clear missing-input error if those local
-        artifacts are unavailable; it never tries to recreate them electrically.
+        The completed phase data has anchors at 1.10, 0.90 and 0.75 V only.
+        The current formal contract requires 0.80 V, so validation must reject
+        the historical input rather than interpolate or silently relabel it.
+        The constrained re-publication report records this evidence gap.
         """
 
         static_input = FTC_ROOT / "runs/static_fine/static_transfer.csv"
         phase_input = FTC_ROOT / "runs/phase_sensitivity/phase_sensitivity.csv"
         with tempfile.TemporaryDirectory(prefix="ftc_phase_voltage_2d_") as temporary:
             root = Path(temporary)
-            first = root / "first"
-            second = root / "second"
-            first_report = first / "report.md"
-            second_report = second / "report.md"
-            first_result = analysis.run_analysis(static_input, phase_input, first, first_report)
-            second_result = analysis.run_analysis(static_input, phase_input, second, second_report)
-            self.assertEqual(first_result["decision"], "NO-GO - move to phase-diverse sampling")
-            self.assertEqual(first_result["projection_status"], "skipped_near_collinear")
-            self.assertEqual(first_result["decision"], second_result["decision"])
-            for name in ("static_cw.csv", "phase_cw.csv", "local_voltage_vectors.csv", "phase_vectors.csv", "separability_metrics.json", "projection_selection.json", "local_ambiguity.csv"):
-                self.assertEqual((first / name).read_text(encoding="utf-8"), (second / name).read_text(encoding="utf-8"), name)
-            self.assertEqual(first_report.read_text(encoding="utf-8"), second_report.read_text(encoding="utf-8"))
-            metrics = json.loads((first / "separability_metrics.json").read_text(encoding="utf-8"))
-            self.assertEqual(len(metrics["per_anchor"]), 3)
-            self.assertAlmostEqual(metrics["per_anchor"][0]["acute_angle_deg"], 5.042451069171, places=9)
-            self.assertIn("## J. NO-GO - move to phase-diverse sampling", first_report.read_text(encoding="utf-8"))
+            self.assertEqual(root.name, Path(temporary).name)
+            # Validation rejects the historical source at its first missing
+            # current-range requirement: its static transfer still contains
+            # 36 rows down to 0.75 V rather than the required 31-row grid.
+            with self.assertRaisesRegex(ValueError, "static transfer must contain 31 points"):
+                analysis.run_analysis(static_input, phase_input, root / "result", root / "report.md")
 
 
 if __name__ == "__main__":

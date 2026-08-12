@@ -1,4 +1,35 @@
-# FTC Static Self Calibration + 0.75--1.10 V Code Headroom 计划
+# FTC Static Self Calibration + 0.80--1.10 V Code Headroom 计划
+
+## 范围修订（2026-08-12，优先于后文旧范围表述）
+
+本计划原先以 `0.75 V` 为合法最低工作电压。经完成的 `r2` 真实
+HSPICE 自校准 trace 复核后，正式全局合法范围改为 **0.80--1.10 V**。
+下列执行顺序替代后文所有以 `0.75 V` 为范围下限、sizing 或 Gate 输入的
+描述；历史文字中的 `0.75 V` 仅作为已保留、但不再属于正式合法范围的
+物理证据。
+
+1. 更新全局配置、相关脚本和测试合同到 0.80--1.10 V；不改变仅以
+   1.10/0.90 V 为实验锚点的独立研究定义。
+   验证：配置为 7 点 coarse、31 点 10 mV fine，任何正式范围校验均拒绝
+   0.75 V。
+2. 复用 `runs/static_self_calibration_full_range/r2`，筛出 0.80--1.10 V
+   的 54 条真实 probe，重新发布静态自校准结果。固定 mapping
+   `[10,12,14,16,18,36,37,38]`，只声明已验证覆盖，不宣称新范围最小。
+   验证：七点均具有唯一 1->0 Q 边界，锁定码为
+   `5,5,5,5,5,4,4`，上侧 headroom 为 `2,2,2,2,2,3,3`。
+3. 不重跑 HSPICE；从已有 CSV/JSON 过滤 0.75 V 后重发布历史报告。
+   缺少 0.80 V PVT、phase 或 wavefront 原始量测的研究必须明确标注
+   “0.80 V 未量测，不能宣称该研究覆盖整个新范围”。
+   验证：重发布 manifest 记录输入哈希和 `new_hspice_runs=0`。
+4. 在第 2 步 Gate 为 GO 后实现一个独立的最小可综合线性扫描 controller。
+   它不修改 `ftc_sensor`，不含 function、延时、二分搜索、追踪或
+   acceptance-window 逻辑。
+   验证：用七个真实 Q trace 驱动 RTL，lock code 必须逐点一致，并覆盖
+   code 0/6/7 异常边界。
+5. 运行全部相关 Python、VCS RTL 和证据完整性回归；生成物仅置于既有
+   `runs/` 或 task-scoped `runs/range_080_110_republication/r1/`。
+   验证：无新的 HSPICE scenario，报告与分析中无把 0.75 V 表述为合法
+   全局范围的数据或结论。
 
 ## 0. 任务定位
 

@@ -341,7 +341,10 @@ def validate_sensor_evidence() -> Dict[str, Any]:
     process_corners = load_json(analysis / "process_corners.json")
     baseline_summary = load_json(analysis / "summary.json")
     report = (FTC_ROOT / "reports" / "FTC_TAP29_PVT_BASELINE_CHARACTERIZATION.md").read_text(encoding="utf-8")
-    if "tap29" not in report or baseline_summary.get("measured_tap") != 29:
+    # The re-published PVT report may capitalize its title as "Tap29".  The
+    # check is deliberately case-insensitive because this helper verifies the
+    # retained historical sensor identity, not report typography.
+    if "tap29" not in report.lower() or baseline_summary.get("measured_tap") != 29:
         raise ValueError("frozen tap29 baseline provenance is invalid")
 
     def index(rows: Sequence[Mapping[str, str]]) -> Dict[Tuple[str, float, float], Dict[str, Any]]:

@@ -1,0 +1,276 @@
+{
+  "decision": "Static Self Calibration + Full-Range Code Headroom = GO",
+  "decision_reasons": [
+    "all seven normal VDD anchors passed"
+  ],
+  "mapping": {
+    "code_to_tap": {
+      "0": 10,
+      "1": 12,
+      "2": 14,
+      "3": 16,
+      "4": 18,
+      "5": 36,
+      "6": 37,
+      "7": 38
+    },
+    "decision": "VERIFIED_FOR_0P80_TO_1P10",
+    "minimum_mapping_not_claimed": true,
+    "reason": "r2 real-DFF probes pass the seven current legal VDD anchors; no new sizing search was run",
+    "selection_basis": "reused_r2_verified_mapping",
+    "tap_list": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      36,
+      37,
+      38
+    ],
+    "validated_vdd_range_v": [
+      0.8,
+      1.1
+    ]
+  },
+  "new_hspice_runs": 0,
+  "per_voltage": [
+    {
+      "d_code_ps": [
+        360.32462400000014,
+        406.0403710000001,
+        452.68572399999994,
+        498.44359399999985,
+        546.185576,
+        928.501621,
+        954.5016080000003,
+        974.7578959999998
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        6,
+        7
+      ],
+      "headroom_up": 2,
+      "headroom_verified": true,
+      "lock_code": 5,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 0.8
+    },
+    {
+      "d_code_ps": [
+        304.6455680000002,
+        343.96858599999996,
+        383.68033199999996,
+        423.01723500000026,
+        463.5311520000002,
+        790.935553,
+        813.1156599999999,
+        830.7767849999999
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        6,
+        7
+      ],
+      "headroom_up": 2,
+      "headroom_verified": true,
+      "lock_code": 5,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 0.85
+    },
+    {
+      "d_code_ps": [
+        263.931475,
+        298.241012,
+        333.05891600000007,
+        367.6576179999998,
+        403.04859199999976,
+        690.4239609999997,
+        709.070882,
+        724.476935
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        6,
+        7
+      ],
+      "headroom_up": 2,
+      "headroom_verified": true,
+      "lock_code": 5,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 0.9
+    },
+    {
+      "d_code_ps": [
+        233.344154,
+        264.0591040000001,
+        295.14413400000007,
+        325.7985190000001,
+        357.484954,
+        613.327763,
+        630.378004,
+        644.2449080000001
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        6,
+        7
+      ],
+      "headroom_up": 2,
+      "headroom_verified": true,
+      "lock_code": 5,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 0.95
+    },
+    {
+      "d_code_ps": [
+        209.49024999999995,
+        237.26749899999982,
+        265.36909399999996,
+        293.2096369999999,
+        321.69492199999985,
+        553.4581969999999,
+        568.6859439999997,
+        581.3645509999999
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        6,
+        7
+      ],
+      "headroom_up": 2,
+      "headroom_verified": true,
+      "lock_code": 5,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 1.0
+    },
+    {
+      "d_code_ps": [
+        190.73977299999996,
+        216.2386199999999,
+        241.91358899999997,
+        267.35553499999986,
+        293.48381500000005,
+        505.8094660000001,
+        519.9536289999998
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        5,
+        6
+      ],
+      "headroom_up": 3,
+      "headroom_verified": true,
+      "lock_code": 4,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 1.05
+    },
+    {
+      "d_code_ps": [
+        175.59171100000012,
+        199.0542510000001,
+        222.94361300000006,
+        246.46906700000005,
+        270.60268300000007,
+        466.98019100000016,
+        479.95581
+      ],
+      "decision": "GO",
+      "headroom_codes": [
+        5,
+        6
+      ],
+      "headroom_up": 3,
+      "headroom_verified": true,
+      "lock_code": 4,
+      "monotonic": true,
+      "q_monotonic": true,
+      "q_sequence": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "reasons": [],
+      "vdd_v": 1.1
+    }
+  ],
+  "scenario_count": 54,
+  "schema_version": 2,
+  "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/static_self_calibration_full_range/r2"
+}

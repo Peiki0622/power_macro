@@ -4,7 +4,7 @@
 This task-owned runner is deliberately narrower than the historical FTC
 characterization command.  It fixes the approved 4-RVT/0-LVT operating point,
 keeps the complete 30-cell XOR observation bank, measures only xor_29, and
-runs a five-point anchor gate before it can request the 36-point VDD sweep.
+runs a four-point anchor gate before it can request the 31-point VDD sweep.
 It neither changes the sensor topology nor proposes a pulse readout circuit.
 """
 
@@ -36,8 +36,12 @@ import run_ftc_characterization as characterization  # noqa: E402  # Reuse revie
 
 
 TAP_INDEX = 29
-ANCHOR_VDDS = (1.10, 1.00, 0.90, 0.80, 0.75)
-FINE_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(36))
+# The macro-wide legal range is intentionally expressed here as completed
+# grids, rather than inferred from a stale historical endpoint.  The four
+# anchor points retain 0.80 V as the lowest physical pulse check, while the
+# fine sweep has one measured value for every 10 mV legal operating point.
+ANCHOR_VDDS = (1.10, 1.00, 0.90, 0.80)
+FINE_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(31))
 RESULT_FIELDS = (
     "vdd_v",
     "t_rvt29_s",
@@ -117,7 +121,7 @@ def verify_fixed_experiment(config: Mapping[str, Any], cells: Mapping[str, Any])
         ("observable_stages", 30),
         ("launch_time_s", 1.0e-9),
         ("tran_max_step_s", 1.0e-12),
-        ("minimum_vdd_v", 0.75),
+        ("minimum_vdd_v", 0.80),
         ("nominal_vdd_v", 1.10),
     )
     for field, expected in required_config:
@@ -270,7 +274,7 @@ def fine_vdds_after_anchor(decision: str) -> Tuple[float, ...]:
 
 
 def fine_decision(rows: Sequence[Mapping[str, Any]]) -> Tuple[str, List[str], Dict[str, Any]]:
-    """Classify the 36-point transfer using the agreed conservative exception.
+    """Classify the 31-point transfer using the agreed conservative exception.
 
     A plateau, or exactly one reverse 10 mV step with a positive endpoint span,
     is CONDITIONAL for manual review.  Two or more reverse steps are treated
@@ -282,7 +286,7 @@ def fine_decision(rows: Sequence[Mapping[str, Any]]) -> Tuple[str, List[str], Di
     if len(rows) != len(FINE_VDDS) or not complete_pulse_rows(rows):
         return "NO-GO", ["One or more fine VDD points lacks a complete VDD/2 real-XOR pulse or peak evidence."], monotonic
     if monotonic["monotonic_class"] == "strict_increasing":
-        return "GO", ["All 36 points have complete pulses and strictly increase as VDD decreases."], monotonic
+        return "GO", ["All 31 points have complete pulses and strictly increase as VDD decreases."], monotonic
     endpoint_increases = float(rows[-1]["W_real_ps"]) > float(rows[0]["W_real_ps"])
     if endpoint_increases and (
         monotonic["monotonic_class"] == "nondecreasing_with_plateau"
@@ -304,7 +308,7 @@ def fine_metrics(rows: Sequence[Mapping[str, Any]], monotonic: Mapping[str, Any]
     if any(any(finite_number(row.get(field)) is None for field in required_fields) for row in rows):
         # A failed output pulse is already a decisive physical result.  Leave
         # derived range/sensitivity statistics unavailable rather than
-        # calculating them from a subset that would imply 36-point coverage.
+        # calculating them from a subset that would imply full-range coverage.
         return {
             **result,
             "real_span_ps": None,

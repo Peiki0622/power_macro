@@ -585,8 +585,8 @@ def phase_diverse_settings(path: Path, base_config: Dict[str, Any]) -> Dict[str,
     phases = [float(settings["phase_reference_s"]) + int(value) * float(settings["phase_step_s"]) for value in multipliers]
     if any(phase <= 0.0 or phase >= float(base_config["sampling_period_s"]) for phase in phases):
         raise ValueError("candidate capture phase lies outside the FTC sampling period")
-    if sorted(float(value) for value in settings["anchor_vdd_v"]) != [0.75, 0.9, 1.1]:
-        raise ValueError("phase-diversity anchors must be exactly 0.75, 0.90, and 1.10 V")
+    if sorted(float(value) for value in settings["anchor_vdd_v"]) != [0.8, 0.9, 1.1]:
+        raise ValueError("phase-diversity anchors must be exactly 0.80, 0.90, and 1.10 V")
     if any(float(value) < float(settings["formal_minimum_vdd_v"]) for value in settings["coarse_vdd_v"]):
         raise ValueError("phase-diversity coarse sweep exceeds the formal minimum VDD")
     if float(settings["maximum_glitch_depth_v"]) > float(base_config["nominal_vdd_v"]) - float(settings["formal_minimum_vdd_v"]):
@@ -595,7 +595,7 @@ def phase_diverse_settings(path: Path, base_config: Dict[str, Any]) -> Dict[str,
         if not isinstance(glitch, dict) or not isinstance(glitch.get("case_id"), str):
             raise ValueError("every phase-diversity glitch needs a stable case_id")
         if float(glitch.get("depth_v", 0.0)) <= 0.0 or float(glitch["depth_v"]) > float(settings["maximum_glitch_depth_v"]):
-            raise ValueError("phase-diversity glitch depth is outside the approved 0--350 mV range")
+            raise ValueError("phase-diversity glitch depth is outside the approved 0--300 mV range")
         if float(glitch.get("width_s", 0.0)) <= 0.0:
             raise ValueError("phase-diversity glitch width must be positive")
     return settings
@@ -1259,7 +1259,7 @@ def tested_interval_summary(nominal: Optional[Dict[str, Any]], anchor: Optional[
     if anchor is not None:
         # A cross-anchor failure is more meaningful than a nominal-only
         # failure: Step 4 is explicitly where an otherwise clean 1.10 V
-        # overlap must prove it remains decodable down to 0.75 V.  Ignore a
+        # overlap must prove it remains decodable down to 0.80 V.  Ignore a
         # spacing that is non-overlapping at any anchor, then report the first
         # all-anchor overlap that fails as spacing is reduced.
         anchor_outcomes = sorted(anchor.get("spacing_results", []), key=lambda item: float(item["edge_spacing_s"]), reverse=True)
@@ -1337,7 +1337,7 @@ def render_wavefront_report(root: Path, falling: Dict[str, Any], nominal: Option
         "",
         "## Two-Edge Coexistence",
         "",
-        "| T_edge | All-anchor overlap | 1.10 V | 0.90 V | 0.75 V | Window levels (edge0/edge1) | Conclusion |",
+        "| T_edge | All-anchor overlap | 1.10 V | 0.90 V | 0.80 V | Window levels (edge0/edge1) | Conclusion |",
         "|---:|---:|---|---|---|---|---|",
     ])
     if anchor is not None:
@@ -1346,10 +1346,10 @@ def render_wavefront_report(root: Path, falling: Dict[str, Any], nominal: Option
             def anchor_cell(voltage: str) -> str:
                 point = by_vdd[voltage]
                 return "overlap={}, accepted={}".format(point["overlap_expected"], point["acceptable"])
-            levels = "; ".join("{} V={}".format(voltage, by_vdd[voltage]["window_levels"]) for voltage in ("1.10", "0.90", "0.75"))
+            levels = "; ".join("{} V={}".format(voltage, by_vdd[voltage]["window_levels"]) for voltage in ("1.10", "0.90", "0.80"))
             lines.append("| {:.1f} ps | {} | {} | {} | {} | {} | stable_overlap={} |".format(
                 float(item["edge_spacing_s"]) * 1.0e12, int(all(int(point["overlap_expected"]) for point in item["vdd_results"])),
-                anchor_cell("1.10"), anchor_cell("0.90"), anchor_cell("0.75"), levels, item["stable_overlap"],
+                anchor_cell("1.10"), anchor_cell("0.90"), anchor_cell("0.80"), levels, item["stable_overlap"],
             ))
     elif nominal is not None:
         for item in nominal.get("spacing_results", []):

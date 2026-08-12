@@ -1,0 +1,30 @@
+{
+  "code_to_tap": {
+    "0": 10,
+    "1": 12,
+    "2": 14,
+    "3": 16,
+    "4": 18,
+    "5": 36,
+    "6": 37,
+    "7": 38
+  },
+  "decision": "VERIFIED_FOR_0P80_TO_1P10",
+  "minimum_mapping_not_claimed": true,
+  "reason": "r2 real-DFF probes pass the seven current legal VDD anchors; no new sizing search was run",
+  "selection_basis": "reused_r2_verified_mapping",
+  "tap_list": [
+    10,
+    12,
+    14,
+    16,
+    18,
+    36,
+    37,
+    38
+  ],
+  "validated_vdd_range_v": [
+    0.8,
+    1.1
+  ]
+}

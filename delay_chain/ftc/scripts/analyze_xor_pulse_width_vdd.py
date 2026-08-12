@@ -37,8 +37,10 @@ DEFAULT_OUTPUT_DIR = FTC_ROOT / "analysis/xor_pulse_width_vdd"
 DEFAULT_REPORT_OUTPUT = FTC_ROOT / "reports/FTC_XOR_PULSE_WIDTH_VDD_MAPPING.md"
 
 TAP_COUNT = 30
-FINE_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(36))
-COARSE_VDDS = (1.10, 1.05, 1.00, 0.95, 0.90, 0.85, 0.80, 0.75)
+# Fixed current legal grids.  Input validation below rejects retained 0.75 V
+# history so it cannot silently enter a newly published full-range conclusion.
+FINE_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(31))
+COARSE_VDDS = (1.10, 1.05, 1.00, 0.95, 0.90, 0.85, 0.80)
 MATRIX_FIELDS = (
     "vdd_v",
     "tap_index",
@@ -138,8 +140,8 @@ def validate_record(row: Mapping[str, Any], source: Path, row_number: int) -> Di
     if missing:
         raise ValueError("{} is missing required columns: {}".format(source, ", ".join(missing)))
     vdd = required_float(row, "vdd_v", source, row_number)
-    if not 0.75 <= vdd <= 1.10:
-        raise ValueError("{} row {} VDD lies outside 0.75--1.10 V".format(source, row_number))
+    if not 0.80 <= vdd <= 1.10:
+        raise ValueError("{} row {} VDD lies outside 0.80--1.10 V".format(source, row_number))
     if "initial_rvt_stages" in row and required_integer(row, "initial_rvt_stages", source, row_number) != 4:
         raise ValueError("{} row {} is not the selected 4-RVT operating point".format(source, row_number))
     if "initial_lvt_stages" in row and required_integer(row, "initial_lvt_stages", source, row_number) != 0:
@@ -198,7 +200,7 @@ def load_primary_evidence(fine_path: Path, coarse_path: Path) -> Tuple[str, Path
     if fine_path.is_file():
         raw_rows, _ = read_csv_rows(fine_path)
         records = [validate_record(row, fine_path, index + 2) for index, row in enumerate(raw_rows)]
-        return "36-point fine evidence", fine_path, validate_grid(records, FINE_VDDS, fine_path)
+        return "31-point fine evidence", fine_path, validate_grid(records, FINE_VDDS, fine_path)
     raw_rows, fields = read_csv_rows(coarse_path)
     nominal = select_nominal_coarse_rows(raw_rows, fields, coarse_path)
     records = [validate_record(row, coarse_path, index + 2) for index, row in enumerate(nominal)]
@@ -590,7 +592,7 @@ def plot_span(metrics: Sequence[Mapping[str, Any]], path: Path) -> None:
     figure, axis = plt.subplots(figsize=(7.2, 3.8))
     axis.plot([row["tap_index"] for row in metrics], [row["abs_endpoint_delta_ps"] for row in metrics], "-o", color="#0072B2", markersize=3.5)
     axis.set_xlabel("Tap index")
-    axis.set_ylabel("|W(0.75 V) - W(1.10 V)| (ps)")
+    axis.set_ylabel("|W(0.80 V) - W(1.10 V)| (ps)")
     axis.set_title("Fig. 2. Proxy-width endpoint span versus tap")
     axis.grid(True, linewidth=0.5, alpha=0.35)
     save_figure(figure, path)

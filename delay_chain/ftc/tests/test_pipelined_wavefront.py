@@ -62,7 +62,7 @@ class FtcPipelinedWavefrontTest(unittest.TestCase):
         self.assertEqual(point["initial_lvt_stages"], 0)
         self.assertEqual(point["capture_phase_s"], 3.0e-10)
         self.assertEqual(self.settings["sample_offset_s"], 3.0e-10)
-        self.assertEqual(self.settings["anchor_vdd_v"], [1.1, 0.9, 0.75])
+        self.assertEqual(self.settings["anchor_vdd_v"], [1.1, 0.9, 0.8])
         self.assertEqual(self.settings["two_edge"]["candidate_spacing_s"], [
             2.0e-9, 1.5e-9, 1.0e-9, 7.5e-10, 6.0e-10, 5.0e-10, 4.0e-10,
         ])

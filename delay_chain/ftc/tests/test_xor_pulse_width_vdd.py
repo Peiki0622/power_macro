@@ -167,10 +167,14 @@ class FtcXorPulseWidthVddTest(unittest.TestCase):
             self.assertIn("step_margin_ps", metric_fields)
             with (first / "repeat_consistency.csv").open(newline="", encoding="utf-8") as stream:
                 repeat_rows = list(csv.DictReader(stream))
-            self.assertEqual(len(repeat_rows), 8 * analysis.TAP_COUNT)
+            # Repeat consistency follows the current seven-point legal coarse
+            # grid; the retained 0.75 V row is excluded from re-publication.
+            self.assertEqual(len(repeat_rows), len(analysis.COARSE_VDDS) * analysis.TAP_COUNT)
             summary = json.loads((first / "summary.json").read_text(encoding="utf-8"))
             self.assertFalse(summary["used_new_hspice"])
-            self.assertEqual(summary["vdd_point_count"], 36)
+            # The primary synthetic fine curve follows the formal 31-point
+            # 1.10--0.80 V grid, not the retired 36-point historical range.
+            self.assertEqual(summary["vdd_point_count"], len(analysis.FINE_VDDS))
             self.assertIn("not the output pulse width of a real XOR cell", first_report.read_text(encoding="utf-8"))
             fallback_kind, _, fallback_records = analysis.load_primary_evidence(root / "missing-fine.csv", coarse)
             self.assertEqual(fallback_kind, "8-point committed coarse evidence")

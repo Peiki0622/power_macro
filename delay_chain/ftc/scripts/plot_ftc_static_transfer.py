@@ -27,9 +27,9 @@ BLACK = "#202020"
 
 
 def x_coordinate(voltage: float) -> float:
-    """Map the formal 0.75--1.10 V range onto the shared horizontal axis."""
+    """Map the formal 0.80--1.10 V range onto the shared horizontal axis."""
 
-    return LEFT + (voltage - 0.75) / (1.10 - 0.75) * PLOT_WIDTH
+    return LEFT + (voltage - 0.80) / (1.10 - 0.80) * PLOT_WIDTH
 
 
 def y_coordinate(value: float, minimum: float, maximum: float, panel_top: float) -> float:
@@ -54,10 +54,10 @@ def render(input_path: Path, output_path: Path) -> None:
         rows = [
             {"vdd": float(row["vdd_v"]), "start": int(row["start_index"]), "end": int(row["end_index"]), "length": int(row["one_run_length"])}
             for row in csv.DictReader(stream)
-            if int(row["valid"]) == 1 and 0.75 <= float(row["vdd_v"]) <= 1.10
+            if int(row["valid"]) == 1 and 0.80 <= float(row["vdd_v"]) <= 1.10
         ]
-    if len(rows) != 36:
-        raise ValueError("expected 36 valid 0.75--1.10 V FTC static points, found {}".format(len(rows)))
+    if len(rows) != 31:
+        raise ValueError("expected 31 valid 0.80--1.10 V FTC static points, found {}".format(len(rows)))
     rows.sort(key=lambda row: row["vdd"])
     lower_top = TOP + PANEL_HEIGHT + GAP
     pieces = [
@@ -75,7 +75,7 @@ def render(input_path: Path, output_path: Path) -> None:
         pieces.append('<line class="axis" x1="{}" y1="{}" x2="{}" y2="{}"/>'.format(LEFT, panel_top, LEFT, panel_top + PANEL_HEIGHT))
         pieces.append('<line class="axis" x1="{}" y1="{}" x2="{}" y2="{}"/>'.format(LEFT, panel_top + PANEL_HEIGHT, LEFT + PLOT_WIDTH, panel_top + PANEL_HEIGHT))
         pieces.append('<text class="label" transform="translate(28 {:.2f}) rotate(-90)" text-anchor="middle">{}</text>'.format(panel_top + PANEL_HEIGHT / 2, ylabel))
-    for voltage in (0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.05, 1.10):
+    for voltage in (0.80, 0.85, 0.90, 0.95, 1.00, 1.05, 1.10):
         x = x_coordinate(voltage)
         pieces.append('<line class="axis" x1="{:.2f}" y1="{}" x2="{:.2f}" y2="{}"/>'.format(x, lower_top + PANEL_HEIGHT, x, lower_top + PANEL_HEIGHT + 7))
         pieces.append('<text class="tick" x="{:.2f}" y="{}" text-anchor="middle">{:.2f}</text>'.format(x, lower_top + PANEL_HEIGHT + 29, voltage))

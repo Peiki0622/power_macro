@@ -3,7 +3,7 @@
   "study_name": "smic40ll_ftc_pipelined_wavefront_physical_feasibility",
   "first_edge_time_s": 1.0e-9,
   "sample_offset_s": 3.0e-10,
-  "anchor_vdd_v": [1.1, 0.9, 0.75],
+  "anchor_vdd_v": [1.1, 0.9, 0.8],
   "falling_edge": {
     "edge_count": 1,
     "initial_logic_level": 1,

@@ -79,7 +79,10 @@ def phase_key(row: Mapping[str, Any]) -> str:
 def qualify_candidates(anchor_rows: Sequence[Mapping[str, Any]], coarse_rows: Sequence[Mapping[str, Any]]) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """Apply the fixed physical qualification gate to anchor and coarse rows."""
 
-    anchors = {1.10, 0.90, 0.75}
+    # Qualification is restricted to the current formal range.  Historical
+    # 0.75 V rows are retained in their original raw run but are deliberately
+    # excluded from any new phase-diverse eligibility conclusion.
+    anchors = {1.10, 0.90, 0.80}
     anchor_by_phase: Dict[str, List[Mapping[str, Any]]] = {}
     coarse_by_phase: Dict[str, List[Mapping[str, Any]]] = {}
     for row in anchor_rows:
@@ -93,7 +96,10 @@ def qualify_candidates(anchor_rows: Sequence[Mapping[str, Any]], coarse_rows: Se
         arows = sorted(anchor_by_phase.get(phase_id, []), key=lambda row: number(row, "vdd_v"), reverse=True)
         crows = sorted(coarse_by_phase.get(phase_id, []), key=lambda row: number(row, "vdd_v"), reverse=True)
         anchor_valid = len(arows) == len(anchors) and {round(number(row, "vdd_v"), 2) for row in arows} == anchors and all(integer(row, "valid") == 1 for row in arows)
-        coarse_valid = len(crows) == 8 and all(integer(row, "valid") == 1 for row in crows)
+        # The current coarse qualification grid contains seven legal 50 mV
+        # points from 1.10 V through 0.80 V.  Historical 0.75 V phase rows are
+        # intentionally not eligible for a current-range phase conclusion.
+        coarse_valid = len(crows) == 7 and all(integer(row, "valid") == 1 for row in crows)
         states = {(integer(row, "start_index"), integer(row, "end_index")) for row in crows if integer(row, "valid") == 1}
         direction_ok = True
         if crows:
@@ -252,7 +258,7 @@ def rank_phase_sets(rows: Sequence[Mapping[str, Any]], phase_ids: Sequence[str],
 def jitter_summary(jitter_rows: Sequence[Mapping[str, Any]], baselines: Mapping[str, Any]) -> Dict[str, Any]:
     """Compute a no-glitch encoded movement envelope independently of attacks.
 
-    A phase perturbation at 0.75 or 0.90 V must be compared with the zero-
+    A phase perturbation at 0.80 or 0.90 V must be compared with the zero-
     offset capture at that same voltage.  Comparing it to the 1.10 V startup
     baseline would measure the intended static voltage response and falsely
     inflate the phase-jitter tolerance.

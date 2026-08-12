@@ -19,15 +19,15 @@ class FtcContractTest(unittest.TestCase):
     """Consume committed evidence only; never invoke HSPICE from a test."""
 
     def test_selected_range_and_static_transfer(self) -> None:
-        """Check the selected 0.75--1.10 V contract and software replay data."""
+        """Check the selected 0.80--1.10 V contract and software replay data."""
 
         config = json.loads((FTC_ROOT / "ftc_config.json").read_text())
-        self.assertEqual(config["minimum_vdd_v"], 0.75)
+        self.assertEqual(config["minimum_vdd_v"], 0.8)
         self.assertEqual(config["selected_operating_point"]["capture_phase_s"], 3.0e-10)
         with (FTC_ROOT / "runs/integrated_coarse_phase300/voltage_xor.csv").open(newline="", encoding="utf-8") as stream:
             coarse = list(csv.DictReader(stream))
-        selected = [row for row in coarse if float(row["vdd_v"]) >= 0.75]
-        self.assertEqual(len(selected), 8)
+        selected = [row for row in coarse if float(row["vdd_v"]) >= 0.80]
+        self.assertEqual(len(selected), 7)
         for row in selected:
             corrected = ftc_analysis.majority_repair([int(bit) for bit in row["captured_xor_word"]])
             decoded = ftc_analysis.longest_one_run(corrected)
@@ -37,8 +37,9 @@ class FtcContractTest(unittest.TestCase):
             self.assertEqual(decoded["valid"], int(row["valid"]))
         with (FTC_ROOT / "runs/static_fine/static_transfer.csv").open(newline="", encoding="utf-8") as stream:
             fine = list(csv.DictReader(stream))
-        self.assertEqual(len(fine), 36)
-        self.assertTrue(all(int(row["valid"]) == 1 for row in fine))
+        legal_fine = [row for row in fine if float(row["vdd_v"]) >= 0.80]
+        self.assertEqual(len(legal_fine), 31)
+        self.assertTrue(all(int(row["valid"]) == 1 for row in legal_fine))
 
     def test_physical_structure_contract(self) -> None:
         """Reject non-FTC topology additions and require selected physical cells."""
@@ -59,7 +60,7 @@ class FtcContractTest(unittest.TestCase):
         """Drive all formal coarse captures through VCS and assert exact encoding."""
 
         with (FTC_ROOT / "runs/integrated_coarse_phase300/voltage_xor.csv").open(newline="", encoding="utf-8") as stream:
-            rows = [row for row in csv.DictReader(stream) if float(row["vdd_v"]) >= 0.75]
+            rows = [row for row in csv.DictReader(stream) if float(row["vdd_v"]) >= 0.80]
         lines = ["`timescale 1ns/1ps", "module ftc_hspice_replay_tb;", "logic [29:0] raw;", "wire [29:0] corrected;", "wire [4:0] start_i,end_i,length_i,runs_i,bubbles_i;", "wire valid_i;", "ftc_longest_run_encoder u(.captured_xor_word_i(raw),.corrected_xor_word_o(corrected),.start_index_o(start_i),.end_index_o(end_i),.one_run_length_o(length_i),.valid_o(valid_i),.run_count_o(runs_i),.bubble_count_o(bubbles_i));", "initial begin"]
         for index, row in enumerate(rows):
             # CSV character zero is physical stage zero, whereas an SV binary

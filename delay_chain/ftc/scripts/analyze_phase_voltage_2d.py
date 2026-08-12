@@ -40,17 +40,17 @@ DEFAULT_PHASE_INPUT = FTC_ROOT / "runs/phase_sensitivity/phase_sensitivity.csv"
 DEFAULT_OUTPUT_DIR = FTC_ROOT / "analysis/phase_voltage_2d"
 DEFAULT_REPORT_OUTPUT = FTC_ROOT / "reports/FTC_PHASE_VOLTAGE_2D_SEPARABILITY.md"
 
-ANCHORS = (1.10, 0.90, 0.75)
-STATIC_EXPECTED_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(36))
+ANCHORS = (1.10, 0.90, 0.80)
+STATIC_EXPECTED_VDDS = tuple(round(1.10 - 0.01 * index, 2) for index in range(31))
 FIT_WINDOWS = {
     1.10: (1.05, 1.10),  # High endpoint: one-sided 50 mV window.
     0.90: (0.87, 0.93),  # Interior anchor: centered 60 mV window.
-    0.75: (0.75, 0.80),  # Low endpoint: one-sided 50 mV window.
+    0.80: (0.80, 0.85),  # Low endpoint: one-sided 50 mV window.
 }
 AMBIGUITY_WINDOWS = {
     1.10: (1.10, 1.08),  # 20 mV one-sided interval at the high endpoint.
     0.90: (0.91, 0.89),  # 20 mV symmetric interval about the interior anchor.
-    0.75: (0.77, 0.75),  # 20 mV one-sided interval at the low endpoint.
+    0.80: (0.82, 0.80),  # 20 mV one-sided interval at the low endpoint.
 }
 NEAR_COLLINEAR_DEGREES = 30.0
 FLOAT_TOLERANCE = 1.0e-9
@@ -164,10 +164,10 @@ def validate_inputs(
 
     validated_static = [validate_record(row, static_path, index + 2, False) for index, row in enumerate(static_rows)]
     if len(validated_static) != len(STATIC_EXPECTED_VDDS):
-        raise ValueError("static transfer must contain 36 points, found {}".format(len(validated_static)))
+        raise ValueError("static transfer must contain 31 points, found {}".format(len(validated_static)))
     actual_vdds = tuple(vdd_key(item["vdd"]) for item in validated_static)
     if actual_vdds != STATIC_EXPECTED_VDDS:
-        raise ValueError("static transfer must run from 1.10 V to 0.75 V in descending 10 mV steps")
+        raise ValueError("static transfer must run from 1.10 V to 0.80 V in descending 10 mV steps")
     if any(not int(item["valid"]) for item in validated_static):
         raise ValueError("all static points used by this analysis must have valid=1")
 
@@ -176,7 +176,7 @@ def validate_inputs(
     for item in validated_phase:
         phase_groups.setdefault(vdd_key(item["vdd"]), []).append(item)
     if set(phase_groups) != set(ANCHORS):
-        raise ValueError("phase sensitivity must contain exactly the 1.10, 0.90, and 0.75 V anchors")
+        raise ValueError("phase sensitivity must contain exactly the 1.10, 0.90, and 0.80 V anchors")
     for anchor in ANCHORS:
         group = phase_groups[anchor]
         if len(group) != 3:
@@ -573,7 +573,7 @@ def evaluate_projection(
                 "maximum_plateau_v": summary["plateau"]["maximum"]["width_v"],
                 "phase_span_1p10": spans["1.10"],
                 "phase_span_0p90": spans["0.90"],
-                "phase_span_0p75": spans["0.75"],
+                "phase_span_0p80": spans["0.80"],
                 "maximum_normalized_phase_span": None if math.isclose(full_range, 0.0, abs_tol=FLOAT_TOLERANCE) else maximum_phase_span / full_range,
                 "arithmetic_cost": abs(oriented[0]) + abs(oriented[1]),
             }
@@ -721,7 +721,7 @@ def plot_cw_trajectory(static: Sequence[Mapping[str, Any]], phase_groups: Mappin
         if round((1.10 - float(row["vdd"])) * 100) % 5 == 0:
             axis.annotate("{:.2f} V".format(float(row["vdd"])), (row["c"], row["w"]), xytext=(4, 5), textcoords="offset points", fontsize=7)
     axis.scatter([static[0]["c"]], [static[0]["w"]], marker="s", color="#009E73", zorder=4, label="1.10 V endpoint")
-    axis.scatter([static[-1]["c"]], [static[-1]["w"]], marker="s", color="#D55E00", zorder=4, label="0.75 V endpoint")
+    axis.scatter([static[-1]["c"]], [static[-1]["w"]], marker="s", color="#D55E00", zorder=4, label="0.80 V endpoint")
     # Place the direction label in the open middle of the plane.  The high-VDD
     # endpoint and its phase triplet share the top-right corner, so labeling
     # the arrow at its tail would obscure exactly the evidence being compared.
@@ -732,8 +732,8 @@ def plot_cw_trajectory(static: Sequence[Mapping[str, Any]], phase_groups: Mappin
         arrowprops={"arrowstyle": "->", "color": "#4D4D4D"},
         fontsize=8,
     )
-    colors = {1.10: "#CC79A7", 0.90: "#E69F00", 0.75: "#009E73"}
-    phase_label_offsets = {1.10: (5, -25), 0.90: (4, -13), 0.75: (6, -12)}
+    colors = {1.10: "#CC79A7", 0.90: "#E69F00", 0.80: "#009E73"}
+    phase_label_offsets = {1.10: (5, -25), 0.90: (4, -13), 0.80: (6, -12)}
     for anchor, rows in phase_groups.items():
         minus, nominal, plus = rows
         color = colors[anchor]
@@ -781,7 +781,7 @@ def plot_phase_scores(
 
     configure_plot_style()
     figure, axes = plt.subplots(3, 1, figsize=(7.0, 7.0), sharex=True)
-    colors = {1.10: "#0072B2", 0.90: "#E69F00", 0.75: "#009E73"}
+    colors = {1.10: "#0072B2", 0.90: "#E69F00", 0.80: "#009E73"}
     for axis, field, label in ((axes[0], "c", "C"), (axes[1], "w", "W")):
         for anchor, rows in phase_groups.items():
             offsets_ps = [float(row["phase_offset_s"]) * 1.0e12 for row in rows]
@@ -860,10 +860,10 @@ def render_report(
         "",
         "## B. Baseline and data provenance",
         "",
-        "- Formal range: 0.75--1.10 V; TT/25 C completed FTC RVT/LVT reproduction.",
+        "- Formal range: 0.80--1.10 V; TT/25 C completed FTC RVT/LVT reproduction.",
         "- Selected operating point: four RVT initial stages, zero LVT initial stages, 300 ps capture phase, 30 observable stages.",
-        "- Static source: `{}` (36 valid 10 mV samples).".format(static_path),
-        "- Phase source: `{}` (three offsets at 1.10, 0.90, and 0.75 V).".format(phase_path),
+        "- Static source: `{}` (31 valid 10 mV samples).".format(static_path),
+        "- Phase source: `{}` (three offsets at 1.10, 0.90, and 0.80 V).".format(phase_path),
         "- No new HSPICE run, deck generation, or FTC structural change was performed.",
         "",
         "## C. Feature definition",
@@ -1029,7 +1029,7 @@ def run_analysis(static_path: Path, phase_path: Path, output_dir: Path, report_p
         phase_vectors,
         ["anchor_vdd", "phase_delta_s", "C_minus", "W_minus", "C_nominal", "W_nominal", "C_plus", "W_plus", "vPhi_C", "vPhi_W", "phase_span_C", "phase_span_W", "phase_insensitive"],
     )
-    candidate_fields = ["canonical_a", "canonical_b", "a", "b", "static_min", "static_max", "static_range", "distinct_static_states", "monotonic_with_droop", "maximum_plateau_v", "phase_span_1p10", "phase_span_0p90", "phase_span_0p75", "maximum_normalized_phase_span", "arithmetic_cost"]
+    candidate_fields = ["canonical_a", "canonical_b", "a", "b", "static_min", "static_max", "static_range", "distinct_static_states", "monotonic_with_droop", "maximum_plateau_v", "phase_span_1p10", "phase_span_0p90", "phase_span_0p80", "maximum_normalized_phase_span", "arithmetic_cost"]
     write_csv(output_dir / "projection_candidates.csv", projection["candidates"], candidate_fields)
     write_csv(
         output_dir / "local_ambiguity.csv",
@@ -1043,7 +1043,7 @@ def run_analysis(static_path: Path, phase_path: Path, output_dir: Path, report_p
         "phase_source": str(phase_path),
         "phase_sha256": sha256(phase_path),
         "phase_row_count": len(phase_rows),
-        "formal_vdd_range_v": [0.75, 1.10],
+        "formal_vdd_range_v": [0.80, 1.10],
         "phase_anchors_v": list(ANCHORS),
         "python_version": sys.version.split()[0],
         "numpy_version": np.__version__,

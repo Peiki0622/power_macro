@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Characterize the frozen FTC tap29 real-XOR pulse width across minimal PVT.
 
-This task deliberately reuses the approved TT/25 C 36-point pulse-width
-curve.  It only runs the PVT points that are absent from that evidence: a
+This archived study deliberately reuses the approved TT/25 C 36-point
+pulse-width curve.  It only runs the PVT points that are absent from that evidence: a
 three-voltage process screen, a TT temperature screen, then the smallest
 matrix formed by the measured process envelope.  It does not alter the FTC
 topology or introduce any calibration or detector logic.
@@ -40,6 +40,11 @@ import run_real_xor_pulse_width as real_xor  # noqa: E402  # Reuse validated tap
 
 
 TAP_INDEX = 29
+# These are the immutable anchors of the completed historical PVT experiment.
+# In particular, 0.75 V is retained solely to read and validate its completed
+# raw evidence.  It is not the current macro's legal lower endpoint, and this
+# runner must not be used to claim PVT coverage for 0.80--1.10 V without a
+# separate 0.80 V physical PVT campaign.
 ANCHOR_VDDS = (1.10, 0.90, 0.75)
 TEMPERATURES_C = (-40.0, 25.0, 85.0, 125.0)
 NOMINAL_CORNER = "tt"
@@ -134,7 +139,7 @@ def verify_frozen_topology(config: Mapping[str, Any], cells: Mapping[str, Any]) 
         ("observable_stages", 30),
         ("launch_time_s", 1.0e-9),
         ("tran_max_step_s", 1.0e-12),
-        ("minimum_vdd_v", 0.75),
+        ("minimum_vdd_v", 0.80),
         ("nominal_vdd_v", 1.10),
     )
     for field, expected in expected_config:
@@ -176,7 +181,7 @@ def parse_measurement_row(raw: Mapping[str, Any]) -> Dict[str, Any]:
 
 
 def load_nominal_fine(path: Path) -> Dict[float, Dict[str, Any]]:
-    """Load and strictly validate the immutable 36-point TT/25 C baseline.
+    """Load and strictly validate the immutable 36-point historical baseline.
 
     The function intentionally validates every row rather than merely the
     three anchors.  That protects later voltage comparisons and inverse lookup
@@ -599,6 +604,9 @@ def vdd_sensitivity(nominal: Mapping[float, Mapping[str, Any]]) -> Dict[str, Any
 
     requested = {
         1.10: ((1.05, "50mV"), (1.00, "100mV"), (0.90, "200mV")),
+        # This archived comparison remains tied to its completed 0.75 V
+        # evidence.  Its output is limited historical evidence, not a current
+        # range conclusion; see the re-published PVT report for that boundary.
         0.90: ((0.85, "50mV"), (0.80, "100mV"), (0.75, "150mV")),
     }
     result: Dict[str, Any] = {}
