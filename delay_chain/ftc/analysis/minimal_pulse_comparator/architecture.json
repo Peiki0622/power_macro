@@ -1,0 +1,61 @@
+{
+  "dff": {
+    "cell": "DFFRPQ_X0P5M_A9TR40",
+    "clock_pin": "CK",
+    "data_pin": "D",
+    "minimum_q_settle_s": 2e-10,
+    "q_read_time_s": 3e-09,
+    "reset_behavior": "active_high_async_clear released at 0.51 ns",
+    "reset_pin": "R"
+  },
+  "same_rail_mapping": {
+    "VDD": "VDD_A",
+    "VNW": "VDD_A",
+    "VPW": "VSS_A",
+    "VSS": "VSS_A"
+  },
+  "schema_version": 1,
+  "sensor": {
+    "initial_lvt_stages": 0,
+    "initial_rvt_stages": 4,
+    "observable_stages": 30,
+    "tap_index": 29,
+    "xor_cell": "XOR2_X0P5M_A9TR40"
+  },
+  "study": "ftc_minimal_programmable_threshold_pulse_comparator",
+  "threshold": {
+    "buffer_cell": "BUF_X0P7M_A9TL40",
+    "buffer_count": 24,
+    "code_to_tap": {
+      "0": 10,
+      "1": 12,
+      "2": 14,
+      "3": 16,
+      "4": 18,
+      "5": 20,
+      "6": 22,
+      "7": 24
+    },
+    "mux_cell": "MXT2_X0P5M_A9TL40",
+    "mux_count": 7,
+    "mux_levels": [
+      "C[0]",
+      "C[1]",
+      "C[2]"
+    ],
+    "mux_select_truth": {
+      "0": "A",
+      "1": "B"
+    },
+    "tap_list": [
+      10,
+      12,
+      14,
+      16,
+      18,
+      20,
+      22,
+      24
+    ]
+  }
+}

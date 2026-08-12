@@ -1,0 +1,96 @@
+{
+  "codes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "decision": "GO",
+  "decision_reason": [
+    "all two-VDD monotonic threshold and DFF comparison gates passed"
+  ],
+  "per_voltage": [
+    {
+      "boundary_code_pairs": [
+        [
+          2,
+          3
+        ]
+      ],
+      "bracketed": true,
+      "complete": true,
+      "d_code_ps": [
+        175.50657200000006,
+        199.00713300000018,
+        222.8517960000001,
+        246.37297900000016,
+        270.5199910000001,
+        294.059754,
+        317.7803380000001,
+        339.23118000000017
+      ],
+      "decision_reasons": [],
+      "monotonic": true,
+      "q_final": [
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "q_match_outside_boundary": true,
+      "transition_count": 1,
+      "vdd_v": 1.1,
+      "w_s_int_ps": 239.51121400000014
+    },
+    {
+      "boundary_code_pairs": [
+        [
+          5,
+          6
+        ]
+      ],
+      "bracketed": true,
+      "complete": true,
+      "d_code_ps": [
+        263.79403299999996,
+        298.1014149999998,
+        333.0144239999999,
+        367.3964139999999,
+        403.02538300000015,
+        437.496836,
+        472.2639490000001,
+        503.23702100000014
+      ],
+      "decision_reasons": [],
+      "monotonic": true,
+      "q_final": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "q_match_outside_boundary": true,
+      "transition_count": 1,
+      "vdd_v": 0.9,
+      "w_s_int_ps": 467.8508989999999
+    }
+  ],
+  "scenario_count": 16,
+  "schema_version": 1,
+  "vdd_points": [
+    1.1,
+    0.9
+  ]
+}
