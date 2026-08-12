@@ -1,0 +1,28 @@
+{
+  "decision": "NO-GO",
+  "decision_statement": "Passive composite sensitivity shaping = NO-GO",
+  "hspice_executed": false,
+  "hspice_skip_reason": "no TT-predicted composite passed both V0 temperature and M_100 gates",
+  "legal_candidate_count": 45,
+  "predicted_row_count": 90,
+  "predicted_shortlist": [],
+  "schema_version": 1,
+  "sensor_experiments_rerun": false,
+  "source_rows": {
+    "finalist_pvt_confirmation": 9,
+    "fine": 36,
+    "pvt_matrix": 36,
+    "simple_candidate_screen": 20,
+    "temperature_screen": 12
+  },
+  "sources": {
+    "finalist_pvt_confirmation": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reference_sensitivity_contrast/finalist_pvt_confirmation.csv",
+    "fine": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/real_xor_pulse_width/fine.csv",
+    "pvt_matrix": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/real_xor_pvt_baseline/pvt_matrix.csv",
+    "reference_report": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/reports/FTC_REFERENCE_SENSITIVITY_CONTRAST_FEASIBILITY.md",
+    "reference_summary": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reference_sensitivity_contrast/summary.json",
+    "simple_candidate_screen": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reference_sensitivity_contrast/simple_candidate_screen.csv",
+    "temperature_screen": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/real_xor_pvt_baseline/temperature_screen.csv"
+  },
+  "study": "ftc_composite_reference_sensitivity_shaping"
+}
