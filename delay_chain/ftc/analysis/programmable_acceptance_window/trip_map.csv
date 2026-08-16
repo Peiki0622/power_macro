@@ -1,0 +1,13 @@
+baseline_vdd_v,lock_code,margin_code,alarm_code,trip_status,trip_vdd_v,trip_depth_mv
+0.85,5,1,6,NO_IN_RANGE_TRIP,,
+0.85,5,2,7,NO_IN_RANGE_TRIP,,
+0.9,5,1,6,NO_IN_RANGE_TRIP,,
+0.9,5,2,7,NO_IN_RANGE_TRIP,,
+0.95,5,1,6,NO_IN_RANGE_TRIP,,
+0.95,5,2,7,NO_IN_RANGE_TRIP,,
+1.0,5,1,6,NO_IN_RANGE_TRIP,,
+1.0,5,2,7,NO_IN_RANGE_TRIP,,
+1.05,4,1,5,NO_IN_RANGE_TRIP,,
+1.05,4,2,6,NO_IN_RANGE_TRIP,,
+1.1,4,1,5,NO_IN_RANGE_TRIP,,
+1.1,4,2,6,NO_IN_RANGE_TRIP,,

@@ -1,0 +1,38 @@
+{
+  "decision": "Programmable Acceptance Window = NO-GO",
+  "distinct_boundary_baselines_v": [],
+  "formal_vdd_range_v": [
+    0.8,
+    1.1
+  ],
+  "frozen_locks": {
+    "0.80": 5,
+    "0.85": 5,
+    "0.90": 5,
+    "0.95": 5,
+    "1.00": 5,
+    "1.05": 4,
+    "1.10": 4
+  },
+  "frozen_taps": [
+    10,
+    12,
+    14,
+    16,
+    18,
+    36,
+    37,
+    38
+  ],
+  "mapping_decision": "NOT_READY",
+  "mechanism_go": false,
+  "mechanism_reasons": [
+    "M=1 has no in-range trip at 0.85V, 0.90V, 0.95V, 1.00V, 1.05V, 1.10V"
+  ],
+  "next_step": "stop; do not add monitor RTL",
+  "raw_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/programmable_acceptance_window/r1",
+  "resolution_reasons": [],
+  "scenario_count": 42,
+  "schema_version": 1,
+  "study": "ftc_programmable_acceptance_window"
+}
