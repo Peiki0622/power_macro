@@ -1,0 +1,418 @@
+{
+  "candidate_attempts": [
+    {
+      "calibration": {
+        "candidate_id": "primary",
+        "decision": "NO-GO",
+        "locks": {
+          "0.85": 5,
+          "0.90": 4,
+          "1.00": 3,
+          "1.05": 3,
+          "1.10": 2
+        },
+        "per_voltage": [
+          {
+            "d_code_ps": [
+              693.528331,
+              803.3812590000001,
+              828.9758600000001,
+              848.4663350000002
+            ],
+            "decision": "NO-GO",
+            "lock_code": null,
+            "predicted_k": 5,
+            "q_sequence": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "reasons": [
+              "Q(k-1..k+2) is not [1,0,0,0]"
+            ],
+            "vdd_v": 0.8
+          },
+          {
+            "d_code_ps": [
+              589.991938,
+              683.2160709999998,
+              705.141287,
+              722.6218749999999
+            ],
+            "decision": "GO",
+            "lock_code": 5,
+            "predicted_k": 5,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 0.85
+          },
+          {
+            "d_code_ps": [
+              446.544912,
+              513.479453,
+              595.3269610000001,
+              614.5467569999997
+            ],
+            "decision": "GO",
+            "lock_code": 4,
+            "predicted_k": 4,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 0.9
+          },
+          {
+            "d_code_ps": [
+              337.45029600000004,
+              396.206316,
+              455.9918909999999,
+              528.8783729999999
+            ],
+            "decision": "NO-GO",
+            "lock_code": null,
+            "predicted_k": 3,
+            "q_sequence": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "reasons": [
+              "Q(k-1..k+2) is not [1,0,0,0]"
+            ],
+            "vdd_v": 0.95
+          },
+          {
+            "d_code_ps": [
+              303.532789,
+              356.753854,
+              410.85682399999985,
+              476.90128999999985
+            ],
+            "decision": "GO",
+            "lock_code": 3,
+            "predicted_k": 3,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 1.0
+          },
+          {
+            "d_code_ps": [
+              276.89392899999984,
+              325.63467199999985,
+              375.1562339999999,
+              435.5065509999998
+            ],
+            "decision": "GO",
+            "lock_code": 3,
+            "predicted_k": 3,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 1.05
+          },
+          {
+            "d_code_ps": [
+              231.43456200000003,
+              255.2839160000001,
+              300.33560000000006,
+              346.160337
+            ],
+            "decision": "GO",
+            "lock_code": 2,
+            "predicted_k": 2,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 1.1
+          }
+        ],
+        "reasons": [
+          "Q(k-1..k+2) is not [1,0,0,0]",
+          "Q(k-1..k+2) is not [1,0,0,0]"
+        ]
+      },
+      "candidate_id": "primary",
+      "feasibility": {
+        "decision": "NOT_RUN",
+        "reasons": []
+      },
+      "mapping": {
+        "boundary_taps": {
+          "0.80": 29,
+          "0.95": 20,
+          "1.10": 16
+        },
+        "code_to_tap": {
+          "0": 14,
+          "1": 15,
+          "2": 17,
+          "3": 21,
+          "4": 25,
+          "5": 30,
+          "6": 31,
+          "7": 32
+        },
+        "guard": 1,
+        "predicted_first_zero_code": {
+          "0.80": 5,
+          "0.85": 5,
+          "0.90": 4,
+          "0.95": 3,
+          "1.00": 3,
+          "1.05": 3,
+          "1.10": 2
+        },
+        "tap_list": [
+          14,
+          15,
+          17,
+          21,
+          25,
+          30,
+          31,
+          32
+        ]
+      }
+    },
+    {
+      "calibration": {
+        "candidate_id": "fallback",
+        "decision": "NO-GO",
+        "locks": {
+          "0.85": 5,
+          "0.90": 4,
+          "0.95": 3,
+          "1.00": 3,
+          "1.10": 2
+        },
+        "per_voltage": [
+          {
+            "d_code_ps": [
+              714.7011419999998,
+              824.0407549999999,
+              849.9961760000001,
+              870.4719369999999
+            ],
+            "decision": "NO-GO",
+            "lock_code": null,
+            "predicted_k": 5,
+            "q_sequence": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "reasons": [
+              "Q(k-1..k+2) is not [1,0,0,0]"
+            ],
+            "vdd_v": 0.8
+          },
+          {
+            "d_code_ps": [
+              608.0050710000002,
+              701.4008469999999,
+              723.012675,
+              740.817894
+            ],
+            "decision": "GO",
+            "lock_code": 5,
+            "predicted_k": 5,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 0.85
+          },
+          {
+            "d_code_ps": [
+              462.4057559999998,
+              529.3921549999998,
+              611.3868059999998,
+              630.3596699999998
+            ],
+            "decision": "GO",
+            "lock_code": 4,
+            "predicted_k": 4,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 0.9
+          },
+          {
+            "d_code_ps": [
+              351.47233400000005,
+              410.21948300000025,
+              470.08960899999994,
+              542.8837540000002
+            ],
+            "decision": "GO",
+            "lock_code": 3,
+            "predicted_k": 3,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 0.95
+          },
+          {
+            "d_code_ps": [
+              316.3085759999998,
+              369.6249179999999,
+              423.588276,
+              489.71510699999993
+            ],
+            "decision": "GO",
+            "lock_code": 3,
+            "predicted_k": 3,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 1.0
+          },
+          {
+            "d_code_ps": [
+              251.16139899999988,
+              288.5188,
+              337.292779,
+              386.759351
+            ],
+            "decision": "NO-GO",
+            "lock_code": null,
+            "predicted_k": 2,
+            "q_sequence": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "reasons": [
+              "Q(k-1..k+2) is not [1,0,0,0]"
+            ],
+            "vdd_v": 1.05
+          },
+          {
+            "d_code_ps": [
+              231.42084300000008,
+              266.09599700000007,
+              311.2732000000001,
+              357.0520210000002
+            ],
+            "decision": "GO",
+            "lock_code": 2,
+            "predicted_k": 2,
+            "q_sequence": [
+              1,
+              0,
+              0,
+              0
+            ],
+            "reasons": [],
+            "vdd_v": 1.1
+          }
+        ],
+        "reasons": [
+          "Q(k-1..k+2) is not [1,0,0,0]",
+          "Q(k-1..k+2) is not [1,0,0,0]"
+        ]
+      },
+      "candidate_id": "fallback",
+      "feasibility": {
+        "decision": "NOT_RUN",
+        "reasons": []
+      },
+      "mapping": {
+        "boundary_taps": {
+          "0.80": 29,
+          "0.95": 20,
+          "1.10": 16
+        },
+        "code_to_tap": {
+          "0": 14,
+          "1": 15,
+          "2": 18,
+          "3": 22,
+          "4": 26,
+          "5": 31,
+          "6": 32,
+          "7": 33
+        },
+        "guard": 2,
+        "predicted_first_zero_code": {
+          "0.80": 5,
+          "0.85": 5,
+          "0.90": 4,
+          "0.95": 3,
+          "1.00": 3,
+          "1.05": 2,
+          "1.10": 2
+        },
+        "tap_list": [
+          14,
+          15,
+          18,
+          22,
+          26,
+          31,
+          32,
+          33
+        ]
+      }
+    }
+  ],
+  "candidate_count": 2,
+  "decision": "3-bit Boundary-Centered Mapping = NO-GO",
+  "decision_reasons": [
+    "primary / 0.80 V: Q(k-1..k+2) is not [1,0,0,0]",
+    "primary / 0.95 V: Q(k-1..k+2) is not [1,0,0,0]",
+    "fallback / 0.80 V: Q(k-1..k+2) is not [1,0,0,0]",
+    "fallback / 1.05 V: Q(k-1..k+2) is not [1,0,0,0]"
+  ],
+  "formal_vdd_range_v": [
+    0.8,
+    1.1
+  ],
+  "next_step": "stop; do not add monitor RTL, expand bit-width, or enter PVT",
+  "q_read_time_s": 3.5e-09,
+  "raw_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/delay_code_refinement/r1",
+  "schema_version": 1,
+  "screen_scenarios": 3,
+  "study": "ftc_delay_code_boundary_refinement"
+}
