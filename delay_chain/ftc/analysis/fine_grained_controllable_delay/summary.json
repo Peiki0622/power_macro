@@ -1,0 +1,102 @@
+{
+  "decision": "Fine-Grained Controllable Delay = NO-GO",
+  "details": {
+    "unit_cell": {
+      "candidate_b_review": {
+        "alternate_verilog": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v",
+        "candidate_count": 0,
+        "decision": "ARCHITECTURE_BLOCKED",
+        "inventory_checked": true,
+        "known_inventory_document": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/phase2_vernier/discovery/mux_candidates.md",
+        "reason": "MXIT2 is output-inverting; no documented same-polarity low-overhead bypass primitive is available"
+      },
+      "unit_cell": {
+        "candidate_id": "A",
+        "decision": "NO-GO",
+        "per_voltage": [
+          {
+            "Delta_unit_rise_ps": 10.86470200000004,
+            "fast_fall_time_ps": 7.413883000000029,
+            "fast_output_logic_high": 1.1000514673,
+            "fast_output_logic_low": -2.584099331e-05,
+            "fast_rise_time_ps": 7.069980999999912,
+            "fast_valid": 1,
+            "slow_fall_time_ps": 7.35797899999981,
+            "slow_fast_ratio": 1.736672423469237,
+            "slow_output_logic_high": 1.0997495788,
+            "slow_output_logic_low": -5.590484781e-06,
+            "slow_rise_time_ps": 7.189390000000026,
+            "slow_valid": 1,
+            "t_fast_rise_ps": 14.74834899999992,
+            "t_slow_rise_ps": 25.61305099999996,
+            "valid": 0,
+            "vdd_v": 1.1
+          },
+          {
+            "Delta_unit_rise_ps": 14.052366000000003,
+            "fast_fall_time_ps": 9.806241999999669,
+            "fast_output_logic_high": 0.9501457675,
+            "fast_output_logic_low": 1.511390863e-07,
+            "fast_rise_time_ps": 8.818864000000044,
+            "fast_valid": 1,
+            "slow_fall_time_ps": 10.811071000000043,
+            "slow_fast_ratio": 1.720707961733312,
+            "slow_output_logic_high": 0.9497547906,
+            "slow_output_logic_low": -1.264864202e-05,
+            "slow_rise_time_ps": 9.145874999999837,
+            "slow_valid": 1,
+            "t_fast_rise_ps": 19.498003,
+            "t_slow_rise_ps": 33.550369,
+            "valid": 0,
+            "vdd_v": 0.95
+          },
+          {
+            "Delta_unit_rise_ps": 20.655262000000075,
+            "fast_fall_time_ps": 14.370505000000723,
+            "fast_output_logic_high": 0.8000554161,
+            "fast_output_logic_low": 2.830186187e-06,
+            "fast_rise_time_ps": 12.861274999999884,
+            "fast_valid": 1,
+            "slow_fall_time_ps": 15.894717999999669,
+            "slow_fast_ratio": 1.6872564375613615,
+            "slow_output_logic_high": 0.8000213942,
+            "slow_output_logic_low": 9.646421091e-06,
+            "slow_rise_time_ps": 13.523154999999859,
+            "slow_valid": 1,
+            "t_fast_rise_ps": 30.05466499999991,
+            "t_slow_rise_ps": 50.709926999999986,
+            "valid": 0,
+            "vdd_v": 0.8
+          }
+        ],
+        "reasons": [
+          "1.10 V: unit SLOW/FAST ratio is below the required full-range lower bound",
+          "0.95 V: unit SLOW/FAST ratio is below the required full-range lower bound",
+          "0.80 V: unit SLOW/FAST ratio is below the required full-range lower bound"
+        ],
+        "required_delay_ratio_lower_bound": 3.247270227553231,
+        "scenario_count": 6
+      }
+    }
+  },
+  "formal_vdd_range_v": [
+    0.8,
+    1.1
+  ],
+  "reasons": [
+    "1.10 V: unit SLOW/FAST ratio is below the required full-range lower bound",
+    "0.95 V: unit SLOW/FAST ratio is below the required full-range lower bound",
+    "0.80 V: unit SLOW/FAST ratio is below the required full-range lower bound",
+    "MXIT2 is output-inverting; no documented same-polarity low-overhead bypass primitive is available"
+  ],
+  "requirements_sha256": "a1f37ceca99ae4a53d01a522690cee170cea3f44950e86a321fd47fb2c3ae07c",
+  "schema_version": 1,
+  "stages": {
+    "8-Stage Short Chain": "NOT_RUN",
+    "C_lock + M Feasibility": "NOT_RUN",
+    "Full Chain": "NOT_RUN",
+    "N Sizing": "NOT_RUN",
+    "Real-DFF Calibration": "NOT_RUN",
+    "Unit Cell": "NO-GO"
+  }
+}

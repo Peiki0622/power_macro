@@ -1,0 +1,77 @@
+{
+  "formal_vdd_range_v": [
+    0.8,
+    1.1
+  ],
+  "high_vdd_boundary_bracket": {
+    "D_first_Q0_ps": 255.2839160000001,
+    "D_last_Q1_ps": 231.43456200000003
+  },
+  "low_vdd_boundary_bracket": {
+    "D_first_Q0_ps": 848.4663350000002,
+    "D_last_Q1_ps": 828.9758600000001
+  },
+  "real_boundary_brackets_by_vdd": {
+    "0.80": {
+      "D_first_Q0_ps": 848.4663350000002,
+      "D_last_Q1_ps": 828.9758600000001
+    },
+    "0.85": {
+      "D_first_Q0_ps": 683.2160709999998,
+      "D_last_Q1_ps": 608.0050710000002
+    },
+    "0.90": {
+      "D_first_Q0_ps": 513.479453,
+      "D_last_Q1_ps": 462.4057559999998
+    },
+    "0.95": {
+      "D_first_Q0_ps": 410.21948300000025,
+      "D_last_Q1_ps": 396.206316
+    },
+    "1.00": {
+      "D_first_Q0_ps": 356.753854,
+      "D_last_Q1_ps": 316.3085759999998
+    },
+    "1.05": {
+      "D_first_Q0_ps": 325.63467199999985,
+      "D_last_Q1_ps": 288.5188
+    },
+    "1.10": {
+      "D_first_Q0_ps": 255.2839160000001,
+      "D_last_Q1_ps": 231.43456200000003
+    }
+  },
+  "reference_adjacent_lvt_step_ps_by_vdd": {
+    "0.80": {
+      "max_ps": 23.611622999999895,
+      "median_ps": 21.230534999999918,
+      "min_ps": 18.809977000000117
+    },
+    "0.95": {
+      "max_ps": 15.889370000000127,
+      "median_ps": 14.149641500000087,
+      "min_ps": 12.319074000000228
+    },
+    "1.10": {
+      "max_ps": 12.292269000000005,
+      "median_ps": 10.872996499999886,
+      "min_ps": 9.422716000000094
+    }
+  },
+  "required_delay_ratio_lower_bound": 3.247270227553231,
+  "required_delay_span_ps": 617.0317730000002,
+  "schema_version": 1,
+  "source_file_sha256": {
+    "acceptance_attack_sweep": "63437fb2067cfd52a9648d7e16012bd1a43d21ee0b5034151f371b7bbb677333",
+    "acceptance_report": "206894f6b20436d49da02515497c0afd42ba88cab5ffe3d702389a963af2faff",
+    "acceptance_summary": "29288824d91848d05b011cecc68e4d2812d62ded5bb10a7ce309101a74be9fa8",
+    "comparator_architecture": "b8f3b40b0d04858ee9066a93f79b1772837f9e0d8918be6299b4022e776b96c6",
+    "delay_refinement_calibration": "3ee26a2d9f7d65466214c922f6347f82667cbd36c87cfc8918245da7540b9c0a",
+    "delay_refinement_report": "2f426f925815b06f15aea5dfcf4a392314c7576fe0c65d2357d70f081a680fc7",
+    "delay_refinement_summary": "d00f6abddcc9093927781645cc2c165fcf9d4db4acedea9589afea488acce5d3",
+    "delay_refinement_tap_screen": "f313e1b56ad90bc5ba522ef6babfbb463b38e049fcdf7af3b8e6bfb34af762c9",
+    "selected_cells": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "static_calibration_mapping": "b66efe8577460a595dce65990f553ef99fc6a358b10bc9ce7711c48e5fa69cdb",
+    "static_calibration_trace": "23cc210102445776b3199ce6b19752e7c118b8228fd6832a73846994570a1d2d"
+  }
+}
