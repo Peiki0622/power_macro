@@ -1,0 +1,54 @@
+{
+  "decisions": [
+    {
+      "candidate_id": "NAND2_X0P5M_A9TL40__signal_A",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 0.1998799999998937,
+        "0.95": 0.18175600000012082,
+        "1.10": 0.20438799999988078
+      },
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "reasons": []
+    },
+    {
+      "candidate_id": "NAND2_X0P5M_A9TL40__signal_B",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 0.018892000000164444,
+        "0.95": 0.025496000000089225,
+        "1.10": 0.04176999999998543
+      },
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "reasons": []
+    },
+    {
+      "candidate_id": "NOR2_X0P5M_A9TL40__signal_A",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 0.5315150000000131,
+        "0.95": 0.4555729999999585,
+        "1.10": 0.4210090000001401
+      },
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "reasons": []
+    },
+    {
+      "candidate_id": "NOR2_X0P5M_A9TL40__signal_B",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 0.04480699999976423,
+        "0.95": 0.035757000000046446,
+        "1.10": 0.04888299999998935
+      },
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "reasons": []
+    }
+  ],
+  "schema_version": 1,
+  "selected_candidate_id": "NOR2_X0P5M_A9TL40__signal_A"
+}

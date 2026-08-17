@@ -1,0 +1,16 @@
+{
+  "K_candidate": 116,
+  "K_pred_by_vdd": {
+    "0.80": 116,
+    "0.95": 82,
+    "1.10": 63
+  },
+  "K_rescaled": null,
+  "final_K_frozen": false,
+  "fine_range_8_ps_by_vdd": {
+    "0.80": 4.6302789999998595,
+    "0.95": 4.30250499999994,
+    "1.10": 4.287128999999879
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,126 @@
+{
+  "candidate_count": 4,
+  "candidates": [
+    {
+      "candidate_id": "NAND2_X0P5M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X0P5M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "four transistor widths: [2e-07, 2e-07, 1.7e-07, 1.7e-07]",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X0P5M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X0P5M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "four transistor widths: [2e-07, 2e-07, 1.7e-07, 1.7e-07]",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X0P5M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X0P5M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "four transistor widths: [1.2e-07, 1.2e-07, 2e-07, 2e-07]",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X0P5M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X0P5M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "four transistor widths: [1.2e-07, 1.2e-07, 2e-07, 2e-07]",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    }
+  ],
+  "schema_version": 1
+}

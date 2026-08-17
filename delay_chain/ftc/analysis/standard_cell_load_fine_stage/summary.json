@@ -1,0 +1,26 @@
+{
+  "bypass_scenarios": 0,
+  "decision": "Standard-Cell Load Fine Stage + One-Medium-Step Coverage = NO-GO",
+  "dff_scenarios": 0,
+  "droop_scenarios": 0,
+  "historical_medium_scenarios_rerun": 0,
+  "historical_runner_invocations": 0,
+  "new_hspice_scenarios": 52,
+  "reasons": [
+    "K_exceeds_bounded_limit"
+  ],
+  "reused_new_task_scenarios": 0,
+  "schema_version": 1,
+  "sensor_scenarios": 0,
+  "stages": {
+    "8-Unit Fine Bank": "GO",
+    "Coupled Medium/Fine Gap Check": "NOT_RUN",
+    "Fine-Bank Sizing": "NO-GO",
+    "Full-Bank Monotonicity": "NOT_RUN",
+    "Full-Bank One-Step Coverage": "NOT_RUN",
+    "Future Bypass Interface": "NOT_RUN",
+    "Historical Medium Evidence Freeze": "GO",
+    "Single-Load Electrical Screen": "GO",
+    "Static Fine-Load Candidate Discovery": "GO"
+  }
+}
