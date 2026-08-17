@@ -1,0 +1,9 @@
+{
+  "estimated_medium_intervals_for_historical_span": 10,
+  "final_N_frozen": false,
+  "historical_system_span_reference_ps": 617.0317730000002,
+  "projection_only": true,
+  "projection_requires_future_fine_stage_and_two_stage_integration": true,
+  "schema_version": 1,
+  "worst_measured_medium_step_ps": 66.86260599999991
+}

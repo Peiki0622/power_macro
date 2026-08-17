@@ -1,0 +1,225 @@
+{
+  "fast_slow_unit_template": false,
+  "forbidden_system_blocks": true,
+  "large_balanced_tap_tree": false,
+  "mux_cell": "MXT2_X0P5M_A9TL40",
+  "proofs": [
+    {
+      "N": 1,
+      "code0": {
+        "selected_buffer_count": 1,
+        "selected_buffer_indices": [
+          0
+        ],
+        "selected_exit_depth": 1,
+        "selected_exit_node": "x1",
+        "selected_mux_count": 1,
+        "selected_mux_indices": [
+          0
+        ]
+      },
+      "codeN": {
+        "selected_buffer_count": 2,
+        "selected_buffer_indices": [
+          0,
+          1
+        ],
+        "selected_exit_depth": 2,
+        "selected_exit_node": "x2",
+        "selected_mux_count": 1,
+        "selected_mux_indices": [
+          0
+        ]
+      },
+      "exit_depths": [
+        1,
+        2
+      ],
+      "no_combinational_loop": true,
+      "no_floating_critical_node": true,
+      "no_multiple_driver": true
+    },
+    {
+      "N": 4,
+      "code0": {
+        "selected_buffer_count": 1,
+        "selected_buffer_indices": [
+          0
+        ],
+        "selected_exit_depth": 1,
+        "selected_exit_node": "x1",
+        "selected_mux_count": 1,
+        "selected_mux_indices": [
+          0
+        ]
+      },
+      "codeN": {
+        "selected_buffer_count": 5,
+        "selected_buffer_indices": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "selected_exit_depth": 5,
+        "selected_exit_node": "x5",
+        "selected_mux_count": 4,
+        "selected_mux_indices": [
+          3,
+          2,
+          1,
+          0
+        ]
+      },
+      "exit_depths": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "no_combinational_loop": true,
+      "no_floating_critical_node": true,
+      "no_multiple_driver": true
+    },
+    {
+      "N": 8,
+      "code0": {
+        "selected_buffer_count": 1,
+        "selected_buffer_indices": [
+          0
+        ],
+        "selected_exit_depth": 1,
+        "selected_exit_node": "x1",
+        "selected_mux_count": 1,
+        "selected_mux_indices": [
+          0
+        ]
+      },
+      "codeN": {
+        "selected_buffer_count": 9,
+        "selected_buffer_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "selected_exit_depth": 9,
+        "selected_exit_node": "x9",
+        "selected_mux_count": 8,
+        "selected_mux_indices": [
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ]
+      },
+      "exit_depths": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "no_combinational_loop": true,
+      "no_floating_critical_node": true,
+      "no_multiple_driver": true
+    },
+    {
+      "N": 16,
+      "code0": {
+        "selected_buffer_count": 1,
+        "selected_buffer_indices": [
+          0
+        ],
+        "selected_exit_depth": 1,
+        "selected_exit_node": "x1",
+        "selected_mux_count": 1,
+        "selected_mux_indices": [
+          0
+        ]
+      },
+      "codeN": {
+        "selected_buffer_count": 17,
+        "selected_buffer_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "selected_exit_depth": 17,
+        "selected_exit_node": "x17",
+        "selected_mux_count": 16,
+        "selected_mux_indices": [
+          15,
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0
+        ]
+      },
+      "exit_depths": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "no_combinational_loop": true,
+      "no_floating_critical_node": true,
+      "no_multiple_driver": true
+    }
+  ],
+  "schema_version": 1,
+  "topology_version": "path_selection_medium_stage_v1"
+}

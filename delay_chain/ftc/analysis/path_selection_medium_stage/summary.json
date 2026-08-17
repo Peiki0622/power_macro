@@ -1,0 +1,292 @@
+{
+  "decision": "Path-Selection Medium Stage = GO",
+  "details": {
+    "finalization_runner_sha256": "3e696d968a17dd54639f80c759f05f1ca366bbc445410448df4e0d530608109e",
+    "future_fine_stage_interface": {
+      "N_characterize": 16,
+      "by_vdd": {
+        "0.80": {
+          "maximum_path_delay_n16_ps": 1081.058544,
+          "medium_span_n16_ps": 1025.2023,
+          "medium_step_max_ps": 66.86260599999991,
+          "medium_step_min_ps": 20.958529000000226,
+          "minimum_path_delay_n16_ps": 55.85624400000003,
+          "pairs": [
+            {
+              "from_code": 0,
+              "step_ps": 66.84616999999993,
+              "to_code": 1
+            },
+            {
+              "from_code": 7,
+              "step_ps": 66.86260599999991,
+              "to_code": 8
+            },
+            {
+              "from_code": 15,
+              "step_ps": 20.958529000000226,
+              "to_code": 16
+            }
+          ]
+        },
+        "0.95": {
+          "maximum_path_delay_n16_ps": 709.355653,
+          "medium_span_n16_ps": 672.5522369999999,
+          "medium_step_max_ps": 44.069194999999866,
+          "medium_step_min_ps": 13.209050000000047,
+          "minimum_path_delay_n16_ps": 36.80341600000008,
+          "pairs": [
+            {
+              "from_code": 0,
+              "step_ps": 43.79120399999986,
+              "to_code": 1
+            },
+            {
+              "from_code": 7,
+              "step_ps": 44.069194999999866,
+              "to_code": 8
+            },
+            {
+              "from_code": 15,
+              "step_ps": 13.209050000000047,
+              "to_code": 16
+            }
+          ]
+        },
+        "1.10": {
+          "maximum_path_delay_n16_ps": 536.2345690000001,
+          "medium_span_n16_ps": 508.2709490000001,
+          "medium_step_max_ps": 33.7037620000001,
+          "medium_step_min_ps": 10.232424000000151,
+          "minimum_path_delay_n16_ps": 27.96361999999997,
+          "pairs": [
+            {
+              "from_code": 0,
+              "step_ps": 33.094276,
+              "to_code": 1
+            },
+            {
+              "from_code": 7,
+              "step_ps": 33.7037620000001,
+              "to_code": 8
+            },
+            {
+              "from_code": 15,
+              "step_ps": 10.232424000000151,
+              "to_code": 16
+            }
+          ]
+        }
+      },
+      "decision": "GO",
+      "future_requirement": "fine_stage_range_must_cover_at_least_one_worst_case_medium_step",
+      "maximum_path_delay_n16_by_vdd": {
+        "0.80": 1081.058544,
+        "0.95": 709.355653,
+        "1.10": 536.2345690000001
+      },
+      "medium_span_n16_by_vdd": {
+        "0.80": 1025.2023,
+        "0.95": 672.5522369999999,
+        "1.10": 508.2709490000001
+      },
+      "medium_step_global_max_ps": 66.86260599999991,
+      "medium_step_global_min_ps": 10.232424000000151,
+      "medium_step_max_ps_by_vdd": {
+        "0.80": 66.86260599999991,
+        "0.95": 44.069194999999866,
+        "1.10": 33.7037620000001
+      },
+      "medium_step_min_ps_by_vdd": {
+        "0.80": 20.958529000000226,
+        "0.95": 13.209050000000047,
+        "1.10": 10.232424000000151
+      },
+      "minimum_path_delay_n16_by_vdd": {
+        "0.80": 55.85624400000003,
+        "0.95": 36.80341600000008,
+        "1.10": 27.96361999999997
+      },
+      "schema_version": 1
+    },
+    "n8_step_envelope": {
+      "N": 8,
+      "anchors": {
+        "0.80": {
+          "edge_quality": "GO",
+          "measured_adjacent_steps": [
+            {
+              "from_code": 0,
+              "step_ps": 66.84616999999993,
+              "to_code": 1
+            },
+            {
+              "from_code": 7,
+              "step_ps": 20.61752399999989,
+              "to_code": 8
+            }
+          ],
+          "span_ps": 489.2825499999999,
+          "step_max_ps": 66.84616999999993,
+          "step_median_ps": 43.73184699999991,
+          "step_min_ps": 20.61752399999989
+        },
+        "0.95": {
+          "edge_quality": "GO",
+          "measured_adjacent_steps": [
+            {
+              "from_code": 0,
+              "step_ps": 43.79120399999986,
+              "to_code": 1
+            },
+            {
+              "from_code": 1,
+              "step_ps": 43.82716700000002,
+              "to_code": 2
+            },
+            {
+              "from_code": 2,
+              "step_ps": 43.91906100000007,
+              "to_code": 3
+            },
+            {
+              "from_code": 3,
+              "step_ps": 44.055082999999996,
+              "to_code": 4
+            },
+            {
+              "from_code": 4,
+              "step_ps": 43.75650899999988,
+              "to_code": 5
+            },
+            {
+              "from_code": 5,
+              "step_ps": 44.04051300000003,
+              "to_code": 6
+            },
+            {
+              "from_code": 6,
+              "step_ps": 44.007671000000016,
+              "to_code": 7
+            },
+            {
+              "from_code": 7,
+              "step_ps": 13.948088000000041,
+              "to_code": 8
+            }
+          ],
+          "span_ps": 321.3452959999999,
+          "step_max_ps": 44.055082999999996,
+          "step_median_ps": 43.873114000000044,
+          "step_min_ps": 13.948088000000041
+        },
+        "1.10": {
+          "edge_quality": "GO",
+          "measured_adjacent_steps": [
+            {
+              "from_code": 0,
+              "step_ps": 33.094276,
+              "to_code": 1
+            },
+            {
+              "from_code": 7,
+              "step_ps": 10.698175000000049,
+              "to_code": 8
+            }
+          ],
+          "span_ps": 243.22708499999996,
+          "step_max_ps": 33.094276,
+          "step_median_ps": 21.896225500000025,
+          "step_min_ps": 10.698175000000049
+        }
+      },
+      "schema_version": 1
+    },
+    "scaling_summary": {
+      "N4_to_N16_minimum_drift_ps": 0.0,
+      "decision": "GO",
+      "growth": [
+        {
+          "Growth_max_ps": 132.43515200000002,
+          "Growth_min_ps": 0.0625350000001248,
+          "N1": 1,
+          "N2": 4
+        },
+        {
+          "Growth_max_ps": 175.03876999999994,
+          "Growth_min_ps": 0.0,
+          "N1": 4,
+          "N2": 8
+        },
+        {
+          "Growth_max_ps": 351.206941,
+          "Growth_min_ps": 0.0,
+          "N1": 8,
+          "N2": 16
+        }
+      ],
+      "per_N": {
+        "1": {
+          "D_max_ps": 50.67479000000003,
+          "D_min_ps": 36.74088099999995,
+          "Span_ps": 13.933909000000078
+        },
+        "16": {
+          "D_max_ps": 709.355653,
+          "D_min_ps": 36.80341600000008,
+          "Span_ps": 672.5522369999999
+        },
+        "4": {
+          "D_max_ps": 183.10994200000005,
+          "D_min_ps": 36.80341600000008,
+          "Span_ps": 146.30652599999996
+        },
+        "8": {
+          "D_max_ps": 358.148712,
+          "D_min_ps": 36.80341600000008,
+          "Span_ps": 321.3452959999999
+        }
+      },
+      "schema_version": 1,
+      "typical_step_ps": 43.873114000000044
+    },
+    "scenario_accounting_note": "derived without executing or overwriting raw HSPICE scenarios"
+  },
+  "dff_scenarios": 0,
+  "droop_scenarios": 0,
+  "historical_runners_invoked": 0,
+  "historical_scenarios_reused_as_read_only_evidence": 0,
+  "new_hspice_scenarios": 41,
+  "phase_scenario_accounting": {
+    "phase2": {
+      "new": 19,
+      "planned": 19,
+      "reused": 0
+    },
+    "phase3": {
+      "new": 10,
+      "planned": 12,
+      "reused": 2
+    },
+    "phase4": {
+      "new": 12,
+      "planned": 18,
+      "reused": 6
+    },
+    "total_new_hspice_scenarios": 41,
+    "total_reused_new_task_scenarios": 8
+  },
+  "reasons": [],
+  "requirements_sha256": "624ae13429a6f1701491517c4aa45838c2f72ce6074f7d075be0fb4c1a8a1f56",
+  "reused_new_task_scenarios": 8,
+  "schema_version": 1,
+  "sensor_scenarios": 0,
+  "stages": {
+    "Future Fine-Stage Interface": "GO",
+    "Historical Evidence Freeze": "GO",
+    "Medium-Step Characterization": "GO",
+    "N8 Code Monotonicity": "GO",
+    "Stage-Count Scaling": "GO",
+    "Static Path-Selection Contract": "GO"
+  }
+}

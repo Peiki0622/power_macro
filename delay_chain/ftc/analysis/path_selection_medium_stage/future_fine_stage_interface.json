@@ -1,0 +1,107 @@
+{
+  "N_characterize": 16,
+  "by_vdd": {
+    "0.80": {
+      "maximum_path_delay_n16_ps": 1081.058544,
+      "medium_span_n16_ps": 1025.2023,
+      "medium_step_max_ps": 66.86260599999991,
+      "medium_step_min_ps": 20.958529000000226,
+      "minimum_path_delay_n16_ps": 55.85624400000003,
+      "pairs": [
+        {
+          "from_code": 0,
+          "step_ps": 66.84616999999993,
+          "to_code": 1
+        },
+        {
+          "from_code": 7,
+          "step_ps": 66.86260599999991,
+          "to_code": 8
+        },
+        {
+          "from_code": 15,
+          "step_ps": 20.958529000000226,
+          "to_code": 16
+        }
+      ]
+    },
+    "0.95": {
+      "maximum_path_delay_n16_ps": 709.355653,
+      "medium_span_n16_ps": 672.5522369999999,
+      "medium_step_max_ps": 44.069194999999866,
+      "medium_step_min_ps": 13.209050000000047,
+      "minimum_path_delay_n16_ps": 36.80341600000008,
+      "pairs": [
+        {
+          "from_code": 0,
+          "step_ps": 43.79120399999986,
+          "to_code": 1
+        },
+        {
+          "from_code": 7,
+          "step_ps": 44.069194999999866,
+          "to_code": 8
+        },
+        {
+          "from_code": 15,
+          "step_ps": 13.209050000000047,
+          "to_code": 16
+        }
+      ]
+    },
+    "1.10": {
+      "maximum_path_delay_n16_ps": 536.2345690000001,
+      "medium_span_n16_ps": 508.2709490000001,
+      "medium_step_max_ps": 33.7037620000001,
+      "medium_step_min_ps": 10.232424000000151,
+      "minimum_path_delay_n16_ps": 27.96361999999997,
+      "pairs": [
+        {
+          "from_code": 0,
+          "step_ps": 33.094276,
+          "to_code": 1
+        },
+        {
+          "from_code": 7,
+          "step_ps": 33.7037620000001,
+          "to_code": 8
+        },
+        {
+          "from_code": 15,
+          "step_ps": 10.232424000000151,
+          "to_code": 16
+        }
+      ]
+    }
+  },
+  "decision": "GO",
+  "future_requirement": "fine_stage_range_must_cover_at_least_one_worst_case_medium_step",
+  "maximum_path_delay_n16_by_vdd": {
+    "0.80": 1081.058544,
+    "0.95": 709.355653,
+    "1.10": 536.2345690000001
+  },
+  "medium_span_n16_by_vdd": {
+    "0.80": 1025.2023,
+    "0.95": 672.5522369999999,
+    "1.10": 508.2709490000001
+  },
+  "medium_step_global_max_ps": 66.86260599999991,
+  "medium_step_global_min_ps": 10.232424000000151,
+  "medium_step_max_ps_by_vdd": {
+    "0.80": 66.86260599999991,
+    "0.95": 44.069194999999866,
+    "1.10": 33.7037620000001
+  },
+  "medium_step_min_ps_by_vdd": {
+    "0.80": 20.958529000000226,
+    "0.95": 13.209050000000047,
+    "1.10": 10.232424000000151
+  },
+  "minimum_path_delay_n16_by_vdd": {
+    "0.80": 55.85624400000003,
+    "0.95": 36.80341600000008,
+    "1.10": 27.96361999999997
+  },
+  "schema_version": 1
+}

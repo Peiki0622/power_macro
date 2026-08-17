@@ -1,0 +1,93 @@
+{
+  "N": 8,
+  "anchors": {
+    "0.80": {
+      "edge_quality": "GO",
+      "measured_adjacent_steps": [
+        {
+          "from_code": 0,
+          "step_ps": 66.84616999999993,
+          "to_code": 1
+        },
+        {
+          "from_code": 7,
+          "step_ps": 20.61752399999989,
+          "to_code": 8
+        }
+      ],
+      "span_ps": 489.2825499999999,
+      "step_max_ps": 66.84616999999993,
+      "step_median_ps": 43.73184699999991,
+      "step_min_ps": 20.61752399999989
+    },
+    "0.95": {
+      "edge_quality": "GO",
+      "measured_adjacent_steps": [
+        {
+          "from_code": 0,
+          "step_ps": 43.79120399999986,
+          "to_code": 1
+        },
+        {
+          "from_code": 1,
+          "step_ps": 43.82716700000002,
+          "to_code": 2
+        },
+        {
+          "from_code": 2,
+          "step_ps": 43.91906100000007,
+          "to_code": 3
+        },
+        {
+          "from_code": 3,
+          "step_ps": 44.055082999999996,
+          "to_code": 4
+        },
+        {
+          "from_code": 4,
+          "step_ps": 43.75650899999988,
+          "to_code": 5
+        },
+        {
+          "from_code": 5,
+          "step_ps": 44.04051300000003,
+          "to_code": 6
+        },
+        {
+          "from_code": 6,
+          "step_ps": 44.007671000000016,
+          "to_code": 7
+        },
+        {
+          "from_code": 7,
+          "step_ps": 13.948088000000041,
+          "to_code": 8
+        }
+      ],
+      "span_ps": 321.3452959999999,
+      "step_max_ps": 44.055082999999996,
+      "step_median_ps": 43.873114000000044,
+      "step_min_ps": 13.948088000000041
+    },
+    "1.10": {
+      "edge_quality": "GO",
+      "measured_adjacent_steps": [
+        {
+          "from_code": 0,
+          "step_ps": 33.094276,
+          "to_code": 1
+        },
+        {
+          "from_code": 7,
+          "step_ps": 10.698175000000049,
+          "to_code": 8
+        }
+      ],
+      "span_ps": 243.22708499999996,
+      "step_max_ps": 33.094276,
+      "step_median_ps": 21.896225500000025,
+      "step_min_ps": 10.698175000000049
+    }
+  },
+  "schema_version": 1
+}

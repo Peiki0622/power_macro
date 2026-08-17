@@ -1,0 +1,48 @@
+{
+  "anchor_vdd_v": [
+    1.1,
+    0.95,
+    0.8
+  ],
+  "architecture_decision": "path_selection_medium_stage_only",
+  "bypass_and_skip": "future_work",
+  "droop_sweep": "forbidden",
+  "fine_stage": "future_work",
+  "formal_background_vdd_range_v": [
+    0.8,
+    1.1
+  ],
+  "full_two_stage_delay_line": "future_work",
+  "future_architecture": "medium_then_standard_cell_load_fine_then_two_stage_integration",
+  "historical_diagnostic_only": true,
+  "historical_fast_slow_failure_mode": "minimum_delay_scales_with_fixed_selector_overhead",
+  "historical_fast_slow_unit_chain": "NO-GO",
+  "historical_required_delay_ratio_lower_bound": 3.247270227553231,
+  "historical_sparse_3bit_route": "closed",
+  "historical_system_span_reference_ps": 617.0317730000002,
+  "initial_corner": "TT_25C",
+  "input_slew_contract": "pulse_rise_fall_1ps_launch_1ns_period_6ns",
+  "output_load_contract": "intrinsic_y0_mux_output_no_external_receiver",
+  "real_dff_calibration": "forbidden",
+  "schema_version": 1,
+  "sensor_integration": "forbidden",
+  "source_file_sha256": {
+    "acceptance_report": "206894f6b20436d49da02515497c0afd42ba88cab5ffe3d702389a963af2faff",
+    "acceptance_summary": "29288824d91848d05b011cecc68e4d2812d62ded5bb10a7ce309101a74be9fa8",
+    "fine_report": "496739576dd473c76f4a0fd60cf249baf006bdff358ee523d2d996c1818d90d2",
+    "fine_requirements": "a1f37ceca99ae4a53d01a522690cee170cea3f44950e86a321fd47fb2c3ae07c",
+    "fine_runner": "93375fac001435d52e7701441c229da0a70734700dac25d08a59b1c1342e2d74",
+    "fine_summary": "3d707b93e7e6a8dac74db4b9c04bdda905d96a354cb9840a00da750c65a59604",
+    "fine_unit_cell": "7f334636bf5ac7c3b1ff0790042721606ce9a0fc9533ce59f4dbdf187d564f24",
+    "fine_unit_decision": "2a2a8bdb462a3cd0094562e4096dfffd3b6808b053b122d850cbb104d1f6ac88",
+    "mux_candidates": "1c417d0bb259967ce2d16ed16628c2d18c8ab3a2c00fabaae9ba737cbc226b71",
+    "refinement_calibration": "3ee26a2d9f7d65466214c922f6347f82667cbd36c87cfc8918245da7540b9c0a",
+    "refinement_report": "2f426f925815b06f15aea5dfcf4a392314c7576fe0c65d2357d70f081a680fc7",
+    "refinement_summary": "d00f6abddcc9093927781645cc2c165fcf9d4db4acedea9589afea488acce5d3",
+    "refinement_tap_screen": "f313e1b56ad90bc5ba522ef6babfbb463b38e049fcdf7af3b8e6bfb34af762c9",
+    "selected_cells": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "static_mapping": "b66efe8577460a595dce65990f553ef99fc6a358b10bc9ce7711c48e5fa69cdb",
+    "static_trace": "23cc210102445776b3199ce6b19752e7c118b8228fd6832a73846994570a1d2d"
+  },
+  "topology_version": "path_selection_medium_stage_v1"
+}
