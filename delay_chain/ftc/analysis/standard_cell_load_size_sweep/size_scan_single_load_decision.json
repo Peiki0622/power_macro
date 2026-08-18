@@ -1,0 +1,369 @@
+{
+  "decisions": [
+    {
+      "candidate_id": "NAND2_X0P7B_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.256151000000159,
+        "0.95": 0.22704800000013847,
+        "1.10": 0.2439139999999611
+      }
+    },
+    {
+      "candidate_id": "NAND2_X0P7B_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.027013000000010834,
+        "0.95": 0.020574999999894317,
+        "1.10": 0.04067499999990787
+      }
+    },
+    {
+      "candidate_id": "NAND2_X1M_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.40430800000001454,
+        "0.95": 0.3448779999999374,
+        "1.10": 0.3794070000000147
+      }
+    },
+    {
+      "candidate_id": "NAND2_X1M_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.058016000000066015,
+        "0.95": 0.043576999999913824,
+        "1.10": 0.09445100000004913
+      }
+    },
+    {
+      "candidate_id": "NAND2_X1P4B_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.4302770000001601,
+        "0.95": 0.5122099999999818,
+        "1.10": 0.5585420000000454
+      }
+    },
+    {
+      "candidate_id": "NAND2_X1P4B_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.0033110000000533546,
+        "0.95": 0.09621500000002925,
+        "1.10": 0.13580899999999474
+      }
+    },
+    {
+      "candidate_id": "NAND2_X2M_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.6994039999999586,
+        "0.95": 0.8197039999998879,
+        "1.10": 0.7840109999999072
+      }
+    },
+    {
+      "candidate_id": "NAND2_X2M_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.04292899999995825,
+        "0.95": 0.184409000000187,
+        "1.10": 0.21503999999981716
+      }
+    },
+    {
+      "candidate_id": "NAND2_X3M_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.3585599999998976,
+        "0.95": 1.460192999999947,
+        "1.10": 1.3695109999999886
+      }
+    },
+    {
+      "candidate_id": "NAND2_X3M_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.22988699999996243,
+        "0.95": 0.41088999999982434,
+        "1.10": 0.46439299999997274
+      }
+    },
+    {
+      "candidate_id": "NAND2_X4M_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.836559999999963,
+        "0.95": 1.997203999999897,
+        "1.10": 2.31120999999996
+      }
+    },
+    {
+      "candidate_id": "NAND2_X4M_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.3524800000000141,
+        "0.95": 0.5905119999999897,
+        "1.10": 0.9076469999999972
+      }
+    },
+    {
+      "candidate_id": "NAND2_X6M_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 3.9897949999998445,
+        "0.95": 3.7222100000000182,
+        "1.10": 4.52941700000008
+      }
+    },
+    {
+      "candidate_id": "NAND2_X6M_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.4693970000000718,
+        "0.95": 1.274682999999925,
+        "1.10": 1.7893159999999853
+      }
+    },
+    {
+      "candidate_id": "NOR2_X0P7B_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.0442099999999073,
+        "0.95": 0.8238770000000386,
+        "1.10": 0.7246399999999653
+      }
+    },
+    {
+      "candidate_id": "NOR2_X0P7B_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.07299199999999928,
+        "0.95": 0.05584299999998166,
+        "1.10": 0.05837199999996301
+      }
+    },
+    {
+      "candidate_id": "NOR2_X1A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.020238000000063,
+        "0.95": 0.8417000000000598,
+        "1.10": 0.7771280000000047
+      }
+    },
+    {
+      "candidate_id": "NOR2_X1A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.09238300000004074,
+        "0.95": 0.07425599999993437,
+        "1.10": 0.09715399999993224
+      }
+    },
+    {
+      "candidate_id": "NOR2_X1P4A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.3523630000000821,
+        "0.95": 1.2498620000000642,
+        "1.10": 1.253095999999971
+      }
+    },
+    {
+      "candidate_id": "NOR2_X1P4A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.09288699999990513,
+        "0.95": 0.09694100000001526,
+        "1.10": 0.16123700000002827
+      }
+    },
+    {
+      "candidate_id": "NOR2_X2A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.950730000000135,
+        "0.95": 1.892629999999997,
+        "1.10": 1.6734220000000732
+      }
+    },
+    {
+      "candidate_id": "NOR2_X2A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.11042099999986021,
+        "0.95": 0.19297000000000253,
+        "1.10": 0.20671799999996665
+      }
+    },
+    {
+      "candidate_id": "NOR2_X3A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 3.3422070000000303,
+        "0.95": 3.024148000000025,
+        "1.10": 2.8332150000000524
+      }
+    },
+    {
+      "candidate_id": "NOR2_X3A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.24558400000000802,
+        "0.95": 0.3399280000000431,
+        "1.10": 0.3953240000001301
+      }
+    },
+    {
+      "candidate_id": "NOR2_X4A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 4.457042000000115,
+        "0.95": 4.184472000000028,
+        "1.10": 4.242129000000034
+      }
+    },
+    {
+      "candidate_id": "NOR2_X4A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 0.294926999999916,
+        "0.95": 0.4808790000000158,
+        "1.10": 0.675705999999991
+      }
+    },
+    {
+      "candidate_id": "NOR2_X6A_A9TL40__signal_A",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 8.374924999999962,
+        "0.95": 7.095236,
+        "1.10": 7.496491999999989
+      }
+    },
+    {
+      "candidate_id": "NOR2_X6A_A9TL40__signal_B",
+      "decision": "GO",
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "mapping_valid": true,
+      "reasons": [],
+      "unit_delta_ps_by_vdd": {
+        "0.80": 1.1392890000000762,
+        "0.95": 1.4114959999999996,
+        "1.10": 1.1463939999999297
+      }
+    }
+  ],
+  "schema_version": 1
+}

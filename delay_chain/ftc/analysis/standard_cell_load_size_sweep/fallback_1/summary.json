@@ -1,0 +1,26 @@
+{
+  "candidate_id": "NOR2_X4A_A9TL40__signal_A",
+  "decision": "NO-GO",
+  "new_hspice_scenarios": 59,
+  "rank": 2,
+  "result": {
+    "K_rescaled": null,
+    "coupled_reasons": [
+      "0.80 V M15->16 coverage failed"
+    ],
+    "coverage_reasons": [],
+    "decision": "NO-GO",
+    "delta_fine_max_ps_by_vdd": {
+      "0.80": 11.57256499999994,
+      "0.95": 9.924158999999918,
+      "1.10": 8.308268000000055
+    },
+    "final_K": 8,
+    "initial_K": 8,
+    "medium_step_coupled_min_ps_by_vdd": {
+      "0.80": 20.43259600000033,
+      "0.95": 13.825846999999953,
+      "1.10": 10.20342200000016
+    }
+  }
+}

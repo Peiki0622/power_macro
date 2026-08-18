@@ -1,0 +1,1068 @@
+{
+  "candidate_count": 28,
+  "candidates": [
+    {
+      "candidate_id": "NAND2_X0P7B_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X0P7B_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.7e-07, 2.7e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "0P7",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X0P7B_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X0P7B_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.7e-07, 2.7e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "0P7",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X1M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X1M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "1",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X1M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X1M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "1",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X1P4B_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X1P4B_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.8e-07, 2.8e-07, 2.8e-07, 2.8e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "1P4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X1P4B_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X1P4B_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.8e-07, 2.8e-07, 2.8e-07, 2.8e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "1P4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X2M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X2M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "2",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X2M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X2M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "2",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X3M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X3M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "3",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X3M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X3M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "3",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X4M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X4M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X4M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X4M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X6M_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X6M_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "6",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NAND2_X6M_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NAND2_X6M_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07, 3.45e-07]",
+      "logic_family": "NAND2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "6",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A & B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X0P7B_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X0P7B_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [1.2e-07, 1.2e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "0P7",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X0P7B_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X0P7B_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [1.2e-07, 1.2e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "0P7",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X1A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X1A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "1",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X1A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X1A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "1",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X1P4A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X1P4A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.05e-07, 2.05e-07, 2.05e-07, 2.05e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "1P4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X1P4A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X1P4A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.05e-07, 2.05e-07, 2.05e-07, 2.05e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "1P4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X2A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X2A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "2",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X2A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X2A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "2",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X3A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X3A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "3",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X3A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X3A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "3",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X4A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X4A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.3e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X4A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X4A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.3e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 3.8e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "4",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X6A_A9TL40__signal_A",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X6A_A9TL40",
+      "control_pin": "B",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "A",
+      "size_tier": "6",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    },
+    {
+      "candidate_id": "NOR2_X6A_A9TL40__signal_B",
+      "cdl_ports": [
+        "Y",
+        "VDD",
+        "VNW",
+        "VPW",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "cell": "NOR2_X6A_A9TL40",
+      "control_pin": "A",
+      "estimated_transistor_or_structure_note": "CDL transistor widths (meters): [2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 2.85e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07, 4e-07]",
+      "logic_family": "NOR2",
+      "output_pin": "Y",
+      "signal_pin": "B",
+      "size_tier": "6",
+      "source_file_sha256": {
+        "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+        "verilog": "e0814d3ec9d68fda30ec4ff272ba7def6b9385020bead66eb09f65aa0d0d66fd"
+      },
+      "truth_function": "Y = ~(A | B)",
+      "verilog_ports": [
+        "Y",
+        "VDD",
+        "VSS",
+        "A",
+        "B"
+      ],
+      "vt_class": "LVT"
+    }
+  ],
+  "schema_version": 1,
+  "selection_rule": "maximum CDL total width; tie M then cell name",
+  "selections": [
+    {
+      "available_cells": [
+        "NAND2_X0P7B_A9TL40",
+        "NAND2_X0P7M_A9TL40",
+        "NAND2_X0P7A_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X0P7B_A9TL40",
+      "size_tier": "0P7",
+      "total_width_m": 1.11e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X1M_A9TL40",
+        "NAND2_X1A_A9TL40",
+        "NAND2_X1B_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X1M_A9TL40",
+      "size_tier": "1",
+      "total_width_m": 1.4900000000000001e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X1P4B_A9TL40",
+        "NAND2_X1P4M_A9TL40",
+        "NAND2_X1P4A_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X1P4B_A9TL40",
+      "size_tier": "1P4",
+      "total_width_m": 2.2600000000000004e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X2M_A9TL40",
+        "NAND2_X2A_A9TL40",
+        "NAND2_X2B_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X2M_A9TL40",
+      "size_tier": "2",
+      "total_width_m": 2.9800000000000003e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X3M_A9TL40",
+        "NAND2_X3A_A9TL40",
+        "NAND2_X3B_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X3M_A9TL40",
+      "size_tier": "3",
+      "total_width_m": 4.47e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X4M_A9TL40",
+        "NAND2_X4B_A9TL40",
+        "NAND2_X4A_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X4M_A9TL40",
+      "size_tier": "4",
+      "total_width_m": 5.9600000000000005e-06
+    },
+    {
+      "available_cells": [
+        "NAND2_X6M_A9TL40",
+        "NAND2_X6A_A9TL40",
+        "NAND2_X6B_A9TL40"
+      ],
+      "logic_family": "NAND2",
+      "selected_cell": "NAND2_X6M_A9TL40",
+      "size_tier": "6",
+      "total_width_m": 8.939999999999997e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X0P7B_A9TL40",
+        "NOR2_X0P7A_A9TL40",
+        "NOR2_X0P7M_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X0P7B_A9TL40",
+      "size_tier": "0P7",
+      "total_width_m": 1.04e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X1A_A9TL40",
+        "NOR2_X1M_A9TL40",
+        "NOR2_X1B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X1A_A9TL40",
+      "size_tier": "1",
+      "total_width_m": 1.37e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X1P4A_A9TL40",
+        "NOR2_X1P4M_A9TL40",
+        "NOR2_X1P4B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X1P4A_A9TL40",
+      "size_tier": "1P4",
+      "total_width_m": 1.96e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X2A_A9TL40",
+        "NOR2_X2M_A9TL40",
+        "NOR2_X2B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X2A_A9TL40",
+      "size_tier": "2",
+      "total_width_m": 2.74e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X3A_A9TL40",
+        "NOR2_X3M_A9TL40",
+        "NOR2_X3B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X3A_A9TL40",
+      "size_tier": "3",
+      "total_width_m": 4.11e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X4A_A9TL40",
+        "NOR2_X4M_A9TL40",
+        "NOR2_X4B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X4A_A9TL40",
+      "size_tier": "4",
+      "total_width_m": 5.709999999999998e-06
+    },
+    {
+      "available_cells": [
+        "NOR2_X6A_A9TL40",
+        "NOR2_X6M_A9TL40",
+        "NOR2_X6B_A9TL40"
+      ],
+      "logic_family": "NOR2",
+      "selected_cell": "NOR2_X6A_A9TL40",
+      "size_tier": "6",
+      "total_width_m": 8.219999999999994e-06
+    }
+  ],
+  "size_tiers": [
+    "0P7",
+    "1",
+    "1P4",
+    "2",
+    "3",
+    "4",
+    "6"
+  ]
+}
