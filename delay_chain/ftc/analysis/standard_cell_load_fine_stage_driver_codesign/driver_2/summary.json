@@ -1,0 +1,72 @@
+{
+  "driver": {
+    "cdl_ports": [
+      "Y",
+      "VDD",
+      "VNW",
+      "VPW",
+      "VSS",
+      "A"
+    ],
+    "driver_cell": "BUF_X2M_A9TL40",
+    "driver_size_tier": "2",
+    "driver_total_width_m": 1.8299999999999998e-06,
+    "truth_function": "Y = A",
+    "verilog_ports": [
+      "Y",
+      "VDD",
+      "VSS",
+      "A"
+    ]
+  },
+  "historical_driver_probe_scenarios_rerun": 0,
+  "historical_load_sweep_scenarios_rerun": 0,
+  "historical_medium_scenarios_rerun": 0,
+  "metrics": {
+    "coverage_margin_ps_by_vdd": {
+      "0.95": 51.208553999999936,
+      "1.10": 51.6481040000001
+    },
+    "critical_0p80_m15_fK": {
+      "output_logic_high": "0.5417883611",
+      "output_logic_low": "0.117377286",
+      "output_rise_time_ps": "540.41659",
+      "scenario": "scenarios/phase5_coupled_coverage__m15__k30__f30__v0p80__0f139250460b24b27bc2",
+      "valid": "False"
+    },
+    "delta_fine_max_measured_ps_by_vdd": {
+      "0.80": 4.526669999999854,
+      "0.95": 3.585762000000045,
+      "1.10": 3.0673439999999914
+    },
+    "final_K": 30,
+    "medium_step_coupled_min_ps_by_vdd": {
+      "0.95": 13.150156000000038,
+      "1.10": 10.02739100000008
+    }
+  },
+  "new_hspice_scenarios": 106,
+  "reasons": [
+    "driver_waveform_high_fail",
+    "driver_waveform_low_fail"
+  ],
+  "reused_new_task_scenarios": 0,
+  "schema_version": 1,
+  "sizing": {
+    "FineRange_8_ps_by_vdd": {
+      "0.80": 18.079435999999987,
+      "0.95": 17.76121599999999,
+      "1.10": 17.645565999999974
+    },
+    "K_candidate": 30,
+    "K_pred_by_vdd": {
+      "0.80": 30,
+      "0.95": 20,
+      "1.10": 16
+    },
+    "K_rescaled": null,
+    "max_fine_bank": 64,
+    "schema_version": 1
+  },
+  "status": "NO-GO"
+}
