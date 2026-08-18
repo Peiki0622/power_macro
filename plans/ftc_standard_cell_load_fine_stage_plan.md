@@ -102,6 +102,62 @@ HSPICE/measurement 工具失败，则允许只对排序第二的候选执行一�
 才发布本轮最终 NO-GO。第二候选必须复用已经完成的 8 单元扫描结果，不得
 重复 927 个尺寸扫描场景。
 
+## 0.3 有界细调驱动器尺寸递增 follow-on
+
+中间尺寸扫描的两个完整验收候选都出现真实电气 Gate 失败后，允许一个独立
+的驱动器强度筛查 revision。该 revision 只检查现有 rank-2 失败端点，不能
+重写本计划已有的最终 `NO-GO`，也不能声称完整细调级 `GO`。
+
+固定端点为：
+
+```text
+load cell      = NOR2_X4A_A9TL40
+signal/control = A/B
+high-load B    = 0
+low-load B     = 1
+K              = 8
+medium code    = 15
+VDD            = 0.80 V
+```
+
+驱动器固定按以下真实 LVT M 单元顺序逐级增大：
+
+```text
+BUF_X0P8M_A9TL40
+BUF_X1M_A9TL40
+BUF_X1P4M_A9TL40
+BUF_X2M_A9TL40
+```
+
+每个单元必须同时存在于真实 LVT Verilog 和 CDL，且 CDL 总晶体管宽度严格
+递增。使用原始波形合同 `output_logic_high >= 0.90 × VDD` 与
+`output_logic_low <= 0.10 × VDD`。每级运行一个完整 HSPICE 场景，保留所有
+延时、边沿、逻辑电平和额外转换测量；首个通过全部波形完整性检查的驱动器
+立即停止，最大新增场景数为 4。当前 `BUF_X0P7M_A9TL40` 失败场景只读，
+不得重跑。
+
+该筛查不得重新运行 28 候选尺寸扫描、历史中调场景或历史 runner，不得加入
+旁路、配置跳过、传感器、XOR、DFF、自校准、PVT、RTL、功耗、面积或版图。
+即使某个驱动器通过端点检查，也必须在另一独立计划中重新评估 K、细调
+分辨率和耦合中调行为；本 follow-on 到此停止。
+
+## 0.4 用户指定的剩余三档 continuation
+
+在 0.3 已完成并保留 `BUF_X0P8M_A9TL40` 证据后，用户明确要求继续完整运行
+以下三档：
+
+```text
+BUF_X1M_A9TL40
+BUF_X1P4M_A9TL40
+BUF_X2M_A9TL40
+```
+
+本 continuation 覆盖 0.3 中“首个通过即停止”的默认停止规则，但只新增这 3
+个场景；已完成的 X0P8M 场景必须复用，不得重跑。三档仍固定在同一个
+`NOR2_X4A / M=15 / F=8 / K=8 / 0.80 V` 端点，仍使用原始 `0.90/0.10`
+波形合同。最终报告必须将 X0P7M 只读基线、X0P8M 已有实测、X1M、X1P4M、
+X2M 放在同一张对比表中，并明确本 continuation 仍不是完整 Fine Stage GO。
+
 ---
 
 # 1. Codex 开始前必须读取并冻结的现有证据

@@ -1,0 +1,38 @@
+{
+  "candidate_id": "NOR2_X4A_A9TL40__signal_A",
+  "driver_sequence": [
+    {
+      "driver_cell": "BUF_X0P8M_A9TL40",
+      "driver_size_tier": "0P8",
+      "driver_total_width_m": 8.699999999999999e-07
+    },
+    {
+      "driver_cell": "BUF_X1M_A9TL40",
+      "driver_size_tier": "1",
+      "driver_total_width_m": 9.849999999999999e-07
+    },
+    {
+      "driver_cell": "BUF_X1P4M_A9TL40",
+      "driver_size_tier": "1P4",
+      "driver_total_width_m": 1.32e-06
+    },
+    {
+      "driver_cell": "BUF_X2M_A9TL40",
+      "driver_size_tier": "2",
+      "driver_total_width_m": 1.8299999999999998e-06
+    }
+  ],
+  "endpoint": {
+    "K": 8,
+    "fine_code": 8,
+    "medium_code": 15,
+    "vdd_v": 0.8
+  },
+  "full_fine_stage_acceptance": "not_run",
+  "historical_medium_scenarios_rerun": 0,
+  "historical_runner_invocations": 0,
+  "logic_high_min_ratio": 0.9,
+  "logic_low_max_ratio": 0.1,
+  "max_new_hspice_scenarios": 4,
+  "schema_version": 1
+}

@@ -256,10 +256,16 @@ def thermometer(units: int, code: int) -> Tuple[int, ...]:
     return tuple(1 if index < code else 0 for index in range(units))
 
 
-def buffer_instance(name: str, output: str, input_node: str) -> str:
-    """Render the vendor CDL positional interface for the fixed LVT buffer."""
+def buffer_instance(name: str, output: str, input_node: str, cell: str = MEDIUM_DELAY_CELL) -> str:
+    """Render a vendor CDL buffer while retaining the frozen medium default.
 
-    return "{} {} vdd_a vdd_a vss_a vss_a {} {}".format(name, output, input_node, MEDIUM_DELAY_CELL)
+    ``cell`` is optional so the completed medium network always remains on its
+    approved X0P7M cell.  The independent driver-strength follow-on alone may
+    pass a separately validated fine-driver cell; no caller may alter a
+    medium-stage buffer through this interface.
+    """
+
+    return "{} {} vdd_a vdd_a vss_a vss_a {} {}".format(name, output, input_node, cell)
 
 
 def mux_instance(name: str, output: str, shallow: str, deep: str, select: str) -> str:
@@ -308,8 +314,13 @@ def measurement_lines(config: Mapping[str, Any]) -> List[str]:
     ]
 
 
-def render_deck(config: Mapping[str, Any], cells: Mapping[str, Any], vdd: float, medium_code: int, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, high_control: int = 1) -> str:
-    """Render one complete medium-plus-driver-plus-load-bank physical scenario."""
+def render_deck(config: Mapping[str, Any], cells: Mapping[str, Any], vdd: float, medium_code: int, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, high_control: int = 1, fine_driver_cell: str = FINE_DRIVER_CELL) -> str:
+    """Render one medium-plus-driver-plus-load-bank physical scenario.
+
+    The optional fine-driver argument changes only ``XFINE_DRIVER``.  It is
+    intentionally separate from ``MEDIUM_DELAY_CELL`` so a bounded follow-on
+    cannot accidentally change the frozen N=16 medium topology.
+    """
 
     if vdd not in ANCHOR_VDD or (candidate is None and K) or (candidate is not None and fine_code > K):
         raise ValueError("invalid fine-stage deck parameters")
@@ -322,7 +333,7 @@ def render_deck(config: Mapping[str, Any], cells: Mapping[str, Any], vdd: float,
         "V_IN in vss_a PULSE(0 'VDD_VALUE' {} 1.000000000000e-12 1.000000000000e-12 {} {})".format(spice(launch), spice(period / 2.0), spice(period)),
     ]
     lines.extend(medium_network(medium_code))
-    lines.append(buffer_instance("XFINE_DRIVER", "out", "medium_out"))
+    lines.append(buffer_instance("XFINE_DRIVER", "out", "medium_out", fine_driver_cell))
     if candidate is not None:
         for index, enabled in enumerate(thermometer(K, fine_code)):
             control = high_control if enabled else 1 - high_control
@@ -355,10 +366,14 @@ def classify(record: Mapping[str, Any], vdd: float, logic_high_min_ratio: float 
     return result
 
 
-def scenario_parameters(phase: str, medium_code: int, vdd: float, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, low_control: Any, high_control: Any, logic_high_min_ratio: float = DEFAULT_LOGIC_HIGH_MIN_RATIO) -> Dict[str, Any]:
-    """Capture every physical parameter required to prove a scenario is reusable."""
+def scenario_parameters(phase: str, medium_code: int, vdd: float, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, low_control: Any, high_control: Any, logic_high_min_ratio: float = DEFAULT_LOGIC_HIGH_MIN_RATIO, fine_driver_cell: str = FINE_DRIVER_CELL) -> Dict[str, Any]:
+    """Capture every physical parameter required to prove a scenario is reusable.
 
-    return {"phase": phase, "topology_version": TOPOLOGY_VERSION, "medium_N": MEDIUM_N, "medium_code": medium_code, "medium_mux_cell": MEDIUM_MUX_CELL, "medium_delay_cell": MEDIUM_DELAY_CELL, "fine_driver_cell": FINE_DRIVER_CELL, "fine_load_cell": candidate["cell"] if candidate else "none", "signal_pin": candidate["signal_pin"] if candidate else "none", "control_pin": candidate["control_pin"] if candidate else "none", "low_cap_control_value": low_control, "high_cap_control_value": high_control, "logic_high_min_ratio": validate_logic_high_min_ratio(logic_high_min_ratio), "K": K, "fine_code": fine_code, "vdd_v": vdd, "input_slew_contract": INPUT_SLEW_CONTRACT, "output_load_contract": OUTPUT_LOAD_CONTRACT}
+    Recording the selected fine driver in the scenario identity prevents a
+    cached X0P7M measurement from ever being reused for a larger driver.
+    """
+
+    return {"phase": phase, "topology_version": TOPOLOGY_VERSION, "medium_N": MEDIUM_N, "medium_code": medium_code, "medium_mux_cell": MEDIUM_MUX_CELL, "medium_delay_cell": MEDIUM_DELAY_CELL, "fine_driver_cell": fine_driver_cell, "fine_load_cell": candidate["cell"] if candidate else "none", "signal_pin": candidate["signal_pin"] if candidate else "none", "control_pin": candidate["control_pin"] if candidate else "none", "low_cap_control_value": low_control, "high_cap_control_value": high_control, "logic_high_min_ratio": validate_logic_high_min_ratio(logic_high_min_ratio), "K": K, "fine_code": fine_code, "vdd_v": vdd, "input_slew_contract": INPUT_SLEW_CONTRACT, "output_load_contract": OUTPUT_LOAD_CONTRACT}
 
 
 def scenario_id(parameters: Mapping[str, Any]) -> str:

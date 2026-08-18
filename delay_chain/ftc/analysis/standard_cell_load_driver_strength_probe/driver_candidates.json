@@ -1,0 +1,25 @@
+{
+  "drivers": [
+    {
+      "driver_cell": "BUF_X0P8M_A9TL40",
+      "driver_size_tier": "0P8",
+      "driver_total_width_m": 8.699999999999999e-07
+    },
+    {
+      "driver_cell": "BUF_X1M_A9TL40",
+      "driver_size_tier": "1",
+      "driver_total_width_m": 9.849999999999999e-07
+    },
+    {
+      "driver_cell": "BUF_X1P4M_A9TL40",
+      "driver_size_tier": "1P4",
+      "driver_total_width_m": 1.32e-06
+    },
+    {
+      "driver_cell": "BUF_X2M_A9TL40",
+      "driver_size_tier": "2",
+      "driver_total_width_m": 1.8299999999999998e-06
+    }
+  ],
+  "schema_version": 1
+}
