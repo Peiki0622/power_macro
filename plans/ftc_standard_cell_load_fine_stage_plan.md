@@ -1,261 +1,264 @@
-# FTC 标准单元负载细调级及单中调步长覆盖逐步骤执行计划
+# FTC 标准单元负载细调级：负载固定、驱动器可选的逐步骤执行计划
 
-## 0. 本阶段任务定位
+## 0. 本次重构为什么必要
 
-本计划承接已经完成并判定为 `GO` 的路径选择中调级（path-selection medium stage，路径选择式中等粒度调节级）。当前已完成提交为：
-
-```text
-d376ff58e8a4f432d38e189d5b7d566c639afe20
-feat(ftc): validate path-selection medium stage
-```
-
-当前设计主线固定为：
+本计划已经不再处于“寻找标准单元负载”的阶段。远程仓库现有证据已经把问题收敛到一个更具体的物理矛盾：
 
 ```text
-已完成：路径选择中调级
+已完成路径选择中调级
         |
         +-- GO
         |
         v
-本计划：标准单元负载细调级
+标准单元输入负载细调
         |
-        +-- 证明细调代码产生严格正的真实延时增量
-        +-- 证明单个细调步长显著小于中调步长
-        +-- 证明完整细调范围可以覆盖一个真实中调步长
+        +-- X0P5 太小：调节量不足，需要 K≈116        -> NO-GO
         |
-        v
-本计划到此停止
+        +-- X8 太大：范围足够，但分辨率/波形受损       -> NO-GO
         |
-        v
-下一独立计划：旁路 + 配置跳过
-        |
-        v
-后续：完整“中调 + 细调”两级可编程延时线
-        |
-        v
-后续：tap29 传感器 + 异或门 + D触发器 + 启动自校准
-        |
-        v
-后续：锁定码 + 可编程裕量的电压跌落检测
+        +-- 中间尺寸扫描
+               |
+               +-- 最终保留负载：NOR2_X4A_A9TL40，signal=A
+               |
+               +-- K=8 时分辨率和范围处于合理区间
+               |
+               +-- 唯一关键失败集中在
+                   VDD=0.80 V, M=15, F=8
+                   使用 BUF_X0P7M 驱动时高电平仅 0.717393 V
+                   低于原始 0.90*VDD = 0.72 V 门限
+                       |
+                       v
+               有界驱动器强度实验
+                       |
+                       +-- BUF_X0P8M : high/VDD=0.94947, PASS
+                       +-- BUF_X1M   : high/VDD=0.98382, PASS
+                       +-- BUF_X1P4M : high/VDD=0.99937, PASS
+                       +-- BUF_X2M   : high/VDD=0.99999, PASS
 ```
 
-**本计划只回答两个问题：**
-
-> **问题 1：标准单元输入负载状态变化能否提供严格单调、稳定且明显小于中调步长的真实细调延时步长？**
-
-> **问题 2：有限数量的细调负载单元能否在三个电压锚点下覆盖一个真实中调代码间隔，使“当前中调码 + 最大细调”能够达到或超过“下一中调码 + 最小细调”？**
-
-若本计划 `GO`，只表示“标准单元负载细调级以及一个中调步长覆盖”可以进入下一阶段的旁路与两级集成；**不表示完整 FTC 检测宏已经 GO。**
-
-## 0.1 最大 LVT 后续实验的已授权门限
-
-最大尺寸 LVT 负载的独立 follow-on 可以将输出高电平门限从：
+因此，原计划中把细调固定驱动器写死为：
 
 ```text
-output_logic_high >= 0.90 × VDD
+BUF_X0P7M_A9TL40
 ```
 
-调整为：
+已经与最新电气证据冲突。
+
+**本次重构的核心决策是：**
+
+> 细调负载单元固定为已经筛选出的 `NOR2_X4A_A9TL40` 的 A 输入方向；细调驱动缓冲器不再固定为 `BUF_X0P7M_A9TL40`，而是作为一个有界、可验证的标准单元设计变量。Codex 必须从已完成的真实 LVT 缓冲器序列中，寻找能够通过完整细调级验收的最小驱动器。
+
+本计划仍只做到：
 
 ```text
-output_logic_high >= 0.88 × VDD
+标准单元负载细调级
++
+覆盖一个中调步长
++
+确定最小可接受细调驱动器
 ```
 
-该调整只适用于使用 `--max-lvt-load` 的新证据 revision；原始 0.90 × VDD
-证据必须保留且不得覆盖。低电平门限 `output_logic_low <= 0.10 × VDD`、
-无额外转换、正传播延时、边沿测量、单调性、耦合覆盖和 `K <= 64` 的全部
-要求保持不变。最终报告必须显式说明该非默认门限，不能声称满足原始 0.90 ×
-VDD 规则。
-
-## 0.2 中间尺寸 LVT 负载扫描的已授权边界
-
-在保留 X0P5 默认证据和 X8 maximum-LVT follow-on 证据不变的前提下，允许
-一个独立的中间尺寸扫描 revision。扫描尺寸固定为：
-
-```text
-X0P7, X1, X1P4, X2, X3, X4, X6
-```
-
-对每个尺寸和每个 NAND2/NOR2 逻辑族，必须从真实 LVT CDL 的 A/B/M 物理
-实现中静态选择晶体管总宽度最大的一个；总宽度相同则优先 M，再按单元名
-排序。每个选定单元必须保留 signal=A/control=B 与 signal=B/control=A 两个
-方向，因此静态候选数量固定为 28。该有限集合不是无边界库 sweep。
-
-扫描使用原始波形合同：
-
-```text
-output_logic_high >= 0.90 × VDD
-output_logic_low  <= 0.10 × VDD
-```
-
-0.88 × VDD 例外继续只属于已完成的 --max-lvt-load X8 follow-on。每个候选
-必须用三电压、K_test=8、F=0..8 的真实 HSPICE 数据同时发布单位调节量、
-K_candidate、最大 10%-90% 输出建立时间和最大相邻细调步长。满足原有
-波形、单调性、K<=64 和细调步长小于冻结中调最小步长 Gate 的候选，按最小
-K、最大归一化细调步长、最大建立时间、candidate_id 的顺序选择唯一赢家。
-只有该赢家允许继续原计划的完整 K 耦合覆盖与分辨率验收；历史中调场景和
-历史 runner 均不得重跑。
-
-若四指标排序第一的候选在完整耦合验收中出现真实电气 Gate 失败，而不是
-HSPICE/measurement 工具失败，则允许只对排序第二的候选执行一次同样的完整
-验收。最多验证两个候选，不允许继续向第三、第四名扩展；两个候选都失败后
-才发布本轮最终 NO-GO。第二候选必须复用已经完成的 8 单元扫描结果，不得
-重复 927 个尺寸扫描场景。
-
-## 0.3 有界细调驱动器尺寸递增 follow-on
-
-中间尺寸扫描的两个完整验收候选都出现真实电气 Gate 失败后，允许一个独立
-的驱动器强度筛查 revision。该 revision 只检查现有 rank-2 失败端点，不能
-重写本计划已有的最终 `NO-GO`，也不能声称完整细调级 `GO`。
-
-固定端点为：
-
-```text
-load cell      = NOR2_X4A_A9TL40
-signal/control = A/B
-high-load B    = 0
-low-load B     = 1
-K              = 8
-medium code    = 15
-VDD            = 0.80 V
-```
-
-驱动器固定按以下真实 LVT M 单元顺序逐级增大：
-
-```text
-BUF_X0P8M_A9TL40
-BUF_X1M_A9TL40
-BUF_X1P4M_A9TL40
-BUF_X2M_A9TL40
-```
-
-每个单元必须同时存在于真实 LVT Verilog 和 CDL，且 CDL 总晶体管宽度严格
-递增。使用原始波形合同 `output_logic_high >= 0.90 × VDD` 与
-`output_logic_low <= 0.10 × VDD`。每级运行一个完整 HSPICE 场景，保留所有
-延时、边沿、逻辑电平和额外转换测量；首个通过全部波形完整性检查的驱动器
-立即停止，最大新增场景数为 4。当前 `BUF_X0P7M_A9TL40` 失败场景只读，
-不得重跑。
-
-该筛查不得重新运行 28 候选尺寸扫描、历史中调场景或历史 runner，不得加入
-旁路、配置跳过、传感器、XOR、DFF、自校准、PVT、RTL、功耗、面积或版图。
-即使某个驱动器通过端点检查，也必须在另一独立计划中重新评估 K、细调
-分辨率和耦合中调行为；本 follow-on 到此停止。
-
-## 0.4 用户指定的剩余三档 continuation
-
-在 0.3 已完成并保留 `BUF_X0P8M_A9TL40` 证据后，用户明确要求继续完整运行
-以下三档：
-
-```text
-BUF_X1M_A9TL40
-BUF_X1P4M_A9TL40
-BUF_X2M_A9TL40
-```
-
-本 continuation 覆盖 0.3 中“首个通过即停止”的默认停止规则，但只新增这 3
-个场景；已完成的 X0P8M 场景必须复用，不得重跑。三档仍固定在同一个
-`NOR2_X4A / M=15 / F=8 / K=8 / 0.80 V` 端点，仍使用原始 `0.90/0.10`
-波形合同。最终报告必须将 X0P7M 只读基线、X0P8M 已有实测、X1M、X1P4M、
-X2M 放在同一张对比表中，并明确本 continuation 仍不是完整 Fine Stage GO。
+本计划仍然**不实现**旁路、配置跳过、最终两级编码、自校准或跌落检测。
 
 ---
 
-# 1. Codex 开始前必须读取并冻结的现有证据
+# 1. Codex 开始前必须充分读取并冻结的最新证据
 
-## 1.1 当前中调级 GO 证据：只读，不重跑
+## 1.1 最新提交
 
-必须读取：
+开始执行前必须确认远程 `main`（主分支）至少包含：
 
 ```text
-delay_chain/ftc/analysis/path_selection_medium_stage/summary.json
-delay_chain/ftc/analysis/path_selection_medium_stage/future_fine_stage_interface.json
-delay_chain/ftc/analysis/path_selection_medium_stage/future_range_projection.json
-delay_chain/ftc/analysis/path_selection_medium_stage/cell_contract.json
-delay_chain/ftc/analysis/path_selection_medium_stage/requirements.json
-delay_chain/ftc/analysis/path_selection_medium_stage/n8_step_envelope.json
-delay_chain/ftc/analysis/path_selection_medium_stage/medium_step_characterization.csv
-delay_chain/ftc/analysis/path_selection_medium_stage/scaling_endpoints.csv
+e8fd08b718716d5a2de6a093afa8fb53c9b8d0df
+feat(ftc): compare remaining fine-driver sizes
+```
+
+如果远程 `main` 已经有更新提交，必须先读取更新内容；不得假定本计划编写时的提交仍是最新状态。
+
+## 1.2 路径选择中调级：继续冻结为只读 GO 证据
+
+必须读取但不得重跑：
+
+```text
+delay_chain/ftc/analysis/path_selection_medium_stage/
 delay_chain/ftc/reports/FTC_PATH_SELECTION_MEDIUM_STAGE.md
 delay_chain/ftc/scripts/run_path_selection_medium_stage.py
 ```
 
-必须冻结以下事实：
+冻结：
 
 ```text
 Path-Selection Medium Stage = GO
-
 N_characterize = 16
-
 Anchor VDD = 1.10, 0.95, 0.80 V
 
-N=16 最大已测中调步长：
+已测最大中调步长：
 1.10 V : 33.703762 ps
 0.95 V : 44.069195 ps
 0.80 V : 66.862606 ps
 
-全局已测最坏中调步长：
-66.862606 ps
-
-N=16 最小已测中调步长：
+已测最小中调步长：
 1.10 V : 10.232424 ps
 0.95 V : 13.209050 ps
 0.80 V : 20.958529 ps
 ```
 
-还必须冻结：
+历史中调的 41 个 HSPICE（晶体管级电路仿真器）场景不得重新运行。
+
+## 1.3 小尺寸、最大尺寸和中间尺寸负载实验全部转为历史证据
+
+必须读取：
 
 ```text
-当前中调延时缓冲器：BUF_X0P7M_A9TL40
-当前中调 2:1 多路选择器：MXT2_X0P5M_A9TL40
-MXT2 选择语义：S0=0 选择 A，S0=1 选择 B
-MXT2 输出极性：同极性
+delay_chain/ftc/analysis/standard_cell_load_fine_stage/
+delay_chain/ftc/analysis/standard_cell_load_max_lvt_probe/
+delay_chain/ftc/analysis/standard_cell_load_max_lvt_probe_0p88/
+delay_chain/ftc/analysis/standard_cell_load_size_sweep/
+
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_FINE_STAGE.md
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_MAX_LVT_PROBE.md
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_MAX_LVT_PROBE_0P88.md
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_SIZE_SWEEP.md
 ```
 
-上述 41 个中调 HSPICE 场景全部视为已完成只读证据，**不得重新运行。**
+这些已有电气场景全部只读，不得重新跑。
 
-## 1.2 中调级当前输出负载条件必须明确记录
+## 1.4 本阶段固定负载合同
 
-当前中调级 HSPICE 表征的输出负载条件为：
+本阶段不再重新选择 NAND/NOR，也不重新进行 28 候选尺寸扫描。
+
+固定：
 
 ```text
-intrinsic_y0_mux_output_no_external_receiver
+candidate_id           = NOR2_X4A_A9TL40__signal_A
+cell                   = NOR2_X4A_A9TL40
+signal_pin             = A
+control_pin            = B
+high_cap_control_value = 0
+low_cap_control_value  = 1
+historical_K_candidate = 8
 ```
 
-即中调输出端没有外部接收器。
-
-因此：
+来源必须读取：
 
 ```text
-66.862606 ps
+delay_chain/ftc/analysis/standard_cell_load_size_sweep/fallback_1/selected_size_contract.json
 ```
 
-只能作为已经完成的“无外接细调结构条件下的最坏已测中调步长”，**不能直接作为最终两级结构永远不变的常数。**
-
-本阶段细调驱动器和负载阵列接入后，必须重新测量耦合条件下的相邻中调步长。
-
-## 1.3 历史更早 runner 全部继续只读
-
-禁止调用：
+历史单负载调节量：
 
 ```text
-delay_chain/ftc/scripts/run_static_self_calibration.py
-delay_chain/ftc/scripts/run_programmable_acceptance_window.py
-delay_chain/ftc/scripts/run_delay_code_refinement.py
-delay_chain/ftc/scripts/run_fine_grained_controllable_delay.py
-delay_chain/ftc/scripts/run_path_selection_medium_stage.py
+1.10 V : 4.242129 ps
+0.95 V : 4.184472 ps
+0.80 V : 4.457042 ps
 ```
 
-可以复用经过审查的通用 HSPICE listing / measurement 完整性辅助函数，但禁止 import 或 subprocess 调用这些历史 runner 的主执行流程。
+注意：这些数值只属于历史 `BUF_X0P7M_A9TL40` 驱动条件。驱动器尺寸改变以后，细调步长和总范围必须重新实测，不能直接复用数值。
+
+## 1.5 必须正确解释 NOR2_X4A 的历史 NO-GO
+
+不得把中间尺寸扫描的总 `NO-GO` 误解成 `NOR2_X4A` 负载本身已经证明不可用。
+
+对 `NOR2_X4A_A9TL40__signal_A` 的完整 fallback（后备候选）结果：
+
+```text
+K = 8
+
+最大相邻细调步长：
+1.10 V : 8.308268 ps
+0.95 V : 9.924159 ps
+0.80 V : 11.572565 ps
+
+最小耦合中调步长：
+1.10 V : 10.203422 ps
+0.95 V : 13.825847 ps
+0.80 V : 20.432596 ps
+```
+
+因此该候选在三个锚点下都满足：
+
+```text
+最大细调步长 < 最小耦合中调步长
+```
+
+其 `fallback_result.coupled_reasons` 只有：
+
+```text
+0.80 V M15->16 coverage failed
+```
+
+对应失败端点：
+
+```text
+VDD         = 0.80 V
+medium code = 15
+fine code   = 8
+K           = 8
+fine driver = BUF_X0P7M_A9TL40
+
+output high = 0.717393004 V
+output low  = 0.0118503303 V
+rise time   = 396.472655 ps
+```
+
+原始高电平门限是：
+
+```text
+0.90 * 0.80 V = 0.72 V
+```
+
+符号说明：`0.90` 表示必须达到供电电压的 90%；`0.80 V` 是该场景供电电压；`*` 表示乘法；结果 `0.72 V` 是原始高电平有效门限。
+
+因此该候选的关键失败是**固定细调驱动器过弱造成的波形建立失败**，而不是负载调节范围不足。
+
+## 1.6 有界驱动器强度实验必须冻结为新的架构证据
+
+必须读取：
+
+```text
+delay_chain/ftc/analysis/standard_cell_load_driver_strength_probe/
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_DRIVER_STRENGTH.md
+delay_chain/ftc/scripts/run_standard_cell_load_driver_strength_probe.py
+delay_chain/ftc/tests/test_standard_cell_load_driver_strength_probe.py
+```
+
+固定端点不变：
+
+```text
+load         = NOR2_X4A_A9TL40__signal_A
+M            = 15
+F            = 8
+K            = 8
+VDD          = 0.80 V
+logic high   >= 0.90 * VDD
+logic low    <= 0.10 * VDD
+```
+
+已有真实结果：
+
+```text
+BUF_X0P7M : high/VDD = 0.8967413, rise = 396.473 ps, FAIL
+BUF_X0P8M : high/VDD = 0.9494658, rise = 344.226 ps, PASS
+BUF_X1M   : high/VDD = 0.9838224, rise = 295.632 ps, PASS
+BUF_X1P4M : high/VDD = 0.9993679, rise = 205.763 ps, PASS
+BUF_X2M   : high/VDD = 0.9999906, rise = 153.470 ps, PASS
+```
+
+这组结果已经证明：
+
+```text
+“细调驱动器固定为 X0P7”不是必要架构约束。
+```
+
+而且从 X0P7 仅略增到 X0P8，就已经把最坏已知端点从失败提升到 `high/VDD=0.9495`。
+
+这些驱动器端点场景不得重跑。
 
 ---
 
-# 2. 本轮固定的细调物理结构
+# 2. 重构后的细调物理结构
 
-## 2.1 固定加入一个细调驱动缓冲器
-
-本轮不要把可变负载直接挂在中调最后一级多路选择器输出上。
-
-固定结构为：
+结构仍保持：
 
 ```text
 路径选择中调级
@@ -264,135 +267,164 @@ delay_chain/ftc/scripts/run_path_selection_medium_stage.py
  MEDIUM_OUT
       |
       v
-+------------------------+
-| 固定细调驱动缓冲器       |
-| BUF_X0P7M_A9TL40        |
-+-----------+------------+
-            |
-            +----------------------> FINE_OUT
-            |
-            +-- 可变负载 V0
-            +-- 可变负载 V1
-            +-- 可变负载 V2
-            |        ...
-            +-- 可变负载 V(K-1)
++--------------------------------+
+| 可选择的细调驱动缓冲器           |
+| BUF_X0P8M / X1M / X1P4M / X2M |
++---------------+----------------+
+                |
+                +----------------------> FINE_OUT
+                |
+                +-- NOR2_X4A load V0
+                +-- NOR2_X4A load V1
+                +-- NOR2_X4A load V2
+                |        ...
+                +-- NOR2_X4A load V(K-1)
 ```
 
-这里 `K` 表示细调可变负载单元总数。
-
-固定细调驱动器的目的：
+这里：
 
 ```text
-1. 将细调负载变化主要隔离在固定驱动器之后；
-2. 避免直接改变中调最后一级 MUX 的负载而污染中调自身物理含义；
-3. 为下一阶段“旁路 + 细调路径”提供清晰接口；
-4. 复用已经验证过的同极性 BUF_X0P7M_A9TL40，不重新搜索驱动器。
+中调网络             = 冻结，不允许修改
+细调负载单元         = 冻结为 NOR2_X4A_A9TL40 signal=A
+细调驱动器           = 本计划唯一允许重新选择的电路单元
+K                    = 必须随驱动器重新推导，不得永久固定为 8
 ```
 
-本计划不允许为了优化固定开销而扫描其他驱动器。如果该结构本身 NO-GO，应记录原因并停止；不要在同一 runner 内无限救援。
-
-## 2.2 标准单元负载不是串联主传播门
-
-每个细调单元必须作为**并联输入负载**接在 `FINE_OUT` 上，而不是串在主传播路径上。
-
-抽象结构：
-
-```text
-                         可变负载单元 Vi
-
-FINE_OUT ----------------> signal_pin
-                           +-----------+
-控制 fi ----------------->| control_pin|
-                           | NAND/NOR   |----> zi
-                           +-----------+
-
-zi 不回接主传播路径
-```
-
-这里 `Vi` 表示第 `i` 个细调可变负载单元；`fi` 表示控制该负载高/低输入电容状态的数字控制；`zi` 是该标准单元自己的输出内部节点，不参与主信号传播。
-
-## 2.3 不预先假定 NAND 还是 NOR
-
-Codex 必须从 SMIC40LL 实际 LVT（低阈值电压）标准单元 Verilog/CDL 中静态发现：
-
-```text
-最小尺寸二输入 NAND 类单元
-最小尺寸二输入 NOR 类单元
-```
-
-对于同一个逻辑单元：
-
-```text
-signal=A, control=B
-```
-
-和：
-
-```text
-signal=B, control=A
-```
-
-允许作为两个不同物理候选，因为不同输入脚对应的晶体管堆叠位置和输入电容可能不同。
-
-禁止直接假定：
-
-```text
-control=1 一定是高电容状态
-```
-
-或：
-
-```text
-control=0 一定是低电容状态
-```
-
-必须由真实 HSPICE 延时结果确定。
+中调级仍然使用其历史 `BUF_X0P7M_A9TL40` 延时缓冲器。**只允许修改 `XFINE_DRIVER`，绝不能因为细调驱动器变化而修改中调网络中的 buffer（缓冲器）。**
 
 ---
 
-# 3. 新 runner、目录和证据文件
+# 3. 细调驱动器不再写死，但搜索必须有界
 
-新增：
+## 3.1 驱动器候选序列
+
+历史 `BUF_X0P7M_A9TL40` 只作为失败基线，不再进入新仿真。
+
+本轮允许：
+
+```text
+优先级 1 : BUF_X0P8M_A9TL40
+优先级 2 : BUF_X1M_A9TL40
+优先级 3 : BUF_X1P4M_A9TL40
+优先级 4 : BUF_X2M_A9TL40
+```
+
+这些单元已经由现有驱动器探测脚本从真实 LVT Verilog/CDL 中确认，并且 CDL 总晶体管宽度严格递增。
+
+不得自动扩展到 X3/X4/X6/X8 或其他 buffer 家族。如果四档完整验收都失败，再另开计划，不在本轮无限扩大驱动器。
+
+## 3.2 驱动器选择目标
+
+目标不是选输出边沿最快的最大驱动器，而是：
+
+> **选择通过完整细调级所有电气 Gate（判定门槛）的最小驱动器。**
+
+原因：更强驱动器虽然改善建立时间和高电平，但也可能降低相同负载切换带来的延时灵敏度，从而增大所需 K。
+
+因此执行顺序固定：
+
+```text
+X0P8 -> 完整验收
+   |
+   +-- GO -> 立即停止，X0P8 为 selected_fine_driver
+   |
+   +-- NO-GO -> X1 完整验收
+                    |
+                    +-- GO -> 停止
+                    |
+                    +-- NO-GO -> X1P4
+                                      |
+                                      +-- ... -> 最多到 X2
+```
+
+## 3.3 恢复原始逻辑门限
+
+本计划不使用 X8 实验中曾授权的 `0.88*VDD` 例外。
+
+统一恢复：
+
+```text
+output_logic_high >= 0.90 * VDD
+output_logic_low  <= 0.10 * VDD
+```
+
+因为 X0P8 及以上驱动器已经在历史最坏端点上证明能够满足原始 0.90 门限，没有必要再通过放宽门限救援。
+
+---
+
+# 4. 代码重构要求
+
+## 4.1 不要破坏历史 runner（运行脚本）
+
+现有：
 
 ```text
 delay_chain/ftc/scripts/run_standard_cell_load_fine_stage.py
-
-delay_chain/ftc/analysis/standard_cell_load_fine_stage/
-
-delay_chain/ftc/runs/standard_cell_load_fine_stage/r1/
-
-delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_FINE_STAGE.md
-
-delay_chain/ftc/tests/test_standard_cell_load_fine_stage.py
 ```
 
-输出至少包括：
+已经在底层函数中支持：
 
 ```text
-requirements.json
-fine_varactor_candidates.json
-selected_fine_load_contract.json
-single_load_screen.csv
-single_load_decision.json
-fine8_code_sweep.csv
-fine8_summary.json
-fine_bank_sizing.json
-full_bank_coverage.csv
-full_bank_monotonicity.csv
-coupled_medium_coverage.csv
-future_bypass_interface.json
-summary.json
+render_deck(..., fine_driver_cell=...)
+scenario_parameters(..., fine_driver_cell=...)
+```
+
+而且 `fine_driver_cell` 已进入场景参数和缓存身份，因此不同驱动器不会错误复用同一个 HSPICE 场景。
+
+但是该脚本顶层仍保留：
+
+```text
+FINE_DRIVER_CELL = BUF_X0P7M_A9TL40
+```
+
+以及旧的固定驱动流程。
+
+本计划**不要删除历史默认值，也不要改写历史分析目录的语义**。
+
+建议新增：
+
+```text
+delay_chain/ftc/scripts/run_standard_cell_load_fine_stage_driver_codesign.py
+```
+
+该 runner 复用已经审查过的网表生成、HSPICE 完整性、分类和场景缓存 helper（辅助函数），但由它负责：
+
+```text
+固定 NOR2_X4A 负载合同
+有界驱动器序列
+每个驱动器重新推导 K
+完整中调/细调耦合 Gate
+选择最小通过驱动器
+```
+
+## 4.2 新分析目录
+
+使用独立目录：
+
+```text
+delay_chain/ftc/analysis/standard_cell_load_fine_stage_driver_codesign/
+delay_chain/ftc/runs/standard_cell_load_fine_stage_driver_codesign/
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_FINE_STAGE_DRIVER_CODESIGN.md
+delay_chain/ftc/tests/test_standard_cell_load_fine_stage_driver_codesign.py
+```
+
+不得覆盖：
+
+```text
+standard_cell_load_fine_stage/
+standard_cell_load_max_lvt_probe/
+standard_cell_load_size_sweep/
+standard_cell_load_driver_strength_probe/
 ```
 
 ---
 
-# 4. 防重复仿真与可恢复执行契约
+# 5. 防重复仿真规则
 
-每个新场景 ID 至少由以下字段决定：
+每个新场景的身份必须至少包含：
 
 ```text
 phase
-topology_version
 medium_N
 medium_code
 medium_mux_cell
@@ -406,75 +438,72 @@ high_cap_control_value
 K
 fine_code
 vdd_v
+logic_high_min_ratio
+logic_low_max_ratio
 input_slew_contract
 output_load_contract
 ```
 
-每个场景目录必须保存：
+特别是：
 
 ```text
-scenario_manifest.json
+fine_driver_cell
 ```
 
-至少包含：
+必须参与哈希和 `scenario_manifest.json`。X0P8、X1、X1P4、X2 之间禁止共享电气结果。
+
+已有 driver-strength probe（驱动器强度探测）端点可以作为只读架构证据，但只有当新场景参数、runner/requirements/contract 哈希完全一致时才允许正式场景缓存复用；否则不得伪装成同一场景。
+
+禁止调用以下历史主执行流程：
 
 ```text
-netlist_sha256
-runner_sha256
-requirements_sha256
-candidate_contract_sha256
-parameters
-completion_status
-measurement_file
+run_path_selection_medium_stage.py
+run_standard_cell_load_fine_stage.py 的 main 流程
+run_standard_cell_load_size_sweep.py 的 main 流程
+run_standard_cell_load_size_fallback.py 的 main 流程
+run_standard_cell_load_driver_strength_probe.py 的 main 流程
+run_fine_grained_controllable_delay.py
+run_delay_code_refinement.py
+run_programmable_acceptance_window.py
+run_static_self_calibration.py
 ```
 
-只有以下条件全部满足时才能直接复用：
-
-```text
-completion_status = PASS
-netlist_sha256 完全一致
-runner_sha256 完全一致
-requirements_sha256 完全一致
-candidate_contract_sha256 完全一致
-参数完全一致
-listing 和 measurement 完整
-```
-
-任何哈希变化都必须创建新的 run revision，不得覆盖旧 raw run。
+允许导入经过审查的纯 helper 函数，但不得通过 import 副作用或 subprocess 重跑历史实验。
 
 ---
 
-# Phase 0 — 冻结本阶段输入和停止边界（0 个新 HSPICE）
+# Phase 0 — 冻结负载与驱动器证据（0 个新 HSPICE）
 
-## Step 0.1：生成 requirements.json
-
-输出：
+生成：
 
 ```text
-delay_chain/ftc/analysis/standard_cell_load_fine_stage/requirements.json
+delay_chain/ftc/analysis/standard_cell_load_fine_stage_driver_codesign/requirements.json
 ```
 
 至少记录：
 
 ```text
 medium_stage_decision = GO
-medium_topology_version = path_selection_medium_stage_v1
-N_characterize = 16
-anchor_vdd_v = [1.10, 0.95, 0.80]
+fixed_load_candidate  = NOR2_X4A_A9TL40__signal_A
+signal_pin            = A
+control_pin           = B
+high_cap_control      = 0
+low_cap_control       = 1
+historical_K          = 8
 
-published_medium_step_max_ps:
-1.10 = 33.703762
-0.95 = 44.069195
-0.80 = 66.862606
+historical_driver_baseline = BUF_X0P7M_A9TL40
+historical_driver_baseline_result = FAIL_AT_0P80_M15_F8
 
-published_medium_step_min_ps:
-1.10 = 10.232424
-0.95 = 13.209050
-0.80 = 20.958529
+driver_candidates = [
+  BUF_X0P8M_A9TL40,
+  BUF_X1M_A9TL40,
+  BUF_X1P4M_A9TL40,
+  BUF_X2M_A9TL40
+]
 
-published_global_worst_medium_step_ps = 66.862606
-
-fine_driver_cell = BUF_X0P7M_A9TL40
+driver_selection_policy = smallest_full_acceptance_GO
+logic_high_min_ratio = 0.90
+logic_low_max_ratio  = 0.10
 
 bypass = future_work
 config_skip = future_work
@@ -488,275 +517,64 @@ rtl = forbidden
 power = forbidden
 area = forbidden
 layout = forbidden
-```
 
-同时记录所有冻结输入文件 SHA256。
-
-## Step 0.2：本阶段最终级数都不得冻结
-
-必须明确：
-
-```text
 final_medium_N_frozen = false
-final_fine_K_frozen = false
+final_fine_K_frozen   = false
 ```
 
-本轮得到的 `K_candidate` 只是在 TT/25 C（典型工艺、25 摄氏度）和当前无旁路条件下的候选值。下一阶段加入旁路和配置跳过后还需要重新确认。
+还要保存所有关键历史证据的 SHA256。
 
 ---
 
-# Phase 1 — 纯静态发现标准单元负载候选（0 个新 HSPICE）
+# Phase 1 — 静态驱动器合同验证（0 个新 HSPICE）
 
-## Step 1.1：从真实标准单元库解析候选
-
-读取：
+对 4 个候选逐个从真实 LVT Verilog/CDL 检查：
 
 ```text
-delay_chain/ftc/discovery/selected_cells.json
-```
-
-使用其中已经冻结的 LVT Verilog/CDL 路径。
-
-只允许发现：
-
-```text
-二输入 NAND 类
-二输入 NOR 类
-```
-
-排除：
-
-```text
-时序单元
-锁存器
-触发器
-三态单元
-时钟专用单元
-AOI/OAI 复杂逻辑
-XOR/XNOR
-多输入大逻辑门
-```
-
-## Step 1.2：候选 HSPICE 数量硬限制
-
-最多允许：
-
-```text
-4 个“单元 + signal_pin 方向”物理候选
+1. 单元确实存在；
+2. 端口必须为同极性 BUF 类型；
+3. CDL 端口必须匹配 Y VDD VNW VPW VSS A；
+4. 逻辑必须是 Y=A；
+5. 4 个候选 CDL 总晶体管宽度严格递增；
+6. 不允许替换 medium stage 中的 BUF_X0P7M；
+7. 只允许替换 XFINE_DRIVER。
 ```
 
 输出：
 
 ```text
-fine_varactor_candidates.json
+driver_contract.json
 ```
 
-每个候选至少记录：
+如果静态合同不成立：
 
 ```text
-cell
-signal_pin
-control_pin
-output_pin
-cdl_ports
-verilog_ports
-truth_function
-vt_class
-estimated_transistor_or_structure_note
-source_file_sha256
+Fine Driver Co-Design = ARCHITECTURE_BLOCKED
 ```
 
-如果没有任何合法候选，直接发布：
-
-```text
-Standard-Cell Load Fine Stage = ARCHITECTURE_BLOCKED
-```
-
-0 个新 HSPICE 结束。
+0 HSPICE 结束。
 
 ---
 
-# Phase 2 — 单个标准单元负载的真实电气筛选
+# Phase 2 — 对当前最小可行驱动器重新表征 8 单元细调阵列
 
-## Step 2.1：先测固定细调驱动器基准
+从：
+
+```text
+BUF_X0P8M_A9TL40
+```
+
+开始。
+
+注意：历史驱动器端点已经证明 X0P8 能把最坏已知高电平从 `0.717393 V` 提升到 `0.759573 V`，但这只证明一个端点，不代表完整细调级 GO。因此必须重新测细调范围和分辨率。
+
+## Step 2.1：0.95 V 全细调代码
 
 固定：
 
 ```text
-medium_N = 16
-medium_code = 8
-VDD = 1.10, 0.95, 0.80 V
-```
-
-结构只包含：
-
-```text
-中调级 -> BUF_X0P7M_A9TL40 -> FINE_OUT
-```
-
-不接任何可变负载。
-
-共：
-
-```text
-3 个新场景
-```
-
-测量至少包含：
-
-```text
-D_rise_ps
-D_fall_ps
-output_rise_time_ps
-output_fall_time_ps
-output_logic_high
-output_logic_low
-unexpected_transition_count
-```
-
-## Step 2.2：每个候选只测两种控制状态
-
-对每个候选、每个锚点：
-
-```text
-control = 0
-control = 1
-```
-
-最多 4 个候选，因此最大候选场景数：
-
-```text
-4 × 3 × 2 = 24
-```
-
-符号说明：`4` 是最多候选数量；`3` 是三个电压锚点；`2` 是控制端两种逻辑状态；`×` 表示乘法；结果 `24` 是候选负载筛选的最大新场景数。
-
-加上固定驱动器 3 个基准：
-
-```text
-Phase 2 最大新 HSPICE = 27
-```
-
-## Step 2.3：由实测定义高负载和低负载状态
-
-对每个候选、每个电压，定义：
-
-```text
-D_low(V)  = 两个控制状态中传播延时较小者
-D_high(V) = 两个控制状态中传播延时较大者
-Delta_cell(V) = D_high(V) - D_low(V)
-```
-
-符号说明：`D_low(V)` 表示供电电压 `V` 下低负载状态的传播延时；`D_high(V)` 表示同一电压下高负载状态的传播延时；`Delta_cell(V)` 表示单个负载单元切换状态带来的细调延时增量；`-` 表示两个延时相减；`=` 表示定义关系。
-
-必须满足：
-
-```text
-Delta_cell(V) > 0
-```
-
-符号说明：`Delta_cell(V)` 是上述单个细调负载的真实延时增量；`>` 表示该增量必须严格为正。
-
-而且高负载控制逻辑值在三个电压锚点必须保持一致。
-
-例如若：
-
-```text
-1.10 V : control=1 更慢
-0.95 V : control=1 更慢
-0.80 V : control=0 更慢
-```
-
-则该候选直接淘汰。
-
-## Step 2.4：单个细调步长必须小于中调最小步长
-
-首轮 Gate 固定为：
-
-```text
-Delta_cell(V) < MediumStep_min(V)
-```
-
-符号说明：`Delta_cell(V)` 表示单个标准单元负载的细调延时增量；`MediumStep_min(V)` 表示已经完成的 N=16 中调级在相同供电电压下测得的最小中调步长；`<` 表示细调一步必须严格小于中调最小一步。
-
-对应当前冻结值：
-
-```text
-1.10 V : Delta_cell < 10.232424 ps
-0.95 V : Delta_cell < 13.209050 ps
-0.80 V : Delta_cell < 20.958529 ps
-```
-
-同时要求：
-
-```text
-逻辑高低电平合法
-无额外毛刺
-上升沿传播可测
-下降沿传播可测
-输出转换时间没有失控
-```
-
-候选选择优先级：
-
-```text
-1. 三个锚点都满足细调一步小于中调最小步长；
-2. 高/低负载控制语义跨电压稳定；
-3. 预计覆盖一个中调步长需要的单元数量较少；
-4. 低负载状态固定开销较小。
-```
-
-只允许选出一个首选细调负载结构继续。
-
-输出：
-
-```text
-single_load_screen.csv
-single_load_decision.json
-selected_fine_load_contract.json
-```
-
-若无候选通过，立即 NO-GO，后续阶段全部 NOT_RUN。
-
----
-
-# Phase 3 — 8 单元细调阵列：先证明代码单调性和位置稳定性
-
-## 3.1 8 单元阵列结构
-
-固定 `K_test = 8`：
-
-```text
-FINE_OUT
-   +-- V0
-   +-- V1
-   +-- V2
-   +-- V3
-   +-- V4
-   +-- V5
-   +-- V6
-   +-- V7
-```
-
-所有 8 个负载始终物理存在。
-
-细调代码 `F` 使用连续开启编码：
-
-```text
-F=0 : 00000000
-F=1 : 10000000
-F=2 : 11000000
-...
-F=8 : 11111111
-```
-
-前 `F` 个负载处于高负载状态，其余负载处于低负载状态。
-
-## Step 3.1：0.95 V 全代码扫描
-
-固定：
-
-```text
+load = NOR2_X4A_A9TL40__signal_A
+driver = 当前候选
 medium_N = 16
 medium_code = 8
 K_test = 8
@@ -764,112 +582,88 @@ VDD = 0.95 V
 F = 0..8
 ```
 
-共 9 个新场景。
-
-定义相邻细调步长：
-
-```text
-delta_F(M,F,V) = D(M,F+1,V) - D(M,F,V)
-```
-
-符号说明：`M` 表示中调代码；`F` 表示当前细调代码；`V` 表示供电电压；`D(M,F,V)` 表示中调代码为 `M`、细调代码为 `F` 时从中调入口传播到细调输出的真实上升沿传播延时；`F+1` 表示细调代码增加一级；`delta_F(M,F,V)` 表示相邻两个细调代码的真实延时增量；`-` 表示传播延时相减。
-
-必须满足所有：
-
-```text
-delta_F(M,F,V) > 0
-```
-
-符号说明：`delta_F(M,F,V)` 是相邻细调代码的延时增量；`>` 表示每次增加一个高负载单元后，传播延时必须严格增加。
-
-## Step 3.2：1.10 V 和 0.80 V 做有界抽样
-
-固定：
-
-```text
-medium_N = 16
-medium_code = 8
-VDD = 1.10, 0.80 V
-F = 0,1,4,7,8
-```
-
-共 10 个新场景。
-
-要求：
-
-```text
-D(0) < D(1) < D(4) < D(7) < D(8)
-```
-
-这里 `D(F)` 表示固定中调代码和固定电压下、细调代码为 `F` 时的传播延时；`<` 表示随着细调代码增加，延时必须严格增加。
-
-## Step 3.3：检查浅/中/深中调位置依赖
-
-在 0.95 V 再补：
-
-```text
-medium_code = 0, 15
-F = 0,1,8
-```
-
-共 6 个新场景。
-
-目标是检查：
-
-```text
-浅中调路径
-中间中调路径
-深中调路径
-```
-
-下的细调灵敏度是否保持同方向。
-
-不要求不同 `M` 下的细调增量完全相等，但必须满足：
-
-```text
-high-load delay > low-load delay
-```
-
-且不能出现明显异常的负步长或失真。
-
-Phase 3 新 HSPICE 最大数量：
-
-```text
-9 + 10 + 6 = 25
-```
-
-符号说明：`9` 是 0.95 V 下 9 个完整细调代码；`10` 是高低两个电压点各 5 个抽样代码；`6` 是浅、深两个中调位置各 3 个细调代码；`+` 表示场景数相加；结果 `25` 是 Phase 3 的最大新增场景数。
-
-输出：
-
-```text
-fine8_code_sweep.csv
-fine8_summary.json
-```
-
----
-
-# Phase 4 — 纯离线推导完整细调阵列数量（0 个新 HSPICE）
-
-## Step 4.1：从 8 单元阵列得到实测细调范围
+共 9 个场景。
 
 定义：
 
 ```text
-FineRange_8(V) = D(M,8,V) - D(M,0,V)
+delta_F(F,V) = D(F+1,V) - D(F,V)
 ```
 
-符号说明：`FineRange_8(V)` 表示供电电压 `V` 下 8 个细调负载从全部低负载状态到全部高负载状态能够提供的真实延时范围；`D(M,8,V)` 表示细调代码为 8 时的传播延时；`D(M,0,V)` 表示细调代码为 0 时的传播延时；`M` 固定为当前中调表征代码；`-` 表示两个端点延时相减。
+符号说明：`F` 是细调代码；`V` 是供电电压；`D(F,V)` 是固定中调代码和驱动器条件下的实际上升沿传播延时；`F+1` 表示只再切换一个负载到高电容状态；`-` 表示两个相邻代码传播延时相减；`delta_F` 是真实相邻细调步长。
 
-## Step 4.2：初步估计完整 K
-
-对每个锚点：
+所有相邻步长必须：
 
 ```text
-K_pred(V) = ceil(8 × MediumStep_max(V) / FineRange_8(V))
+delta_F > 0
 ```
 
-符号说明：`K_pred(V)` 表示供电电压 `V` 下预计至少需要多少个细调负载；`8` 是已经实测的小阵列单元数量；`MediumStep_max(V)` 是当前中调接口在同一电压下给出的最大已测中调步长；`FineRange_8(V)` 是 8 单元细调阵列的实测范围；`×` 表示乘法；`/` 表示除法；`ceil` 表示向上取整。
+## Step 2.2：1.10 V / 0.80 V 有界抽样
+
+运行：
+
+```text
+VDD = 1.10, 0.80 V
+F = 0,1,4,7,8
+```
+
+共 10 个场景。
+
+要求抽样延时严格递增，并且全部满足原始 0.90/0.10 逻辑电平合同。
+
+## Step 2.3：浅/深位置灵敏度
+
+在 0.95 V 补：
+
+```text
+medium_code = 0,15
+F = 0,1,8
+```
+
+共 6 个场景。
+
+Phase 2 每个驱动器最多：
+
+```text
+9 + 10 + 6 = 25 个新 HSPICE 场景
+```
+
+符号说明：`9` 是 0.95 V 的完整 9 个代码；`10` 是两个边界电压各 5 个抽样代码；`6` 是浅、深两个中调位置各 3 个代码；`+` 表示场景数相加。
+
+若任何代码出现：
+
+```text
+逻辑高电平不足
+逻辑低电平超限
+负延时
+非单调
+额外转换/毛刺
+边沿测量失败
+```
+
+则当前驱动器 Phase 2 NO-GO，并进入下一更强驱动器。
+
+---
+
+# Phase 3 — 对每个驱动器重新推导 K
+
+驱动器改变以后，禁止沿用历史 `K=8` 作为最终值。
+
+对每个锚点计算 8 单元范围：
+
+```text
+FineRange_8(V) = D(F=8,V) - D(F=0,V)
+```
+
+符号说明：`FineRange_8(V)` 表示供电电压 `V` 下 8 个固定 NOR2_X4A 负载从全部低负载状态到全部高负载状态形成的真实延时范围；`D(F=8,V)` 是最大细调代码传播延时；`D(F=0,V)` 是最小细调代码传播延时；`-` 表示两端延时相减。
+
+初步推导：
+
+```text
+K_pred(V) = ceil(8 * MediumStep_max(V) / FineRange_8(V))
+```
+
+符号说明：`K_pred(V)` 是供电电压 `V` 下预计覆盖一个最大中调步长所需的细调负载数量；`8` 是实测小阵列的负载个数；`MediumStep_max(V)` 是冻结中调接口在相同电压下的最大步长；`FineRange_8(V)` 是当前驱动器条件下实测的 8 单元细调范围；`*` 表示乘法；`/` 表示除法；`ceil` 表示向上取整。
 
 取：
 
@@ -877,45 +671,31 @@ K_pred(V) = ceil(8 × MediumStep_max(V) / FineRange_8(V))
 K_candidate = max(K_pred(1.10), K_pred(0.95), K_pred(0.80))
 ```
 
-符号说明：`K_candidate` 表示三个电压锚点中最保守的完整细调阵列候选数量；`max` 表示取三个预测值中的最大值。
+符号说明：`K_candidate` 是当前驱动器的保守候选负载数量；`max` 表示取三个锚点预测值中的最大值。
 
-硬限制：
+硬限制继续保持：
 
 ```text
 K_candidate <= 64
 ```
 
-如果：
+若某驱动器得到 `K_candidate > 64`，该驱动器不能 GO。
+
+输出每个驱动器独立的：
 
 ```text
-K_candidate > 64
-```
-
-则发布：
-
-```text
-Standard-Cell Load Fine Stage = NO-GO_FOR_BOUNDED_FINE_BANK
-```
-
-并停止，不允许自动扩展到更大的无限阵列。
-
-输出：
-
-```text
-fine_bank_sizing.json
+driver_<size>/fine_bank_sizing.json
 ```
 
 ---
 
-# Phase 5 — 完整 K 阵列：证明真实“一个中调步长覆盖”
+# Phase 4 — 当前驱动器的完整 K 覆盖和单调性验收
 
-这是本计划最核心的 Gate。
+只有当前驱动器通过 Phase 2/3 才进入。
 
-## Step 5.1：首先验证当前已知最坏中调位置 7 -> 8
+## Step 4.1：先验证 M=7 -> 8
 
-当前 N=16 接口中，三个锚点的最大已测中调步长都位于或接近中层 `7 -> 8`。
-
-对完整 `K_candidate` 阵列，三个锚点分别运行：
+三个锚点分别运行：
 
 ```text
 M=7, F=0
@@ -923,112 +703,31 @@ M=7, F=K
 M=8, F=0
 ```
 
-这里 `M` 是中调代码，`F` 是细调代码，`K` 是完整细调阵列的最高合法细调代码。
-
-三个电压共：
-
-```text
-9 个新场景
-```
-
-## Step 5.2：必须在细调已接入条件下重新定义中调步长
-
-定义完整细调范围：
-
-```text
-FineRange(M,V) = D(M,K,V) - D(M,0,V)
-```
-
-符号说明：`FineRange(M,V)` 表示中调代码为 `M`、供电电压为 `V` 时，完整细调阵列从最低细调代码到最高细调代码能够提供的真实延时范围；`K` 表示完整细调阵列的最高代码；`D(M,K,V)` 和 `D(M,0,V)` 分别表示最大、最小细调代码的传播延时；`-` 表示两端延时相减。
-
-定义耦合后的中调步长：
-
-```text
-MediumStep_coupled(M,V) = D(M+1,0,V) - D(M,0,V)
-```
-
-符号说明：`MediumStep_coupled(M,V)` 表示完整细调结构已经物理接入、但保持细调代码为 0 时，相邻两个中调代码的真实传播延时差；`M+1` 表示下一个中调代码；`0` 表示所有细调负载处于低负载状态；`-` 表示相邻两档传播延时相减。
-
-真正的无空洞覆盖 Gate 是：
+定义真实覆盖条件：
 
 ```text
 D(M,K,V) >= D(M+1,0,V)
 ```
 
-符号说明：左侧 `D(M,K,V)` 表示较低中调代码配合最大细调代码时的传播延时；右侧 `D(M+1,0,V)` 表示下一个中调代码配合最小细调代码时的传播延时；`>=` 表示当前中调档位的细调上限必须能够达到或越过下一中调档位的起点。
+符号说明：`D(M,K,V)` 表示中调代码为 `M`、细调代码达到最大 `K`、供电电压为 `V` 时的传播延时；`D(M+1,0,V)` 表示下一中调代码配合最小细调代码时的传播延时；`>=` 表示当前中调档位的细调上限必须达到或超过下一中调档位的起点，从而不存在延时空洞。
 
-**不得只用历史 66.862606 ps 做静态比较后直接宣布覆盖。**
+若只有范围稍不足且波形全部有效，只允许对当前驱动器进行一次 K 重估；禁止逐个 K 暴力扫描。
 
-## Step 5.3：只允许一次 K 重估
+## Step 4.2：0.95 V 完整 K 全码单调性
 
-如果某个电压出现：
-
-```text
-D(7,K,V) < D(8,0,V)
-```
-
-且：
+固定：
 
 ```text
-逻辑完整性正常
-边沿质量正常
-所有已测细调代码仍严格单调
-```
-
-只允许根据实际缺口重新估算一次：
-
-```text
-K_candidate -> K_rescaled
-```
-
-不允许：
-
-```text
-K=20
-K=21
-K=22
-K=23
-...
-```
-
-逐个暴力试探。
-
-如果修正后的第二个 K 仍不能覆盖，则直接 NO-GO。
-
-输出：
-
-```text
-full_bank_coverage.csv
-```
-
----
-
-# Phase 6 — 最终 K 的细调单调性和浅/中/深无空洞验证
-
-## Step 6.1：0.95 V 唯一一次完整 K 全码扫描
-
-固定最终候选 K：
-
-```text
-medium_N = 16
-medium_code = 7
+M = 7
 VDD = 0.95 V
 F = 0..K
 ```
 
-必须满足：
+所有相邻步长必须严格为正。
 
-```text
-D(7,0) < D(7,1) < ... < D(7,K)
-```
+## Step 4.3：1.10 V / 0.80 V 有界代码抽样
 
-这里 `D(7,F)` 表示中调代码固定为 7、细调代码为 `F` 时的传播延时；`<` 表示每增加一级细调代码，传播延时必须严格增加。
-
-这是本计划**唯一允许的一次完整 K 细调代码扫描**。
-
-## Step 6.2：1.10 V 与 0.80 V 只做有界抽样
-
-在高低电压点，只验证：
+仅运行：
 
 ```text
 F = 0
@@ -1040,255 +739,61 @@ F = K-1
 F = K
 ```
 
-其中 `~=` 表示取最接近目标比例的合法整数代码；`K/4`、`K/2`、`3K/4` 分别代表约四分之一、二分之一和四分之三的细调范围。
+`~=` 表示取最接近目标比例的合法整数细调代码。
 
-要求：
+不得在高低电压无理由做完整 K 暴力扫描。
 
-```text
-首步为正
-末步为正
-抽样代码顺序严格递增
-逻辑高低电平合法
-无额外毛刺
-边沿质量可接受
-```
+---
 
-## Step 6.3：浅、中、深三个代表中调边界都必须无空洞
+# Phase 5 — 浅/中/深耦合覆盖与最终分辨率 Gate
 
-最终验证：
+对当前驱动器、当前最终候选 K 验证：
 
 ```text
 M = 0 -> 1
 M = 7 -> 8
 M = 15 -> 16
+
+VDD = 1.10, 0.95, 0.80 V
 ```
 
-供电电压：
-
-```text
-1.10 V
-0.95 V
-0.80 V
-```
-
-每个组合直接检查：
+每个组合都必须满足：
 
 ```text
 D(M,K,V) >= D(M+1,0,V)
 ```
 
-符号说明：`M` 表示三个代表位置中的较低中调代码；`K` 表示最终完整细调阵列的最大代码；`V` 表示当前供电电压；左侧表示“当前中调档位 + 最大细调”的传播延时；右侧表示“下一中调档位 + 最小细调”的传播延时；`>=` 表示两个相邻中调档位之间不存在不可覆盖的延时空洞。
+同时测量 `M` 和 `M+1` 在 `F=0` 下的真实传播延时，得到当前驱动器条件下的耦合中调步长。
 
-共：
-
-```text
-3 个中调位置 × 3 个电压 = 9 个覆盖组合
-```
-
-这些组合必须全部通过。
-
-输出：
+定义：
 
 ```text
-coupled_medium_coverage.csv
-full_bank_monotonicity.csv
+MediumStep_coupled(M,V) = D(M+1,0,V) - D(M,0,V)
 ```
 
----
+符号说明：`MediumStep_coupled(M,V)` 表示细调驱动器和完整负载阵列都已经物理接入时，相邻两个中调代码之间的真实延时差；`M+1` 是下一中调代码；`0` 是最低细调代码；`-` 表示传播延时相减。
 
-# 7. 细调分辨率 Gate：范围覆盖并不等于细调成立
-
-完整细调阵列除了必须覆盖一个中调步长，还必须保持“细调一步显著小于中调一步”的层级关系。
-
-定义某电压下已测最大的相邻细调步长：
-
-```text
-delta_fine_max(V)
-```
-
-定义同一电压下、细调结构已接入时，浅/中/深三个代表位置中最小的耦合中调步长：
-
-```text
-MediumStep_coupled_min(V)
-```
-
-最终必须满足：
+然后验证：
 
 ```text
 delta_fine_max(V) < MediumStep_coupled_min(V)
 ```
 
-符号说明：`delta_fine_max(V)` 表示供电电压 `V` 下所有已测相邻细调代码中最大的延时一步；`MediumStep_coupled_min(V)` 表示同一电压下细调结构已经物理接入后，三个代表中调位置中最小的相邻中调步长；`<` 表示最大的细调一步仍必须小于最小的中调一步。
+符号说明：`delta_fine_max(V)` 是当前驱动器在供电电压 `V` 下测得的最大相邻细调步长；`MediumStep_coupled_min(V)` 是浅/中/深三个代表中调位置中最小的耦合中调步长；`<` 表示最大的细调一步仍必须小于最小的中调一步。
 
-本阶段真正需要同时满足：
-
-```text
-单个细调步长 < 中调步长
-```
-
-以及：
-
-```text
-多个细调步长累计范围 >= 一个中调步长
-```
-
-前者解决**分辨率**；后者解决**范围覆盖**。
+三个锚点全部通过才算当前驱动器完整 GO。
 
 ---
 
-# 8. 零代码固定开销：必须记录，但本轮不作为硬 NO-GO
+# 6. 驱动器级状态机
 
-## 8.1 固定细调驱动器开销
-
-定义：
+每个驱动器独立输出：
 
 ```text
-Offset_driver(M,V) = D_driver_only(M,V) - D_medium_only(M,V)
+driver_<size>/summary.json
 ```
 
-符号说明：`D_driver_only(M,V)` 表示中调代码为 `M`、供电电压为 `V` 时，在中调输出后加入固定细调驱动缓冲器但尚未加入可变负载阵列的传播延时；`D_medium_only(M,V)` 表示已完成中调级在相同条件下的传播延时；`Offset_driver(M,V)` 表示细调驱动器引入的固定延时；`-` 表示两个传播延时相减。
-
-## 8.2 完整负载阵列在细调代码 0 下的固定开销
-
-定义：
-
-```text
-Offset_bank0(M,V) = D(M,0,V) - D_driver_only(M,V)
-```
-
-符号说明：`D(M,0,V)` 表示完整 K 个负载全部存在且处于最低细调代码时的传播延时；`D_driver_only(M,V)` 表示只有固定细调驱动器、没有可变负载阵列时的传播延时；`Offset_bank0(M,V)` 表示即使细调代码为 0，完整负载阵列仍带来的固定延时；`-` 表示传播延时相减。
-
-这些固定开销必须写入：
-
-```text
-future_bypass_interface.json
-```
-
-至少记录：
-
-```text
-fine_driver_offset_ps_by_vdd
-fine_bank_code0_offset_ps_by_vdd
-selected_load_cell
-signal_pin
-control_pin
-low_cap_control_value
-high_cap_control_value
-K_candidate_tt25
-fine_range_by_vdd
-coverage_margin_by_vdd
-bypass_not_implemented = true
-final_K_frozen = false
-```
-
-本轮**不因为零代码固定开销较大就直接 NO-GO**，因为下一阶段本来就要研究旁路与配置跳过。
-
----
-
-# 9. 本计划明确禁止的范围扩展
-
-Codex 在本计划内不得自动加入：
-
-```text
-1. 细调旁路 MUX；
-2. 配置跳过；
-3. 完整二维中调/细调编码器；
-4. 最终中调 N 冻结；
-5. 最终细调 K 永久冻结；
-6. tap29 电压敏感传感器；
-7. XOR 脉冲产生器；
-8. DFF 比较器；
-9. 启动自校准；
-10. C_lock 锁定码；
-11. 报警裕量 M；
-12. 电压跌落攻击扫描；
-13. PVT 全角验证；
-14. 最终 RTL；
-15. 功耗；
-16. 面积；
-17. 版图；
-18. 外部 Vref；
-19. 第二条参考延时链；
-20. 第二传感器；
-21. TDC（时间数字转换器）；
-22. 理想电容作为最终细调器件；
-23. 自定义 MOS 可变电容；
-24. 离开标准单元库重新造模拟 varactor（可变电容结构）；
-25. 无边界标准单元家族 sweep（扫描）。
-```
-
-细调必须来自**标准单元输入负载状态变化**。
-
----
-
-# 10. 最终 GO 条件
-
-只有同时满足以下条件，才能发布：
-
-```text
-Standard-Cell Load Fine Stage + One-Medium-Step Coverage = GO
-```
-
-条件：
-
-```text
-1. 从真实 SMIC40LL 标准单元库找到合法可变负载候选；
-2. 同一个控制逻辑状态在三个电压锚点下始终对应同一高负载/低负载物理语义；
-3. 单个负载产生的上升沿延时增量在三个锚点均严格为正；
-4. 单负载增量在三个锚点均小于相同电压下已测最小中调步长；
-5. 8 单元阵列在 0.95 V 的 F=0..8 全代码严格单调；
-6. 1.10 V 与 0.80 V 的抽样细调代码严格单调；
-7. 浅/中/深不同中调位置下，细调负载方向不翻转；
-8. 最终 K 不超过 64；
-9. 0.95 V 下最终 K 阵列所有细调代码严格单调；
-10. M=0->1、7->8、15->16 与三个锚点组成的 9 个边界全部满足无空洞覆盖；
-11. 最大已测相邻细调步长仍小于耦合后的最小中调步长；
-12. 所有逻辑电平、毛刺和边沿质量检查通过；
-13. 全过程没有重跑中调和更早历史 runner；
-14. 本轮没有偷偷加入旁路、自校准、DFF 或跌落检测。
-```
-
-若任一条件失败，则发布：
-
-```text
-Standard-Cell Load Fine Stage + One-Medium-Step Coverage = NO-GO
-```
-
-根因必须从以下类别中明确选择或扩充为一个具体实测原因：
-
-```text
-no_valid_standard_cell_varactor
-control_to_load_mapping_not_voltage_stable
-single_fine_step_too_large
-fine_code_non_monotonic
-fine_range_insufficient
-K_exceeds_bounded_limit
-medium_fine_gap_remains
-edge_or_logic_integrity_failure
-fine_load_breaks_medium_behavior
-library_cell_contract_blocked
-other_explicit_measured_cause
-```
-
----
-
-# 11. summary 阶段状态与输出报告
-
-## 11.1 summary.json 阶段固定为
-
-```text
-Historical Medium Evidence Freeze
-Static Fine-Load Candidate Discovery
-Single-Load Electrical Screen
-8-Unit Fine Bank
-Fine-Bank Sizing
-Full-Bank One-Step Coverage
-Full-Bank Monotonicity
-Coupled Medium/Fine Gap Check
-Future Bypass Interface
-```
-
-每个阶段只能使用：
+状态：
 
 ```text
 GO
@@ -1297,170 +802,282 @@ ARCHITECTURE_BLOCKED
 NOT_RUN
 ```
 
-任何前级失败，后续阶段必须写为 `NOT_RUN`。
-
-summary 必须统计：
+总流程：
 
 ```text
-new_hspice_scenarios
-reused_new_task_scenarios
-historical_medium_scenarios_rerun = 0
-historical_runner_invocations = 0
-sensor_scenarios = 0
-dff_scenarios = 0
-droop_scenarios = 0
-bypass_scenarios = 0
+BUF_X0P8M
+  |
+  +-- full acceptance GO
+  |       -> selected_fine_driver = BUF_X0P8M
+  |       -> STOP
+  |
+  +-- NO-GO
+          -> BUF_X1M
+                 |
+                 +-- GO -> STOP
+                 +-- NO-GO -> BUF_X1P4M
+                                    |
+                                    +-- GO -> STOP
+                                    +-- NO-GO -> BUF_X2M
+                                                       |
+                                                       +-- GO -> STOP
+                                                       +-- NO-GO -> overall NO-GO
 ```
 
-## 11.2 最终报告
+只要某一档 GO，后面更大的驱动器全部 `NOT_RUN`。
 
-生成：
+最终选择原则只有：
 
 ```text
-delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_FINE_STAGE.md
+最小的完整 GO 驱动器
 ```
 
-报告必须直接回答：
+而不是：
 
 ```text
-1. 最终选择了哪个标准单元、哪个 signal_pin、哪个 control_pin？
-2. 哪个控制逻辑值对应高负载，哪个对应低负载？
-3. 单个可变负载在三个锚点产生多少真实细调延时增量？
-4. 单个细调步长是否小于同电压的最小中调步长？
-5. 8 单元阵列的细调代码是否严格单调？
-6. 完整 K 是如何仅用 8 单元实测结果推导的？
-7. 是否发生过唯一一次 K_rescaled 修正？如果发生，为什么？
-8. 最终 K 在 0.95 V 下是否全码严格单调？
-9. 浅/中/深三个中调边界与三个电压是否全部无空洞覆盖？
-10. 接入细调结构后真实 MediumStep_coupled 如何变化？
-11. 最大细调步长是否仍小于最小耦合中调步长？
-12. 固定细调驱动器和 code=0 负载阵列分别引入多少固定开销？
-13. 下一阶段旁路至少需要解决哪些固定开销？
-14. 本轮新增多少 HSPICE 场景、复用多少场景？
-15. 哪些历史 runner 明确没有重跑？
-16. 为什么 GO 只代表细调级与单中调步长覆盖成立，而不是完整 FTC 宏 GO？
+最大驱动器
+最快边沿驱动器
+最高 Vhigh 驱动器
 ```
 
 ---
 
-# 12. 测试要求
+# 7. 当前驱动器的完整 GO 条件
+
+某一驱动器只有同时满足以下条件才能 GO：
+
+```text
+1. 真实 LVT Verilog/CDL 合同合法；
+2. 只改变 XFINE_DRIVER，不改变中调网络；
+3. NOR2_X4A 负载合同完全保持；
+4. 0.95 V 的 K_test=8 全代码严格单调；
+5. 1.10/0.80 V 的 K_test=8 抽样代码严格单调；
+6. 所有测量满足 output_high >= 0.90*VDD；
+7. 所有测量满足 output_low <= 0.10*VDD；
+8. 无额外转换，rise/fall delay 与 10%-90% 边沿均可测；
+9. 重新推导的 K <= 64；
+10. 最终 K 在 0.95 V 下全代码严格单调；
+11. M=0->1、7->8、15->16 × 三个电压共 9 个边界全部无空洞；
+12. 三个电压下 delta_fine_max < MediumStep_coupled_min；
+13. 没有重跑历史中调、历史负载尺寸扫描和历史 driver probe；
+14. 没有实现旁路、自校准、DFF、跌落扫描或 PVT。
+```
+
+若失败，根因必须明确分类，例如：
+
+```text
+driver_waveform_high_fail
+driver_waveform_low_fail
+driver_settling_fail
+fine_code_non_monotonic
+fine_range_insufficient
+K_exceeds_bounded_limit
+medium_fine_gap_remains
+fine_resolution_not_below_medium
+edge_integrity_failure
+library_driver_contract_blocked
+```
+
+---
+
+# 8. 未来旁路接口仍然保留，但必须等驱动器选定以后再发布
+
+只有选出 `selected_fine_driver` 后，才能计算新的：
+
+```text
+fine_driver_offset_ps_by_vdd
+fine_bank_code0_offset_ps_by_vdd
+fine_range_by_vdd
+coverage_margin_by_vdd
+selected_fine_driver
+selected_fine_load
+K_candidate_tt25
+```
+
+并写入：
+
+```text
+future_bypass_interface.json
+```
+
+必须继续：
+
+```text
+bypass_not_implemented = true
+final_K_frozen = false
+final_medium_N_frozen = false
+```
+
+因为后续加入旁路多路选择器以后固定开销还会改变。
+
+---
+
+# 9. 本计划明确禁止的范围
+
+禁止：
+
+```text
+重新扫描 28 个负载候选
+重新选择 NAND/NOR 逻辑族
+重跑 X0P5/X8/中间尺寸历史扫描
+重跑 X0P7 失败端点
+重跑已经完成的 X0P8/X1/X1P4/X2 driver-strength probe
+无限扩大驱动器尺寸
+放宽 0.90*VDD 高电平门限
+改变中调级 BUF/MUX 单元
+加入 bypass
+加入配置跳过
+加入二维最终编码器
+加入 tap29/XOR/DFF
+加入启动自校准
+加入 C_lock 和报警裕量
+加入跌落攻击扫描
+加入 PVT
+加入 RTL
+加入功耗/面积/版图
+```
+
+本阶段唯一新的架构自由度是：
+
+```text
+fine_driver_cell
+```
+
+---
+
+# 10. 回归测试要求
 
 新增：
 
 ```text
-delay_chain/ftc/tests/test_standard_cell_load_fine_stage.py
+delay_chain/ftc/tests/test_standard_cell_load_fine_stage_driver_codesign.py
 ```
 
-至少覆盖：
+至少测试：
 
 ```text
-1. 候选发现只允许 NAND/NOR 类且数量 <= 4；
-2. signal_pin/control_pin 不得相同；
-3. 可变负载输出不回接主传播路径；
-4. 细调驱动器固定为 BUF_X0P7M_A9TL40；
-5. fine_code 越界拒绝；
-6. fine_code=F 时恰有 F 个负载处于高负载状态；
-7. 所有 K 个负载在所有代码下始终物理存在；
-8. deck 不含 sensor、XOR、DFF；
-9. deck 不含旁路 MUX 和配置跳过；
-10. deck 不含理想电容或自定义 MOS varactor；
-11. 历史 5 个 runner 不被 import 或 subprocess 调用；
-12. 相同哈希和参数场景会 resume/reuse 而不是重复 HSPICE；
-13. Phase 2 最大新场景预算为 27；
-14. Phase 3 最大新场景预算为 25；
-15. K_candidate > 64 时立即早停；
-16. K 只允许一次 rescale；
-17. 0.95 V 最终 K 只允许一次完整全码 sweep；
-18. 高低电压最终 K 禁止完整全码暴力 sweep；
-19. 任一覆盖 Gate 失败后不得进入旁路阶段；
-20. final_medium_N_frozen 必须保持 false；
-21. final_fine_K_frozen 必须保持 false；
-22. summary 下游阶段在失败后正确传播 NOT_RUN。
+1. fixed load 必须严格等于 NOR2_X4A_A9TL40__signal_A；
+2. signal=A/control=B/high=0/low=1 不得变化；
+3. driver candidates 必须严格等于 X0P8M/X1M/X1P4M/X2M；
+4. 四档 CDL 总晶体管宽度严格递增；
+5. medium network 中的 BUF_X0P7M 数量和单元类型不得因 driver 变化而改变；
+6. 只有 XFINE_DRIVER 的 cell 可以变化；
+7. scenario identity 必须包含 fine_driver_cell；
+8. 不同 driver 不允许命中同一缓存；
+9. 历史 runner main 不得 import/subprocess 执行；
+10. 0.88 高电平例外不得进入本计划；
+11. 一个 driver GO 后后续 driver 必须 NOT_RUN；
+12. K>64 必须早停当前 driver；
+13. 当前 driver 只允许一次 K rescale；
+14. 高低电压不得无界 full-code sweep；
+15. summary 必须证明 historical_medium_scenarios_rerun=0；
+16. summary 必须证明 historical_load_sweep_scenarios_rerun=0；
+17. summary 必须证明 historical_driver_probe_scenarios_rerun=0；
+18. sensor/dff/droop/bypass scenario 数必须为 0；
+19. final_fine_K_frozen=false；
+20. final_medium_N_frozen=false。
 ```
 
 至少执行：
 
 ```text
-python3 -m unittest delay_chain.ftc.tests.test_standard_cell_load_fine_stage
+python3 -m unittest delay_chain.ftc.tests.test_standard_cell_load_fine_stage_driver_codesign
 git diff --check
 ```
 
-如果仓库已有稳定快速的纯 Python FTC 回归入口，可以额外执行；不得因此触发任何历史 HSPICE runner。
+不得因为测试入口触发 HSPICE 历史主流程。
 
 ---
 
-# 13. Codex 严格执行顺序
-
-Codex 必须严格按下列顺序推进：
+# 11. Codex 严格执行顺序
 
 ```text
-Step 1  读取远程 main 最新提交；确认中调级最新完成结果仍为 GO。
-Step 2  冻结中调 summary/interface/report/runner 等输入 SHA256；禁止重跑中调 41 个 HSPICE 场景。
-Step 3  生成 standard_cell_load_fine_stage/requirements.json；0 HSPICE。
-Step 4  从真实 LVT Verilog/CDL 静态发现 NAND/NOR 负载候选；0 HSPICE。
-Step 5  最多保留 4 个“单元 + signal_pin”物理候选；禁止无边界库扫描。
-Step 6  运行 3 个“中调 + 固定细调驱动器”基准场景。
-Step 7  对最多 4 个候选运行 control=0/1、三个锚点的单负载筛选；最多 24 个候选场景。
-Step 8  由实测确定高负载控制逻辑和低负载控制逻辑；若跨电压翻转，淘汰候选。
-Step 9  选出唯一通过单负载 Gate 的候选；无候选则 NO-GO。
-Step 10 构建 K_test=8 的细调阵列。
-Step 11 在 0.95 V、medium_code=8 下完整扫描 F=0..8。
-Step 12 Gate GO 后，在 1.10/0.80 V 补 F={0,1,4,7,8}。
-Step 13 再在 0.95 V 补 medium_code={0,15}、F={0,1,8}，检查位置依赖。
-Step 14 仅用 8 单元实测数据离线推导 K_candidate；0 HSPICE。
-Step 15 如果 K_candidate>64，立即 NO-GO。
-Step 16 完整 K 阵列先验证当前最坏 M=7->8 的三个电压覆盖。
-Step 17 若仅范围稍不足且电气完整性正常，只允许一次 K_rescaled 重算；第二次仍失败则 NO-GO。
-Step 18 对最终 K，在 0.95 V、M=7 下完整扫描 F=0..K。
-Step 19 在 1.10/0.80 V 对最终 K 只做 7 个代表细调代码抽样，不做全码暴力 sweep。
-Step 20 验证 M=0->1、7->8、15->16 与三个锚点组成的 9 个无空洞覆盖 Gate。
-Step 21 计算 delta_fine_max 与 MediumStep_coupled_min，确认细调仍保持比中调更细。
-Step 22 计算固定驱动器开销和 code=0 负载阵列固定开销。
-Step 23 写 future_bypass_interface.json，明确下一阶段旁路要处理的固定开销。
-Step 24 生成 summary、报告和纯 Python 回归。
-Step 25 无论 GO/NO-GO，本计划在“标准单元负载细调 + 单中调步长覆盖”处停止；禁止实现旁路、配置跳过、两级最终编码、自校准、跌落扫描、PVT、RTL、功耗、面积和版图。
+Step 1  拉取并确认远程 main 最新提交，读取 e8fd08b 之后是否还有新证据。
+Step 2  冻结路径选择中调 GO 证据；0 HSPICE。
+Step 3  冻结 X0P5、X8、中间尺寸负载扫描及 fallback 证据；0 HSPICE。
+Step 4  冻结 NOR2_X4A_A9TL40__signal_A 为唯一负载；不再 rerank load。
+Step 5  冻结 X0P7 失败端点以及 X0P8/X1/X1P4/X2 驱动器探测结果；0 HSPICE。
+Step 6  新建 driver-codesign analysis/run/report/test，不覆盖历史目录。
+Step 7  静态验证 4 个 LVT driver 合同和严格递增物理宽度；0 HSPICE。
+Step 8  从 BUF_X0P8M 开始，对 K_test=8 重新做 25 场景细调表征。
+Step 9  重新计算当前 driver 的 FineRange_8 和 K_candidate。
+Step 10 K>64 则当前 driver NO-GO；进入下一 driver。
+Step 11 K 合法则运行 M=7->8 三电压真实覆盖。
+Step 12 若只存在范围不足，只允许当前 driver 一次 K rescale。
+Step 13 在 0.95 V 完整验证 F=0..K 单调性。
+Step 14 在 1.10/0.80 V 只做有界代码抽样。
+Step 15 验证 M=0->1、7->8、15->16 × 三电压耦合覆盖和逻辑完整性。
+Step 16 重新计算 delta_fine_max 和 MediumStep_coupled_min。
+Step 17 当前 driver 全部 Gate GO，则立即选择它并停止后续更大 driver。
+Step 18 当前 driver NO-GO，则按 X0P8 -> X1 -> X1P4 -> X2 顺序进入下一档。
+Step 19 若四档都 NO-GO，发布 Fine Driver Co-Design = NO-GO，不再自动扩大尺寸。
+Step 20 若某档 GO，生成 future_bypass_interface.json，并发布完整 Fine Stage + One-Medium-Step Coverage = GO。
+Step 21 无论 GO/NO-GO，本计划到此停止；不得实现 bypass、配置跳过、自校准或跌落检测。
 ```
 
 ---
 
-# 14. Codex 最重要的架构提醒
+# 12. 最终报告必须回答的问题
 
-本阶段不能把“细调范围覆盖一个中调步长”错误理解为：
-
-```text
-只要单独的 fine bank 在理想环境下能产生 >= 66.862606 ps 就算 GO
-```
-
-真正必须验证的是**细调结构接到已经 GO 的中调级之后**：
+生成：
 
 ```text
-D(M,K,V) >= D(M+1,0,V)
+delay_chain/ftc/reports/FTC_STANDARD_CELL_LOAD_FINE_STAGE_DRIVER_CODESIGN.md
 ```
 
-符号说明：`M` 表示较低中调代码；`K` 表示完整细调阵列最大代码；`V` 表示供电电压；左侧表示“当前中调档位 + 最大细调”的真实传播延时；右侧表示“下一中调档位 + 最小细调”的真实传播延时；`>=` 表示两个中调档位之间不存在不可覆盖的延时空洞。
-
-同样，不能只追求范围而牺牲分辨率。必须同时满足：
+至少明确回答：
 
 ```text
-单个细调步长 < 中调步长
+1. 为什么 NOR2_X4A 被固定为本轮唯一负载？
+2. 为什么 X0P7 的历史失败应归因于细调驱动强度不足，而不是范围不足？
+3. X0P8/X1/X1P4/X2 在历史最坏端点分别改善了多少高电平和 rise time？
+4. 最终选择哪个 fine driver，为什么是最小通过者？
+5. 驱动器变强后 8 单元细调范围发生了怎样的变化？
+6. 每个 driver 重新推导出的 K 是多少？
+7. 最终 K 是否 <=64？
+8. 0.95 V 最终 K 是否全代码严格单调？
+9. 1.10/0.95/0.80 V 是否全部满足原始 0.90/0.10 逻辑门限？
+10. M=0->1、7->8、15->16 是否全部无延时空洞？
+11. 最大细调步长是否仍小于最小耦合中调步长？
+12. 新 driver 引入多少固定延时开销？
+13. 未来 bypass 至少需要覆盖哪些固定开销？
+14. 新增多少 HSPICE，复用多少新任务场景？
+15. 哪些历史场景明确没有重跑？
+16. 为什么本轮 GO 仍不等于完整 FTC 电压跌落检测宏 GO？
 ```
 
-以及：
+---
+
+# 13. 最核心的架构判断
+
+现在不应继续把：
 
 ```text
-完整细调范围 >= 一个中调步长
+BUF_X0P7M_A9TL40
 ```
 
-只有两者同时成立，才真正形成后续“中调 + 细调”两级延时线所需要的物理基础。
+当作细调架构的一部分永久冻结。
 
-下一阶段才允许研究：
+现有数据已经证明：
 
 ```text
-旁路
-配置跳过
-两级固定开销
-最终 N/K 联合尺寸
-二维数字编码
+负载选择
+与
+驱动器强度
 ```
 
-**不要提前做后面的事情。**
+是耦合设计变量。
+
+当前最合理的架构是：
+
+```text
+冻结中调级
++
+冻结 NOR2_X4A 细调负载
++
+在有限真实 LVT buffer 集合中选择最小可接受细调驱动器
++
+对每个驱动器重新推导 K 和完整耦合行为
+```
+
+只有这样，才能把当前“负载本身合适，但 X0P7 驱动不足”的实验结果真正转化为可继续推进的细调级架构，而不是继续被旧计划的人为固定约束卡住。
