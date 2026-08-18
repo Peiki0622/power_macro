@@ -1,0 +1,27 @@
+{
+  "input_period_s": 6e-09,
+  "next_sensor_xor_event_s": 7e-09,
+  "projections_by_vdd": {
+    "0.80": {
+      "D_delay_max_s": 1.269042997e-09,
+      "minimum_safe_q_read_s": 3.2552261910000005e-09,
+      "t_CK_projected_max_s": 3.0552261910000003e-09,
+      "t_xor29_rise_s": 1.786183194e-09
+    },
+    "0.95": {
+      "D_delay_max_s": 8.593519049999999e-10,
+      "minimum_safe_q_read_s": 2.58214165e-09,
+      "t_CK_projected_max_s": 2.38214165e-09,
+      "t_xor29_rise_s": 1.522789745e-09
+    },
+    "1.10": {
+      "D_delay_max_s": 6.64477672e-10,
+      "minimum_safe_q_read_s": 2.264176236e-09,
+      "t_CK_projected_max_s": 2.064176236e-09,
+      "t_xor29_rise_s": 1.399698564e-09
+    }
+  },
+  "q_read_time_s": 3.3e-09,
+  "q_settle_s": 2e-10,
+  "schema_version": 1
+}

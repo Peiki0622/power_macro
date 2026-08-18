@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "dff_clock_only_from_two_stage_output": true,
+    "frozen_n16_medium": true,
+    "initial_K_is_ten": true,
+    "no_bypass": true,
+    "no_config_skip": true,
+    "no_historical_three_bit_threshold_tree": true,
+    "no_ideal_capacitor": true,
+    "no_ideal_delay": true,
+    "only_approved_fine_driver": true,
+    "only_approved_nor_load": true,
+    "sensor_matches_historical_real_xor": true,
+    "xor29_drives_dff_data": true,
+    "xor29_drives_medium_input": true,
+    "xor_cell_and_tap29_frozen": true
+  },
+  "decision": "GO",
+  "deck_sha256": "db6813e8ad8ad31dfde2aa310bfb2aa6980b84cfe7011f3ab74cfe5e7d164891",
+  "schema_version": 1,
+  "static_fine_code": 0,
+  "static_medium_code": 0,
+  "static_vdd_v": 0.95,
+  "study": "two_stage_real_dff_hierarchical_calibration_v1"
+}
