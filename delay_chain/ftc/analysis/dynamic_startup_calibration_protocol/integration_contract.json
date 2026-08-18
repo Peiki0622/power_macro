@@ -1,0 +1,87 @@
+{
+  "by_vdd": {
+    "0.80": {
+      "checks": {
+        "code_settle_guard_met": true,
+        "dff_clock_only_from_two_stage_output": true,
+        "fine_controls_are_pwl": true,
+        "frozen_n16_medium": true,
+        "initial_K_is_ten": true,
+        "medium_controls_are_pwl": true,
+        "no_forbidden_hardware": true,
+        "no_historical_runner_import": true,
+        "only_approved_fine_driver": true,
+        "only_approved_nor_load": true,
+        "recovery_precedes_next_update": true,
+        "reset_launch_separation_met": true,
+        "sensor_matches_historical_real_xor": true,
+        "single_bit_trajectory": true,
+        "updates_are_reset_low_clock_low": true,
+        "valid_window_has_no_code_update": true,
+        "xor29_drives_dff_data": true,
+        "xor29_drives_medium_input": true,
+        "xor_cell_and_tap29_frozen": true
+      },
+      "decision": "GO",
+      "deck_sha256": "20ab99affddf5d9854068162f9ecdcdbef962541db6fa015e09479407ce94c84",
+      "schema_version": 1,
+      "study": "dynamic_startup_calibration_protocol_v1"
+    },
+    "0.95": {
+      "checks": {
+        "code_settle_guard_met": true,
+        "dff_clock_only_from_two_stage_output": true,
+        "fine_controls_are_pwl": true,
+        "frozen_n16_medium": true,
+        "initial_K_is_ten": true,
+        "medium_controls_are_pwl": true,
+        "no_forbidden_hardware": true,
+        "no_historical_runner_import": true,
+        "only_approved_fine_driver": true,
+        "only_approved_nor_load": true,
+        "recovery_precedes_next_update": true,
+        "reset_launch_separation_met": true,
+        "sensor_matches_historical_real_xor": true,
+        "single_bit_trajectory": true,
+        "updates_are_reset_low_clock_low": true,
+        "valid_window_has_no_code_update": true,
+        "xor29_drives_dff_data": true,
+        "xor29_drives_medium_input": true,
+        "xor_cell_and_tap29_frozen": true
+      },
+      "decision": "GO",
+      "deck_sha256": "e1ca12295f6e7e854829dc428296400355a542a3b309416b080cb9bc71174b4f",
+      "schema_version": 1,
+      "study": "dynamic_startup_calibration_protocol_v1"
+    },
+    "1.10": {
+      "checks": {
+        "code_settle_guard_met": true,
+        "dff_clock_only_from_two_stage_output": true,
+        "fine_controls_are_pwl": true,
+        "frozen_n16_medium": true,
+        "initial_K_is_ten": true,
+        "medium_controls_are_pwl": true,
+        "no_forbidden_hardware": true,
+        "no_historical_runner_import": true,
+        "only_approved_fine_driver": true,
+        "only_approved_nor_load": true,
+        "recovery_precedes_next_update": true,
+        "reset_launch_separation_met": true,
+        "sensor_matches_historical_real_xor": true,
+        "single_bit_trajectory": true,
+        "updates_are_reset_low_clock_low": true,
+        "valid_window_has_no_code_update": true,
+        "xor29_drives_dff_data": true,
+        "xor29_drives_medium_input": true,
+        "xor_cell_and_tap29_frozen": true
+      },
+      "decision": "GO",
+      "deck_sha256": "fb3bf24b2364f15b071c4b9adfe643f3542e2d78090ae2c516ca75f9ba640d37",
+      "schema_version": 1,
+      "study": "dynamic_startup_calibration_protocol_v1"
+    }
+  },
+  "schema_version": 1,
+  "study": "dynamic_startup_calibration_protocol_v1"
+}

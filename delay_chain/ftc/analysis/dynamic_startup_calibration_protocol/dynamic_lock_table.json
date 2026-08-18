@@ -1,0 +1,45 @@
+{
+  "locks": [
+    {
+      "VDD": 0.95,
+      "coarse_q_dynamic": "1111110",
+      "dynamic_F_final": 1,
+      "dynamic_M_final": 5,
+      "expected_F_lock": 1,
+      "expected_M_fine": 5,
+      "fine_q_dynamic": "10",
+      "lock_hold_q": [
+        0
+      ],
+      "status": "GO"
+    },
+    {
+      "VDD": 1.1,
+      "coarse_q_dynamic": "11110",
+      "dynamic_F_final": 4,
+      "dynamic_M_final": 3,
+      "expected_F_lock": 4,
+      "expected_M_fine": 3,
+      "fine_q_dynamic": "11110",
+      "lock_hold_q": [
+        0
+      ],
+      "status": "GO"
+    },
+    {
+      "VDD": 0.8,
+      "coarse_q_dynamic": "1111111110",
+      "dynamic_F_final": 1,
+      "dynamic_M_final": 8,
+      "expected_F_lock": 1,
+      "expected_M_fine": 8,
+      "fine_q_dynamic": "10",
+      "lock_hold_q": [
+        0
+      ],
+      "status": "NO-GO"
+    }
+  ],
+  "schema_version": 1,
+  "study": "dynamic_startup_calibration_protocol_v1"
+}
