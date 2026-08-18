@@ -41,6 +41,15 @@ class StandardCellLoadFineStageTests(unittest.TestCase):
             self.assertNotEqual(candidate["signal_pin"], candidate["control_pin"])
             self.assertEqual(candidate["output_pin"], "Y")
 
+    def test_maximum_probe_selects_only_the_largest_lvt_drive_cells(self):
+        """The optional probe selects X8 cells without changing the default study."""
+
+        maximum = RUNNER.discover_candidates(self.cells, "maximum")
+        self.assertEqual(maximum["size_mode"], "maximum")
+        self.assertEqual({candidate["cell"] for candidate in maximum["candidates"]}, {
+            "NAND2_X8M_A9TL40", "NOR2_X8A_A9TL40",
+        })
+
     def test_thermometer_encoding_rejects_bad_codes_and_changes_one_load(self):
         """A fine-code increment changes exactly one physical load from low to high state."""
 

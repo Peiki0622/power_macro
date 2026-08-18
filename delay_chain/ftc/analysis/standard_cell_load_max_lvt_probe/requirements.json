@@ -1,0 +1,53 @@
+{
+  "N_characterize": 16,
+  "anchor_vdd_v": [
+    1.1,
+    0.95,
+    0.8
+  ],
+  "area": "forbidden",
+  "bypass": "future_work",
+  "calibration": "forbidden",
+  "config_skip": "future_work",
+  "dff": "forbidden",
+  "droop": "forbidden",
+  "final_fine_K_frozen": false,
+  "final_medium_N_frozen": false,
+  "fine_driver_cell": "BUF_X0P7M_A9TL40",
+  "input_slew_contract": "pulse_rise_fall_1ps_launch_1ns_period_6ns",
+  "layout": "forbidden",
+  "medium_stage_decision": "GO",
+  "medium_topology_version": "path_selection_medium_stage_v1",
+  "output_load_contract": "standard_cell_load_bank_at_fine_out",
+  "power": "forbidden",
+  "published_global_worst_medium_step_ps": 66.86260599999991,
+  "published_medium_step_max_ps": {
+    "0.80": 66.86260599999991,
+    "0.95": 44.069194999999866,
+    "1.10": 33.7037620000001
+  },
+  "published_medium_step_min_ps": {
+    "0.80": 20.958529000000226,
+    "0.95": 13.209050000000047,
+    "1.10": 10.232424000000151
+  },
+  "pvt": "forbidden",
+  "rtl": "forbidden",
+  "schema_version": 1,
+  "sensor": "forbidden",
+  "source_file_sha256": {
+    "cell_contract": "f464f272498019d7bce634851698a699a2ac4f123e36669aec599c78c1e3fbde",
+    "interface": "204079fc0130ac52a3be53b4dbce27bbc6e202bca03e77a3f00cbac72c1b6a76",
+    "medium_csv": "5bc8569fc1969f9c87d0c219ba7238361dcb529bc8c1133c5619c52737169aa4",
+    "n8_envelope": "7a9d83ef21e4f7602efdb3b755991b528e17b31797c0ba47053ee946668f9e4c",
+    "projection": "f0d0823729768280a1f93ab4ce90a4a48b2c2281693ab68b30ac7199c2dbda0d",
+    "report": "73260b3812901cafd35ca9d404fbd2ef2e129a3558edfa034d3b42fee1a4e61c",
+    "requirements": "624ae13429a6f1701491517c4aa45838c2f72ce6074f7d075be0fb4c1a8a1f56",
+    "runner": "3e696d968a17dd54639f80c759f05f1ca366bbc445410448df4e0d530608109e",
+    "scaling_csv": "37d6f14d8731a8520900726fad2b705fd184aab03b9bd70fe5cfa2d7b00a4c4f",
+    "selected_cells": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "summary": "0e685f925a22002c1904b03dd48ea28a2714cb9f202bfee6429f4e32d8fc175d"
+  },
+  "topology_version": "standard_cell_load_fine_stage_v1",
+  "xor": "forbidden"
+}

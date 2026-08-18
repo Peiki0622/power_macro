@@ -1,0 +1,56 @@
+{
+  "decisions": [
+    {
+      "candidate_id": "NAND2_X8M_A9TL40__signal_A",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 5.971724000000108,
+        "0.95": 6.440552000000082,
+        "1.10": 6.721946000000003
+      },
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "reasons": []
+    },
+    {
+      "candidate_id": "NAND2_X8M_A9TL40__signal_B",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 1.8169120000001158,
+        "0.95": 2.1473370000001637,
+        "1.10": 2.950480999999911
+      },
+      "high_cap_control_value": 1,
+      "low_cap_control_value": 0,
+      "reasons": []
+    },
+    {
+      "candidate_id": "NOR2_X8A_A9TL40__signal_A",
+      "decision": "REJECTED",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 10.840325000000007,
+        "0.95": 11.028491999999915,
+        "1.10": 10.780169
+      },
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "reasons": [
+        "1.10 V single fine step is not below medium minimum"
+      ]
+    },
+    {
+      "candidate_id": "NOR2_X8A_A9TL40__signal_B",
+      "decision": "GO",
+      "delta_cell_ps_by_vdd": {
+        "0.80": 1.3193749999999227,
+        "0.95": 2.403227999999899,
+        "1.10": 2.424284000000114
+      },
+      "high_cap_control_value": 0,
+      "low_cap_control_value": 1,
+      "reasons": []
+    }
+  ],
+  "schema_version": 1,
+  "selected_candidate_id": "NAND2_X8M_A9TL40__signal_A"
+}

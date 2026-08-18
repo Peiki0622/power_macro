@@ -180,45 +180,52 @@ def _cell_block(text: str, cell: str, cdl: bool) -> Optional[str]:
     return match.group(0) if match else None
 
 
-def discover_candidates(cells: Mapping[str, Any]) -> Dict[str, Any]:
+def discover_candidates(cells: Mapping[str, Any], size_mode: str = "minimum") -> Dict[str, Any]:
     """Discover at most four physically distinct NAND/NOR input-load choices.
 
-    The restricted regular expressions intentionally admit only two-input X0P5
-    LVT NAND/NOR cells.  A CDL width sum selects one smallest real variant per
-    logic family; both input directions remain candidates because their device
-    stack locations differ even when logical Verilog is symmetric.
+    The normal plan uses the smallest X0P5 cell.  The separate ``maximum``
+    probe selects the largest real LVT cell by total CDL transistor width,
+    while retaining both input directions.  This keeps the experiment bounded
+    and makes the size choice auditable instead of guessing from the cell name.
     """
+
+    if size_mode not in ("minimum", "maximum"):
+        raise ValueError("unsupported LVT candidate size mode: {}".format(size_mode))
 
     verilog_path = Path(cells["source_files"]["lvt_verilog"])
     cdl_path = Path(cells["source_files"]["lvt_cdl"])
     verilog, cdl = verilog_path.read_text(encoding="latin-1", errors="replace"), cdl_path.read_text(encoding="latin-1", errors="replace")
     entries = []
     for family, truth in (("NAND2", "Y = ~(A & B)"), ("NOR2", "Y = ~(A | B)")):
-        matches = sorted(set(re.findall(r"(?m)^module\s+({}_X0P5[A-Z]_A9TL40)\s*\(Y,\s*VDD,\s*VSS,\s*A,\s*B\);".format(family), verilog)))
+        pattern = r"{}_X(?:0P5|0P7|1|1P4|2|3|4|6|8)[ABM]_A9TL40" if size_mode == "maximum" else r"{}_X0P5[A-Z]_A9TL40"
+        matches = sorted(set(re.findall(r"(?m)^module\s+({})\s*\(Y,\s*VDD,\s*VSS,\s*A,\s*B\);".format(pattern.format(family)), verilog)))
         ranked = []
         for cell in matches:
             vblock, cblock = _cell_block(verilog, cell, False), _cell_block(cdl, cell, True)
             if not vblock or not cblock or ("nand" if family == "NAND2" else "nor") not in vblock.lower():
                 continue
             widths = [float(value) for value in re.findall(r"\bw=([0-9.eE+-]+)", cblock)]
-            if len(widths) != 4:
+            if not widths or (size_mode == "minimum" and len(widths) != 4):
                 continue
             ranked.append((sum(widths), cell, widths))
         if not ranked:
             continue
-        _, cell, widths = min(ranked)
+        # ``min`` preserves the historical smallest-cell behavior.  For a
+        # maximum probe, prefer the conventional ``M`` variant on equal width
+        # totals so tied NAND X8 implementations do not create duplicate work.
+        _, cell, widths = min(ranked) if size_mode == "minimum" else max(ranked, key=lambda item: (round(item[0], 18), item[1].endswith("M_A9TL40"), item[1]))
         for signal, control in (("A", "B"), ("B", "A")):
             entries.append({
                 "candidate_id": "{}__signal_{}".format(cell, signal), "cell": cell,
                 "signal_pin": signal, "control_pin": control, "output_pin": "Y",
                 "cdl_ports": ["Y", "VDD", "VNW", "VPW", "VSS", "A", "B"],
                 "verilog_ports": ["Y", "VDD", "VSS", "A", "B"], "truth_function": truth,
-                "vt_class": "LVT", "estimated_transistor_or_structure_note": "four transistor widths: {}".format(widths),
+                "vt_class": "LVT", "estimated_transistor_or_structure_note": "CDL transistor widths (meters): {}".format(widths),
                 "source_file_sha256": {"verilog": sha256_file(verilog_path), "cdl": sha256_file(cdl_path)},
             })
     if len(entries) > 4:
         raise ValueError("candidate discovery exceeded hard limit")
-    return {"schema_version": 1, "candidate_count": len(entries), "candidates": entries}
+    return {"schema_version": 1, "size_mode": size_mode, "candidate_count": len(entries), "candidates": entries}
 
 
 def thermometer(units: int, code: int) -> Tuple[int, ...]:
@@ -511,9 +518,13 @@ def render_report(path: Path, result: Mapping[str, Any], selected: Optional[Mapp
         for item in decisions["decisions"]:
             delta = item.get("delta_cell_ps_by_vdd", {})
             lines.append("| `{}` | {} | {} | {} / {} / {} |".format(item["candidate_id"], item["decision"], item.get("high_cap_control_value"), delta.get("1.10"), delta.get("0.95"), delta.get("0.80")))
-        lines.append("- All four physical input-direction candidates passed the single-load integrity and resolution Gates; selection used the documented minimum predicted-bank-size priority.")
+        passed = sum(item.get("decision") == "GO" for item in decisions["decisions"])
+        lines.append("- {}/{} physical input-direction candidates passed the single-load integrity and resolution Gates; selection used the documented minimum predicted-bank-size priority.".format(passed, len(decisions["decisions"])))
     if selected:
-        lines.extend(["", "## Direct Answers", "", "1. Selected cell: `{}`; signal pin `{}`; control pin `{}`.".format(selected["cell"], selected["signal_pin"], selected["control_pin"]), "2. High-load control is {}; low-load control is {}.".format(selected["high_cap_control_value"], selected["low_cap_control_value"]), "3. Single-load rise-delay increments (ps): {}.".format(selected["delta_cell_ps_by_vdd"]), "4. Each selected single-load increment is below the same-anchor frozen medium-step minimum.", "5. The 8-unit 0.95 V full-code sweep and bounded high/low-voltage samples are strictly monotonic."])
+        lines.extend(["", "## Direct Answers", "", "1. Selected cell: `{}`; signal pin `{}`; control pin `{}`.".format(selected["cell"], selected["signal_pin"], selected["control_pin"]), "2. High-load control is {}; low-load control is {}.".format(selected["high_cap_control_value"], selected["low_cap_control_value"]), "3. Single-load rise-delay increments (ps): {}.".format(selected["delta_cell_ps_by_vdd"]), "4. Each selected single-load increment is below the same-anchor frozen medium-step minimum.", "5. The 8-unit array result is determined by the recorded waveform-validity Gate; a failed Gate does not provide a valid basis for K sizing."])
+    if result.get("reasons"):
+        lines.extend(["", "## Gate Reasons", ""])
+        lines.extend("- {}".format(reason) for reason in result["reasons"])
     if sizing:
         lines.extend(["", "## 8-Unit Range And Bounded-K Gate", "", "| VDD (V) | FineRange_8 (ps) | K prediction |", "|---:|---:|---:|"])
         for voltage in ("1.10", "0.95", "0.80"):
@@ -588,6 +599,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser.add_argument("--phase0-only", action="store_true")
     parser.add_argument("--stop-after", choices=("static", "single", "fine8", "sizing", "coverage"))
     parser.add_argument("--finalize-existing", action="store_true", help="rebuild summary/report from retained evidence only")
+    parser.add_argument("--max-lvt-load", action="store_true", help="probe the largest LVT NAND/NOR cells in an isolated analysis/run root")
     args = parser.parse_args(argv)
     analysis, config = args.analysis_dir.resolve(), load_json(args.config.resolve())
     interface, cells, paths = freeze_inputs()
@@ -602,7 +614,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     if args.phase0_only:
         print("FTC_STANDARD_CELL_LOAD_FINE_STAGE phase0=requirements_published")
         return 0
-    candidates_doc = discover_candidates(cells)
+    candidates_doc = discover_candidates(cells, "maximum" if args.max_lvt_load else "minimum")
     write_json(analysis / "fine_varactor_candidates.json", candidates_doc)
     if not candidates_doc["candidates"]:
         stages[STAGES[1]] = "ARCHITECTURE_BLOCKED"
@@ -657,7 +669,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     write_json(analysis / "fine8_summary.json", {"schema_version": 1, "decision": "GO" if not fine8_reasons else "NO-GO", "reasons": fine8_reasons})
     if fine8_reasons:
         stages[STAGES[3]] = "NO-GO"; mark_later_not_run(stages, STAGES[3])
-        result = summary(analysis, stages, fine8_reasons, stats); render_report(args.report_output.resolve(), result, selected, None, None); return 0
+        result = summary(analysis, stages, fine8_reasons, stats); render_report(args.report_output.resolve(), result, selected, None, None, requirements, decision_doc); return 0
     stages[STAGES[3]] = "GO"
     if args.stop_after == "fine8":
         print("FTC_STANDARD_CELL_LOAD_FINE_STAGE fine8=gate_passed")
