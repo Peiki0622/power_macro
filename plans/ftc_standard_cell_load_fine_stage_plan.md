@@ -47,6 +47,26 @@ feat(ftc): validate path-selection medium stage
 
 若本计划 `GO`，只表示“标准单元负载细调级以及一个中调步长覆盖”可以进入下一阶段的旁路与两级集成；**不表示完整 FTC 检测宏已经 GO。**
 
+## 0.1 最大 LVT 后续实验的已授权门限
+
+最大尺寸 LVT 负载的独立 follow-on 可以将输出高电平门限从：
+
+```text
+output_logic_high >= 0.90 × VDD
+```
+
+调整为：
+
+```text
+output_logic_high >= 0.88 × VDD
+```
+
+该调整只适用于使用 `--max-lvt-load` 的新证据 revision；原始 0.90 × VDD
+证据必须保留且不得覆盖。低电平门限 `output_logic_low <= 0.10 × VDD`、
+无额外转换、正传播延时、边沿测量、单调性、耦合覆盖和 `K <= 64` 的全部
+要求保持不变。最终报告必须显式说明该非默认门限，不能声称满足原始 0.90 ×
+VDD 规则。
+
 ---
 
 # 1. Codex 开始前必须读取并冻结的现有证据

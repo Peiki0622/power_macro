@@ -50,6 +50,33 @@ class StandardCellLoadFineStageTests(unittest.TestCase):
             "NAND2_X8M_A9TL40", "NOR2_X8A_A9TL40",
         })
 
+    def test_logic_high_policy_is_explicit_and_changes_scenario_identity(self):
+        """The authorized 0.88 policy is distinct while the default remains 0.90."""
+
+        self.assertEqual(RUNNER.validate_logic_high_min_ratio(.90), .90)
+        self.assertEqual(RUNNER.validate_logic_high_min_ratio(.88), .88)
+        candidate = self.candidates[0]
+        default = RUNNER.scenario_parameters("fine8", 8, .80, candidate, 8, 8, 0, 1)
+        waived = RUNNER.scenario_parameters("fine8", 8, .80, candidate, 8, 8, 0, 1, .88)
+        self.assertEqual(default["logic_high_min_ratio"], .90)
+        self.assertEqual(waived["logic_high_min_ratio"], .88)
+        self.assertNotEqual(RUNNER.scenario_id(default), RUNNER.scenario_id(waived))
+        with self.assertRaises(ValueError):
+            RUNNER.validate_logic_high_min_ratio(0.0)
+
+    def test_waveform_policy_reclassifies_only_the_authorized_high_level(self):
+        """A sample just below 0.90 passes only under the explicit 0.88 policy."""
+
+        record = {
+            "t_in_rise": 1.0, "t_in_fall": 2.0, "t_out_rise": 1.2,
+            "t_out_fall": 2.3, "t_out_rise_10": 1.1, "t_out_rise_90": 1.3,
+            "t_out_fall_90": 2.1, "t_out_fall_10": 2.4,
+            "out_logic_high": .709, "out_logic_low": .001,
+            "t_out_rise_2": None, "t_out_fall_2": None,
+        }
+        self.assertFalse(RUNNER.classify(record, .80, .90)["valid"])
+        self.assertTrue(RUNNER.classify(record, .80, .88)["valid"])
+
     def test_thermometer_encoding_rejects_bad_codes_and_changes_one_load(self):
         """A fine-code increment changes exactly one physical load from low to high state."""
 

@@ -41,6 +41,8 @@ OUTPUT_LOAD_CONTRACT = "standard_cell_load_bank_at_fine_out"
 PHASE2_MAX_SCENARIOS = 27
 PHASE3_MAX_SCENARIOS = 25
 MAX_FINE_BANK = 64
+DEFAULT_LOGIC_HIGH_MIN_RATIO = 0.90
+LOGIC_LOW_MAX_RATIO = 0.10
 
 STAGES = (
     "Historical Medium Evidence Freeze", "Static Fine-Load Candidate Discovery",
@@ -149,8 +151,24 @@ def freeze_inputs() -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Path]]:
     return interface, load_json(paths["selected_cells"]), paths
 
 
-def build_requirements(interface: Mapping[str, Any], paths: Mapping[str, Path]) -> Dict[str, Any]:
+def validate_logic_high_min_ratio(value: float) -> float:
+    """Accept one explicit normalized high-level limit for waveform classification.
+
+    The limit is an acceptance policy rather than a SPICE deck parameter, but
+    it is still placed in every requirements and scenario contract so a
+    non-default policy cannot silently share evidence with the default study.
+    """
+
+    ratio = float(value)
+    if not 0.0 < ratio <= 1.0:
+        raise ValueError("logic high minimum ratio must be in (0, 1]")
+    return ratio
+
+
+def build_requirements(interface: Mapping[str, Any], paths: Mapping[str, Path], logic_high_min_ratio: float = DEFAULT_LOGIC_HIGH_MIN_RATIO) -> Dict[str, Any]:
     """Publish the narrow task boundary and the immutable medium-step handoff."""
+
+    logic_high_min_ratio = validate_logic_high_min_ratio(logic_high_min_ratio)
 
     return {
         "schema_version": 1, "topology_version": TOPOLOGY_VERSION,
@@ -160,7 +178,9 @@ def build_requirements(interface: Mapping[str, Any], paths: Mapping[str, Path]) 
         "published_medium_step_min_ps": interface["medium_step_min_ps_by_vdd"],
         "published_global_worst_medium_step_ps": interface["medium_step_global_max_ps"],
         "fine_driver_cell": FINE_DRIVER_CELL, "input_slew_contract": INPUT_SLEW_CONTRACT,
-        "output_load_contract": OUTPUT_LOAD_CONTRACT, "bypass": "future_work",
+        "output_load_contract": OUTPUT_LOAD_CONTRACT,
+        "logic_high_min_ratio": logic_high_min_ratio,
+        "logic_low_max_ratio": LOGIC_LOW_MAX_RATIO, "bypass": "future_work",
         "config_skip": "future_work", "sensor": "forbidden", "xor": "forbidden",
         "dff": "forbidden", "calibration": "forbidden", "droop": "forbidden",
         "pvt": "forbidden", "rtl": "forbidden", "power": "forbidden",
@@ -313,9 +333,15 @@ def render_deck(config: Mapping[str, Any], cells: Mapping[str, Any], vdd: float,
     return "\n".join(lines)
 
 
-def classify(record: Mapping[str, Any], vdd: float) -> Dict[str, Any]:
-    """Turn raw measures into an auditable waveform-validity classification."""
+def classify(record: Mapping[str, Any], vdd: float, logic_high_min_ratio: float = DEFAULT_LOGIC_HIGH_MIN_RATIO) -> Dict[str, Any]:
+    """Turn raw measures into an auditable waveform-validity classification.
 
+    The high-level ratio is deliberately an explicit input: an authorized
+    non-default rule changes the evidence contract, while the default remains
+    the original 0.90 × VDD threshold.  The low-level rule is unchanged.
+    """
+
+    logic_high_min_ratio = validate_logic_high_min_ratio(logic_high_min_ratio)
     names = ("t_in_rise", "t_in_fall", "t_out_rise", "t_out_fall", "t_out_rise_10", "t_out_rise_90", "t_out_fall_90", "t_out_fall_10", "out_logic_high", "out_logic_low")
     values = {name: finite(record.get(name)) for name in names}
     result = {"D_rise_ps": None, "D_fall_ps": None, "output_rise_time_ps": None, "output_fall_time_ps": None, "output_logic_high": None, "output_logic_low": None, "unexpected_transition_count": 0, "valid": False}
@@ -325,14 +351,14 @@ def classify(record: Mapping[str, Any], vdd: float) -> Dict[str, Any]:
     rise_time, fall_time = values["t_out_rise_90"] - values["t_out_rise_10"], values["t_out_fall_10"] - values["t_out_fall_90"]
     extra = sum(finite(record.get(name)) is not None for name in ("t_out_rise_2", "t_out_fall_2"))
     result.update({"D_rise_ps": rise * 1.0e12, "D_fall_ps": fall * 1.0e12, "output_rise_time_ps": rise_time * 1.0e12, "output_fall_time_ps": fall_time * 1.0e12, "output_logic_high": values["out_logic_high"], "output_logic_low": values["out_logic_low"], "unexpected_transition_count": extra})
-    result["valid"] = bool(rise > 0 and fall > 0 and rise_time > 0 and fall_time > 0 and values["out_logic_high"] >= .9 * vdd and values["out_logic_low"] <= .1 * vdd and extra == 0)
+    result["valid"] = bool(rise > 0 and fall > 0 and rise_time > 0 and fall_time > 0 and values["out_logic_high"] >= logic_high_min_ratio * vdd and values["out_logic_low"] <= LOGIC_LOW_MAX_RATIO * vdd and extra == 0)
     return result
 
 
-def scenario_parameters(phase: str, medium_code: int, vdd: float, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, low_control: Any, high_control: Any) -> Dict[str, Any]:
+def scenario_parameters(phase: str, medium_code: int, vdd: float, candidate: Optional[Mapping[str, Any]], K: int, fine_code: int, low_control: Any, high_control: Any, logic_high_min_ratio: float = DEFAULT_LOGIC_HIGH_MIN_RATIO) -> Dict[str, Any]:
     """Capture every physical parameter required to prove a scenario is reusable."""
 
-    return {"phase": phase, "topology_version": TOPOLOGY_VERSION, "medium_N": MEDIUM_N, "medium_code": medium_code, "medium_mux_cell": MEDIUM_MUX_CELL, "medium_delay_cell": MEDIUM_DELAY_CELL, "fine_driver_cell": FINE_DRIVER_CELL, "fine_load_cell": candidate["cell"] if candidate else "none", "signal_pin": candidate["signal_pin"] if candidate else "none", "control_pin": candidate["control_pin"] if candidate else "none", "low_cap_control_value": low_control, "high_cap_control_value": high_control, "K": K, "fine_code": fine_code, "vdd_v": vdd, "input_slew_contract": INPUT_SLEW_CONTRACT, "output_load_contract": OUTPUT_LOAD_CONTRACT}
+    return {"phase": phase, "topology_version": TOPOLOGY_VERSION, "medium_N": MEDIUM_N, "medium_code": medium_code, "medium_mux_cell": MEDIUM_MUX_CELL, "medium_delay_cell": MEDIUM_DELAY_CELL, "fine_driver_cell": FINE_DRIVER_CELL, "fine_load_cell": candidate["cell"] if candidate else "none", "signal_pin": candidate["signal_pin"] if candidate else "none", "control_pin": candidate["control_pin"] if candidate else "none", "low_cap_control_value": low_control, "high_cap_control_value": high_control, "logic_high_min_ratio": validate_logic_high_min_ratio(logic_high_min_ratio), "K": K, "fine_code": fine_code, "vdd_v": vdd, "input_slew_contract": INPUT_SLEW_CONTRACT, "output_load_contract": OUTPUT_LOAD_CONTRACT}
 
 
 def scenario_id(parameters: Mapping[str, Any]) -> str:
@@ -429,9 +455,10 @@ def measure(phase: str, hspice: Path, run_dir: Path, config: Mapping[str, Any], 
 
     physical_high = int(high_control) if isinstance(high_control, int) else 1
     deck = render_deck(config, cells, vdd, medium_code, candidate, K, fine_code, physical_high)
-    parameters = scenario_parameters(phase, medium_code, vdd, candidate, K, fine_code, low_control, high_control)
+    logic_high_min_ratio = validate_logic_high_min_ratio(float(config["logic_high_min_ratio"]))
+    parameters = scenario_parameters(phase, medium_code, vdd, candidate, K, fine_code, low_control, high_control, logic_high_min_ratio)
     record = execute(hspice, run_dir, deck, parameters, sig, stats)
-    return {"stage": phase, "candidate_id": candidate.get("candidate_id") if candidate else "driver_only", "medium_code": medium_code, "fine_code": fine_code, "K": K, "vdd_v": vdd, "control_value": control_value, **classify(record, vdd), "scenario": str(Path(record["scenario"]).relative_to(run_dir))}
+    return {"stage": phase, "candidate_id": candidate.get("candidate_id") if candidate else "driver_only", "medium_code": medium_code, "fine_code": fine_code, "K": K, "vdd_v": vdd, "control_value": control_value, **classify(record, vdd, logic_high_min_ratio), "scenario": str(Path(record["scenario"]).relative_to(run_dir))}
 
 
 def monotonic(rows: Sequence[Mapping[str, Any]], codes: Sequence[int]) -> List[str]:
@@ -509,6 +536,10 @@ def render_report(path: Path, result: Mapping[str, Any], selected: Optional[Mapp
     lines = ["# FTC Standard-Cell Load Fine Stage", "", "## Decision", "", "**{}**".format(result["decision"]), "", "## Stage Status", "", "| Stage | Status |", "|---|---|"]
     lines.extend("| {} | {} |".format(name, status) for name, status in result["stages"].items())
     if requirements:
+        high_ratio = float(requirements.get("logic_high_min_ratio", DEFAULT_LOGIC_HIGH_MIN_RATIO))
+        lines.extend(["", "## Waveform Policy", "", "- Output-high acceptance: `>= {:.2f} * VDD`; output-low acceptance remains `<= {:.2f} * VDD`.".format(high_ratio, LOGIC_LOW_MAX_RATIO)])
+        if high_ratio != DEFAULT_LOGIC_HIGH_MIN_RATIO:
+            lines.append("- This is an explicit non-default follow-on policy; the original 0.90 * VDD evidence remains separate and unchanged.")
         lines.extend(["", "## Frozen Medium Handoff", "", "| VDD (V) | Medium max step (ps) | Medium min step (ps) |", "|---:|---:|---:|"])
         for voltage in ("1.10", "0.95", "0.80"):
             lines.append("| {} | {} | {} |".format(voltage, requirements["published_medium_step_max_ps"][voltage], requirements["published_medium_step_min_ps"][voltage]))
@@ -529,7 +560,8 @@ def render_report(path: Path, result: Mapping[str, Any], selected: Optional[Mapp
         lines.extend(["", "## 8-Unit Range And Bounded-K Gate", "", "| VDD (V) | FineRange_8 (ps) | K prediction |", "|---:|---:|---:|"])
         for voltage in ("1.10", "0.95", "0.80"):
             lines.append("| {} | {} | {} |".format(voltage, sizing["fine_range_8_ps_by_vdd"][voltage], sizing["K_pred_by_vdd"][voltage]))
-        lines.extend(["", "- Formula: `K_pred(V)=ceil(8*MediumStep_max(V)/FineRange_8(V))`.", "- Conservative candidate K={} exceeds the hard limit of {}; no K=65..{} decks were created.".format(sizing.get("K_candidate"), MAX_FINE_BANK, sizing.get("K_candidate")), "", "6. K was derived only from the 8-unit measured range: K predictions {} and conservative candidate K={}.".format(sizing.get("K_pred_by_vdd"), sizing.get("K_candidate")), "7. K_rescaled: {}.".format(sizing.get("K_rescaled")), "8-12. Full-bank monotonicity, coupled coverage, coupled medium steps, final resolution, and fixed-load offsets were {} because the bounded K Gate stopped the study.".format("not run" if result["stages"].get("Fine-Bank Sizing") == "NO-GO" else "measured")])
+        bound_note = ("- Conservative candidate K={} is within the hard limit of {}; the coverage phase may perform the single permitted rescale.".format(sizing.get("K_candidate"), MAX_FINE_BANK) if int(sizing.get("K_candidate", 0)) <= MAX_FINE_BANK else "- Conservative candidate K={} exceeds the hard limit of {}; no K=65..{} decks were created.".format(sizing.get("K_candidate"), MAX_FINE_BANK, sizing.get("K_candidate")))
+        lines.extend(["", "- Formula: `K_pred(V)=ceil(8*MediumStep_max(V)/FineRange_8(V))`.", bound_note, "", "6. K was derived only from the 8-unit measured range: K predictions {} and conservative candidate K={}.".format(sizing.get("K_pred_by_vdd"), sizing.get("K_candidate")), "7. K_rescaled: {}.".format(sizing.get("K_rescaled")), "8-12. Full-bank monotonicity, coupled coverage, coupled medium steps, final resolution, and fixed-load offsets were {} because the bounded K Gate stopped the study.".format("not run" if result["stages"].get("Fine-Bank Sizing") == "NO-GO" else "measured")])
     if bypass:
         lines.extend(["13. Future bypass must address fixed driver offsets {} and code-0 bank offsets {}.".format(bypass.get("fine_driver_offset_ps_by_vdd"), bypass.get("fine_bank_code0_offset_ps_by_vdd"))])
     elif sizing and result["stages"].get("Fine-Bank Sizing") == "NO-GO":
@@ -600,10 +632,17 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser.add_argument("--stop-after", choices=("static", "single", "fine8", "sizing", "coverage"))
     parser.add_argument("--finalize-existing", action="store_true", help="rebuild summary/report from retained evidence only")
     parser.add_argument("--max-lvt-load", action="store_true", help="probe the largest LVT NAND/NOR cells in an isolated analysis/run root")
+    parser.add_argument("--logic-high-min-ratio", type=float, default=DEFAULT_LOGIC_HIGH_MIN_RATIO, help="minimum sampled output-high ratio; non-default values require --max-lvt-load")
     args = parser.parse_args(argv)
+    logic_high_min_ratio = validate_logic_high_min_ratio(args.logic_high_min_ratio)
+    if logic_high_min_ratio != DEFAULT_LOGIC_HIGH_MIN_RATIO and not args.max_lvt_load:
+        raise ValueError("non-default logic-high policy is restricted to --max-lvt-load")
     analysis, config = args.analysis_dir.resolve(), load_json(args.config.resolve())
+    # Keep the policy in memory and in every scenario contract without adding
+    # it to the SPICE deck: it changes classification, not circuit physics.
+    config["logic_high_min_ratio"] = logic_high_min_ratio
     interface, cells, paths = freeze_inputs()
-    requirements = build_requirements(interface, paths)
+    requirements = build_requirements(interface, paths, logic_high_min_ratio)
     write_json(analysis / "requirements.json", requirements)
     stages, stats, reasons = {name: "NOT_RUN" for name in STAGES}, {"new": 0, "reused": 0}, []
     stages[STAGES[0]] = "GO"
@@ -682,7 +721,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     sizing = {"schema_version": 1, "fine_range_8_ps_by_vdd": ranges, "K_pred_by_vdd": predicted, "K_candidate": max(predicted.values()), "K_rescaled": None, "final_K_frozen": False}
     write_json(analysis / "fine_bank_sizing.json", sizing)
     if sizing["K_candidate"] > MAX_FINE_BANK:
-        stages[STAGES[4]] = "NO-GO"; mark_later_not_run(stages, STAGES[4]); result = summary(analysis, stages, ["K_exceeds_bounded_limit"], stats); render_report(args.report_output.resolve(), result, selected, sizing, None); return 0
+        stages[STAGES[4]] = "NO-GO"; mark_later_not_run(stages, STAGES[4]); result = summary(analysis, stages, ["K_exceeds_bounded_limit"], stats); render_report(args.report_output.resolve(), result, selected, sizing, None, requirements, decision_doc); return 0
     stages[STAGES[4]] = "GO"
     if args.stop_after == "sizing":
         print("FTC_STANDARD_CELL_LOAD_FINE_STAGE sizing=gate_passed")
@@ -713,7 +752,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
             sizing["K_rescaled"] = rescaled; K = rescaled; coverage.extend(coverage_rows(K, "full_bank_coverage_rescaled")); gaps = coverage_fail([row for row in coverage if row["stage"] == "full_bank_coverage_rescaled"], K)
     write_json(analysis / "fine_bank_sizing.json", sizing); write_csv(analysis / "full_bank_coverage.csv", coverage)
     if gaps:
-        stages[STAGES[5]] = "NO-GO"; mark_later_not_run(stages, STAGES[5]); result = summary(analysis, stages, gaps, stats); render_report(args.report_output.resolve(), result, selected, sizing, None); return 0
+        stages[STAGES[5]] = "NO-GO"; mark_later_not_run(stages, STAGES[5]); result = summary(analysis, stages, gaps, stats); render_report(args.report_output.resolve(), result, selected, sizing, None, requirements, decision_doc); return 0
     stages[STAGES[5]] = "GO"
     if args.stop_after == "coverage":
         print("FTC_STANDARD_CELL_LOAD_FINE_STAGE coverage=gate_passed")
@@ -725,7 +764,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     for vdd in (1.10, .80): mono_reasons.extend(monotonic([row for row in final_rows if row["vdd_v"] == vdd], sample_codes))
     write_csv(analysis / "full_bank_monotonicity.csv", final_rows)
     if mono_reasons:
-        stages[STAGES[6]] = "NO-GO"; mark_later_not_run(stages, STAGES[6]); result = summary(analysis, stages, mono_reasons, stats); render_report(args.report_output.resolve(), result, selected, sizing, None); return 0
+        stages[STAGES[6]] = "NO-GO"; mark_later_not_run(stages, STAGES[6]); result = summary(analysis, stages, mono_reasons, stats); render_report(args.report_output.resolve(), result, selected, sizing, None, requirements, decision_doc); return 0
     stages[STAGES[6]] = "GO"
     coupled = [measure("coupled_medium_coverage", hspice, run_dir, config, cells, medium_code, vdd, candidate, K, fine_code, low, high, sig, stats) for vdd in ANCHOR_VDD for medium_code in (0, 7, 15) for fine_code in (K,)]
     coupled.extend(measure("coupled_medium_coverage", hspice, run_dir, config, cells, medium_code + 1, vdd, candidate, K, 0, low, high, sig, stats) for vdd in ANCHOR_VDD for medium_code in (0, 7, 15))
@@ -744,7 +783,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     for key in measured_steps:
         if measured_steps[key] >= min_medium[key]: coupled_reasons.append("{} V fine resolution is not below coupled medium step".format(key))
     if coupled_reasons:
-        stages[STAGES[7]] = "NO-GO"; mark_later_not_run(stages, STAGES[7]); result = summary(analysis, stages, coupled_reasons, stats); render_report(args.report_output.resolve(), result, selected, sizing, None); return 0
+        stages[STAGES[7]] = "NO-GO"; mark_later_not_run(stages, STAGES[7]); result = summary(analysis, stages, coupled_reasons, stats); render_report(args.report_output.resolve(), result, selected, sizing, None, requirements, decision_doc); return 0
     stages[STAGES[7]] = "GO"
     historical = list(csv.DictReader((FTC_ROOT / "analysis/path_selection_medium_stage/medium_step_characterization.csv").open(encoding="utf-8")))
     bypass = {"schema_version": 1, "selected_load_cell": candidate["cell"], "signal_pin": candidate["signal_pin"], "control_pin": candidate["control_pin"], "low_cap_control_value": low, "high_cap_control_value": high, "K_candidate_tt25": sizing["K_candidate"], "fine_range_by_vdd": {}, "coverage_margin_by_vdd": {}, "fine_driver_offset_ps_by_vdd": {}, "fine_bank_code0_offset_ps_by_vdd": {}, "bypass_not_implemented": True, "final_K_frozen": False}
@@ -760,7 +799,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         bypass["coverage_margin_by_vdd"][vkey(vdd)] = bankK - next0
     write_json(analysis / "future_bypass_interface.json", bypass)
     stages[STAGES[8]] = "GO"
-    result = summary(analysis, stages, [], stats); render_report(args.report_output.resolve(), result, selected, sizing, bypass)
+    result = summary(analysis, stages, [], stats); render_report(args.report_output.resolve(), result, selected, sizing, bypass, requirements, decision_doc)
     print("FTC_STANDARD_CELL_LOAD_FINE_STAGE decision=GO")
     return 0
 

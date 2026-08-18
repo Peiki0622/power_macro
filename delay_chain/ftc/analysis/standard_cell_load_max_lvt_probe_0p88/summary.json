@@ -1,0 +1,29 @@
+{
+  "bypass_scenarios": 0,
+  "decision": "Standard-Cell Load Fine Stage + One-Medium-Step Coverage = NO-GO",
+  "dff_scenarios": 0,
+  "droop_scenarios": 0,
+  "historical_medium_scenarios_rerun": 0,
+  "historical_runner_invocations": 0,
+  "new_hspice_scenarios": 43,
+  "reasons": [
+    "0.80 V 15->16 coverage failed",
+    "0.95 V fine resolution is not below coupled medium step",
+    "1.10 V fine resolution is not below coupled medium step",
+    "0.80 V fine resolution is not below coupled medium step"
+  ],
+  "reused_new_task_scenarios": 70,
+  "schema_version": 1,
+  "sensor_scenarios": 0,
+  "stages": {
+    "8-Unit Fine Bank": "GO",
+    "Coupled Medium/Fine Gap Check": "NO-GO",
+    "Fine-Bank Sizing": "GO",
+    "Full-Bank Monotonicity": "GO",
+    "Full-Bank One-Step Coverage": "GO",
+    "Future Bypass Interface": "NOT_RUN",
+    "Historical Medium Evidence Freeze": "GO",
+    "Single-Load Electrical Screen": "GO",
+    "Static Fine-Load Candidate Discovery": "GO"
+  }
+}
