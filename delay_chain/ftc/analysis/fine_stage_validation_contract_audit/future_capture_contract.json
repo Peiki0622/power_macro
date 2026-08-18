@@ -1,0 +1,6 @@
+{
+  "capture_edge_not_yet_frozen": true,
+  "fixed_absolute_sample_not_a_fine_stage_hard_gate": true,
+  "schema_version": 1,
+  "setup_hold_not_yet_frozen": true
+}

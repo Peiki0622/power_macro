@@ -1,0 +1,94 @@
+{
+  "K": 10,
+  "coverage_by_vdd": {
+    "0.80": [
+      {
+        "coupled_medium_step_ps": 66.69019400000008,
+        "coverage_margin_ps": 12.804906999999957,
+        "coverage_pass": true,
+        "from_medium_code": 0,
+        "to_medium_code": 1
+      },
+      {
+        "coupled_medium_step_ps": 65.156926,
+        "coverage_margin_ps": 12.257001999999943,
+        "coverage_pass": true,
+        "from_medium_code": 7,
+        "to_medium_code": 8
+      },
+      {
+        "coupled_medium_step_ps": 20.39580000000001,
+        "coverage_margin_ps": 57.179659000000356,
+        "coverage_pass": true,
+        "from_medium_code": 15,
+        "to_medium_code": 16
+      }
+    ],
+    "0.95": [
+      {
+        "coupled_medium_step_ps": 43.85585000000003,
+        "coverage_margin_ps": 29.09772000000001,
+        "coverage_pass": true,
+        "from_medium_code": 0,
+        "to_medium_code": 1
+      },
+      {
+        "coupled_medium_step_ps": 43.77638499999995,
+        "coverage_margin_ps": 28.289513999999997,
+        "coverage_pass": true,
+        "from_medium_code": 7,
+        "to_medium_code": 8
+      },
+      {
+        "coupled_medium_step_ps": 13.578104000000053,
+        "coverage_margin_ps": 58.45398499999999,
+        "coverage_pass": true,
+        "from_medium_code": 15,
+        "to_medium_code": 16
+      }
+    ],
+    "1.10": [
+      {
+        "coupled_medium_step_ps": 33.11359200000007,
+        "coverage_margin_ps": 32.969189000000114,
+        "coverage_pass": true,
+        "from_medium_code": 0,
+        "to_medium_code": 1
+      },
+      {
+        "coupled_medium_step_ps": 34.120695999999896,
+        "coverage_margin_ps": 31.646753999999987,
+        "coverage_pass": true,
+        "from_medium_code": 7,
+        "to_medium_code": 8
+      },
+      {
+        "coupled_medium_step_ps": 10.015728999999965,
+        "coverage_margin_ps": 55.26957699999991,
+        "coverage_pass": true,
+        "from_medium_code": 15,
+        "to_medium_code": 16
+      }
+    ]
+  },
+  "coverage_pass": true,
+  "delta_fine_max_measured_ps_by_vdd": {
+    "0.80": 10.138468000000103,
+    "0.95": 8.390219000000002,
+    "1.10": 6.944368999999881
+  },
+  "electrical_reasons": [],
+  "electrical_waveform_failure_count": 0,
+  "fine_monotonic_0p95_pass": true,
+  "fine_resolution_pass": true,
+  "legacy_fixed_sample_miss_count": 1,
+  "medium_step_coupled_min_ps_by_vdd": {
+    "0.80": 20.39580000000001,
+    "0.95": 13.578104000000053,
+    "1.10": 10.015728999999965
+  },
+  "phase1_go": true,
+  "primary_driver": "BUF_X0P8M_A9TL40",
+  "primary_load": "NOR2_X4A_A9TL40__signal_A",
+  "schema_version": 1
+}
