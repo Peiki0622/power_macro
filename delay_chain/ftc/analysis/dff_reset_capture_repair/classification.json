@@ -1,0 +1,31 @@
+{
+  "active_extra_ck_count": 0,
+  "active_probe_count": 60,
+  "arm_results": {
+    "0p0": false,
+    "0p48999999999999994": false,
+    "1p0": false
+  },
+  "bounded_transition_count": 496,
+  "bounded_transition_pass_count": 496,
+  "confidence": "conclusive",
+  "configuration_glitches": false,
+  "forbidden_next_actions": [
+    "DFF_cell_change_in_this_budget",
+    "candidate_screening_in_this_budget",
+    "guard_sweep",
+    "ConfigSkip",
+    "FSM"
+  ],
+  "hold_margin_max_ps": 101.41990000000192,
+  "hold_margin_min_ps": -33.903000000057204,
+  "internal_observation_rows": 420,
+  "invalid_transition_count": 8,
+  "noise_gate_ps": 1.580879999880608,
+  "primary_classification": "dff_falling_data_hold_aperture_boundary",
+  "recommended_next_action": "apply_two_coarse_backoff_and_one_fine_guard",
+  "repeat_spread_ps": 0.790439999940304,
+  "selected_reset_arm_s": null,
+  "stop_reason": null,
+  "timeline_pad_sensitive": true
+}

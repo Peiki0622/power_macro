@@ -1,0 +1,51 @@
+{
+  "baseline_sha256": "d6f8aa60e946e92bad40d22dd152cf6bb028f9b3c6cb800d5289a2746c037cf3",
+  "candidate_screening": "forbidden",
+  "coarse_backoff_steps": 2,
+  "code_settle_s": 1.5e-09,
+  "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+  "dff_internal_nodes": [
+    "nclk",
+    "bclk",
+    "nd",
+    "nm",
+    "m",
+    "s",
+    "ns"
+  ],
+  "fine_guard_steps": 1,
+  "forbidden": [
+    "ConfigSkip",
+    "FSM",
+    "bypass",
+    "clock_gating",
+    "PVT",
+    "droop",
+    "DFF_cell_change"
+  ],
+  "isolation_s": 3.5e-09,
+  "legacy_reset_arm_s": 4.9e-10,
+  "max_medium_fallback_steps": 1,
+  "new_acceptance_scenario_budget": 4,
+  "predecessors": [
+    7,
+    9,
+    8
+  ],
+  "q_decision": "both_reads_same_rail",
+  "recovery_s": 2.7e-09,
+  "reset_arm_s": [
+    0.0,
+    4.9e-10,
+    1e-09
+  ],
+  "retained_diagnostic_scenarios": 1,
+  "root_cause": "dff_falling_data_hold_aperture_boundary",
+  "schema_version": 1,
+  "study": "dff_reset_capture_repair_v1",
+  "timeline_pad_s": [
+    0.0,
+    5.1e-10
+  ],
+  "vdd_v": 0.8
+}

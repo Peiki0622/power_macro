@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "all_f_zero": true,
+    "dff_mapping": true,
+    "internal_nodes": true,
+    "no_forbidden": true,
+    "reset_arm_values": true,
+    "second_ck_measure": true,
+    "sensor_tap29": true,
+    "single_bit_updates": true,
+    "timeline_pad_values": true,
+    "true_arm_schedule": true
+  },
+  "episode_count": 30,
+  "probe_count": 60,
+  "reset_arm_s": [
+    0.0,
+    4.9e-10,
+    1e-09
+  ],
+  "schema_version": 1,
+  "study": "dff_reset_capture_repair_v1",
+  "timeline_pad_s": [
+    0.0,
+    5.1e-10
+  ],
+  "transition_count": 504
+}

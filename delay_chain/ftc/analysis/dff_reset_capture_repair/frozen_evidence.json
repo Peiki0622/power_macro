@@ -1,0 +1,33 @@
+{
+  "baseline_commit": "25b2fba0c61d1192584d37155c5fe3b677846e62",
+  "candidate_functional_guard_s": 2.7e-09,
+  "current_head": "ec2487b6cce68794c49a3f3301a000e4e71944da",
+  "legacy_reset_arm_s": 4.9e-10,
+  "old_reruns": {
+    "old_dynamic_0p80_rerun": 0,
+    "old_dynamic_0p95_rerun": 0,
+    "old_dynamic_1p10_rerun": 0,
+    "old_recovery_diagnostic_0p80_rerun": 0,
+    "upstream_static_84_scenarios_rerun": 0,
+    "upstream_static_hspice_rerun": 0
+  },
+  "old_root_schedule_reset_release_equals_launch": true,
+  "schema_version": 1,
+  "source_file_sha256": {
+    "cells": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "config": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+    "old_root_classification": "d20dcbdd1d6f6a3019188214e3023cb45c5f3cc68360c38cfc8946f54c7b0118",
+    "old_root_manifest": "3be1a5f18e30a22af7918dbe00ba73486a470cc217601411b6f7092cecd57bd0",
+    "old_root_measurement": "88e25d0b65c39a0984d6bd754f1256d9f1ae06fc64a3b09ebbeecea014893722",
+    "old_root_runner": "1d2b3569bbc27dd553283db34a42545c62d13b6b21fc69bce2efb7f5e43ce9e2",
+    "old_root_summary": "cf31727f04b11168e45668628eb71727623fccd641f0c9a1b9af0957430d176d",
+    "recovery_contract": "77111f5ecf680c458fa9f7e06997515e521f6f5ee6d7dd9b3a9f47867d07f7ec",
+    "recovery_diagnostic": "c60379a3818cf15082e1760f0c3fac31014bf2e157b9a473e55ea3e1cfc73a4a",
+    "recovery_summary": "adb73d4ae590419ef588c897b01450d58dad762ff68aebe8628ce0347e3788f6",
+    "startup_summary": "5f8a28021161575cfc0fe511de783c2ef90c79081d0aa4c7920cbc03c6eb1cba",
+    "startup_timing": "3f370dfa2cbccf84ed9c53271c95b048821012cf858d1f0605858ae29b0969f9"
+  },
+  "startup_decision": "Dynamic Startup Calibration Protocol = NO-GO",
+  "study": "dff_reset_capture_repair_v1",
+  "upstream_decision": "Dynamic Recovery Window Repair = NO-GO"
+}

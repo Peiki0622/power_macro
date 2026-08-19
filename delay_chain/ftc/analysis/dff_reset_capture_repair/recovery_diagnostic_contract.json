@@ -1,0 +1,10 @@
+{
+  "candidate_guard_s": 2.8000000000000003e-09,
+  "decision": "DIAGNOSTIC_PASS",
+  "deck_sha256": "aad78f6631330a2c17a999ada59d0eebb2b26c8a1b1fd6853983e6a3afbbee6f",
+  "diagnostic_guard_s": 5e-09,
+  "protocol_revision": "coarse_and_fine_pair_v3",
+  "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/recovery_v4_diagnostic_0p80__2e2d05e8336426ee9852",
+  "schema_version": 1,
+  "study": "dff_reset_capture_repair_v1"
+}

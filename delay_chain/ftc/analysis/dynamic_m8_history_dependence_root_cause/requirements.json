@@ -1,0 +1,63 @@
+{
+  "cells": {
+    "dff": "DFFRPQ_X0P5M_A9TR40",
+    "fine_driver": "BUF_X0P8M_A9TL40",
+    "fine_load": "NOR2_X4A_A9TL40",
+    "medium_delay": "BUF_X0P7M_A9TL40",
+    "medium_mux": "MXT2_X0P5M_A9TL40",
+    "xor": "XOR2_X0P5M_A9TR40"
+  },
+  "code_settle_guards_s": [
+    1.5e-09,
+    3.3e-09
+  ],
+  "conditional_repaired_scenario_budget": 1,
+  "episode_isolation_guard_s": 3.5e-09,
+  "fine_K": 10,
+  "forbidden": [
+    "bypass",
+    "ConfigSkip",
+    "clock_gating",
+    "update_isolation",
+    "ideal_delay",
+    "ideal_capacitor",
+    "FSM",
+    "counter",
+    "register",
+    "programmable_margin",
+    "droop",
+    "PVT",
+    "RTL",
+    "layout"
+  ],
+  "frozen_evidence_sha256": "7018b6446be6c3855f653b958b684a6618c5ae42d0655cf4673221af3ee4cf0c",
+  "internal_nodes": [
+    "x7",
+    "x8",
+    "x9",
+    "x10",
+    "my6",
+    "my7",
+    "my8",
+    "my9",
+    "medium_out"
+  ],
+  "medium_N": 16,
+  "old_dynamic_0p80_rerun": 0,
+  "old_dynamic_0p95_rerun": 0,
+  "old_dynamic_1p10_rerun": 0,
+  "recovery_guards_s": [
+    2.5e-09,
+    2.7e-09,
+    3.3e-09
+  ],
+  "reset_separations_s": [
+    4.9e-10,
+    1e-09
+  ],
+  "root_cause_matrix_scenario_budget": 1,
+  "schema_version": 1,
+  "study": "dynamic_m8_history_root_cause_v1",
+  "upstream_static_84_scenarios_rerun": 0,
+  "vdd_v": 0.8
+}

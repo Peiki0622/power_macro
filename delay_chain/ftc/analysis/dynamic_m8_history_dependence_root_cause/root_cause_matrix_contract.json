@@ -1,0 +1,586 @@
+{
+  "code_settle_guards_s": [
+    1.5e-09,
+    3.3e-09
+  ],
+  "episode_count": 29,
+  "episodes": [
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "isolated_m7",
+      "episode_id": "A1",
+      "group": "A",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "isolated_m8",
+      "episode_id": "A2",
+      "group": "A",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "isolated_m9",
+      "episode_id": "A3",
+      "group": "A",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7_to_m8_2p7",
+      "episode_id": "B1",
+      "group": "B",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9_to_m8_2p7",
+      "episode_id": "B2",
+      "group": "B",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m8_to_m8_2p7",
+      "episode_id": "B3",
+      "group": "B",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          8,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7to_m8_guard_2p5ns",
+      "episode_id": "C1",
+      "group": "C",
+      "recovery_guard_s": 2.5e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7to_m8_guard_2p7ns",
+      "episode_id": "C2",
+      "group": "C",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7to_m8_guard_3p3000000000000003ns",
+      "episode_id": "C3",
+      "group": "C",
+      "recovery_guard_s": 3.3e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9to_m8_guard_2p5ns",
+      "episode_id": "C4",
+      "group": "C",
+      "recovery_guard_s": 2.5e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9to_m8_guard_2p7ns",
+      "episode_id": "C5",
+      "group": "C",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9to_m8_guard_3p3000000000000003ns",
+      "episode_id": "C6",
+      "group": "C",
+      "recovery_guard_s": 3.3e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "config_only_m7",
+      "episode_id": "D1",
+      "group": "D",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          false
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "active_m7",
+      "episode_id": "D2",
+      "group": "D",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "config_only_m9",
+      "episode_id": "D3",
+      "group": "D",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          false
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "active_m9",
+      "episode_id": "D4",
+      "group": "D",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7_to_m8_settle_1p5",
+      "episode_id": "E1",
+      "group": "E",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "m7_to_m8_settle_3p3",
+      "episode_id": "E2",
+      "group": "E",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9_to_m8_settle_1p5",
+      "episode_id": "E3",
+      "group": "E",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "m9_to_m8_settle_3p3",
+      "episode_id": "E4",
+      "group": "E",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7_to_m8_reset_0p49",
+      "episode_id": "F1",
+      "group": "F",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7_to_m8_reset_1p00",
+      "episode_id": "F2",
+      "group": "F",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 1e-09,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9_to_m8_reset_0p49",
+      "episode_id": "F3",
+      "group": "F",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9_to_m8_reset_1p00",
+      "episode_id": "F4",
+      "group": "F",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 1e-09,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "ascending",
+      "episode_id": "G1",
+      "group": "G",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ],
+        [
+          9,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "descending",
+      "episode_id": "G2",
+      "group": "G",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ],
+        [
+          7,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m7_to_m8_2p7",
+      "episode_id": "B1R",
+      "group": "B",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          7,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 1.5e-09,
+      "condition": "m9_to_m8_2p7",
+      "episode_id": "B2R",
+      "group": "B",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          9,
+          true
+        ],
+        [
+          8,
+          true
+        ]
+      ]
+    },
+    {
+      "active_pulse": true,
+      "code_settle_s": 3.3e-09,
+      "condition": "isolated_m8",
+      "episode_id": "A4",
+      "group": "A",
+      "recovery_guard_s": 2.7e-09,
+      "reset_separation_s": 4.9e-10,
+      "steps": [
+        [
+          8,
+          true
+        ]
+      ]
+    }
+  ],
+  "internal_nodes": [
+    "x7",
+    "x8",
+    "x9",
+    "x10",
+    "my6",
+    "my7",
+    "my8",
+    "my9",
+    "medium_out"
+  ],
+  "isolation_guard_s": 3.5e-09,
+  "measurement_contract_version": "windowed_10_50_crossings_v1",
+  "recovery_guards_s": [
+    2.5e-09,
+    2.7e-09,
+    3.3e-09
+  ],
+  "required_groups": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G"
+  ],
+  "reset_separations_s": [
+    4.9e-10,
+    1e-09
+  ],
+  "schema_version": 1,
+  "study": "dynamic_m8_history_root_cause_v1",
+  "vdd_v": 0.8
+}

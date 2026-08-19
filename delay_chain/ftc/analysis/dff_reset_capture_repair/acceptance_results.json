@@ -1,0 +1,122 @@
+{
+  "created_in_this_invocation": [
+    "acceptance_v3_0p80_normal__5fd317a0d83a0525fcfa",
+    "acceptance_v3_0p95_normal__8547870f11f6ec2d2650",
+    "acceptance_v3_1p10_normal__30466b052ce586f64fcf"
+  ],
+  "decision": "NO-GO",
+  "old_reruns": {
+    "old_dynamic_0p80_rerun": 0,
+    "old_dynamic_0p95_rerun": 0,
+    "old_dynamic_1p10_rerun": 0,
+    "old_recovery_diagnostic_0p80_rerun": 0,
+    "upstream_static_84_scenarios_rerun": 0,
+    "upstream_static_hspice_rerun": 0
+  },
+  "per_scenario": [
+    {
+      "active_ck_edge_count": 110,
+      "active_probe_count": 110,
+      "bounded_transition_count": 65,
+      "bounded_transition_pass_count": 65,
+      "coarse_boundary": 9,
+      "fallback_used": false,
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "guard_probe_index": 36,
+      "lock_hold_probe_index": 37,
+      "maximum_recovery_ratio": 0.30378660474999997,
+      "primary_medium_base": 7,
+      "protocol_revision": "coarse_and_fine_pair_v3",
+      "reasons": [
+        "recovery_tail_not_below_0p1_vdd"
+      ],
+      "scenario": "0p80_normal",
+      "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_0p80_normal__5fd317a0d83a0525fcfa",
+      "selected_fine_phase": "fine_m7_",
+      "selected_medium_base": 7,
+      "status": "NO-GO",
+      "trajectory_kind": "paired_coarse_bounded_fine_branches",
+      "vdd_v": 0.8
+    },
+    {
+      "active_ck_edge_count": 104,
+      "active_probe_count": 104,
+      "bounded_transition_count": 62,
+      "bounded_transition_pass_count": 62,
+      "coarse_boundary": 6,
+      "fallback_used": false,
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "guard_probe_index": 30,
+      "lock_hold_probe_index": 31,
+      "maximum_recovery_ratio": 2.116449888421053e-05,
+      "primary_medium_base": 4,
+      "protocol_revision": "coarse_and_fine_pair_v3",
+      "reasons": [],
+      "scenario": "0p95_normal",
+      "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_0p95_normal__8547870f11f6ec2d2650",
+      "selected_fine_phase": "fine_m4_",
+      "selected_medium_base": 4,
+      "status": "GO",
+      "trajectory_kind": "paired_coarse_bounded_fine_branches",
+      "vdd_v": 0.95
+    },
+    {
+      "active_ck_edge_count": 100,
+      "active_probe_count": 100,
+      "bounded_transition_count": 60,
+      "bounded_transition_pass_count": 60,
+      "coarse_boundary": 4,
+      "fallback_used": false,
+      "fine_boundary": 8,
+      "guard_code": 9,
+      "guard_probe_index": 32,
+      "lock_hold_probe_index": 33,
+      "maximum_recovery_ratio": 2.7530850718181815e-05,
+      "primary_medium_base": 2,
+      "protocol_revision": "coarse_and_fine_pair_v3",
+      "reasons": [],
+      "scenario": "1p10_normal",
+      "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_1p10_normal__30466b052ce586f64fcf",
+      "selected_fine_phase": "fine_m2_",
+      "selected_medium_base": 2,
+      "status": "GO",
+      "trajectory_kind": "paired_coarse_bounded_fine_branches",
+      "vdd_v": 1.1
+    }
+  ],
+  "protocol_revision": "coarse_and_fine_pair_v3",
+  "reasons": [
+    "recovery_tail_not_below_0p1_vdd"
+  ],
+  "retained_measurement_sha256": "ba581f3d376fa19a4414959e9891440bcb75e0d529c10ebfe967982d65589c60",
+  "retained_v1_scenario_identities": [
+    "acceptance_0p80_fallback__a9175890477ad93f1316",
+    "acceptance_0p80_normal__016f7fac3f44be7227a7",
+    "acceptance_0p95_normal__d083a4c62da0b1917572",
+    "acceptance_1p10_normal__aae24167b726811f089b",
+    "acceptance_v2_0p80_fallback__af4656ee216892ae4177",
+    "acceptance_v2_0p80_normal__a0649606e1a3f55a71a6",
+    "acceptance_v2_0p95_normal__17f201b8764df86a816c",
+    "acceptance_v2_1p10_normal__1c5022379dc645196eb3"
+  ],
+  "reused_in_this_invocation": [],
+  "scenario_paths": [
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_0p80_normal__5fd317a0d83a0525fcfa",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_0p95_normal__8547870f11f6ec2d2650",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dff_reset_capture_repair/r1/scenarios/acceptance_v3_1p10_normal__30466b052ce586f64fcf"
+  ],
+  "schema_version": 4,
+  "study": "dff_reset_capture_repair_v1",
+  "successful_scenario_identities": [
+    "acceptance_v3_0p80_normal__5fd317a0d83a0525fcfa",
+    "acceptance_v3_0p95_normal__8547870f11f6ec2d2650",
+    "acceptance_v3_1p10_normal__30466b052ce586f64fcf"
+  ],
+  "task_successful_scenario_identities": [
+    "acceptance_v3_0p80_normal__5fd317a0d83a0525fcfa",
+    "acceptance_v3_0p95_normal__8547870f11f6ec2d2650",
+    "acceptance_v3_1p10_normal__30466b052ce586f64fcf"
+  ]
+}

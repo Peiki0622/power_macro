@@ -1,0 +1,16 @@
+{
+  "configuration_glitch_count": 0,
+  "decision": "CONCLUSIVE",
+  "old_dynamic_0p80_rerun": 0,
+  "old_dynamic_0p95_rerun": 0,
+  "old_dynamic_1p10_rerun": 0,
+  "old_recovery_diagnostic_0p80_rerun": 0,
+  "repaired_hspice_scenarios": 0,
+  "root_cause_hspice_scenarios": 1,
+  "scenario": "delay_chain/ftc/runs/dynamic_m8_history_root_cause/r1/scenarios/history_root_cause_matrix_0p80__d082dc6b6eec2dc8448e",
+  "scenario_completion_status": "PASS",
+  "schema_version": 1,
+  "study": "dynamic_m8_history_root_cause_v1",
+  "upstream_static_84_scenarios_rerun": 0,
+  "upstream_static_hspice_rerun": 0
+}
