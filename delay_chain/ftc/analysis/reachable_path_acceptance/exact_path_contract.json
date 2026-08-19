@@ -1,0 +1,12 @@
+{
+  "configuration_update_sclk_edges": 0,
+  "configuration_update_settle_s": 1.5e-09,
+  "hspice_run_count": 0,
+  "hspice_scenario_budget": 3,
+  "scenarios": [
+    "0p80",
+    "0p95",
+    "1p10"
+  ],
+  "schema_version": 1
+}

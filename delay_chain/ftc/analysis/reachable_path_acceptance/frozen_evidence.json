@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "b822c0295c01348efb69eaa5b492ce4065786d7d",
+  "hspice_scenarios_created": 0,
+  "input_sha256": {
+    "acceptance_probe_results.csv": "411a4c8167d3a8ea721591108cd9ec386bd603b5e0af84e5d727606580fdaac3",
+    "acceptance_results.json": "4322b0915e25c78f1f293cf11c52e40cdb78099436683a8b719c3d278a6c1c16",
+    "acceptance_transition_audit.csv": "641c70e1340fc7b225aa78a60c5e5b0ea7f5b1d15bff5ea0814b06be9fa0b789",
+    "guarded_lock_contract.json": "bf2c0d262dcee1cce37843a7b7caf425178746abc373a7190fbd28162512b9c2",
+    "recovery_diagnostic_results.csv": "8cbbd2f3cc21cc072c0e6428a3ae212108348cadc62bfe146598325ed3bae2bb"
+  },
+  "legacy_acceptance_semantics": "all_prerendered_rows_are_global_gates",
+  "legacy_detector_audit": {
+    "failure_aggregation_before_reachability": true,
+    "source": "delay_chain/ftc/scripts/run_dff_reset_capture_repair.py"
+  },
+  "legacy_status": {
+    "0p80": "NO-GO",
+    "0p95": "GO",
+    "1p10": "GO"
+  },
+  "schema_version": 1
+}

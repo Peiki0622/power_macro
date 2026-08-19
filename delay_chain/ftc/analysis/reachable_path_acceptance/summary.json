@@ -1,0 +1,70 @@
+{
+  "all_old_rerun_counters": {
+    "legacy_dynamic": 0,
+    "legacy_recovery_diagnostic": 0,
+    "upstream_static_84": 0
+  },
+  "baseline_commit": "b822c0295c01348efb69eaa5b492ce4065786d7d",
+  "coarse_boundary_by_vdd": {
+    "0p80": 9,
+    "0p95": 6,
+    "1p10": 4
+  },
+  "counterfactual_failure_count_by_vdd": {
+    "0p80": 19,
+    "0p95": 0,
+    "1p10": 0
+  },
+  "counterfactual_probe_count_by_vdd": {
+    "0p80": 82,
+    "0p95": 82,
+    "1p10": 79
+  },
+  "final_dynamic_protocol_decision": "PENDING_HSPICE",
+  "fine_boundary_by_vdd": {
+    "0p80": 5,
+    "0p95": 5,
+    "1p10": 8
+  },
+  "formal_exact_path_decision": "PENDING_HSPICE",
+  "full_diagnostic_space_guard_s": 2.8e-09,
+  "guard_code_by_vdd": {
+    "0p80": 6,
+    "0p95": 6,
+    "1p10": 9
+  },
+  "legacy_decision": "NO-GO",
+  "legacy_failure_count_by_vdd": {
+    "0p80": 19,
+    "0p95": 0,
+    "1p10": 0
+  },
+  "legacy_reason": "recovery_tail_not_below_0p1_vdd",
+  "new_exact_path_hspice_scenarios": 0,
+  "old_prerendered_probe_count_by_vdd": {
+    "0p80": 110,
+    "0p95": 104,
+    "1p10": 100
+  },
+  "reachability_semantics_decision": "GO",
+  "reachable_failure_count_by_vdd": {
+    "0p80": 0,
+    "0p95": 0,
+    "1p10": 0
+  },
+  "reachable_functional_guard_s": 2.7e-09,
+  "reachable_probe_count_by_vdd": {
+    "0p80": 28,
+    "0p95": 22,
+    "1p10": 21
+  },
+  "reachable_worst_return_node": "dff_ck",
+  "reachable_worst_return_probe": 19,
+  "reachable_worst_return_settle_s": 2.4714621999999416e-09,
+  "selected_medium_base_by_vdd": {
+    "0p80": 7,
+    "0p95": 4,
+    "1p10": 2
+  },
+  "study": "ftc_reachable_path_acceptance"
+}

@@ -1,0 +1,12 @@
+{
+  "all_prerendered_electrical_failure_count": 19,
+  "decision": "GO",
+  "formal_reasons": [],
+  "legacy_report_count_mismatch": {
+    "json_operation_failure_count": 18,
+    "json_terminal_failure_count": 1,
+    "report_claimed": 19
+  },
+  "reachable_electrical_failure_count": 0,
+  "reachable_failures": []
+}

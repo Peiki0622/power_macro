@@ -1,0 +1,7 @@
+{
+  "excluded_counterfactual_probe_109": true,
+  "frozen_functional_guard_s": 2.7e-09,
+  "quantized_guard_s": 2.7e-09,
+  "raw_guard_s": 2.6714621999999418e-09,
+  "sweep_performed": false
+}

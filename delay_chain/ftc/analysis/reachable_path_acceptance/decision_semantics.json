@@ -1,0 +1,26 @@
+{
+  "backoff": {
+    "comparison_probes": 0,
+    "operation": "config_update",
+    "reset_asserted": true,
+    "sclk_low": true,
+    "settle_s": 1.5e-09,
+    "single_thermometer_bit": true,
+    "steps": 2
+  },
+  "coarse": {
+    "ambiguous_continues": true,
+    "decision": "two_independent_probes_both_stable_low_stop",
+    "start": 0
+  },
+  "fine": {
+    "boundary": "first_not_stable_high",
+    "guard": "boundary_plus_one",
+    "guard_probe": "one_scan",
+    "lock_hold": "one_independent_repeat",
+    "q_decision": "both_reads_same_rail",
+    "scan_once": true
+  },
+  "post_lock": "all_pre_rendered_probes_counterfactual",
+  "schema_version": 1
+}
