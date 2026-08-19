@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "568f8ace2b7fa813a2bb082302c182b51288dd53",
+  "decision": "Dynamic Recovery Window Repair = NO-GO",
+  "final_dynamic_protocol_decision": "Dynamic Startup Calibration Protocol = NO-GO",
+  "new_diagnostic_hspice_scenarios": 1,
+  "new_recovery_guard_s": null,
+  "new_repaired_hspice_scenarios": 0,
+  "old_dynamic_0p80_rerun": 0,
+  "old_dynamic_0p95_rerun": 0,
+  "old_dynamic_1p10_rerun": 0,
+  "old_recovery_guard_s": 2.5e-09,
+  "reasons": [
+    "diagnostic_q_sequence_changed"
+  ],
+  "repaired_0p80_status": "NOT_RUN",
+  "retained_0p95_status": "GO",
+  "retained_1p10_status": "GO",
+  "reused_new_task_scenarios": 1,
+  "upstream_static_84_scenarios_rerun": 0,
+  "upstream_static_hspice_rerun": 0,
+  "worst_return_settle_s": null
+}

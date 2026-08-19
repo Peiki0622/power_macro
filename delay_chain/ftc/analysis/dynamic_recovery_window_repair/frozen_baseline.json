@@ -1,0 +1,79 @@
+{
+  "baseline_commit": "568f8ace2b7fa813a2bb082302c182b51288dd53",
+  "decision": "Dynamic Startup Calibration Protocol = NO-GO",
+  "old_dynamic_0p80_rerun": 0,
+  "old_dynamic_0p95_rerun": 0,
+  "old_dynamic_1p10_rerun": 0,
+  "old_recovery_guard_s": 2.5e-09,
+  "old_scenario": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/dynamic_startup_calibration_protocol/r3/scenarios/dynamic_0p80__7c88960494ae39fe9981",
+  "old_scenario_parameters": {
+    "code_settle_guard_s": 1.5e-09,
+    "control_edge_s": 1e-11,
+    "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+    "fine_K": 10,
+    "fine_driver": "BUF_X0P8M_A9TL40",
+    "fine_load": "NOR2_X4A_A9TL40",
+    "integration_contract_sha256": "20ab99affddf5d9854068162f9ecdcdbef962541db6fa015e09479407ce94c84",
+    "medium_N": 16,
+    "medium_delay_cell": "BUF_X0P7M_A9TL40",
+    "medium_mux_cell": "MXT2_X0P5M_A9TL40",
+    "q_read_offset_s": 2.3e-09,
+    "q_settle_s": 2e-10,
+    "recovery_guard_s": 2.5e-09,
+    "sensor_tap": 29,
+    "study": "dynamic_startup_calibration_protocol_v1",
+    "timing_contract_sha256": "a8f6b1880ba2c8518a15e2deb61b982ae0090906aaec43a2347eddd92854d2fa",
+    "trajectory_sha256": "fe9f73a82598c23f81baab180fd88e729d3125614954b395063cb2f6f68391d2",
+    "vdd_v": 0.8,
+    "xor_cell": "XOR2_X0P5M_A9TR40"
+  },
+  "reasons": [
+    "recovery_window_insufficient"
+  ],
+  "retained_0p80": [
+    "NO-GO",
+    "1111111110",
+    "10",
+    0,
+    8,
+    1
+  ],
+  "retained_0p95": [
+    "GO",
+    "1111110",
+    "10",
+    0,
+    5,
+    1
+  ],
+  "retained_1p10": [
+    "GO",
+    "11110",
+    "11110",
+    0,
+    3,
+    4
+  ],
+  "schema_version": 1,
+  "source_file_sha256": {
+    "dynamic_lock_table.json": "189ce5ea2cbe08cbdb0cc8edd42ca62d54e6069826331bd6c36de5efa9dc3a20",
+    "ftc_config.json": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+    "integration_contract.json": "5a90b85a7df82932926f7f92c2b138e66c00789ca1d8bd2eb8293674b4a8d5ef",
+    "old_listing.lis": "4738fd443eb66bc48057cd640619422144dad7961aef3fd39f47144eefaceba4",
+    "old_measurement.csv": "b134d6ccb6af16b891c7c44b52de4d12928ecaf35e057720330792fabc101bae",
+    "old_scenario_manifest.json": "0a2b736e12e4f5d36b15aeccfab3b6eae035acf2c1e60dff5622e84abecf4242",
+    "probe_results.csv": "427cc0a29c9461dc1254890f0b15a4c7e6ce5d4920eea10b2ef13ee23da9c7c2",
+    "q_read_contract.json": "4466d9c12c4122f2bb05876c4008383243f1b6d524328f4557e952bdb4a20b95",
+    "report.md": "42525be5093c538fae1b889616144824542a44f6e877be012f748dc524e6549a",
+    "runner.py": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+    "selected_cells.json": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "summary.json": "5f8a28021161575cfc0fe511de783c2ef90c79081d0aa4c7920cbc03c6eb1cba",
+    "timing_contract.json": "3f370dfa2cbccf84ed9c53271c95b048821012cf858d1f0605858ae29b0969f9",
+    "trajectory_contract.json": "d122b6bf2c3d5c1326c56d25fc979e7dbb0a4cabcef7820e9453268603008343",
+    "transition_audit.csv": "9590b15f24142bcf264ef6de0d47ba32b258bf42c0530e464853866df0382afa",
+    "xor_fine.csv": "a5cc6c750459d3ba4effc17ad84f279702437b66cfb39d1af8144f33ac792acb"
+  },
+  "study": "dynamic_recovery_window_repair_v1",
+  "upstream_static_84_scenarios_rerun": 0,
+  "upstream_static_hspice_rerun": 0
+}

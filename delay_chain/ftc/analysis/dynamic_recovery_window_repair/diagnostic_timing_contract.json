@@ -1,0 +1,38 @@
+{
+  "derivation": "ceil_0.1ns(max(t_xor29_fall-launch over 0.80..1.10 V) + retained_D_delay_max + 2*Q_SETTLE)",
+  "diagnostic_bound_s": 3.3e-09,
+  "diagnostic_extra_settle_s": 4e-10,
+  "historical_launch_s": 1e-09,
+  "max_xor_fall_minus_launch_s": 1.5751873509999997e-09,
+  "measurement_contract_version": "return_10pct_v1",
+  "old_recovery_guard_s": 2.5e-09,
+  "q_settle_s": 2e-10,
+  "retained_D_delay_max_s": 1.269042997e-09,
+  "rounding_quantum_s": 1e-10,
+  "schema_version": 1,
+  "sources": {
+    "baseline": {
+      "dynamic_lock_table.json": "189ce5ea2cbe08cbdb0cc8edd42ca62d54e6069826331bd6c36de5efa9dc3a20",
+      "ftc_config.json": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+      "integration_contract.json": "5a90b85a7df82932926f7f92c2b138e66c00789ca1d8bd2eb8293674b4a8d5ef",
+      "old_listing.lis": "4738fd443eb66bc48057cd640619422144dad7961aef3fd39f47144eefaceba4",
+      "old_measurement.csv": "b134d6ccb6af16b891c7c44b52de4d12928ecaf35e057720330792fabc101bae",
+      "old_scenario_manifest.json": "0a2b736e12e4f5d36b15aeccfab3b6eae035acf2c1e60dff5622e84abecf4242",
+      "probe_results.csv": "427cc0a29c9461dc1254890f0b15a4c7e6ce5d4920eea10b2ef13ee23da9c7c2",
+      "q_read_contract.json": "4466d9c12c4122f2bb05876c4008383243f1b6d524328f4557e952bdb4a20b95",
+      "report.md": "42525be5093c538fae1b889616144824542a44f6e877be012f748dc524e6549a",
+      "runner.py": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+      "selected_cells.json": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+      "summary.json": "5f8a28021161575cfc0fe511de783c2ef90c79081d0aa4c7920cbc03c6eb1cba",
+      "timing_contract.json": "3f370dfa2cbccf84ed9c53271c95b048821012cf858d1f0605858ae29b0969f9",
+      "trajectory_contract.json": "d122b6bf2c3d5c1326c56d25fc979e7dbb0a4cabcef7820e9453268603008343",
+      "transition_audit.csv": "9590b15f24142bcf264ef6de0d47ba32b258bf42c0530e464853866df0382afa",
+      "xor_fine.csv": "a5cc6c750459d3ba4effc17ad84f279702437b66cfb39d1af8144f33ac792acb"
+    },
+    "ftc_config.json": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+    "q_read_contract.json": "4466d9c12c4122f2bb05876c4008383243f1b6d524328f4557e952bdb4a20b95",
+    "xor_fine.csv": "a5cc6c750459d3ba4effc17ad84f279702437b66cfb39d1af8144f33ac792acb"
+  },
+  "study": "dynamic_recovery_window_repair_v1",
+  "vdd_v": 0.8
+}
