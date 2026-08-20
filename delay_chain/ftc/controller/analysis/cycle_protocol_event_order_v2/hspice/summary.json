@@ -1,0 +1,54 @@
+{
+  "decision": "Cycle-Quantized Startup Protocol = GO",
+  "first_real_failure": null,
+  "results": [
+    {
+      "config_update_count": 17,
+      "cycle_contract_sha256": "c15ca1360ebffe0daa384245f1bdd217537b540e35508eea8144044d75d01068",
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "deck_sha256": "f7f0a86f40f1f8ae3cacf8f43fffedc1c084701c1ca0b4ab8e074a7fba1831f9",
+      "errors": [],
+      "final_locked_code": {
+        "F": 6,
+        "M": 7
+      },
+      "probe_count": 28,
+      "scenario": "cycle_path_v2_0p80"
+    },
+    {
+      "config_update_count": 14,
+      "cycle_contract_sha256": "e728b4a46bc16364f1837c667fc439ac42cb6c1b8366105ecd6d2c8fb9629276",
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "deck_sha256": "39e815dece94c52f6ed17755ceff8c6baf998adcce26edc7516801056b53fa10",
+      "errors": [],
+      "final_locked_code": {
+        "F": 6,
+        "M": 4
+      },
+      "probe_count": 22,
+      "scenario": "cycle_path_v2_0p95"
+    },
+    {
+      "config_update_count": 15,
+      "cycle_contract_sha256": "90f09f1e71d3733f3ca16c6302ef1f847948e4c3321a89ec23fc77259d5ca582",
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "deck_sha256": "d5f3e2f4773a18941a2c8532b54cf3247aa58a68ce32656ae01bd4813e4be71d",
+      "errors": [],
+      "final_locked_code": {
+        "F": 9,
+        "M": 2
+      },
+      "probe_count": 21,
+      "scenario": "cycle_path_v2_1p10"
+    }
+  ],
+  "scenario_budget": 3,
+  "scenario_count": 3,
+  "scenario_order": [
+    "cycle_path_v2_0p80",
+    "cycle_path_v2_0p95",
+    "cycle_path_v2_1p10"
+  ],
+  "schema_version": 2,
+  "timing_template_changed_after_execution": false
+}

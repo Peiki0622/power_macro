@@ -1,0 +1,341 @@
+{
+  "contracts_and_decks": [
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p80_contract.json",
+      "cycle_contract_sha256": "c15ca1360ebffe0daa384245f1bdd217537b540e35508eea8144044d75d01068",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p80/cycle_bridge_v2.sp",
+      "deck_sha256": "f7f0a86f40f1f8ae3cacf8f43fffedc1c084701c1ca0b4ab8e074a7fba1831f9",
+      "scenario": "cycle_path_v2_0p80",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "config_settle_two_cycles": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "launch_to_sample_1_interval_met": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "0p80"
+    },
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p95_contract.json",
+      "cycle_contract_sha256": "e728b4a46bc16364f1837c667fc439ac42cb6c1b8366105ecd6d2c8fb9629276",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p95/cycle_bridge_v2.sp",
+      "deck_sha256": "39e815dece94c52f6ed17755ceff8c6baf998adcce26edc7516801056b53fa10",
+      "scenario": "cycle_path_v2_0p95",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "config_settle_two_cycles": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "launch_to_sample_1_interval_met": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "0p95"
+    },
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_1p10_contract.json",
+      "cycle_contract_sha256": "90f09f1e71d3733f3ca16c6302ef1f847948e4c3321a89ec23fc77259d5ca582",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_1p10/cycle_bridge_v2.sp",
+      "deck_sha256": "d5f3e2f4773a18941a2c8532b54cf3247aa58a68ce32656ae01bd4813e4be71d",
+      "scenario": "cycle_path_v2_1p10",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "config_settle_two_cycles": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "launch_to_sample_1_interval_met": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "1p10"
+    }
+  ],
+  "decision": "Event-Ordered HSPICE Deck Freeze = GO",
+  "historical_v1_tree_after": [
+    {
+      "path": "build_cycle_protocol.py",
+      "sha256": "507a01dc84e3fd26aa7596334729b0dc1516f93df8e7023ea3b975cf8345c0ca"
+    },
+    {
+      "path": "cycle_path_0p80_contract.json",
+      "sha256": "f0c568e4560373507e8ce39180e202def035d3c3890426b5f8ab6410b6b051b8"
+    },
+    {
+      "path": "cycle_path_0p95_contract.json",
+      "sha256": "0d5181be3e6b2e0f18259235f385d08be7b16a05ac62913c83662296cba85550"
+    },
+    {
+      "path": "cycle_path_1p10_contract.json",
+      "sha256": "10bb6cb793ca770315566af190f4d65d6b61722652600b25aed7f1db891ba140"
+    },
+    {
+      "path": "cycle_timing_contract.json",
+      "sha256": "d16fd8f3282154dfa9a5dbd3139c88c8118a2b5b482c1de96c7e4f8ebd2f1f83"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.ic0",
+      "sha256": "99524654eb1f05d8cb9473aae4a02fbbf9891c32a9c50706396b4c7e30e362d4"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.lis",
+      "sha256": "5d3f081e8146f5c5024267cb2d3ecdf78b23ef321e0972987ba17455c5c4b99c"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.mt0.csv",
+      "sha256": "2a57b998f3dc1bc2ff2250c44c274c3d615fb0628850969905184c8015ecccdf"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.sp",
+      "sha256": "6ef7a72b35a6efee0a0f6f6d28068ed801ff26a6708d11f65fc9fdf28d62bf07"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.st0",
+      "sha256": "9b57748a3bda2f7cb704183dfd56620f0656ff6eb0fae7928024c0f1c61cc23c"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/empty_subckt.sp_cal",
+      "sha256": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/hspice_command.log",
+      "sha256": "53e5254f3e8b33b69ef36228053b0f68cba324871ea0d7e496748dd7d078df00"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/probe_audit.csv",
+      "sha256": "3306ef7416e039e15c84825a7cbbf646b9d09112b454fd6e5c2b05b9a24c7342"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/render_manifest.json",
+      "sha256": "72a03b88f174f01ca2ce64a1ac7c41221f4f2d4ca0b6f4775a040eeea10e6d72"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/scenario_acceptance.json",
+      "sha256": "2abbd7eafe48f2a082d36ebb8d0936ec545cd0e7f2e0bbd0799f3e22555eb266"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.ic0",
+      "sha256": "5ccd6ead7baacba4b5c0f64964d90f4936f3240797848cf6b44580f67aa9d761"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.lis",
+      "sha256": "8ef4624b5eb3b9f080c39f9e6bb0c9d3ac20e9098f0087103d8c199335474cb7"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.mt0.csv",
+      "sha256": "e41538bb4fe337b33df3235fe5383582be15c78de385da5dc3961389292f6f92"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.sp",
+      "sha256": "ea97cc55f5942336b667e1395f68a357b698e929d243ee9a8ee7a8a43af996e9"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.st0",
+      "sha256": "19c88dbdceb6cee0be95b9dfcb06da7009c66eb7162f89c102dc75799408785a"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/empty_subckt.sp_cal",
+      "sha256": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/hspice_command.log",
+      "sha256": "53e5254f3e8b33b69ef36228053b0f68cba324871ea0d7e496748dd7d078df00"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/probe_audit.csv",
+      "sha256": "0630e8d5f71eb1e3d7a81c87e9f247c372bd9c2acddc199d4ba96042d1b789e1"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/render_manifest.json",
+      "sha256": "4345e422b3ff609252303dbd68bdd8dc1d58bebbececa4b72c1644b1b0a8bd00"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/scenario_acceptance.json",
+      "sha256": "5dd8c99f64d279753c4814ba7c1e6a9c2ff3c0f2a915a8a8852cb6fccd294842"
+    },
+    {
+      "path": "hspice/cycle_path_1p10/cycle_bridge.sp",
+      "sha256": "b6bed83c07fe6fae88af2954409eba10e222ce3fa04dd9d85d422f9332a56a97"
+    },
+    {
+      "path": "hspice/cycle_path_1p10/render_manifest.json",
+      "sha256": "9d87f416c17eb0e484ed4d66987b9fde9a311248cf87f2607a4e8e54b6b9cf4e"
+    },
+    {
+      "path": "hspice/pre_run_freeze.json",
+      "sha256": "87680c69a7c72fddf3f9482df20fec615e140fc89a8e6b1edf96a04b5ff72711"
+    },
+    {
+      "path": "hspice/summary.json",
+      "sha256": "32dacf2c1ec4f58ea139c8004fb8c7a354057da6ae898e4ca40b7232358a62cf"
+    },
+    {
+      "path": "pre_run_freeze.json",
+      "sha256": "dae07c651806165717e55ba91cf811b9f0e53d9a6a762bb1e328dddca06f163d"
+    },
+    {
+      "path": "run_cycle_bridge.py",
+      "sha256": "56f03ba8d018b61349f477fcb0f7cc90e07327e7a6b31979b7686cc6b4d7cc39"
+    }
+  ],
+  "historical_v1_tree_before": [
+    {
+      "path": "build_cycle_protocol.py",
+      "sha256": "507a01dc84e3fd26aa7596334729b0dc1516f93df8e7023ea3b975cf8345c0ca"
+    },
+    {
+      "path": "cycle_path_0p80_contract.json",
+      "sha256": "f0c568e4560373507e8ce39180e202def035d3c3890426b5f8ab6410b6b051b8"
+    },
+    {
+      "path": "cycle_path_0p95_contract.json",
+      "sha256": "0d5181be3e6b2e0f18259235f385d08be7b16a05ac62913c83662296cba85550"
+    },
+    {
+      "path": "cycle_path_1p10_contract.json",
+      "sha256": "10bb6cb793ca770315566af190f4d65d6b61722652600b25aed7f1db891ba140"
+    },
+    {
+      "path": "cycle_timing_contract.json",
+      "sha256": "d16fd8f3282154dfa9a5dbd3139c88c8118a2b5b482c1de96c7e4f8ebd2f1f83"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.ic0",
+      "sha256": "99524654eb1f05d8cb9473aae4a02fbbf9891c32a9c50706396b4c7e30e362d4"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.lis",
+      "sha256": "5d3f081e8146f5c5024267cb2d3ecdf78b23ef321e0972987ba17455c5c4b99c"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.mt0.csv",
+      "sha256": "2a57b998f3dc1bc2ff2250c44c274c3d615fb0628850969905184c8015ecccdf"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.sp",
+      "sha256": "6ef7a72b35a6efee0a0f6f6d28068ed801ff26a6708d11f65fc9fdf28d62bf07"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/cycle_bridge.st0",
+      "sha256": "9b57748a3bda2f7cb704183dfd56620f0656ff6eb0fae7928024c0f1c61cc23c"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/empty_subckt.sp_cal",
+      "sha256": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/hspice_command.log",
+      "sha256": "53e5254f3e8b33b69ef36228053b0f68cba324871ea0d7e496748dd7d078df00"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/probe_audit.csv",
+      "sha256": "3306ef7416e039e15c84825a7cbbf646b9d09112b454fd6e5c2b05b9a24c7342"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/render_manifest.json",
+      "sha256": "72a03b88f174f01ca2ce64a1ac7c41221f4f2d4ca0b6f4775a040eeea10e6d72"
+    },
+    {
+      "path": "hspice/cycle_path_0p80/scenario_acceptance.json",
+      "sha256": "2abbd7eafe48f2a082d36ebb8d0936ec545cd0e7f2e0bbd0799f3e22555eb266"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.ic0",
+      "sha256": "5ccd6ead7baacba4b5c0f64964d90f4936f3240797848cf6b44580f67aa9d761"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.lis",
+      "sha256": "8ef4624b5eb3b9f080c39f9e6bb0c9d3ac20e9098f0087103d8c199335474cb7"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.mt0.csv",
+      "sha256": "e41538bb4fe337b33df3235fe5383582be15c78de385da5dc3961389292f6f92"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.sp",
+      "sha256": "ea97cc55f5942336b667e1395f68a357b698e929d243ee9a8ee7a8a43af996e9"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/cycle_bridge.st0",
+      "sha256": "19c88dbdceb6cee0be95b9dfcb06da7009c66eb7162f89c102dc75799408785a"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/empty_subckt.sp_cal",
+      "sha256": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/hspice_command.log",
+      "sha256": "53e5254f3e8b33b69ef36228053b0f68cba324871ea0d7e496748dd7d078df00"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/probe_audit.csv",
+      "sha256": "0630e8d5f71eb1e3d7a81c87e9f247c372bd9c2acddc199d4ba96042d1b789e1"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/render_manifest.json",
+      "sha256": "4345e422b3ff609252303dbd68bdd8dc1d58bebbececa4b72c1644b1b0a8bd00"
+    },
+    {
+      "path": "hspice/cycle_path_0p95/scenario_acceptance.json",
+      "sha256": "5dd8c99f64d279753c4814ba7c1e6a9c2ff3c0f2a915a8a8852cb6fccd294842"
+    },
+    {
+      "path": "hspice/cycle_path_1p10/cycle_bridge.sp",
+      "sha256": "b6bed83c07fe6fae88af2954409eba10e222ce3fa04dd9d85d422f9332a56a97"
+    },
+    {
+      "path": "hspice/cycle_path_1p10/render_manifest.json",
+      "sha256": "9d87f416c17eb0e484ed4d66987b9fde9a311248cf87f2607a4e8e54b6b9cf4e"
+    },
+    {
+      "path": "hspice/pre_run_freeze.json",
+      "sha256": "87680c69a7c72fddf3f9482df20fec615e140fc89a8e6b1edf96a04b5ff72711"
+    },
+    {
+      "path": "hspice/summary.json",
+      "sha256": "32dacf2c1ec4f58ea139c8004fb8c7a354057da6ae898e4ca40b7232358a62cf"
+    },
+    {
+      "path": "pre_run_freeze.json",
+      "sha256": "dae07c651806165717e55ba91cf811b9f0e53d9a6a762bb1e328dddca06f163d"
+    },
+    {
+      "path": "run_cycle_bridge.py",
+      "sha256": "56f03ba8d018b61349f477fcb0f7cc90e07327e7a6b31979b7686cc6b4d7cc39"
+    }
+  ],
+  "historical_v1_unchanged": true,
+  "scenario_budget": 3,
+  "scenario_order": [
+    "cycle_path_v2_0p80",
+    "cycle_path_v2_0p95",
+    "cycle_path_v2_1p10"
+  ],
+  "schema_version": 2,
+  "simulator_invoked": false
+}
