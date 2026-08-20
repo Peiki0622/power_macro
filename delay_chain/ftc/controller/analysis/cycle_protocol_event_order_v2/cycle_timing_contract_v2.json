@@ -1,0 +1,88 @@
+{
+  "constraints": {
+    "Q_SAMPLE_1__to__Q_SAMPLE_2": {
+      "maximum_s": 2.000000000000018e-10,
+      "minimum_s": 1.9999999999998856e-10
+    },
+    "Q_SAMPLE_2__to__RESET_ASSERT_START": {
+      "maximum_s": 2.000000000000018e-10,
+      "minimum_s": 1.9999999999998856e-10
+    },
+    "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": {
+      "maximum_s": 2.900000000000112e-10,
+      "minimum_s": 2.8999999999999796e-10
+    },
+    "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": {
+      "maximum_s": 1.000000000001134e-11,
+      "minimum_s": 9.999999999998104e-12
+    },
+    "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": {
+      "maximum_s": 4.9e-10,
+      "minimum_s": 4.899999999999998e-10
+    },
+    "S_CLK_FALL__to__RECOVERY_DONE": {
+      "maximum_s": 2.7000000000000043e-09,
+      "minimum_s": 2.699999999999991e-09
+    },
+    "S_CLK_RISE__to__Q_SAMPLE_1": {
+      "maximum_s": 2.3000000000000007e-09,
+      "minimum_s": 2.2999999999999875e-09
+    }
+  },
+  "decision": "Event-Ordered Cycle Schedule Construction = GO",
+  "phase0_contract_sha256": "3661025f45e37adb80efddbd6bd3747a69a66ae288aa192f3df457488163f882",
+  "schema_version": 2,
+  "solver": {
+    "constraints_satisfied": {
+      "Q_SAMPLE_1__to__Q_SAMPLE_2": true,
+      "Q_SAMPLE_2__to__RESET_ASSERT_START": true,
+      "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": true,
+      "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": true,
+      "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": true,
+      "S_CLK_FALL__to__RECOVERY_DONE": true,
+      "S_CLK_RISE__to__Q_SAMPLE_1": true
+    },
+    "controller_action_cycles": {
+      "Q_SAMPLE_1": 4,
+      "Q_SAMPLE_2": 5,
+      "RECOVERY_DONE": 10,
+      "RESET_ASSERT": 6,
+      "RESET_RELEASE": 0,
+      "S_CLK_FALL": 7,
+      "S_CLK_RISE": 1
+    },
+    "earliest_solution_matches_expected": true,
+    "event_time_offsets_s": {
+      "reset_edge_complete_s": 9.999999999998104e-12
+    },
+    "event_times_from_probe_start_s": {
+      "Q_SAMPLE_1": 4e-09,
+      "Q_SAMPLE_2": 5e-09,
+      "RECOVERY_DONE": 1e-08,
+      "RESET_ASSERT_COMPLETE": 6.009999999999999e-09,
+      "RESET_ASSERT_START": 6.000000000000001e-09,
+      "RESET_RELEASE_COMPLETE": 9.999999999998104e-12,
+      "S_CLK_FALL": 7.000000000000001e-09,
+      "S_CLK_RISE": 1e-09
+    }
+  },
+  "source_manifest_sha256": "8e2590bd2d19d2ec7c5f43ecfb59cb3080668593d24c0efcb05a23af78a672b2",
+  "timing": {
+    "cal_clk_hz": 1000000000,
+    "config_settle_cycles": 2,
+    "event_time_offsets_s": {
+      "reset_edge_complete_s": 9.999999999998104e-12
+    },
+    "local_probe_action_cycles": {
+      "Q_SAMPLE_1": 4,
+      "Q_SAMPLE_2": 5,
+      "RECOVERY_DONE": 10,
+      "RESET_ASSERT": 6,
+      "RESET_RELEASE": 0,
+      "S_CLK_FALL": 7,
+      "S_CLK_RISE": 1
+    },
+    "period_s": 1e-09,
+    "sclk_high_cycles": 6
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "cycle_timing_contract_sha256": "479b6d8b16c577bfcc5c42702a25fcd268ee676f9f1a33b3d21ed7dab16830b7",
+  "decision": "NOT_RUN",
+  "scenario_budget": 3,
+  "scenarios": [
+    {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p80_contract.json",
+      "sha256": "c15ca1360ebffe0daa384245f1bdd217537b540e35508eea8144044d75d01068",
+      "voltage": "0p80"
+    },
+    {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p95_contract.json",
+      "sha256": "e728b4a46bc16364f1837c667fc439ac42cb6c1b8366105ecd6d2c8fb9629276",
+      "voltage": "0p95"
+    },
+    {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_1p10_contract.json",
+      "sha256": "90f09f1e71d3733f3ca16c6302ef1f847948e4c3321a89ec23fc77259d5ca582",
+      "voltage": "1p10"
+    }
+  ],
+  "schema_version": 2,
+  "simulator_invoked": false,
+  "source_manifest_sha256": "8e2590bd2d19d2ec7c5f43ecfb59cb3080668593d24c0efcb05a23af78a672b2"
+}

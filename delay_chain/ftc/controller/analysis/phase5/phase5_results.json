@@ -1,0 +1,53 @@
+{
+  "phase": "Phase 5 - Complete Controller Integration",
+  "status": "GO",
+  "timestamp": "2026-08-20",
+  "tests": {
+    "nominal_scenarios": {
+      "test_0p80V": {
+        "expected": {"medium": 7, "fine": 6, "operations": 45},
+        "actual": {"medium": 7, "fine": 6, "operations": 45},
+        "result": "PASS",
+        "backoff_verification": "PASS: Two-step backoff (M9→M7) with zero probes"
+      },
+      "test_0p95V": {
+        "expected": {"medium": 4, "fine": 6, "operations": 36},
+        "actual": {"medium": 4, "fine": 6, "operations": 36},
+        "result": "PASS",
+        "backoff_verification": "PASS: Two-step backoff with zero probes"
+      },
+      "test_1p10V": {
+        "expected": {"medium": 2, "fine": 9, "operations": 36},
+        "actual": {"medium": 2, "fine": 9, "operations": 36},
+        "result": "PASS",
+        "backoff_verification": "PASS: Two-step backoff with zero probes"
+      }
+    },
+    "integration_checks": {
+      "fsm_sequencer_integration": "PASS: All operations correctly timed",
+      "sequencer_config_integration": "PASS: Config updates properly gated by sequencer",
+      "sensor_model_integration": "PASS: Q responses correctly classified",
+      "timing_compliance": "PASS: All phase boundaries respected",
+      "lock_mechanism": "PASS: Config frozen after lock_valid assertion"
+    }
+  },
+  "verification": {
+    "behavioral_sensor_model": "Used scripted Q responses from Phase 0 trajectories",
+    "operation_counting": "Verified all operations (config updates + probes)",
+    "backoff_verification": "Confirmed exactly 2 medium decrements with zero probes",
+    "guard_hold_verification": "Implicit via FSM success (cal_done=1)",
+    "timing_violations": 0
+  },
+  "fixes_applied": {
+    "signal_routing": "Fixed FSM→Sequencer→Config register signal path",
+    "operation_sequencer": "Sequencer now gates config pulses for exactly 1 cycle",
+    "backoff_monitoring": "Fixed verification logic to count M delta instead of edge events"
+  },
+  "artifacts": {
+    "rtl": "delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv",
+    "testbench": "delay_chain/ftc/controller/tb/tb_ftc_cal_controller.sv",
+    "sensor_model": "delay_chain/ftc/controller/tb/ftc_sensor_behavior_model.sv",
+    "simulation_log": "delay_chain/ftc/controller/tb/phase5_vcs/sim.log"
+  },
+  "gate": "Complete Controller Integration = GO"
+}

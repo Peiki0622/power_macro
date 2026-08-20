@@ -1,0 +1,56 @@
+{
+  "phase": "Phase 6 - Protocol Assertions and Negative-Path Verification",
+  "status": "GO",
+  "timestamp": "2026-08-20",
+  "tests": {
+    "negative_scenarios": {
+      "coarse_range_fail": {
+        "description": "All M values return HIGH, no boundary found",
+        "expected_fail_reason": 1,
+        "result": "PASS",
+        "final_config": "M0/F0"
+      },
+      "backoff_underflow": {
+        "description": "Boundary at M0, cannot backoff by 2",
+        "expected_fail_reason": 2,
+        "result": "PASS",
+        "final_config": "M0/F0"
+      },
+      "fine_range_fail": {
+        "description": "Coarse boundary found, all fine values return HIGH",
+        "expected_fail_reason": 3,
+        "result": "PASS",
+        "final_config": "M3/F10"
+      },
+      "guard_not_low_high": {
+        "description": "Guard probe returns HIGH instead of LOW",
+        "expected_fail_reason": 5,
+        "result": "PASS",
+        "final_config": "M3/F5"
+      }
+    },
+    "assertions": {
+      "single_bit_change": "PASS - Config updates change at most 1 thermometer bit",
+      "config_change_during_reset": "PASS - M/F changes only when reset asserted",
+      "config_change_during_sclk_low": "PASS - M/F changes only when S_CLK low",
+      "thermometer_validity": "PASS - All thermometer codes are valid (contiguous)",
+      "lock_freezes_config": "PASS - Configuration frozen after lock_valid",
+      "fail_freezes_config": "PASS - Configuration frozen after cal_fail",
+      "done_fail_exclusive": "PASS - cal_done and cal_fail mutually exclusive",
+      "busy_cleared": "PASS - cal_busy cleared when done/fail",
+      "no_config_after_done": "PASS - No configuration changes after completion"
+    }
+  },
+  "notes": {
+    "hold_failure_scenarios": "Deferred to transistor-level verification. Hold failures require the model to track probe count per configuration (same config probed twice returns different Q). Simple behavioral model cannot simulate this.",
+    "ambiguous_scenarios": "Deferred to transistor-level verification. Requires non-deterministic sensor responses.",
+    "sva_coverage": "10 protocol assertions implemented and passing"
+  },
+  "artifacts": {
+    "assertions": "assertions/ftc_cal_controller_sva.sv",
+    "testbench": "tb/tb_ftc_negative_scenarios.sv",
+    "simulation_log": "tb/phase6_negative/sim.log",
+    "sensor_model": "tb/ftc_sensor_behavior_model.sv (extended with failure scenarios)"
+  },
+  "gate": "RTL Protocol Safety = GO"
+}

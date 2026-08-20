@@ -1,0 +1,130 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+                 Version W-2024.09 for linux64 - Aug 28, 2024 
+
+                    Copyright (c) 1988 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+Initializing...
+Current time:       Thu Aug 20 12:25:48 2026
+Hostname:           pillar
+CPU Model:          Intel(R) Xeon(R) Platinum 8260 CPU @ 2.40GHz
+CPU Details:        Cores = 96 : Sockets = 2 : Cache Size = 36608 KB : Freq = 2.40 GHz
+OS:                 Linux 3.10.0-1160.119.1.el7.x86_64
+RAM:                629 GB (Free   2 GB)
+Swap:                 3 GB (Free   2 GB)
+Work Filesystem:    /home/zhupl25 mounted to /dev/sda5
+Tmp Filesystem:     / mounted to /dev/sda5
+Work Disk:          6647 GB (Free 2989 GB)
+Tmp Disk:           6647 GB (Free 2989 GB)
+
+CPU Load: 1%, Ram Free: 2 GB, Swap Free: 2 GB, Work Disk Free: 2989 GB, Tmp Disk Free: 2989 GB
+# =========================================================================
+# SDF Generation Script
+# =========================================================================
+set DESIGN_NAME "ftc_cal_controller_top"
+ftc_cal_controller_top
+set LIB_PATH "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1"
+/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1
+# =========================================================================
+# Setup
+# =========================================================================
+set target_library "${LIB_PATH}/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db"
+/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+set link_library "* $target_library"
+* /host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+# Suppress messages
+set_app_var sh_enable_page_mode false
+false
+# =========================================================================
+# Read Netlist and SDC
+# =========================================================================
+puts "Reading synthesized netlist..."
+Reading synthesized netlist...
+read_verilog ../netlist/${DESIGN_NAME}_synth.v
+Loading db file '/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db'
+Loading db file '/home/synopsys/dc/syn/W-2024.09/libraries/syn/gtech.db'
+Loading db file '/home/synopsys/dc/syn/W-2024.09/libraries/syn/standard.sldb'
+  Loading link library 'sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c'
+  Loading link library 'gtech'
+Loading verilog file '/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.v'
+Detecting input file type automatically (-rtl or -netlist).
+Running DC verilog reader
+Performing 'read' command.
+Compiling source file /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.v
+Reading with netlist reader (equivalent to -netlist option).
+Verilog netlist reader completed successfully.
+Current design is now '/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top.db:ftc_cal_controller_top'
+Loaded 1 design.
+Current design is 'ftc_cal_controller_top'.
+ftc_cal_controller_top
+current_design ${DESIGN_NAME}
+Current design is 'ftc_cal_controller_top'.
+{ftc_cal_controller_top}
+link
+
+  Linking design 'ftc_cal_controller_top'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  ftc_cal_controller_top      /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top.db
+  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c (library) /host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+
+1
+puts "Reading SDC constraints..."
+Reading SDC constraints...
+read_sdc ../netlist/${DESIGN_NAME}_synth.sdc
+
+Reading SDC version 2.2...
+Warning: SDC version in file (2.1) does not match the version you requested
+	from read_sdc (2.2).  Some constraints and options may not function. (SDC-2)
+Warning: SDC version in file (2.1) does not match the version you requested
+	from read_sdc (2.2).  Some constraints and options may not function. (SDC-2)
+Current design is 'ftc_cal_controller_top'.
+1
+# =========================================================================
+# Generate SDF
+# =========================================================================
+puts "Writing SDF file..."
+Writing SDF file...
+write_sdf -version 3.0 \
+          -context verilog \
+          -load_delay net \
+          ../netlist/${DESIGN_NAME}_synth.sdf
+Information: Writing timing information to file '/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.sdf'. (WT-3)
+Information: Updating design information... (UID-85)
+1
+puts "SDF generation complete!"
+SDF generation complete!
+puts "Output: ../netlist/${DESIGN_NAME}_synth.sdf"
+Output: ../netlist/ftc_cal_controller_top_synth.sdf
+exit
+
+Memory usage for this session 327 Mbytes.
+Memory usage for this session including child processes 327 Mbytes.
+CPU usage for this session 6 seconds ( 0.00 hours ).
+Elapsed time for this session 5 seconds ( 0.00 hours ).
+
+Thank you...

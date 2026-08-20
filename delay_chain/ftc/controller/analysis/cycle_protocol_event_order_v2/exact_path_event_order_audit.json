@@ -1,0 +1,181 @@
+{
+  "aggregate_adjacent_separations_s": {
+    "Q_SAMPLE_1__to__Q_SAMPLE_2": {
+      "maximum_s": 2.000000000000018e-10,
+      "minimum_s": 1.9999999999998856e-10
+    },
+    "Q_SAMPLE_2__to__RESET_ASSERT_START": {
+      "maximum_s": 2.000000000000018e-10,
+      "minimum_s": 1.9999999999998856e-10
+    },
+    "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": {
+      "maximum_s": 2.900000000000112e-10,
+      "minimum_s": 2.8999999999999796e-10
+    },
+    "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": {
+      "maximum_s": 1.000000000001134e-11,
+      "minimum_s": 9.999999999998104e-12
+    },
+    "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": {
+      "maximum_s": 4.9e-10,
+      "minimum_s": 4.899999999999998e-10
+    },
+    "S_CLK_FALL__to__RECOVERY_DONE": {
+      "maximum_s": 2.7000000000000043e-09,
+      "minimum_s": 2.699999999999991e-09
+    },
+    "S_CLK_RISE__to__Q_SAMPLE_1": {
+      "maximum_s": 2.3000000000000007e-09,
+      "minimum_s": 2.2999999999999875e-09
+    }
+  },
+  "canonical_events": [
+    {
+      "name": "RESET_RELEASE_COMPLETE",
+      "source_field": "reset_release_s"
+    },
+    {
+      "name": "S_CLK_RISE",
+      "source_field": "launch_time_s"
+    },
+    {
+      "name": "Q_SAMPLE_1",
+      "source_field": "q_read_time_s"
+    },
+    {
+      "name": "Q_SAMPLE_2",
+      "source_field": "q_read_late_time_s"
+    },
+    {
+      "name": "RESET_ASSERT_START",
+      "source_field": "reset_assert_start_s"
+    },
+    {
+      "name": "RESET_ASSERT_COMPLETE",
+      "source_field": "reset_assert_end_s"
+    },
+    {
+      "name": "S_CLK_FALL",
+      "source_field": "sclk_fall_s"
+    },
+    {
+      "name": "RECOVERY_DONE",
+      "source_field": "recovery_end_s"
+    }
+  ],
+  "checks": {
+    "0p80_strict_event_order": true,
+    "0p95_strict_event_order": true,
+    "1p10_strict_event_order": true,
+    "accepted_exact_path_go": true,
+    "all_adjacent_separations_positive": true,
+    "phase0_contract_go": true,
+    "rejected_v1_is_no_go": true
+  },
+  "decision": "Exact-Path Event Order Extraction = GO",
+  "per_voltage": {
+    "0p80": {
+      "adjacent_separations_s": {
+        "Q_SAMPLE_1__to__Q_SAMPLE_2": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "Q_SAMPLE_2__to__RESET_ASSERT_START": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": {
+          "maximum_s": 2.900000000000112e-10,
+          "minimum_s": 2.8999999999999796e-10
+        },
+        "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": {
+          "maximum_s": 1.000000000001134e-11,
+          "minimum_s": 9.999999999998104e-12
+        },
+        "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": {
+          "maximum_s": 4.9e-10,
+          "minimum_s": 4.899999999999998e-10
+        },
+        "S_CLK_FALL__to__RECOVERY_DONE": {
+          "maximum_s": 2.7000000000000043e-09,
+          "minimum_s": 2.699999999999991e-09
+        },
+        "S_CLK_RISE__to__Q_SAMPLE_1": {
+          "maximum_s": 2.3000000000000007e-09,
+          "minimum_s": 2.2999999999999875e-09
+        }
+      },
+      "probe_count": 28,
+      "strict_event_order": true
+    },
+    "0p95": {
+      "adjacent_separations_s": {
+        "Q_SAMPLE_1__to__Q_SAMPLE_2": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "Q_SAMPLE_2__to__RESET_ASSERT_START": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": {
+          "maximum_s": 2.900000000000112e-10,
+          "minimum_s": 2.8999999999999796e-10
+        },
+        "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": {
+          "maximum_s": 1.000000000001134e-11,
+          "minimum_s": 9.999999999998104e-12
+        },
+        "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": {
+          "maximum_s": 4.9e-10,
+          "minimum_s": 4.899999999999998e-10
+        },
+        "S_CLK_FALL__to__RECOVERY_DONE": {
+          "maximum_s": 2.7000000000000043e-09,
+          "minimum_s": 2.699999999999991e-09
+        },
+        "S_CLK_RISE__to__Q_SAMPLE_1": {
+          "maximum_s": 2.3000000000000007e-09,
+          "minimum_s": 2.2999999999999875e-09
+        }
+      },
+      "probe_count": 22,
+      "strict_event_order": true
+    },
+    "1p10": {
+      "adjacent_separations_s": {
+        "Q_SAMPLE_1__to__Q_SAMPLE_2": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "Q_SAMPLE_2__to__RESET_ASSERT_START": {
+          "maximum_s": 2.000000000000018e-10,
+          "minimum_s": 1.9999999999998856e-10
+        },
+        "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": {
+          "maximum_s": 2.900000000000112e-10,
+          "minimum_s": 2.8999999999999796e-10
+        },
+        "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": {
+          "maximum_s": 1.000000000001134e-11,
+          "minimum_s": 9.999999999998104e-12
+        },
+        "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": {
+          "maximum_s": 4.9e-10,
+          "minimum_s": 4.899999999999998e-10
+        },
+        "S_CLK_FALL__to__RECOVERY_DONE": {
+          "maximum_s": 2.7000000000000043e-09,
+          "minimum_s": 2.699999999999991e-09
+        },
+        "S_CLK_RISE__to__Q_SAMPLE_1": {
+          "maximum_s": 2.3000000000000007e-09,
+          "minimum_s": 2.2999999999999875e-09
+        }
+      },
+      "probe_count": 21,
+      "strict_event_order": true
+    }
+  },
+  "schema_version": 1
+}

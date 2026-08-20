@@ -1,0 +1,72 @@
+{
+  "cal_clk_hz": 1000000000,
+  "configuration_settle_cycles": 2,
+  "corrected_cycle_timing_contract": {
+    "path": "controller/analysis/cycle_protocol_event_order_v2/cycle_timing_contract_v2.json",
+    "sha256": "479b6d8b16c577bfcc5c42702a25fcd268ee676f9f1a33b3d21ed7dab16830b7"
+  },
+  "corrected_event_order_contract": {
+    "path": "controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+    "sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a"
+  },
+  "decision": "Cycle-Quantized Startup Protocol = GO",
+  "handoff_gate": "Corrected Phase 1 Timing Handoff = GO",
+  "local_probe_event_cycles": {
+    "Q_SAMPLE_1": 4,
+    "Q_SAMPLE_2": 5,
+    "RECOVERY_DONE": 10,
+    "RESET_ASSERT": 6,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 7,
+    "S_CLK_RISE": 1
+  },
+  "schema_version": 1,
+  "sclk_high_cycles": 6,
+  "source_exact_path_acceptance_sha256": {
+    "exact_final_acceptance": "99bcfe076c08be696b3b8c45cca5a8456671a660e2bdf28f2b1d72b5c8996c62",
+    "exact_path_runner": "a922056968eaaca9be1a50034c46b5e93720a54a48c6a3b23434c40fdb658b36",
+    "exact_schedule_0p80": "427a4866247a5e4b7a21b668ffb60a5b26f11dea5eecb54e428fefac3177b66f",
+    "exact_schedule_0p95": "48045f2c26e54ac1fb05e2e24798c506e2dfab9f4dac4aec06de643ded5dfb30",
+    "exact_schedule_1p10": "7b671530ad9102fb5146aca1a5becc7cb9b6ea24fd54f0df00cc74939be15703"
+  },
+  "successful_v2_hspice_scenarios": [
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p80_contract.json",
+      "cycle_contract_sha256": "c15ca1360ebffe0daa384245f1bdd217537b540e35508eea8144044d75d01068",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p80/cycle_bridge_v2.sp",
+      "deck_sha256": "f7f0a86f40f1f8ae3cacf8f43fffedc1c084701c1ca0b4ab8e074a7fba1831f9",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "scenario": "cycle_path_v2_0p80",
+      "scenario_acceptance": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p80/scenario_acceptance.json",
+      "scenario_acceptance_sha256": "c5e85a6fef8748e95139f07dd0803469ed45d7afa29ad23535993f00720d257a",
+      "voltage": "0p80"
+    },
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_0p95_contract.json",
+      "cycle_contract_sha256": "e728b4a46bc16364f1837c667fc439ac42cb6c1b8366105ecd6d2c8fb9629276",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p95/cycle_bridge_v2.sp",
+      "deck_sha256": "39e815dece94c52f6ed17755ceff8c6baf998adcce26edc7516801056b53fa10",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "scenario": "cycle_path_v2_0p95",
+      "scenario_acceptance": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p95/scenario_acceptance.json",
+      "scenario_acceptance_sha256": "728a7e6cc6ee52b5c80e5403d80cce98d33ead715ed2463ad36f046a953314a3",
+      "voltage": "0p95"
+    },
+    {
+      "cycle_contract": "controller/analysis/cycle_protocol_event_order_v2/cycle_path_v2_1p10_contract.json",
+      "cycle_contract_sha256": "90f09f1e71d3733f3ca16c6302ef1f847948e4c3321a89ec23fc77259d5ca582",
+      "deck": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_1p10/cycle_bridge_v2.sp",
+      "deck_sha256": "d5f3e2f4773a18941a2c8532b54cf3247aa58a68ce32656ae01bd4813e4be71d",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "scenario": "cycle_path_v2_1p10",
+      "scenario_acceptance": "controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_1p10/scenario_acceptance.json",
+      "scenario_acceptance_sha256": "50e9d45ea39c4f450ee9927b75e69a13b59cef0c1ed36607c54b6de2e8bbb52f",
+      "voltage": "1p10"
+    }
+  ],
+  "supersession": {
+    "historical_v1_path": "controller/analysis/cycle_protocol/",
+    "historical_v1_timing_contract": "controller/analysis/cycle_protocol/cycle_timing_contract.json",
+    "statement": "The rejected v1 cycle timing candidate is superseded historical evidence and MUST NOT be consumed by RTL."
+  }
+}

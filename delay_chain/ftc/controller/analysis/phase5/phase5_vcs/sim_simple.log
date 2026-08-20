@@ -1,0 +1,27 @@
+Command: /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/phase5/phase5_vcs/./simv_simple -l sim_simple.log
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Aug 20 10:23 2026
+=== Simple Sequencer Test ===
+Time 10000: Released POR
+
+Time 15000: Starting PROBE operation
+  Time 18000: busy=1, done=0, reset=0, s_clk=1
+  Time 19000: busy=1, done=0, reset=0, s_clk=1
+  Time 20000: busy=1, done=0, reset=0, s_clk=1
+  Time 21000: busy=1, done=0, reset=0, s_clk=1
+  Time 22000: busy=1, done=0, reset=0, s_clk=1
+  Time 23000: busy=1, done=0, reset=1, s_clk=1
+  Time 24000: busy=1, done=0, reset=1, s_clk=0
+  Time 25000: busy=1, done=0, reset=1, s_clk=0
+  Time 26000: busy=1, done=0, reset=1, s_clk=0
+  Time 27000: busy=0, done=1, reset=1, s_clk=0
+Time 27000: PROBE complete, q_class=01, valid=0
+
+=== PASS: Sequencer responds to commands ===
+$finish called from file "../../../tb/tb_simple_seq_test.sv", line 122.
+$finish at simulation time                36500
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 36500 ps
+CPU Time:      0.760 seconds;       Data structure size:   0.0Mb
+Thu Aug 20 10:23:48 2026

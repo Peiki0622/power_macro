@@ -185,3 +185,22 @@ hspice_command.log
 # simulator product.  Keep this one analysis artifact versionable while the
 # associated HSPICE decks, listings, databases, and command logs stay ignored.
 !/delay_chain/ftc/analysis/real_xor_pulse_width/anchor_summary.json
+
+# FTC controller run products are reproducible from the checked-in RTL,
+# scripts, constraints, and curated reports.  Keep source-level SystemVerilog,
+# Python, JSON contracts, Markdown reports, and reviewed netlists visible while
+# excluding VCS/EDA compiler databases and waveform products from Git status.
+/csrc/
+/delay_chain/ftc/controller/**/csrc/
+/delay_chain/ftc/controller/**/simv*
+/delay_chain/ftc/controller/**/*.daidir/
+/delay_chain/ftc/controller/**/*.vdb/
+/delay_chain/ftc/controller/**/*.vpd
+/delay_chain/ftc/controller/**/*.vcd
+/delay_chain/ftc/controller/**/*.o
+/delay_chain/ftc/controller/**/*.so
+/delay_chain/ftc/controller/**/AN.DB/
+/delay_chain/ftc/controller/**/alib-*/
+/delay_chain/ftc/controller/**/command.log
+/delay_chain/ftc/controller/**/default.svf
+/delay_chain/ftc/controller/**/ucli.key

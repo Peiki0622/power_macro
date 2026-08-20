@@ -1,0 +1,5 @@
+{
+  "decision": "Operation Sequencer = GO",
+  "run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/phase3/phase3_vcs_final",
+  "hspice_runs": 0
+}

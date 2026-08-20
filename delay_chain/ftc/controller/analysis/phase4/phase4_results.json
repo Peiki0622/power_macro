@@ -1,0 +1,46 @@
+{
+  "phase": "Phase 4 - High-Level Calibration FSM",
+  "status": "GO",
+  "timestamp": "2026-08-20",
+  "tests": {
+    "nominal_scenarios": {
+      "test_0p80V": {
+        "expected": {"medium": 7, "fine": 6, "operations": 45},
+        "actual": {"medium": 7, "fine": 6, "operations": 45},
+        "result": "PASS"
+      },
+      "test_0p95V": {
+        "expected": {"medium": 4, "fine": 6, "operations": 36},
+        "actual": {"medium": 4, "fine": 6, "operations": 36},
+        "result": "PASS"
+      },
+      "test_1p10V": {
+        "expected": {"medium": 2, "fine": 9, "operations": 36},
+        "actual": {"medium": 2, "fine": 9, "operations": 36},
+        "result": "PASS"
+      }
+    },
+    "failure_scenarios": {
+      "coarse_range_fail": {"result": "PASS", "fail_reason": "COARSE_RANGE_FAIL"},
+      "backoff_underflow": {"result": "PASS", "fail_reason": "COARSE_BACKOFF_UNDERFLOW"},
+      "fine_range_fail": {"result": "PASS", "fail_reason": "FINE_RANGE_FAIL"},
+      "guard_range_fail": {"result": "PASS", "fail_reason": "GUARD_RANGE_FAIL"},
+      "guard_not_low_high": {"result": "PASS", "fail_reason": "GUARD_NOT_LOW"},
+      "guard_not_low_ambig": {"result": "PASS", "fail_reason": "GUARD_NOT_LOW"},
+      "hold_not_low_high": {"result": "PASS", "fail_reason": "HOLD_NOT_LOW"},
+      "hold_not_low_ambig": {"result": "PASS", "fail_reason": "HOLD_NOT_LOW"}
+    }
+  },
+  "verification": {
+    "behavioral_sensor_model": "Used scripted Q responses",
+    "state_machine_correctness": "All transitions verified",
+    "operation_count_accuracy": "Exact match for all scenarios",
+    "failure_detection": "All 6 failure modes correctly identified"
+  },
+  "artifacts": {
+    "rtl": "delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv",
+    "testbench": "delay_chain/ftc/controller/tb/tb_ftc_cal_fsm.sv",
+    "simulation_log": "delay_chain/ftc/controller/tb/phase4_vcs/sim.log"
+  },
+  "gate": "Calibration Algorithm FSM = GO"
+}

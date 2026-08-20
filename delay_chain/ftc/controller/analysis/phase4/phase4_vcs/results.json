@@ -1,0 +1,16 @@
+{
+  "decision": "Calibration Algorithm FSM = GO",
+  "phase": 4,
+  "test_summary": {
+    "nominal_0p80": "PASS",
+    "nominal_0p95": "PASS",
+    "nominal_1p10": "PASS",
+    "fail_coarse_range": "PASS",
+    "fail_backoff_underflow": "PASS",
+    "fail_fine_range": "PASS",
+    "fail_guard_range": "PASS",
+    "fail_guard_not_low": "PASS"
+  },
+  "simulation_log": "sim.log",
+  "timestamp": "2026-08-20T10:08:04Z"
+}
