@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "generated_by": "phase1_static_evidence_reuse",
+  "phase1_execution_policy": {
+    "hspice_rerun": false,
+    "contract_test_rerun": false,
+    "deck_render_rerun": false,
+    "reason": "Reuse the completed corrected v2 evidence without spending the Phase 1 zero-rerun budget."
+  },
+  "phase_status": {
+    "phase_0": {"gate": "GO", "basis": "Functional contract and golden trajectories are present."},
+    "phase_1": {"gate": "GO", "basis": "Corrected v2 timing handoff and three archived HSPICE scenario results pass static integrity checks."},
+    "phase_2": {"gate": "GO", "basis": "Recorded unit-test result is GO."},
+    "phase_3": {"gate": "GO", "basis": "Recorded sequencer unit-test result is GO."},
+    "phase_4": {"gate": "GO", "basis": "Recorded three nominal FSM trajectories and eight failure results are passing."},
+    "phase_5": {"gate": "GO", "basis": "Recorded integrated nominal results are passing with exact operation counts."},
+    "phase_6": {"gate": "NO-GO", "basis": "Existing result claims GO but only ten assertion classes and four negative scenarios are evidenced; the plan requires sixteen assertion classes and eight negative scenarios."},
+    "phase_7": {"gate": "NO-GO", "basis": "Existing machine result is INFRASTRUCTURE_READY and lacks complete 1 GHz closure, fanout, warnings, cell-usage, and q_final path evidence."},
+    "phase_8": {"gate": "NO-GO", "basis": "Nominal GLS exists, but complete negative GLS, exact operation counts, and 0.80/0.95/1.10 mixed coverage are incomplete."},
+    "phase_9": {"gate": "NOT_STARTED", "basis": "No real synthesized-controller plus transistor-sensor autonomous mixed simulation has completed."},
+    "phase_10": {"gate": "NOT_STARTED", "basis": "Final acceptance and handoff report are not yet publishable."}
+  },
+  "phase_1_static_checks": {
+    "handoff_path": "spec/phase1_timing_handoff.json",
+    "handoff_sha256": "fc13ef41ca66f44a5345b3ee0e4dfea3f2742c5a9a6357074a4e0fa000df81e2",
+    "event_order_audit_sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a",
+    "corrected_summary_sha256": "8b2bb637f4031b09d926d5cc0c05e1cd48526601e9464c1415d876660ad2c861",
+    "timing_constants": {
+      "configuration_settle_cycles": 2,
+      "sclk_rise_cycle": 1,
+      "q_sample_1_cycle": 4,
+      "q_sample_2_cycle": 5,
+      "sclk_fall_cycle": 7,
+      "recovery_done_cycle": 10
+    },
+    "scenarios": {
+      "0p80": {"final_medium": 7, "final_fine": 6, "decision": "GO", "evidence": "hspice/summary.json"},
+      "0p95": {"final_medium": 4, "final_fine": 6, "decision": "GO", "evidence": "hspice/summary.json"},
+      "1p10": {"final_medium": 2, "final_fine": 9, "decision": "GO", "evidence": "hspice/summary.json"}
+    },
+    "result": "PASS_WITHOUT_RERUN"
+  },
+  "historical_phase_1_v1": {
+    "gate": "NO-GO",
+    "superseded_by": "corrected_phase_1_v2",
+    "consumption_rule": "Historical v1 evidence is retained for traceability and is not consumed by RTL or later gates."
+  }
+}
