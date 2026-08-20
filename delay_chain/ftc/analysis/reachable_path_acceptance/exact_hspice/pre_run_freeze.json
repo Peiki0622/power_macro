@@ -1,0 +1,57 @@
+{
+  "acceptance_expectations": {
+    "0p80": {
+      "coarse_boundary": 9,
+      "final_F": 6,
+      "final_M": 7,
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "selected_medium_base": 7
+    },
+    "0p95": {
+      "coarse_boundary": 6,
+      "final_F": 6,
+      "final_M": 4,
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "selected_medium_base": 4
+    },
+    "1p10": {
+      "coarse_boundary": 4,
+      "final_F": 9,
+      "final_M": 2,
+      "fine_boundary": 8,
+      "guard_code": 9,
+      "selected_medium_base": 2
+    }
+  },
+  "contracts_and_decks": [
+    {
+      "contract_sha256": "8c0a17ce703361587b9c420a40d3b1f515cdedf72ccb57a6111faadddbce7221",
+      "deck_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_0p80/exact_reachable_path.sp",
+      "deck_sha256": "ca127e06582555cfef50fa3978a5d18a8cac684240fda21be412e6d813298970",
+      "voltage": "0p80"
+    },
+    {
+      "contract_sha256": "7b2cf14b640588a5de017890377165c2248b49eb508d79a5266b7da6ec9e5c38",
+      "deck_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_0p95/exact_reachable_path.sp",
+      "deck_sha256": "8cd3bf6a5724609211cf8cdf27221d6bc16c7b4c9044578a94a1e169eee93d3e",
+      "voltage": "0p95"
+    },
+    {
+      "contract_sha256": "2b29dd81097dc49cdf8eb1d946d251698a76c9a4c2eb00141ca3a82b205d4248",
+      "deck_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_1p10/exact_reachable_path.sp",
+      "deck_sha256": "788b6ffeb6e29f94f23e4e81cd1a7674aa94e9d1b8673934f47e1ca8375d76c5",
+      "voltage": "1p10"
+    }
+  ],
+  "historical_scenarios_scheduled": 0,
+  "scenario_budget": 3,
+  "scenario_order": [
+    "exact_path_0p80",
+    "exact_path_0p95",
+    "exact_path_1p10"
+  ],
+  "schema_version": 1,
+  "simulator_invoked": false
+}

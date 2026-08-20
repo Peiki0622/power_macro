@@ -1,0 +1,117 @@
+{
+  "functional_guard_s": 2.7e-09,
+  "probes": [
+    {
+      "probe_index": 0,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 1,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 2,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 3,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 4,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 5,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 6,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 7,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 8,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 9,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 10,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 11,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 12,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 13,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 14,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 15,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 16,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 17,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 18,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 19,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 20,
+      "recovery_ok": true,
+      "status": "PASS"
+    },
+    {
+      "probe_index": 21,
+      "recovery_ok": true,
+      "status": "PASS"
+    }
+  ],
+  "scenario": "exact_path_0p95",
+  "schema_version": 1
+}

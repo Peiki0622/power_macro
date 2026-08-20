@@ -3,10 +3,40 @@
   "decision": "GO",
   "formal_reasons": [],
   "legacy_report_count_mismatch": {
-    "json_operation_failure_count": 18,
-    "json_terminal_failure_count": 1,
+    "json_operation_failure_count": 19,
+    "json_terminal_failure_count": 0,
     "report_claimed": 19
   },
+  "per_voltage": {
+    "0p80": {
+      "all_prerendered_failure_count": 19,
+      "counterfactual_probe_failure_count": 19,
+      "formal_failure_count": 0,
+      "reachable_config_update_failure_count": 0,
+      "reachable_config_update_unverified_count": 1,
+      "reachable_failures": [],
+      "reachable_probe_failure_count": 0
+    },
+    "0p95": {
+      "all_prerendered_failure_count": 0,
+      "counterfactual_probe_failure_count": 0,
+      "formal_failure_count": 0,
+      "reachable_config_update_failure_count": 0,
+      "reachable_config_update_unverified_count": 1,
+      "reachable_failures": [],
+      "reachable_probe_failure_count": 0
+    },
+    "1p10": {
+      "all_prerendered_failure_count": 0,
+      "counterfactual_probe_failure_count": 0,
+      "formal_failure_count": 0,
+      "reachable_config_update_failure_count": 0,
+      "reachable_config_update_unverified_count": 1,
+      "reachable_failures": [],
+      "reachable_probe_failure_count": 0
+    }
+  },
   "reachable_electrical_failure_count": 0,
-  "reachable_failures": []
+  "reachable_failures": [],
+  "replay_consistency": true
 }

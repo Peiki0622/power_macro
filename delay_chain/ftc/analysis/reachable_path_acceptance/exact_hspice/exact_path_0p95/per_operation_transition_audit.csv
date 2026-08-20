@@ -1,0 +1,15 @@
+operation_index,transition_index,operation_type,M_before,M_after,F_before,F_after,changed_thermometer_bits,reset_asserted,sclk_low,settle_s,configuration_ck_edge_count,status
+3,0,coarse_increment,0,1,0,0,1,True,True,1.5e-09,0,PASS
+6,1,coarse_increment,1,2,0,0,1,True,True,1.5e-09,0,PASS
+9,2,coarse_increment,2,3,0,0,1,True,True,1.5e-09,0,PASS
+12,3,coarse_increment,3,4,0,0,1,True,True,1.5e-09,0,PASS
+15,4,coarse_increment,4,5,0,0,1,True,True,1.5e-09,0,PASS
+18,5,coarse_increment,5,6,0,0,1,True,True,1.5e-09,0,PASS
+21,6,coarse_backoff_step_1,6,5,0,0,1,True,True,1.5e-09,0,PASS
+22,7,coarse_backoff_step_2,5,4,0,0,1,True,True,1.5e-09,0,PASS
+24,8,fine_increment,4,4,0,1,1,True,True,1.5e-09,0,PASS
+26,9,fine_increment,4,4,1,2,1,True,True,1.5e-09,0,PASS
+28,10,fine_increment,4,4,2,3,1,True,True,1.5e-09,0,PASS
+30,11,fine_increment,4,4,3,4,1,True,True,1.5e-09,0,PASS
+32,12,fine_increment,4,4,4,5,1,True,True,1.5e-09,0,PASS
+34,13,fine_increment,4,4,5,6,1,True,True,1.5e-09,0,PASS

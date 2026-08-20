@@ -4,7 +4,7 @@
     "legacy_recovery_diagnostic": 0,
     "upstream_static_84": 0
   },
-  "baseline_commit": "b822c0295c01348efb69eaa5b492ce4065786d7d",
+  "baseline_commit": "b73af8eff7722d8fe30fdafced67a9f7012ed862",
   "coarse_boundary_by_vdd": {
     "0p80": 9,
     "0p95": 6,
@@ -20,27 +20,73 @@
     "0p95": 82,
     "1p10": 79
   },
-  "final_dynamic_protocol_decision": "PENDING_HSPICE",
+  "exact_path_hspice_results": {
+    "0p80": {
+      "compare_operation_count": 28,
+      "config_update_count": 17,
+      "contract_sha256": "8c0a17ce703361587b9c420a40d3b1f515cdedf72ccb57a6111faadddbce7221",
+      "deck_sha256": "ca127e06582555cfef50fa3978a5d18a8cac684240fda21be412e6d813298970",
+      "final_locked_code": {
+        "F": 6,
+        "M": 7
+      },
+      "operation_count": 45,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    },
+    "0p95": {
+      "compare_operation_count": 22,
+      "config_update_count": 14,
+      "contract_sha256": "7b2cf14b640588a5de017890377165c2248b49eb508d79a5266b7da6ec9e5c38",
+      "deck_sha256": "8cd3bf6a5724609211cf8cdf27221d6bc16c7b4c9044578a94a1e169eee93d3e",
+      "final_locked_code": {
+        "F": 6,
+        "M": 4
+      },
+      "operation_count": 36,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    },
+    "1p10": {
+      "compare_operation_count": 21,
+      "config_update_count": 15,
+      "contract_sha256": "2b29dd81097dc49cdf8eb1d946d251698a76c9a4c2eb00141ca3a82b205d4248",
+      "deck_sha256": "788b6ffeb6e29f94f23e4e81cd1a7674aa94e9d1b8673934f47e1ca8375d76c5",
+      "final_locked_code": {
+        "F": 9,
+        "M": 2
+      },
+      "operation_count": 36,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    }
+  },
+  "final_dynamic_protocol_decision": "Dynamic Startup Calibration Protocol = GO",
   "fine_boundary_by_vdd": {
     "0p80": 5,
     "0p95": 5,
     "1p10": 8
   },
-  "formal_exact_path_decision": "PENDING_HSPICE",
+  "formal_exact_path_decision": "Exact Reachable-Path Dynamic Startup Calibration = GO",
   "full_diagnostic_space_guard_s": 2.8e-09,
   "guard_code_by_vdd": {
     "0p80": 6,
     "0p95": 6,
     "1p10": 9
   },
+  "historical_rerun_count": 0,
+  "infrastructure_failure_count": 1,
   "legacy_decision": "NO-GO",
   "legacy_failure_count_by_vdd": {
     "0p80": 19,
     "0p95": 0,
     "1p10": 0
   },
-  "legacy_reason": "recovery_tail_not_below_0p1_vdd",
-  "new_exact_path_hspice_scenarios": 0,
+  "legacy_reason": "historical_prerendered_failure_exists",
+  "new_exact_path_hspice_scenarios": 3,
   "old_prerendered_probe_count_by_vdd": {
     "0p80": 110,
     "0p95": 104,

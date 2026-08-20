@@ -1,0 +1,52 @@
+{
+  "decision": "GO",
+  "historical_counterfactual_failure_count": 19,
+  "reachable_failure_count": 0,
+  "report": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/reports/FTC_EXACT_REACHABLE_PATH_FINAL_ACCEPTANCE.md",
+  "results": {
+    "0p80": {
+      "compare_operation_count": 28,
+      "config_update_count": 17,
+      "contract_sha256": "8c0a17ce703361587b9c420a40d3b1f515cdedf72ccb57a6111faadddbce7221",
+      "deck_sha256": "ca127e06582555cfef50fa3978a5d18a8cac684240fda21be412e6d813298970",
+      "final_locked_code": {
+        "F": 6,
+        "M": 7
+      },
+      "operation_count": 45,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    },
+    "0p95": {
+      "compare_operation_count": 22,
+      "config_update_count": 14,
+      "contract_sha256": "7b2cf14b640588a5de017890377165c2248b49eb508d79a5266b7da6ec9e5c38",
+      "deck_sha256": "8cd3bf6a5724609211cf8cdf27221d6bc16c7b4c9044578a94a1e169eee93d3e",
+      "final_locked_code": {
+        "F": 6,
+        "M": 4
+      },
+      "operation_count": 36,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    },
+    "1p10": {
+      "compare_operation_count": 21,
+      "config_update_count": 15,
+      "contract_sha256": "2b29dd81097dc49cdf8eb1d946d251698a76c9a4c2eb00141ca3a82b205d4248",
+      "deck_sha256": "788b6ffeb6e29f94f23e4e81cd1a7674aa94e9d1b8673934f47e1ca8375d76c5",
+      "final_locked_code": {
+        "F": 9,
+        "M": 2
+      },
+      "operation_count": 36,
+      "reachable_recovery_failures": 0,
+      "reasons": [],
+      "status": "GO"
+    }
+  },
+  "scenario_count": 3,
+  "schema_version": 1
+}
