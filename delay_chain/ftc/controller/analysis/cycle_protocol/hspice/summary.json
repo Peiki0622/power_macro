@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "decision": "Cycle-Quantized Startup Protocol = NO-GO",
+  "stop_phase": "Phase 1B",
+  "scenario_budget": 3,
+  "hspice_scenarios_started": 2,
+  "scenarios": {
+    "cycle_path_0p80": "GO",
+    "cycle_path_0p95": "NO-GO",
+    "cycle_path_1p10": "NOT_RUN_AFTER_FIRST_FAILURE"
+  },
+  "first_failure": {
+    "scenario": "cycle_path_0p95",
+    "probe_index": 0,
+    "scheduled_sclk_fall_s": 4e-09,
+    "scheduled_reset_assert_s": 5e-09,
+    "measured_first_ck_rise_s": 1.6749213049e-09,
+    "measured_second_ck_rise_s": 4.7107660766e-09,
+    "reason": "The falling S_CLK return transition creates a second active dff_ck rise before reset is reasserted."
+  },
+  "frozen_contract_changed_after_execution": false,
+  "next_action": "Create a dedicated timing-quantization root-cause plan; do not continue this plan."
+}

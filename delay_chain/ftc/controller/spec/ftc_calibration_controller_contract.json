@@ -1,0 +1,95 @@
+{
+  "baseline_commit": "4e69acca9e82ae32f982014ced969d270ab8c8fa",
+  "checks": {
+    "0p80_contract_boundary": true,
+    "0p80_final_code": true,
+    "0p80_operation_count": true,
+    "0p80_result_go": true,
+    "0p95_contract_boundary": true,
+    "0p95_final_code": true,
+    "0p95_operation_count": true,
+    "0p95_result_go": true,
+    "1p10_contract_boundary": true,
+    "1p10_final_code": true,
+    "1p10_operation_count": true,
+    "1p10_result_go": true,
+    "accepted_exact_path_go": true,
+    "backoff_semantics": true,
+    "coarse_semantics": true,
+    "fine_semantics": true,
+    "guard_hold_semantics": true
+  },
+  "decision": "Controller Functional Contract = GO",
+  "failure_reasons": [
+    "COARSE_RANGE_FAIL",
+    "COARSE_BACKOFF_UNDERFLOW",
+    "FINE_RANGE_FAIL",
+    "GUARD_RANGE_FAIL",
+    "GUARD_NOT_LOW",
+    "HOLD_NOT_LOW"
+  ],
+  "historical_runners_executed": false,
+  "hspice_runs": 0,
+  "physical_interface": {
+    "fine_bits": 10,
+    "fine_encoding": "first_code_low_active_low",
+    "medium_bits": 16,
+    "medium_encoding": "first_code_high"
+  },
+  "q_classes": [
+    "STABLE_LOW",
+    "STABLE_HIGH",
+    "AMBIGUOUS"
+  ],
+  "scenarios": {
+    "0p80": {
+      "coarse_boundary": 9,
+      "final_locked_code": {
+        "F": 6,
+        "M": 7
+      },
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "operation_count": 45,
+      "selected_medium_base": 7,
+      "source_contract_sha256": "8c0a17ce703361587b9c420a40d3b1f515cdedf72ccb57a6111faadddbce7221"
+    },
+    "0p95": {
+      "coarse_boundary": 6,
+      "final_locked_code": {
+        "F": 6,
+        "M": 4
+      },
+      "fine_boundary": 5,
+      "guard_code": 6,
+      "operation_count": 36,
+      "selected_medium_base": 4,
+      "source_contract_sha256": "7b2cf14b640588a5de017890377165c2248b49eb508d79a5266b7da6ec9e5c38"
+    },
+    "1p10": {
+      "coarse_boundary": 4,
+      "final_locked_code": {
+        "F": 9,
+        "M": 2
+      },
+      "fine_boundary": 8,
+      "guard_code": 9,
+      "operation_count": 36,
+      "selected_medium_base": 2,
+      "source_contract_sha256": "2b29dd81097dc49cdf8eb1d946d251698a76c9a4c2eb00141ca3a82b205d4248"
+    }
+  },
+  "schema_version": 1,
+  "source_sha256": {
+    "analysis/reachable_path_acceptance/decision_semantics.json": "e1d9851bb2d43cefbc28f794cad0fb7063b84790ef66efab473f6e9f71a122bc",
+    "analysis/reachable_path_acceptance/exact_hspice/final_acceptance.json": "99bcfe076c08be696b3b8c45cca5a8456671a660e2bdf28f2b1d72b5c8996c62",
+    "analysis/reachable_path_acceptance/exact_path_0p80_contract.json": "8c0a17ce703361587b9c420a40d3b1f515cdedf72ccb57a6111faadddbce7221",
+    "analysis/reachable_path_acceptance/exact_path_0p95_contract.json": "7b2cf14b640588a5de017890377165c2248b49eb508d79a5266b7da6ec9e5c38",
+    "analysis/reachable_path_acceptance/exact_path_1p10_contract.json": "2b29dd81097dc49cdf8eb1d946d251698a76c9a4c2eb00141ca3a82b205d4248"
+  },
+  "timing_reference": {
+    "corner": "tt",
+    "recovery_guard_s": 2.7e-09,
+    "temperature_c": 25
+  }
+}

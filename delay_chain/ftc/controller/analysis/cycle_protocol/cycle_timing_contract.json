@@ -1,0 +1,15 @@
+{
+  "decision": "Cycle Schedule Construction = GO",
+  "schema_version": 1,
+  "source_contract_sha256": "3661025f45e37adb80efddbd6bd3747a69a66ae288aa192f3df457488163f882",
+  "timing": {
+    "cal_clk_hz": 1000000000,
+    "config_settle_cycles": 2,
+    "launch_to_sample_1_cycles": 3,
+    "period_s": 1e-09,
+    "recovery_cycles": 3,
+    "reset_arm_cycles": 1,
+    "sample_separation_cycles": 1,
+    "sclk_high_cycles": 3
+  }
+}

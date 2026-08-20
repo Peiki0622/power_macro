@@ -1,0 +1,10 @@
+{
+  "scenario_budget": 3,
+  "scenario_order": [
+    "cycle_path_0p80",
+    "cycle_path_0p95",
+    "cycle_path_1p10"
+  ],
+  "schema_version": 1,
+  "simulator_invoked": false
+}
