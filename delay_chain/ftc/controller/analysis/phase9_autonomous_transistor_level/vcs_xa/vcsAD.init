@@ -1,0 +1,5 @@
+// Phase 9 uses the Synopsys VCS-XA HSPICE mixed-signal bridge.
+// Bus spelling is explicit because the wrapper uses Verilog [index] names.
+bus_format [%d];
+use_spice -cell ftc_sensor_ams;
+choose xa -hspice PLACEHOLDER_SPICE_TOP -c PLACEHOLDER_XA_CFG -o PLACEHOLDER_XA_OUT;

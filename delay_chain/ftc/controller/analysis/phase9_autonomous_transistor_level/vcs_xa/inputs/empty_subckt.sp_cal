@@ -1,0 +1,3 @@
+* Task-owned placeholder required by the installed SMIC CDL include.
+* The vendor CDL references this historical file but provides all required
+* standard-cell transistor subcircuits in the CDL itself.

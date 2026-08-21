@@ -1,0 +1,9 @@
+{
+  "clock_period_ns": 10,
+  "transient_stop_us": 8,
+  "scenarios": {
+    "autonomous_0p80": {"supply_v": 0.80, "coarse_boundary": 9, "final_medium": 7, "fine_boundary": 5, "final_fine": 6},
+    "autonomous_0p95": {"supply_v": 0.95, "coarse_boundary": 6, "final_medium": 4, "fine_boundary": 5, "final_fine": 6},
+    "autonomous_1p10": {"supply_v": 1.10, "coarse_boundary": 4, "final_medium": 2, "fine_boundary": 8, "final_fine": 9}
+  }
+}

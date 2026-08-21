@@ -1,0 +1,53 @@
+{
+  "scenario": "autonomous_0p80",
+  "supply_v": 0.80,
+  "clock_period_ns": 10,
+  "transient_stop_us": 8,
+  "simulator": "VCS P-2019.06-SP2_Full64 + PrimeSim XA S-2021.09-SP2",
+  "status": "FAIL",
+  "failure_rule": "Real Circuit Autonomous Startup Calibration = NO-GO",
+  "expected": {
+    "coarse_boundary": 9,
+    "final_medium": 7,
+    "fine_boundary": 5,
+    "final_fine": 6
+  },
+  "observed": {
+    "coarse_medium_codes": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9],
+    "fine_codes_observed": [0, 1],
+    "final_medium_code": 9,
+    "final_fine_code": 1,
+    "final_fsm_state": "0x0a",
+    "cal_done": 0,
+    "lock_valid": 0,
+    "cal_fail": 0,
+    "event_rows": 800,
+    "probe_events": 12,
+    "config_update_events": 12,
+    "q_sample_1_events": 12,
+    "q_sample_2_events": 12,
+    "sclk_high_samples": 72,
+    "q_final_high_samples": 55,
+    "xa_comparison_errors": 0
+  },
+  "audits": {
+    "exact_coarse_trajectory": false,
+    "two_boundary_low_probes": false,
+    "two_step_backoff": false,
+    "fine_boundary_and_guard_hold": false,
+    "one_sclk_rise_per_probe": false,
+    "single_bit_thermometer_transitions": false,
+    "reset_and_q_double_sample_audit": false,
+    "lock_after_hold": false,
+    "frozen_code_after_lock": false,
+    "no_fail_state": false,
+    "final_code_matches_golden": false
+  },
+  "notes": [
+    "XA DC converged and the transient reached 8 us with zero VCS-XA comparison errors.",
+    "The controller did not reach LOCKED; it remained in FSM state 0x0a (fine increment path).",
+    "The observed trajectory is not the frozen 0.80 V M7/F6 trajectory.",
+    "Per the Phase 9 failure rule, autonomous_0p95 and autonomous_1p10 were not run.",
+    "No recovery guard, cell, DFF, cycle, backoff, or sampling parameter was changed after failure."
+  ]
+}

@@ -204,3 +204,21 @@ hspice_command.log
 /delay_chain/ftc/controller/**/command.log
 /delay_chain/ftc/controller/**/default.svf
 /delay_chain/ftc/controller/**/ucli.key
+
+# Additional FTC controller simulator products.  These patterns are scoped to
+# the controller tree so reviewed reports, source files, and compact evidence
+# outside this subsystem remain visible.  FSDB/VPD waveforms, VCS/XA reports,
+# logs, databases, and compiled shared objects are reproducible run products.
+/delay_chain/ftc/controller/**/*.fsdb
+/delay_chain/ftc/controller/**/*.rpt
+/delay_chain/ftc/controller/**/*.log
+/delay_chain/ftc/controller/**/*.sdb
+/delay_chain/ftc/controller/**/*.db
+/delay_chain/ftc/controller/**/*.so
+/delay_chain/ftc/controller/**/*.o
+/delay_chain/ftc/controller/**/*.a
+/delay_chain/ftc/controller/**/xa/
+/delay_chain/ftc/controller/**/simv
+/delay_chain/ftc/controller/**/simv.daidir/
+/delay_chain/ftc/controller/**/simv.msv/
+/delay_chain/ftc/controller/**/csrc/
