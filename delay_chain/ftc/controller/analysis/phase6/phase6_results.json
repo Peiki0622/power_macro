@@ -22,11 +22,35 @@
         "result": "PASS",
         "final_config": "M3/F10"
       },
+      "guard_range_fail": {
+        "description": "Fine boundary at F9 leaves no legal guard code",
+        "expected_fail_reason": 4,
+        "result": "PASS",
+        "final_config": "M3/F9"
+      },
       "guard_not_low_high": {
         "description": "Guard probe returns HIGH instead of LOW",
         "expected_fail_reason": 5,
         "result": "PASS",
         "final_config": "M3/F5"
+      },
+      "guard_not_low_ambig": {
+        "description": "Guard double sample is ambiguous (0,1)",
+        "expected_fail_reason": 5,
+        "result": "PASS",
+        "final_config": "M3/F5"
+      },
+      "hold_not_low_high": {
+        "description": "Independent hold probe returns stable high",
+        "expected_fail_reason": 6,
+        "result": "PASS",
+        "final_config": "M3/F6"
+      },
+      "hold_not_low_ambig": {
+        "description": "Independent hold double sample is ambiguous (0,1)",
+        "expected_fail_reason": 6,
+        "result": "PASS",
+        "final_config": "M3/F6"
       }
     },
     "assertions": {
@@ -39,17 +63,27 @@
       "done_fail_exclusive": "PASS - cal_done and cal_fail mutually exclusive",
       "busy_cleared": "PASS - cal_busy cleared when done/fail",
       "no_config_after_done": "PASS - No configuration changes after completion"
+      ,"settle_interval": "PASS - No probe is accepted before the frozen two-cycle settle window"
+      ,"probe_one_sclk_edge": "PASS - Sequencer event trace has one registered S_CLK edge per probe"
+      ,"probe_two_q_samples": "PASS - Sequencer emits exactly two sample events per probe"
+      ,"coarse_two_low_boundary": "PASS - Coarse boundary requires independent A/B stable-low results"
+      ,"backoff_pair_without_probe": "PASS - Backoff updates are adjacent and have zero intervening probes"
+      ,"fine_high_only_continue": "PASS - Fine scan advances only after stable-high"
+      ,"guard_plus_one": "PASS - Guard update is one legal fine step beyond boundary"
+      ,"lock_requires_guard_hold": "PASS - Lock follows completed guard and independent hold probes"
+      ,"fail_reason_stable": "PASS - Failure reason remains unchanged after FAIL"
     }
   },
   "notes": {
-    "hold_failure_scenarios": "Deferred to transistor-level verification. Hold failures require the model to track probe count per configuration (same config probed twice returns different Q). Simple behavioral model cannot simulate this.",
-    "ambiguous_scenarios": "Deferred to transistor-level verification. Requires non-deterministic sensor responses.",
-    "sva_coverage": "10 protocol assertions implemented and passing"
+    "behavior_model": "Deterministic per-code and repeated-probe response table; no random response is used.",
+    "sva_coverage": "19 named assertions/coverage properties compile and bind; the 16 mandatory protocol classes are represented.",
+    "negative_run": "analysis/phase6/phase6_vcs_rerun/simulation.log",
+    "nominal_regression": "analysis/phase6/nominal_regression/simulation.log"
   },
   "artifacts": {
     "assertions": "assertions/ftc_cal_controller_sva.sv",
     "testbench": "tb/tb_ftc_negative_scenarios.sv",
-    "simulation_log": "tb/phase6_negative/sim.log",
+    "simulation_log": "analysis/phase6/phase6_vcs_rerun/simulation.log",
     "sensor_model": "tb/ftc_sensor_behavior_model.sv (extended with failure scenarios)"
   },
   "gate": "RTL Protocol Safety = GO"

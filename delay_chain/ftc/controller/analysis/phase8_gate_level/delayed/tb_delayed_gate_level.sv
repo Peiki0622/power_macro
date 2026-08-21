@@ -1,313 +1,122 @@
 // ============================================================================
-// FTC Calibration Controller - Delayed Gate-Level Simulation Testbench
+// Phase 8B SDF gate-level regression for the synthesized FTC controller.
+// Uses the permitted 10 ns GLS clock while preserving the Phase 7 1 GHz SDC.
+// SDF cell delays are allowed to move events in time, never to change the
+// exact transaction, edge, sample, reset, or lock invariants audited here.
 // ============================================================================
-// Phase 8B: Timing-accurate gate-level verification with SDF back-annotation
-//
-// Purpose:
-//   Verify timing-sensitive protocol requirements with actual cell delays:
-//   1. One probe → exactly one S_CLK rising edge (no double-triggers)
-//   2. One config command → exactly one thermometer bit change (no glitches)
-//   3. Reset sequencing obeys frozen cycle contract
-//   4. Q sample events occur in intended controller cycles
-//   5. No synthesis delay produces digital protocol violations
-//   6. Lock freezes physical control vectors
-//
-// Key Differences from Phase 8A:
-//   - SDF back-annotation for accurate cell delays
-//   - Timing checks enabled
-//   - Protocol timing verification
-//   - Single scenario focus (0.80V) for detailed analysis
-//
-// Phase: 8B - Delayed gate-level simulation
-// Author: Autonomous controller verification
-// Date: 2026-08-20
-// ============================================================================
-
 `timescale 1ns/1ps
-
 module tb_delayed_gate_level;
+    localparam real CLK_PERIOD_NS=10.0;
+    localparam int RESET_CYCLES=10;
+    localparam time MAX_SIM_TIME=100_000ns;
 
-    // =========================================================================
-    // Parameters
-    // =========================================================================
-    // Clock period: 10.0 ns (100 MHz) - matching synthesis constraint relaxed for margin
-    localparam real CLK_PERIOD = 10.0;
-
-    // Reset duration
-    localparam int RESET_CYCLES = 10;
-
-    // Maximum simulation time
-    localparam real MAX_SIM_TIME = 100000.0; // 100 us
-
-    // =========================================================================
-    // DUT Signals
-    // =========================================================================
-    logic        cal_clk;
-    logic        ctrl_por_n;
-    logic        cal_start;
-    logic        q_final;
-    logic        sense_dff_reset;
-    logic        sense_s_clk;
+    // Complete external and sensor-facing port declarations.  The testbench
+    // drives only clock/POR/start and receives q_final from the sensor oracle.
+    logic cal_clk,ctrl_por_n,cal_start,q_final;
+    logic sense_dff_reset,sense_s_clk;
     logic [15:0] medium_therm;
-    logic [9:0]  fine_therm;
-    logic        cal_busy;
-    logic        cal_done;
-    logic        cal_fail;
-    logic        lock_valid;
-    logic [4:0]  medium_code;
-    logic [3:0]  fine_code;
-    logic [2:0]  fail_reason;
-    logic [4:0]  fsm_state;
+    logic [9:0] fine_therm;
+    logic cal_busy,cal_done,cal_fail,lock_valid;
+    logic [4:0] medium_code,fsm_state;
+    logic [3:0] fine_code;
+    logic [2:0] fail_reason;
+    logic q_sample_1_event,q_sample_2_event,config_update_event,probe_start_event;
 
-    // =========================================================================
-    // Protocol Monitoring Variables
-    // =========================================================================
-    int s_clk_edge_count;
-    int therm_bit_change_count;
-    int config_command_count;
-    int probe_command_count;
+    integer config_count,probe_count,sclk_count,sample1_count,sample2_count,therm_change_count;
+    bit run_active,monitor_error,terminal_seen;
+    string active_scenario;
+    logic [15:0] medium_prev,locked_medium;
+    logic [9:0] fine_prev,locked_fine;
 
-    logic [15:0] medium_therm_prev;
-    logic [9:0]  fine_therm_prev;
-    logic        sense_s_clk_prev;
-
-    bit protocol_violation_detected;
-    string violation_description;
-
-    // =========================================================================
-    // Clock Generation
-    // =========================================================================
-    initial begin
-        cal_clk = 0;
-        forever #(CLK_PERIOD/2) cal_clk = ~cal_clk;
-    end
-
-    // =========================================================================
-    // DUT Instantiation with SDF Back-Annotation
-    // =========================================================================
     ftc_cal_controller_top dut (
-        .cal_clk(cal_clk),
-        .ctrl_por_n(ctrl_por_n),
-        .cal_start(cal_start),
-        .q_final(q_final),
-        .sense_dff_reset(sense_dff_reset),
-        .sense_s_clk(sense_s_clk),
-        .medium_therm(medium_therm),
-        .fine_therm(fine_therm),
-        .cal_busy(cal_busy),
-        .cal_done(cal_done),
-        .cal_fail(cal_fail),
-        .lock_valid(lock_valid),
-        .medium_code(medium_code),
-        .fine_code(fine_code),
-        .fail_reason(fail_reason),
-        .fsm_state(fsm_state)
+        .cal_clk(cal_clk),.ctrl_por_n(ctrl_por_n),.cal_start(cal_start),.q_final(q_final),
+        .sense_dff_reset(sense_dff_reset),.sense_s_clk(sense_s_clk),.medium_therm(medium_therm),
+        .fine_therm(fine_therm),.cal_busy(cal_busy),.cal_done(cal_done),.cal_fail(cal_fail),
+        .lock_valid(lock_valid),.medium_code(medium_code),.fine_code(fine_code),
+        .fail_reason(fail_reason),.fsm_state(fsm_state),.q_sample_1_event(q_sample_1_event),
+        .q_sample_2_event(q_sample_2_event),.config_update_event(config_update_event),
+        .probe_start_event(probe_start_event)
     );
-
-    // SDF annotation is done via +sdf_file runtime option
-
-    // =========================================================================
-    // Behavioral Sensor Model
-    // =========================================================================
     ftc_sensor_behavior_model sensor_model (
-        .medium_therm(medium_therm),
-        .fine_therm(fine_therm),
-        .sense_s_clk(sense_s_clk),
-        .sense_dff_reset(sense_dff_reset),
-        .q_final(q_final)
+        .medium_therm(medium_therm),.fine_therm(fine_therm),.sense_s_clk(sense_s_clk),
+        .sense_dff_reset(sense_dff_reset),.q_sample_1_event(q_sample_1_event),
+        .q_sample_2_event(q_sample_2_event),.q_final(q_final)
     );
 
-    // =========================================================================
-    // Protocol Monitors
-    // =========================================================================
+    initial begin cal_clk=1'b0; forever #(CLK_PERIOD_NS/2.0) cal_clk=~cal_clk; end
 
-    // Monitor 1: S_CLK edge detection
-    always @(posedge sense_s_clk or negedge sense_s_clk) begin
-        if (sense_s_clk && !sense_s_clk_prev) begin
-            // Rising edge
-            s_clk_edge_count++;
-            $display("[%0t] PROTOCOL: S_CLK rising edge #%0d", $time, s_clk_edge_count);
-
-            // Check that dff_reset is low during S_CLK edge (frozen cycle)
-            if (sense_dff_reset !== 1'b0) begin
-                protocol_violation_detected = 1;
-                violation_description = "S_CLK edge with dff_reset not low";
-                $display("[%0t] VIOLATION: %s", $time, violation_description);
-            end
-        end
-        sense_s_clk_prev = sense_s_clk;
-    end
-
-    // Monitor 2: Thermometer bit changes
-    always @(medium_therm or fine_therm) begin
-        if ($time > 0 && ctrl_por_n) begin
-            int medium_changes = count_bit_changes(medium_therm, medium_therm_prev);
-            int fine_changes = count_bit_changes(fine_therm, fine_therm_prev);
-
-            if (medium_changes > 0) begin
-                $display("[%0t] PROTOCOL: Medium thermometer changed by %0d bit(s), new value: %b",
-                         $time, medium_changes, medium_therm);
-
-                // Check: should be exactly 1 bit change per config command
-                if (medium_changes > 1) begin
-                    protocol_violation_detected = 1;
-                    violation_description = $sformatf("Medium therm changed by %0d bits (expected 1)", medium_changes);
-                    $display("[%0t] VIOLATION: %s", $time, violation_description);
-                end
-            end
-
-            if (fine_changes > 0) begin
-                $display("[%0t] PROTOCOL: Fine thermometer changed by %0d bit(s), new value: %b",
-                         $time, fine_changes, fine_therm);
-
-                if (fine_changes > 1) begin
-                    protocol_violation_detected = 1;
-                    violation_description = $sformatf("Fine therm changed by %0d bits (expected 1)", fine_changes);
-                    $display("[%0t] VIOLATION: %s", $time, violation_description);
-                end
-            end
-
-            medium_therm_prev = medium_therm;
-            fine_therm_prev = fine_therm;
-        end
-    end
-
-    // Monitor 3: Lock freeze verification
-    logic [15:0] locked_medium_therm;
-    logic [9:0]  locked_fine_therm;
-
-    always @(posedge cal_clk) begin
-        if (cal_done && lock_valid && !$past(cal_done)) begin
-            // Lock just asserted - capture values
-            locked_medium_therm = medium_therm;
-            locked_fine_therm = fine_therm;
-            $display("[%0t] LOCK: Captured M=%b F=%b", $time, locked_medium_therm, locked_fine_therm);
-        end
-
-        if (cal_done && lock_valid) begin
-            // Verify frozen
-            if (medium_therm !== locked_medium_therm || fine_therm !== locked_fine_therm) begin
-                protocol_violation_detected = 1;
-                violation_description = "Thermometer codes changed after lock";
-                $display("[%0t] VIOLATION: %s", $time, violation_description);
-            end
-        end
-    end
-
-    // Monitor 4: Reset sequencing - dff_reset behavior
-    always @(posedge cal_clk) begin
-        if (cal_busy && !sense_s_clk) begin
-            // During config updates, dff_reset should be high
-            // (This is an approximation - actual protocol is more complex)
-        end
-    end
-
-    // =========================================================================
-    // Test Sequence
-    // =========================================================================
-    initial begin
-        // Initialize
-        ctrl_por_n = 0;
-        cal_start = 0;
-        s_clk_edge_count = 0;
-        therm_bit_change_count = 0;
-        medium_therm_prev = '0;
-        fine_therm_prev = '1; // Fine therm is active-low
-        sense_s_clk_prev = 0;
-        protocol_violation_detected = 0;
-
-        // Setup waveform dumping
-        $dumpfile("delayed_gate_level.vcd");
-        $dumpvars(0, tb_delayed_gate_level);
-
-        $display("\n========================================");
-        $display("Phase 8B: Delayed Gate-Level Simulation");
-        $display("========================================");
-        $display("SDF back-annotation: ENABLED");
-        $display("Timing checks: ENABLED\n");
-
-        // Apply reset
-        repeat(RESET_CYCLES) @(posedge cal_clk);
-        ctrl_por_n = 1;
-        repeat(2) @(posedge cal_clk);
-
-        // Load scenario
-        sensor_model.load_scenario("0p80V");
-
-        $display("[%0t] Starting calibration (0.80V scenario)", $time);
-        $display("  Expected: M7/F6\n");
-
-        // Start calibration
-        @(posedge cal_clk);
-        cal_start = 1;
-        @(posedge cal_clk);
-        cal_start = 0;
-
-        // Wait for completion
-        wait(cal_done || cal_fail);
-        repeat(5) @(posedge cal_clk);
-
-        // Report results
-        $display("\n========================================");
-        $display("Calibration Complete");
-        $display("========================================");
-        $display("Final status:");
-        $display("  cal_done=%b, cal_fail=%b, lock_valid=%b", cal_done, cal_fail, lock_valid);
-        $display("  Final configuration: M%0d/F%0d", medium_code, fine_code);
-        $display("\nProtocol monitoring:");
-        $display("  Total S_CLK edges: %0d", s_clk_edge_count);
-        $display("  Protocol violations: %s", protocol_violation_detected ? "YES" : "NO");
-
-        if (protocol_violation_detected) begin
-            $display("  Last violation: %s", violation_description);
-            $display("\n✗ Phase 8B: FAIL - Protocol violation detected");
-            $fatal(1, "Timing-sensitive protocol violation");
-        end
-
-        if (!cal_done) begin
-            $display("\n✗ Phase 8B: FAIL - Calibration did not complete");
-            $fatal(1, "Calibration incomplete");
-        end
-
-        if (cal_fail) begin
-            $display("\n✗ Phase 8B: FAIL - Calibration failed");
-            $fatal(1, "Calibration failure");
-        end
-
-        if (medium_code != 7 || fine_code != 6) begin
-            $display("\n✗ Phase 8B: FAIL - Incorrect final configuration");
-            $display("  Expected: M7/F6, Got: M%0d/F%0d", medium_code, fine_code);
-            $fatal(1, "Configuration mismatch");
-        end
-
-        $display("\n✓ Phase 8B: PASS - Delayed gate-level verification successful");
-        $display("  - Functional correctness: PASS");
-        $display("  - Protocol timing: PASS");
-        $display("  - No double-triggers detected");
-        $display("  - Lock freeze verified\n");
-
-        $finish;
-    end
-
-    // =========================================================================
-    // Helper Functions
-    // =========================================================================
-    function int count_bit_changes(input logic [15:0] new_val, input logic [15:0] old_val);
-        int changes = 0;
-        for (int i = 0; i < 16; i++) begin
-            if (new_val[i] !== old_val[i]) changes++;
-        end
-        return changes;
+    // Verification-only bit transition helpers; synthesizable RTL contains no
+    // function and is unaffected by these testbench utilities.
+    function automatic integer changed16(input logic [15:0] n,input logic [15:0] o);
+        integer i; begin changed16=0; for(i=0;i<16;i=i+1) if(n[i]!==o[i]) changed16=changed16+1; end
+    endfunction
+    function automatic integer changed10(input logic [9:0] n,input logic [9:0] o);
+        integer i; begin changed10=0; for(i=0;i<10;i=i+1) if(n[i]!==o[i]) changed10=changed10+1; end
     endfunction
 
-    // =========================================================================
-    // Timeout Watchdog
-    // =========================================================================
-    initial begin
-        #MAX_SIM_TIME;
-        $display("\n[%0t] ERROR: Simulation timeout!", $time);
-        $display("Status: cal_done=%b, cal_fail=%b", cal_done, cal_fail);
-        $fatal(1, "Simulation exceeded maximum time");
+    always @(posedge config_update_event) if(run_active) config_count=config_count+1;
+    always @(posedge probe_start_event) if(run_active) probe_count=probe_count+1;
+    always @(posedge q_sample_1_event) if(run_active) sample1_count=sample1_count+1;
+    always @(posedge q_sample_2_event) if(run_active) sample2_count=sample2_count+1;
+
+    // SDF must not create a second physical sensor clock edge or assert reset
+    // concurrently with its intended rising edge.
+    always @(posedge sense_s_clk) if(run_active) begin
+        sclk_count=sclk_count+1;
+        if(sense_dff_reset!==1'b0) begin monitor_error=1'b1; $display("PHASE8B_MONITOR_ERROR scenario=%s cause=sclk_with_reset",active_scenario); end
     end
 
+    // Cell delays may shift a rail transition but may not make it multi-bit or
+    // occur while the sensor is active.
+    always @(medium_therm or fine_therm) begin
+        integer md,fd;
+        if(run_active) begin
+            md=changed16(medium_therm,medium_prev); fd=changed10(fine_therm,fine_prev);
+            if((md!=0)||(fd!=0)) begin
+                therm_change_count=therm_change_count+1;
+                if(((md+fd)!=1)||(sense_dff_reset!==1'b1)||(sense_s_clk!==1'b0)) begin
+                    monitor_error=1'b1;
+                    $display("PHASE8B_MONITOR_ERROR scenario=%s cause=illegal_therm_transition md=%0d fd=%0d reset=%b sclk=%b",active_scenario,md,fd,sense_dff_reset,sense_s_clk);
+                end
+            end
+        end
+        medium_prev=medium_therm; fine_prev=fine_therm;
+    end
+
+    // Terminal state must freeze the actual physical vectors despite SDF delay.
+    always @(posedge cal_clk) begin
+        if(run_active&&(cal_done||cal_fail)&&!terminal_seen) begin terminal_seen=1'b1; locked_medium=medium_therm; locked_fine=fine_therm; end
+        if(run_active&&terminal_seen&&((medium_therm!==locked_medium)||(fine_therm!==locked_fine))) begin monitor_error=1'b1; $display("PHASE8B_MONITOR_ERROR scenario=%s cause=terminal_config_changed",active_scenario); end
+    end
+    always @(negedge ctrl_por_n) begin run_active=1'b0; medium_prev=medium_therm; fine_prev=fine_therm; end
+
+    task automatic run_nominal(input string name,input integer exp_m,input integer exp_f,input integer exp_ops);
+        integer cycles;
+        begin
+            active_scenario=name; config_count=0; probe_count=0; sclk_count=0; sample1_count=0; sample2_count=0; therm_change_count=0; monitor_error=1'b0; terminal_seen=1'b0;
+            ctrl_por_n=1'b0; cal_start=1'b0; repeat(RESET_CYCLES) @(posedge cal_clk);
+            sensor_model.load_scenario(name); sensor_model.reset_stats(); medium_prev=medium_therm; fine_prev=fine_therm;
+            ctrl_por_n=1'b1; repeat(2) @(posedge cal_clk); @(negedge cal_clk); run_active=1'b1; cal_start=1'b1; @(negedge cal_clk); cal_start=1'b0;
+            cycles=0; while(!(cal_done||cal_fail)&&(cycles<4000)) begin @(posedge cal_clk); cycles=cycles+1; end
+            if(cycles==4000) $fatal(1,"PHASE8B_FAIL scenario=%s cause=timeout",name);
+            repeat(10) @(posedge cal_clk);
+            if(!cal_done||cal_fail||!lock_valid) $fatal(1,"PHASE8B_FAIL scenario=%s cause=status",name);
+            if((medium_code!==exp_m)||(fine_code!==exp_f)) $fatal(1,"PHASE8B_FAIL scenario=%s cause=code got=M%0d/F%0d",name,medium_code,fine_code);
+            if((config_count+probe_count)!==exp_ops) $fatal(1,"PHASE8B_FAIL scenario=%s cause=ops got=%0d expected=%0d",name,config_count+probe_count,exp_ops);
+            if(monitor_error||(sensor_model.violation_count!=0)) $fatal(1,"PHASE8B_FAIL scenario=%s cause=protocol_monitor",name);
+            if(sclk_count!==probe_count) $fatal(1,"PHASE8B_FAIL scenario=%s cause=sclk_count",name);
+            if((sample1_count!==probe_count)||(sample2_count!==probe_count)) $fatal(1,"PHASE8B_FAIL scenario=%s cause=sample_count",name);
+            if(therm_change_count!==config_count) $fatal(1,"PHASE8B_FAIL scenario=%s cause=therm_count",name);
+            $display("PHASE8B_PASS scenario=%s ops=%0d configs=%0d probes=%0d samples=%0d/%0d final=M%0d/F%0d",name,config_count+probe_count,config_count,probe_count,sample1_count,sample2_count,medium_code,fine_code);
+            run_active=1'b0;
+        end
+    endtask
+
+    initial begin
+        ctrl_por_n=1'b0; cal_start=1'b0; run_active=1'b0; monitor_error=1'b0; terminal_seen=1'b0; medium_prev='0; fine_prev='0;
+        $dumpfile("delayed_gate_level.vcd"); $dumpvars(0,tb_delayed_gate_level);
+        run_nominal("0p80V",7,6,45); run_nominal("0p95V",4,6,36); run_nominal("1p10V",2,9,36);
+        $display("PHASE8B_ALL_PASS nominal=3 sdf=max exact_ops=45,36,36"); $finish;
+    end
+    initial begin #MAX_SIM_TIME; $fatal(1,"PHASE8B_FAIL cause=global_timeout scenario=%s",active_scenario); end
 endmodule

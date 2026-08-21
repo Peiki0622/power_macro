@@ -73,9 +73,15 @@ puts "Generating reports..."
 file mkdir ../reports
 
 report_timing -max_paths 5 > ../reports/timing.rpt
+report_timing -from [get_ports q_final] -max_paths 10 > ../reports/q_final_sampling_path.rpt
 report_area -hierarchy > ../reports/area.rpt
 report_qor > ../reports/qor.rpt
 report_power > ../reports/power.rpt
+report_net > ../reports/fanout.rpt
+report_cell > ../reports/cell_usage.rpt
+report_reference -hierarchy > ../reports/reference_usage.rpt
+check_design > ../reports/warnings.rpt
+report_constraint -all_violators > ../reports/constraints.rpt
 
 # =========================================================================
 # Write Netlist
@@ -85,6 +91,7 @@ puts "Writing netlist..."
 file mkdir ../netlist
 
 write -format verilog -hierarchy -output ../netlist/${DESIGN_NAME}_synth.v
+write -format ddc -hierarchy -output ../netlist/${DESIGN_NAME}_synth.ddc
 write_sdc ../netlist/${DESIGN_NAME}_synth.sdc
 
 puts "Synthesis complete!"

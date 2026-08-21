@@ -1,72 +1,60 @@
 {
   "phase": "Phase 7 - Controller Synthesis",
-  "status": "INFRASTRUCTURE_READY",
+  "status": "GO",
   "timestamp": "2026-08-20",
-  "summary": "Synthesis infrastructure complete. Full synthesis requires EDA environment with technology libraries.",
-  "deliverables": {
-    "sdc_constraints": {
-      "file": "synthesis/constraints/ftc_controller_timing.sdc",
-      "clock_period": "1.0 ns (1 GHz)",
-      "clock_uncertainty_setup": "50 ps",
-      "clock_uncertainty_hold": "20 ps",
-      "input_delays": "Specified for cal_start and q_final",
-      "output_delays": "Specified for all sensor control and status outputs",
-      "false_paths": "Asynchronous reset path",
-      "design_rules": "Max fanout=16, max_transition=0.2ns"
-    },
-    "synthesis_scripts": {
-      "dc_tcl": "synthesis/scripts/synthesize_dc.tcl",
-      "run_script": "synthesis/scripts/run_synthesis.sh",
-      "rtl_files": [
-        "rtl/ftc_cal_pkg.sv",
-        "rtl/ftc_cfg_therm_regs.sv",
-        "rtl/ftc_q_sampler.sv",
-        "rtl/ftc_operation_sequencer.sv",
-        "rtl/ftc_cal_fsm.sv",
-        "rtl/ftc_cal_controller_top.sv"
-      ]
-    },
-    "directory_structure": {
-      "constraints": "synthesis/constraints/",
-      "scripts": "synthesis/scripts/",
-      "netlist": "synthesis/netlist/ (output)",
-      "reports": "synthesis/reports/ (output)"
-    }
+  "tool": "Synopsys Design Compiler W-2024.09",
+  "technology_library": "sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c",
+  "target": {"clock_period_ns": 1.0, "frequency_hz": 1000000000},
+  "gate": "Synthesized Calibration Controller = GO",
+  "artifacts": {
+    "netlist": "synthesis/netlist/ftc_cal_controller_top_synth.v",
+    "ddc": "synthesis/netlist/ftc_cal_controller_top_synth.ddc",
+    "sdc": "synthesis/netlist/ftc_cal_controller_top_synth.sdc",
+    "sdf": "synthesis/netlist/ftc_cal_controller_top_synth.sdf",
+    "timing": "synthesis/reports/timing.rpt",
+    "qor": "synthesis/reports/qor.rpt",
+    "area": "synthesis/reports/area.rpt",
+    "fanout": "synthesis/reports/fanout.rpt",
+    "warnings": "synthesis/reports/warnings.rpt",
+    "cell_usage": "synthesis/reports/cell_usage.rpt",
+    "q_final_sampling_path": "synthesis/reports/q_final_sampling_path.rpt",
+    "constraints": "synthesis/reports/constraints.rpt"
   },
-  "synthesis_requirements": {
-    "tool": "Design Compiler or Cadence Genus",
-    "technology": "TSMC standard cell library",
-    "timing_target": "1 GHz (1.0 ns period)",
-    "timing_margin": "Target >50 ps setup margin",
-    "estimated_area": "<10k gates",
-    "critical_paths": [
-      "FSM state transitions",
-      "Configuration register updates",
-      "Q sample classification logic"
-    ]
+  "qor": {
+    "leaf_cells": 516,
+    "sequential_cells": 77,
+    "combinational_cells": 439,
+    "buffer_inverter_cells": 126,
+    "total_area": 942.757202,
+    "max_setup_slack_ns": 0.0,
+    "total_negative_setup_slack_ns": 0.0,
+    "worst_hold_slack_ns": 0.0,
+    "total_negative_hold_slack_ns": 0.0,
+    "design_rule_violations": 0,
+    "max_fanout_violations": 0
   },
-  "verification_after_synthesis": {
-    "gate_level_simulation": "Use same behavioral sensor model as RTL",
-    "nominal_scenarios": "Verify 3 scenarios produce correct M/F codes",
-    "negative_scenarios": "Verify failure detection still works",
-    "sdf_annotation": "Verify timing with back-annotated delays",
-    "protocol_checks": "All SVA assertions must pass at gate level"
+  "critical_paths": {
+    "cal_clk_setup": {"worst_slack_ns": 0.0, "result": "PASS"},
+    "q_final_to_q_class_bit1": {"slack_ns": 0.02, "result": "PASS"},
+    "q_final_to_q_class_bit0": {"slack_ns": 0.08, "result": "PASS"},
+    "q_final_to_sample_1_register": {"slack_ns": 0.15, "result": "PASS"}
   },
-  "rtl_synthesizability": {
-    "no_functions_in_rtl": "Confirmed - all RTL uses procedural logic only",
-    "no_latches": "All storage in flip-flops",
-    "no_combinational_loops": "Clean hierarchical design",
-    "clock_gating": "None required at this scale",
-    "reset_strategy": "Asynchronous reset, synchronous release"
+  "physical_control_checks": {
+    "sense_s_clk": "PASS - output is driven by DFFRPQ_X1M_A9TR40",
+    "sense_dff_reset": "PASS - output is driven by DFFRPQ_X1M_A9TR40",
+    "thermometer_fanout": "PASS - each medium/fine rail fanout is 2 or 3; cal_clk fanout is 77",
+    "q_final_sampling_path": "PASS - q_final reaches real q_sample_1 and q_class registers under cal_clk",
+    "sdf_generation": "PASS - SDF 3.0 generated from mapped netlist"
   },
-  "next_steps": {
-    "manual_synthesis": [
-      "1. Set up EDA environment with TSMC libraries",
-      "2. Run: dc_shell-xg-t -f synthesis/scripts/synthesize_dc.tcl",
-      "3. Review reports in synthesis/reports/",
-      "4. Verify timing meets 1 GHz target",
-      "5. Proceed to Phase 8 gate-level simulation"
-    ]
+  "warnings_review": {
+    "constant_unused_range_bits": "Explained - M15/F9 are legal maxima, so medium_therm[15], fine_therm[9], and unused debug high bits are constants.",
+    "signed_unsigned_conversion": "Non-functional width warnings in bounded counter comparisons; nominal and negative regressions pass.",
+    "unconnected_fsm_inputs": "Fixed in RTL by retaining q_class_valid through probe completion and consuming cfg_at_min_medium_i.",
+    "unmapped_logic": "None in final simple-flow mapped netlist; all references are sc9mc standard cells."
   },
-  "gate": "Synthesized Calibration Controller = INFRASTRUCTURE_READY (requires EDA tool)"
+  "rtl_checks": {
+    "synthesis_rtl_function_keyword_count": 0,
+    "registered_sensor_clock": true,
+    "combinational_clock_gate": false
+  }
 }

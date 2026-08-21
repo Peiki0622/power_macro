@@ -27,7 +27,9 @@ TESTBENCH="${SCRIPT_DIR}/tb_delayed_gate_level.sv"
 SMIC_LIB="/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v"
 
 # Output directory
-OUTPUT_DIR="./sim_output"
+# Keep all generated VCS databases, logs, and waveforms inside this phase's
+# task-scoped evidence directory regardless of the caller's current directory.
+OUTPUT_DIR="${SCRIPT_DIR}/sim_output"
 
 echo "========================================="
 echo "Phase 8B: Delayed Gate-Level Simulation"
@@ -135,7 +137,8 @@ echo ""
 
 # Check for PASS in simulation output
 if [ ${SIM_EXIT_CODE} -eq 0 ]; then
-    if grep -q "Phase 8B: PASS" elaborate_run.log; then
+    if grep -q "PHASE8B_ALL_PASS" elaborate_run.log && \
+       ! grep -q "PHASE8B_FAIL" elaborate_run.log; then
         echo "✓ Phase 8B: PASS - Delayed gate-level verification successful"
         echo ""
 

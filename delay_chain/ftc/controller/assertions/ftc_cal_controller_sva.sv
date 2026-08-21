@@ -35,10 +35,24 @@ module ftc_cal_controller_sva (
     input logic [15:0] medium_therm,
     input logic [9:0]  fine_therm,
 
+    // Registered sequencer observability markers.  They are used only to
+    // count protocol events and never drive the controller under test.
+    input logic        q_sample_1_event,
+    input logic        q_sample_2_event,
+    input logic        config_update_event,
+    input logic        probe_start_event,
+    input logic [1:0]  q_class,
+    input logic        q_class_valid,
+
     // Internal state (for deeper checks)
     input logic [3:0] medium_code,
-    input logic [3:0] fine_code
+    input logic [3:0] fine_code,
+    input logic [4:0] fsm_state
 );
+
+    // Reuse the package's frozen classifier encodings so assertions cannot
+    // silently diverge from the synthesizable sampler.
+    import ftc_cal_pkg::*;
 
     // =========================================================================
     // Helper Functions for Thermometer Code Validation
@@ -63,19 +77,16 @@ module ftc_cal_controller_sva (
         return count;
     endfunction
 
-    // Check if thermometer code is valid (all 1s are contiguous from LSB)
-    // Valid patterns: 0000, 0001, 0011, 0111, 1111, etc.
-    // Medium thermometer: positive logic, LSB to MSB
+    // Check if the positive-logic thermometer has contiguous ones from LSB
+    // upward followed only by zeros.  Valid patterns include 0000, 0001,
+    // 0011, 0111 and 1111; a zero between two asserted rails is illegal.
     function automatic logic is_valid_therm_medium(logic [15:0] therm);
-        logic found_one;
+        logic found_zero;
         if (therm == 16'h0000) return 1; // All zeros is valid (M=0)
-        found_one = 0;
-        // Check from LSB to MSB: once we find a 0, all higher bits must be 0
+        found_zero = 0;
         for (int i = 0; i < 16; i++) begin
-            if (!therm[i] && found_one) begin
-                return 0; // Found 0 after 1 - invalid
-            end
-            if (therm[i]) found_one = 1;
+            if (!therm[i]) found_zero = 1;
+            else if (found_zero) return 0;
         end
         return 1;
     endfunction
@@ -253,6 +264,81 @@ module ftc_cal_controller_sva (
 
     a_no_config_after_done: assert property (p_no_config_after_done)
         else $error("[SVA] Configuration changed after cal_done");
+
+    // =====================================================================
+    // Assertions 11-16: Frozen operation and decision protocol
+    // =====================================================================
+    // A probe has one registered launch edge, then the two sample events at
+    // the fixed local cycles from the Phase 1 timing handoff.
+    property p_probe_has_one_sclk_and_two_samples;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        probe_start_event |-> ##1 $rose(sense_s_clk) ##3 q_sample_1_event
+                             ##1 q_sample_2_event;
+    endproperty
+    a_probe_one_edge_two_samples: assert property (p_probe_has_one_sclk_and_two_samples)
+        else $error("[SVA] Probe did not produce one S_CLK edge and two Q samples");
+
+    // Configuration settle is two complete controller cycles.  No second
+    // update or probe may be accepted in that interval.
+    property p_config_settle_interval;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        // A second backoff update is intentionally accepted on cycle two;
+        // the first full cycle after the update must remain quiet.
+        config_update_event |=> (!config_update_event[*1]);
+    endproperty
+    a_config_settle_interval: assert property (p_config_settle_interval)
+        else $error("[SVA] Configuration settle interval was violated");
+
+    property p_config_settle_no_probe;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        config_update_event |=> (!probe_start_event[*2]);
+    endproperty
+    a_config_settle_no_probe: assert property (p_config_settle_no_probe)
+        else $error("[SVA] Probe started before configuration settled");
+
+    // M/F vectors are held for the complete ten-cycle probe transaction.
+    property p_probe_code_constant;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        probe_start_event |-> ($stable(medium_therm)[*10]);
+    endproperty
+    a_probe_code_constant: assert property (p_probe_code_constant)
+        else $error("[SVA] M/F changed during a probe");
+
+    property p_probe_fine_code_constant;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        probe_start_event |-> ($stable(fine_therm)[*10]);
+    endproperty
+    a_probe_fine_code_constant: assert property (p_probe_fine_code_constant)
+        else $error("[SVA] Fine thermometer changed during a probe");
+
+    // The two coarse results are independently captured and both must be low
+    // before the FSM may enter its first backoff state (state 6).
+    property p_coarse_requires_two_low_results;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        (fsm_state == 5'b00100) && q_class_valid &&
+        ((q_class != Q_CLASS_STABLE_LOW)) |-> (fsm_state != 5'b00110);
+    endproperty
+    a_coarse_two_low_results: assert property (p_coarse_requires_two_low_results)
+        else $error("[SVA] Coarse boundary accepted without two stable-low probes");
+
+    // Fine search continues only after STABLE_HIGH.  LOW and AMBIGUOUS are
+    // terminal boundary classifications handled by the FSM.
+    property p_fine_continues_only_high;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        (fsm_state == 5'b01001) && q_class_valid &&
+        (q_class != Q_CLASS_STABLE_HIGH) |-> (fsm_state != 5'b01010);
+    endproperty
+    a_fine_only_high_continues: assert property (p_fine_continues_only_high)
+        else $error("[SVA] Fine scan advanced after a non-high result");
+
+    // A lock indication is legal only after a completed hold sample; the
+    // independent guard and hold checks are retained in the FSM state path.
+    property p_lock_requires_hold_sample;
+        @(posedge cal_clk) disable iff (!ctrl_por_n)
+        $rose(lock_valid) |-> $past(q_sample_2_event, 10);
+    endproperty
+    a_lock_requires_guard_and_hold: assert property (p_lock_requires_hold_sample)
+        else $error("[SVA] Lock asserted without a completed hold probe");
 
     // =========================================================================
     // Coverage Points

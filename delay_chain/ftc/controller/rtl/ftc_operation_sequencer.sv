@@ -40,7 +40,12 @@ module ftc_operation_sequencer (
     output logic       q_class_valid_o,
     // Explicit debug strobes permit testbench/SVA event accounting.
     output logic       q_sample_1_event_o,
-    output logic       q_sample_2_event_o
+    output logic       q_sample_2_event_o,
+    // One-cycle acceptance markers.  These markers are observability-only;
+    // they are registered with the same handshake edge that starts the
+    // corresponding operation and do not participate in sensor control.
+    output logic       config_update_event_o,
+    output logic       probe_start_event_o
 );
     import ftc_cal_pkg::*;
     localparam logic [1:0] OP_CONFIG_UPDATE = 2'b01;
@@ -50,6 +55,7 @@ module ftc_operation_sequencer (
     logic [1:0] active_cmd_q;
     logic sample_1_fire;
     logic sample_2_fire;
+    logic sampler_class_valid;
 
     // These are combinational decodes of already registered sequencer state.
     // They are not clock gates: they are one-cycle data strobes presented to
@@ -65,7 +71,7 @@ module ftc_operation_sequencer (
     ftc_q_sampler u_q_sampler (
         .clk_i(cal_clk_i), .por_n_i(ctrl_por_n_i), .q_final_i(q_final_i),
         .sample_1_i(sample_1_fire), .sample_2_i(sample_2_fire),
-        .q_sample_1_o(), .q_sample_2_o(), .class_valid_o(q_class_valid_o),
+        .q_sample_1_o(), .q_sample_2_o(), .class_valid_o(sampler_class_valid),
         .q_class_o(q_class_o));
 
     always_ff @(posedge cal_clk_i or negedge ctrl_por_n_i) begin
@@ -81,6 +87,9 @@ module ftc_operation_sequencer (
             probe_done_o <= 1'b0;
             q_sample_1_event_o <= 1'b0;
             q_sample_2_event_o <= 1'b0;
+            q_class_valid_o <= 1'b0;
+            config_update_event_o <= 1'b0;
+            probe_start_event_o <= 1'b0;
             probe_count_q <= '0;
             active_cmd_q <= '0;
         end else begin
@@ -93,6 +102,12 @@ module ftc_operation_sequencer (
             cfg_fine_dec_o <= 1'b0;
             q_sample_1_event_o <= 1'b0;
             q_sample_2_event_o <= 1'b0;
+            config_update_event_o <= 1'b0;
+            probe_start_event_o <= 1'b0;
+            // Hold the classifier-valid indication through probe completion
+            // so the high-level FSM observes a coherent result at seq_done.
+            if (sampler_class_valid)
+                q_class_valid_o <= 1'b1;
 
             if (!busy_o) begin
                 sense_dff_reset_o <= 1'b1;
@@ -103,6 +118,8 @@ module ftc_operation_sequencer (
                     busy_o <= 1'b1;
                     active_cmd_q <= OP_CONFIG_UPDATE;
                     probe_count_q <= '0;
+                    q_class_valid_o <= 1'b0;
+                    config_update_event_o <= 1'b1;
                     cfg_medium_inc_o <= medium_inc_i;
                     cfg_medium_dec_o <= medium_dec_i;
                     cfg_fine_inc_o <= fine_inc_i;
@@ -112,6 +129,7 @@ module ftc_operation_sequencer (
                     busy_o <= 1'b1;
                     active_cmd_q <= OP_PROBE;
                     probe_count_q <= '0;
+                    probe_start_event_o <= 1'b1;
                     sense_dff_reset_o <= 1'b0;
                 end
             end else if (active_cmd_q == OP_CONFIG_UPDATE) begin

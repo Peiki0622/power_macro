@@ -1,6 +1,6 @@
 ###################################################################
 
-# Created by write_sdc on Thu Aug 20 12:05:24 2026
+# Created by write_sdc on Thu Aug 20 13:49:36 2026
 
 ###################################################################
 set sdc_version 2.1
@@ -60,4 +60,8 @@ set_output_delay -clock cal_clk  -max 0.4  [get_ports {fsm_state[3]}]
 set_output_delay -clock cal_clk  -max 0.4  [get_ports {fsm_state[2]}]
 set_output_delay -clock cal_clk  -max 0.4  [get_ports {fsm_state[1]}]
 set_output_delay -clock cal_clk  -max 0.4  [get_ports {fsm_state[0]}]
+set_output_delay -clock cal_clk  -max 0.4  [get_ports q_sample_1_event]
+set_output_delay -clock cal_clk  -max 0.4  [get_ports q_sample_2_event]
+set_output_delay -clock cal_clk  -max 0.4  [get_ports config_update_event]
+set_output_delay -clock cal_clk  -max 0.4  [get_ports probe_start_event]
 set_false_path   -from [get_ports ctrl_por_n]

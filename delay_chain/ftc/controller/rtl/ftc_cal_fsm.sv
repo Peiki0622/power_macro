@@ -278,7 +278,7 @@ module ftc_cal_fsm (
                 end
 
                 // When probe completes, q_class_i is valid (locked from sample_2).
-                if (seq_done_i && seq_probe_done_i) begin
+                if (seq_done_i && seq_probe_done_i && q_class_valid_i) begin
                     // Capture probe A result.
                     coarse_probe_a_result_d = q_class_i;
                     // Issue second probe at same M.
@@ -297,7 +297,7 @@ module ftc_cal_fsm (
                 end
 
                 // When probe completes, q_class_i is valid (locked from sample_2).
-                if (seq_done_i && seq_probe_done_i) begin
+                if (seq_done_i && seq_probe_done_i && q_class_valid_i) begin
                     // Capture probe B result.
                     coarse_probe_b_result_d = q_class_i;
                     // Move to evaluation state.
@@ -314,7 +314,7 @@ module ftc_cal_fsm (
                     (coarse_probe_b_result_q == Q_CLASS_STABLE_LOW)) begin
                     // Coarse boundary found. Check if two-step backoff is possible.
                     // Two-step backoff requires current M >= 2 (to reach M-2).
-                    if (cfg_medium_too_low_for_backoff_i) begin
+                    if (cfg_medium_too_low_for_backoff_i || cfg_at_min_medium_i) begin
                         // Boundary at M=0 or M=1, cannot backoff 2 steps.
                         state_d = ST_FAIL;
                         fail_reason_d = FAIL_COARSE_BACKOFF_UNDERFLOW;
@@ -406,7 +406,7 @@ module ftc_cal_fsm (
                 end
 
                 // When probe completes, q_class_i is valid (locked from sample_2).
-                if (seq_done_i && seq_probe_done_i) begin
+                if (seq_done_i && seq_probe_done_i && q_class_valid_i) begin
                     // Capture fine probe result.
                     fine_probe_result_d = q_class_i;
                     // Move to evaluation.
@@ -496,7 +496,7 @@ module ftc_cal_fsm (
                 end
 
                 // When probe completes, q_class_i is valid (locked from sample_2).
-                if (seq_done_i && seq_probe_done_i) begin
+                if (seq_done_i && seq_probe_done_i && q_class_valid_i) begin
                     // Capture guard result.
                     guard_result_d = q_class_i;
 
@@ -525,7 +525,7 @@ module ftc_cal_fsm (
                 end
 
                 // When probe completes, q_class_i is valid (locked from sample_2).
-                if (seq_done_i && seq_probe_done_i) begin
+                if (seq_done_i && seq_probe_done_i && q_class_valid_i) begin
                     // Capture hold result.
                     hold_result_d = q_class_i;
 

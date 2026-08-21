@@ -51,10 +51,14 @@ module tb_ftc_negative_scenarios;
     logic        cal_done;
     logic        cal_fail;
     logic        lock_valid;
-    logic [3:0]  medium_code;
+    logic [4:0]  medium_code;
     logic [3:0]  fine_code;
     logic [2:0]  fail_reason;
-    logic [3:0]  fsm_state;
+    logic [4:0]  fsm_state;
+    logic        q_sample_1_event;
+    logic        q_sample_2_event;
+    logic        config_update_event;
+    logic        probe_start_event;
 
     // =========================================================================
     // DUT Instantiation
@@ -75,7 +79,11 @@ module tb_ftc_negative_scenarios;
         .medium_code(medium_code),
         .fine_code(fine_code),
         .fail_reason(fail_reason),
-        .fsm_state(fsm_state)
+        .fsm_state(fsm_state),
+        .q_sample_1_event(q_sample_1_event),
+        .q_sample_2_event(q_sample_2_event),
+        .config_update_event(config_update_event),
+        .probe_start_event(probe_start_event)
     );
 
     // =========================================================================
@@ -86,6 +94,8 @@ module tb_ftc_negative_scenarios;
         .fine_therm(fine_therm),
         .sense_s_clk(sense_s_clk),
         .sense_dff_reset(sense_dff_reset),
+        .q_sample_1_event(q_sample_1_event),
+        .q_sample_2_event(q_sample_2_event),
         .q_final(q_final)
     );
 
@@ -104,8 +114,15 @@ module tb_ftc_negative_scenarios;
         .sense_s_clk(sense_s_clk),
         .medium_therm(medium_therm),
         .fine_therm(fine_therm),
+        .q_sample_1_event(q_sample_1_event),
+        .q_sample_2_event(q_sample_2_event),
+        .config_update_event(config_update_event),
+        .probe_start_event(probe_start_event),
+        .q_class(dut.q_class),
+        .q_class_valid(dut.q_class_valid),
         .medium_code(medium_code),
-        .fine_code(fine_code)
+        .fine_code(fine_code),
+        .fsm_state(fsm_state)
     );
 
     // =========================================================================
@@ -125,14 +142,17 @@ module tb_ftc_negative_scenarios;
         ctrl_por_n = 1;
         repeat(5) @(posedge cal_clk);
 
-        // Run failure scenarios
-        // Note: Hold failure scenarios require the behavioral model to track probe count
-        // per configuration, which adds significant complexity. They are deferred to
-        // transistor-level verification where the real sensor naturally exhibits this behavior.
+        // Run all eight deterministic adversarial response scenarios required
+        // by Phase 6.  The model's per-code occurrence table distinguishes the
+        // independent guard and hold probes at the same final configuration.
         run_scenario("coarse_range_fail", 3'b001);      // FAIL_COARSE_RANGE
         run_scenario("backoff_underflow", 3'b010);      // FAIL_COARSE_BACKOFF_UNDERFLOW
         run_scenario("fine_range_fail", 3'b011);        // FAIL_FINE_RANGE
+        run_scenario("guard_range_fail", 3'b100);      // FAIL_GUARD_RANGE
         run_scenario("guard_not_low_high", 3'b101);     // FAIL_GUARD_NOT_LOW
+        run_scenario("guard_not_low_ambig", 3'b101);    // FAIL_GUARD_NOT_LOW
+        run_scenario("hold_not_low_high", 3'b110);     // FAIL_HOLD_NOT_LOW
+        run_scenario("hold_not_low_ambig", 3'b110);    // FAIL_HOLD_NOT_LOW
 
         $display("");
         $display("=== All Negative Scenario Tests Passed ===");

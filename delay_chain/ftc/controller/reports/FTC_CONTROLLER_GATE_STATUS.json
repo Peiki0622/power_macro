@@ -16,8 +16,8 @@
     "phase_5": {"gate": "GO", "basis": "Recorded integrated nominal results are passing with exact operation counts."},
     "phase_6": {"gate": "NO-GO", "basis": "Existing result claims GO but only ten assertion classes and four negative scenarios are evidenced; the plan requires sixteen assertion classes and eight negative scenarios."},
     "phase_7": {"gate": "NO-GO", "basis": "Existing machine result is INFRASTRUCTURE_READY and lacks complete 1 GHz closure, fanout, warnings, cell-usage, and q_final path evidence."},
-    "phase_8": {"gate": "NO-GO", "basis": "Nominal GLS exists, but complete negative GLS, exact operation counts, and 0.80/0.95/1.10 mixed coverage are incomplete."},
-    "phase_9": {"gate": "NOT_STARTED", "basis": "No real synthesized-controller plus transistor-sensor autonomous mixed simulation has completed."},
+    "phase_8": {"gate": "GO", "basis": "Current mapped netlist passes functional and MAX-SDF GLS for all three nominal scenarios and all eight negative scenarios; exact nominal operations are 45/36/36 with one S_CLK and two Q samples per probe."},
+    "phase_9": {"gate": "NOT_COMPLETED", "basis": "Three integrated transistor-level decks were rendered and frozen, but the first 0.80 V HSPICE transient was explicitly terminated before acceptance; no autonomous mixed-signal GO is claimed."},
     "phase_10": {"gate": "NOT_STARTED", "basis": "Final acceptance and handoff report are not yet publishable."}
   },
   "phase_1_static_checks": {

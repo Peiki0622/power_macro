@@ -64,7 +64,10 @@ module ftc_cfg_therm_regs #(
 
                 if (!cfg_locked_o && !lock_i) begin
                     // Medium code increments assert exactly the next rail.
-                    if (medium_inc_i && (medium_code_o < MEDIUM_BITS)) begin
+                    // Code MEDIUM_BITS-1 is the last legal thermometer
+                    // position; allowing one more increment would index past
+                    // the physical vector and create an illegal code.
+                    if (medium_inc_i && (medium_code_o < MEDIUM_BITS-1)) begin
                         medium_therm_o[medium_code_o] <= 1'b1;
                         medium_code_o <= medium_code_o + 1'b1;
                     end
@@ -74,7 +77,9 @@ module ftc_cfg_therm_regs #(
                         medium_code_o <= medium_code_o - 1'b1;
                     end
                     // Fine code increments assert one active-low rail.
-                    if (fine_inc_i && (fine_code_o < FINE_BITS)) begin
+                    // Fine code FINE_BITS-1 is the legal maximum; no tenth
+                    // active-low bit exists beyond the ten physical rails.
+                    if (fine_inc_i && (fine_code_o < FINE_BITS-1)) begin
                         fine_therm_o[fine_code_o] <= 1'b0;
                         fine_code_o <= fine_code_o + 1'b1;
                     end
@@ -92,9 +97,9 @@ module ftc_cfg_therm_regs #(
     // to drive the physical vectors.
     always_comb begin
         medium_at_min_o = (medium_code_o == 0);
-        medium_at_max_o = (medium_code_o == MEDIUM_BITS);
+        medium_at_max_o = (medium_code_o == MEDIUM_BITS-1);
         fine_at_min_o = (fine_code_o == 0);
-        fine_at_max_o = (fine_code_o == FINE_BITS);
+        fine_at_max_o = (fine_code_o == FINE_BITS-1);
         // Two-step backoff requires medium_code >= 2 to reach medium_code-2.
         medium_too_low_for_backoff_o = (medium_code_o < 2);
     end

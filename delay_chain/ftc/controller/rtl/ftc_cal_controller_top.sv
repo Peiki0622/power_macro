@@ -105,7 +105,19 @@ module ftc_cal_controller_top
     output logic [2:0]  fail_reason,
 
     // FSM state [4:0] for debug visibility. 5 bits to encode 12 states.
-    output logic [4:0]  fsm_state
+    output logic [4:0]  fsm_state,
+
+    // =====================================================================
+    // Protocol Observability Outputs
+    // =====================================================================
+    // These registered one-cycle markers expose sequencer transaction
+    // boundaries to assertions and mixed-signal audit benches.  They are
+    // deliberately separate from the physical sensor controls and cannot
+    // alter the calibration algorithm or its timing.
+    output logic        q_sample_1_event,
+    output logic        q_sample_2_event,
+    output logic        config_update_event,
+    output logic        probe_start_event
 );
 
     // =========================================================================
@@ -203,8 +215,10 @@ module ftc_cal_controller_top
         .probe_done_o(seq_probe_done),
         .q_class_o(q_class),
         .q_class_valid_o(q_class_valid),
-        .q_sample_1_event_o(),  // Not used at top level
-        .q_sample_2_event_o()   // Not used at top level
+        .q_sample_1_event_o(q_sample_1_event),
+        .q_sample_2_event_o(q_sample_2_event),
+        .config_update_event_o(config_update_event),
+        .probe_start_event_o(probe_start_event)
     );
 
     // =========================================================================

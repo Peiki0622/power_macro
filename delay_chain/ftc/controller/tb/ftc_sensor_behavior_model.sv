@@ -31,6 +31,11 @@ module ftc_sensor_behavior_model (
     input  logic [9:0]  fine_therm,     // Fine thermometer code
     input  logic        sense_s_clk,    // Sensor sampling clock
     input  logic        sense_dff_reset,// Sensor reset (should be low during S_CLK edge)
+    // Controller-owned sample strobes.  They let this verification-only
+    // model change q_final between the two real sampler registers without
+    // inventing a random response or changing the synthesizable controller.
+    input  logic        q_sample_1_event,
+    input  logic        q_sample_2_event,
 
     // =========================================================================
     // Sensor Output (to controller)
@@ -46,6 +51,12 @@ module ftc_sensor_behavior_model (
     typedef struct {
         bit q_value;      // Q response (0 or 1)
         bit is_valid;     // Entry is valid
+        bit second_value; // Optional deterministic value for sample two
+        bit has_second;   // Set only by an explicitly ambiguous scenario
+        bit repeat_value; // Value used on a repeated probe at this code
+        bit has_repeat;   // Enables deterministic guard/hold distinction
+        bit repeat_ambiguous; // Repeated probe may intentionally be 0,1
+        bit repeat_second_value;
     } response_entry_t;
 
     response_entry_t response_table [bit[7:0]];  // Key is {M[3:0], F[3:0]}
@@ -58,6 +69,9 @@ module ftc_sensor_behavior_model (
     logic       s_clk_prev;
     int         probe_count;
     int         violation_count;
+    response_entry_t active_entry;
+    bit              active_entry_valid;
+    int              lookup_count [bit[7:0]];
 
     // =========================================================================
     // Thermometer to Binary Conversion
@@ -86,6 +100,11 @@ module ftc_sensor_behavior_model (
         s_clk_prev = 1'b0;
         probe_count = 0;
         violation_count = 0;
+        active_entry_valid = 1'b0;
+        active_entry = '{q_value: 1'b0, is_valid: 1'b0,
+                         second_value: 1'b0, has_second: 1'b0,
+                         repeat_value: 1'b0, has_repeat: 1'b0,
+                         repeat_ambiguous: 1'b0, repeat_second_value: 1'b0};
     end
 
     always @(posedge sense_s_clk or negedge sense_s_clk) begin
@@ -100,7 +119,18 @@ module ftc_sensor_behavior_model (
             lookup_key = {medium_code, fine_code};
 
             if (response_table.exists(lookup_key) && response_table[lookup_key].is_valid) begin
-                q_final = response_table[lookup_key].q_value;
+                active_entry = response_table[lookup_key];
+                active_entry_valid = 1'b1;
+                lookup_count[lookup_key]++;
+                if ((lookup_count[lookup_key] > 1) &&
+                    (active_entry.has_repeat === 1'b1)) begin
+                    q_final = active_entry.repeat_value;
+                    active_entry.has_second = active_entry.repeat_ambiguous;
+                    if (active_entry.repeat_ambiguous === 1'b1)
+                        active_entry.second_value = active_entry.repeat_second_value;
+                end else begin
+                    q_final = active_entry.q_value;
+                end
                 probe_count++;
                 $display("[%0t] [SENSOR_MODEL] S_CLK edge detected, M=%0d F=%0d → Q=%b (probe #%0d)",
                          $time, medium_code, fine_code, q_final, probe_count);
@@ -118,6 +148,22 @@ module ftc_sensor_behavior_model (
                 violation_count++;
             end
         end
+    end
+
+    // Update the driven value only after sample one has been captured.  The
+    // second controller register therefore sees a deterministic opposite rail
+    // only for entries explicitly marked by an ambiguous negative scenario.
+    always @(posedge q_sample_1_event) begin
+        if (active_entry_valid && (active_entry.has_second === 1'b1))
+            q_final <= active_entry.second_value;
+    end
+
+    // The second event is intentionally observed for auditability.  Keeping
+    // this block free of data changes makes the model's two-sample behavior
+    // obvious: q_final is changed only between sample one and sample two.
+    always @(posedge q_sample_2_event) begin
+        if (active_entry_valid && (active_entry.has_second === 1'b1))
+            q_final <= active_entry.second_value;
     end
 
     // =========================================================================
@@ -159,6 +205,7 @@ module ftc_sensor_behavior_model (
     task load_scenario(input string scenario_name);
         $display("[SENSOR_MODEL] Loading scenario: %s", scenario_name);
         response_table.delete();  // Clear existing table
+        lookup_count.delete();
 
         case (scenario_name)
             "0p80V": load_0p80V_responses();
@@ -168,6 +215,7 @@ module ftc_sensor_behavior_model (
             "coarse_range_fail": load_coarse_range_fail_responses();
             "backoff_underflow": load_backoff_underflow_responses();
             "fine_range_fail": load_fine_range_fail_responses();
+            "guard_range_fail": load_guard_range_fail_responses();
             "guard_not_low_high": load_guard_not_low_high_responses();
             "guard_not_low_ambig": load_guard_not_low_ambig_responses();
             "hold_not_low_high": load_hold_not_low_high_responses();
@@ -185,6 +233,11 @@ module ftc_sensor_behavior_model (
     task reset_stats();
         probe_count = 0;
         violation_count = 0;
+        active_entry_valid = 1'b0;
+        active_entry = '{q_value: 1'b0, is_valid: 1'b0,
+                         second_value: 1'b0, has_second: 1'b0,
+                         repeat_value: 1'b0, has_repeat: 1'b0,
+                         repeat_ambiguous: 1'b0, repeat_second_value: 1'b0};
         medium_code_prev = 4'd0;
         fine_code_prev = 4'd0;
         $display("[SENSOR_MODEL] Statistics reset");
@@ -394,6 +447,28 @@ module ftc_sensor_behavior_model (
         $display("[SENSOR_MODEL] Fine range fail: M5 boundary, M3 all F return HIGH");
     endtask
 
+    // Failure Scenario 4: Fine boundary is at F9, leaving no legal F+1 guard.
+    task load_guard_range_fail_responses();
+        response_entry_t entry;
+        for (int m = 0; m <= 4; m++) begin
+            entry.q_value = 1'b1;
+            entry.is_valid = 1'b1;
+            response_table[{m[3:0], 4'd0}] = entry;
+        end
+        entry.q_value = 1'b0;
+        entry.is_valid = 1'b1;
+        response_table[{4'd5, 4'd0}] = entry;
+        for (int f = 0; f <= 8; f++) begin
+            entry.q_value = 1'b1;
+            entry.is_valid = 1'b1;
+            response_table[{4'd3, f[3:0]}] = entry;
+        end
+        entry.q_value = 1'b0;
+        entry.is_valid = 1'b1;
+        response_table[{4'd3, 4'd9}] = entry;
+        $display("[SENSOR_MODEL] Guard range fail: Boundary at maximum fine code F9");
+    endtask
+
     // Failure Scenario 4: Guard probe not LOW (returns HIGH)
     task load_guard_not_low_high_responses();
         response_entry_t entry;
@@ -410,8 +485,8 @@ module ftc_sensor_behavior_model (
         entry.is_valid = 1'b1;
         response_table[{4'd5, 4'd0}] = entry;
 
-        // Backoff to M3, fine search F0..F3 → HIGH
-        for (int f = 0; f <= 3; f++) begin
+        // Backoff to M3, fine search F0..F4 → HIGH
+        for (int f = 0; f <= 4; f++) begin
             entry.q_value = 1'b1;
             entry.is_valid = 1'b1;
             response_table[{4'd3, f[3:0]}] = entry;
@@ -462,6 +537,8 @@ module ftc_sensor_behavior_model (
         // Controller will probe twice - we return LOW first time
         entry.q_value = 1'b0;
         entry.is_valid = 1'b1;
+        entry.has_second = 1'b1;
+        entry.second_value = 1'b1;
         response_table[{4'd3, 4'd5}] = entry;
         // Note: Behavioral model doesn't track probe count per config, so we
         // simulate ambiguity by having FSM detect it via two probes with different results.
@@ -486,30 +563,24 @@ module ftc_sensor_behavior_model (
         entry.is_valid = 1'b1;
         response_table[{4'd5, 4'd0}] = entry;
 
-        // Backoff to M3, fine search F0..F3 → HIGH
-        for (int f = 0; f <= 3; f++) begin
+        // Backoff to M3, fine search F0..F4 → HIGH
+        for (int f = 0; f <= 4; f++) begin
             entry.q_value = 1'b1;
             entry.is_valid = 1'b1;
             response_table[{4'd3, f[3:0]}] = entry;
         end
 
-        // Fine boundary at M3/F4
-        entry.q_value = 1'b0;
-        entry.is_valid = 1'b1;
-        response_table[{4'd3, 4'd4}] = entry;
-
-        // Guard at M3/F5 returns LOW (passes)
+        // Fine boundary at M3/F5
         entry.q_value = 1'b0;
         entry.is_valid = 1'b1;
         response_table[{4'd3, 4'd5}] = entry;
 
-        // Hold at M3/F5 returns HIGH (should be LOW)
-        // Second probe at same config - but since we can't distinguish probe count,
-        // we need a workaround. For now, we'll mark M3/F5 as returning HIGH
-        // and rely on FSM doing guard then hold in sequence.
-        // Actually, let's use a different approach: Hold is at incremented config M3/F6
-        entry.q_value = 1'b1;
+        // Guard is the first visit at M3/F6 and must pass low.  The repeated
+        // visit is the independent hold check and returns high.
+        entry.q_value = 1'b0;
         entry.is_valid = 1'b1;
+        entry.has_repeat = 1'b1;
+        entry.repeat_value = 1'b1;
         response_table[{4'd3, 4'd6}] = entry;
 
         $display("[SENSOR_MODEL] Hold not LOW: Returns HIGH at hold position");
@@ -531,26 +602,26 @@ module ftc_sensor_behavior_model (
         entry.is_valid = 1'b1;
         response_table[{4'd5, 4'd0}] = entry;
 
-        // Backoff to M3, fine search F0..F3 → HIGH
-        for (int f = 0; f <= 3; f++) begin
+        // Backoff to M3, fine search F0..F4 → HIGH
+        for (int f = 0; f <= 4; f++) begin
             entry.q_value = 1'b1;
             entry.is_valid = 1'b1;
             response_table[{4'd3, f[3:0]}] = entry;
         end
 
-        // Fine boundary at M3/F4
-        entry.q_value = 1'b0;
-        entry.is_valid = 1'b1;
-        response_table[{4'd3, 4'd4}] = entry;
-
-        // Guard at M3/F5 returns LOW (passes)
+        // Fine boundary at M3/F5
         entry.q_value = 1'b0;
         entry.is_valid = 1'b1;
         response_table[{4'd3, 4'd5}] = entry;
 
-        // Hold at M3/F6 - simulate ambiguity (approximated)
+        // Guard is low on the first visit; the repeated hold visit is
+        // explicitly ambiguous (0,1).
         entry.q_value = 1'b0;
         entry.is_valid = 1'b1;
+        entry.has_repeat = 1'b1;
+        entry.repeat_value = 1'b0;
+        entry.repeat_ambiguous = 1'b1;
+        entry.repeat_second_value = 1'b1;
         response_table[{4'd3, 4'd6}] = entry;
 
         $display("[SENSOR_MODEL] Hold ambiguous: Simulated as inconsistent responses");
