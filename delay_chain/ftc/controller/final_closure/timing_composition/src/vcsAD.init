@@ -1,0 +1,7 @@
+// Corrected Phase 9 XA bridge setup.
+// The cell view has no VDD/VSS digital ports; the SPICE wrapper owns those
+// rails.  The explicit bus spelling is retained because control vectors use
+// Verilog [index] names in the wrapper port list.
+bus_format [%d];
+use_spice -cell ftc_sensor_ams;
+choose xa -hspice PLACEHOLDER_SPICE_TOP -c PLACEHOLDER_XA_CFG -o PLACEHOLDER_XA_OUT;

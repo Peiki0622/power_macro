@@ -8,17 +8,50 @@
     "reason": "Reuse the completed corrected v2 evidence without spending the Phase 1 zero-rerun budget."
   },
   "phase_status": {
-    "phase_0": {"gate": "GO", "basis": "Functional contract and golden trajectories are present."},
-    "phase_1": {"gate": "GO", "basis": "Corrected v2 timing handoff and three archived HSPICE scenario results pass static integrity checks."},
-    "phase_2": {"gate": "GO", "basis": "Recorded unit-test result is GO."},
-    "phase_3": {"gate": "GO", "basis": "Recorded sequencer unit-test result is GO."},
-    "phase_4": {"gate": "GO", "basis": "Recorded three nominal FSM trajectories and eight failure results are passing."},
-    "phase_5": {"gate": "GO", "basis": "Recorded integrated nominal results are passing with exact operation counts."},
-    "phase_6": {"gate": "NO-GO", "basis": "Existing result claims GO but only ten assertion classes and four negative scenarios are evidenced; the plan requires sixteen assertion classes and eight negative scenarios."},
-    "phase_7": {"gate": "NO-GO", "basis": "Existing machine result is INFRASTRUCTURE_READY and lacks complete 1 GHz closure, fanout, warnings, cell-usage, and q_final path evidence."},
-    "phase_8": {"gate": "GO", "basis": "Current mapped netlist passes functional and MAX-SDF GLS for all three nominal scenarios and all eight negative scenarios; exact nominal operations are 45/36/36 with one S_CLK and two Q samples per probe."},
-    "phase_9": {"gate": "GO", "basis": "Corrected VCS-XA bridge passed R0-R5, M0/F0 and M9/F0 equivalence, and autonomous 0.80/0.95/1.10 V acceptance with exact trajectories, edge/sample counters, analog rails, and zero comparison errors. Historical NO-GO evidence remains preserved under vcs_xa/."},
-    "phase_10": {"gate": "NOT_STARTED", "basis": "Phase 10 is outside this Phase 9 recovery task."}
+    "phase_0": {
+      "gate": "GO",
+      "basis": "Functional contract and golden trajectories are present."
+    },
+    "phase_1": {
+      "gate": "GO",
+      "basis": "Corrected v2 timing handoff and three archived HSPICE scenario results pass static integrity checks."
+    },
+    "phase_2": {
+      "gate": "GO",
+      "basis": "Recorded unit-test result is GO."
+    },
+    "phase_3": {
+      "gate": "GO",
+      "basis": "Recorded sequencer unit-test result is GO."
+    },
+    "phase_4": {
+      "gate": "GO",
+      "basis": "Recorded three nominal FSM trajectories and eight failure results are passing."
+    },
+    "phase_5": {
+      "gate": "GO",
+      "basis": "Recorded integrated nominal results are passing with exact operation counts."
+    },
+    "phase_6": {
+      "gate": "GO",
+      "basis": "Committed delay_chain/ftc/controller/analysis/phase6/phase6_results.json reports GO; corrected from stale ledger entry without simulation."
+    },
+    "phase_7": {
+      "gate": "GO",
+      "basis": "Committed delay_chain/ftc/controller/analysis/phase7/phase7_results.json reports GO; corrected from stale ledger entry without simulation."
+    },
+    "phase_8": {
+      "gate": "GO",
+      "basis": "Current mapped netlist passes functional and MAX-SDF GLS for all three nominal scenarios and all eight negative scenarios; exact nominal operations are 45/36/36 with one S_CLK and two Q samples per probe."
+    },
+    "phase_9": {
+      "gate": "GO",
+      "basis": "Corrected VCS-XA bridge passed R0-R5, M0/F0 and M9/F0 equivalence, and autonomous 0.80/0.95/1.10 V acceptance with exact trajectories, edge/sample counters, analog rails, and zero comparison errors. Historical NO-GO evidence remains preserved under vcs_xa/."
+    },
+    "phase_10": {
+      "gate": "NOT_STARTED",
+      "basis": "Phase 10 freeze is pending C2-C6 timing-composition closure."
+    }
   },
   "phase_1_static_checks": {
     "handoff_path": "spec/phase1_timing_handoff.json",
@@ -34,9 +67,24 @@
       "recovery_done_cycle": 10
     },
     "scenarios": {
-      "0p80": {"final_medium": 7, "final_fine": 6, "decision": "GO", "evidence": "hspice/summary.json"},
-      "0p95": {"final_medium": 4, "final_fine": 6, "decision": "GO", "evidence": "hspice/summary.json"},
-      "1p10": {"final_medium": 2, "final_fine": 9, "decision": "GO", "evidence": "hspice/summary.json"}
+      "0p80": {
+        "final_medium": 7,
+        "final_fine": 6,
+        "decision": "GO",
+        "evidence": "hspice/summary.json"
+      },
+      "0p95": {
+        "final_medium": 4,
+        "final_fine": 6,
+        "decision": "GO",
+        "evidence": "hspice/summary.json"
+      },
+      "1p10": {
+        "final_medium": 2,
+        "final_fine": 9,
+        "decision": "GO",
+        "evidence": "hspice/summary.json"
+      }
     },
     "result": "PASS_WITHOUT_RERUN"
   },

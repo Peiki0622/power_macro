@@ -1,0 +1,54 @@
+{
+  "annotation_mode": "max",
+  "annotation_target": "tb_ftc_vcs_xa_autonomous.u_controller",
+  "clock_period_ns": 1.0,
+  "forbidden_compile_flags": [
+    "+nospecify",
+    "+notimingcheck"
+  ],
+  "frozen_input_paths": {
+    "bridge_contract": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/bridge_contract.json",
+    "bridge_init": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/vcsAD.init",
+    "bridge_stub": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_stub.sv",
+    "bridge_wrapper": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp",
+    "netlist": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.v",
+    "phase1_timing": "delay_chain/ftc/controller/spec/phase1_timing_handoff.json",
+    "sdc": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.sdc",
+    "sdf": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.sdf",
+    "sensor": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp",
+    "standard_cell_model": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/sc9mc_logic0040ll_base_rvt_c40.v",
+    "testbench": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/tb_ftc_vcs_xa_autonomous.sv",
+    "timing_monitor": "delay_chain/ftc/controller/final_closure/timing_composition/src/timing_composition_monitor.sv",
+    "xa_cfg": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/xa.cfg"
+  },
+  "mapped_netlist_top": "ftc_cal_controller_top",
+  "required_signals": {
+    "fine_therm_registers": true,
+    "medium_therm_registers": true,
+    "q_sample_1": true,
+    "q_sample_2": true,
+    "sense_dff_reset": true,
+    "sense_s_clk": true
+  },
+  "schema_version": 1,
+  "sdf_celltype": "ftc_cal_controller_top",
+  "sdf_design": "ftc_cal_controller_top",
+  "simulation_performed": false,
+  "status": "FROZEN_FOR_C2",
+  "testbench_ownership": {
+    "autonomous_top_present": true,
+    "controller_instance_present": true,
+    "no_direct_sensor_clock_assignment": true,
+    "only_calibration_inputs_assigned": true,
+    "sensor_instance_present": true
+  },
+  "timing_constants": {
+    "Q_SAMPLE_1": 4,
+    "Q_SAMPLE_2": 5,
+    "RECOVERY_DONE": 10,
+    "RESET_ASSERT": 6,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 7,
+    "S_CLK_RISE": 1
+  }
+}

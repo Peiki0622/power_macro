@@ -2,7 +2,7 @@
 
 **Project:** Frozen-Temperature Coefficient (FTC) Calibration Controller  
 **Date:** 2026-08-20  
-**Status:** Phases 1-8 COMPLETE, Phase 9 Infrastructure Ready
+**Status:** Phases 0-9 accepted, final SDF + transistor-sensor composition closure pending, Phase 10 freeze pending
 
 ---
 
@@ -102,7 +102,28 @@ Development of a synthesizable digital controller for autonomous startup calibra
 
 ## Phase 9: Status and Path Forward
 
-### Infrastructure Prepared
+The corrected Phase 9 autonomous mixed-signal evidence is accepted as GO for
+the 0.80 V, 0.95 V, and 1.10 V nominal trajectories.  This evidence uses the
+mapped controller with the corrected VCS-XA bridge and the frozen transistor
+sensor, but its digital compile intentionally uses timing-disabled gate
+models and does not back-annotate the Phase 7 SDF.  The remaining closure task
+is therefore the single composition experiment covered by the final-closure
+plan:
+
+```text
+Autonomous Phase 9 mixed-signal function = GO
+Final SDF + transistor-sensor composition closure = pending this plan
+Phase 10 freeze = pending this plan
+```
+
+The first authorized timing-composed closure run at 0.80 V was then executed
+with the Phase 7 SDF and full timing checks.  SDF annotation completed, but
+the mapped controller encountered standard-cell pulse-width timing violations
+and diverged to `X` before reaching the frozen trajectory.  The first failing
+run is preserved in `final_closure/timing_composition/runs/`, and the plan's
+failure rule stopped before any 1.10 V run or Phase 10 freeze.
+
+### Existing Phase 9 Infrastructure and Evidence
 - ✓ Directory structure created
 - ✓ HSPICE testbench template documented
 - ✓ Integration topology defined
@@ -110,7 +131,7 @@ Development of a synthesizable digital controller for autonomous startup calibra
 
 ### Critical Challenge: Mixed-Signal Simulation
 
-Phase 9 requires integrating:
+The corrected Phase 9 flow integrates:
 - **Digital:** Synthesized gate-level controller (standard cells)
 - **Analog:** Transistor-level FTC sensor (SPICE)
 
@@ -281,13 +302,12 @@ Phase 9 requires integrating:
 - ✓ All 6 protocol requirements verified
 - ✓ No synthesis-induced violations
 
-### Autonomous Calibration ⏸
-- ⏸ Mixed-signal integration (Phase 9 pending)
-- ⏸ Transistor-level sensor interface (pending)
-- ⏸ Three voltage scenarios (pending)
+### Autonomous Calibration
+- ✓ Corrected mixed-signal autonomous function at 0.80 V, 0.95 V, and 1.10 V
+- ⏸ Final SDF + transistor-sensor timing composition (closure plan in progress)
 
 **Overall Controller Quality:** ✓ GO  
-**Autonomous Calibration:** ⏸ PENDING Phase 9
+**Autonomous Calibration:** ✓ GO for corrected Phase 9; timing-composed closure pending
 
 ---
 
@@ -354,7 +374,7 @@ The FTC synthesizable startup calibration controller has successfully completed:
 
 **Controller Quality Verdict:** ✓ GO
 
-**Remaining work:** Phase 9 mixed-signal integration (1-2 weeks estimated)
+**Remaining work:** final timing-composition evidence, then Phase 10 freeze
 
 **Project is on track for final autonomous calibration demonstration.**
 
@@ -372,4 +392,4 @@ The FTC synthesizable startup calibration controller has successfully completed:
 
 **Report Generated:** 2026-08-20  
 **Author:** Autonomous FTC Controller Implementation  
-**Project Status:** Phases 1-8 COMPLETE ✓ | Phase 9 Infrastructure Ready ⏸
+**Project Status:** Phases 0-9 accepted ✓ | SDF + transistor-sensor composition pending ⏸ | Phase 10 freeze pending ⏸

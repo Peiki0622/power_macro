@@ -1,0 +1,114 @@
+{
+  "accepted_audit": {
+    "bridge_parameters_retuned_per_voltage": false,
+    "clock_period_ns": 1,
+    "evidence": {
+      "compile_log": "b2586ffa142ccba96e48ad72bb2e0644d484c25f14aee3179c785a3dc84a4691",
+      "event_csv": "459ac369bd17dd1944e3e4d5ca9ba150dbb98733f41732e0f7fc6a7c785e6fd3",
+      "run_log": "47620215a621e093deb85ff5cc5a70e8bb45f0af32be54f2827061b97539adb7"
+    },
+    "expected": {
+      "configs": 17,
+      "final_fine": 6,
+      "final_medium": 7,
+      "operations": 45,
+      "probes": 28,
+      "sample1": 28,
+      "sample2": 28,
+      "sclk_rising_edges": 28
+    },
+    "r6_pass_marker": true,
+    "scenario": "autonomous_0p80",
+    "schema_version": 1,
+    "status": "PASS",
+    "supply_v": 0.8,
+    "tool_pair": "VCS P-2019.06-SP2_Full64 + PrimeSim XA S-2021.09-SP2"
+  },
+  "first_snapshot": {
+    "analog_q": "0.000000",
+    "analog_reset": "0.000000",
+    "analog_sclk": "0.000000",
+    "analog_vdd": "0.000000",
+    "analog_vss": "0.000000",
+    "cal_busy": "x",
+    "cal_done": "x",
+    "cal_fail": "x",
+    "clk_edge": "1",
+    "config_count": "0",
+    "config_update_event": "x",
+    "fine_code": "x",
+    "fine_therm": "Xxx",
+    "fsm_state": "X",
+    "lock_valid": "x",
+    "medium_code": "xx",
+    "medium_therm": "Xxxx",
+    "operation_count": "0",
+    "probe_count": "0",
+    "probe_start_event": "x",
+    "q_final": "x",
+    "q_sample_1_event": "x",
+    "q_sample_2_event": "x",
+    "sample1_count": "0",
+    "sclk_rise_count": "0",
+    "sense_dff_reset": "x",
+    "sense_s_clk": "x",
+    "time_ps": "0"
+  },
+  "raw_artifact_available": true,
+  "reconstruction_simulation_performed": false,
+  "row_count": 447,
+  "scenario": "autonomous_0p80",
+  "source_files": [
+    {
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/runs/autonomous_0p80/controller_events.csv",
+      "sha256": "459ac369bd17dd1944e3e4d5ca9ba150dbb98733f41732e0f7fc6a7c785e6fd3"
+    },
+    {
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/runs/autonomous_0p80/run.log",
+      "sha256": "47620215a621e093deb85ff5cc5a70e8bb45f0af32be54f2827061b97539adb7"
+    },
+    {
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/runs/autonomous_0p80/compile.log",
+      "sha256": "b2586ffa142ccba96e48ad72bb2e0644d484c25f14aee3179c785a3dc84a4691"
+    },
+    {
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/runs/autonomous_0p80/autonomous_0p80_audit.json",
+      "sha256": "491c82b1801e8f504921e00eba7dbda3d35654f4475bffe288b25111fb6ed8a5"
+    }
+  ],
+  "status": "EXTRACTED_READ_ONLY",
+  "terminal_snapshot": {
+    "analog_q": "0.000000",
+    "analog_reset": "0.800000",
+    "analog_sclk": "-0.000000",
+    "analog_vdd": "0.800000",
+    "analog_vss": "0.000000",
+    "cal_busy": "0",
+    "cal_done": "1",
+    "cal_fail": "0",
+    "clk_edge": "447",
+    "config_count": "17",
+    "config_update_event": "0",
+    "fine_code": "6",
+    "fine_therm": "3c0",
+    "fsm_state": "14",
+    "lock_valid": "1",
+    "medium_code": "07",
+    "medium_therm": "007f",
+    "operation_count": "45",
+    "probe_count": "28",
+    "probe_start_event": "0",
+    "q_final": "0",
+    "q_sample_1_event": "0",
+    "q_sample_2_event": "0",
+    "sample1_count": "28",
+    "sclk_rise_count": "28",
+    "sense_dff_reset": "1",
+    "sense_s_clk": "0",
+    "time_ps": "446000"
+  }
+}

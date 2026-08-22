@@ -1,0 +1,45 @@
+{
+  "c4_started": false,
+  "c5_started": false,
+  "c6_started": false,
+  "clock_period_ns": 1.0,
+  "disposition": "Per C3 failure rule, preserve the first failing run and stop. Do not run 1.10 V and do not alter calibration algorithm or sensor architecture in this plan.",
+  "earliest_divergence": {
+    "fatal_marker": "Fatal: \"tb_ftc_vcs_xa_autonomous.sv\", 346: tb_ftc_vcs_xa_autonomous: at time 24500 ps",
+    "first_timing_violation": "\"sc9mc_logic0040ll_base_rvt_c40.v\", 167794: Timing violation in tb_ftc_vcs_xa_autonomous.u_controller.\\u_fsm/fail_reason_q_reg[2] ",
+    "first_unknown_event_row": {
+      "event": "RESET_CHANGE",
+      "line": 21,
+      "text": "10.068000,RESET_CHANGE,10,0,0,0,0,0,0,0,0,0,x,0,0000,Xxx,0",
+      "time_ns": "10.068000"
+    },
+    "r6_marker": "R6_FAIL cause=final_code M=x F=x expected=M7/F6"
+  },
+  "evidence_boundary": "This is gate-timed mapped-controller plus SDF plus transistor sensor evidence, not full-transistor controller SPICE.",
+  "failure_class": "controller_output_clock_to_q_and_standard_cell_timing_check_failure",
+  "rerun_performed_after_failure": false,
+  "run_files": {
+    "compile_log": {
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/runs/timing_composed_0p80/compile.log",
+      "sha256": "8976fb11ae5e40e7e74148c90308e5bfde6e90144a9242f0d0bd1f8f368b7a39"
+    },
+    "run_log": {
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/runs/timing_composed_0p80/run.log",
+      "sha256": "a141d3338a089485df36e0df8cdce5e5ee9b50b1e2bd29bcb8921a9462fd7c9a"
+    },
+    "timing_events": {
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/runs/timing_composed_0p80/timing_events.csv",
+      "sha256": "a52096fe99211006ed065ebb38ba9ceef8c2b1afb0cc0e41afda40a393483ce2"
+    }
+  },
+  "scenario": "timing_composed_0p80",
+  "schema_version": 1,
+  "sdf_annotation": {
+    "completed": true,
+    "total_errors_zero": true,
+    "total_warnings_line": "Total warnings: 499"
+  },
+  "status": "STOPPED_ON_TECHNICAL_FAILURE",
+  "timing_bypass_flags_used": [],
+  "tool_pair": "VCS P-2019.06-SP2_Full64 + PrimeSim XA S-2021.09-SP2"
+}

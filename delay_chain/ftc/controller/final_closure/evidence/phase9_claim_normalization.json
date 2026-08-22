@@ -1,0 +1,17 @@
+{
+  "claim_policy": "Use requested/declared 0.30/0.70 VDD contract wording unless simulator-generated proof is available.",
+  "declared_bridge_contract": {
+    "high_threshold_fraction_of_vdd": 0.7,
+    "low_threshold_fraction_of_vdd": 0.3,
+    "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/bridge_contract.json",
+    "sha256": "a950507a403b11789f35d352730455aa68b64aad5f36f070640298dd8922aa76"
+  },
+  "schema_version": 1,
+  "simulation_performed": false,
+  "simulator_generated_threshold_proof": {
+    "available": false,
+    "basis": "Existing interface-element audit text was inspected read-only; no XA rerun was performed.",
+    "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/reports/INTERFACE_ELEMENT_AUDIT.json",
+    "sha256": "afb2424e3102d5aee217c00b3a0d7fec0505748d07cfb7024cc0bbdae7c28e8b"
+  }
+}

@@ -202,6 +202,34 @@ hspice_command.log
 /delay_chain/ftc/controller/**/*.daidir/
 /delay_chain/ftc/controller/**/*.vdb/
 /delay_chain/ftc/controller/**/*.vpd
+/delay_chain/ftc/controller/final_closure/evidence/*.json
+/delay_chain/ftc/controller/final_closure/evidence/optional_extracted_existing_run_evidence/*.json
+/delay_chain/ftc/controller/final_closure/timing_composition/inputs/*.json
+/delay_chain/ftc/controller/final_closure/timing_composition/reports/*.json
+/delay_chain/ftc/controller/final_closure/freeze/*.json
+# Tool-generated elaboration and transient directories stay task-local.  The
+# reproducible source, scripts, hashes, and compact reports are committed
+# above; simulator databases and copied netlists are intentionally retained
+# only as ignored intermediate products.
+/delay_chain/ftc/controller/final_closure/timing_composition/diagnostics/
+/delay_chain/ftc/controller/final_closure/timing_composition/runs/
+# The final-closure JSON files below are compact review evidence, not simulator
+# databases.  Keep them visible to Git so a normal add cannot silently omit
+# the hashes, contracts, preflight result, or failure classification required
+# by the closure plan.
+!/delay_chain/ftc/controller/final_closure/evidence/phase_gate_reconciliation.json
+!/delay_chain/ftc/controller/final_closure/evidence/committed_evidence_manifest.json
+!/delay_chain/ftc/controller/final_closure/evidence/phase9_evidence_retention.json
+!/delay_chain/ftc/controller/final_closure/evidence/phase9_claim_normalization.json
+!/delay_chain/ftc/controller/final_closure/evidence/optional_extracted_existing_run_evidence/autonomous_0p80_trajectory.json
+!/delay_chain/ftc/controller/final_closure/evidence/optional_extracted_existing_run_evidence/autonomous_0p95_trajectory.json
+!/delay_chain/ftc/controller/final_closure/evidence/optional_extracted_existing_run_evidence/autonomous_1p10_trajectory.json
+!/delay_chain/ftc/controller/final_closure/timing_composition/inputs/baseline_manifest.json
+!/delay_chain/ftc/controller/final_closure/timing_composition/inputs/sdf_composition_contract.json
+!/delay_chain/ftc/controller/final_closure/timing_composition/inputs/input_sha256.json
+!/delay_chain/ftc/controller/final_closure/timing_composition/reports/SDF_ANNOTATION_PREFLIGHT.json
+!/delay_chain/ftc/controller/final_closure/timing_composition/reports/timing_composed_0p80_failure.json
+!/delay_chain/ftc/controller/final_closure/freeze/*.json
 /delay_chain/ftc/controller/**/*.vcd
 /delay_chain/ftc/controller/**/*.o
 /delay_chain/ftc/controller/**/*.so

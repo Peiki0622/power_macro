@@ -1,0 +1,167 @@
+{
+  "expected_final_state": {
+    "phase_0": "GO",
+    "phase_1": "GO",
+    "phase_10": "NOT_STARTED",
+    "phase_2": "GO",
+    "phase_3": "GO",
+    "phase_4": "GO",
+    "phase_5": "GO",
+    "phase_6": "GO",
+    "phase_7": "GO",
+    "phase_8": "GO",
+    "phase_9": "GO"
+  },
+  "generated_at_utc": "2026-08-22T05:18:41.922781+00:00",
+  "phase8_machine_result_limitation": "phase8_results.json is absent; committed Phase 8A/8B PASS reports are retained as report evidence",
+  "phases": {
+    "phase_0": {
+      "agreement": null,
+      "canonical_evidence": {
+        "exists": true,
+        "path": "delay_chain/ftc/controller/reports/FTC_CONTROLLER_GATE_STATUS.json",
+        "sha256": "ec36dd08658d560c599197c279fd60f57e2494d4704cdf3f4fb412678441e81b"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": null
+    },
+    "phase_1": {
+      "agreement": null,
+      "canonical_evidence": {
+        "exists": true,
+        "path": "delay_chain/ftc/controller/spec/phase1_timing_handoff.json",
+        "sha256": "fc13ef41ca66f44a5345b3ee0e4dfea3f2742c5a9a6357074a4e0fa000df81e2"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": null
+    },
+    "phase_2": {
+      "agreement": null,
+      "canonical_evidence": {
+        "exists": true,
+        "path": "delay_chain/ftc/controller/analysis/phase2/phase2_vcs/results.json",
+        "sha256": "e101deb9360d54ad191095e7d61d44c4958af65e8fec9148331b04f39bceb83f"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": null
+    },
+    "phase_3": {
+      "agreement": null,
+      "canonical_evidence": {
+        "exists": true,
+        "path": "delay_chain/ftc/controller/analysis/phase3/phase3_vcs_final/results.json",
+        "sha256": "ed5b66a4a3cdba2268660f2a3dec28a70a9ced5f054b7dff118733645b338ff3"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": null
+    },
+    "phase_4": {
+      "agreement": true,
+      "canonical_evidence": {
+        "exists": true,
+        "machine_status": "GO",
+        "path": "delay_chain/ftc/controller/analysis/phase4/phase4_results.json",
+        "sha256": "7f1d3b7957ec8aa2bfa7cf0492483e467d22e07e92d34dff646d2d8a5a3cf3dd"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    },
+    "phase_5": {
+      "agreement": true,
+      "canonical_evidence": {
+        "exists": true,
+        "machine_status": "GO",
+        "path": "delay_chain/ftc/controller/analysis/phase5/phase5_results.json",
+        "sha256": "7d7b761964f18311b47871a758017ca9fe0d01ca0e5e0bcef236437e54117197"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    },
+    "phase_6": {
+      "agreement": true,
+      "canonical_evidence": {
+        "exists": true,
+        "machine_status": "GO",
+        "path": "delay_chain/ftc/controller/analysis/phase6/phase6_results.json",
+        "sha256": "31452b3a7ec16d72bde37c7b5954c9f079a3fc3bacade6d749a28f2a4455d57a"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    },
+    "phase_7": {
+      "agreement": true,
+      "canonical_evidence": {
+        "exists": true,
+        "machine_status": "GO",
+        "path": "delay_chain/ftc/controller/analysis/phase7/phase7_results.json",
+        "sha256": "bb7433555978b028a9a650b6e68fd2213afd4d4df556cec7d7b14a811ed8203d"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    },
+    "phase_8": {
+      "agreement": true,
+      "canonical_evidence": {
+        "functional_report": {
+          "exists": true,
+          "machine_status": "GO",
+          "path": "delay_chain/ftc/controller/analysis/phase8_gate_level/functional/PHASE8A_REPORT.md",
+          "sha256": "498472186fb2d4bc234a37a94829aa493b5c690c20204d2aa9a5bdc266930418"
+        },
+        "machine_readable_result_available": false,
+        "machine_readable_result_path": null,
+        "report": {
+          "exists": true,
+          "machine_status": "GO",
+          "path": "delay_chain/ftc/controller/analysis/phase8_gate_level/delayed/PHASE8B_REPORT.md",
+          "sha256": "be5bf22c6af369fc4c5ffd4ac25a9afbbd5a296b1de780046aca30a1d65485ef"
+        }
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    },
+    "phase_9": {
+      "agreement": true,
+      "canonical_evidence": {
+        "exists": true,
+        "machine_status": "GO",
+        "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/reports/PHASE9_CORRECTED_REPORT.md",
+        "sha256": "4b093e2bb9dd9c8d665aa36a40cc40bee836fdb2bffa67b863920fe7513828a4"
+      },
+      "corrected_ledger_value": "GO",
+      "correction_requires_simulation": false,
+      "current_ledger_status": "GO",
+      "expected_status": "GO",
+      "machine_readable_status": "GO"
+    }
+  },
+  "schema_version": 1,
+  "simulation_performed": false
+}
