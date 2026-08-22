@@ -1,0 +1,75 @@
+{
+  "active_controller_timing_source": true,
+  "algorithm_change": "none; only timing quantization and configuration settle duration changed",
+  "cal_clk_hz": 400000000,
+  "configuration_settle_cycles": 1,
+  "decision": "Re-Frequency Controller Timing Handoff = GO",
+  "local_probe_action_cycles": {
+    "Q_SAMPLE_1": 2,
+    "Q_SAMPLE_2": 3,
+    "RECOVERY_DONE": 7,
+    "RESET_ASSERT": 4,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 5,
+    "S_CLK_RISE": 1
+  },
+  "period_ns": 2.5,
+  "probe_sclk_high_cycles": 4,
+  "rf6_scenario_evidence": [
+    {
+      "acceptance": "refrequency/hspice/cycle_path_refreq_0p80/infrastructure_retry/scenario_acceptance.json",
+      "acceptance_sha256": "faf8cb38b808cd4d6700b1eac1dcd87163d5b34c3c76d85a5d911406e3edf01b",
+      "hspice_measurement": "refrequency/hspice/cycle_path_refreq_0p80/infrastructure_retry/cycle_bridge_v2.mt0.csv",
+      "hspice_measurement_sha256": "3587aa3a56ae07cb43d0bdb950939beb7e76939f834f8c6a4cdfaade0e7370bf",
+      "hspice_run_manifest": "refrequency/hspice/cycle_path_refreq_0p80/infrastructure_retry/run_manifest.json",
+      "hspice_run_manifest_sha256": "26dd67ec8bb7eae87656539126ef2af946aa40dca37bd0ee0de23c92b409492a",
+      "retry_deck": "refrequency/hspice/cycle_path_refreq_0p80/infrastructure_retry/cycle_bridge_v2.sp",
+      "retry_deck_sha256": "2e337cff7d9b1cb9849bcd3655096e4644c083073bd31a256bf0034c361212c6",
+      "scenario": "cycle_path_refreq_0p80"
+    },
+    {
+      "acceptance": "refrequency/hspice/cycle_path_refreq_0p95/infrastructure_retry/scenario_acceptance.json",
+      "acceptance_sha256": "b5c153d70ef0044d3c40ba5ed860b3d974b8da60bb63456378ae1a9e62030ac3",
+      "hspice_measurement": "refrequency/hspice/cycle_path_refreq_0p95/infrastructure_retry/cycle_bridge_v2.mt0.csv",
+      "hspice_measurement_sha256": "dc0b4717c5cd7f457672050a6b656701b58142a55bf55f54dd09f1a6dee248a1",
+      "hspice_run_manifest": "refrequency/hspice/cycle_path_refreq_0p95/infrastructure_retry/run_manifest.json",
+      "hspice_run_manifest_sha256": "f7958bd45c94b6ae19d8950c2da7abda4e04c566c0103dfc7c7f729f49051573",
+      "retry_deck": "refrequency/hspice/cycle_path_refreq_0p95/infrastructure_retry/cycle_bridge_v2.sp",
+      "retry_deck_sha256": "2ec150b0f75da8cc9b9171ef3d98369533b0bc668fbdfdd71a33095acb8a5601",
+      "scenario": "cycle_path_refreq_0p95"
+    },
+    {
+      "acceptance": "refrequency/hspice/cycle_path_refreq_1p10/infrastructure_retry/scenario_acceptance.json",
+      "acceptance_sha256": "e21e4a753d3f9f1f27505e4f5336419e8586c8501028d5ceb6ce22b250895906",
+      "hspice_measurement": "refrequency/hspice/cycle_path_refreq_1p10/infrastructure_retry/cycle_bridge_v2.mt0.csv",
+      "hspice_measurement_sha256": "c1f903505b73351d929bb9621079f6b6bab0d0b4d697c914c77ee248b4406bad",
+      "hspice_run_manifest": "refrequency/hspice/cycle_path_refreq_1p10/infrastructure_retry/run_manifest.json",
+      "hspice_run_manifest_sha256": "3b91370abaced38d1c460bc302afc8bed4970361fd9f2eeae7b9b41fdd48fac5",
+      "retry_deck": "refrequency/hspice/cycle_path_refreq_1p10/infrastructure_retry/cycle_bridge_v2.sp",
+      "retry_deck_sha256": "2521b4fdbd16a3bcab6ef9d8ed24a1bb53f89c424bb606dae9003a7e083d1721",
+      "scenario": "cycle_path_refreq_1p10"
+    }
+  ],
+  "rf6_summary": {
+    "path": "refrequency/hspice/summary.json",
+    "sha256": "43ae79539299ca2bc302e009e04b4d173ea08634c5ed3dbceaf8fe87ed928c3f"
+  },
+  "rtl_drift_prevention": "refrequency/scripts/audit_rtl_timing_contract.py must report GO before synthesis",
+  "schema_version": 1,
+  "source_exact_event_order": {
+    "path": "analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+    "sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a"
+  },
+  "supersession": {
+    "historical_1ghz_handoff": {
+      "path": "spec/phase1_timing_handoff.json",
+      "sha256": "fc13ef41ca66f44a5345b3ee0e4dfea3f2742c5a9a6357074a4e0fa000df81e2",
+      "status": "retained_historical_evidence_superseded_for_active_rtl_timing"
+    },
+    "new_refrequency_handoff": "active_controller_timing_source"
+  },
+  "timing_contract": {
+    "path": "refrequency/timing_contract/cycle_timing_contract_refrequency.json",
+    "sha256": "beea19863f715c5d1d4b1b125059fd598493586b65dd7822fabea7da4240c304"
+  }
+}

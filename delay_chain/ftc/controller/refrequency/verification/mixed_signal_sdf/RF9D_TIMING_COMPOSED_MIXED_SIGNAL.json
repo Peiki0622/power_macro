@@ -1,0 +1,102 @@
+{
+  "clock_period_ns": 2.5,
+  "configuration": "mapped controller + refrequency SDF + full standard-cell timing checks (+neg_tchk) + corrected XA bridge + frozen transistor sensor + real q_final feedback",
+  "decision": "Re-Frequency Timing-Composed Startup Calibration = GO",
+  "results": [
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "c07a161741c9a582da8777527132166f88d6758ed2dcf9e3021b2c9cd080c837",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "rf9d_observation_extension_freeze.json": "bc46ec48b61afe500c28cdebee47d42a92eb7046b17b141ea0292ecb32886e7e",
+        "run.log": "7d5550c0ab97521624e770786542862f0a3d7b102a22aedd2a9fdce5c1dc712a",
+        "timing_events.csv": "ee036d95349245b06cf7c0bc7e255b08541c5c36552da8ed508c1bd9fc0a1b26"
+      },
+      "expected": {
+        "F": 6,
+        "M": 7,
+        "configs": 17,
+        "operations": 45,
+        "probes": 28
+      },
+      "post_sdf_event_summary": {
+        "active_therm_change_count": 17,
+        "config_update_count": 17,
+        "probe_start_count": 28,
+        "q_sample_1_count": 28,
+        "q_sample_2_count": 28,
+        "sclk_fall_count": 28,
+        "sclk_rise_count": 28,
+        "terminal_event_count": 2
+      },
+      "scenario": "rf9_0p80",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "d046bc627da1e11aabc0d8496a4722fe1a4b1e335d60ec10cdd93bddec692bf4",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "rf9d_observation_extension_freeze.json": "b9409c8c828b62b481e95a535f901b6da7436ef6125a3dea1e58f962127bdb4f",
+        "run.log": "a6a6bc51509c84bc8b6963162d1ec6cce0e72f291951632dbb4bbfdcb35c42ae",
+        "timing_events.csv": "2ee5c476d5db381ff443b75bbd4aa31b48023dec4907671cf1c4cbfbf04c7ca1"
+      },
+      "expected": {
+        "F": 6,
+        "M": 4,
+        "configs": 14,
+        "operations": 36,
+        "probes": 22
+      },
+      "post_sdf_event_summary": {
+        "active_therm_change_count": 14,
+        "config_update_count": 14,
+        "probe_start_count": 22,
+        "q_sample_1_count": 22,
+        "q_sample_2_count": 22,
+        "sclk_fall_count": 22,
+        "sclk_rise_count": 22,
+        "terminal_event_count": 2
+      },
+      "scenario": "rf9_0p95",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "2b9d67baeef997cc5acd0187bd00a7c86a862f17ac1696e7d9241f3855492c90",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "rf9d_observation_extension_freeze.json": "4431dabc0d5410b46645d85e1151e69f0da010057601874a535391d318654611",
+        "run.log": "49b67f1a863e1af62c3aa7addc435f043166eceb9055f1f5b17e465e0ce8f2a0",
+        "timing_events.csv": "6fdf171920cc163965d29e1aed44814ef1ab0f7a872e6070f88850262d6990f8"
+      },
+      "expected": {
+        "F": 9,
+        "M": 2,
+        "configs": 15,
+        "operations": 36,
+        "probes": 21
+      },
+      "post_sdf_event_summary": {
+        "active_therm_change_count": 15,
+        "config_update_count": 15,
+        "probe_start_count": 21,
+        "q_sample_1_count": 21,
+        "q_sample_2_count": 21,
+        "sclk_fall_count": 21,
+        "sclk_rise_count": 21,
+        "terminal_event_count": 2
+      },
+      "scenario": "rf9_1p10",
+      "status": "PASS"
+    }
+  ],
+  "rf6_frozen_transistor_sensor_contract_go": true,
+  "schema_version": 1,
+  "sensor_or_algorithm_modified": false,
+  "shared_errors": [],
+  "timing_check_bypass": {
+    "nospecify": false,
+    "notimingcheck": false
+  }
+}

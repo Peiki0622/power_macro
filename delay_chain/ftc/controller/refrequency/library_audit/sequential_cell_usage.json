@@ -1,0 +1,197 @@
+{
+  "explicit_signal_instances": {
+    "fail_reason": [
+      "\\u_fsm/fail_reason_q_reg[0]",
+      "\\u_fsm/fail_reason_q_reg[1]",
+      "\\u_fsm/fail_reason_q_reg[2]"
+    ],
+    "fine_thermometer": [
+      "\\u_cfg_regs/fine_therm_o_reg[4]",
+      "\\u_cfg_regs/fine_therm_o_reg[8]",
+      "\\u_cfg_regs/fine_therm_o_reg[0]",
+      "\\u_cfg_regs/fine_therm_o_reg[1]",
+      "\\u_cfg_regs/fine_therm_o_reg[2]",
+      "\\u_cfg_regs/fine_therm_o_reg[3]",
+      "\\u_cfg_regs/fine_therm_o_reg[5]",
+      "\\u_cfg_regs/fine_therm_o_reg[6]",
+      "\\u_cfg_regs/fine_therm_o_reg[7]"
+    ],
+    "fsm_state": [
+      "\\u_fsm/state_q_reg[2]",
+      "\\u_fsm/state_q_reg[0]",
+      "\\u_fsm/state_q_reg[3]",
+      "\\u_fsm/state_q_reg[1]"
+    ],
+    "medium_thermometer": [
+      "\\u_cfg_regs/medium_therm_o_reg[0]",
+      "\\u_cfg_regs/medium_therm_o_reg[2]",
+      "\\u_cfg_regs/medium_therm_o_reg[7]",
+      "\\u_cfg_regs/medium_therm_o_reg[8]",
+      "\\u_cfg_regs/medium_therm_o_reg[4]",
+      "\\u_cfg_regs/medium_therm_o_reg[12]",
+      "\\u_cfg_regs/medium_therm_o_reg[14]",
+      "\\u_cfg_regs/medium_therm_o_reg[6]",
+      "\\u_cfg_regs/medium_therm_o_reg[3]",
+      "\\u_cfg_regs/medium_therm_o_reg[13]",
+      "\\u_cfg_regs/medium_therm_o_reg[5]",
+      "\\u_cfg_regs/medium_therm_o_reg[1]",
+      "\\u_cfg_regs/medium_therm_o_reg[9]",
+      "\\u_cfg_regs/medium_therm_o_reg[11]",
+      "\\u_cfg_regs/medium_therm_o_reg[10]"
+    ],
+    "q_class": [
+      "\\u_sequencer/u_q_sampler/q_class_o_reg[1]",
+      "\\u_sequencer/u_q_sampler/q_class_o_reg[0]",
+      "\\u_sequencer/q_class_valid_o_reg"
+    ],
+    "q_sample_1": [
+      "\\u_sequencer/u_q_sampler/q_sample_1_o_reg",
+      "\\u_sequencer/q_sample_1_event_o_reg"
+    ],
+    "sense_dff_reset": [
+      "\\u_sequencer/sense_dff_reset_o_reg"
+    ],
+    "sense_s_clk": [
+      "\\u_sequencer/sense_s_clk_o_reg"
+    ]
+  },
+  "schema_version": 1,
+  "sequential_cell_types": [
+    {
+      "cell_type": "DFFRPQN_X0P5M_A9TR40",
+      "instance_count": 6,
+      "representative_instances": [
+        "\\u_sequencer/u_q_sampler/class_valid_o_reg",
+        "\\u_fsm/seq_fine_inc_q_reg",
+        "\\u_sequencer/cfg_fine_inc_o_reg",
+        "\\u_fsm/seq_medium_inc_q_reg",
+        "\\u_fsm/seq_medium_dec_q_reg",
+        "\\u_cfg_regs/medium_therm_o_reg[6]"
+      ],
+      "usage_roles": {
+        "fsm_or_control": 4,
+        "medium_thermometer": 1,
+        "q_sampler": 1
+      }
+    },
+    {
+      "cell_type": "DFFRPQN_X1M_A9TR40",
+      "instance_count": 31,
+      "representative_instances": [
+        "\\u_fsm/coarse_probe_a_result_q_reg[1]",
+        "\\u_fsm/coarse_probe_a_result_q_reg[0]",
+        "\\u_fsm/fine_probe_result_q_reg[0]",
+        "\\u_fsm/coarse_probe_b_result_q_reg[0]",
+        "\\u_fsm/coarse_probe_b_result_q_reg[1]",
+        "\\u_fsm/seq_cmd_q_reg[0]",
+        "\\u_sequencer/q_sample_1_event_o_reg",
+        "\\u_sequencer/q_sample_2_event_o_reg"
+      ],
+      "usage_roles": {
+        "failure_or_status": 2,
+        "fsm_or_control": 13,
+        "medium_thermometer": 11,
+        "q_sampler": 4,
+        "sensor_control_s_clk": 1
+      }
+    },
+    {
+      "cell_type": "DFFRPQN_X2M_A9TR40",
+      "instance_count": 23,
+      "representative_instances": [
+        "\\u_sequencer/active_cmd_q_reg[1]",
+        "\\u_sequencer/done_o_reg",
+        "\\u_fsm/state_q_reg[2]",
+        "\\u_fsm/state_q_reg[0]",
+        "\\u_sequencer/probe_count_q_reg[0]",
+        "\\u_fsm/state_q_reg[3]",
+        "\\u_sequencer/cfg_medium_inc_o_reg",
+        "\\u_cfg_regs/cfg_locked_o_reg"
+      ],
+      "usage_roles": {
+        "counter": 4,
+        "fsm_or_control": 14,
+        "fsm_state": 4,
+        "medium_thermometer": 1
+      }
+    },
+    {
+      "cell_type": "DFFRPQN_X3M_A9TR40",
+      "instance_count": 3,
+      "representative_instances": [
+        "\\u_fsm/fail_reason_q_reg[1]",
+        "\\u_cfg_regs/medium_code_o_reg[3]",
+        "\\u_cfg_regs/medium_therm_o_reg[14]"
+      ],
+      "usage_roles": {
+        "failure_or_status": 1,
+        "fsm_or_control": 1,
+        "medium_thermometer": 1
+      }
+    },
+    {
+      "cell_type": "DFFRPQ_X0P5M_A9TR40",
+      "instance_count": 2,
+      "representative_instances": [
+        "\\u_sequencer/u_q_sampler/q_sample_1_o_reg",
+        "\\u_sequencer/config_update_event_o_reg"
+      ],
+      "usage_roles": {
+        "fsm_or_control": 1,
+        "q_sampler": 1
+      }
+    },
+    {
+      "cell_type": "DFFRPQ_X1M_A9TR40",
+      "instance_count": 1,
+      "representative_instances": [
+        "\\u_sequencer/probe_start_event_o_reg"
+      ],
+      "usage_roles": {
+        "fsm_or_control": 1
+      }
+    },
+    {
+      "cell_type": "DFFSQ_X1M_A9TR40",
+      "instance_count": 11,
+      "representative_instances": [
+        "\\u_cfg_regs/fine_therm_o_reg[4]",
+        "\\u_cfg_regs/fine_therm_o_reg[8]",
+        "\\u_cfg_regs/fine_therm_o_reg[0]",
+        "\\u_cfg_regs/fine_therm_o_reg[1]",
+        "\\u_cfg_regs/fine_therm_o_reg[2]",
+        "\\u_cfg_regs/fine_therm_o_reg[3]",
+        "\\u_cfg_regs/fine_therm_o_reg[5]",
+        "\\u_cfg_regs/fine_therm_o_reg[6]"
+      ],
+      "usage_roles": {
+        "fine_thermometer": 9,
+        "q_sampler": 1,
+        "sensor_control_reset": 1
+      }
+    },
+    {
+      "cell_type": "DFFSQ_X2M_A9TR40",
+      "instance_count": 1,
+      "representative_instances": [
+        "\\u_fsm/lock_valid_q_reg"
+      ],
+      "usage_roles": {
+        "failure_or_status": 1
+      }
+    },
+    {
+      "cell_type": "DFFSRPQ_X1M_A9TR40",
+      "instance_count": 2,
+      "representative_instances": [
+        "\\u_fsm/fail_reason_q_reg[2]",
+        "\\u_cfg_regs/medium_therm_o_reg[10]"
+      ],
+      "usage_roles": {
+        "failure_or_status": 1,
+        "medium_thermometer": 1
+      }
+    }
+  ],
+  "status": "GO"
+}

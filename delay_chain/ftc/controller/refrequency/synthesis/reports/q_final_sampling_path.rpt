@@ -1,0 +1,56 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: q_final (input port clocked by cal_clk)
+  Endpoint: u_sequencer/u_q_sampler/q_class_o_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.60       0.60 r
+  q_final (in)                                            0.00       0.60 r
+  u_sequencer/q_final_i (ftc_operation_sequencer)         0.00       0.60 r
+  u_sequencer/u_q_sampler/q_final_i (ftc_q_sampler)       0.00       0.60 r
+  u_sequencer/u_q_sampler/U7/Y (INV_X1M_A9TR40)           0.03       0.63 f
+  u_sequencer/u_q_sampler/U4/Y (NOR2_X2A_A9TR40)          0.09       0.72 r
+  u_sequencer/u_q_sampler/U9/Y (AOI32_X1M_A9TR40)         0.09       0.81 f
+  u_sequencer/u_q_sampler/U8/Y (AO1B2_X1M_A9TR40)         0.07       0.89 r
+  u_sequencer/u_q_sampler/q_class_o_reg[1]/D (DFFSQ_X1M_A9TR40)
+                                                          0.00       0.89 r
+  data arrival time                                                  0.89
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_sequencer/u_q_sampler/q_class_o_reg[1]/CK (DFFSQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.06       2.39
+  data required time                                                 2.39
+  --------------------------------------------------------------------------
+  data required time                                                 2.39
+  data arrival time                                                 -0.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.50
+
+
+1

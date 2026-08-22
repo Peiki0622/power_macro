@@ -1,0 +1,8 @@
+# RF9 launch directories are task-local simulator products.  Their compact
+# JSON gate records are kept one level above these paths, while copied inputs,
+# compiler work areas, waveforms, and executable images remain reproducible
+# from the versioned RF9 preparation/audit scripts and frozen manifests.
+**/inputs/
+**/run/
+**/runs/
+**/attempt_*/

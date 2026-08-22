@@ -1,0 +1,46 @@
+{
+  "clock_period_ns": 2.5,
+  "decision": "RF9 rtl_behavioral Input Freeze = GO",
+  "historical_bench": "analysis/phase8_gate_level/delayed/tb_delayed_gate_level.sv",
+  "inputs": [
+    {
+      "name": "ftc_cal_controller_top.sv",
+      "sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba"
+    },
+    {
+      "name": "ftc_cal_fsm.sv",
+      "sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932"
+    },
+    {
+      "name": "ftc_cal_pkg.sv",
+      "sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe"
+    },
+    {
+      "name": "ftc_cfg_therm_regs.sv",
+      "sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589"
+    },
+    {
+      "name": "ftc_operation_sequencer.sv",
+      "sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3"
+    },
+    {
+      "name": "ftc_q_sampler.sv",
+      "sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362"
+    },
+    {
+      "name": "ftc_sensor_behavior_model.sv",
+      "sha256": "555319dcab9492ac0f4cd2ab19e40da741faa00ff3b07f488e497f85be9354f6"
+    },
+    {
+      "name": "tb_refrequency_gate_level.sv",
+      "sha256": "170e6d0766b7e2722e29d14c74fd7ecea812f004ace961a4a58ce04789c7cb62"
+    }
+  ],
+  "only_testbench_change": {
+    "new": "localparam real CLK_PERIOD_NS=2.5;",
+    "old": "localparam real CLK_PERIOD_NS=10.0;"
+  },
+  "schema_version": 1,
+  "sdf_enabled": false,
+  "timing_checks_disabled": false
+}

@@ -1,0 +1,135 @@
+{
+  "active_timing_baseline": {
+    "cal_clk_hz": 400000000,
+    "period_ns": 2.5,
+    "synthesis_sdf": "ACTIVE",
+    "timing_handoff": "refrequency/handoff/phase1_timing_handoff_refrequency.json"
+  },
+  "decision": "Re-Frequency Closure Handoff = GO",
+  "evidence_sha256": {
+    "baseline": {
+      "path": "refrequency/baseline/baseline_manifest.json",
+      "sha256": "2b23880b5f31b0d548082dff7be89a8a9082f51bf9653d234fcf7e41fd4a49d1"
+    },
+    "capability": {
+      "path": "refrequency/library_audit/sequential_cell_timing_capability.json",
+      "sha256": "fb1b126a3b512f58919126d2bb4fa96372ce233245089e611d5dd691c1f6a54d"
+    },
+    "consistency": {
+      "path": "refrequency/library_audit/liberty_vs_verilog_timing_check_audit.json",
+      "sha256": "c35fc251b82b471801a760569c82d7e6f5730b9b3af8ffea94a4e97180d076e8"
+    },
+    "contract": {
+      "path": "refrequency/timing_contract/cycle_timing_contract_refrequency.json",
+      "sha256": "beea19863f715c5d1d4b1b125059fd598493586b65dd7822fabea7da4240c304"
+    },
+    "guard": {
+      "path": "refrequency/clock_selection/guard_band_policy.json",
+      "sha256": "b8edcb8f39f30182024381980d2bfc9828e6045b93e9a595bcff284603502a60"
+    },
+    "hard_limit": {
+      "path": "refrequency/clock_selection/cal_clk_hard_limit.json",
+      "sha256": "71d5556080c92dd03e3f5abb72a44868dd6d8790d64d80587b88b9e62286bf39"
+    },
+    "inventory": {
+      "path": "refrequency/root_cause/timing_violation_inventory.json",
+      "sha256": "79d7a7cc988482d67762c4d0c6b605c5400925e1256ce7c7e9aa21fdaab64492"
+    },
+    "rf5": {
+      "path": "refrequency/timing_contract/rf5_zero_hspice_regression.json",
+      "sha256": "8ba718811162997cf2c60ff498f85eacde62bce24262ca40f9d110aac75b285b"
+    },
+    "rf6": {
+      "path": "refrequency/hspice/summary.json",
+      "sha256": "43ae79539299ca2bc302e009e04b4d173ea08634c5ed3dbceaf8fe87ed928c3f"
+    },
+    "rf7": {
+      "path": "refrequency/handoff/phase1_timing_handoff_refrequency.json",
+      "sha256": "7b42d1195368182f047fd2151e3b4c902af86d28eef15693112eed953c44ce42"
+    },
+    "rf8": {
+      "path": "refrequency/synthesis/phase_refrequency_synthesis_results.json",
+      "sha256": "68db60a83e4418895a32ce16621bf5c89bb9802a1bb6d5d67d4e017c25fdcab0"
+    },
+    "rf9a_compile": {
+      "path": "refrequency/verification/rtl_behavioral/run/compile.log",
+      "sha256": "da82bf048c818c9f2d132fac4ae7a14a2ca3f816c30179f170115ba1f86e1c45"
+    },
+    "rf9a_manifest": {
+      "path": "refrequency/verification/rtl_behavioral/pre_run_manifest.json",
+      "sha256": "33e345b830466129928f32a0571597afba9dba55a10a99656a5a6e10a234694b"
+    },
+    "rf9a_returncode": {
+      "path": "refrequency/verification/rtl_behavioral/run/returncode.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "rf9a_run": {
+      "path": "refrequency/verification/rtl_behavioral/run/run.log",
+      "sha256": "7b96c6d0fa34ef1021d7722204b6e696e8fae022724f2edd565c69383a666976"
+    },
+    "rf9b_compile": {
+      "path": "refrequency/verification/sdf_behavioral/run/compile.log",
+      "sha256": "9232a4d7252836754e6c525e6522730e90ab0c1eb031d93ad1054a534868c720"
+    },
+    "rf9b_manifest": {
+      "path": "refrequency/verification/sdf_behavioral/pre_run_manifest.json",
+      "sha256": "ca9e478ddd507eb2eb126b3413f902e84cfb8f40ee6bf4860a819cd1733ff822"
+    },
+    "rf9b_returncode": {
+      "path": "refrequency/verification/sdf_behavioral/run/returncode.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "rf9b_run": {
+      "path": "refrequency/verification/sdf_behavioral/run/run.log",
+      "sha256": "925aee6b3323c44d70479ce5b2f0e96ff1904a05677bfc0f9bde99c264e91f0a"
+    },
+    "rf9c": {
+      "path": "refrequency/verification/mixed_signal_no_sdf/RF9C_AUTONOMOUS_MIXED_SIGNAL.json",
+      "sha256": "1f00615aa8ce9ab86fa179ca04958d0a98fdf2cba25d66d5479f4998e2c663c8"
+    },
+    "rf9d": {
+      "path": "refrequency/verification/mixed_signal_sdf/RF9D_TIMING_COMPOSED_MIXED_SIGNAL.json",
+      "sha256": "fef0954ac9a1204d06b2366bbfe5d4c2ffeb1b2bdad779cee51c5fa576626473"
+    },
+    "root_cause": {
+      "path": "refrequency/root_cause/first_failure_trace.json",
+      "sha256": "0dc04ef4443e61b3c17a464cea855d21199bfa2b355b9f74d816b4413553d774"
+    },
+    "rtl_audit": {
+      "path": "refrequency/handoff/rtl_timing_contract_audit.json",
+      "sha256": "0106b5e4430d2f4598bff60200e3c86649da37bbb7c37c90b7870002d122449f"
+    },
+    "selection": {
+      "path": "refrequency/clock_selection/cal_clk_selection.json",
+      "sha256": "f7e998730753e2fa84c43eacc0192f4e5c0b6872609e9f3572cd3bbb5d78f354"
+    }
+  },
+  "frozen_architecture_and_algorithm_unchanged": true,
+  "gate_status": {
+    "RF0_baseline_freeze": "GO",
+    "RF10_handoff": "GO",
+    "RF1_root_cause": "GO",
+    "RF2_library_audit": "GO",
+    "RF3_clock_selection": "GO",
+    "RF4_event_ordered_schedule": "GO",
+    "RF5_contract_regression": "GO",
+    "RF6_transistor_sensor": "GO",
+    "RF7_active_handoff": "GO",
+    "RF8_synthesis_sta": "GO",
+    "RF9A_rtl_behavioral": "GO",
+    "RF9B_sdf_behavioral": "GO",
+    "RF9C_no_sdf_xa": "GO",
+    "RF9D_sdf_xa_transistor": "GO"
+  },
+  "historical_evidence": {
+    "c3_timing_composed_failure": "retained_root_cause_evidence",
+    "phase1_handoff": "retained_historical_evidence_superseded_for_active_rtl_timing",
+    "phase7_synthesis": "retained_historical_implementation_evidence"
+  },
+  "phase10_handoff": {
+    "governing_plan": "plans/ftc_startup_calibration_final_closure_and_freeze_plan.md",
+    "rf10_does_not_execute_phase10": true,
+    "status": "authorized_to_resume_from_active_refrequency_baseline"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,3 @@
+* FTC local no-op include for the installed LVT CDL historical placeholder.
+* Each HSPICE scenario copies this file beside its generated deck, preserving
+* the PDK source as read-only while resolving the vendor relative include.

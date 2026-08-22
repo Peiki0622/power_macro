@@ -1,0 +1,21 @@
+{
+  "baseline_status": "GO",
+  "c3_first_failure_instance": "\"sc9mc_logic0040ll_base_rvt_c40.v\", 167794: Timing violation in tb_ftc_vcs_xa_autonomous.u_controller.\\u_fsm/fail_reason_q_reg[2] ",
+  "calibration_algorithm_frozen": true,
+  "generated_utc": "2026-08-22T06:18:50.218188+00:00",
+  "historical_cal_clk_hz": 1000000000,
+  "historical_clock_period_ns": 1.0,
+  "historical_phase7_status": "GO",
+  "historical_phase9_status": "GO_NO_SDF",
+  "historical_report_limitation": "The four Phase 7 raw reports are absent from the local and mapped host workspace. They were not regenerated. Phase 7 status is retained only from phase7_results.json; new RF8 reports will be produced independently.",
+  "historical_timing_composed_status": "NO-GO",
+  "missing_historical_derived_reports": [
+    "delay_chain/ftc/controller/synthesis/reports/timing.rpt",
+    "delay_chain/ftc/controller/synthesis/reports/constraints.rpt",
+    "delay_chain/ftc/controller/synthesis/reports/cell_usage.rpt",
+    "delay_chain/ftc/controller/synthesis/reports/q_final_sampling_path.rpt"
+  ],
+  "missing_required_inputs": [],
+  "schema_version": 1,
+  "sensor_architecture_frozen": true
+}

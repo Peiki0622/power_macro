@@ -1,0 +1,319 @@
+ 
+****************************************
+Report : port
+        -verbose
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+
+                       Pin      Wire     Max     Max     Connection
+Port           Dir     Load     Load     Trans   Cap     Class      Attrs
+--------------------------------------------------------------------------------
+cal_clk        in      0.0000   0.0000   --      --      --         
+cal_start      in      0.0000   0.0000   --      --      --         
+ctrl_por_n     in      0.0000   0.0000   --      --      --         
+q_final        in      0.0000   0.0000   --      --      --         
+cal_busy       out     0.0000   0.0000   --      --      --         
+cal_done       out     0.0000   0.0000   --      --      --         
+cal_fail       out     0.0000   0.0000   --      --      --         
+config_update_event
+               out     0.0000   0.0000   --      --      --         
+fail_reason[0] out     0.0000   0.0000   --      --      --         
+fail_reason[1] out     0.0000   0.0000   --      --      --         
+fail_reason[2] out     0.0000   0.0000   --      --      --         
+fine_code[0]   out     0.0000   0.0000   --      --      --         
+fine_code[1]   out     0.0000   0.0000   --      --      --         
+fine_code[2]   out     0.0000   0.0000   --      --      --         
+fine_code[3]   out     0.0000   0.0000   --      --      --         
+fine_therm[0]  out     0.0000   0.0000   --      --      --         
+fine_therm[1]  out     0.0000   0.0000   --      --      --         
+fine_therm[2]  out     0.0000   0.0000   --      --      --         
+fine_therm[3]  out     0.0000   0.0000   --      --      --         
+fine_therm[4]  out     0.0000   0.0000   --      --      --         
+fine_therm[5]  out     0.0000   0.0000   --      --      --         
+fine_therm[6]  out     0.0000   0.0000   --      --      --         
+fine_therm[7]  out     0.0000   0.0000   --      --      --         
+fine_therm[8]  out     0.0000   0.0000   --      --      --         
+fine_therm[9]  out     0.0000   0.0000   --      --      --         
+fsm_state[0]   out     0.0000   0.0000   --      --      --         
+fsm_state[1]   out     0.0000   0.0000   --      --      --         
+fsm_state[2]   out     0.0000   0.0000   --      --      --         
+fsm_state[3]   out     0.0000   0.0000   --      --      --         
+fsm_state[4]   out     0.0000   0.0000   --      --      --         
+lock_valid     out     0.0000   0.0000   --      --      --         
+medium_code[0] out     0.0000   0.0000   --      --      --         
+medium_code[1] out     0.0000   0.0000   --      --      --         
+medium_code[2] out     0.0000   0.0000   --      --      --         
+medium_code[3] out     0.0000   0.0000   --      --      --         
+medium_code[4] out     0.0000   0.0000   --      --      --         
+medium_therm[0]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[1]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[2]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[3]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[4]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[5]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[6]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[7]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[8]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[9]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[10]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[11]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[12]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[13]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[14]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[15]
+               out     0.0000   0.0000   --      --      --         
+probe_start_event
+               out     0.0000   0.0000   --      --      --         
+q_sample_1_event
+               out     0.0000   0.0000   --      --      --         
+q_sample_2_event
+               out     0.0000   0.0000   --      --      --         
+sense_dff_reset
+               out     0.0000   0.0000   --      --      --         
+sense_s_clk    out     0.0000   0.0000   --      --      --         
+
+
+              External  Max             Min                Min       Min
+              Number    Wireload        Wireload           Pin       Wire
+Port          Points    Model           Model              Load      Load
+--------------------------------------------------------------------------------
+cal_clk            1      --              --              --        -- 
+cal_start          1      --              --              --        -- 
+ctrl_por_n         1      --              --              --        -- 
+q_final            1      --              --              --        -- 
+cal_busy           1      --              --              --        -- 
+cal_done           1      --              --              --        -- 
+cal_fail           1      --              --              --        -- 
+config_update_event
+                   1      --              --              --        -- 
+fail_reason[0]
+                   1      --              --              --        -- 
+fail_reason[1]
+                   1      --              --              --        -- 
+fail_reason[2]
+                   1      --              --              --        -- 
+fine_code[0]       1      --              --              --        -- 
+fine_code[1]       1      --              --              --        -- 
+fine_code[2]       1      --              --              --        -- 
+fine_code[3]       1      --              --              --        -- 
+fine_therm[0]      1      --              --              --        -- 
+fine_therm[1]      1      --              --              --        -- 
+fine_therm[2]      1      --              --              --        -- 
+fine_therm[3]      1      --              --              --        -- 
+fine_therm[4]      1      --              --              --        -- 
+fine_therm[5]      1      --              --              --        -- 
+fine_therm[6]      1      --              --              --        -- 
+fine_therm[7]      1      --              --              --        -- 
+fine_therm[8]      1      --              --              --        -- 
+fine_therm[9]      1      --              --              --        -- 
+fsm_state[0]       1      --              --              --        -- 
+fsm_state[1]       1      --              --              --        -- 
+fsm_state[2]       1      --              --              --        -- 
+fsm_state[3]       1      --              --              --        -- 
+fsm_state[4]       1      --              --              --        -- 
+lock_valid         1      --              --              --        -- 
+medium_code[0]
+                   1      --              --              --        -- 
+medium_code[1]
+                   1      --              --              --        -- 
+medium_code[2]
+                   1      --              --              --        -- 
+medium_code[3]
+                   1      --              --              --        -- 
+medium_code[4]
+                   1      --              --              --        -- 
+medium_therm[0]
+                   1      --              --              --        -- 
+medium_therm[1]
+                   1      --              --              --        -- 
+medium_therm[2]
+                   1      --              --              --        -- 
+medium_therm[3]
+                   1      --              --              --        -- 
+medium_therm[4]
+                   1      --              --              --        -- 
+medium_therm[5]
+                   1      --              --              --        -- 
+medium_therm[6]
+                   1      --              --              --        -- 
+medium_therm[7]
+                   1      --              --              --        -- 
+medium_therm[8]
+                   1      --              --              --        -- 
+medium_therm[9]
+                   1      --              --              --        -- 
+medium_therm[10]
+                   1      --              --              --        -- 
+medium_therm[11]
+                   1      --              --              --        -- 
+medium_therm[12]
+                   1      --              --              --        -- 
+medium_therm[13]
+                   1      --              --              --        -- 
+medium_therm[14]
+                   1      --              --              --        -- 
+medium_therm[15]
+                   1      --              --              --        -- 
+probe_start_event
+                   1      --              --              --        -- 
+q_sample_1_event
+                   1      --              --              --        -- 
+q_sample_2_event
+                   1      --              --              --        -- 
+sense_dff_reset
+                   1      --              --              --        -- 
+sense_s_clk        1      --              --              --        -- 
+
+                    Input Delay
+                  Min             Max       Related   Max
+Input Port    Rise    Fall    Rise    Fall   Clock  Fanout
+--------------------------------------------------------------------------------
+cal_clk       --      --      --      --      --      -- 
+cal_start     0.10    0.10    0.70    0.70  cal_clk   --    
+ctrl_por_n    --      --      --      --      --      -- 
+q_final       0.20    0.20    0.60    0.60  cal_clk   --    
+
+
+               Max Drive      Min Drive      Resistance    Min    Min       Cell
+Input Port    Rise    Fall   Rise    Fall   Max     Min    Cap    Fanout    Deg
+--------------------------------------------------------------------------------
+cal_clk       --      --     --      --     --      --     --     --        -- 
+cal_start     --      --     --      --     --      --     --     --        -- 
+ctrl_por_n    --      --     --      --     --      --     --     --        -- 
+q_final       --      --     --      --     --      --     --     --        -- 
+
+
+               Max Tran        Min Tran
+Input Port    Rise    Fall    Rise    Fall
+--------------------------------------------------------------------------------
+cal_clk       --      --      --      -- 
+cal_start     --      --      --      -- 
+ctrl_por_n    0.10    0.10    0.10    0.10
+q_final       --      --      --      -- 
+
+
+                    Output Delay
+                  Min             Max      Related  Fanout
+Output Port   Rise    Fall    Rise    Fall  Clock     Load
+--------------------------------------------------------------------------------
+cal_busy      0.00    0.00    0.50    0.50  cal_clk   0.00  
+cal_done      0.00    0.00    0.50    0.50  cal_clk   0.00  
+cal_fail      0.00    0.00    0.50    0.50  cal_clk   0.00  
+config_update_event
+              --      --      --      --      --      0.00
+fail_reason[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fail_reason[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fail_reason[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_therm[0]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[1]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[2]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[3]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[4]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[5]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[6]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[7]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[8]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[9]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fsm_state[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[4]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+lock_valid    0.00    0.00    0.50    0.50  cal_clk   0.00  
+medium_code[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[4]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_therm[0]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[1]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[2]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[3]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[4]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[5]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[6]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[7]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[8]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[9]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[10]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[11]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[12]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[13]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[14]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[15]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+probe_start_event
+              --      --      --      --      --      0.00
+q_sample_1_event
+              --      --      --      --      --      0.00
+q_sample_2_event
+              --      --      --      --      --      0.00
+sense_dff_reset
+              0.00    0.00    0.40    0.40  cal_clk   0.00  
+sense_s_clk   0.00    0.00    0.40    0.40  cal_clk   0.00  
+
+1

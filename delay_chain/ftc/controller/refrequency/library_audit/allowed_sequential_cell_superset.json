@@ -1,0 +1,140 @@
+{
+  "candidate_cells": [
+    {
+      "cell_type": "DFFRPQN_X0P5M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQN_X1M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQN_X2M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQN_X3M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQ_X0P5M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQ_X1M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQ_X2M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQ_X3M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFRPQ_X4M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSQ_X0P5M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSQ_X1M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSQ_X2M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSQ_X3M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSQ_X4M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSRPQ_X0P5M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSRPQ_X1M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSRPQ_X2M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSRPQ_X3M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    {
+      "cell_type": "DFFSRPQ_X4M_A9TR40",
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    }
+  ],
+  "schema_version": 1,
+  "selection_basis": "VCS timing-model DFFRPQ/DFFRPQN/DFFSRPQ/DFFSQ variants compatible with current mapped reset/set behavior",
+  "status": "GO"
+}

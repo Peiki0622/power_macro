@@ -1,0 +1,13 @@
+{
+  "T_hard_ns": 2.0,
+  "constraints_ns": {
+    "clock_high_or_low_width_to_period": 2.0,
+    "recovery": 1.0,
+    "setup": 1.0
+  },
+  "duty_cycle": 0.5,
+  "hold_ns": 0.5,
+  "hold_policy": "Hold is verified by RF8 and is not hidden inside T_hard.",
+  "schema_version": 1,
+  "status": "GO"
+}

@@ -1,0 +1,52 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: u_sequencer/sense_dff_reset_o_reg
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: sense_dff_reset
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_sequencer/sense_dff_reset_o_reg/CK (DFFSQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_sequencer/sense_dff_reset_o_reg/Q (DFFSQ_X1M_A9TR40)
+                                                          0.28       0.28 r
+  u_sequencer/sense_dff_reset_o (ftc_operation_sequencer)
+                                                          0.00       0.28 r
+  sense_dff_reset (out)                                   0.00       0.28 r
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  output external delay                                  -0.40       2.05
+  data required time                                                 2.05
+  --------------------------------------------------------------------------
+  data required time                                                 2.05
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.77
+
+
+1

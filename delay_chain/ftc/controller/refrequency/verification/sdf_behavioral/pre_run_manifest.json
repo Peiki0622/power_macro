@@ -1,0 +1,34 @@
+{
+  "clock_period_ns": 2.5,
+  "decision": "RF9 sdf_behavioral Input Freeze = GO",
+  "historical_bench": "analysis/phase8_gate_level/delayed/tb_delayed_gate_level.sv",
+  "inputs": [
+    {
+      "name": "ftc_cal_controller_top_synth.sdf",
+      "sha256": "04123108cddd3f19a6b53cb32c273215983dc1932ad8379473edfd1e3c849c48"
+    },
+    {
+      "name": "ftc_cal_controller_top_synth.v",
+      "sha256": "0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3"
+    },
+    {
+      "name": "ftc_sensor_behavior_model.sv",
+      "sha256": "555319dcab9492ac0f4cd2ab19e40da741faa00ff3b07f488e497f85be9354f6"
+    },
+    {
+      "name": "sc9mc_logic0040ll_base_rvt_c40.v",
+      "sha256": "eeddc1e9dcc97f11e0b316ff2d73690ffca2f9c24df291258d2ca9c1188cfe09"
+    },
+    {
+      "name": "tb_refrequency_gate_level.sv",
+      "sha256": "170e6d0766b7e2722e29d14c74fd7ecea812f004ace961a4a58ce04789c7cb62"
+    }
+  ],
+  "only_testbench_change": {
+    "new": "localparam real CLK_PERIOD_NS=2.5;",
+    "old": "localparam real CLK_PERIOD_NS=10.0;"
+  },
+  "schema_version": 1,
+  "sdf_enabled": true,
+  "timing_checks_disabled": false
+}

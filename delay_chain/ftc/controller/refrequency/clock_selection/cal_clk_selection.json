@@ -1,0 +1,14 @@
+{
+  "hold_treated_independently": true,
+  "limiting_cell": "DFFSRPQ_X1M_A9TR40 and the audited sequential-cell family",
+  "limiting_timing_check": "conditional CK high/low $width",
+  "old_frequency_hz": 1000000000,
+  "old_period_ns": 1.0,
+  "predicted_clock_high_low_width_ns": 1.25,
+  "predicted_width_margin_ns": 0.25,
+  "raw_hard_limit_ns": 2.0,
+  "schema_version": 1,
+  "selected_frequency_hz": 400000000,
+  "selected_period_ns": 2.5,
+  "status": "GO"
+}

@@ -1,0 +1,55 @@
+{
+  "clock_period_ns": 2.5,
+  "decision": "RF9 mixed_signal_no_sdf Input Freeze = GO",
+  "inputs": [
+    {
+      "name": "empty_subckt.sp_cal",
+      "sha256": "b94c7781b44417af582e25c6d324122e5afc762ea5751f6d052f8311301bbfab"
+    },
+    {
+      "name": "ftc_cal_controller_top_synth.v",
+      "sha256": "0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3"
+    },
+    {
+      "name": "ftc_sensor_ams_stub.sv",
+      "sha256": "3ac146ca0ee897f8caa554fca34e413ce2e2ea665521aeb17116a32fe8671a5c"
+    },
+    {
+      "name": "ftc_sensor_ams_wrapper.sp",
+      "sha256": "80d42fbf299429068219e1d2088668608d90694b06a78a1c5a0716d391e9bbd1"
+    },
+    {
+      "name": "ftc_sensor_frozen.sp",
+      "sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7"
+    },
+    {
+      "name": "sc9mc_logic0040ll_base_rvt_c40.v",
+      "sha256": "eeddc1e9dcc97f11e0b316ff2d73690ffca2f9c24df291258d2ca9c1188cfe09"
+    },
+    {
+      "name": "tb_ftc_vcs_xa_autonomous.sv",
+      "sha256": "66b1967831c6976509e0e21baabdb8a223d10243087600da17a7908055e6f111"
+    },
+    {
+      "name": "vcsAD.init",
+      "sha256": "b4175c8279fa84718f87fd3f079516d8b63acad18d903f1b1cc1f7a3b8427638"
+    },
+    {
+      "name": "xa.cfg",
+      "sha256": "86fc72062b7eb92a54fd5e303aa180a15717f6999917352d7a4fb6d7130f4ac3"
+    }
+  ],
+  "only_bench_timing_changes": [
+    [
+      "forever #0.5 cal_clk",
+      "forever #1.25 cal_clk"
+    ],
+    [
+      "#800;",
+      "#2000;"
+    ]
+  ],
+  "schema_version": 1,
+  "sdf_enabled": false,
+  "timing_checks_disabled": false
+}

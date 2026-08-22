@@ -1,0 +1,6 @@
+# Keep the reviewed final Verilog/SDF/SDC and text reports at this level.
+# Earlier synthesis attempts, Design Compiler work libraries, and binary DDC
+# databases are reproducible tool products and are intentionally local only.
+attempt_*/
+run/
+netlist/*.ddc

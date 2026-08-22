@@ -1,0 +1,32 @@
+{
+  "cell_type": "DFFSRPQ_X1M_A9TR40",
+  "connectivity": {
+    "CK": "cal_clk",
+    "D": "n341",
+    "R": "n789",
+    "SN": "fine_therm[9]"
+  },
+  "first_causal_violation": {
+    "check": "width",
+    "check_body": "negedge CK &&& (ENABLE_D_AND_NOT_R_AND_SN == 1'b1):0, : 500,",
+    "classification": "CK_LOW_WIDTH",
+    "instance": "tb_ftc_vcs_xa_autonomous.u_controller.\\u_fsm/fail_reason_q_reg[2]",
+    "model": "sc9mc_logic0040ll_base_rvt_c40.v",
+    "model_line": 167794,
+    "notifier_capable": true,
+    "observed_value_ps": 500,
+    "ordinal": 0,
+    "required_value_ps": 1000
+  },
+  "mapped_instance": "u_controller.\\u_fsm/fail_reason_q_reg[2]",
+  "mapped_netlist_declaration": "DFFSRPQ_X1M_A9TR40 \\u_fsm/fail_reason_q_reg[2]  ( .D(n341), .CK(cal_clk),",
+  "matching_specify_statements": [
+    "$width(negedge CK &&& (ENABLE_NOT_D_AND_NOT_R_AND_SN == 1'b1), `ARM_WIDTH,`ARM_WIDTH_THD,NOTIFIER);",
+    "$width(negedge CK &&& (ENABLE_D_AND_NOT_R_AND_SN == 1'b1), `ARM_WIDTH,`ARM_WIDTH_THD,NOTIFIER);"
+  ],
+  "notifier_propagation": "The timing model declares reg NOTIFIER and passes it into the UDP. C3 timing_events.csv records the first controller X at 10.068 ns after these violations.",
+  "re_frequency_eligibility": "GO",
+  "rtl_register": "u_controller.u_fsm.fail_reason_q_reg[2]",
+  "schema_version": 1,
+  "status": "GO"
+}

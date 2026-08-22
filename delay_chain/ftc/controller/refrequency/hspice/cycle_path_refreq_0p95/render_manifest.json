@@ -1,0 +1,23 @@
+{
+  "cycle_contract": "controller/refrequency/timing_contract/cycle_path_refreq_0p95_contract.json",
+  "cycle_contract_sha256": "212c1b773fcbb5958baf0ba8ad1b3e75543c06883a0ad579f792fce446b560bc",
+  "deck": "controller/refrequency/hspice/cycle_path_refreq_0p95/cycle_bridge_v2.sp",
+  "deck_sha256": "7bb0e2f631bd074ad06a607e7cf6200c6dcfdef8f2ee61cc6a23258043733c51",
+  "scenario": "cycle_path_refreq_0p95",
+  "schema_version": 2,
+  "simulator_invoked": false,
+  "structural_checks": {
+    "all_changes_are_config_updates": true,
+    "configuration_settle_precedes_dependent_release": true,
+    "one_intended_sclk_rise_event": true,
+    "probe_code_constant": true,
+    "reset_assert_physically_precedes_sclk_fall": true,
+    "reset_assert_precedes_sclk_fall": true,
+    "single_thermometer_step_per_update": true,
+    "two_adjacent_backoffs_without_probe": true,
+    "two_q_sample_events": true,
+    "two_samples_rendered_per_probe": true,
+    "v2_contract_decision_go": true
+  },
+  "voltage": "0p95"
+}

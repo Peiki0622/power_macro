@@ -16,16 +16,21 @@ package ftc_cal_pkg;
     parameter int MEDIUM_CODE_WIDTH = 5;
     parameter int FINE_CODE_WIDTH   = 4;
 
-    // Phase 1 corrected 1 GHz cycle contract.
-    parameter int CONFIG_SETTLE_CYCLES = 2;
+    // Active RF7 re-frequency contract: 400 MHz (2.5 ns) calibration clock.
+    // These cycle positions were re-solved from physical event separations;
+    // they are not scaled copies of the historical 1 GHz values.  The RF7
+    // machine audit binds every constant below to the active JSON handoff.
+    // Configuration updates remain under asserted reset and S_CLK low; the
+    // new period satisfies their required physical settling in one full cycle.
+    parameter int CONFIG_SETTLE_CYCLES = 1;
     parameter int PROBE_RESET_RELEASE_CYCLE = 0;
     parameter int PROBE_SCLK_RISE_CYCLE = 1;
-    parameter int PROBE_Q_SAMPLE_1_CYCLE = 4;
-    parameter int PROBE_Q_SAMPLE_2_CYCLE = 5;
-    parameter int PROBE_RESET_ASSERT_CYCLE = 6;
-    parameter int PROBE_SCLK_FALL_CYCLE = 7;
-    parameter int PROBE_RECOVERY_DONE_CYCLE = 10;
-    parameter int PROBE_SCLK_HIGH_CYCLES = 6;
+    parameter int PROBE_Q_SAMPLE_1_CYCLE = 2;
+    parameter int PROBE_Q_SAMPLE_2_CYCLE = 3;
+    parameter int PROBE_RESET_ASSERT_CYCLE = 4;
+    parameter int PROBE_SCLK_FALL_CYCLE = 5;
+    parameter int PROBE_RECOVERY_DONE_CYCLE = 7;
+    parameter int PROBE_SCLK_HIGH_CYCLES = 4;
 
     // Classifier values are encoded explicitly for stable interface tracing.
     parameter logic [1:0] Q_CLASS_STABLE_LOW  = 2'b00;

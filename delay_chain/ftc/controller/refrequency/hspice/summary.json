@@ -1,0 +1,42 @@
+{
+  "decision": "Re-Frequency Transistor Sensor Protocol = GO",
+  "measurement_evidence_source": "infrastructure_retry",
+  "results": [
+    {
+      "config_update_count": 17,
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "errors": [],
+      "final_locked_code": {
+        "F": 6,
+        "M": 7
+      },
+      "probe_count": 28,
+      "scenario": "cycle_path_refreq_0p80"
+    },
+    {
+      "config_update_count": 14,
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "errors": [],
+      "final_locked_code": {
+        "F": 6,
+        "M": 4
+      },
+      "probe_count": 22,
+      "scenario": "cycle_path_refreq_0p95"
+    },
+    {
+      "config_update_count": 15,
+      "decision": "Cycle-Quantized Startup Protocol = GO",
+      "errors": [],
+      "final_locked_code": {
+        "F": 9,
+        "M": 2
+      },
+      "probe_count": 21,
+      "scenario": "cycle_path_refreq_1p10"
+    }
+  ],
+  "scenario_count": 3,
+  "schema_version": 1,
+  "timing_template_changed_after_execution": false
+}

@@ -1,0 +1,3297 @@
+/bin/sh: warning: setlocale: LC_ALL: cannot change locale (C.UTF-8)
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+                 Version Q-2019.12 for linux64 - Nov 26, 2019 
+
+                    Copyright (c) 1988 - 2019 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# ============================================================================
+# RF8 isolated Design Compiler synthesis and static-timing flow
+# ============================================================================
+# Every generated file is rooted below controller/refrequency/synthesis.  The
+# historical Phase-7 netlist, SDF, reports, RTL, and timing handoff are read
+# only.  This script does not add synthesis RTL functions or modify algorithmic
+# logic; it maps the already audited RF7 timing constants.
+# ============================================================================
+set SCRIPT_DIR [file dirname [file normalize [info script]]]
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/scripts
+set RF_SYNTH_ROOT [file normalize [file join $SCRIPT_DIR ..]]
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis
+set CONTROLLER_ROOT [file normalize [file join $SCRIPT_DIR ../../..]]
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller
+set DESIGN_NAME "ftc_cal_controller_top"
+ftc_cal_controller_top
+set RTL_DIR "$CONTROLLER_ROOT/rtl"
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl
+set CONSTRAINT_FILE "$RF_SYNTH_ROOT/constraints/ftc_controller_refrequency.sdc"
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/constraints/ftc_controller_refrequency.sdc
+set OUTPUT_DIR "$RF_SYNTH_ROOT/netlist"
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/netlist
+set REPORT_DIR "$RF_SYNTH_ROOT/reports"
+/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/reports
+# RF2 audited this exact SMIC40LL RVT database.  It is accessed on the EDA
+# host, never via a container-only /host/data path, so the run is reproducible
+# with the verified host mapping.
+set LIB_BASE "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1"
+/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1
+set TARGET_LIBRARY "$LIB_BASE/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db"
+/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+set LINK_LIBRARY "* $TARGET_LIBRARY"
+* /home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+file mkdir $OUTPUT_DIR
+file mkdir $REPORT_DIR
+file mkdir ./work
+set_app_var sh_enable_page_mode false
+false
+# ``analyze -format sverilog`` below selects SystemVerilog explicitly.  Do not
+# set the retired ``hdlin_language_extensions`` app-var: DC Q-2019 reports it
+# as an error even though it continues, which would pollute the active RF8 log.
+set_app_var enable_recovery_removal_arcs true
+true
+set_app_var compile_delete_unloaded_sequential_cells false
+false
+set_app_var compile_seqmap_propagate_constants false
+false
+set_app_var target_library $TARGET_LIBRARY
+/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+set_app_var link_library $LINK_LIBRARY
+* /home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+set search_path [concat $search_path "$LIB_BASE/db"]
+. /home/soft/synopsys/synth/syn/Q-2019.12/libraries/syn /home/soft/synopsys/synth/syn/Q-2019.12/dw/syn_ver /home/soft/synopsys/synth/syn/Q-2019.12/dw/sim_ver /home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db
+define_design_lib WORK -path ./work
+1
+# Package first, then explicit dependency order.  The list is intentionally
+# short and mirrors the historical controller topology, avoiding broad globs
+# that could accidentally compile unrelated experiment RTL.
+analyze -format sverilog -work WORK "$RTL_DIR/ftc_cal_pkg.sv"
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv:11: Parameter keyword used in local parameter declaration. (VER-329)
+Presto compilation completed successfully.
+Loading db file '/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db'
+1
+foreach rtl_file [list     "$RTL_DIR/ftc_cfg_therm_regs.sv"     "$RTL_DIR/ftc_q_sampler.sv"     "$RTL_DIR/ftc_operation_sequencer.sv"     "$RTL_DIR/ftc_cal_fsm.sv"     "$RTL_DIR/ftc_cal_controller_top.sv"] {
+    analyze -format sverilog -work WORK $rtl_file
+}
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_q_sampler.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv
+Presto compilation completed successfully.
+Running PRESTO HDLC
+Compiling source file /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv
+Presto compilation completed successfully.
+elaborate $DESIGN_NAME -work WORK
+Loading db file '/home/soft/synopsys/synth/syn/Q-2019.12/libraries/syn/gtech.db'
+Loading db file '/home/soft/synopsys/synth/syn/Q-2019.12/libraries/syn/standard.sldb'
+  Loading link library 'sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully. (ftc_cal_controller_top)
+Elaborated 1 design.
+Current design is now 'ftc_cal_controller_top'.
+Information: Building the design 'ftc_cfg_therm_regs'. (HDL-193)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv:70: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv:82: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv:100: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv:102: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine ftc_cfg_therm_regs line 47 in file
+		'/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  cfg_locked_o_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+| medium_therm_o_reg  | Flip-flop |  16   |  Y  | N  | Y  | N  | N  | N  | N  |
+|  fine_therm_o_reg   | Flip-flop |  10   |  Y  | N  | N  | Y  | N  | N  | N  |
+|  medium_code_o_reg  | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   fine_code_o_reg   | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (ftc_cfg_therm_regs)
+Information: Building the design 'ftc_operation_sequencer'. (HDL-193)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:65: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:67: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:137: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:147: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:149: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:152: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:155: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:157: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv:159: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine ftc_operation_sequencer line 77 in file
+		'/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv'.
+=====================================================================================
+|       Register Name       |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=====================================================================================
+|     active_cmd_q_reg      | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   sense_dff_reset_o_reg   | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
+|     sense_s_clk_o_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   cfg_medium_inc_o_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   cfg_medium_dec_o_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    cfg_fine_inc_o_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    cfg_fine_dec_o_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        busy_o_reg         | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        done_o_reg         | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     probe_done_o_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  q_sample_1_event_o_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  q_sample_2_event_o_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    q_class_valid_o_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+| config_update_event_o_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  probe_start_event_o_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     probe_count_q_reg     | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+=====================================================================================
+Presto compilation completed successfully. (ftc_operation_sequencer)
+Information: Building the design 'ftc_cal_fsm'. (HDL-193)
+
+Statistics for case statements in always block at line 215 in file
+	'/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           238            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine ftc_cal_fsm line 172 in file
+		'/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv'.
+=======================================================================================
+|        Register Name        |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+=======================================================================================
+|      lock_valid_q_reg       | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|         state_q_reg         | Flip-flop |   5   |  Y  | N  | Y  | N  | N  | N  | N  |
+| coarse_probe_a_result_q_reg | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+| coarse_probe_b_result_q_reg | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   fine_probe_result_q_reg   | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|      fail_reason_q_reg      | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|        seq_req_q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|        seq_cmd_q_reg        | Flip-flop |   2   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    seq_medium_inc_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    seq_medium_dec_q_reg     | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     seq_fine_inc_q_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     seq_fine_dec_q_reg      | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       cal_busy_q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       cal_done_q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|       cal_fail_q_reg        | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+=======================================================================================
+Presto compilation completed successfully. (ftc_cal_fsm)
+Information: Building the design 'ftc_q_sampler'. (HDL-193)
+
+Inferred memory devices in process
+	in routine ftc_q_sampler line 25 in file
+		'/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_q_sampler.sv'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  class_valid_o_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  q_sample_1_o_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  q_sample_2_o_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|    q_class_o_reg    | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
+|    q_class_o_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (ftc_q_sampler)
+1
+current_design $DESIGN_NAME
+Current design is 'ftc_cal_controller_top'.
+{ftc_cal_controller_top}
+link
+
+  Linking design 'ftc_cal_controller_top'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  * (5 designs)               /home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/run/ftc_cal_controller_top.db, etc
+  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c (library) /home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db
+
+1
+check_design
+ 
+****************************************
+check_design summary:
+Version:     Q-2019.12
+Date:        Sat Aug 22 14:46:36 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Cells                                                               6
+    Cells do not drive (LINT-1)                                     6
+--------------------------------------------------------------------------------
+
+Warning: In design 'ftc_cfg_therm_regs', cell 'C733' does not drive any nets. (LINT-1)
+Warning: In design 'ftc_cfg_therm_regs', cell 'C737' does not drive any nets. (LINT-1)
+Warning: In design 'ftc_cfg_therm_regs', cell 'C757' does not drive any nets. (LINT-1)
+Warning: In design 'ftc_cfg_therm_regs', cell 'C761' does not drive any nets. (LINT-1)
+Warning: In design 'ftc_operation_sequencer', cell 'C317' does not drive any nets. (LINT-1)
+Warning: In design 'ftc_operation_sequencer', cell 'C327' does not drive any nets. (LINT-1)
+1
+# The active 2.5 ns timing environment is a separate, task-owned SDC.  No
+# global clock-gating transform is requested; sensor controls remain ordinary
+# registered outputs and retain the hardware-friendly RTL implementation.
+source $CONSTRAINT_FILE
+Current design is 'ftc_cal_controller_top'.
+Current design is 'ftc_cal_controller_top'.
+Current design is 'ftc_cal_controller_top'.
+1
+set_operating_conditions -max ss_typical_max_0p99v_125c
+Using operating conditions 'ss_typical_max_0p99v_125c' found in library 'sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c'.
+1
+set_fix_multiple_port_nets -all -buffer_constants [get_designs]
+1
+compile -map_effort high -area_effort high
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | Q-2019.12-DWBB_201912.0 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 6 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+Warning: Library cell 'CMPR42_X1M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+Warning: Library cell 'CMPR42_X1P4M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+Warning: Library cell 'CMPR42_X2M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+Warning: Library cell 'ADDFCIN_X1M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+Warning: Library cell 'ADDFCIN_X1P4M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+Warning: Library cell 'ADDFCIN_X2M_A9TR40' has a valid function-id,
+	but it has also been annotated with the user_function_class
+	attribute.  Resolving this conflict by ignoring the
+	user_function_class attribute for this library cell. (OPT-200)
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'ftc_cal_fsm'
+  Processing 'ftc_q_sampler'
+  Processing 'ftc_operation_sequencer'
+  Processing 'ftc_cfg_therm_regs'
+  Processing 'ftc_cal_controller_top'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'ftc_cfg_therm_regs_DW01_inc_0_DW01_inc_2'
+  Processing 'ftc_cfg_therm_regs_DW01_cmp2_0_DW01_cmp2_2'
+  Processing 'ftc_cfg_therm_regs_DW01_dec_0_DW01_dec_1'
+  Processing 'ftc_cfg_therm_regs_DW01_cmp2_1_DW01_cmp2_3'
+
+  Beginning Mapping Optimizations  (High effort)
+  -------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:03    1573.3      0.00       0.0      17.7                          
+    0:00:03    1573.3      0.00       0.0      17.7                          
+    0:00:03    1573.3      0.00       0.0      17.7                          
+    0:00:03    1573.3      0.00       0.0      17.7                          
+    0:00:03    1573.3      0.00       0.0      17.7                          
+    0:00:03     966.2      0.00       0.0      16.5                          
+    0:00:03     938.7      0.00       0.0      16.5                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     938.4      0.00       0.0      14.2                          
+    0:00:03     956.4      0.00       0.0      10.4                          
+    0:00:03     963.1      0.00       0.0       6.2                          
+    0:00:03     969.1      0.00       0.0       0.2                          
+    0:00:03     969.6      0.00       0.0       0.1                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:03     970.8      0.00       0.0       0.0                          
+    0:00:04     966.7      0.00       0.0       0.8                          
+
+
+  Beginning Design Rule Fixing  (max_transition)
+  ----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:04     966.7      0.00       0.0       0.8                          
+    0:00:04     965.5      0.00       0.0       0.0                          
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:04     965.5      0.00       0.0       0.0                          
+    0:00:04     965.5      0.00       0.0       0.0                          
+    0:00:04     962.9      0.00       0.0       0.0                          
+    0:00:04     962.9      0.00       0.0       0.0                          
+    0:00:04     962.9      0.00       0.0       0.0                          
+    0:00:04     962.9      0.00       0.0       0.0                          
+    0:00:04     962.9      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     959.8      0.00       0.0       0.0                          
+    0:00:04     960.7      0.00       0.0       0.0                          
+Loading db file '/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+1
+# RF8 requires independently reviewable reports for timing, design rules,
+# asynchronous controls, and every controller/sensor interface class.
+redirect -tee "$REPORT_DIR/check_design.rpt" { check_design }
+1
+redirect -tee "$REPORT_DIR/timing_setup.rpt" { report_timing -path full -delay max -max_paths 20 -nworst 1 }
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:41 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[11]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U112/Y (AND3_X0P7M_A9TR40)                   0.21       1.34 r
+  u_cfg_regs/U156/Y (AND2_X0P5B_A9TR40)                   0.18       1.52 r
+  u_cfg_regs/U24/Y (INV_X0P5B_A9TR40)                     0.08       1.60 f
+  u_cfg_regs/U25/Y (NOR2_X0P5A_A9TR40)                    0.13       1.73 r
+  u_cfg_regs/U4/Y (OR2_X1M_A9TR40)                        0.14       1.87 r
+  u_cfg_regs/U23/Y (NOR2_X0P5A_A9TR40)                    0.06       1.93 f
+  u_cfg_regs/U29/Y (MXT2_X0P5M_A9TR40)                    0.17       2.10 r
+  u_cfg_regs/medium_therm_o_reg[11]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.10 r
+  data arrival time                                                  2.10
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[11]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -2.10
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.27
+
+
+  Startpoint: u_fsm/state_q_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/seq_cmd_q_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[2]/Q (DFFRPQ_X1M_A9TR40)              0.35       0.35 r
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.43 f
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.10       0.53 r
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.08       0.61 f
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.08       0.70 r
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.10       0.79 f
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.13       0.92 r
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.15       1.08 f
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.13       1.21 r
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.10       1.31 f
+  u_fsm/U96/Y (OA21A1OI2_X1M_A9TR40)                      0.20       1.51 r
+  u_fsm/U95/Y (AND4_X1M_A9TR40)                           0.21       1.71 r
+  u_fsm/U176/Y (NAND4BB_X1M_A9TR40)                       0.10       1.81 f
+  u_fsm/U174/Y (AO22_X1M_A9TR40)                          0.15       1.96 f
+  u_fsm/seq_cmd_q_reg[1]/D (DFFRPQ_X1M_A9TR40)            0.00       1.96 f
+  data arrival time                                                  1.96
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/seq_cmd_q_reg[1]/CK (DFFRPQ_X1M_A9TR40)           0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.96
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.45
+
+
+  Startpoint: u_fsm/state_q_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/seq_cmd_q_reg[0]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[2]/Q (DFFRPQ_X1M_A9TR40)              0.35       0.35 r
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.43 f
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.10       0.53 r
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.08       0.61 f
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.08       0.70 r
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.10       0.79 f
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.13       0.92 r
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.15       1.08 f
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.13       1.21 r
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.10       1.31 f
+  u_fsm/U96/Y (OA21A1OI2_X1M_A9TR40)                      0.20       1.51 r
+  u_fsm/U95/Y (AND4_X1M_A9TR40)                           0.21       1.71 r
+  u_fsm/U172/Y (OAI211_X1M_A9TR40)                        0.10       1.81 f
+  u_fsm/U171/Y (AO1B2_X1M_A9TR40)                         0.13       1.94 f
+  u_fsm/seq_cmd_q_reg[0]/D (DFFRPQ_X1M_A9TR40)            0.00       1.94 f
+  data arrival time                                                  1.94
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/seq_cmd_q_reg[0]/CK (DFFRPQ_X1M_A9TR40)           0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.94
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.47
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[7]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U111/Y (NOR3BB_X1P4M_A9TR40)                 0.23       1.36 r
+  u_cfg_regs/U159/Y (AND2_X0P5B_A9TR40)                   0.19       1.54 r
+  u_cfg_regs/U15/Y (AOI221_X1P4M_A9TR40)                  0.14       1.68 f
+  u_cfg_regs/U157/Y (MX2_X0P5B_A9TR40)                    0.21       1.89 r
+  u_cfg_regs/medium_therm_o_reg[7]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.89 r
+  data arrival time                                                  1.89
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[7]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.48
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[5]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U111/Y (NOR3BB_X1P4M_A9TR40)                 0.23       1.36 r
+  u_cfg_regs/U172/Y (AND2_X0P5B_A9TR40)                   0.19       1.54 r
+  u_cfg_regs/U65/Y (AOI221_X1P4M_A9TR40)                  0.14       1.68 f
+  u_cfg_regs/U168/Y (MX2_X0P5B_A9TR40)                    0.21       1.89 r
+  u_cfg_regs/medium_therm_o_reg[5]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.89 r
+  data arrival time                                                  1.89
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[5]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.48
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[6]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U71/Y (NOR3BB_X1P4M_A9TR40)                  0.23       1.36 r
+  u_cfg_regs/U113/Y (AND2_X0P5M_A9TR40)                   0.18       1.54 r
+  u_cfg_regs/U69/Y (AOI221_X1P4M_A9TR40)                  0.14       1.68 f
+  u_cfg_regs/U140/Y (MX2_X0P5B_A9TR40)                    0.21       1.89 r
+  u_cfg_regs/medium_therm_o_reg[6]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.89 r
+  data arrival time                                                  1.89
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[6]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.48
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[13]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U112/Y (AND3_X0P7M_A9TR40)                   0.21       1.34 r
+  u_cfg_regs/U164/Y (AND2_X0P5B_A9TR40)                   0.18       1.52 r
+  u_cfg_regs/U63/Y (AOI221_X1P4M_A9TR40)                  0.14       1.66 f
+  u_cfg_regs/U160/Y (MX2_X0P5B_A9TR40)                    0.21       1.87 r
+  u_cfg_regs/medium_therm_o_reg[13]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.87 r
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[13]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.50
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[9]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U112/Y (AND3_X0P7M_A9TR40)                   0.21       1.34 r
+  u_cfg_regs/U167/Y (AND2_X0P5B_A9TR40)                   0.18       1.52 r
+  u_cfg_regs/U64/Y (AOI221_X1P4M_A9TR40)                  0.14       1.66 f
+  u_cfg_regs/U165/Y (MX2_X0P5B_A9TR40)                    0.21       1.87 r
+  u_cfg_regs/medium_therm_o_reg[9]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.87 r
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[9]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.50
+
+
+  Startpoint: u_cfg_regs/fine_code_o_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/fine_therm_o_reg[0]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/fine_code_o_reg[1]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/fine_code_o_reg[1]/Q (DFFRPQ_X1M_A9TR40)     0.29       0.29 f
+  u_cfg_regs/U221/Y (INV_X0P5B_A9TR40)                    0.12       0.41 r
+  u_cfg_regs/U220/Y (NAND2_X0P5A_A9TR40)                  0.16       0.57 f
+  u_cfg_regs/U45/Y (NOR2_X1P4B_A9TR40)                    0.15       0.72 r
+  u_cfg_regs/U219/Y (INV_X0P5B_A9TR40)                    0.13       0.85 f
+  u_cfg_regs/U90/Y (NOR2_X1A_A9TR40)                      0.15       1.00 r
+  u_cfg_regs/U118/Y (NOR2XB_X2M_A9TR40)                   0.14       1.14 f
+  u_cfg_regs/U88/Y (NAND3_X0P5M_A9TR40)                   0.16       1.29 r
+  u_cfg_regs/U214/Y (INV_X0P5B_A9TR40)                    0.16       1.45 f
+  u_cfg_regs/U211/Y (AND3_X0P5M_A9TR40)                   0.17       1.62 f
+  u_cfg_regs/U57/Y (AOI211_X2M_A9TR40)                    0.09       1.71 r
+  u_cfg_regs/U210/Y (MXIT2_X0P5M_A9TR40)                  0.13       1.84 r
+  u_cfg_regs/fine_therm_o_reg[0]/D (DFFSQ_X1M_A9TR40)     0.00       1.84 r
+  data arrival time                                                  1.84
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/fine_therm_o_reg[0]/CK (DFFSQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.09       2.36
+  data required time                                                 2.36
+  --------------------------------------------------------------------------
+  data required time                                                 2.36
+  data arrival time                                                 -1.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.51
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[10]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U72/Y (AND3_X1M_A9TR40)                      0.19       1.32 r
+  u_cfg_regs/U139/Y (AND2_X0P5B_A9TR40)                   0.18       1.50 r
+  u_cfg_regs/U68/Y (AOI221_X1P4M_A9TR40)                  0.14       1.64 f
+  u_cfg_regs/U137/Y (MX2_X0P5B_A9TR40)                    0.21       1.85 r
+  u_cfg_regs/medium_therm_o_reg[10]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.85 r
+  data arrival time                                                  1.85
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[10]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.85
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.52
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[14]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U72/Y (AND3_X1M_A9TR40)                      0.19       1.32 r
+  u_cfg_regs/U136/Y (AND2_X0P5B_A9TR40)                   0.18       1.50 r
+  u_cfg_regs/U67/Y (AOI221_X1P4M_A9TR40)                  0.14       1.64 f
+  u_cfg_regs/U134/Y (MX2_X0P5B_A9TR40)                    0.21       1.85 r
+  u_cfg_regs/medium_therm_o_reg[14]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.85 r
+  data arrival time                                                  1.85
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[14]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.08       2.37
+  data required time                                                 2.37
+  --------------------------------------------------------------------------
+  data required time                                                 2.37
+  data arrival time                                                 -1.85
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.52
+
+
+  Startpoint: u_fsm/state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/state_q_reg[2]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[1]/Q (DFFRPQ_X2M_A9TR40)              0.29       0.29 r
+  u_fsm/U141/Y (INV_X2M_A9TR40)                           0.08       0.37 f
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.47 r
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.09       0.56 f
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.14       0.70 r
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.10       0.80 f
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.09       0.89 r
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.07       0.96 f
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.12       1.08 r
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.11       1.19 f
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.14       1.33 r
+  u_fsm/U118/Y (INV_X1M_A9TR40)                           0.08       1.40 f
+  u_fsm/U138/Y (AOI32_X1M_A9TR40)                         0.12       1.52 r
+  u_fsm/U34/Y (NAND3_X2M_A9TR40)                          0.13       1.65 f
+  u_fsm/U90/Y (INV_X1M_A9TR40)                            0.11       1.77 r
+  u_fsm/U102/Y (OAI22_X1M_A9TR40)                         0.10       1.87 f
+  u_fsm/state_q_reg[2]/D (DFFRPQ_X1M_A9TR40)              0.00       1.87 f
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/state_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)             0.00       2.45 r
+  library setup time                                     -0.05       2.40
+  data required time                                                 2.40
+  --------------------------------------------------------------------------
+  data required time                                                 2.40
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.53
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[4]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U71/Y (NOR3BB_X1P4M_A9TR40)                  0.23       1.36 r
+  u_cfg_regs/U149/Y (AND2_X0P5B_A9TR40)                   0.19       1.55 r
+  u_cfg_regs/U36/Y (AOI211_X1M_A9TR40)                    0.12       1.67 f
+  u_cfg_regs/U11/Y (MXT2_X0P7M_A9TR40)                    0.17       1.84 r
+  u_cfg_regs/medium_therm_o_reg[4]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.84 r
+  data arrival time                                                  1.84
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.07       2.38
+  data required time                                                 2.38
+  --------------------------------------------------------------------------
+  data required time                                                 2.38
+  data arrival time                                                 -1.84
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.54
+
+
+  Startpoint: u_fsm/state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/state_q_reg[3]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[1]/Q (DFFRPQ_X2M_A9TR40)              0.29       0.29 r
+  u_fsm/U141/Y (INV_X2M_A9TR40)                           0.08       0.37 f
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.47 r
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.09       0.56 f
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.14       0.70 r
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.10       0.80 f
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.09       0.89 r
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.07       0.96 f
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.12       1.08 r
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.11       1.19 f
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.14       1.33 r
+  u_fsm/U118/Y (INV_X1M_A9TR40)                           0.08       1.40 f
+  u_fsm/U138/Y (AOI32_X1M_A9TR40)                         0.12       1.52 r
+  u_fsm/U34/Y (NAND3_X2M_A9TR40)                          0.13       1.65 f
+  u_fsm/U90/Y (INV_X1M_A9TR40)                            0.11       1.77 r
+  u_fsm/U115/Y (OAI21_X1M_A9TR40)                         0.10       1.87 f
+  u_fsm/state_q_reg[3]/D (DFFRPQ_X2M_A9TR40)              0.00       1.87 f
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/state_q_reg[3]/CK (DFFRPQ_X2M_A9TR40)             0.00       2.45 r
+  library setup time                                     -0.03       2.42
+  data required time                                                 2.42
+  --------------------------------------------------------------------------
+  data required time                                                 2.42
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.54
+
+
+  Startpoint: u_fsm/state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/state_q_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[1]/Q (DFFRPQ_X2M_A9TR40)              0.29       0.29 r
+  u_fsm/U141/Y (INV_X2M_A9TR40)                           0.08       0.37 f
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.47 r
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.09       0.56 f
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.14       0.70 r
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.10       0.80 f
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.09       0.89 r
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.07       0.96 f
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.12       1.08 r
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.11       1.19 f
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.14       1.33 r
+  u_fsm/U118/Y (INV_X1M_A9TR40)                           0.08       1.40 f
+  u_fsm/U138/Y (AOI32_X1M_A9TR40)                         0.12       1.52 r
+  u_fsm/U34/Y (NAND3_X2M_A9TR40)                          0.13       1.65 f
+  u_fsm/U90/Y (INV_X1M_A9TR40)                            0.11       1.77 r
+  u_fsm/U108/Y (OAI22_X1M_A9TR40)                         0.10       1.87 f
+  u_fsm/state_q_reg[1]/D (DFFRPQ_X2M_A9TR40)              0.00       1.87 f
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[2]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.13 r
+  u_cfg_regs/U71/Y (NOR3BB_X1P4M_A9TR40)                  0.23       1.36 r
+  u_cfg_regs/U176/Y (AND2_X0P5B_A9TR40)                   0.18       1.54 r
+  u_cfg_regs/U37/Y (AOI211_X1M_A9TR40)                    0.12       1.66 f
+  u_cfg_regs/U14/Y (MXT2_X0P7M_A9TR40)                    0.17       1.83 r
+  u_cfg_regs/medium_therm_o_reg[2]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.83 r
+  data arrival time                                                  1.83
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[2]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.07       2.38
+  data required time                                                 2.38
+  --------------------------------------------------------------------------
+  data required time                                                 2.38
+  data arrival time                                                 -1.83
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+  Startpoint: u_fsm/state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_fsm/state_q_reg[0]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[1]/Q (DFFRPQ_X2M_A9TR40)              0.29       0.29 r
+  u_fsm/U141/Y (INV_X2M_A9TR40)                           0.08       0.37 f
+  u_fsm/U140/Y (NOR2_X2A_A9TR40)                          0.09       0.47 r
+  u_fsm/U111/Y (INV_X1M_A9TR40)                           0.09       0.56 f
+  u_fsm/U7/Y (NOR3_X3A_A9TR40)                            0.14       0.70 r
+  u_fsm/U105/Y (INV_X1M_A9TR40)                           0.10       0.80 f
+  u_fsm/U99/Y (NAND2_X1A_A9TR40)                          0.09       0.89 r
+  u_fsm/U17/Y (NOR2_X1A_A9TR40)                           0.07       0.96 f
+  u_fsm/U18/Y (NAND3_X1M_A9TR40)                          0.12       1.08 r
+  u_fsm/U52/Y (INV_X1M_A9TR40)                            0.11       1.19 f
+  u_fsm/U38/Y (AOI31_X1M_A9TR40)                          0.14       1.33 r
+  u_fsm/U118/Y (INV_X1M_A9TR40)                           0.08       1.40 f
+  u_fsm/U138/Y (AOI32_X1M_A9TR40)                         0.12       1.52 r
+  u_fsm/U34/Y (NAND3_X2M_A9TR40)                          0.13       1.65 f
+  u_fsm/U90/Y (INV_X1M_A9TR40)                            0.11       1.77 r
+  u_fsm/U91/Y (OAI22_X1M_A9TR40)                          0.10       1.87 f
+  u_fsm/state_q_reg[0]/D (DFFRPQ_X2M_A9TR40)              0.00       1.87 f
+  data arrival time                                                  1.87
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_fsm/state_q_reg[0]/CK (DFFRPQ_X2M_A9TR40)             0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.87
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.31       0.31 f
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.14       0.44 r
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.18       0.63 f
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.15       0.78 r
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.13       0.91 f
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.13       1.04 r
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.17 f
+  u_cfg_regs/U111/Y (NOR3BB_X1P4M_A9TR40)                 0.17       1.35 f
+  u_cfg_regs/U179/Y (AND2_X0P5B_A9TR40)                   0.16       1.50 f
+  u_cfg_regs/U40/Y (AOI211_X1M_A9TR40)                    0.17       1.68 r
+  u_cfg_regs/U17/Y (MXT2_X0P7M_A9TR40)                    0.19       1.86 f
+  u_cfg_regs/medium_therm_o_reg[1]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.86 f
+  data arrival time                                                  1.86
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[1]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.86
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_therm_o_reg[3]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.31       0.31 f
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.14       0.44 r
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.18       0.63 f
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.15       0.78 r
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.13       0.91 f
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.13       1.04 r
+  u_cfg_regs/U114/Y (NOR2_X1P4B_A9TR40)                   0.13       1.17 f
+  u_cfg_regs/U111/Y (NOR3BB_X1P4M_A9TR40)                 0.17       1.35 f
+  u_cfg_regs/U151/Y (AND2_X0P5B_A9TR40)                   0.16       1.50 f
+  u_cfg_regs/U39/Y (AOI211_X1M_A9TR40)                    0.17       1.68 r
+  u_cfg_regs/U13/Y (MXT2_X0P7M_A9TR40)                    0.19       1.86 f
+  u_cfg_regs/medium_therm_o_reg[3]/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       1.86 f
+  data arrival time                                                  1.86
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_therm_o_reg[3]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.04       2.41
+  data required time                                                 2.41
+  --------------------------------------------------------------------------
+  data required time                                                 2.41
+  data arrival time                                                 -1.86
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: u_cfg_regs/medium_code_o_reg[0]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[4]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[4]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.34       0.34 r
+  u_cfg_regs/U222/Y (INV_X0P5B_A9TR40)                    0.15       0.50 f
+  u_cfg_regs/U48/Y (NAND4_X1M_A9TR40)                     0.17       0.66 r
+  u_cfg_regs/U47/Y (NOR2_X1A_A9TR40)                      0.10       0.76 f
+  u_cfg_regs/U180/Y (INV_X0P5B_A9TR40)                    0.10       0.86 r
+  u_cfg_regs/U104/Y (NAND2_X1A_A9TR40)                    0.14       0.99 f
+  u_cfg_regs/U117/Y (OAI211_X2M_A9TR40)                   0.18       1.17 r
+  u_cfg_regs/U19/Y (AND2_X0P7M_A9TR40)                    0.18       1.35 r
+  u_cfg_regs/U53/Y (NOR2B_X2M_A9TR40)                     0.16       1.51 r
+  u_cfg_regs/U125/Y (AOI22_X0P5M_A9TR40)                  0.15       1.66 f
+  u_cfg_regs/U124/Y (OAI21_X0P5M_A9TR40)                  0.14       1.79 r
+  u_cfg_regs/medium_code_o_reg[0]/D (DFFRPQ_X2M_A9TR40)
+                                                          0.00       1.79 r
+  data arrival time                                                  1.79
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_cfg_regs/medium_code_o_reg[0]/CK (DFFRPQ_X2M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.10       2.35
+  data required time                                                 2.35
+  --------------------------------------------------------------------------
+  data required time                                                 2.35
+  data arrival time                                                 -1.79
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.55
+
+
+1
+redirect -tee "$REPORT_DIR/timing_hold.rpt" { report_timing -path full -delay min -max_paths 20 -nworst 1 }
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 20
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:41 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: cal_start (input port clocked by cal_clk)
+  Endpoint: u_fsm/cal_busy_q_reg
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.10       0.10 f
+  cal_start (in)                                          0.00       0.10 f
+  u_fsm/cal_start_i (ftc_cal_fsm)                         0.00       0.10 f
+  u_fsm/U146/Y (AOI22_X1M_A9TR40)                         0.06       0.16 r
+  u_fsm/U144/Y (OAI22_X1M_A9TR40)                         0.07       0.23 f
+  u_fsm/cal_busy_q_reg/D (DFFRPQ_X1M_A9TR40)              0.00       0.23 f
+  data arrival time                                                  0.23
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  u_fsm/cal_busy_q_reg/CK (DFFRPQ_X1M_A9TR40)             0.00       0.02 r
+  library hold time                                       0.03       0.05
+  data required time                                                 0.05
+  --------------------------------------------------------------------------
+  data required time                                                 0.05
+  data arrival time                                                 -0.23
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.18
+
+
+  Startpoint: u_fsm/state_q_reg[3]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: fsm_state[3]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[3]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[3]/Q (DFFRPQ_X2M_A9TR40)              0.26       0.26 f
+  u_fsm/fsm_state_o[3] (ftc_cal_fsm)                      0.00       0.26 f
+  fsm_state[3] (out)                                      0.00       0.26 f
+  data arrival time                                                  0.26
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.26
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.24
+
+
+  Startpoint: q_final (input port clocked by cal_clk)
+  Endpoint: u_sequencer/u_q_sampler/q_sample_1_o_reg
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.20       0.20 f
+  q_final (in)                                            0.00       0.20 f
+  u_sequencer/q_final_i (ftc_operation_sequencer)         0.00       0.20 f
+  u_sequencer/u_q_sampler/q_final_i (ftc_q_sampler)       0.00       0.20 f
+  u_sequencer/u_q_sampler/U5/Y (OAI22BB_X1M_A9TR40)       0.10       0.30 f
+  u_sequencer/u_q_sampler/q_sample_1_o_reg/D (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.30 f
+  data arrival time                                                  0.30
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  u_sequencer/u_q_sampler/q_sample_1_o_reg/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.02 r
+  library hold time                                       0.03       0.05
+  data required time                                                 0.05
+  --------------------------------------------------------------------------
+  data required time                                                 0.05
+  data arrival time                                                 -0.30
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_code[2]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[2]/CK (DFFRPQ_X2M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[2]/Q (DFFRPQ_X2M_A9TR40)
+                                                          0.27       0.27 f
+  u_cfg_regs/medium_code_o[2] (ftc_cfg_therm_regs)        0.00       0.27 f
+  medium_code[2] (out)                                    0.00       0.27 f
+  data arrival time                                                  0.27
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.27
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_fsm/state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: fsm_state[1]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_fsm/state_q_reg[1]/CK (DFFRPQ_X2M_A9TR40)             0.00       0.00 r
+  u_fsm/state_q_reg[1]/Q (DFFRPQ_X2M_A9TR40)              0.27       0.27 f
+  u_fsm/fsm_state_o[1] (ftc_cal_fsm)                      0.00       0.27 f
+  fsm_state[1] (out)                                      0.00       0.27 f
+  data arrival time                                                  0.27
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.27
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_cfg_regs/medium_code_o_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_code[1]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_code_o_reg[1]/CK (DFFRPQ_X2M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_code_o_reg[1]/Q (DFFRPQ_X2M_A9TR40)
+                                                          0.27       0.27 f
+  u_cfg_regs/medium_code_o[1] (ftc_cfg_therm_regs)        0.00       0.27 f
+  medium_code[1] (out)                                    0.00       0.27 f
+  data arrival time                                                  0.27
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.27
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_cfg_regs/fine_code_o_reg[0]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: fine_code[0]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/fine_code_o_reg[0]/CK (DFFRPQ_X2M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/fine_code_o_reg[0]/Q (DFFRPQ_X2M_A9TR40)     0.27       0.27 f
+  u_cfg_regs/fine_code_o[0] (ftc_cfg_therm_regs)          0.00       0.27 f
+  fine_code[0] (out)                                      0.00       0.27 f
+  data arrival time                                                  0.27
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.27
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[15]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[15]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[15]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[15]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.27       0.27 f
+  u_cfg_regs/medium_therm_o[15] (ftc_cfg_therm_regs)      0.00       0.27 f
+  medium_therm[15] (out)                                  0.00       0.27 f
+  data arrival time                                                  0.27
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.27
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.25
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[0]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[0]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[0]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[0]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.27       0.27 f
+  u_cfg_regs/medium_therm_o[0] (ftc_cfg_therm_regs)       0.00       0.27 f
+  medium_therm[0] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[11]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[11]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[11]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[11]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[11] (ftc_cfg_therm_regs)      0.00       0.28 f
+  medium_therm[11] (out)                                  0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[14]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[14]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[14]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[14]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[14] (ftc_cfg_therm_regs)      0.00       0.28 f
+  medium_therm[14] (out)                                  0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[13]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[13]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[13]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[13]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[13] (ftc_cfg_therm_regs)      0.00       0.28 f
+  medium_therm[13] (out)                                  0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[12]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[12]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[12]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[12]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[12] (ftc_cfg_therm_regs)      0.00       0.28 f
+  medium_therm[12] (out)                                  0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[10]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[10]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[10]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[10]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[10] (ftc_cfg_therm_regs)      0.00       0.28 f
+  medium_therm[10] (out)                                  0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[9]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[9]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[9]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[9]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[9] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[9] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[7]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[7]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[7]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[7]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[7] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[7] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[6]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[6]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[6]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[6]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[6] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[6] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[5]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[5]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[5]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[5]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[5] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[5] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[2]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[2]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[2]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[2] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[2] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[1]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[1]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[1]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.28       0.28 f
+  u_cfg_regs/medium_therm_o[1] (ftc_cfg_therm_regs)       0.00       0.28 f
+  medium_therm[1] (out)                                   0.00       0.28 f
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  clock uncertainty                                       0.02       0.02
+  output external delay                                   0.00       0.02
+  data required time                                                 0.02
+  --------------------------------------------------------------------------
+  data required time                                                 0.02
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.26
+
+
+1
+redirect -tee "$REPORT_DIR/constraints_all.rpt" { report_constraint -all_violators }
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+
+1
+redirect -tee "$REPORT_DIR/clock_and_pulse_width.rpt" { report_clock -skew -attribute }
+ 
+****************************************
+Report : clocks
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources
+--------------------------------------------------------------------------------
+cal_clk          2.50   {0 1.25}                      {cal_clk}
+--------------------------------------------------------------------------------
+ 
+****************************************
+Report : clock_skew
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+                 Rise      Fall  Min Rise  Min fall        Uncertainty
+Object          Delay     Delay     Delay     Delay     Plus      Minus
+--------------------------------------------------------------------------------
+cal_clk             -         -         -         -      0.02      0.05
+
+                 Max Transition      Min Transition
+Object           Rise      Fall      Rise      Fall
+-------------------------------------------------------
+cal_clk          0.05      0.05      0.05      0.05
+1
+redirect -tee "$REPORT_DIR/fanout_transition.rpt" { report_constraint -all_violators -max_transition; report_constraint -all_violators -max_fanout }
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -max_transition
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+This design has no violated constraints.
+
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -max_fanout
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+This design has no violated constraints.
+
+1
+redirect -tee "$REPORT_DIR/q_final_sampling_path.rpt" { report_timing -from [get_ports q_final] -delay max -path full }
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: q_final (input port clocked by cal_clk)
+  Endpoint: u_sequencer/u_q_sampler/q_class_o_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.60       0.60 r
+  q_final (in)                                            0.00       0.60 r
+  u_sequencer/q_final_i (ftc_operation_sequencer)         0.00       0.60 r
+  u_sequencer/u_q_sampler/q_final_i (ftc_q_sampler)       0.00       0.60 r
+  u_sequencer/u_q_sampler/U7/Y (INV_X1M_A9TR40)           0.03       0.63 f
+  u_sequencer/u_q_sampler/U4/Y (NOR2_X2A_A9TR40)          0.09       0.72 r
+  u_sequencer/u_q_sampler/U9/Y (AOI32_X1M_A9TR40)         0.09       0.81 f
+  u_sequencer/u_q_sampler/U8/Y (AO1B2_X1M_A9TR40)         0.07       0.89 r
+  u_sequencer/u_q_sampler/q_class_o_reg[1]/D (DFFSQ_X1M_A9TR40)
+                                                          0.00       0.89 r
+  data arrival time                                                  0.89
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  u_sequencer/u_q_sampler/q_class_o_reg[1]/CK (DFFSQ_X1M_A9TR40)
+                                                          0.00       2.45 r
+  library setup time                                     -0.06       2.39
+  data required time                                                 2.39
+  --------------------------------------------------------------------------
+  data required time                                                 2.39
+  data arrival time                                                 -0.89
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.50
+
+
+1
+redirect -tee "$REPORT_DIR/sense_s_clk_path.rpt" { report_timing -to [get_ports sense_s_clk] -delay max -path full }
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: u_sequencer/sense_s_clk_o_reg
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: sense_s_clk
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_sequencer/sense_s_clk_o_reg/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_sequencer/sense_s_clk_o_reg/Q (DFFRPQ_X1M_A9TR40)     0.29       0.29 r
+  u_sequencer/sense_s_clk_o (ftc_operation_sequencer)     0.00       0.29 r
+  sense_s_clk (out)                                       0.00       0.29 r
+  data arrival time                                                  0.29
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  output external delay                                  -0.40       2.05
+  data required time                                                 2.05
+  --------------------------------------------------------------------------
+  data required time                                                 2.05
+  data arrival time                                                 -0.29
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.76
+
+
+1
+redirect -tee "$REPORT_DIR/sense_dff_reset_path.rpt" { report_timing -to [get_ports sense_dff_reset] -delay max -path full }
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: u_sequencer/sense_dff_reset_o_reg
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: sense_dff_reset
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_sequencer/sense_dff_reset_o_reg/CK (DFFSQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_sequencer/sense_dff_reset_o_reg/Q (DFFSQ_X1M_A9TR40)
+                                                          0.28       0.28 r
+  u_sequencer/sense_dff_reset_o (ftc_operation_sequencer)
+                                                          0.00       0.28 r
+  sense_dff_reset (out)                                   0.00       0.28 r
+  data arrival time                                                  0.28
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  output external delay                                  -0.40       2.05
+  data required time                                                 2.05
+  --------------------------------------------------------------------------
+  data required time                                                 2.05
+  data arrival time                                                 -0.28
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.77
+
+
+1
+redirect -tee "$REPORT_DIR/thermometer_paths.rpt" { report_timing -to [get_ports {medium_therm* fine_therm*}] -delay max -path full }
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: u_cfg_regs/medium_therm_o_reg[8]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: medium_therm[8]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_cal_controller_top
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock cal_clk (rise edge)                               0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_cfg_regs/medium_therm_o_reg[8]/CK (DFFRPQ_X1M_A9TR40)
+                                                          0.00       0.00 r
+  u_cfg_regs/medium_therm_o_reg[8]/Q (DFFRPQ_X1M_A9TR40)
+                                                          0.29       0.29 r
+  u_cfg_regs/medium_therm_o[8] (ftc_cfg_therm_regs)       0.00       0.29 r
+  medium_therm[8] (out)                                   0.00       0.29 r
+  data arrival time                                                  0.29
+
+  clock cal_clk (rise edge)                               2.50       2.50
+  clock network delay (ideal)                             0.00       2.50
+  clock uncertainty                                      -0.05       2.45
+  output external delay                                  -0.30       2.15
+  data required time                                                 2.15
+  --------------------------------------------------------------------------
+  data required time                                                 2.15
+  data arrival time                                                 -0.29
+  --------------------------------------------------------------------------
+  slack (MET)                                                        1.86
+
+
+1
+redirect -tee "$REPORT_DIR/cell_usage.rpt" { report_cell; report_reference -hierarchy }
+ 
+****************************************
+Report : cell
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    u - contains unmapped logic
+
+Cell                      Reference       Library             Area  Attributes
+--------------------------------------------------------------------------------
+U3                        NOR4BB_X1M_A9TR40
+                                          sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                                          1.436400  
+U4                        NOR2_X1A_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                                          0.718200  
+u_cfg_regs                ftc_cfg_therm_regs              435.947402
+                                                                    h, n
+u_fsm                     ftc_cal_fsm                     319.599002
+                                                                    h, n
+u_sequencer               ftc_operation_sequencer         203.011201
+                                                                    h, n
+--------------------------------------------------------------------------------
+Total 5 cells                                             960.712205
+ 
+****************************************
+Report : reference
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+NOR2_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR4BB_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+ftc_cal_fsm                     319.599002       1    319.599002  h, n
+ftc_cfg_therm_regs              435.947402       1    435.947402  h, n
+ftc_operation_sequencer         203.011201       1    203.011201  h, n
+-----------------------------------------------------------------------------
+Total 5 references                                    960.712205
+
+****************************************
+Design: ftc_cal_fsm 
+****************************************
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+AND4_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AO1B2_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       4      4.788000  
+AO21A1AI2_X1M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AO21B_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AO22_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+AOI21B_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI21_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       3      2.872800  
+AOI22_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       5      5.985000  
+AOI31_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+AOI32_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI211_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       4      4.788000  
+BUF_X2M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+BUF_X3M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+DFFRPQ_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400      22    110.602800  n
+DFFRPQ_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.266800       3     15.800400  n
+INV_X0P8B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       1      0.478800  
+INV_X1M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800      41     19.630800  
+INV_X2M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       4      2.872800  
+NAND2B_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NAND2_X1A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200      13      9.336600  
+NAND3_X1A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+NAND3_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       7      6.703200  
+NAND3_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       2      3.351600  
+NAND4BB_X1M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NAND4XXXB_X1M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       2      2.872800  
+NAND4_X1A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+NAND4_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NAND4_X2A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+NOR2B_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+NOR2B_X1P4M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR2B_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       2      1.436400  
+NOR2_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       8      5.745600  
+NOR2_X1P4B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NOR2_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000      12     14.364000  
+NOR2_X3A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+NOR3BB_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+NOR3_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       4      3.830400  
+NOR3_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       2      3.351600  
+NOR3_X3A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.394000       2      4.788000  
+NOR3_X3M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.394000       1      2.394000  
+NOR4BB_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR4BB_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       2      4.309200  
+OA21A1OI2_X1M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       2      2.872800  
+OAI2XB1_X1M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+OAI21_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+OAI21_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600      10      9.576000  
+OAI21_X1P4M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+OAI22BB_X1M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       4      6.703200  
+OAI22BB_X1P4M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.915200       1      1.915200  
+OAI22_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OAI22_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       9     10.773000  
+OAI31_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+OAI31_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+OAI31_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+OAI211_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       7      8.379000  
+-----------------------------------------------------------------------------
+Total 57 references                                   319.599002
+
+****************************************
+Design: ftc_cfg_therm_regs 
+****************************************
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+ADDH_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.394000       3      7.182000  r
+AND2_X0P5B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600      13     12.448800  
+AND2_X0P5M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+AND2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+AND2_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+AND3_X0P5M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       3      3.591000  
+AND3_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AND3_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AO21_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI21B_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI22_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       5      5.985000  
+AOI211_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       5      5.985000  
+AOI211_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       2      4.309200  
+AOI221_X1P4M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.872800       7     20.109601  
+BUFH_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       3      2.154600  
+BUF_X2M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+BUF_X3M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+DFFRPQ_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400      21    105.575400  n
+DFFRPQ_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.266800       5     26.334000  n
+DFFSQ_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400      10     50.274000  n
+INV_X0P5B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800      22     10.533600  
+INV_X0P6B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       1      0.478800  
+INV_X0P7B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       1      0.478800  
+INV_X1M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       8      3.830400  
+INV_X2M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       2      1.436400  
+INV_X3M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+MX2_X0P5B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       8     17.236799  
+MXIT2_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       3      5.027400  
+MXT2_X0P5M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+MXT2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       5     10.773000  
+NAND2_X0P5A_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200      10      7.182000  
+NAND2_X1A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       6      4.309200  
+NAND3_X0P5A_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NAND3_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NAND3_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NAND3_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+NAND4BB_X0P5M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NAND4_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NAND4_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NAND4_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+NOR2B_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR2XB_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR2_X0P5A_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200      19     13.645801  
+NOR2_X0P5B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X0P5M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       2      1.436400  
+NOR2_X0P7B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       3      2.154600  
+NOR2_X1P4B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       7      8.379000  
+NOR2_X1P4M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NOR2_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       6      7.182000  
+NOR3BB_X0P5M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NOR3BB_X1P4M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       2      3.351600  
+NOR3_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NOR3_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+NOR3_X1P4M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+NOR3_X3M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.394000       1      2.394000  
+NOR4BB_X0P7M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+NOR4BB_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+OA21A1OI2_X3M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  3.112200       1      3.112200  
+OAI21_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600      13     12.448800  
+OAI21_X1P4M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+OAI22_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+OAI31_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OAI31_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OAI211_X0P5M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       8      9.576000  
+OAI211_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.154600       1      2.154600  
+OAI221_X0P7M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+OR2_X1M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       3      2.872800  
+XNOR2_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+XNOR2_X3M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  4.309200       1      4.309200  
+XOR2_X0P5M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+XOR2_X1P4M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.633400       1      2.633400  
+-----------------------------------------------------------------------------
+Total 73 references                                   435.947402
+
+****************************************
+Design: ftc_operation_sequencer 
+****************************************
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       4      3.830400  
+AO1B2_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AO21A1AI2_X1M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI21_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       1      0.957600  
+AOI21_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+AOI21_X2M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+AOI31_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AOI32_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AOI211_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+BUFH_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+DFFRPQ_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400      17     85.465800  n
+DFFRPQ_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.266800       2     10.533600  n
+DFFSQ_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400       1      5.027400  n
+INV_X0P6B_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       1      0.478800  
+INV_X1M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800      15      7.182000  
+INV_X4M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NAND2_X0P5A_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NAND2_X1A_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       3      2.154600  
+NAND3XXB_X1M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+NAND3_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       4      3.830400  
+NOR2_X0P5B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X0P7B_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       1      0.718200  
+NOR2_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.718200       2      1.436400  
+NOR2_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       2      2.394000  
+NOR3_X1A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.957600       2      1.915200  
+NOR3_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       4      6.703200  
+OA1B2_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OA21A1OI2_X1P4M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.915200       1      1.915200  
+OAI22_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       3      3.591000  
+OAI31_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       3      3.591000  
+OAI211_X0P5M_A9TR40
+                   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OAI221_X2M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  2.872800       1      2.872800  
+XNOR2_X0P5M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+XNOR2_X0P7M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+XOR2_X0P7M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+ftc_q_sampler                    35.670600       1     35.670600  h, n
+-----------------------------------------------------------------------------
+Total 37 references                                   203.011201
+
+****************************************
+Design: ftc_q_sampler 
+****************************************
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AO1B2_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+AO21_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+AO22_X1M_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+AOI32_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.436400       1      1.436400  
+DFFRPQ_X1M_A9TR40  sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400       4     20.109600  n
+DFFSQ_X1M_A9TR40   sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  5.027400       1      5.027400  n
+INV_X1M_A9TR40     sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  0.478800       4      1.915200  
+NOR2_X2A_A9TR40    sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.197000       1      1.197000  
+OAI22BB_X1M_A9TR40 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+                                  1.675800       1      1.675800  
+-----------------------------------------------------------------------------
+Total 9 references                                     35.670600
+1
+redirect -tee "$REPORT_DIR/qor.rpt" { report_qor }
+ 
+****************************************
+Report : qor
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+
+  Timing Path Group 'cal_clk'
+  -----------------------------------
+  Levels of Logic:              13.00
+  Critical Path Length:          2.10
+  Critical Path Slack:           0.27
+  Critical Path Clk Period:      2.50
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:          4
+  Hierarchical Port Count:        117
+  Leaf Cell Count:                574
+  Buf/Inv Cell Count:             113
+  Buf Cell Count:                  10
+  Inv Cell Count:                 103
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:       488
+  Sequential Cell Count:           86
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:      525.961805
+  Noncombinational Area:   434.750401
+  Buf/Inv Area:             62.004600
+  Total Buffer Area:             9.58
+  Total Inverter Area:          52.43
+  Macro/Black Box Area:      0.000000
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:               960.712205
+  Design Area:             960.712205
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:           581
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: pillar
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                    0.41
+  Logic Optimization:                  0.68
+  Mapping Optimization:                0.98
+  -----------------------------------------
+  Overall Compile Time:                5.11
+  Overall Compile Wall Clock Time:     5.37
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1
+redirect -tee "$REPORT_DIR/ports.rpt" { report_port -verbose }
+ 
+****************************************
+Report : port
+        -verbose
+Design : ftc_cal_controller_top
+Version: Q-2019.12
+Date   : Sat Aug 22 14:46:42 2026
+****************************************
+
+
+                       Pin      Wire     Max     Max     Connection
+Port           Dir     Load     Load     Trans   Cap     Class      Attrs
+--------------------------------------------------------------------------------
+cal_clk        in      0.0000   0.0000   --      --      --         
+cal_start      in      0.0000   0.0000   --      --      --         
+ctrl_por_n     in      0.0000   0.0000   --      --      --         
+q_final        in      0.0000   0.0000   --      --      --         
+cal_busy       out     0.0000   0.0000   --      --      --         
+cal_done       out     0.0000   0.0000   --      --      --         
+cal_fail       out     0.0000   0.0000   --      --      --         
+config_update_event
+               out     0.0000   0.0000   --      --      --         
+fail_reason[0] out     0.0000   0.0000   --      --      --         
+fail_reason[1] out     0.0000   0.0000   --      --      --         
+fail_reason[2] out     0.0000   0.0000   --      --      --         
+fine_code[0]   out     0.0000   0.0000   --      --      --         
+fine_code[1]   out     0.0000   0.0000   --      --      --         
+fine_code[2]   out     0.0000   0.0000   --      --      --         
+fine_code[3]   out     0.0000   0.0000   --      --      --         
+fine_therm[0]  out     0.0000   0.0000   --      --      --         
+fine_therm[1]  out     0.0000   0.0000   --      --      --         
+fine_therm[2]  out     0.0000   0.0000   --      --      --         
+fine_therm[3]  out     0.0000   0.0000   --      --      --         
+fine_therm[4]  out     0.0000   0.0000   --      --      --         
+fine_therm[5]  out     0.0000   0.0000   --      --      --         
+fine_therm[6]  out     0.0000   0.0000   --      --      --         
+fine_therm[7]  out     0.0000   0.0000   --      --      --         
+fine_therm[8]  out     0.0000   0.0000   --      --      --         
+fine_therm[9]  out     0.0000   0.0000   --      --      --         
+fsm_state[0]   out     0.0000   0.0000   --      --      --         
+fsm_state[1]   out     0.0000   0.0000   --      --      --         
+fsm_state[2]   out     0.0000   0.0000   --      --      --         
+fsm_state[3]   out     0.0000   0.0000   --      --      --         
+fsm_state[4]   out     0.0000   0.0000   --      --      --         
+lock_valid     out     0.0000   0.0000   --      --      --         
+medium_code[0] out     0.0000   0.0000   --      --      --         
+medium_code[1] out     0.0000   0.0000   --      --      --         
+medium_code[2] out     0.0000   0.0000   --      --      --         
+medium_code[3] out     0.0000   0.0000   --      --      --         
+medium_code[4] out     0.0000   0.0000   --      --      --         
+medium_therm[0]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[1]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[2]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[3]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[4]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[5]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[6]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[7]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[8]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[9]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[10]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[11]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[12]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[13]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[14]
+               out     0.0000   0.0000   --      --      --         
+medium_therm[15]
+               out     0.0000   0.0000   --      --      --         
+probe_start_event
+               out     0.0000   0.0000   --      --      --         
+q_sample_1_event
+               out     0.0000   0.0000   --      --      --         
+q_sample_2_event
+               out     0.0000   0.0000   --      --      --         
+sense_dff_reset
+               out     0.0000   0.0000   --      --      --         
+sense_s_clk    out     0.0000   0.0000   --      --      --         
+
+
+              External  Max             Min                Min       Min
+              Number    Wireload        Wireload           Pin       Wire
+Port          Points    Model           Model              Load      Load
+--------------------------------------------------------------------------------
+cal_clk            1      --              --              --        -- 
+cal_start          1      --              --              --        -- 
+ctrl_por_n         1      --              --              --        -- 
+q_final            1      --              --              --        -- 
+cal_busy           1      --              --              --        -- 
+cal_done           1      --              --              --        -- 
+cal_fail           1      --              --              --        -- 
+config_update_event
+                   1      --              --              --        -- 
+fail_reason[0]
+                   1      --              --              --        -- 
+fail_reason[1]
+                   1      --              --              --        -- 
+fail_reason[2]
+                   1      --              --              --        -- 
+fine_code[0]       1      --              --              --        -- 
+fine_code[1]       1      --              --              --        -- 
+fine_code[2]       1      --              --              --        -- 
+fine_code[3]       1      --              --              --        -- 
+fine_therm[0]      1      --              --              --        -- 
+fine_therm[1]      1      --              --              --        -- 
+fine_therm[2]      1      --              --              --        -- 
+fine_therm[3]      1      --              --              --        -- 
+fine_therm[4]      1      --              --              --        -- 
+fine_therm[5]      1      --              --              --        -- 
+fine_therm[6]      1      --              --              --        -- 
+fine_therm[7]      1      --              --              --        -- 
+fine_therm[8]      1      --              --              --        -- 
+fine_therm[9]      1      --              --              --        -- 
+fsm_state[0]       1      --              --              --        -- 
+fsm_state[1]       1      --              --              --        -- 
+fsm_state[2]       1      --              --              --        -- 
+fsm_state[3]       1      --              --              --        -- 
+fsm_state[4]       1      --              --              --        -- 
+lock_valid         1      --              --              --        -- 
+medium_code[0]
+                   1      --              --              --        -- 
+medium_code[1]
+                   1      --              --              --        -- 
+medium_code[2]
+                   1      --              --              --        -- 
+medium_code[3]
+                   1      --              --              --        -- 
+medium_code[4]
+                   1      --              --              --        -- 
+medium_therm[0]
+                   1      --              --              --        -- 
+medium_therm[1]
+                   1      --              --              --        -- 
+medium_therm[2]
+                   1      --              --              --        -- 
+medium_therm[3]
+                   1      --              --              --        -- 
+medium_therm[4]
+                   1      --              --              --        -- 
+medium_therm[5]
+                   1      --              --              --        -- 
+medium_therm[6]
+                   1      --              --              --        -- 
+medium_therm[7]
+                   1      --              --              --        -- 
+medium_therm[8]
+                   1      --              --              --        -- 
+medium_therm[9]
+                   1      --              --              --        -- 
+medium_therm[10]
+                   1      --              --              --        -- 
+medium_therm[11]
+                   1      --              --              --        -- 
+medium_therm[12]
+                   1      --              --              --        -- 
+medium_therm[13]
+                   1      --              --              --        -- 
+medium_therm[14]
+                   1      --              --              --        -- 
+medium_therm[15]
+                   1      --              --              --        -- 
+probe_start_event
+                   1      --              --              --        -- 
+q_sample_1_event
+                   1      --              --              --        -- 
+q_sample_2_event
+                   1      --              --              --        -- 
+sense_dff_reset
+                   1      --              --              --        -- 
+sense_s_clk        1      --              --              --        -- 
+
+                    Input Delay
+                  Min             Max       Related   Max
+Input Port    Rise    Fall    Rise    Fall   Clock  Fanout
+--------------------------------------------------------------------------------
+cal_clk       --      --      --      --      --      -- 
+cal_start     0.10    0.10    0.70    0.70  cal_clk   --    
+ctrl_por_n    --      --      --      --      --      -- 
+q_final       0.20    0.20    0.60    0.60  cal_clk   --    
+
+
+               Max Drive      Min Drive      Resistance    Min    Min       Cell
+Input Port    Rise    Fall   Rise    Fall   Max     Min    Cap    Fanout    Deg
+--------------------------------------------------------------------------------
+cal_clk       --      --     --      --     --      --     --     --        -- 
+cal_start     --      --     --      --     --      --     --     --        -- 
+ctrl_por_n    --      --     --      --     --      --     --     --        -- 
+q_final       --      --     --      --     --      --     --     --        -- 
+
+
+               Max Tran        Min Tran
+Input Port    Rise    Fall    Rise    Fall
+--------------------------------------------------------------------------------
+cal_clk       --      --      --      -- 
+cal_start     --      --      --      -- 
+ctrl_por_n    0.10    0.10    0.10    0.10
+q_final       --      --      --      -- 
+
+
+                    Output Delay
+                  Min             Max      Related  Fanout
+Output Port   Rise    Fall    Rise    Fall  Clock     Load
+--------------------------------------------------------------------------------
+cal_busy      0.00    0.00    0.50    0.50  cal_clk   0.00  
+cal_done      0.00    0.00    0.50    0.50  cal_clk   0.00  
+cal_fail      0.00    0.00    0.50    0.50  cal_clk   0.00  
+config_update_event
+              --      --      --      --      --      0.00
+fail_reason[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fail_reason[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fail_reason[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_code[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fine_therm[0]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[1]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[2]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[3]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[4]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[5]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[6]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[7]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[8]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fine_therm[9]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+fsm_state[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+fsm_state[4]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+lock_valid    0.00    0.00    0.50    0.50  cal_clk   0.00  
+medium_code[0]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[1]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[2]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[3]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_code[4]
+              0.00    0.00    0.60    0.60  cal_clk   0.00  
+medium_therm[0]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[1]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[2]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[3]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[4]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[5]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[6]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[7]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[8]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[9]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[10]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[11]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[12]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[13]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[14]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+medium_therm[15]
+              0.00    0.00    0.30    0.30  cal_clk   0.00  
+probe_start_event
+              --      --      --      --      --      0.00
+q_sample_1_event
+              --      --      --      --      --      0.00
+q_sample_2_event
+              --      --      --      --      --      0.00
+sense_dff_reset
+              0.00    0.00    0.40    0.40  cal_clk   0.00  
+sense_s_clk   0.00    0.00    0.40    0.40  cal_clk   0.00  
+
+1
+# The mapped netlist, propagated SDC, and Verilog-context SDF are the only
+# RF8 implementation handoff artifacts consumed by later dynamic stages.
+write -format verilog -hierarchy -output "$OUTPUT_DIR/${DESIGN_NAME}_synth.v"
+Writing verilog file '/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+1
+write -format ddc -hierarchy -output "$OUTPUT_DIR/${DESIGN_NAME}_synth.ddc"
+Writing ddc file '/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.ddc'.
+1
+write_sdc "$OUTPUT_DIR/${DESIGN_NAME}_synth.sdc"
+1
+write_sdf -version 3.0 -context verilog -load_delay net "$OUTPUT_DIR/${DESIGN_NAME}_synth.sdf"
+Information: Writing timing information to file '/home/zhupl/rocky8/container-home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdf'. (WT-3)
+1
+puts "RF8 synthesis completed for 400 MHz / 2.5 ns active timing contract"
+RF8 synthesis completed for 400 MHz / 2.5 ns active timing contract
+exit
+
+Thank you...

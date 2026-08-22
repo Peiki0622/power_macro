@@ -1,0 +1,64 @@
+{
+  "clock_period_ns": 2.5,
+  "configuration": "mapped controller + corrected XA bridge + frozen transistor sensor + no SDF",
+  "decision": "Re-Frequency Autonomous Mixed-Signal Function = GO",
+  "results": [
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "f1bff7272d1b57f497ad06480029aa5c644b8dcb35c6a2bce35390fee7fc10d3",
+        "retry_freeze.json": "6651d89ea5cf9699e754d0d6664658660df6698856861530c178f84232ab4bdc",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "run.log": "5b832f44af9809c504fb2784a6fb30612f0488299255f3b5764df36c3cc49b6b"
+      },
+      "expected": {
+        "F": 6,
+        "M": 7,
+        "configs": 17,
+        "operations": 45,
+        "probes": 28
+      },
+      "scenario": "rf9_0p80",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "63b05ce63991c04a6254917fbdb4941a76ad16dc709a67206cb3591f43a918b4",
+        "retry_freeze.json": "a3c3bd4e74797640ebcc210f0c63a6a71384fc24b4bc8cbd69a78017f03b70cf",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "run.log": "e3e2635d575deebe0093e6c06fb0d3689c791bb77c4eea81c0a19ab3ad6148d1"
+      },
+      "expected": {
+        "F": 6,
+        "M": 4,
+        "configs": 14,
+        "operations": 36,
+        "probes": 22
+      },
+      "scenario": "rf9_0p95",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "evidence_sha256": {
+        "compile.log": "fff9ead346fa42ba09b3bb9ae670921271621e1d8a14a190550a5310fcdc9027",
+        "retry_freeze.json": "8ec23c06e0aeda48f7316c8c86ad679e58b8f92e73e4490c70b7ad7e5f65c51f",
+        "returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "run.log": "7cdb7b5eb7174efecbb721ba0ea563ff86376fb4f46584b8043208479bdf3ffc"
+      },
+      "expected": {
+        "F": 9,
+        "M": 2,
+        "configs": 15,
+        "operations": 36,
+        "probes": 21
+      },
+      "scenario": "rf9_1p10",
+      "status": "PASS"
+    }
+  ],
+  "schema_version": 1,
+  "sensor_or_algorithm_modified": false,
+  "timing_check_scope": "RF9C intentionally uses +nospecify/+notimingcheck; full SDF timing checks are independently required by RF9B and RF9D"
+}

@@ -1,0 +1,39 @@
+{
+  "classes": {
+    "CK_HIGH_WIDTH": {
+      "caused_notifier_x_propagation": true,
+      "count": 2291,
+      "first_occurrence": {
+        "check": "width",
+        "check_body": "posedge CK &&& (ENABLE_D_AND_NOT_R == 1'b1):500, : 1000,",
+        "classification": "CK_HIGH_WIDTH",
+        "instance": "tb_ftc_vcs_xa_autonomous.u_controller.\\u_sequencer/u_q_sampler/class_valid_o_reg",
+        "model": "sc9mc_logic0040ll_base_rvt_c40.v",
+        "model_line": 166670,
+        "notifier_capable": true,
+        "observed_value_ps": 1000,
+        "ordinal": 4,
+        "required_value_ps": 1000
+      }
+    },
+    "CK_LOW_WIDTH": {
+      "caused_notifier_x_propagation": true,
+      "count": 2044,
+      "first_occurrence": {
+        "check": "width",
+        "check_body": "negedge CK &&& (ENABLE_D_AND_NOT_R_AND_SN == 1'b1):0, : 500,",
+        "classification": "CK_LOW_WIDTH",
+        "instance": "tb_ftc_vcs_xa_autonomous.u_controller.\\u_fsm/fail_reason_q_reg[2]",
+        "model": "sc9mc_logic0040ll_base_rvt_c40.v",
+        "model_line": 167794,
+        "notifier_capable": true,
+        "observed_value_ps": 500,
+        "ordinal": 0,
+        "required_value_ps": 1000
+      }
+    }
+  },
+  "schema_version": 1,
+  "status": "GO",
+  "total_violations": 4335
+}

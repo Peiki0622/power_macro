@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "all_physical_minimums_satisfied": true,
+    "configuration_settle_cycles_derived": true,
+    "frozen_trajectories_unchanged": true,
+    "one_intended_sclk_rise_event_per_probe": true,
+    "reset_assert_before_sclk_fall": true,
+    "strict_local_event_order": true,
+    "two_q_sample_events_per_probe": true
+  },
+  "important_limit": "This gate verifies intended controller events only; real sensor dff_ck integrity is RF6.",
+  "schema_version": 1,
+  "simulation_started": false,
+  "status": "GO",
+  "trajectory_contracts": {
+    "0p80": {
+      "F": 6,
+      "M": 7,
+      "configs": 17,
+      "operations": 45,
+      "probes": 28
+    },
+    "0p95": {
+      "F": 6,
+      "M": 4,
+      "configs": 14,
+      "operations": 36,
+      "probes": 22
+    },
+    "1p10": {
+      "F": 9,
+      "M": 2,
+      "configs": 15,
+      "operations": 36,
+      "probes": 21
+    }
+  }
+}

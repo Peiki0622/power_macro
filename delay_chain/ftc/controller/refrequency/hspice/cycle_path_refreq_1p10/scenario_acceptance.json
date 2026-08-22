@@ -1,0 +1,20 @@
+{
+  "config_update_count": 15,
+  "config_updates": [],
+  "cycle_contract_sha256": "d3ecc3c5779c51f9fa28f9a3879cc9e249f025e7e49f0381bf9bce26a173e0bf",
+  "decision": "Cycle-Quantized Startup Protocol = NO-GO",
+  "deck_sha256": "b8ad5475d1f7b3a36a7e7fe1b81ec553bd5ccd7f9a18dcd2a0c4adabcf79b26c",
+  "errors": [
+    "hspice_infrastructure_failure"
+  ],
+  "final_locked_code": {
+    "F": 9,
+    "M": 2
+  },
+  "hspice_version": "captured in cycle_bridge_v2.lis",
+  "probe_count": 21,
+  "probes": [],
+  "scenario": "cycle_path_v2_1p10",
+  "schema_version": 2,
+  "voltage": "1p10"
+}

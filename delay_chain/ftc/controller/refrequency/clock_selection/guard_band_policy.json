@@ -1,0 +1,8 @@
+{
+  "T_guarded_ns": 2.5,
+  "formula": "max(1.25 * T_hard, T_hard + 0.25 ns)",
+  "period_grid_ns": 0.5,
+  "rounding": "upward to the smallest grid point",
+  "schema_version": 1,
+  "status": "GO"
+}

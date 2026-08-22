@@ -1,0 +1,10 @@
+{
+  "liberty_timing_source": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db",
+  "phase7_limit": "The retained Phase 7 summary reports setup/hold closure but raw report files are unavailable. RF8 must explicitly report pulse-width and asynchronous-control margins from the same DB.",
+  "read_only_dc_query_result": "All requested library-cell names resolved in the exact target DB. The installed Q-2019.12 report_lib collection form emitted UIL-3 rather than per-cell arc text; RF8 is required to capture actual DC constraint reports for the new mapped implementation.",
+  "schema_version": 1,
+  "simulation_visible_constraint_not_closed_by_phase7_summary": "conditional CK width checks",
+  "status": "GO_WITH_RF8_CONFIRMATION_REQUIRED",
+  "unit_consistency": "VCS model timescale is 1ns/1ps; macro values are recorded in ns.",
+  "verilog_timing_checks": "conditional specify $width, $setuphold, and $recrem checks are present"
+}

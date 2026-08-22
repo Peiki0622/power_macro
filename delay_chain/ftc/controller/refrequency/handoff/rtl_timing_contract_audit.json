@@ -1,0 +1,44 @@
+{
+  "checks": {
+    "all_package_constants_match": true,
+    "derived_sclk_high_cycles_match": true,
+    "event_order_strict": true,
+    "handoff_is_active": true,
+    "sequencer_uses_all_runtime_event_constants": true
+  },
+  "decision": "RTL Timing Contract Audit = GO",
+  "expected_parameters": {
+    "CONFIG_SETTLE_CYCLES": 1,
+    "PROBE_Q_SAMPLE_1_CYCLE": 2,
+    "PROBE_Q_SAMPLE_2_CYCLE": 3,
+    "PROBE_RECOVERY_DONE_CYCLE": 7,
+    "PROBE_RESET_ASSERT_CYCLE": 4,
+    "PROBE_RESET_RELEASE_CYCLE": 0,
+    "PROBE_SCLK_FALL_CYCLE": 5,
+    "PROBE_SCLK_HIGH_CYCLES": 4,
+    "PROBE_SCLK_RISE_CYCLE": 1
+  },
+  "handoff": "refrequency/handoff/phase1_timing_handoff_refrequency.json",
+  "observed_package_parameters": {
+    "CONFIG_SETTLE_CYCLES": 1,
+    "PROBE_Q_SAMPLE_1_CYCLE": 2,
+    "PROBE_Q_SAMPLE_2_CYCLE": 3,
+    "PROBE_RECOVERY_DONE_CYCLE": 7,
+    "PROBE_RESET_ASSERT_CYCLE": 4,
+    "PROBE_RESET_RELEASE_CYCLE": 0,
+    "PROBE_SCLK_FALL_CYCLE": 5,
+    "PROBE_SCLK_HIGH_CYCLES": 4,
+    "PROBE_SCLK_RISE_CYCLE": 1
+  },
+  "package": "rtl/ftc_cal_pkg.sv",
+  "schema_version": 1,
+  "sequencer_symbol_usage": {
+    "CONFIG_SETTLE_CYCLES": true,
+    "PROBE_Q_SAMPLE_1_CYCLE": true,
+    "PROBE_Q_SAMPLE_2_CYCLE": true,
+    "PROBE_RECOVERY_DONE_CYCLE": true,
+    "PROBE_RESET_ASSERT_CYCLE": true,
+    "PROBE_SCLK_FALL_CYCLE": true,
+    "PROBE_SCLK_RISE_CYCLE": true
+  }
+}

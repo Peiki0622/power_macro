@@ -1,0 +1,92 @@
+{
+  "contracts_and_decks": [
+    {
+      "cycle_contract": "controller/refrequency/timing_contract/cycle_path_refreq_0p80_contract.json",
+      "cycle_contract_sha256": "9f33b334ea30329cf68beaaf756c169bc46e4351b9d0d3559e6567886924f9f8",
+      "deck": "controller/refrequency/hspice/cycle_path_refreq_0p80/cycle_bridge_v2.sp",
+      "deck_sha256": "55c462cdab18376c5682757d7ee782558c233e89df013840008183f56ddd82d0",
+      "scenario": "cycle_path_refreq_0p80",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "0p80"
+    },
+    {
+      "cycle_contract": "controller/refrequency/timing_contract/cycle_path_refreq_0p95_contract.json",
+      "cycle_contract_sha256": "212c1b773fcbb5958baf0ba8ad1b3e75543c06883a0ad579f792fce446b560bc",
+      "deck": "controller/refrequency/hspice/cycle_path_refreq_0p95/cycle_bridge_v2.sp",
+      "deck_sha256": "7bb0e2f631bd074ad06a607e7cf6200c6dcfdef8f2ee61cc6a23258043733c51",
+      "scenario": "cycle_path_refreq_0p95",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "0p95"
+    },
+    {
+      "cycle_contract": "controller/refrequency/timing_contract/cycle_path_refreq_1p10_contract.json",
+      "cycle_contract_sha256": "d3ecc3c5779c51f9fa28f9a3879cc9e249f025e7e49f0381bf9bce26a173e0bf",
+      "deck": "controller/refrequency/hspice/cycle_path_refreq_1p10/cycle_bridge_v2.sp",
+      "deck_sha256": "b8ad5475d1f7b3a36a7e7fe1b81ec553bd5ccd7f9a18dcd2a0c4adabcf79b26c",
+      "scenario": "cycle_path_refreq_1p10",
+      "schema_version": 2,
+      "simulator_invoked": false,
+      "structural_checks": {
+        "all_changes_are_config_updates": true,
+        "configuration_settle_precedes_dependent_release": true,
+        "one_intended_sclk_rise_event": true,
+        "probe_code_constant": true,
+        "reset_assert_physically_precedes_sclk_fall": true,
+        "reset_assert_precedes_sclk_fall": true,
+        "single_thermometer_step_per_update": true,
+        "two_adjacent_backoffs_without_probe": true,
+        "two_q_sample_events": true,
+        "two_samples_rendered_per_probe": true,
+        "v2_contract_decision_go": true
+      },
+      "voltage": "1p10"
+    }
+  ],
+  "decision": "Re-Frequency HSPICE Deck Freeze = GO",
+  "scenario_budget": 3,
+  "scenario_order": [
+    "cycle_path_refreq_0p80",
+    "cycle_path_refreq_0p95",
+    "cycle_path_refreq_1p10"
+  ],
+  "schema_version": 1,
+  "simulator_invoked": false,
+  "single_clock_period_ns": 2.5,
+  "single_common_template": {
+    "Q_SAMPLE_1": 2,
+    "Q_SAMPLE_2": 3,
+    "RECOVERY_DONE": 7,
+    "RESET_ASSERT": 4,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 5,
+    "S_CLK_RISE": 1
+  }
+}

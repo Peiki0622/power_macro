@@ -1,0 +1,91 @@
+{
+  "clock_period_ns_unchanged": 2.5,
+  "common_local_template_unchanged": {
+    "Q_SAMPLE_1": 2,
+    "Q_SAMPLE_2": 3,
+    "RECOVERY_DONE": 7,
+    "RESET_ASSERT": 4,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 5,
+    "S_CLK_RISE": 1
+  },
+  "decision": "RF6 Infrastructure-Only Retry Deck Freeze = GO",
+  "reason": "all three original RF6 HSPICE decks terminated before circuit simulation because inherited absolute library paths were absent on the EDA host",
+  "retry_scope": "three verified include/model path substitutions only",
+  "scenarios": [
+    {
+      "cycle_contract_sha256": "9f33b334ea30329cf68beaaf756c169bc46e4351b9d0d3559e6567886924f9f8",
+      "original_deck_sha256": "55c462cdab18376c5682757d7ee782558c233e89df013840008183f56ddd82d0",
+      "original_returncode": 255,
+      "path_replacements": [
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/cdl/sc9mc_logic0040ll_base_rvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/smic40ll_1125_2tm_oa_cds_1P9M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib"
+        }
+      ],
+      "retry_deck_sha256": "2e337cff7d9b1cb9849bcd3655096e4644c083073bd31a256bf0034c361212c6",
+      "scenario": "cycle_path_refreq_0p80"
+    },
+    {
+      "cycle_contract_sha256": "212c1b773fcbb5958baf0ba8ad1b3e75543c06883a0ad579f792fce446b560bc",
+      "original_deck_sha256": "7bb0e2f631bd074ad06a607e7cf6200c6dcfdef8f2ee61cc6a23258043733c51",
+      "original_returncode": 255,
+      "path_replacements": [
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/cdl/sc9mc_logic0040ll_base_rvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/smic40ll_1125_2tm_oa_cds_1P9M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib"
+        }
+      ],
+      "retry_deck_sha256": "2ec150b0f75da8cc9b9171ef3d98369533b0bc668fbdfdd71a33095acb8a5601",
+      "scenario": "cycle_path_refreq_0p95"
+    },
+    {
+      "cycle_contract_sha256": "d3ecc3c5779c51f9fa28f9a3879cc9e249f025e7e49f0381bf9bce26a173e0bf",
+      "original_deck_sha256": "b8ad5475d1f7b3a36a7e7fe1b81ec553bd5ccd7f9a18dcd2a0c4adabcf79b26c",
+      "original_returncode": 255,
+      "path_replacements": [
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/cdl/sc9mc_logic0040ll_base_rvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl"
+        },
+        {
+          "occurrences_replaced": 1,
+          "stale_absolute_path": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+          "verified_host_path": "/home/yangz/virtuoso/SMIC40TXRX/smic40ll_1125_2tm_oa_cds_1P9M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib"
+        }
+      ],
+      "retry_deck_sha256": "2521b4fdbd16a3bcab6ef9d8ed24a1bb53f89c424bb606dae9003a7e083d1721",
+      "scenario": "cycle_path_refreq_1p10"
+    }
+  ],
+  "schema_version": 1,
+  "simulator_invoked": false
+}

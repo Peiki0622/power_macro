@@ -1,0 +1,29 @@
+{
+  "command": [
+    "hspice",
+    "cycle_bridge_v2.sp",
+    "-o",
+    "cycle_bridge_v2"
+  ],
+  "cycle_contract_sha256": "9f33b334ea30329cf68beaaf756c169bc46e4351b9d0d3559e6567886924f9f8",
+  "deck_sha256": "55c462cdab18376c5682757d7ee782558c233e89df013840008183f56ddd82d0",
+  "hspice": "/home/soft/synopsys/hspice/P-2019.06-SP2/hspice/linux64/hspice",
+  "hspice_version": "captured in cycle_bridge_v2.lis",
+  "output_files": {
+    "cycle_bridge_v2.lis": {
+      "bytes": 1765,
+      "sha256": "6e5a603e5d8df06bd1190656546cbfd4369a56762453ae13706ffe6ecdf728c1"
+    },
+    "hspice_command.log": {
+      "bytes": 41,
+      "sha256": "7b5f26087f4c09daf643881bb67792d8d3abfbc371eafd6fd521461771d436cb"
+    },
+    "hspice_returncode.txt": {
+      "bytes": 4,
+      "sha256": "ce8bafb38615aeb5d44ebbabe78ec14ac35a5de87bdc5ad5ea82a72656024ce4"
+    }
+  },
+  "returncode": 255,
+  "scenario": "cycle_path_refreq_0p80",
+  "schema_version": 1
+}

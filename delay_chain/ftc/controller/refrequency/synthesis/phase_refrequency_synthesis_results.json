@@ -1,0 +1,61 @@
+{
+  "artefact_sha256": {
+    "refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v": "0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3",
+    "refrequency/synthesis/reports/clock_and_pulse_width.rpt": "f9ebe2fc88fd73d3820196d3af53142a5ef0d57211fdaaa0412ae2fdf0bceff2",
+    "refrequency/synthesis/reports/constraints_all.rpt": "8900c1578d6071fab1b1b7a637199a7804016eee8efe3aa0405dddca79a9d3a7",
+    "refrequency/synthesis/reports/dc_shell.log": "d46713121b91dbf4e149c9fa1797a6a7a325186a7c182961fa33cc38ae4da236",
+    "refrequency/synthesis/reports/dc_shell_returncode.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "refrequency/synthesis/reports/fanout_transition.rpt": "f4bea8449e7890ab2b1398a77957d6fd1f0acbfa6c425c81cdaa59afa00661d4",
+    "refrequency/synthesis/reports/q_final_sampling_path.rpt": "da1ebaf8368cc011028e79945d409c79c8cdbb54af1d45e1193b361378614b8a",
+    "refrequency/synthesis/reports/qor.rpt": "7dc6076b6e6d69fc5303357977b8fa59946037f22312374596139cd7e125081b",
+    "refrequency/synthesis/reports/sense_dff_reset_path.rpt": "2e4195cf5cb92ffd7138fc8431f9c18bc7be6a7ecad8b03aa12a04cd0c541129",
+    "refrequency/synthesis/reports/sense_s_clk_path.rpt": "8ef60af0ead1ea74e015e01aefd16c03f8d9635ebc11e88cad4a2ae6b636e54e",
+    "refrequency/synthesis/reports/thermometer_paths.rpt": "ebf65c03d059b2832f3d36d988d49bc4d0f22694fdf1380a97fb60934b24c0c7",
+    "refrequency/synthesis/reports/timing_hold.rpt": "f3b7a20e893ef4954e521cdc8c65fa46913161d15f919f97c8ccab8e6b523b2f",
+    "refrequency/synthesis/reports/timing_setup.rpt": "c70dff60cf03d4346ecf67502fe54b0af465f5b3a96a4b9a749586664013ff1c"
+  },
+  "async_control_assessment": {
+    "VCS_model_recovery_ns": 1.0,
+    "VCS_model_removal_ns": 0.5,
+    "static_scope": "controller-only netlist; sensor async set/reset composition is checked with active SDF in RF9D",
+    "synthesis_arc_setting": "enable_recovery_removal_arcs true"
+  },
+  "checks": {
+    "active_period_is_2p5ns": true,
+    "all_mapped_sequential_cells_rf2_covered": true,
+    "dc_returncode_zero": true,
+    "no_black_boxes": true,
+    "no_constraint_violators": true,
+    "no_dc_error": true,
+    "no_fanout_or_transition_violators": true,
+    "positive_clock_width_margin": true,
+    "positive_hold_margin": true,
+    "positive_q_final_sampling_margin": true,
+    "positive_sensor_control_margins": true,
+    "positive_setup_margin": true,
+    "positive_thermometer_margin": true
+  },
+  "clock_width_assessment": {
+    "half_period_ns": 1.25,
+    "margin_ns": 0.25,
+    "source": "RF2 timing model and RF3 guarded 2.5 ns selection",
+    "worst_rf2_vcs_width_requirement_ns": 1.0
+  },
+  "decision": "Re-Frequency Synthesized Controller = GO",
+  "mapped_sequential_cells": [
+    "DFFRPQ_X1M_A9TR40",
+    "DFFRPQ_X2M_A9TR40",
+    "DFFSQ_X1M_A9TR40"
+  ],
+  "margins_ns": {
+    "clock_high_low_width": 0.25,
+    "hold": 0.18,
+    "q_final_sampling": 1.5,
+    "sense_dff_reset": 1.77,
+    "sense_s_clk": 1.76,
+    "setup": 0.27,
+    "thermometer": 1.86
+  },
+  "rf2_uncovered_mapped_sequential_cells": [],
+  "schema_version": 1
+}

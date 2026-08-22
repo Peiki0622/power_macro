@@ -7,7 +7,7 @@
 `default_nettype none
 
 module ftc_operation_sequencer (
-    // Synchronous 1 GHz calibration clock from the frozen Phase 1 contract.
+    // Synchronous 400 MHz calibration clock from the active RF7 handoff.
     input  logic       cal_clk_i,
     // Active-low controller POR; sensor reset returns asserted during POR.
     input  logic       ctrl_por_n_i,
@@ -114,7 +114,8 @@ module ftc_operation_sequencer (
                 sense_s_clk_o <= 1'b0;
                 if (req_i && (cmd_i == OP_CONFIG_UPDATE)) begin
                     // The configuration pulse is emitted while the sensor is
-                    // quiet.  The following two busy cycles are its settle.
+                    // quiet.  The following busy cycle is the physically
+                    // derived one-cycle settle interval in the RF7 contract.
                     busy_o <= 1'b1;
                     active_cmd_q <= OP_CONFIG_UPDATE;
                     probe_count_q <= '0;
@@ -141,7 +142,8 @@ module ftc_operation_sequencer (
                 end
             end else begin
                 // probe_count_q denotes the elapsed local-cycle slot after
-                // reset release.  Constants are audited against Phase 1 JSON.
+                // reset release.  Constants are audited against the active
+                // RF7 JSON handoff before synthesis and timing verification.
                 if (probe_count_q == PROBE_SCLK_RISE_CYCLE - 1)
                     sense_s_clk_o <= 1'b1;
                 if (probe_count_q == PROBE_Q_SAMPLE_1_CYCLE - 1) begin

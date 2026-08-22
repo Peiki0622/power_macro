@@ -1,0 +1,38 @@
+{
+  "all_physical_minimums_satisfied": {
+    "Q_SAMPLE_1__to__Q_SAMPLE_2": true,
+    "Q_SAMPLE_2__to__RESET_ASSERT_START": true,
+    "RESET_ASSERT_COMPLETE__to__S_CLK_FALL": true,
+    "RESET_ASSERT_START__to__RESET_ASSERT_COMPLETE": true,
+    "RESET_RELEASE_COMPLETE__to__S_CLK_RISE": true,
+    "S_CLK_FALL__to__RECOVERY_DONE": true,
+    "S_CLK_RISE__to__Q_SAMPLE_1": true
+  },
+  "cal_clk_hz": 400000000,
+  "config_settle_cycles": 1,
+  "event_times_from_probe_start_s": {
+    "Q_SAMPLE_1": 5e-09,
+    "Q_SAMPLE_2": 7.500000000000001e-09,
+    "RECOVERY_DONE": 1.75e-08,
+    "RESET_ASSERT_COMPLETE": 1.0009999999999998e-08,
+    "RESET_ASSERT_START": 1e-08,
+    "RESET_RELEASE_COMPLETE": 9.999999999998104e-12,
+    "S_CLK_FALL": 1.25e-08,
+    "S_CLK_RISE": 2.5e-09
+  },
+  "local_probe_action_cycles": {
+    "Q_SAMPLE_1": 2,
+    "Q_SAMPLE_2": 3,
+    "RECOVERY_DONE": 7,
+    "RESET_ASSERT": 4,
+    "RESET_RELEASE": 0,
+    "S_CLK_FALL": 5,
+    "S_CLK_RISE": 1
+  },
+  "period_ns": 2.5,
+  "period_s": 2.5e-09,
+  "schema_version": 1,
+  "sclk_high_cycles": 4,
+  "solver": "earliest forward integer solution; no old cycle number was scaled or retained",
+  "status": "GO"
+}

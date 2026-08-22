@@ -1,0 +1,133 @@
+{
+  "inputs": [
+    {
+      "bytes": 4575,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/spec/phase1_timing_handoff.json",
+      "required": true,
+      "sha256": "fc13ef41ca66f44a5345b3ee0e4dfea3f2742c5a9a6357074a4e0fa000df81e2"
+    },
+    {
+      "bytes": 5546,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+      "required": true,
+      "sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a"
+    },
+    {
+      "bytes": 2772,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/cycle_timing_contract_v2.json",
+      "required": true,
+      "sha256": "479b6d8b16c577bfcc5c42702a25fcd268ee676f9f1a33b3d21ed7dab16830b7"
+    },
+    {
+      "bytes": 23207,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p80/scenario_acceptance.json",
+      "required": true,
+      "sha256": "c5e85a6fef8748e95139f07dd0803469ed45d7afa29ad23535993f00720d257a"
+    },
+    {
+      "bytes": 18670,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_0p95/scenario_acceptance.json",
+      "required": true,
+      "sha256": "728a7e6cc6ee52b5c80e5403d80cce98d33ead715ed2463ad36f046a953314a3"
+    },
+    {
+      "bytes": 18403,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/hspice/cycle_path_v2_1p10/scenario_acceptance.json",
+      "required": true,
+      "sha256": "50e9d45ea39c4f450ee9927b75e69a13b59cef0c1ed36607c54b6de2e8bbb52f"
+    },
+    {
+      "bytes": 2864,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase7/phase7_results.json",
+      "required": true,
+      "sha256": "bb7433555978b028a9a650b6e68fd2213afd4d4df556cec7d7b14a811ed8203d"
+    },
+    {
+      "bytes": 45822,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.v",
+      "required": true,
+      "sha256": "82a589d97bd4ca4113cf6e054afda1d3e5d2a61c878015fea9c902018ff55677"
+    },
+    {
+      "bytes": 4382,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.sdc",
+      "required": true,
+      "sha256": "5b0c25257e1716c10ea56e42fd77fe425141db3898b1b5b367d2bf24e882eefe"
+    },
+    {
+      "bytes": 342676,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.sdf",
+      "required": true,
+      "sha256": "25b4b6733b4b32fd65a82121da64d820895dd15ad478caa6e719bcdd011dc7e7"
+    },
+    {
+      "bytes": 995477,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/runs/timing_composed_0p80/run.log",
+      "required": true,
+      "sha256": "a141d3338a089485df36e0df8cdce5e5ee9b50b1e2bd29bcb8921a9462fd7c9a"
+    },
+    {
+      "bytes": 2159,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/reports/timing_composed_0p80_failure.json",
+      "required": true,
+      "sha256": "f4ead8330f579e88b78bf6da9801112f57a252139296964d4a4bbd6a9f617151"
+    },
+    {
+      "bytes": 1382,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/final_closure/timing_composition/reports/TIMING_COMPOSED_C3_STOP.md",
+      "required": true,
+      "sha256": "522b7a8b059801bc4bee578823f6c0a5a39f96df5ddbc87a4c955c773c98387d"
+    },
+    {
+      "bytes": 8846846,
+      "exists": true,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/sc9mc_logic0040ll_base_rvt_c40.v",
+      "required": true,
+      "sha256": "eeddc1e9dcc97f11e0b316ff2d73690ffca2f9c24df291258d2ca9c1188cfe09"
+    },
+    {
+      "bytes": 22228567,
+      "exists": true,
+      "path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/db/sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c.db",
+      "required": true,
+      "sha256": "ba88a697800c54172194920838182fcbfef53eb0d32c6baaf3a661e6a5cc203d"
+    }
+  ],
+  "schema_version": 1,
+  "status": "GO",
+  "unavailable_historical_derived_reports": [
+    {
+      "exists": false,
+      "path": "delay_chain/ftc/controller/synthesis/reports/timing.rpt",
+      "required": false
+    },
+    {
+      "exists": false,
+      "path": "delay_chain/ftc/controller/synthesis/reports/constraints.rpt",
+      "required": false
+    },
+    {
+      "exists": false,
+      "path": "delay_chain/ftc/controller/synthesis/reports/cell_usage.rpt",
+      "required": false
+    },
+    {
+      "exists": false,
+      "path": "delay_chain/ftc/controller/synthesis/reports/q_final_sampling_path.rpt",
+      "required": false
+    }
+  ]
+}

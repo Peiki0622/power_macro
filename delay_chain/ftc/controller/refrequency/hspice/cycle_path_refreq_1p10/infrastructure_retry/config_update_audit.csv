@@ -1,0 +1,16 @@
+transition_index,operation_index,M_before,M_after,F_before,F_after,reset_asserted,sclk_low,one_thermometer_step,settle_two_cycles_ok,configuration_ck_edge_count,quiet_window_ok,status
+0,2,0,1,0,0,True,True,True,True,0,True,PASS
+1,5,1,2,0,0,True,True,True,True,0,True,PASS
+2,8,2,3,0,0,True,True,True,True,0,True,PASS
+3,11,3,4,0,0,True,True,True,True,0,True,PASS
+4,14,4,3,0,0,True,True,True,True,0,True,PASS
+5,15,3,2,0,0,True,True,True,True,0,True,PASS
+6,17,2,2,0,1,True,True,True,True,0,True,PASS
+7,19,2,2,1,2,True,True,True,True,0,True,PASS
+8,21,2,2,2,3,True,True,True,True,0,True,PASS
+9,23,2,2,3,4,True,True,True,True,0,True,PASS
+10,25,2,2,4,5,True,True,True,True,0,True,PASS
+11,27,2,2,5,6,True,True,True,True,0,True,PASS
+12,29,2,2,6,7,True,True,True,True,0,True,PASS
+13,31,2,2,7,8,True,True,True,True,0,True,PASS
+14,33,2,2,8,9,True,True,True,True,0,True,PASS
