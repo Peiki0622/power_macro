@@ -1,0 +1,18 @@
+{
+  "scenario": "autonomous_0p80",
+  "status": "PASS",
+  "supply_v": 0.8,
+  "final_medium": 7,
+  "final_fine": 6,
+  "operations": 45,
+  "configs": 17,
+  "probes": 28,
+  "sclk_rising_edges": 28,
+  "sample1": 28,
+  "sample2": 28,
+  "cal_done": 1,
+  "lock_valid": 1,
+  "cal_fail": 0,
+  "comparison_errors": 0,
+  "independent_audit": "runs/autonomous_0p80/autonomous_0p80_independent_audit.json"
+}

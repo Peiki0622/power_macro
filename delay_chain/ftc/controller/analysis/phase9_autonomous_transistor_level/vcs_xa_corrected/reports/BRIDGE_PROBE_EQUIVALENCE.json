@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "supply_v": 0.8,
+  "anchors": {
+    "M0_F0": {"expected_class": "STABLE_HIGH", "sample_pair": [1, 1], "observed_class": "STABLE_HIGH", "observed_sample_pair": [1, 1], "recovery": true},
+    "M9_F0": {"expected_class": "STABLE_LOW", "sample_pair": [0, 0], "observed_class": "STABLE_LOW", "observed_sample_pair": [0, 0], "recovery": true}
+  },
+  "sclk_rising_edges": 2,
+  "samples": {"sample1": 2, "sample2": 2},
+  "comparison_errors": 0,
+  "interpretation": "corrected_bridge_reproduces_archived_sensor_classification_at_both_0p80V_anchors",
+  "evidence_log": "diagnostics/bridge_probe_0p80/run/run.log"
+}

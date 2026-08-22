@@ -1,0 +1,3 @@
+* Corrected-flow local no-op include retained for compatibility with the
+* frozen sensor deck.  The extracted sensor and standard-cell CDL provide the
+* real subcircuits; this file intentionally contributes no electrical model.

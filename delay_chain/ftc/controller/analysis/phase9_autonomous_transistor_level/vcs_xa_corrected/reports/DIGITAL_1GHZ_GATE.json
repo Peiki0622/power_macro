@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "clock_period_ns": 1,
+  "operations": 45,
+  "configuration_updates": 17,
+  "probes": 28,
+  "sense_s_clk_rising_edges": 28,
+  "q_sample_1_events": 28,
+  "q_sample_2_events": 28,
+  "final_medium": 7,
+  "final_fine": 6,
+  "transient_kind": "digital_gate_level_behavioral_sensor_only",
+  "evidence": "diagnostics/digital_1ghz/DIGITAL_1GHZ_GATE.json"
+}

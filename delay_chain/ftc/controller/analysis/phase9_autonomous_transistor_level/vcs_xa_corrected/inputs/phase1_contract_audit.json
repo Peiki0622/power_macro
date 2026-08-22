@@ -1,0 +1,34 @@
+{
+  "errors": [],
+  "expected": {
+    "cal_clk_hz": 1000000000,
+    "configuration_settle_cycles": 2,
+    "events": {
+      "Q_SAMPLE_1": 4,
+      "Q_SAMPLE_2": 5,
+      "RECOVERY_DONE": 10,
+      "RESET_ASSERT": 6,
+      "RESET_RELEASE": 0,
+      "S_CLK_FALL": 7,
+      "S_CLK_RISE": 1
+    },
+    "period_ns": 1.0
+  },
+  "observed": {
+    "cal_clk_hz": 1000000000,
+    "configuration_settle_cycles": 2,
+    "events": {
+      "Q_SAMPLE_1": 4,
+      "Q_SAMPLE_2": 5,
+      "RECOVERY_DONE": 10,
+      "RESET_ASSERT": 6,
+      "RESET_RELEASE": 0,
+      "S_CLK_FALL": 7,
+      "S_CLK_RISE": 1
+    },
+    "period_ns": 1.0
+  },
+  "schema_version": 1,
+  "source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/spec/phase1_timing_handoff.json",
+  "status": "PASS"
+}

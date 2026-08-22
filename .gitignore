@@ -228,3 +228,5 @@ hspice_command.log
 /delay_chain/ftc/controller/**/simv.daidir/
 /delay_chain/ftc/controller/**/simv.msv/
 /delay_chain/ftc/controller/**/csrc/
+delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/reports/evidence_sha256.txt
+delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/input_sha256.txt

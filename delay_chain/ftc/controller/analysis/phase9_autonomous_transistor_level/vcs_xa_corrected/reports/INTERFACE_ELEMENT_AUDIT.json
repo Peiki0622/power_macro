@@ -1,0 +1,60 @@
+{
+  "errors": [],
+  "generated_interface_report": {
+    "counts": {
+      "fine_therm": 10,
+      "medium_therm": 16,
+      "sense_dff_reset": 1,
+      "sense_s_clk": 1
+    },
+    "entry_count": 29,
+    "path": "diagnostics/bridge_probe_0p80/run/simv.daidir/snpsInterfaceElementFile.spi",
+    "raw_entries": [
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[14]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[14] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[2]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[2] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[10]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[10] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[9]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[9] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[11]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[11] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.sense_dff_reset___ tb_ftc_vcs_xa_bridge_probe.u_sensor.sense_dff_reset snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[7]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[7] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[0]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[0] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[4]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[4] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[13]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[13] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[2]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[2] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[5]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[5] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[8]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[8] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.sense_s_clk___ tb_ftc_vcs_xa_bridge_probe.u_sensor.sense_s_clk snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[6]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[6] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[1]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[1] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[3]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[3] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[12]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[12] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[7]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[7] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[0]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[0] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[5]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[5] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[6]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[6] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[4]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[4] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[3]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.fine_therm[3] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[9]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[9] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[15]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[15] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[1]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[1] snps_interface_element",
+      "xtb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[8]___ tb_ftc_vcs_xa_bridge_probe.u_sensor.medium_therm[8] snps_interface_element",
+      ".subckt snps_interface_element port1"
+    ],
+    "supply_entries": []
+  },
+  "historical_report": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/runs/preflight/simv.daidir/snpsInterfaceElementFile.spi",
+  "historical_report_is_not_corrected_evidence": true,
+  "required_crossings": {
+    "fine_therm": 10,
+    "medium_therm": 16,
+    "sense_dff_reset": 1,
+    "sense_s_clk": 1
+  },
+  "schema_version": 1,
+  "source_contract": {
+    "errors": [],
+    "stub": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_stub.sv",
+    "wrapper": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp"
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,18 @@
+{
+  "scenario": "autonomous_1p10",
+  "status": "PASS",
+  "supply_v": 1.1,
+  "final_medium": 2,
+  "final_fine": 9,
+  "operations": 36,
+  "configs": 15,
+  "probes": 21,
+  "sclk_rising_edges": 21,
+  "sample1": 21,
+  "sample2": 21,
+  "cal_done": 1,
+  "lock_valid": 1,
+  "cal_fail": 0,
+  "comparison_errors": 0,
+  "independent_audit": "runs/autonomous_1p10/autonomous_1p10_independent_audit.json"
+}

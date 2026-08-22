@@ -1,0 +1,118 @@
+{
+  "baseline_commit": "72eded417c41e8f74131a07baf4f00ebe3d71fb7",
+  "baseline_gate": "GO",
+  "baseline_gate_note": "The plan creation commit differs from current HEAD; all historical input hashes and canonical contracts are retained for review.",
+  "canonical_phase1_timing": {
+    "cal_clk_hz": 1000000000,
+    "cal_clk_period_ns": 1.0,
+    "configuration_settle_cycles": 2,
+    "q_sample_1_cycle": 4,
+    "q_sample_2_cycle": 5,
+    "recovery_done_cycle": 10,
+    "reset_assert_cycle": 6,
+    "reset_release_cycle": 0,
+    "s_clk_fall_cycle": 7,
+    "s_clk_rise_cycle": 1
+  },
+  "classification": "mixed_signal_harness_not_yet_equivalent",
+  "current_synth_netlist": {
+    "bytes": 45822,
+    "path": "delay_chain/ftc/controller/synthesis/netlist/ftc_cal_controller_top_synth.v",
+    "sha256": "82a589d97bd4ca4113cf6e054afda1d3e5d2a61c878015fea9c902018ff55677"
+  },
+  "generated_utc": "2026-08-21T08:43:00.650536+00:00",
+  "historical_inputs": {
+    "analog_wrapper": {
+      "bytes": 1361,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/src/ftc_sensor_ams_wrapper.sp",
+      "sha256": "77a9f8ccd37f1ea58db8216ae6c6da2a517073d45217c4e51393d99eb9599911"
+    },
+    "controller_netlist_snapshot": {
+      "bytes": 45822,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_cal_controller_top_synth.v",
+      "sha256": "82a589d97bd4ca4113cf6e054afda1d3e5d2a61c878015fea9c902018ff55677"
+    },
+    "expected_trajectories": {
+      "bytes": 438,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/expected_trajectories.json",
+      "sha256": "59d14c8dbc0c327edc3eefaf53fb0f83e9548e5dea93d8ff22c84292da21b25c"
+    },
+    "historical_0p80_audit": {
+      "bytes": 1782,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/reports/autonomous_0p80_audit.json",
+      "sha256": "77dd11b855edf7718ddaf1c270a0e092114d57239df8d0136b36079f25ead328"
+    },
+    "historical_no_go_report": {
+      "bytes": 1579,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/reports/PHASE9_NO_GO_REPORT.md",
+      "sha256": "ef46b1bcbcb4230de7f3437c218c020366999daff20d15bae36e00a21a092dd0"
+    },
+    "sensor_spice": {
+      "bytes": 8847,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp",
+      "sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7"
+    },
+    "sensor_stub": {
+      "bytes": 1871,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/src/ftc_sensor_ams_stub.sv",
+      "sha256": "56e86b87a9736c30bf8b43042e5f5af9cfa6f7173d65abf464ef29b5adec0d3e"
+    },
+    "testbench": {
+      "bytes": 5512,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/src/tb_ftc_vcs_xa.sv",
+      "sha256": "072160ff464a8988e208712438207a44609bf56608b95b2d0e5f75572a6d4dfc"
+    },
+    "vcsad_init": {
+      "bytes": 274,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/vcsAD.init",
+      "sha256": "b707e9799cbc23f20b5886736d7c6ea9d41c86c41719f10d8eb95d7ee0ae1db2"
+    },
+    "xa_config": {
+      "bytes": 255,
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/xa.cfg",
+      "sha256": "4c6e310e3fdf848c6cbf0fee5973fe254edb3d209093746c874c255422286b3d"
+    }
+  },
+  "historical_phase9_audit_clock_period_ns": 10,
+  "historical_phase9_clock_period_ns": 10,
+  "historical_phase9_decision": "NO-GO",
+  "phase9_controller_snapshot_matches_current_synth_netlist": true,
+  "plan_creation_commit": "47825697efdd0f5119f10fb58e40247e7bc07781",
+  "plan_creation_commit_matches": false,
+  "repository_root": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro",
+  "schema_version": 1,
+  "sensor_hash_matches_frozen_input": true,
+  "timing_contract_mismatch": true,
+  "tool_versions": {
+    "design_compiler": {
+      "command": "dc_shell",
+      "path": "/home/zhupl25/.local/bin/dc_shell",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": "dc_shell version    -  W-2024.09\ndc_shell build date -  Aug 28, 2024\nSite Identification Number: 000\nLocal Administrator: \nContact: zhupl25@(none)"
+    },
+    "hspice": {
+      "command": "hspice",
+      "path": "/home/zhupl25/.local/bin/hspice",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved."
+    },
+    "primesim_xa": {
+      "command": "xa",
+      "path": null,
+      "returncode": null,
+      "stderr": "",
+      "stdout": ""
+    },
+    "vcs": {
+      "command": "vcs",
+      "path": "/home/synopsys/vcs/W-2024.09/bin/vcs",
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "vcs script version : W-2024.09\nmachine name = pillar \nmachine type = linux64 \nmachine os = Linux 3.10.0-1160.119.1.el7.x86_64  \nThe FLEXlm host ID of this machine is \"0242ac110003\"\nCompiler version = VCS W-2024.09_Full64\nVCS Build Date = Sep 02 2024 20:31:24\nIf you need to renew your license, please email this information to your\nAccount Manager. To obtain contact information for your Account Manager\nplease email pass@synopsys.com"
+    }
+  },
+  "transient_simulation_started": false,
+  "working_tree_status": "?? delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/"
+}

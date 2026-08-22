@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_FOR_R3",
+  "source_of_timing": "delay_chain/ftc/controller/spec/phase1_timing_handoff.json",
+  "cal_clk_hz": 1000000000,
+  "cal_clk_period_ns": 1.0,
+  "configuration_settle_cycles": 2,
+  "formal_supply_values_v": [0.8, 0.95, 1.1],
+  "sensor_supply_topology": {
+    "vdd_port_crossing": false,
+    "vss_port_crossing": false,
+    "source": "src/ftc_sensor_ams_wrapper.sp:V_SENSOR_VDD/V_SENSOR_VSS",
+    "parameter": "VDD_VALUE",
+    "digital_controller_power_mode": "outside_phase9_mixed_domain_abstraction",
+    "unexpected_supply_d2a_forbidden": true
+  },
+  "d2a_controls": {
+    "reference_supply": "VDD_LOCAL in ftc_sensor_ams",
+    "low_voltage_rule": "VSS_LOCAL",
+    "high_voltage_rule": "VDD_LOCAL",
+    "high_voltage_is_supply_scaled": true,
+    "rise_time_policy": "one normalized policy; measured against corrected-v2 HSPICE boundary waveforms",
+    "fall_time_policy": "one normalized policy; measured against corrected-v2 HSPICE boundary waveforms",
+    "output_resistance_policy": "must be reported by generated interface-element audit; no unreported series resistance",
+    "crossings": [
+      {"name": "sense_s_clk", "kind": "normal_signal", "width": 1},
+      {"name": "sense_dff_reset", "kind": "normal_signal", "width": 1},
+      {"name": "medium_therm", "kind": "normal_signal", "width": 16},
+      {"name": "fine_therm", "kind": "normal_signal", "width": 10}
+    ]
+  },
+  "a2d_q_final": {
+    "name": "q_final",
+    "low_threshold_fraction_of_vdd": 0.30,
+    "high_threshold_fraction_of_vdd": 0.70,
+    "hysteresis_fraction_of_vdd": 0.0,
+    "x_region": "between low and high thresholds is AMBIGUOUS",
+    "threshold_is_voltage_normalized": true,
+    "must_agree_at": ["Q_SAMPLE_1", "Q_SAMPLE_2"]
+  },
+  "historical_boundary_defect": {
+    "historical_supply_ports": ["VDD", "VSS"],
+    "historical_interface_report": "../vcs_xa/runs/preflight/simv.daidir/snpsInterfaceElementFile.spi",
+    "historical_issue": "VDD and VSS were inserted as generic snps_interface_element crossings"
+  },
+  "timeout_policy": {
+    "formula": "(nominal_operation_count * (configuration_settle_cycles + 11) + startup_cycles + safety_cycles) * cal_clk_period_ns",
+    "startup_cycles": 20,
+    "safety_cycles": 100,
+    "autonomous_0p80_nominal_operation_count": 45,
+    "autonomous_0p80_timeout_ns": 705,
+    "autonomous_0p80_transient_step_ps": 500,
+    "transient_step_basis": "R3 boundary probe already resolved the same normalized D2A edge contract at 1 ps; autonomous XA uses 500 ps, providing two analog points per frozen 1 ns digital cycle while staying within the bounded 705 ns budget"
+  }
+}

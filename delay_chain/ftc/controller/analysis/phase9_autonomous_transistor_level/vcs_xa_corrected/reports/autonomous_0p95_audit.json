@@ -1,0 +1,18 @@
+{
+  "scenario": "autonomous_0p95",
+  "status": "PASS",
+  "supply_v": 0.95,
+  "final_medium": 4,
+  "final_fine": 6,
+  "operations": 36,
+  "configs": 14,
+  "probes": 22,
+  "sclk_rising_edges": 22,
+  "sample1": 22,
+  "sample2": 22,
+  "cal_done": 1,
+  "lock_valid": 1,
+  "cal_fail": 0,
+  "comparison_errors": 0,
+  "independent_audit": "runs/autonomous_0p95/autonomous_0p95_independent_audit.json"
+}

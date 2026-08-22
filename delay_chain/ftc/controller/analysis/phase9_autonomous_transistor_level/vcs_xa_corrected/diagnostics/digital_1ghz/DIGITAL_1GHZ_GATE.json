@@ -1,0 +1,18 @@
+{
+  "clock_period_ns": 1,
+  "configuration_updates": 17,
+  "evidence": {
+    "compile_log": "74ff11ef40a9dbe1a6b57583245c70f3fd25e1c79e279b9db85275d76d702dc6",
+    "run_log": "c42dbf5a66ce7c3961683ace57de8c90f31c51d674f20d7dc433329bb7124d15"
+  },
+  "final_fine": 6,
+  "final_medium": 7,
+  "operations": 45,
+  "probes": 28,
+  "q_sample_1_events": 28,
+  "q_sample_2_events": 28,
+  "schema_version": 1,
+  "sense_s_clk_rising_edges": 28,
+  "status": "PASS",
+  "transient_kind": "digital_gate_level_behavioral_sensor_only"
+}

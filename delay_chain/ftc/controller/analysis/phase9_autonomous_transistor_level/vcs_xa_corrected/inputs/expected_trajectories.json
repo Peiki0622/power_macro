@@ -1,0 +1,12 @@
+{
+  "clock_period_ns": 1,
+  "formal_scenarios": {
+    "autonomous_0p80": {"supply_v": 0.80, "coarse_boundary": 9, "final_medium": 7, "fine_boundary": 5, "final_fine": 6, "operations": 45, "configs": 17, "probes": 28},
+    "autonomous_0p95": {"supply_v": 0.95, "coarse_boundary": 6, "final_medium": 4, "fine_boundary": 5, "final_fine": 6, "operations": 36, "configs": 14, "probes": 22},
+    "autonomous_1p10": {"supply_v": 1.10, "coarse_boundary": 4, "final_medium": 2, "fine_boundary": 8, "final_fine": 9, "operations": 36, "configs": 15, "probes": 21}
+  },
+  "bridge_probe_0p80": {
+    "M0_F0": {"medium": 0, "fine": 0, "expected_class": "STABLE_HIGH", "expected_sample_pair": [1, 1]},
+    "M9_F0": {"medium": 9, "fine": 0, "expected_class": "STABLE_LOW", "expected_sample_pair": [0, 0]}
+  }
+}

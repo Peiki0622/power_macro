@@ -17,8 +17,8 @@
     "phase_6": {"gate": "NO-GO", "basis": "Existing result claims GO but only ten assertion classes and four negative scenarios are evidenced; the plan requires sixteen assertion classes and eight negative scenarios."},
     "phase_7": {"gate": "NO-GO", "basis": "Existing machine result is INFRASTRUCTURE_READY and lacks complete 1 GHz closure, fanout, warnings, cell-usage, and q_final path evidence."},
     "phase_8": {"gate": "GO", "basis": "Current mapped netlist passes functional and MAX-SDF GLS for all three nominal scenarios and all eight negative scenarios; exact nominal operations are 45/36/36 with one S_CLK and two Q samples per probe."},
-    "phase_9": {"gate": "NOT_COMPLETED", "basis": "Three integrated transistor-level decks were rendered and frozen, but the first 0.80 V HSPICE transient was explicitly terminated before acceptance; no autonomous mixed-signal GO is claimed."},
-    "phase_10": {"gate": "NOT_STARTED", "basis": "Final acceptance and handoff report are not yet publishable."}
+    "phase_9": {"gate": "GO", "basis": "Corrected VCS-XA bridge passed R0-R5, M0/F0 and M9/F0 equivalence, and autonomous 0.80/0.95/1.10 V acceptance with exact trajectories, edge/sample counters, analog rails, and zero comparison errors. Historical NO-GO evidence remains preserved under vcs_xa/."},
+    "phase_10": {"gate": "NOT_STARTED", "basis": "Phase 10 is outside this Phase 9 recovery task."}
   },
   "phase_1_static_checks": {
     "handoff_path": "spec/phase1_timing_handoff.json",
