@@ -1,0 +1,17 @@
+{
+  "conflict_search": {
+    "scope": "repository text, wrapper, controller constraints, frozen P10 documents",
+    "status": "no conflicting repository requirement found"
+  },
+  "not_claimed": [
+    "physical ground-grid signoff",
+    "UPF/CPF implementation",
+    "power-grid IR-drop closure"
+  ],
+  "schema_version": 1,
+  "stage": "PD1-2",
+  "status": "PASS",
+  "vdd_ctrl": "independent stable/trusted digital supply",
+  "vdd_monitored": "sensor supply that may droop",
+  "vss": "common-ground integration assumption"
+}

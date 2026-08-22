@@ -1,0 +1,13 @@
+{
+  "conclusion": "positive abstracted window; no physical candidate budget can be signed off",
+  "known_pd_ctrl_input_path_arrival_ns": 0.89,
+  "qsample1_window_ns": 2.2999999999999874,
+  "qsample2_window_ns": 2.499999999999976,
+  "schema_version": 1,
+  "unknown_terms": [
+    "S_CLK level-shifter rise/fall delay",
+    "frozen sensor response after physical S_CLK arrival",
+    "Q_FINAL return receiver delay",
+    "PD_CTRL receiver timing characterization"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "frozen_boundary_preserved": {
+    "q_final_only_return": true,
+    "sensor_capture_dff_in_pd_sense": true,
+    "xor_in_pd_sense": true
+  },
+  "paths": {
+    "configuration": "26 independent slow, monotonic, glitch-free CTRL-to-SENSE crossings",
+    "qfinal": "one PD_SENSE-to-PD_CTRL latched-state receiver",
+    "reset": "one monotonic, glitch-free CTRL-to-SENSE crossing with relative-delay constraint to S_CLK",
+    "sclk": "one highest-priority local-VDD_MONITORED clock crossing"
+  },
+  "schema_version": 1,
+  "selection": "interface categories selected; implementation cell selection deferred",
+  "stage": "PD1-11",
+  "unproven": [
+    "qualified physical cells",
+    "deep-droop/off-state safety",
+    "cell-level timing and slew"
+  ]
+}

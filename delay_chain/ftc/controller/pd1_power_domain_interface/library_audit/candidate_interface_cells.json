@@ -1,0 +1,305 @@
+{
+  "candidate_groups": [
+    {
+      "candidates": [
+        {
+          "cell": "A2LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "A2LVLU_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "to",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDI",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        }
+      ],
+      "interface_class": "configuration",
+      "status": "CANDIDATES_FOUND_BUT_NOT_QUALIFIED_FOR_FROZEN_PD1_RANGE"
+    },
+    {
+      "candidates": [
+        {
+          "cell": "A2LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "A2LVLU_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "to",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDI",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        }
+      ],
+      "interface_class": "reset",
+      "status": "CANDIDATES_FOUND_BUT_NOT_QUALIFIED_FOR_FROZEN_PD1_RANGE"
+    },
+    {
+      "candidates": [
+        {
+          "cell": "A2LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "A2LVLU_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "to",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDI",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        }
+      ],
+      "interface_class": "sampling_clock",
+      "status": "CANDIDATES_FOUND_BUT_NOT_QUALIFIED_FOR_FROZEN_PD1_RANGE"
+    },
+    {
+      "candidates": [
+        {
+          "cell": "A2LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "A2LVLU_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "to",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDI",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        },
+        {
+          "cell": "LVLUO_X1M_A9TR40",
+          "contract_sufficient": false,
+          "input_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "level_shifter_type": "HL_LH",
+          "location": "from",
+          "output_voltage_range_v": [
+            0.99,
+            1.21
+          ],
+          "power_down_evidence": "Boolean power_down_function present; no injection-current limit",
+          "power_pins": [
+            "VDD",
+            "VDDO",
+            "VSS",
+            "BIASNW"
+          ],
+          "rejection": "does not cover required 0.80 V monitored supply; off-state back-powering not characterized",
+          "timing_and_transition": "Liberty rise/fall timing and transition tables present"
+        }
+      ],
+      "interface_class": "qfinal_return",
+      "status": "CANDIDATES_FOUND_BUT_NOT_QUALIFIED_FOR_FROZEN_PD1_RANGE"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,27 @@
+{
+  "budgets": {
+    "configuration": {
+      "physical_closure": false,
+      "positive_abstracted_margin": true,
+      "window_ns": 2.5
+    },
+    "qsample2_to_reset": {
+      "observed_margin_ns": 0.19999999999998855,
+      "physical_closure": false,
+      "positive_abstracted_margin": true
+    },
+    "reset_to_sclk": {
+      "observed_margin_ns": 0.48999999999999977,
+      "physical_closure": false,
+      "positive_abstracted_margin": true
+    },
+    "sclk_to_qsample": {
+      "observed_margin_ns": 2.2999999999999874,
+      "physical_closure": false,
+      "positive_abstracted_margin": true
+    }
+  },
+  "reason": "Frozen evidence validates the existing abstracted bridge but does not separate or characterize a real crossing-cell delay, slew, skew, off-state current, or receiver threshold.",
+  "schema_version": 1,
+  "stage": "PD1-8"
+}

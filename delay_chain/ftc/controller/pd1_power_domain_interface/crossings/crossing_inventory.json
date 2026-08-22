@@ -1,0 +1,282 @@
+{
+  "ctrl_to_sense_count": 28,
+  "evidence": [
+    "delay_chain/ftc/controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json",
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp",
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_stub.sv",
+    "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v"
+  ],
+  "excluded_supply_topology": [
+    "VDD_CTRL",
+    "VDD_MONITORED",
+    "VSS"
+  ],
+  "ordinary_functional_crossing_count": 29,
+  "schema_version": 1,
+  "sense_to_ctrl_count": 1,
+  "signals": [
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[0]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[1]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[2]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[3]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[4]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[5]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[6]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[7]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[8]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[9]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[10]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[11]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[12]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[13]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[14]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "medium_therm[15]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[0]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[1]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[2]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[3]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[4]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[5]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[6]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[7]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[8]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "slow_configuration",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "fine_therm[9]",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": false
+    },
+    {
+      "category": "reset",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "sense_dff_reset",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": true
+    },
+    {
+      "category": "sampling_clock",
+      "direction": "PD_CTRL_to_PD_SENSE",
+      "name": "sense_s_clk",
+      "power_safety_required": true,
+      "source_domain": "PD_CTRL",
+      "target_domain": "PD_SENSE",
+      "timing_critical": true
+    },
+    {
+      "category": "latched_state_return",
+      "direction": "PD_SENSE_to_PD_CTRL",
+      "name": "Q_FINAL",
+      "power_safety_required": true,
+      "source_domain": "PD_SENSE",
+      "target_domain": "PD_CTRL",
+      "timing_critical": true
+    }
+  ],
+  "stage": "PD1-1",
+  "status": "PASS"
+}

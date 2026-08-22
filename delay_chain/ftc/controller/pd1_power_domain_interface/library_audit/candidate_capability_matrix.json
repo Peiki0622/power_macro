@@ -1,0 +1,45 @@
+{
+  "rows": [
+    {
+      "contract_sufficient": false,
+      "delay": "rise/fall tables present but not valid for 0.80 V",
+      "interface_class": "configuration",
+      "isolation_or_retention": "isolation metadata exists in PMK family; no selected, 0.80 V-qualified interface",
+      "off_state_back_powering": "not proven by Boolean power_down_function",
+      "slew": "rise/fall transition tables present but not valid for 0.80 V",
+      "source_voltage_range": "PMK candidates publish 0.99-1.21 V only",
+      "target_voltage_range": "PMK candidates publish 0.99-1.21 V only"
+    },
+    {
+      "contract_sufficient": false,
+      "delay": "rise/fall tables present but not valid for 0.80 V",
+      "interface_class": "reset",
+      "isolation_or_retention": "isolation metadata exists in PMK family; no selected, 0.80 V-qualified interface",
+      "off_state_back_powering": "not proven by Boolean power_down_function",
+      "slew": "rise/fall transition tables present but not valid for 0.80 V",
+      "source_voltage_range": "PMK candidates publish 0.99-1.21 V only",
+      "target_voltage_range": "PMK candidates publish 0.99-1.21 V only"
+    },
+    {
+      "contract_sufficient": false,
+      "delay": "rise/fall tables present but not valid for 0.80 V",
+      "interface_class": "sampling_clock",
+      "isolation_or_retention": "isolation metadata exists in PMK family; no selected, 0.80 V-qualified interface",
+      "off_state_back_powering": "not proven by Boolean power_down_function",
+      "slew": "rise/fall transition tables present but not valid for 0.80 V",
+      "source_voltage_range": "PMK candidates publish 0.99-1.21 V only",
+      "target_voltage_range": "PMK candidates publish 0.99-1.21 V only"
+    },
+    {
+      "contract_sufficient": false,
+      "delay": "rise/fall tables present but not valid for 0.80 V",
+      "interface_class": "qfinal_return",
+      "isolation_or_retention": "isolation metadata exists in PMK family; no selected, 0.80 V-qualified interface",
+      "off_state_back_powering": "not proven by Boolean power_down_function",
+      "slew": "rise/fall transition tables present but not valid for 0.80 V",
+      "source_voltage_range": "PMK candidates publish 0.99-1.21 V only",
+      "target_voltage_range": "PMK candidates publish 0.99-1.21 V only"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,22 @@
+{
+  "existing_evidence": {
+    "controller_output_delay_ns": 0.0,
+    "qsample2_to_reset_assert_start_ns": 0.19999999999998855,
+    "release_to_sclk_rise_ns": 0.48999999999999977,
+    "reset_assert_complete_to_sclk_fall_ns": 0.289999999999998
+  },
+  "physical_interface_delay_requirement": "must preserve all stated inequalities after worst-case reset and S_CLK interface skew",
+  "requirements": {
+    "active_level": "high",
+    "glitch_free": true,
+    "monotonic_release_and_assert": true,
+    "power_behavior": "requires isolation or power-safe driving under severe droop/off",
+    "relative_order": [
+      "PD_SENSE reset release complete < PD_SENSE S_CLK rise",
+      "Q_SAMPLE_2 complete < reset assert start < reset assert complete < PD_SENSE S_CLK fall"
+    ]
+  },
+  "schema_version": 1,
+  "signal": "sense_dff_reset",
+  "stage": "PD1-5"
+}

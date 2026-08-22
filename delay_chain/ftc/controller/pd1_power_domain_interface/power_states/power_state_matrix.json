@@ -1,0 +1,55 @@
+{
+  "rule": "An invalid Q_FINAL shall never be interpreted as a safe sensor result.",
+  "schema_version": 1,
+  "stage": "PD1-3",
+  "states": [
+    {
+      "back_powering_status": "not_applicable",
+      "condition": "both nominal",
+      "ctrl_to_sense_drive": "allowed",
+      "q_final_semantics": "valid",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S0"
+    },
+    {
+      "back_powering_status": "unproven",
+      "condition": "PD_SENSE powering up",
+      "ctrl_to_sense_drive": "only qualified interface",
+      "q_final_semantics": "invalid_until_qualified",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S1"
+    },
+    {
+      "back_powering_status": "not_applicable",
+      "condition": "PD_SENSE nominal monitored voltage",
+      "ctrl_to_sense_drive": "allowed",
+      "q_final_semantics": "valid_within_characterized_region",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S2"
+    },
+    {
+      "back_powering_status": "unproven",
+      "condition": "PD_SENSE moderate droop",
+      "ctrl_to_sense_drive": "only qualified interface",
+      "q_final_semantics": "not_automatically_valid",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S3"
+    },
+    {
+      "back_powering_status": "unproven",
+      "condition": "PD_SENSE severe droop",
+      "ctrl_to_sense_drive": "do_not_drive_without_power-safe_cell",
+      "q_final_semantics": "invalid_or_unresponsive",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S4"
+    },
+    {
+      "back_powering_status": "unproven",
+      "condition": "PD_SENSE near off or off",
+      "ctrl_to_sense_drive": "do_not_drive_without_isolation",
+      "q_final_semantics": "invalid_must_not_mean_safe",
+      "required_future_control": "isolation/qualified receiver/no-response handling where not nominal",
+      "state": "S5"
+    }
+  ]
+}

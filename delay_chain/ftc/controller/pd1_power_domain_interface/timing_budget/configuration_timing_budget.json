@@ -1,0 +1,11 @@
+{
+  "conclusion": "not closed; 2.5 ns is an upper bound, not an allocated interface delay",
+  "known_controller_endpoint_ns": 0.29,
+  "schema_version": 1,
+  "unknown_terms": [
+    "maximum physical interface delay",
+    "26-way arrival skew",
+    "PD_SENSE post-interface settle time"
+  ],
+  "window_ns": 2.5
+}

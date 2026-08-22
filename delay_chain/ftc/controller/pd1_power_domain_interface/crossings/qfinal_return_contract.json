@@ -1,0 +1,21 @@
+{
+  "closure": "not closed; no characterized low-voltage source-domain return receiver was found in approved evidence.",
+  "existing_pd_ctrl_path_arrival_ns": 0.89,
+  "requirements": {
+    "back_powering": "must not energize PD_SENSE when source is low/off",
+    "high_threshold": "candidate receiver must specify",
+    "intermediate_voltage": "invalid/unknown; must not mean safe",
+    "low_threshold": "candidate receiver must specify",
+    "max_delay": "must fit the S_CLK-to-sample chain",
+    "minimum_stable_time": "must satisfy both Q_SAMPLE_1 and Q_SAMPLE_2"
+  },
+  "schema_version": 1,
+  "semantic_type": "latched sensor capture-DFF state, not XOR pulse",
+  "signal": "Q_FINAL",
+  "stage": "PD1-7",
+  "verification_abstraction_only": {
+    "high_threshold_fraction_of_vdd": 0.7,
+    "low_threshold_fraction_of_vdd": 0.3,
+    "note": "These XA thresholds are not a physical receiver specification."
+  }
+}

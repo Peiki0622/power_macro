@@ -1,0 +1,25 @@
+{
+  "existing_timing": {
+    "configuration_settle_window_ns": 2.5,
+    "controller_output_delay_ns": 0.29,
+    "source": "delay_chain/ftc/controller/refrequency/synthesis/reports/thermometer_paths.rpt"
+  },
+  "physical_interface_budget": {
+    "closed": false,
+    "reason": "PD_SENSE configuration-settle requirement and level-shifter delay/skew are not characterized by frozen evidence.",
+    "upper_bound_ns": 2.5
+  },
+  "requirements": {
+    "encoding": "direct registered thermometer code; no local binary decode",
+    "monotonic_transition": true,
+    "no_glitch_during_probe": true,
+    "stable_for_entire_probe": true,
+    "target_low_voltage_behavior": "requires power-safe qualified interface"
+  },
+  "schema_version": 1,
+  "signals": [
+    "medium_therm[15:0]",
+    "fine_therm[9:0]"
+  ],
+  "stage": "PD1-4"
+}

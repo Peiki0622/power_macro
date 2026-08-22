@@ -1,0 +1,25 @@
+{
+  "allowed_decision": "\u8bc1\u636e\u7f3a\u53e3\u505c\u6b62",
+  "blocking_gap_ids": [
+    "PD1-GAP-001",
+    "PD1-GAP-002",
+    "PD1-GAP-003"
+  ],
+  "checks": {
+    "29_crossings_inventory_complete": true,
+    "abstracted_existing_event_order_positive": true,
+    "back_powering_safety_proven": false,
+    "four_interface_contracts_complete": true,
+    "frozen_upstream_unchanged": true,
+    "p10_hash_consistent": true,
+    "physical_timing_budget_closed": false,
+    "power_state_matrix_complete": true,
+    "qualified_interface_candidate_exists": false,
+    "shared_ground_premise_no_repository_conflict": true,
+    "unauthorized_rerun_count": 0,
+    "unknown_off_state_behavior_not_misrepresented": true
+  },
+  "decision": "PD1 = EVIDENCE_GAP_STOP",
+  "schema_version": 1,
+  "stage": "PD1-12"
+}

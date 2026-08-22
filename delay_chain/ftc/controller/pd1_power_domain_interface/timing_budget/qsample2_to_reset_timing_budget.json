@@ -1,0 +1,6 @@
+{
+  "conclusion": "positive abstracted event-order margins; candidate interface edge delays remain uncharacterized",
+  "measured_order_margin_ns": 0.19999999999998855,
+  "reset_completion_to_sclk_fall_margin_ns": 0.289999999999998,
+  "schema_version": 1
+}

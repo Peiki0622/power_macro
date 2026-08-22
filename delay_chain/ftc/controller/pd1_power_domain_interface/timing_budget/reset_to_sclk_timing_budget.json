@@ -1,0 +1,10 @@
+{
+  "conclusion": "positive abstracted event-order margin; physical implementation budget not closed",
+  "measured_order_margin_ns": 0.48999999999999977,
+  "schema_version": 1,
+  "terms_not_separable_from_existing_evidence": [
+    "reset physical-interface delay",
+    "S_CLK physical-interface delay",
+    "relative skew"
+  ]
+}

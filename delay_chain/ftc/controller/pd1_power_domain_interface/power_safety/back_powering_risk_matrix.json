@@ -1,0 +1,37 @@
+{
+  "conclusion": "evidence gap, not pass",
+  "known_unacceptable_path": false,
+  "proof_of_no_back_powering": false,
+  "scenarios": [
+    {
+      "configuration_and_reset_drive": "unproven without power-safe cell",
+      "qfinal_return": "unproven; invalid must not mean safe",
+      "scenario": "PD_SENSE nominal monitored voltage",
+      "sclk": "unproven without power-safe clock interface",
+      "status": "EVIDENCE_GAP"
+    },
+    {
+      "configuration_and_reset_drive": "unproven without power-safe cell",
+      "qfinal_return": "unproven; invalid must not mean safe",
+      "scenario": "PD_SENSE moderate droop",
+      "sclk": "unproven without power-safe clock interface",
+      "status": "EVIDENCE_GAP"
+    },
+    {
+      "configuration_and_reset_drive": "unproven without power-safe cell",
+      "qfinal_return": "unproven; invalid must not mean safe",
+      "scenario": "PD_SENSE severe droop",
+      "sclk": "unproven without power-safe clock interface",
+      "status": "EVIDENCE_GAP"
+    },
+    {
+      "configuration_and_reset_drive": "unproven without power-safe cell",
+      "qfinal_return": "unproven; invalid must not mean safe",
+      "scenario": "PD_SENSE near off or off",
+      "sclk": "unproven without power-safe clock interface",
+      "status": "EVIDENCE_GAP"
+    }
+  ],
+  "schema_version": 1,
+  "stage": "PD1-10"
+}

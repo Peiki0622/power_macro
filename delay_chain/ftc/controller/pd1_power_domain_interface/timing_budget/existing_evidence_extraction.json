@@ -1,0 +1,52 @@
+{
+  "evidence_priority": [
+    "RF6 current 400 MHz transistor evidence",
+    "RF9D current 400 MHz timing-composed mixed signal",
+    "RF8 synthesis/STA",
+    "historical exact physical event order for ordering only"
+  ],
+  "schema_version": 1,
+  "stage": "PD1-8",
+  "values": [
+    {
+      "gap": false,
+      "kind": "active timing contract",
+      "name": "configuration_settle_window",
+      "source": "delay_chain/ftc/controller/refrequency/handoff/phase1_timing_handoff_refrequency.json",
+      "unit": "ns",
+      "value": 2.5
+    },
+    {
+      "gap": false,
+      "kind": "direct existing event measurement",
+      "name": "reset_release_to_sclk_rise",
+      "source": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+      "unit": "ns",
+      "value": 0.48999999999999977
+    },
+    {
+      "gap": false,
+      "kind": "direct existing event measurement",
+      "name": "sclk_rise_to_qsample1",
+      "source": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+      "unit": "ns",
+      "value": 2.2999999999999874
+    },
+    {
+      "gap": false,
+      "kind": "direct existing event measurement",
+      "name": "qsample2_to_reset_assert_start",
+      "source": "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+      "unit": "ns",
+      "value": 0.19999999999998855
+    },
+    {
+      "gap": true,
+      "kind": "missing physical quantity",
+      "name": "physical_level_shifter_and_receiver_delays",
+      "source": "not available",
+      "unit": "ns",
+      "value": null
+    }
+  ]
+}

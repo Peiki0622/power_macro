@@ -1,0 +1,21 @@
+{
+  "closure": "not closed because sensor response and physical interface delays are not separately characterized.",
+  "existing_evidence": {
+    "controller_output_delay_ns": 0.0,
+    "qfinal_controller_arrival_ns": 0.89,
+    "sclk_rise_to_qsample1_window_ns": 2.2999999999999874
+  },
+  "priority": "highest PD_CTRL-to-PD_SENSE timing priority",
+  "requirements": {
+    "droop_behavior": "must be power-safe; unqualified operation prohibited",
+    "fall_delay": "candidate-specific and bounded by end-to-end budget",
+    "local_high_level": "derived from VDD_MONITORED, never a direct VDD_CTRL high",
+    "output_rise_fall_time": "must be characterized at each supported monitored-voltage region",
+    "pulse_width_distortion": "must preserve the frozen event sequence",
+    "rise_delay": "candidate-specific and bounded by end-to-end budget",
+    "rise_fall_mismatch": "must preserve reset/S_CLK ordering and pulse width"
+  },
+  "schema_version": 1,
+  "signal": "sense_s_clk",
+  "stage": "PD1-6"
+}

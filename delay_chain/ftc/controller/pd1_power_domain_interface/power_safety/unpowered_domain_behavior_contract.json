@@ -1,0 +1,8 @@
+{
+  "requirements": {
+    "pd_sense_near_off": "control lines must be isolated or driven by explicitly qualified power-safe cells",
+    "qfinal_near_off": "must be treated as invalid/unresponsive, never safe",
+    "restart": "future integration must qualify PD_SENSE before resuming control/interpretation"
+  },
+  "schema_version": 1
+}

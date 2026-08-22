@@ -1,0 +1,229 @@
+{
+  "inputs": {
+    "delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "1b14f19c691d8f290a9e925f74b30464223352a6",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a"
+    },
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "dd8e73da2a1287381b293e667e28e3d77ff63907",
+      "p10_content_sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7",
+      "p10_git_blob_sha": "dd8e73da2a1287381b293e667e28e3d77ff63907",
+      "sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7"
+    },
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/bridge_contract.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "7abe39ea636dd179d1683b33561dd8116d84ee09",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "7abe39ea636dd179d1683b33561dd8116d84ee09",
+      "sha256": "a950507a403b11789f35d352730455aa68b64aad5f36f070640298dd8922aa76"
+    },
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_stub.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "88a18351cc80100ed5896826735b4db286e66b17",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "88a18351cc80100ed5896826735b4db286e66b17",
+      "sha256": "3ac146ca0ee897f8caa554fca34e413ce2e2ea665521aeb17116a32fe8671a5c"
+    },
+    "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "1d560380804ade36df08bf1329216eb96db2d774",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "1d560380804ade36df08bf1329216eb96db2d774",
+      "sha256": "80d42fbf299429068219e1d2088668608d90694b06a78a1c5a0716d391e9bbd1"
+    },
+    "delay_chain/ftc/controller/final_closure/freeze/FTC_AUTONOMOUS_STARTUP_CALIBRATION_FINAL_ACCEPTANCE.md": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "e4210e79a01c573e1e53d941745976834579e6a6",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "3029c1352be2441caa9b992ec5ab67d7910afb04feb6082cd596d04cc4ae298b"
+    },
+    "delay_chain/ftc/controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "36946a0810c4c4bc23356c2335c6b2543f21b3a0",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "38e4863bfa4996659fdc896d8b026299c465d87821e831a7b96bc4a0c3bd3c45"
+    },
+    "delay_chain/ftc/controller/final_closure/freeze/STARTUP_CALIBRATION_EVIDENCE_BOUNDARY.md": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "574348b76f117b2184ca7966490d54e8ae0227b7",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "a8043e487c9b3145ccb2585441bec7ed504ef0dc7a5b233093b6ebb658f29a06"
+    },
+    "delay_chain/ftc/controller/final_closure/freeze/STARTUP_CALIBRATION_FROZEN_FILES.json": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "298c8d917dde642e5b9b521fc007c051d002749e",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "079c3dae6cb4447fb41abab4c67b78a6f5d90f6bb3716830b04a426e2d5eca86"
+    },
+    "delay_chain/ftc/controller/refrequency/handoff/phase1_timing_handoff_refrequency.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "c4b5f60ab6509aaec072bc7e6eb118603c1ab11b",
+      "p10_content_sha256": "7b42d1195368182f047fd2151e3b4c902af86d28eef15693112eed953c44ce42",
+      "p10_git_blob_sha": null,
+      "sha256": "7b42d1195368182f047fd2151e3b4c902af86d28eef15693112eed953c44ce42"
+    },
+    "delay_chain/ftc/controller/refrequency/handoff/rtl_timing_contract_audit.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "44ceb5cb6b43dade48f5c22e87147f3e750eb444",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "44ceb5cb6b43dade48f5c22e87147f3e750eb444",
+      "sha256": "0106b5e4430d2f4598bff60200e3c86649da37bbb7c37c90b7870002d122449f"
+    },
+    "delay_chain/ftc/controller/refrequency/hspice/summary.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "6852fa28cbc323ce32e39de04bf478996a5aad9b",
+      "p10_content_sha256": "43ae79539299ca2bc302e009e04b4d173ea08634c5ed3dbceaf8fe87ed928c3f",
+      "p10_git_blob_sha": null,
+      "sha256": "43ae79539299ca2bc302e009e04b4d173ea08634c5ed3dbceaf8fe87ed928c3f"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdc": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "03e95a74040a32cdf02b5281ea329f058064e9a5",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "03e95a74040a32cdf02b5281ea329f058064e9a5",
+      "sha256": "5c034ac6c2233760477044eb5d5fc50bad541349925b6fb45c2c2a02f1bff0cc"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdf": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "85c5c3389fb83a06928e5378db44640185003f5d",
+      "p10_content_sha256": "04123108cddd3f19a6b53cb32c273215983dc1932ad8379473edfd1e3c849c48",
+      "p10_git_blob_sha": "85c5c3389fb83a06928e5378db44640185003f5d",
+      "sha256": "04123108cddd3f19a6b53cb32c273215983dc1932ad8379473edfd1e3c849c48"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "f2a732d0f3f1239829149092e22b85409dca7793",
+      "p10_content_sha256": "0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3",
+      "p10_git_blob_sha": "f2a732d0f3f1239829149092e22b85409dca7793",
+      "sha256": "0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/phase_refrequency_synthesis_results.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "3f40d86a31ec38720b94af62602f76c2cc6b1df4",
+      "p10_content_sha256": "68db60a83e4418895a32ce16621bf5c89bb9802a1bb6d5d67d4e017c25fdcab0",
+      "p10_git_blob_sha": null,
+      "sha256": "68db60a83e4418895a32ce16621bf5c89bb9802a1bb6d5d67d4e017c25fdcab0"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/reports/q_final_sampling_path.rpt": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "5a9552ec466813a064902b54bf447f82e3aea8a0",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "da1ebaf8368cc011028e79945d409c79c8cdbb54af1d45e1193b361378614b8a"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/reports/sense_dff_reset_path.rpt": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "72d02fbcd8db19a9333027446b94a02ef4f40e0f",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "2e4195cf5cb92ffd7138fc8431f9c18bc7be6a7ecad8b03aa12a04cd0c541129"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/reports/sense_s_clk_path.rpt": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "fa152b974b952c8fd91a9d44c3a1c7a53e3fba91",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "8ef60af0ead1ea74e015e01aefd16c03f8d9635ebc11e88cad4a2ae6b636e54e"
+    },
+    "delay_chain/ftc/controller/refrequency/synthesis/reports/thermometer_paths.rpt": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "910898bed63f611617f861f4f25e18990478fe2e",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "ebf65c03d059b2832f3d36d988d49bc4d0f22694fdf1380a97fb60934b24c0c7"
+    },
+    "delay_chain/ftc/controller/refrequency/verification/mixed_signal_no_sdf/RF9C_AUTONOMOUS_MIXED_SIGNAL.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "860a0ba9c9b207c8d3b79b630c5da5978349b7a9",
+      "p10_content_sha256": "1f00615aa8ce9ab86fa179ca04958d0a98fdf2cba25d66d5479f4998e2c663c8",
+      "p10_git_blob_sha": null,
+      "sha256": "1f00615aa8ce9ab86fa179ca04958d0a98fdf2cba25d66d5479f4998e2c663c8"
+    },
+    "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/RF9D_TIMING_COMPOSED_MIXED_SIGNAL.json": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "c3b045f23996c72694cfcfd20a08b08d1d75a853",
+      "p10_content_sha256": "fef0954ac9a1204d06b2366bbfe5d4c2ffeb1b2bdad779cee51c5fa576626473",
+      "p10_git_blob_sha": "c3b045f23996c72694cfcfd20a08b08d1d75a853",
+      "sha256": "fef0954ac9a1204d06b2366bbfe5d4c2ffeb1b2bdad779cee51c5fa576626473"
+    },
+    "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/runs/rf9_0p80/timing_events.csv": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "da140edf950cecac08080c948e98cbe3bd0e8d12",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "ee036d95349245b06cf7c0bc7e255b08541c5c36552da8ed508c1bd9fc0a1b26"
+    },
+    "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/runs/rf9_0p95/timing_events.csv": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "e3ad1e84b689ac3b78b0be544cc3d92fbef89b0f",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "2ee5c476d5db381ff443b75bbd4aa31b48023dec4907671cf1c4cbfbf04c7ca1"
+    },
+    "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/runs/rf9_1p10/timing_events.csv": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "c13d1df8523c47643ae52473954dde0acc8e5b27",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "6fdf171920cc163965d29e1aed44814ef1ab0f7a872e6070f88850262d6990f8"
+    },
+    "delay_chain/ftc/controller/reports/FTC_CONTROLLER_GATE_STATUS.json": {
+      "classification": "PD1 read-only input",
+      "git_blob_sha": "8133bdea66fa39d44b96ed286c0e26996dea7b42",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": null,
+      "sha256": "615bc2dc99ec015f227309942b9bda510f7556b32eba5c6effcd44f69a1bd25c"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "eab29ecae9a4ad93b7586f1c293c2ddd0dd5497c",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "eab29ecae9a4ad93b7586f1c293c2ddd0dd5497c",
+      "sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "ae8cf850cfe35d5ae78518b2772a138d316c3b5a",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "ae8cf850cfe35d5ae78518b2772a138d316c3b5a",
+      "sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "504429b12a423ce57058e5ac301af40cd5f29db6",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "504429b12a423ce57058e5ac301af40cd5f29db6",
+      "sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "02e1b7f44a6e67b4538d42d58b0b989a93d2fae2",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "02e1b7f44a6e67b4538d42d58b0b989a93d2fae2",
+      "sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "b389c1f4ec8d86b1c3f27e8446b9e403333093bb",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "b389c1f4ec8d86b1c3f27e8446b9e403333093bb",
+      "sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_q_sampler.sv": {
+      "classification": "P10 frozen input",
+      "git_blob_sha": "3b5633020dd21ea0df4f21bbcc37dd3e07f00e81",
+      "p10_content_sha256": null,
+      "p10_git_blob_sha": "3b5633020dd21ea0df4f21bbcc37dd3e07f00e81",
+      "sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362"
+    }
+  },
+  "schema_version": 1
+}

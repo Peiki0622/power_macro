@@ -1,0 +1,9 @@
+{
+  "blocking": true,
+  "missing": [
+    "off-state injection current/back-powering characterization",
+    "low-voltage input static-current characterization",
+    "Q_FINAL receiver behavior with PD_SENSE near off"
+  ],
+  "schema_version": 1
+}
