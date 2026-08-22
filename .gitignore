@@ -192,6 +192,12 @@ hspice_command.log
 # excluding VCS/EDA compiler databases and waveform products from Git status.
 /csrc/
 /delay_chain/ftc/controller/**/csrc/
+
+# Corrected Phase 9 XA diagnostic launch directories contain task-scoped
+# copies of decks, wrappers, testbenches, and bridge configuration generated
+# by the run scripts.  The authored diagnostic deck and compact JSON evidence
+# live one level above these directories and remain visible for review.
+/delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/diagnostics/**/run/
 /delay_chain/ftc/controller/**/simv*
 /delay_chain/ftc/controller/**/*.daidir/
 /delay_chain/ftc/controller/**/*.vdb/
