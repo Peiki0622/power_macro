@@ -1,96 +1,93 @@
 {
-  "schema_version": 1,
-  "generated_by": "phase1_static_evidence_reuse",
-  "phase1_execution_policy": {
+  "schema_version": 2,
+  "generated_by": "phase10_static_freeze",
+  "execution_policy": {
     "hspice_rerun": false,
-    "contract_test_rerun": false,
-    "deck_render_rerun": false,
-    "reason": "Reuse the completed corrected v2 evidence without spending the Phase 1 zero-rerun budget."
+    "vcs_rerun": false,
+    "xa_rerun": false,
+    "synthesis_rerun": false,
+    "sta_rerun": false,
+    "reason": "Phase 10 reuses the completed RF0-RF10 evidence and performs only reconciliation, power-domain contract freeze, evidence-boundary publication, and file freezing."
+  },
+  "active_baseline": {
+    "status": "FROZEN",
+    "cal_clk_hz": 400000000,
+    "period_ns": 2.5,
+    "configuration_settle_cycles": 1,
+    "local_probe_action_cycles": {
+      "RESET_RELEASE": 0,
+      "S_CLK_RISE": 1,
+      "Q_SAMPLE_1": 2,
+      "Q_SAMPLE_2": 3,
+      "RESET_ASSERT": 4,
+      "S_CLK_FALL": 5,
+      "RECOVERY_DONE": 7
+    },
+    "timing_handoff": "delay_chain/ftc/controller/refrequency/handoff/phase1_timing_handoff_refrequency.json",
+    "mapped_netlist": "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v",
+    "sdc": "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdc",
+    "sdf": "delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdf",
+    "final_timing_composed_evidence": "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/RF9D_TIMING_COMPOSED_MIXED_SIGNAL.json"
+  },
+  "power_domain_contract": {
+    "status": "FROZEN",
+    "contract": "delay_chain/ftc/controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json",
+    "pd_sense": "VDD_MONITORED; complete frozen FTC_SENSOR including delay/tuning network, XOR network, and sensor capture DFF",
+    "pd_ctrl": "independent stable/trusted digital supply; calibration logic, M/F state, Q double sampler, future detection/margin/alarm logic",
+    "boundary": "Q_FINAL after the PD_SENSE capture DFF is the SENSE-to-CTRL state crossing",
+    "mixed_signal_interface_note": "Existing XA D2A/A2D elements are verification abstractions and are not evidence that physical level shifters have been implemented or signed off."
   },
   "phase_status": {
-    "phase_0": {
-      "gate": "GO",
-      "basis": "Functional contract and golden trajectories are present."
-    },
-    "phase_1": {
-      "gate": "GO",
-      "basis": "Corrected v2 timing handoff and three archived HSPICE scenario results pass static integrity checks."
-    },
-    "phase_2": {
-      "gate": "GO",
-      "basis": "Recorded unit-test result is GO."
-    },
-    "phase_3": {
-      "gate": "GO",
-      "basis": "Recorded sequencer unit-test result is GO."
-    },
-    "phase_4": {
-      "gate": "GO",
-      "basis": "Recorded three nominal FSM trajectories and eight failure results are passing."
-    },
-    "phase_5": {
-      "gate": "GO",
-      "basis": "Recorded integrated nominal results are passing with exact operation counts."
-    },
-    "phase_6": {
-      "gate": "GO",
-      "basis": "Committed delay_chain/ftc/controller/analysis/phase6/phase6_results.json reports GO; corrected from stale ledger entry without simulation."
-    },
-    "phase_7": {
-      "gate": "GO",
-      "basis": "Committed delay_chain/ftc/controller/analysis/phase7/phase7_results.json reports GO; corrected from stale ledger entry without simulation."
-    },
-    "phase_8": {
-      "gate": "GO",
-      "basis": "Current mapped netlist passes functional and MAX-SDF GLS for all three nominal scenarios and all eight negative scenarios; exact nominal operations are 45/36/36 with one S_CLK and two Q samples per probe."
-    },
-    "phase_9": {
-      "gate": "GO",
-      "basis": "Corrected VCS-XA bridge passed R0-R5, M0/F0 and M9/F0 equivalence, and autonomous 0.80/0.95/1.10 V acceptance with exact trajectories, edge/sample counters, analog rails, and zero comparison errors. Historical NO-GO evidence remains preserved under vcs_xa/."
-    },
-    "phase_10": {
-      "gate": "NOT_STARTED",
-      "basis": "Phase 10 freeze is pending C2-C6 timing-composition closure."
-    }
+    "phase_0": {"gate": "GO", "basis": "Frozen functional contract and golden trajectories."},
+    "phase_1": {"gate": "GO", "basis": "Historical corrected transistor timing evidence retained; active controller timing is superseded by the RF7 400 MHz handoff."},
+    "phase_2": {"gate": "GO", "basis": "Recorded unit verification retained."},
+    "phase_3": {"gate": "GO", "basis": "Recorded sequencer verification retained."},
+    "phase_4": {"gate": "GO", "basis": "Recorded FSM nominal and failure-scenario verification retained."},
+    "phase_5": {"gate": "GO", "basis": "Recorded integrated nominal controller verification retained."},
+    "phase_6": {"gate": "GO", "basis": "Committed RTL protocol-safety evidence retained."},
+    "phase_7": {"gate": "GO", "basis": "Historical 1 GHz synthesis retained for traceability; superseded as active implementation by RF8 re-frequency synthesis."},
+    "phase_8": {"gate": "GO", "basis": "Historical gate-level functional/delayed evidence retained; RF9B provides the active 400 MHz full-timing SDF digital closure."},
+    "phase_9": {"gate": "GO", "basis": "Corrected mixed-signal bridge evidence retained; RF9C and RF9D provide active 400 MHz three-voltage autonomous mixed-signal closure."},
+    "phase_10": {"gate": "GO", "basis": "Active RF7/RF8/RF9D baseline reconciled, power-domain boundary frozen, cross-layer evidence boundary published, and startup-calibration frozen-file manifest created without new simulation."}
   },
-  "phase_1_static_checks": {
-    "handoff_path": "spec/phase1_timing_handoff.json",
-    "handoff_sha256": "fc13ef41ca66f44a5345b3ee0e4dfea3f2742c5a9a6357074a4e0fa000df81e2",
-    "event_order_audit_sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a",
-    "corrected_summary_sha256": "8b2bb637f4031b09d926d5cc0c05e1cd48526601e9464c1415d876660ad2c861",
-    "timing_constants": {
-      "configuration_settle_cycles": 2,
-      "sclk_rise_cycle": 1,
-      "q_sample_1_cycle": 4,
-      "q_sample_2_cycle": 5,
-      "sclk_fall_cycle": 7,
-      "recovery_done_cycle": 10
-    },
-    "scenarios": {
-      "0p80": {
-        "final_medium": 7,
-        "final_fine": 6,
-        "decision": "GO",
-        "evidence": "hspice/summary.json"
-      },
-      "0p95": {
-        "final_medium": 4,
-        "final_fine": 6,
-        "decision": "GO",
-        "evidence": "hspice/summary.json"
-      },
-      "1p10": {
-        "final_medium": 2,
-        "final_fine": 9,
-        "decision": "GO",
-        "evidence": "hspice/summary.json"
-      }
-    },
-    "result": "PASS_WITHOUT_RERUN"
+  "active_refrequency_evidence": {
+    "rf6_transistor_sensor": "GO",
+    "rf7_timing_handoff": "GO",
+    "rf8_synthesis_sta": "GO",
+    "rf9a_rtl_behavioral": "GO",
+    "rf9b_sdf_behavioral": "GO",
+    "rf9c_no_sdf_xa": "GO",
+    "rf9d_sdf_xa_transistor": "GO",
+    "rf10_refrequency_handoff": "GO"
   },
-  "historical_phase_1_v1": {
-    "gate": "NO-GO",
-    "superseded_by": "corrected_phase_1_v2",
-    "consumption_rule": "Historical v1 evidence is retained for traceability and is not consumed by RTL or later gates."
+  "nominal_locked_codes": {
+    "0.80V": {"M": 7, "F": 6},
+    "0.95V": {"M": 4, "F": 6},
+    "1.10V": {"M": 2, "F": 9}
+  },
+  "historical_evidence": {
+    "historical_1ghz_phase1_handoff": "retained; superseded for active RTL timing consumption",
+    "historical_1ghz_phase7_synthesis": "retained historical implementation evidence",
+    "historical_1ghz_timing_composed_c3_failure": "retained root-cause evidence; not rerun",
+    "old_final_closure_c2_c4_1ghz_path": "superseded by the completed RF0-RF10 400 MHz re-frequency closure; must not be executed as an active Phase 10 requirement"
+  },
+  "published_conclusions": {
+    "Synthesizable Startup Calibration Controller": "GO",
+    "Real Circuit Autonomous Startup Calibration": "GO_WITH_EVIDENCE_BOUNDARY",
+    "Startup Calibration Subsystem Freeze": "GO"
+  },
+  "next_stage_boundary": {
+    "allowed": [
+      "PD1 physical domain-crossing contract and level-shifter/receiver architecture",
+      "H0 calibration-to-detection atomic ownership handoff",
+      "subsequent detection-margin and detection-mode work that consumes this frozen upstream baseline"
+    ],
+    "forbidden_without_dedicated_change_plan": [
+      "modifying the frozen FTC_SENSOR topology",
+      "moving XOR or the sensor capture DFF out of PD_SENSE",
+      "changing the startup-calibration algorithm",
+      "changing the active 400 MHz calibration timing contract",
+      "changing the direct registered thermometer architecture"
+    ]
   }
 }

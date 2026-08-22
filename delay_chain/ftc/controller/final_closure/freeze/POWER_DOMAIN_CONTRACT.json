@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN",
+  "decision": "FTC Startup-Calibration Power-Domain Contract = GO",
+  "simulation_partition": {
+    "analog_transistor_domain": "FTC_SENSOR only",
+    "digital_domain": "calibration controller and all future detection/margin/alarm logic",
+    "reason": "Preserve the validated mixed-signal methodology and avoid unnecessary full-transistor simulation of the digital controller."
+  },
+  "physical_power_domains": {
+    "PD_SENSE": {
+      "supply_role": "VDD_MONITORED",
+      "supply_behavior": "explicit analog supply that may vary or droop",
+      "contents": [
+        "complete frozen FTC sensor delay/tuning network",
+        "medium path-selection network",
+        "fine driver/load network",
+        "XOR timing-comparison network",
+        "sensor capture DFF"
+      ],
+      "boundary_output": "Q_FINAL after the sensor capture DFF",
+      "architectural_rule": "XOR and capture DFF remain in PD_SENSE. Moving either across the boundary changes the validated sensor transfer function and requires a dedicated architecture-change/root-cause plan."
+    },
+    "PD_CTRL": {
+      "supply_role": "independent stable/trusted digital supply",
+      "simulation_supply_model": "electrically abstracted; timing-valid digital standard-cell domain",
+      "contents": [
+        "M/F thermometer state registers",
+        "operation sequencer",
+        "Q double sampler and classification logic",
+        "startup-calibration FSM",
+        "future calibration-to-detection ownership logic",
+        "future programmable detection-margin logic",
+        "future detection FSM and alarm/status logic"
+      ]
+    }
+  },
+  "crossings": {
+    "PD_CTRL_to_PD_SENSE": {
+      "count": 28,
+      "signals": {
+        "sense_s_clk": 1,
+        "sense_dff_reset": 1,
+        "medium_therm": 16,
+        "fine_therm": 10
+      },
+      "current_verification_abstraction": "XA D2A crossings whose analog high level is normalized to the sensor-local VDD",
+      "physical_implementation_status": "NOT_YET_DEFINED",
+      "next_stage": "PD1 must define real physical level-shifter/receiver requirements without modifying the frozen startup-calibration semantics."
+    },
+    "PD_SENSE_to_PD_CTRL": {
+      "count": 1,
+      "signal": "Q_FINAL",
+      "semantic_type": "latched state, not the XOR pulse or two raw timing paths",
+      "current_verification_abstraction": "XA A2D crossing",
+      "physical_implementation_status": "NOT_YET_DEFINED",
+      "next_stage": "PD1 must define a robust return receiver/level conversion path and its threshold/delay requirements."
+    }
+  },
+  "boundary_rationale": [
+    "The already validated transistor sensor contains the delay network, XOR network and capture DFF under one sensor supply.",
+    "Keeping XOR in PD_SENSE avoids adding two timing-critical cross-domain paths whose skew would corrupt the measured path-delay difference.",
+    "Keeping the capture DFF in PD_SENSE converts a short timing event into a held Q_FINAL state before the power-domain crossing.",
+    "The PD_CTRL double sampler remains the trusted digital decision layer; the sensor capture DFF is part of the transducer rather than the final security decision logic.",
+    "This boundary maximizes reuse of completed RF6/RF9C/RF9D evidence and avoids unnecessary re-characterization."
+  ],
+  "evidence": {
+    "sensor_wrapper": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp",
+    "bridge_contract": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/bridge_contract.json",
+    "frozen_sensor": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp",
+    "frozen_sensor_sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7",
+    "rf9d": "delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/RF9D_TIMING_COMPOSED_MIXED_SIGNAL.json"
+  },
+  "explicit_non_claims": [
+    "The existing XA D2A/A2D elements are not proof of a fabricated or signed-off physical level shifter.",
+    "PD_CTRL power integrity under a physical implementation is not modeled by the current digital abstraction.",
+    "The current freeze does not characterize deep-droop failure of the PD_SENSE capture DFF; that belongs to future detection operating-region characterization.",
+    "No UPF/CPF or physical power-grid implementation is claimed by this contract."
+  ]
+}

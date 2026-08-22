@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "freeze_baseline_commit": "5c9813c57ffcfc3dd2a040639facc831d57f78f6",
+  "status": "FROZEN",
+  "note": "Git blob SHAs below anchor exact repository objects at the Phase 10 baseline. Where a content SHA256 was already published by prior accepted evidence, it is retained as an additional cross-check. No simulation or synthesis was rerun to regenerate hashes.",
+  "files": [
+    {"path":"delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv","git_blob_sha":"eab29ecae9a4ad93b7586f1c293c2ddd0dd5497c"},
+    {"path":"delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv","git_blob_sha":"ae8cf850cfe35d5ae78518b2772a138d316c3b5a"},
+    {"path":"delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv","git_blob_sha":"504429b12a423ce57058e5ac301af40cd5f29db6"},
+    {"path":"delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv","git_blob_sha":"02e1b7f44a6e67b4538d42d58b0b989a93d2fae2"},
+    {"path":"delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv","git_blob_sha":"b389c1f4ec8d86b1c3f27e8446b9e403333093bb"},
+    {"path":"delay_chain/ftc/controller/rtl/ftc_q_sampler.sv","git_blob_sha":"3b5633020dd21ea0df4f21bbcc37dd3e07f00e81"},
+    {"path":"delay_chain/ftc/controller/refrequency/handoff/phase1_timing_handoff_refrequency.json","content_sha256":"7b42d1195368182f047fd2151e3b4c902af86d28eef15693112eed953c44ce42"},
+    {"path":"delay_chain/ftc/controller/refrequency/handoff/rtl_timing_contract_audit.json","git_blob_sha":"44ceb5cb6b43dade48f5c22e87147f3e750eb444"},
+    {"path":"delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.v","git_blob_sha":"f2a732d0f3f1239829149092e22b85409dca7793","content_sha256":"0da7ae511b0335f40eccd2e1e3aced5554dbb5e108f33b2486bcca8c0fa61ab3"},
+    {"path":"delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdc","git_blob_sha":"03e95a74040a32cdf02b5281ea329f058064e9a5"},
+    {"path":"delay_chain/ftc/controller/refrequency/synthesis/netlist/ftc_cal_controller_top_synth.sdf","git_blob_sha":"85c5c3389fb83a06928e5378db44640185003f5d","content_sha256":"04123108cddd3f19a6b53cb32c273215983dc1932ad8379473edfd1e3c849c48"},
+    {"path":"delay_chain/ftc/controller/refrequency/synthesis/phase_refrequency_synthesis_results.json","content_sha256":"68db60a83e4418895a32ce16621bf5c89bb9802a1bb6d5d67d4e017c25fdcab0"},
+    {"path":"delay_chain/ftc/controller/refrequency/hspice/summary.json","content_sha256":"43ae79539299ca2bc302e009e04b4d173ea08634c5ed3dbceaf8fe87ed928c3f"},
+    {"path":"delay_chain/ftc/controller/refrequency/verification/mixed_signal_no_sdf/RF9C_AUTONOMOUS_MIXED_SIGNAL.json","content_sha256":"1f00615aa8ce9ab86fa179ca04958d0a98fdf2cba25d66d5479f4998e2c663c8"},
+    {"path":"delay_chain/ftc/controller/refrequency/verification/mixed_signal_sdf/RF9D_TIMING_COMPOSED_MIXED_SIGNAL.json","git_blob_sha":"c3b045f23996c72694cfcfd20a08b08d1d75a853","content_sha256":"fef0954ac9a1204d06b2366bbfe5d4c2ffeb1b2bdad779cee51c5fa576626473"},
+    {"path":"delay_chain/ftc/controller/refrequency/reports/REFREQUENCY_GATE_STATUS.json","git_blob_sha":"5aa591e217189cd9a8dcac982ef83ce07415b920"},
+    {"path":"delay_chain/ftc/controller/refrequency/reports/REFREQUENCY_FINAL_REPORT.md","git_blob_sha":"197da1b96cd7e59f743e87685c715ff74a847c48"},
+    {"path":"delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp","git_blob_sha":"dd8e73da2a1287381b293e667e28e3d77ff63907","content_sha256":"0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7"},
+    {"path":"delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_wrapper.sp","git_blob_sha":"1d560380804ade36df08bf1329216eb96db2d774"},
+    {"path":"delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/src/ftc_sensor_ams_stub.sv","git_blob_sha":"88a18351cc80100ed5896826735b4db286e66b17"},
+    {"path":"delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/bridge_contract.json","git_blob_sha":"7abe39ea636dd179d1683b33561dd8116d84ee09"},
+    {"path":"delay_chain/ftc/controller/final_closure/evidence/phase_gate_reconciliation.json","git_blob_sha":"343dcf389f8b6f424377005aa55a49c0dbb6d330"},
+    {"path":"delay_chain/ftc/controller/final_closure/timing_composition/reports/timing_composed_0p80_failure.json","content_sha256":"f4ead8330f579e88b78bf6da9801112f57a252139296964d4a4bbd6a9f617151","disposition":"historical root-cause evidence only"}
+  ],
+  "freeze_semantics": [
+    "Current FTC_SENSOR physical topology and cell choices remain frozen.",
+    "PD_SENSE contains the complete frozen FTC_SENSOR including XOR and capture DFF.",
+    "PD_CTRL contains the startup-calibration controller and all future detection/margin/alarm logic.",
+    "The direct registered N=16/K=10 thermometer-control architecture remains frozen.",
+    "Paired coarse probes, exact two-step backoff, fine-boundary rule, +1 guard, independent hold and Q double sampling remain frozen.",
+    "The active startup-calibration clock is 400 MHz with the RF7 event schedule 0/1/2/3/4/5/7 and one configuration-settle cycle.",
+    "Nominal locked results remain 0.80 V M7/F6, 0.95 V M4/F6, and 1.10 V M2/F9."
+  ]
+}
