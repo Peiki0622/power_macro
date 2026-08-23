@@ -1,0 +1,198 @@
+{
+  "cal_to_sense_clk_cone_claim": {
+    "evidence": "M1 wrapper instantiates frozen H0 and drives only its published det_* inputs; no H0+M1 resynthesis was run",
+    "h0_existing_timing_evidence": "delay_chain/ftc/controller/h0_calibration_detection_handoff/timing/handoff_timing_composition.json",
+    "h0_owner_and_top_head_hash_unchanged": true
+  },
+  "frozen_input_checks": [
+    {
+      "current_sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba",
+      "expected_sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba",
+      "name": "frozen_cal_controller_top",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932",
+      "expected_sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932",
+      "name": "frozen_cal_fsm",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3",
+      "expected_sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3",
+      "name": "frozen_cal_operation_sequencer",
+      "path": "delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe",
+      "expected_sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe",
+      "name": "frozen_cal_pkg",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362",
+      "expected_sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362",
+      "name": "frozen_cal_q_sampler",
+      "path": "delay_chain/ftc/controller/rtl/ftc_q_sampler.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+      "expected_sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+      "name": "frozen_cfg_therm_regs",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "3455a7e67e31692ffe51f0423926e5bb3942d51ee7672ec949b19decdb0b1019",
+      "expected_sha256": "3455a7e67e31692ffe51f0423926e5bb3942d51ee7672ec949b19decdb0b1019",
+      "name": "frozen_h0_owner",
+      "path": "delay_chain/ftc/controller/rtl/ftc_sensor_owner_handoff.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "508f788d8936387a8996146d11e97b51b80be9c7698c7c0a71e371c836ffc3ae",
+      "expected_sha256": "508f788d8936387a8996146d11e97b51b80be9c7698c7c0a71e371c836ffc3ae",
+      "name": "frozen_h0_top",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_detect_handoff_top.sv",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7",
+      "expected_sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7",
+      "name": "frozen_sensor",
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "9dd671787f1be2d00e430ef1fdfca2eaf3aeb2dcae09e5d7b187c42cff9578b5",
+      "expected_sha256": "9dd671787f1be2d00e430ef1fdfca2eaf3aeb2dcae09e5d7b187c42cff9578b5",
+      "name": "h0_frozen_baseline",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/baseline/frozen_input_sha256.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "fdf02064c9434de978690822564452360d27e1ddc3e863056942212656253649",
+      "expected_sha256": "fdf02064c9434de978690822564452360d27e1ddc3e863056942212656253649",
+      "name": "h0_interface_contract",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/contract/handoff_interface_contract.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "248caba0140766213d92bfccbf59ac5624fb1addca74af5c15cf5f8f6e8b8bf1",
+      "expected_sha256": "248caba0140766213d92bfccbf59ac5624fb1addca74af5c15cf5f8f6e8b8bf1",
+      "name": "h0_timing_composition",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/timing/handoff_timing_composition.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+      "expected_sha256": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+      "name": "m0_candidate_selection",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+      "expected_sha256": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+      "name": "m0_renderer",
+      "path": "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "ca18e15c02ff2f25baeae77ca961e0075c9e4608edf3ce721acb6e68af4e4d33",
+      "expected_sha256": "ca18e15c02ff2f25baeae77ca961e0075c9e4608edf3ce721acb6e68af4e4d33",
+      "name": "m0_summary",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/summary.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+      "expected_sha256": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+      "name": "m0_trip_summary",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json",
+      "sha256_matches": true
+    },
+    {
+      "current_sha256": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+      "expected_sha256": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+      "name": "physical_renderer",
+      "path": "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+      "sha256_matches": true
+    }
+  ],
+  "frozen_rtl_checks": [
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cal_pkg",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cfg_therm_regs",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cal_operation_sequencer",
+      "path": "delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cal_q_sampler",
+      "path": "delay_chain/ftc/controller/rtl/ftc_q_sampler.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cal_fsm",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_cal_controller_top",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_h0_owner",
+      "path": "delay_chain/ftc/controller/rtl/ftc_sensor_owner_handoff.sv"
+    },
+    {
+      "git_head_blob_matches": true,
+      "h0_frozen_sha256_matches": true,
+      "m1_baseline_sha256_matches": true,
+      "name": "frozen_h0_top",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_detect_handoff_top.sv"
+    }
+  ],
+  "new_hspice_xa_or_rf_execution": {
+    "pass": true,
+    "prohibited_command_tokens": [],
+    "prohibited_task_owned_artifacts": []
+  },
+  "schema_version": 1,
+  "stage": "M1-8",
+  "stage_top_uses_only_h0_detector_input_boundary": true,
+  "synthesizable_rtl_function_definitions": {
+    "ftc_detection_margin_manager.sv": [],
+    "ftc_detection_margin_mapper.sv": []
+  }
+}

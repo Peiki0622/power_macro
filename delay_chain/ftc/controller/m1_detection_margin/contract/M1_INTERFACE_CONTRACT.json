@@ -1,0 +1,48 @@
+{
+  "clock_reset": {
+    "clock": "cal_clk_i",
+    "frequency_hz": 400000000,
+    "period_ns": 2.5,
+    "por": "ctrl_por_n_i active-low"
+  },
+  "frozen_h0_inputs_driven_by_m1": [
+    "det_takeover_ready_i",
+    "det_sense_dff_reset_i",
+    "det_sense_s_clk_i",
+    "det_medium_therm_i[15:0]",
+    "det_fine_therm_i[9:0]"
+  ],
+  "invariants": {
+    "no_probe_in_m1": "det_sense_s_clk_o is permanently 0",
+    "ownership": "M1 never drives the physical sensor mux; frozen H0 remains sole owner",
+    "reset_during_m1": "det_sense_dff_reset_o is permanently 1",
+    "trip_is_not_mapping": "trip_qualified_o is metadata; it does not alter the exact vector lookup"
+  },
+  "margin_request": {
+    "acceptance": "one cal_clk_i-synchronous request only in H0 det_prepare state",
+    "signals": [
+      "margin_sel_i[1:0]",
+      "margin_select_valid_i"
+    ],
+    "supported_keys": "exact (M_cal,F_cal,margin_level) lookup from M1_MARGIN_CODEBOOK.json",
+    "unsupported_or_early_or_repeated": "sticky margin_protocol_error_o; no ready, no valid, no vector rewrite"
+  },
+  "safe_sequence": [
+    "copy immutable H0 calibration snapshot to registered detector controls",
+    "accept exact lookup and hold snapshot for one complete PRELOAD cycle",
+    "assert registered ready; H0 alone grants det_owner_valid",
+    "under det_owner_valid, atomically apply registered target with reset=1 and S_CLK=0",
+    "hold target for one complete 2.5 ns M_APPLY cycle before margin_cfg_valid_o"
+  ],
+  "schema_version": 1,
+  "stage": "M1-4/M1-8",
+  "status_outputs": [
+    "margin_cfg_valid_o",
+    "mapping_supported_o",
+    "trip_qualified_o",
+    "margin_protocol_error_o",
+    "m_det_o[4:0]",
+    "f_det_o[3:0]",
+    "margin_level_o[1:0]"
+  ]
+}

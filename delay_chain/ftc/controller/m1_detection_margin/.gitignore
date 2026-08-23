@@ -1,0 +1,8 @@
+# M1 keeps compact, reviewable source contracts and final evidence in Git.
+# VCS executables/csrc trees, Design Compiler work databases, binary DDC, and
+# raw run logs are reproducible from the versioned RTL, scripts, SDF, SDC, and
+# curated text/JSON reports, so they remain local under this task-owned root.
+synthesis/work/
+synthesis/netlist/*.ddc
+synthesis/run/
+verification/**/run/

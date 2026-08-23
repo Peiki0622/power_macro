@@ -1,0 +1,13 @@
+{
+  "assertion_source": "delay_chain/ftc/controller/m1_detection_margin/assertions/ftc_detection_margin_manager_sva.sv",
+  "decision": "PASS",
+  "manager_h0_test_log": {
+    "failure_markers": [],
+    "pass": true,
+    "pass_marker": "M1 manager/H0 integration PASS",
+    "pass_marker_found": true,
+    "path": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z/manager/run.log"
+  },
+  "schema_version": 1,
+  "stage": "M1-5"
+}

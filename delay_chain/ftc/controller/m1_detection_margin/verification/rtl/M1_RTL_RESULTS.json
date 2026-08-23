@@ -1,0 +1,36 @@
+{
+  "cases": {
+    "contract_unittest": {
+      "failure_markers": [],
+      "pass": true,
+      "pass_marker": "OK",
+      "pass_marker_found": true,
+      "path": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z/contract_unittest.log"
+    },
+    "manager_h0_sva": {
+      "failure_markers": [],
+      "pass": true,
+      "pass_marker": "M1 manager/H0 integration PASS",
+      "pass_marker_found": true,
+      "path": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z/manager/run.log"
+    },
+    "mapper": {
+      "failure_markers": [],
+      "pass": true,
+      "pass_marker": "M1 mapper unit PASS",
+      "pass_marker_found": true,
+      "path": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z/mapper/run.log"
+    },
+    "stage_top": {
+      "failure_markers": [],
+      "pass": true,
+      "pass_marker": "M1 stage-top elaboration PASS",
+      "pass_marker_found": true,
+      "path": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z/top/run.log"
+    }
+  },
+  "decision": "PASS",
+  "run_root": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/run/rtl_20260823T001000Z",
+  "schema_version": 1,
+  "stage": "M1-5"
+}

@@ -1,0 +1,96 @@
+{
+  "current_commit": "57d4b17463743ca6b9b7d57a62bcb22e3184e349",
+  "decision": "GO",
+  "inputs": {
+    "frozen_cal_controller_top": {
+      "git_blob_sha": "eab29ecae9a4ad93b7586f1c293c2ddd0dd5497c",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv",
+      "sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba"
+    },
+    "frozen_cal_fsm": {
+      "git_blob_sha": "ae8cf850cfe35d5ae78518b2772a138d316c3b5a",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv",
+      "sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932"
+    },
+    "frozen_cal_operation_sequencer": {
+      "git_blob_sha": "b389c1f4ec8d86b1c3f27e8446b9e403333093bb",
+      "path": "delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv",
+      "sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3"
+    },
+    "frozen_cal_pkg": {
+      "git_blob_sha": "504429b12a423ce57058e5ac301af40cd5f29db6",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv",
+      "sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe"
+    },
+    "frozen_cal_q_sampler": {
+      "git_blob_sha": "3b5633020dd21ea0df4f21bbcc37dd3e07f00e81",
+      "path": "delay_chain/ftc/controller/rtl/ftc_q_sampler.sv",
+      "sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362"
+    },
+    "frozen_cfg_therm_regs": {
+      "git_blob_sha": "02e1b7f44a6e67b4538d42d58b0b989a93d2fae2",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+      "sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589"
+    },
+    "frozen_h0_owner": {
+      "git_blob_sha": "3d917d0580b6f353fad15065cf1fa05bab9b15db",
+      "path": "delay_chain/ftc/controller/rtl/ftc_sensor_owner_handoff.sv",
+      "sha256": "3455a7e67e31692ffe51f0423926e5bb3942d51ee7672ec949b19decdb0b1019"
+    },
+    "frozen_h0_top": {
+      "git_blob_sha": "6d863ab09e1b3b99bf2dda01c2c3b8790ba8b2f5",
+      "path": "delay_chain/ftc/controller/rtl/ftc_cal_detect_handoff_top.sv",
+      "sha256": "508f788d8936387a8996146d11e97b51b80be9c7698c7c0a71e371c836ffc3ae"
+    },
+    "frozen_sensor": {
+      "git_blob_sha": "dd8e73da2a1287381b293e667e28e3d77ff63907",
+      "path": "delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa/inputs/ftc_sensor_frozen.sp",
+      "sha256": "0cee5749f2f3ece3046d9e2ad459f1ec72565e18e8766007b8ee1313eb4c98f7"
+    },
+    "h0_frozen_baseline": {
+      "git_blob_sha": "146d043e7270df5523ffc1cd4311ebfaf94c2efb",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/baseline/frozen_input_sha256.json",
+      "sha256": "9dd671787f1be2d00e430ef1fdfca2eaf3aeb2dcae09e5d7b187c42cff9578b5"
+    },
+    "h0_interface_contract": {
+      "git_blob_sha": "123733f13729baff24895a3a5f8e083c3f2c39ef",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/contract/handoff_interface_contract.json",
+      "sha256": "fdf02064c9434de978690822564452360d27e1ddc3e863056942212656253649"
+    },
+    "h0_timing_composition": {
+      "git_blob_sha": "385b312ac9a3301f9ec1784b7f9a5ea3bd70827d",
+      "path": "delay_chain/ftc/controller/h0_calibration_detection_handoff/timing/handoff_timing_composition.json",
+      "sha256": "248caba0140766213d92bfccbf59ac5624fb1addca74af5c15cf5f8f6e8b8bf1"
+    },
+    "m0_candidate_selection": {
+      "git_blob_sha": "372c1f224a50686e5d68eda8d5b622b2a63dfb32",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+      "sha256": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618"
+    },
+    "m0_renderer": {
+      "git_blob_sha": "c3b6c811dbff05c77300df6e55afc66359981d05",
+      "path": "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+      "sha256": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1"
+    },
+    "m0_summary": {
+      "git_blob_sha": "c2298d2c891447846baecbde851b02857d775863",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/summary.json",
+      "sha256": "ca18e15c02ff2f25baeae77ca961e0075c9e4608edf3ce721acb6e68af4e4d33"
+    },
+    "m0_trip_summary": {
+      "git_blob_sha": "c269f0b5d95cf2cc309747a6e8d019f830541a9a",
+      "path": "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json",
+      "sha256": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b"
+    },
+    "physical_renderer": {
+      "git_blob_sha": "fb956c3e5a395fc8c6f93aa67cd9194af5a65129",
+      "path": "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+      "sha256": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+    }
+  },
+  "m0_input_baseline_commit": "935facf76f338d8a0e274f33655d746153a1b284",
+  "new_hspice_count": 0,
+  "new_xa_count": 0,
+  "schema_version": 1,
+  "stage": "M1-0"
+}

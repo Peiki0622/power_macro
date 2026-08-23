@@ -1,0 +1,241 @@
+{
+  "active_low_semantics": "0 selects one fine NOR-load control; F10 selects all ten loads",
+  "bit_order": "packed vector [9:0], text is bit9 through bit0",
+  "calibration_unreachable_not_physically_illegal": true,
+  "decision": "GO",
+  "entries": [
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 0,
+      "fine_therm_vector_bits_msb_to_lsb": "1111111111",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 1,
+      "fine_therm_vector_bits_msb_to_lsb": "1111111110",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 2,
+      "fine_therm_vector_bits_msb_to_lsb": "1111111100",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 3,
+      "fine_therm_vector_bits_msb_to_lsb": "1111111000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 4,
+      "fine_therm_vector_bits_msb_to_lsb": "1111110000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 5,
+      "fine_therm_vector_bits_msb_to_lsb": "1111100000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 6,
+      "fine_therm_vector_bits_msb_to_lsb": "1111000000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 7,
+      "fine_therm_vector_bits_msb_to_lsb": "1110000000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 8,
+      "fine_therm_vector_bits_msb_to_lsb": "1100000000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": true,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 9,
+      "fine_therm_vector_bits_msb_to_lsb": "1000000000",
+      "physical_legal": true
+    },
+    {
+      "calibration_reachable": false,
+      "detection_reachable": true,
+      "evidence_sha256": {
+        "frozen_cfg_therm_regs": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589",
+        "m0_candidate_selection": "80b55ea227725d1d0db3981624a39a49c735ea1893b26d7e52b3a07b04d1e618",
+        "m0_renderer": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+        "m0_trip_summary": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+        "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+      },
+      "evidence_source": [
+        "delay_chain/ftc/scripts/run_m0_detection_margin_characterization.py",
+        "delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+        "delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/candidate_selection_summary.json",
+        "delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_summary.json"
+      ],
+      "fine_code": 10,
+      "fine_therm_vector_bits_msb_to_lsb": "0000000000",
+      "physical_legal": true
+    }
+  ],
+  "schema_version": 1,
+  "stage": "M1-0"
+}

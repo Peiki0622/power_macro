@@ -1,0 +1,38 @@
+{
+  "configuration_observability": [
+    "cal_medium_code_snapshot_o[4:0]",
+    "cal_fine_code_snapshot_o[3:0]",
+    "m_det_o[4:0]",
+    "f_det_o[3:0]",
+    "margin_level_o[1:0]",
+    "trip_qualified_o"
+  ],
+  "consumer": "T0 transient threat/timing contract followed by D0 runtime detection FSM",
+  "d0_must_define": [
+    "runtime reset/S_CLK waveform",
+    "Q sampling and decision policy",
+    "alarm latch/clear and status behavior",
+    "heartbeat or timeout behavior for below-anchor cases"
+  ],
+  "entry_condition_for_t0_d0": [
+    "margin_cfg_valid_o == 1",
+    "mapping_supported_o == 1",
+    "margin_protocol_error_o == 0",
+    "det_owner_valid_o == 1",
+    "sensor controls remain reset=1 and S_CLK=0 at the M1 boundary"
+  ],
+  "explicitly_not_claimed_by_m1": [
+    "runtime detection probe",
+    "droop coverage or minimum detectable pulse width",
+    "alarm latency or alarm behavior",
+    "dynamic recalibration"
+  ],
+  "producer": "M1 programmable detection-margin safe configuration",
+  "schema_version": 1,
+  "t0_must_define": [
+    "droop amplitude and duration",
+    "attack phase relative to a probe",
+    "detection cadence and minimum detectable duration",
+    "latency and false-positive/recovery assumptions"
+  ]
+}

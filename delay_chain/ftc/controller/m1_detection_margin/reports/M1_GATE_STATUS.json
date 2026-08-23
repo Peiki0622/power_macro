@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "anchor_mapping_and_trip_qualification_distinct": true,
+    "cal_to_sense_clk_cone_unchanged": true,
+    "exact_12_entry_m0_codebook": true,
+    "f10_physical_detection_only_legal": true,
+    "frozen_h0_and_six_calibration_rtl_unchanged": true,
+    "full_cycle_settle_before_valid": true,
+    "mapped_sdf_pass_without_control_glitch_or_timing_violation": true,
+    "no_lookup_interpolation_or_synthesis_rtl_function": true,
+    "no_new_hspice_xa_rf_or_calibration_rerun": true,
+    "rtl_and_sva_pass": true,
+    "standalone_sta_setup_hold_positive": true,
+    "takeover_preload_and_safe_apply": true
+  },
+  "decision": "GO",
+  "evidence": {
+    "downstream_contract": "delay_chain/ftc/controller/m1_detection_margin/contract/M1_DOWNSTREAM_T0_D0_HANDOFF.json",
+    "frozen_manifest": "delay_chain/ftc/controller/m1_detection_margin/baseline/m1_baseline_manifest.json",
+    "gate_sdf_results": "delay_chain/ftc/controller/m1_detection_margin/verification/gate_sdf/M1_GATE_SDF_RESULTS.json",
+    "interface_contract": "delay_chain/ftc/controller/m1_detection_margin/contract/M1_INTERFACE_CONTRACT.json",
+    "rtl_results": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/M1_RTL_RESULTS.json",
+    "structural_audit": "delay_chain/ftc/controller/m1_detection_margin/reports/M1_STRUCTURAL_AUDIT.json",
+    "timing_summary": "delay_chain/ftc/controller/m1_detection_margin/timing/M1_TIMING_SUMMARY.json"
+  },
+  "next_stage": "T0 transient voltage-droop threat and detection-timing contract; M1 does not implement a probe or alarm",
+  "schema_version": 1,
+  "stage": "M1-8"
+}

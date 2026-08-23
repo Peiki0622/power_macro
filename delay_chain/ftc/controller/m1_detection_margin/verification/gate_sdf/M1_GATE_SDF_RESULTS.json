@@ -1,0 +1,16 @@
+{
+  "decision": "PASS",
+  "frozen_h0_sdf": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.sdf",
+  "mapped_manager_netlist": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.v",
+  "mapped_manager_sdf": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.sdf",
+  "result": {
+    "failure_markers": [],
+    "manager_and_frozen_h0_sdf_annotated": true,
+    "pass": true,
+    "pass_marker_found": true,
+    "run_root": "delay_chain/ftc/controller/m1_detection_margin/verification/gate_sdf/run/gate_20260823T001200Z",
+    "timing_checks_enabled": true
+  },
+  "schema_version": 1,
+  "stage": "M1-7"
+}

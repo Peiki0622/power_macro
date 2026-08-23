@@ -1,0 +1,41 @@
+{
+  "check_design_lint": {
+    "counts": {
+      "constant_outputs_lint_52": 11,
+      "shorted_outputs_lint_31": 18,
+      "unloaded_nets_lint_2": 9
+    },
+    "interpretation": "expected literal-codebook constant-rail and unused-high-bit LINT; no timing or functional failure is waived"
+  },
+  "clock_period_ns": 2.5,
+  "hold_slack_ns": {
+    "all_met_values": [
+      0.037843,
+      0.043631,
+      0.0601,
+      0.119412,
+      0.119412
+    ],
+    "worst": 0.037843
+  },
+  "library_corner": "ss_typical_max_0p99v_125c",
+  "reports": [
+    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/timing_precise.rpt",
+    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/mapper_to_target_register.rpt",
+    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/selection_to_state.rpt"
+  ],
+  "schema_version": 1,
+  "scope": "standalone ftc_detection_margin_manager plus exact mapper; frozen H0 not re-synthesized",
+  "setup_hold_all_positive": true,
+  "setup_slack_ns": {
+    "all_met_values": [
+      0.001168,
+      0.001173,
+      0.001173,
+      0.001173,
+      0.001178
+    ],
+    "worst": 0.001168
+  },
+  "stage": "M1-6"
+}
