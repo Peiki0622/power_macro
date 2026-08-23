@@ -3,54 +3,53 @@
     "configuration_margin_positive": true,
     "internal_hold_slack_positive": true,
     "internal_setup_slack_positive": true,
-    "physical_event_margins_positive": true,
-    "rf8_slack_after_h0_positive": true
+    "physical_event_margins_positive": true
   },
   "clock_hz": 400000000,
   "decision": "PASS",
   "event_composition_ns": {
-    "configuration_settle_remaining": 2.02,
+    "configuration_settle_remaining": 2.32,
     "configuration_settle_window": 2.5,
+    "q_sample_1_to_q_sample_2_unchanged_minimum": 0.19999999999998855,
+    "q_sample_2_to_reset_assert_unchanged_minimum": 0.19999999999998855,
     "reset_complete_to_sclk_fall_minimum": 0.289999999999998,
-    "reset_complete_to_sclk_fall_remaining": 0.269999999999998,
+    "reset_complete_to_sclk_fall_remaining": 0.259999999999998,
     "reset_release_to_sclk_rise_minimum": 0.48999999999999977,
     "reset_release_to_sclk_rise_remaining": 0.48999999999999977,
+    "sclk_fall_to_recovery_done_unchanged_minimum": 2.6999999999999913,
+    "sclk_rise_to_q_sample_1_actual_interval": 2.33,
     "sclk_rise_to_q_sample_1_minimum": 2.2999999999999874,
-    "sclk_rise_to_q_sample_1_remaining": 1.8299999999999874
+    "sclk_rise_to_q_sample_1_remaining": 0.030000000000012683,
+    "sclk_rise_to_q_sample_1_remaining_formula": "2.50 ns - d_h0_sclk_rise - 2.30 ns"
   },
   "h0_delays_ns": {
     "fine_bit_skew_max": 0.0,
-    "fine_fall_max": 0.48,
-    "fine_min": 0.12,
-    "fine_rise_max": 0.44,
+    "fine_fall_max": 0.18,
+    "fine_min": 0.11,
+    "fine_rise_max": 0.14,
     "medium_bit_skew_max": 0.0,
-    "medium_fall_max": 0.48,
-    "medium_min": 0.12,
-    "medium_rise_max": 0.44,
-    "reset_fall_max": 0.47,
+    "medium_fall_max": 0.18,
+    "medium_min": 0.11,
+    "medium_rise_max": 0.14,
+    "reset_fall_max": 0.16999999999999998,
     "reset_min": 0.12,
-    "reset_rise_max": 0.44,
-    "sclk_fall_max": 0.45,
-    "sclk_min": 0.11,
-    "sclk_rise_max": 0.47
+    "reset_rise_max": 0.14,
+    "sclk_fall_max": 0.14,
+    "sclk_min": 0.11000000000000001,
+    "sclk_rise_max": 0.17
+  },
+  "internal_delay_extraction": {
+    "clock_uncertainty_excluded": true,
+    "data_arrival_used_for_validation_only": true,
+    "input_external_delay_excluded": true,
+    "method": "sum_cell_increment_columns_before_data_arrival",
+    "output_external_delay_excluded": true
   },
   "internal_sta_slack_ns": {
     "hold_worst": 0.03,
     "setup_worst": 0.29
   },
   "period_ns": 2.5,
-  "rf8_after_h0_conservative_slack_ns": {
-    "q_final_sampling_unaffected": 1.5,
-    "sense_dff_reset": 1.3,
-    "sense_s_clk": 1.29,
-    "thermometer": 1.3800000000000001
-  },
-  "rf8_existing_slack_ns": {
-    "q_final_sampling_unaffected": 1.5,
-    "sense_dff_reset": 1.77,
-    "sense_s_clk": 1.76,
-    "thermometer": 1.86
-  },
   "schema_version": 1,
   "source_reports": {
     "cycle_contract": "delay_chain/ftc/controller/refrequency/timing_contract/cycle_timing_contract_refrequency.json",

@@ -1,33 +1,40 @@
 {
-  "schema_version": 1,
-  "stage": "H0-5",
-  "decision": "PASS",
-  "source_directory": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/reports",
   "clock_hz": 400000000,
-  "period_ns": 2.5,
-  "internal_sta_slack_ns": {
-    "setup_worst": 0.29,
-    "hold_worst": 0.03
+  "decision": "PASS",
+  "design_rule_violations": {
+    "max_capacitance": 0,
+    "max_fanout": 0,
+    "max_transition": 0
   },
   "incremental_delays_ns": {
-    "sclk_rise_max": 0.47,
-    "sclk_fall_max": 0.45,
-    "sclk_min": 0.11,
-    "reset_rise_max": 0.44,
-    "reset_fall_max": 0.47,
-    "reset_min": 0.12,
-    "medium_rise_max": 0.44,
-    "medium_fall_max": 0.48,
-    "medium_min": 0.12,
-    "fine_rise_max": 0.44,
-    "fine_fall_max": 0.48,
-    "fine_min": 0.12,
+    "fine_bit_skew_max": 0.0,
+    "fine_fall_max": 0.18,
+    "fine_min": 0.11,
+    "fine_rise_max": 0.14,
     "medium_bit_skew_max": 0.0,
-    "fine_bit_skew_max": 0.0
+    "medium_fall_max": 0.18,
+    "medium_min": 0.11,
+    "medium_rise_max": 0.14,
+    "reset_fall_max": 0.16999999999999998,
+    "reset_min": 0.12,
+    "reset_rise_max": 0.14,
+    "sclk_fall_max": 0.14,
+    "sclk_min": 0.11000000000000001,
+    "sclk_rise_max": 0.17
   },
-  "design_rule_violations": {
-    "max_transition": 0,
-    "max_fanout": 0,
-    "max_capacitance": 0
-  }
+  "internal_delay_extraction": {
+    "clock_uncertainty_excluded": true,
+    "data_arrival_used_for_validation_only": true,
+    "input_external_delay_excluded": true,
+    "method": "sum_cell_increment_columns_before_data_arrival",
+    "output_external_delay_excluded": true
+  },
+  "internal_sta_slack_ns": {
+    "hold_worst": 0.03,
+    "setup_worst": 0.29
+  },
+  "period_ns": 2.5,
+  "schema_version": 2,
+  "source_directory": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/reports",
+  "stage": "H0-5"
 }
