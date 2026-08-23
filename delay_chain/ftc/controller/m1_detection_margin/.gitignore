@@ -6,3 +6,9 @@ synthesis/work/
 synthesis/netlist/*.ddc
 synthesis/run/
 verification/**/run/
+
+# M1-T promotes only its formal report-only STA evidence into version control.
+# The root ignore policy still excludes ad-hoc DC reports from prior local
+# experiments, so a reviewer receives the named, reproducible M1-T report set
+# rather than an uncontrolled collection of tool transcripts.
+!synthesis/reports/M1_T_*.rpt

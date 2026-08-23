@@ -8,34 +8,143 @@
     "interpretation": "expected literal-codebook constant-rail and unused-high-bit LINT; no timing or functional failure is waived"
   },
   "clock_period_ns": 2.5,
+  "formal_reports": [
+    {
+      "alias": "global_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_SETUP.rpt",
+      "sha256": "b08c1ad9070cc8df1938f7854c3bf1fed680bfc66a995c825e5c1766ea5ec7fc"
+    },
+    {
+      "alias": "global_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_HOLD.rpt",
+      "sha256": "12286542b0c2c7ee006f95b7945937fffcde2e1c2126890170cd1b4eb3aa8ae4"
+    },
+    {
+      "alias": "input_to_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_SETUP.rpt",
+      "sha256": "c40722c1189e02e7cad16552217bb94dfcb58e51576cb48d85fb9cf02956f93a"
+    },
+    {
+      "alias": "input_to_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_HOLD.rpt",
+      "sha256": "c1cdda6c0f6cd9c15cd2881dc4df7bb613fb5d95535d82fe0dc56aaab964a637"
+    },
+    {
+      "alias": "register_to_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_SETUP.rpt",
+      "sha256": "3bd83de298c08aeae6d3107e79f244de5aa67273d02914f411b4ba4869ed312d"
+    },
+    {
+      "alias": "register_to_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_HOLD.rpt",
+      "sha256": "ae22076f15adabf840076faec41ab8d7eceb4b047c704eaf37c79f5391884b80"
+    },
+    {
+      "alias": "register_to_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_SETUP.rpt",
+      "sha256": "aabc6f9c71d7508a040df6b03983a9a485aef14c34190d7111bcffd886f44f36"
+    },
+    {
+      "alias": "register_to_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_HOLD.rpt",
+      "sha256": "d9f1422d2faf5145fb62bb4810db5dc6af8b97943996cebd5e7499dced265f4d"
+    },
+    {
+      "alias": "margin_selection_to_state_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_STATE_SETUP.rpt",
+      "sha256": "211ec7c5ef2ea5ff08da2518da98f0a73f3ff998c9e5d89ddc2d66d5b0f61f51"
+    },
+    {
+      "alias": "margin_selection_to_target_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_TARGET_SETUP.rpt",
+      "sha256": "5afd1326d3634f1a0cb21773183951d434c69b2a4c6845ceb6287a05a48d3e31"
+    },
+    {
+      "alias": "cal_code_to_target_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_CAL_CODE_TO_TARGET_SETUP.rpt",
+      "sha256": "4bc31230b6adc69c7b8c210e31953906825b7341cef62acdc6b79f56d7e57b3e"
+    },
+    {
+      "alias": "target_config_to_det_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_SETUP.rpt",
+      "sha256": "f037742a3d49f8976f110a5604f1f97bb6f3e9d88ad7fa003e73f60410d18a88"
+    },
+    {
+      "alias": "target_config_to_det_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_HOLD.rpt",
+      "sha256": "832e8697e6dcaf1f84904d42fd7ee8bbe17cff92a00259cec4e047c873df5384"
+    },
+    {
+      "alias": "target_config_to_det_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_SETUP.rpt",
+      "sha256": "01bfb053de2b112f3d9d6ca707eb49b228c9ec67dcc893dcc72de305422a2b3a"
+    },
+    {
+      "alias": "target_config_to_det_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_HOLD.rpt",
+      "sha256": "75573983f057ce2a193d422895b73f62fd6fd495f0dc047804578f787c81da8a"
+    },
+    {
+      "alias": "det_register_to_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_SETUP.rpt",
+      "sha256": "857551ec56df71c86ac702f50c509ccd2d254b0d54f5bb618ee274240173ce72"
+    },
+    {
+      "alias": "det_register_to_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_HOLD.rpt",
+      "sha256": "5b2b865bdaee19466cb08111b1da69681465a2e5ff69c15368487398f14c3ad8"
+    },
+    {
+      "alias": "constraints_and_clock",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_CONSTRAINTS_AND_CLOCK.rpt",
+      "sha256": "c4a02a5c95af4356eee24a412d97028de7c1fd1132136f170045269623d57f25"
+    },
+    {
+      "alias": "report_only_manifest",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REPORT_ONLY_MANIFEST.rpt",
+      "sha256": "a35c3db4e666398ed844e22387c8eb06fdd5ae693c42bf27dc4f503b00e27926"
+    }
+  ],
   "hold_slack_ns": {
-    "all_met_values": [
-      0.037843,
-      0.043631,
-      0.0601,
-      0.119412,
-      0.119412
-    ],
+    "endpoint": "margin_cfg_valid_q_reg",
+    "formal_report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_HOLD.rpt",
+    "formal_report_sha256": "12286542b0c2c7ee006f95b7945937fffcde2e1c2126890170cd1b4eb3aa8ae4",
+    "path_class": "input_to_register",
+    "startpoint": "margin_select_valid_i",
     "worst": 0.037843
   },
+  "internal_register_to_register_setup": {
+    "endpoint": "det_medium_therm_q_reg[15]",
+    "formal_report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_SETUP.rpt",
+    "formal_report_sha256": "3bd83de298c08aeae6d3107e79f244de5aa67273d02914f411b4ba4869ed312d",
+    "startpoint": "state_q_reg[2]",
+    "worst_slack_ns": 0.007005
+  },
   "library_corner": "ss_typical_max_0p99v_125c",
-  "reports": [
-    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/timing_precise.rpt",
-    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/mapper_to_target_register.rpt",
-    "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/selection_to_state.rpt"
-  ],
-  "schema_version": 1,
+  "m1_t_decision": {
+    "decision": "M1-T PASS: report-only evidence closes the provenance gap; the +1.168 ps global setup value is an interface-budgeted input path, not a mapper-to-target or state-register internal source.",
+    "global_setup_clock_uncertainty_ns": -0.05,
+    "global_setup_external_input_delay_ns": 0.5,
+    "global_setup_internal_delay_ns": 1.868971,
+    "global_setup_slack_source": "The +0.001168 ns global setup result is input-to-register, margin_sel_i[1] to m_det_q_reg[2]. It includes the explicit +0.500000 ns margin-selection input delay and -0.050000 ns setup uncertainty.",
+    "internal_register_to_register_worst_path": "state_q_reg[2] to det_medium_therm_q_reg[15]",
+    "internal_register_to_register_worst_slack_ns": 0.007005,
+    "residual_margin_note": "The independent internal reg-to-reg setup path is positive at +0.007005 ns and is explicitly retained for review; this report-only M1-T round does not relax the 400 MHz contract or alter RTL.",
+    "rtl_changed": false,
+    "standalone_resynthesis_performed": false
+  },
+  "m1_t_timing_classification": "delay_chain/ftc/controller/m1_detection_margin/timing/M1_T_TIMING_CLASSIFICATION.json",
+  "m1_t_timing_classification_sha256": "b19c6f1bbaa269d7d476114128d4598db288aac9e1595e9989f84f39cdcfcfc2",
+  "schema_version": 2,
   "scope": "standalone ftc_detection_margin_manager plus exact mapper; frozen H0 not re-synthesized",
   "setup_hold_all_positive": true,
   "setup_slack_ns": {
-    "all_met_values": [
-      0.001168,
-      0.001173,
-      0.001173,
-      0.001173,
-      0.001178
-    ],
+    "endpoint": "m_det_q_reg[2]",
+    "formal_report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_SETUP.rpt",
+    "formal_report_sha256": "b08c1ad9070cc8df1938f7854c3bf1fed680bfc66a995c825e5c1766ea5ec7fc",
+    "path_class": "input_to_register",
+    "startpoint": "margin_sel_i[1]",
     "worst": 0.001168
   },
-  "stage": "M1-6"
+  "stage": "M1-6 baseline plus M1-T report-only timing-evidence closure"
 }

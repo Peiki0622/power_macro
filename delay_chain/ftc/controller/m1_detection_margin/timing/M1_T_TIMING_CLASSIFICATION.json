@@ -1,0 +1,487 @@
+{
+  "analysis_scope": "report-only STA of the committed M1 mapped netlist and committed SDC; no RTL or synthesis mutation",
+  "classification_conclusion": {
+    "decision": "M1-T PASS: report-only evidence closes the provenance gap; the +1.168 ps global setup value is an interface-budgeted input path, not a mapper-to-target or state-register internal source.",
+    "global_setup_clock_uncertainty_ns": -0.05,
+    "global_setup_external_input_delay_ns": 0.5,
+    "global_setup_internal_delay_ns": 1.868971,
+    "global_setup_slack_source": "The +0.001168 ns global setup result is input-to-register, margin_sel_i[1] to m_det_q_reg[2]. It includes the explicit +0.500000 ns margin-selection input delay and -0.050000 ns setup uncertainty.",
+    "internal_register_to_register_worst_path": "state_q_reg[2] to det_medium_therm_q_reg[15]",
+    "internal_register_to_register_worst_slack_ns": 0.007005,
+    "residual_margin_note": "The independent internal reg-to-reg setup path is positive at +0.007005 ns and is explicitly retained for review; this report-only M1-T round does not relax the 400 MHz contract or alter RTL.",
+    "rtl_changed": false,
+    "standalone_resynthesis_performed": false
+  },
+  "clock_contract": {
+    "clock_name": "cal_clk",
+    "hold_uncertainty_ns": 0.02,
+    "period_ns": 2.5,
+    "setup_uncertainty_ns": 0.05
+  },
+  "formal_report_index": [
+    {
+      "alias": "global_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_SETUP.rpt",
+      "sha256": "b08c1ad9070cc8df1938f7854c3bf1fed680bfc66a995c825e5c1766ea5ec7fc"
+    },
+    {
+      "alias": "global_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_HOLD.rpt",
+      "sha256": "12286542b0c2c7ee006f95b7945937fffcde2e1c2126890170cd1b4eb3aa8ae4"
+    },
+    {
+      "alias": "input_to_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_SETUP.rpt",
+      "sha256": "c40722c1189e02e7cad16552217bb94dfcb58e51576cb48d85fb9cf02956f93a"
+    },
+    {
+      "alias": "input_to_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_HOLD.rpt",
+      "sha256": "c1cdda6c0f6cd9c15cd2881dc4df7bb613fb5d95535d82fe0dc56aaab964a637"
+    },
+    {
+      "alias": "register_to_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_SETUP.rpt",
+      "sha256": "3bd83de298c08aeae6d3107e79f244de5aa67273d02914f411b4ba4869ed312d"
+    },
+    {
+      "alias": "register_to_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_HOLD.rpt",
+      "sha256": "ae22076f15adabf840076faec41ab8d7eceb4b047c704eaf37c79f5391884b80"
+    },
+    {
+      "alias": "register_to_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_SETUP.rpt",
+      "sha256": "aabc6f9c71d7508a040df6b03983a9a485aef14c34190d7111bcffd886f44f36"
+    },
+    {
+      "alias": "register_to_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_HOLD.rpt",
+      "sha256": "d9f1422d2faf5145fb62bb4810db5dc6af8b97943996cebd5e7499dced265f4d"
+    },
+    {
+      "alias": "margin_selection_to_state_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_STATE_SETUP.rpt",
+      "sha256": "211ec7c5ef2ea5ff08da2518da98f0a73f3ff998c9e5d89ddc2d66d5b0f61f51"
+    },
+    {
+      "alias": "margin_selection_to_target_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_TARGET_SETUP.rpt",
+      "sha256": "5afd1326d3634f1a0cb21773183951d434c69b2a4c6845ceb6287a05a48d3e31"
+    },
+    {
+      "alias": "cal_code_to_target_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_CAL_CODE_TO_TARGET_SETUP.rpt",
+      "sha256": "4bc31230b6adc69c7b8c210e31953906825b7341cef62acdc6b79f56d7e57b3e"
+    },
+    {
+      "alias": "target_config_to_det_register_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_SETUP.rpt",
+      "sha256": "f037742a3d49f8976f110a5604f1f97bb6f3e9d88ad7fa003e73f60410d18a88"
+    },
+    {
+      "alias": "target_config_to_det_register_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_HOLD.rpt",
+      "sha256": "832e8697e6dcaf1f84904d42fd7ee8bbe17cff92a00259cec4e047c873df5384"
+    },
+    {
+      "alias": "target_config_to_det_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_SETUP.rpt",
+      "sha256": "01bfb053de2b112f3d9d6ca707eb49b228c9ec67dcc893dcc72de305422a2b3a"
+    },
+    {
+      "alias": "target_config_to_det_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_HOLD.rpt",
+      "sha256": "75573983f057ce2a193d422895b73f62fd6fd495f0dc047804578f787c81da8a"
+    },
+    {
+      "alias": "det_register_to_output_setup",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_SETUP.rpt",
+      "sha256": "857551ec56df71c86ac702f50c509ccd2d254b0d54f5bb618ee274240173ce72"
+    },
+    {
+      "alias": "det_register_to_output_hold",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_HOLD.rpt",
+      "sha256": "5b2b865bdaee19466cb08111b1da69681465a2e5ff69c15368487398f14c3ad8"
+    },
+    {
+      "alias": "constraints_and_clock",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_CONSTRAINTS_AND_CLOCK.rpt",
+      "sha256": "c4a02a5c95af4356eee24a412d97028de7c1fd1132136f170045269623d57f25"
+    },
+    {
+      "alias": "report_only_manifest",
+      "path": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REPORT_ONLY_MANIFEST.rpt",
+      "sha256": "a35c3db4e666398ed844e22387c8eb06fdd5ae693c42bf27dc4f503b00e27926"
+    }
+  ],
+  "library_corner": "ss_typical_max_0p99v_125c",
+  "path_classes": {
+    "input_to_register": {
+      "hold": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": 0.02,
+        "data_arrival_ns": 0.074407,
+        "data_required_ns": 0.036564,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "margin_cfg_valid_q_reg",
+        "external_input_delay_ns": 0.0,
+        "external_output_delay_ns": 0.0,
+        "internal_data_path_delay_ns": 0.074407,
+        "library_setup_or_hold_check_ns": 0.016564,
+        "path_type": "min",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_HOLD.rpt",
+        "report_sha256": "c1cdda6c0f6cd9c15cd2881dc4df7bb613fb5d95535d82fe0dc56aaab964a637",
+        "reported_net_increment_count": 2,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 0.037843,
+        "startpoint": "margin_select_valid_i"
+      },
+      "setup": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": -0.05,
+        "data_arrival_ns": 2.368971,
+        "data_required_ns": 2.370139,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "m_det_q_reg[2]",
+        "external_input_delay_ns": 0.5,
+        "external_output_delay_ns": 0.0,
+        "internal_data_path_delay_ns": 1.868971,
+        "library_setup_or_hold_check_ns": -0.079861,
+        "path_type": "max",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_INPUT_TO_REGISTER_SETUP.rpt",
+        "report_sha256": "c40722c1189e02e7cad16552217bb94dfcb58e51576cb48d85fb9cf02956f93a",
+        "reported_net_increment_count": 17,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 0.001168,
+        "startpoint": "margin_sel_i[1]"
+      }
+    },
+    "register_to_output": {
+      "hold": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": 0.02,
+        "data_arrival_ns": 0.275003,
+        "data_required_ns": 0.02,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "margin_protocol_error_o",
+        "external_input_delay_ns": 0.0,
+        "external_output_delay_ns": 0.0,
+        "internal_data_path_delay_ns": 0.275003,
+        "library_setup_or_hold_check_ns": 0.0,
+        "path_type": "min",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_HOLD.rpt",
+        "report_sha256": "d9f1422d2faf5145fb62bb4810db5dc6af8b97943996cebd5e7499dced265f4d",
+        "reported_net_increment_count": 1,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 0.255003,
+        "startpoint": "margin_protocol_error_q_reg"
+      },
+      "setup": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": -0.05,
+        "data_arrival_ns": 0.798614,
+        "data_required_ns": 2.05,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "det_takeover_ready_o",
+        "external_input_delay_ns": 0.0,
+        "external_output_delay_ns": -0.4,
+        "internal_data_path_delay_ns": 0.798614,
+        "library_setup_or_hold_check_ns": 0.0,
+        "path_type": "max",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_OUTPUT_SETUP.rpt",
+        "report_sha256": "aabc6f9c71d7508a040df6b03983a9a485aef14c34190d7111bcffd886f44f36",
+        "reported_net_increment_count": 4,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 1.251386,
+        "startpoint": "state_q_reg[2]"
+      }
+    },
+    "register_to_register": {
+      "hold": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": 0.02,
+        "data_arrival_ns": 0.369713,
+        "data_required_ns": 0.057559,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "f_det_q_reg[1]",
+        "external_input_delay_ns": 0.0,
+        "external_output_delay_ns": 0.0,
+        "internal_data_path_delay_ns": 0.369713,
+        "library_setup_or_hold_check_ns": 0.037559,
+        "path_type": "min",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_HOLD.rpt",
+        "report_sha256": "ae22076f15adabf840076faec41ab8d7eceb4b047c704eaf37c79f5391884b80",
+        "reported_net_increment_count": 2,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 0.312155,
+        "startpoint": "f_det_q_reg[1]"
+      },
+      "setup": {
+        "all_reported_net_increments_zero": true,
+        "clock_uncertainty_ns": -0.05,
+        "data_arrival_ns": 2.360888,
+        "data_required_ns": 2.367894,
+        "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+        "endpoint": "det_medium_therm_q_reg[15]",
+        "external_input_delay_ns": 0.0,
+        "external_output_delay_ns": 0.0,
+        "internal_data_path_delay_ns": 2.360888,
+        "library_setup_or_hold_check_ns": -0.082106,
+        "path_type": "max",
+        "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_SETUP.rpt",
+        "report_sha256": "3bd83de298c08aeae6d3107e79f244de5aa67273d02914f411b4ba4869ed312d",
+        "reported_net_increment_count": 15,
+        "reported_net_increment_sum_ns": 0.0,
+        "slack_ns": 0.007005,
+        "startpoint": "state_q_reg[2]"
+      }
+    }
+  },
+  "provenance": {
+    "mapped_netlist": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.v",
+    "mapped_netlist_sha256": "9aa7364d7c26706ee63f0fa239d4b05f205f21e2e4d021b954c7d59ea3137dad",
+    "mapped_sdf": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.sdf",
+    "mapped_sdf_sha256": "55d12f9a5e76837144ab40fc6087e08890a5236922c58e5243183da910778447",
+    "report_generation": "read_verilog + link + read_sdc + report_timing only; no RTL elaboration, compile, write, simulation, or transistor command",
+    "report_only_sta_driver": "delay_chain/ftc/controller/m1_detection_margin/synthesis/scripts/report_m1_t_mapped_sta.tcl",
+    "report_only_sta_driver_sha256": "3401039d08e8caff974bcd9e96b650a37f844ac4d0b5c66f381b21ec6507c3b2",
+    "required_starting_commit": "e3f8ba2ae629e7d0d4b75355eca548e9cad64391",
+    "sdc": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.sdc",
+    "sdc_sha256": "98f787a8336598273afefcb1f4b62b8a4be0b5e098da1034cc1164084b7c38b2"
+  },
+  "schema_version": 1,
+  "stage": "M1-T",
+  "targeted_path_families": {
+    "cal_code_snapshot_to_mapper_to_target_register": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.349216,
+      "data_required_ns": 2.381501,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "target_fine_therm_q_reg[3]",
+      "external_input_delay_ns": 0.3,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 2.049216,
+      "library_setup_or_hold_check_ns": -0.068499,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_CAL_CODE_TO_TARGET_SETUP.rpt",
+      "report_sha256": "4bc31230b6adc69c7b8c210e31953906825b7341cef62acdc6b79f56d7e57b3e",
+      "reported_net_increment_count": 19,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.032285,
+      "startpoint": "cal_medium_code_snapshot_i[2]"
+    },
+    "det_register_to_output_hold": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": 0.02,
+      "data_arrival_ns": 0.275023,
+      "data_required_ns": 0.02,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_medium_therm_o[15]",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 0.275023,
+      "library_setup_or_hold_check_ns": 0.0,
+      "path_type": "min",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_HOLD.rpt",
+      "report_sha256": "5b2b865bdaee19466cb08111b1da69681465a2e5ff69c15368487398f14c3ad8",
+      "reported_net_increment_count": 1,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.255023,
+      "startpoint": "det_medium_therm_q_reg[15]"
+    },
+    "det_register_to_output_setup": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 0.292289,
+      "data_required_ns": 1.95,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_medium_therm_o[15]",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": -0.5,
+      "internal_data_path_delay_ns": 0.292289,
+      "library_setup_or_hold_check_ns": 0.0,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_DET_REGISTER_TO_OUTPUT_SETUP.rpt",
+      "report_sha256": "857551ec56df71c86ac702f50c509ccd2d254b0d54f5bb618ee274240173ce72",
+      "reported_net_increment_count": 1,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 1.657711,
+      "startpoint": "det_medium_therm_q_reg[15]"
+    },
+    "margin_selection_to_state_register": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.030383,
+      "data_required_ns": 2.391999,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "state_q_reg[2]",
+      "external_input_delay_ns": 0.5,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 1.530383,
+      "library_setup_or_hold_check_ns": -0.058001,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_STATE_SETUP.rpt",
+      "report_sha256": "211ec7c5ef2ea5ff08da2518da98f0a73f3ff998c9e5d89ddc2d66d5b0f61f51",
+      "reported_net_increment_count": 13,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.361615,
+      "startpoint": "margin_sel_i[1]"
+    },
+    "margin_selection_to_target_register": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.34643,
+      "data_required_ns": 2.370143,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "target_medium_therm_q_reg[5]",
+      "external_input_delay_ns": 0.5,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 1.84643,
+      "library_setup_or_hold_check_ns": -0.079857,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_MARGIN_SELECTION_TO_TARGET_SETUP.rpt",
+      "report_sha256": "5afd1326d3634f1a0cb21773183951d434c69b2a4c6845ceb6287a05a48d3e31",
+      "reported_net_increment_count": 17,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.023713,
+      "startpoint": "margin_sel_i[1]"
+    },
+    "target_config_register_to_det_output_hold": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": 0.02,
+      "data_arrival_ns": 0.408567,
+      "data_required_ns": 0.02,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_takeover_ready_o",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 0.408567,
+      "library_setup_or_hold_check_ns": 0.0,
+      "path_type": "min",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_HOLD.rpt",
+      "report_sha256": "75573983f057ce2a193d422895b73f62fd6fd495f0dc047804578f787c81da8a",
+      "reported_net_increment_count": 2,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.388567,
+      "startpoint": "state_q_reg[3]"
+    },
+    "target_config_register_to_det_output_setup": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 0.798614,
+      "data_required_ns": 2.05,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_takeover_ready_o",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": -0.4,
+      "internal_data_path_delay_ns": 0.798614,
+      "library_setup_or_hold_check_ns": 0.0,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_OUTPUT_SETUP.rpt",
+      "report_sha256": "01bfb053de2b112f3d9d6ca707eb49b228c9ec67dcc893dcc72de305422a2b3a",
+      "reported_net_increment_count": 4,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 1.251386,
+      "startpoint": "state_q_reg[2]"
+    },
+    "target_config_register_to_det_register_hold": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": 0.02,
+      "data_arrival_ns": 0.456592,
+      "data_required_ns": 0.06059,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_fine_therm_q_reg[9]",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 0.456592,
+      "library_setup_or_hold_check_ns": 0.04059,
+      "path_type": "min",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_HOLD.rpt",
+      "report_sha256": "832e8697e6dcaf1f84904d42fd7ee8bbe17cff92a00259cec4e047c873df5384",
+      "reported_net_increment_count": 3,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.396001,
+      "startpoint": "target_fine_therm_q_reg[9]"
+    },
+    "target_config_register_to_det_register_setup": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.360888,
+      "data_required_ns": 2.367894,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_medium_therm_q_reg[15]",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 2.360888,
+      "library_setup_or_hold_check_ns": -0.082106,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_TARGET_CONFIG_TO_DET_REGISTER_SETUP.rpt",
+      "report_sha256": "f037742a3d49f8976f110a5604f1f97bb6f3e9d88ad7fa003e73f60410d18a88",
+      "reported_net_increment_count": 15,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.007005,
+      "startpoint": "state_q_reg[2]"
+    }
+  },
+  "worst_paths": {
+    "hold": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": 0.02,
+      "data_arrival_ns": 0.074407,
+      "data_required_ns": 0.036564,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "margin_cfg_valid_q_reg",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 0.074407,
+      "library_setup_or_hold_check_ns": 0.016564,
+      "path_type": "min",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_HOLD.rpt",
+      "report_sha256": "12286542b0c2c7ee006f95b7945937fffcde2e1c2126890170cd1b4eb3aa8ae4",
+      "reported_net_increment_count": 2,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.037843,
+      "startpoint": "margin_select_valid_i"
+    },
+    "internal_register_to_register_setup": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.360888,
+      "data_required_ns": 2.367894,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "det_medium_therm_q_reg[15]",
+      "external_input_delay_ns": 0.0,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 2.360888,
+      "library_setup_or_hold_check_ns": -0.082106,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_REGISTER_TO_REGISTER_SETUP.rpt",
+      "report_sha256": "3bd83de298c08aeae6d3107e79f244de5aa67273d02914f411b4ba4869ed312d",
+      "reported_net_increment_count": 15,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.007005,
+      "startpoint": "state_q_reg[2]"
+    },
+    "setup": {
+      "all_reported_net_increments_zero": true,
+      "clock_uncertainty_ns": -0.05,
+      "data_arrival_ns": 2.368971,
+      "data_required_ns": 2.370139,
+      "delay_interpretation": "At the committed top wire-load stage, all printed net Incr values are zero; the internal data-path total is therefore cell arc plus pin arc delay, not post-layout RC.",
+      "endpoint": "m_det_q_reg[2]",
+      "external_input_delay_ns": 0.5,
+      "external_output_delay_ns": 0.0,
+      "internal_data_path_delay_ns": 1.868971,
+      "library_setup_or_hold_check_ns": -0.079861,
+      "path_type": "max",
+      "report": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports/M1_T_GLOBAL_SETUP.rpt",
+      "report_sha256": "b08c1ad9070cc8df1938f7854c3bf1fed680bfc66a995c825e5c1766ea5ec7fc",
+      "reported_net_increment_count": 17,
+      "reported_net_increment_sum_ns": 0.0,
+      "slack_ns": 0.001168,
+      "startpoint": "margin_sel_i[1]"
+    }
+  }
+}

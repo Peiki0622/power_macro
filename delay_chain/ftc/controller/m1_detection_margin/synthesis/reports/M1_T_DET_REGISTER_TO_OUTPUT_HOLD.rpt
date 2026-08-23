@@ -1,0 +1,903 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -input_pins
+        -nets
+        -max_paths 80
+        -transition_time
+        -capacitance
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: det_medium_therm_q_reg[15]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[15]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[15]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[15]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[15] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[15] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[14]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[14]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[14]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[14]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[14] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[14] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[13]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[13]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[13]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[13]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[13] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[13] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[12]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[12]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[12]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[12]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[12] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[12] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[11]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[11]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[11]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[11]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[11] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[11] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[10]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[10]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[10]/CK (DFFRPQ_X1M_A9TR40)             0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[10]/Q (DFFRPQ_X1M_A9TR40) <-           0.045761  0.275012   0.275012 f
+  det_medium_therm_o[10] (net)                  2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[10] (out)                                  0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[9]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[9]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[9]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[9]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[9] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[9] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[8]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[8]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[8]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[8]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[8] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[8] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[7]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[7]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[7]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[7]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[7] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[7] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[6]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[6]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[6]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[6]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[6] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[6] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[5]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[5]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[5]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[5]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[5] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[5] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[4]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[4]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[4]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[4] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[4] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[3]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[3]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[3]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[3]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[3] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[3] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[2]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[2]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[2] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[2] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[1]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[1]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[1]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[1] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[1] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_medium_therm_q_reg[0]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_medium_therm_o[0]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_medium_therm_q_reg[0]/CK (DFFRPQ_X1M_A9TR40)              0.050000  0.000000   0.000000 r
+  det_medium_therm_q_reg[0]/Q (DFFRPQ_X1M_A9TR40) <-            0.045761  0.275012   0.275012 f
+  det_medium_therm_o[0] (net)                   2     0.002007            0.000000   0.275012 f
+  det_medium_therm_o[0] (out)                                   0.045761  0.000011   0.275023 f
+  data arrival time                                                                  0.275023
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.275023
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.255023
+
+
+  Startpoint: det_fine_therm_q_reg[9]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[9]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[9]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[9]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[9] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[9] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[8]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[8]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[8]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[8]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[8] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[8] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[7]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[7]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[7]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[7]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[7] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[7] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[6]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[6]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[6]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[6]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[6] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[6] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[5]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[5]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[5]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[5]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[5] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[5] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[4]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[4]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[4]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[4]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[4] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[4] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[3]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[3]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[3]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[3]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[3] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[3] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[2]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[2]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[2]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[2] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[2] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[1]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[1]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[1]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[1] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[1] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+  Startpoint: det_fine_therm_q_reg[0]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_fine_therm_o[0]
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  det_fine_therm_q_reg[0]/CK (DFFSQ_X1M_A9TR40)                 0.050000  0.000000   0.000000 r
+  det_fine_therm_q_reg[0]/Q (DFFSQ_X1M_A9TR40) <-               0.044348  0.279719   0.279719 f
+  det_fine_therm_o[0] (net)                     2     0.002007            0.000000   0.279719 f
+  det_fine_therm_o[0] (out)                                     0.044348  0.000011   0.279730 f
+  data arrival time                                                                  0.279730
+
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  clock uncertainty                                                       0.020000   0.020000
+  output external delay                                                   0.000000   0.020000
+  data required time                                                                 0.020000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 0.020000
+  data arrival time                                                                  -0.279730
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.259730
+
+
+1

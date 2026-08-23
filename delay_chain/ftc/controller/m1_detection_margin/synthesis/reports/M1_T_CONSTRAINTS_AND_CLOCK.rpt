@@ -1,0 +1,383 @@
+ 
+****************************************
+Report : clocks
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources
+--------------------------------------------------------------------------------
+cal_clk          2.50   {0 1.25}                      {cal_clk_i}
+--------------------------------------------------------------------------------
+ 
+****************************************
+Report : clock_skew
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+                 Rise      Fall  Min Rise  Min fall        Uncertainty
+Object          Delay     Delay     Delay     Delay     Plus      Minus
+--------------------------------------------------------------------------------
+cal_clk             -         -         -         -      0.02      0.05
+
+                 Max Transition      Min Transition
+Object           Rise      Fall      Rise      Fall
+-------------------------------------------------------
+cal_clk          0.05      0.05      0.05      0.05
+ 
+****************************************
+Report : port
+        -verbose
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+
+                       Pin      Wire     Max     Max     Connection
+Port           Dir     Load     Load     Trans   Cap     Class      Attrs
+--------------------------------------------------------------------------------
+margin_sel_i[1]
+               in      0.0000   0.0000   --      --      --         
+margin_sel_i[0]
+               in      0.0000   0.0000   --      --      --         
+margin_select_valid_i
+               in      0.0000   0.0000   --      --      --         
+cal_medium_code_snapshot_i[4]
+               in      0.0000   0.0000   --      --      --         
+cal_medium_code_snapshot_i[3]
+               in      0.0000   0.0000   --      --      --         
+cal_medium_code_snapshot_i[2]
+               in      0.0000   0.0000   --      --      --         
+cal_medium_code_snapshot_i[1]
+               in      0.0000   0.0000   --      --      --         
+cal_medium_code_snapshot_i[0]
+               in      0.0000   0.0000   --      --      --         
+cal_fine_code_snapshot_i[3]
+               in      0.0000   0.0000   --      --      --         
+cal_fine_code_snapshot_i[2]
+               in      0.0000   0.0000   --      --      --         
+cal_fine_code_snapshot_i[1]
+               in      0.0000   0.0000   --      --      --         
+cal_fine_code_snapshot_i[0]
+               in      0.0000   0.0000   --      --      --         
+det_medium_therm_o[15]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[14]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[13]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[12]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[11]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[10]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[9]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[8]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[7]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[6]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[5]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[4]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[3]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[2]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[1]
+               out     0.0000   0.0000   --      --      --         
+det_medium_therm_o[0]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[9]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[8]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[7]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[6]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[5]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[4]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[3]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[2]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[1]
+               out     0.0000   0.0000   --      --      --         
+det_fine_therm_o[0]
+               out     0.0000   0.0000   --      --      --         
+det_takeover_ready_o
+               out     0.0000   0.0000   --      --      --         
+det_sense_dff_reset_o
+               out     0.0000   0.0000   --      --      --         
+det_sense_s_clk_o
+               out     0.0000   0.0000   --      --      --         
+
+
+              External  Max             Min                Min       Min
+              Number    Wireload        Wireload           Pin       Wire
+Port          Points    Model           Model              Load      Load
+--------------------------------------------------------------------------------
+margin_sel_i[1]
+                   1      --              --              --        -- 
+margin_sel_i[0]
+                   1      --              --              --        -- 
+margin_select_valid_i
+                   1      --              --              --        -- 
+cal_medium_code_snapshot_i[4]
+                   1      --              --              --        -- 
+cal_medium_code_snapshot_i[3]
+                   1      --              --              --        -- 
+cal_medium_code_snapshot_i[2]
+                   1      --              --              --        -- 
+cal_medium_code_snapshot_i[1]
+                   1      --              --              --        -- 
+cal_medium_code_snapshot_i[0]
+                   1      --              --              --        -- 
+cal_fine_code_snapshot_i[3]
+                   1      --              --              --        -- 
+cal_fine_code_snapshot_i[2]
+                   1      --              --              --        -- 
+cal_fine_code_snapshot_i[1]
+                   1      --              --              --        -- 
+cal_fine_code_snapshot_i[0]
+                   1      --              --              --        -- 
+det_medium_therm_o[15]
+                   1      --              --              --        -- 
+det_medium_therm_o[14]
+                   1      --              --              --        -- 
+det_medium_therm_o[13]
+                   1      --              --              --        -- 
+det_medium_therm_o[12]
+                   1      --              --              --        -- 
+det_medium_therm_o[11]
+                   1      --              --              --        -- 
+det_medium_therm_o[10]
+                   1      --              --              --        -- 
+det_medium_therm_o[9]
+                   1      --              --              --        -- 
+det_medium_therm_o[8]
+                   1      --              --              --        -- 
+det_medium_therm_o[7]
+                   1      --              --              --        -- 
+det_medium_therm_o[6]
+                   1      --              --              --        -- 
+det_medium_therm_o[5]
+                   1      --              --              --        -- 
+det_medium_therm_o[4]
+                   1      --              --              --        -- 
+det_medium_therm_o[3]
+                   1      --              --              --        -- 
+det_medium_therm_o[2]
+                   1      --              --              --        -- 
+det_medium_therm_o[1]
+                   1      --              --              --        -- 
+det_medium_therm_o[0]
+                   1      --              --              --        -- 
+det_fine_therm_o[9]
+                   1      --              --              --        -- 
+det_fine_therm_o[8]
+                   1      --              --              --        -- 
+det_fine_therm_o[7]
+                   1      --              --              --        -- 
+det_fine_therm_o[6]
+                   1      --              --              --        -- 
+det_fine_therm_o[5]
+                   1      --              --              --        -- 
+det_fine_therm_o[4]
+                   1      --              --              --        -- 
+det_fine_therm_o[3]
+                   1      --              --              --        -- 
+det_fine_therm_o[2]
+                   1      --              --              --        -- 
+det_fine_therm_o[1]
+                   1      --              --              --        -- 
+det_fine_therm_o[0]
+                   1      --              --              --        -- 
+det_takeover_ready_o
+                   1      --              --              --        -- 
+det_sense_dff_reset_o
+                   1      --              --              --        -- 
+det_sense_s_clk_o
+                   1      --              --              --        -- 
+
+                    Input Delay
+                  Min             Max       Related   Max
+Input Port    Rise    Fall    Rise    Fall   Clock  Fanout
+--------------------------------------------------------------------------------
+margin_sel_i[1]
+              0.00    0.00    0.50    0.50  cal_clk   --    
+margin_sel_i[0]
+              0.00    0.00    0.50    0.50  cal_clk   --    
+margin_select_valid_i
+              0.00    0.00    0.50    0.50  cal_clk   --    
+cal_medium_code_snapshot_i[4]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_medium_code_snapshot_i[3]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_medium_code_snapshot_i[2]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_medium_code_snapshot_i[1]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_medium_code_snapshot_i[0]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_fine_code_snapshot_i[3]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_fine_code_snapshot_i[2]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_fine_code_snapshot_i[1]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+cal_fine_code_snapshot_i[0]
+              0.00    0.00    0.30    0.30  cal_clk   --    
+
+
+               Max Drive      Min Drive      Resistance    Min    Min       Cell
+Input Port    Rise    Fall   Rise    Fall   Max     Min    Cap    Fanout    Deg
+--------------------------------------------------------------------------------
+margin_sel_i[1]
+              --      --     --      --     --      --     --     --        -- 
+margin_sel_i[0]
+              --      --     --      --     --      --     --     --        -- 
+margin_select_valid_i
+              --      --     --      --     --      --     --     --        -- 
+cal_medium_code_snapshot_i[4]
+              --      --     --      --     --      --     --     --        -- 
+cal_medium_code_snapshot_i[3]
+              --      --     --      --     --      --     --     --        -- 
+cal_medium_code_snapshot_i[2]
+              --      --     --      --     --      --     --     --        -- 
+cal_medium_code_snapshot_i[1]
+              --      --     --      --     --      --     --     --        -- 
+cal_medium_code_snapshot_i[0]
+              --      --     --      --     --      --     --     --        -- 
+cal_fine_code_snapshot_i[3]
+              --      --     --      --     --      --     --     --        -- 
+cal_fine_code_snapshot_i[2]
+              --      --     --      --     --      --     --     --        -- 
+cal_fine_code_snapshot_i[1]
+              --      --     --      --     --      --     --     --        -- 
+cal_fine_code_snapshot_i[0]
+              --      --     --      --     --      --     --     --        -- 
+
+
+               Max Tran        Min Tran
+Input Port    Rise    Fall    Rise    Fall
+--------------------------------------------------------------------------------
+margin_sel_i[1]
+              --      --      --      -- 
+margin_sel_i[0]
+              --      --      --      -- 
+margin_select_valid_i
+              --      --      --      -- 
+cal_medium_code_snapshot_i[4]
+              --      --      --      -- 
+cal_medium_code_snapshot_i[3]
+              --      --      --      -- 
+cal_medium_code_snapshot_i[2]
+              --      --      --      -- 
+cal_medium_code_snapshot_i[1]
+              --      --      --      -- 
+cal_medium_code_snapshot_i[0]
+              --      --      --      -- 
+cal_fine_code_snapshot_i[3]
+              --      --      --      -- 
+cal_fine_code_snapshot_i[2]
+              --      --      --      -- 
+cal_fine_code_snapshot_i[1]
+              --      --      --      -- 
+cal_fine_code_snapshot_i[0]
+              --      --      --      -- 
+
+
+                    Output Delay
+                  Min             Max      Related  Fanout
+Output Port   Rise    Fall    Rise    Fall  Clock     Load
+--------------------------------------------------------------------------------
+det_medium_therm_o[15]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[14]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[13]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[12]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[11]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[10]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[9]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[8]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[7]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[6]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[5]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[4]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[3]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[2]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[1]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_medium_therm_o[0]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[9]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[8]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[7]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[6]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[5]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[4]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[3]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[2]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[1]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_fine_therm_o[0]
+              0.00    0.00    0.50    0.50  cal_clk   0.00  
+det_takeover_ready_o
+              0.00    0.00    0.40    0.40  cal_clk   0.00  
+det_sense_dff_reset_o
+              0.00    0.00    0.40    0.40  cal_clk   0.00  
+det_sense_s_clk_o
+              0.00    0.00    0.40    0.40  cal_clk   0.00  
+
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+This design has no violated constraints.
+
+1

@@ -6,6 +6,10 @@
     "f10_physical_detection_only_legal": true,
     "frozen_h0_and_six_calibration_rtl_unchanged": true,
     "full_cycle_settle_before_valid": true,
+    "m1_t_global_setup_classified_as_input_budgeted": true,
+    "m1_t_internal_register_to_register_setup_positive": true,
+    "m1_t_mapped_sdf_evidence_matches_unchanged_artifacts": true,
+    "m1_t_report_only_sta_provenance_closed": true,
     "mapped_sdf_pass_without_control_glitch_or_timing_violation": true,
     "no_lookup_interpolation_or_synthesis_rtl_function": true,
     "no_new_hspice_xa_rf_or_calibration_rerun": true,
@@ -13,17 +17,19 @@
     "standalone_sta_setup_hold_positive": true,
     "takeover_preload_and_safe_apply": true
   },
-  "decision": "GO",
+  "decision": "GO (M1-T PASS)",
   "evidence": {
     "downstream_contract": "delay_chain/ftc/controller/m1_detection_margin/contract/M1_DOWNSTREAM_T0_D0_HANDOFF.json",
     "frozen_manifest": "delay_chain/ftc/controller/m1_detection_margin/baseline/m1_baseline_manifest.json",
     "gate_sdf_results": "delay_chain/ftc/controller/m1_detection_margin/verification/gate_sdf/M1_GATE_SDF_RESULTS.json",
     "interface_contract": "delay_chain/ftc/controller/m1_detection_margin/contract/M1_INTERFACE_CONTRACT.json",
+    "m1_t_formal_sta_reports": "delay_chain/ftc/controller/m1_detection_margin/synthesis/reports",
+    "m1_t_timing_classification": "delay_chain/ftc/controller/m1_detection_margin/timing/M1_T_TIMING_CLASSIFICATION.json",
     "rtl_results": "delay_chain/ftc/controller/m1_detection_margin/verification/rtl/M1_RTL_RESULTS.json",
     "structural_audit": "delay_chain/ftc/controller/m1_detection_margin/reports/M1_STRUCTURAL_AUDIT.json",
     "timing_summary": "delay_chain/ftc/controller/m1_detection_margin/timing/M1_TIMING_SUMMARY.json"
   },
   "next_stage": "T0 transient voltage-droop threat and detection-timing contract; M1 does not implement a probe or alarm",
   "schema_version": 1,
-  "stage": "M1-8"
+  "stage": "M1-8 plus M1-T timing-evidence closure"
 }

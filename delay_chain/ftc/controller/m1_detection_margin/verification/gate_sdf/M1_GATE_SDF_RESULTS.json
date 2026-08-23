@@ -1,6 +1,14 @@
 {
   "decision": "PASS",
   "frozen_h0_sdf": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.sdf",
+  "m1_t_revalidation": {
+    "mapped_manager_netlist_sha256": "9aa7364d7c26706ee63f0fa239d4b05f205f21e2e4d021b954c7d59ea3137dad",
+    "mapped_manager_sdf_sha256": "55d12f9a5e76837144ab40fc6087e08890a5236922c58e5243183da910778447",
+    "reason": "M1-T changed only report/evidence sources; RTL, mapped netlist, SDC, and SDF are byte-identical to the required baseline.",
+    "required_starting_commit": "e3f8ba2ae629e7d0d4b75355eca548e9cad64391",
+    "rerun_in_m1_t": false,
+    "same_mapped_artifacts_as_report_only_sta": true
+  },
   "mapped_manager_netlist": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.v",
   "mapped_manager_sdf": "delay_chain/ftc/controller/m1_detection_margin/synthesis/netlist/ftc_detection_margin_manager_synth.sdf",
   "result": {

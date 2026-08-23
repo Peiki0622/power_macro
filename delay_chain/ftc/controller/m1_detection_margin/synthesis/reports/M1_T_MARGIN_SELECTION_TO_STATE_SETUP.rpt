@@ -1,0 +1,285 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -input_pins
+        -nets
+        -max_paths 40
+        -transition_time
+        -capacitance
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: margin_sel_i[1]
+              (input port clocked by cal_clk)
+  Endpoint: state_q_reg[2]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  input external delay                                                    0.500000   0.500000 f
+  margin_sel_i[1] (in)                                          0.000000  0.000000   0.500000 f
+  margin_sel_i[1] (net)                         5     0.007288            0.000000   0.500000 f
+  u_exact_mapper/margin_sel_i[1] (ftc_detection_margin_mapper)            0.000000   0.500000 f
+  u_exact_mapper/margin_sel_i[1] (net)                0.007288            0.000000   0.500000 f
+  u_exact_mapper/U15/A (NOR2_X2A_A9TR40)                        0.000000  0.000023   0.500023 f
+  u_exact_mapper/U15/Y (NOR2_X2A_A9TR40)                        0.140056  0.084422   0.584445 r
+  u_exact_mapper/n26 (net)                      4     0.005291            0.000000   0.584445 r
+  u_exact_mapper/U11/B (NAND3_X1M_A9TR40)                       0.140056  0.000017   0.584462 r
+  u_exact_mapper/U11/Y (NAND3_X1M_A9TR40)                       0.105809  0.117497   0.701959 f
+  u_exact_mapper/n19 (net)                      2     0.002663            0.000000   0.701959 f
+  u_exact_mapper/U10/B (NAND2_X1A_A9TR40)                       0.105809  0.000020   0.701980 f
+  u_exact_mapper/U10/Y (NAND2_X1A_A9TR40)                       0.108649  0.097643   0.799623 r
+  u_exact_mapper/m_det_o[3]_snps (net)          3     0.003730            0.000000   0.799623 r
+  u_exact_mapper/U38/AN (NAND2B_X1M_A9TR40)                     0.108649  0.000017   0.799640 r
+  u_exact_mapper/U38/Y (NAND2B_X1M_A9TR40)                      0.127347  0.140179   0.939818 r
+  u_exact_mapper/target_medium_therm_o[6]_snps (net)
+                                                3     0.003752            0.000000   0.939818 r
+  u_exact_mapper/U40/AN (NAND2B_X1M_A9TR40)                     0.127347  0.000017   0.939835 r
+  u_exact_mapper/U40/Y (NAND2B_X1M_A9TR40)                      0.088074  0.135782   1.075618 r
+  u_exact_mapper/target_medium_therm_o[4] (net)
+                                                2     0.002678            0.000000   1.075618 r
+  u_exact_mapper/U9/AN (NAND3B_X2M_A9TR40)                      0.088074  0.000020   1.075637 r
+  u_exact_mapper/U9/Y (NAND3B_X2M_A9TR40)                       0.092041  0.109983   1.185620 r
+  u_exact_mapper/target_medium_therm_o[3] (net)
+                                                2     0.002755            0.000000   1.185620 r
+  u_exact_mapper/U39/A (INV_X1M_A9TR40)                         0.092041  0.000021   1.185641 r
+  u_exact_mapper/U39/Y (INV_X1M_A9TR40)                         0.060643  0.066249   1.251890 f
+  u_exact_mapper/n4 (net)                       2     0.003397            0.000000   1.251890 f
+  u_exact_mapper/U3/B (NAND2_X2A_A9TR40)                        0.060643  0.000031   1.251922 f
+  u_exact_mapper/U3/Y (NAND2_X2A_A9TR40)                        0.076469  0.051822   1.303743 r
+  u_exact_mapper/target_medium_therm_o[2] (net)
+                                                2     0.002673            0.000000   1.303743 r
+  u_exact_mapper/U16/AN (NAND3BB_X1M_A9TR40)                    0.076469  0.000020   1.303763 r
+  u_exact_mapper/U16/Y (NAND3BB_X1M_A9TR40)                     0.177340  0.165037   1.468800 r
+  u_exact_mapper/mapping_supported_o (net)      5     0.006760            0.000000   1.468800 r
+  u_exact_mapper/mapping_supported_o (ftc_detection_margin_mapper)        0.000000   1.468800 r
+  mapper_mapping_supported (net)                      0.006760            0.000000   1.468800 r
+  U151/A (NAND2_X2A_A9TR40)                                     0.177340  0.000024   1.468824 r
+  U151/Y (NAND2_X2A_A9TR40)                                     0.071609  0.079464   1.548287 f
+  n38 (net)                                     2     0.002770            0.000000   1.548287 f
+  U157/A (INV_X1M_A9TR40)                                       0.071609  0.000021   1.548308 f
+  U157/Y (INV_X1M_A9TR40)                                       0.081496  0.070956   1.619264 r
+  n137 (net)                                    2     0.002787            0.000000   1.619264 r
+  U153/A (NAND2_X1M_A9TR40)                                     0.081496  0.000021   1.619285 r
+  U153/Y (NAND2_X1M_A9TR40)                                     0.082906  0.068508   1.687793 f
+  n44 (net)                                     2     0.002659            0.000000   1.687793 f
+  U152/A1 (AOI221_X1M_A9TR40)                                   0.082906  0.000020   1.687812 f
+  U152/Y (AOI221_X1M_A9TR40)                                    0.185799  0.189019   1.876831 r
+  n49 (net)                                     1     0.001417            0.000000   1.876831 r
+  U111/A1 (OAI21_X0P5M_A9TR40)                                  0.185799  0.000024   1.876856 r
+  U111/Y (OAI21_X0P5M_A9TR40)                                   0.116686  0.153501   2.030357 f
+  n128 (net)                                    1     0.001539            0.000000   2.030357 f
+  state_q_reg[2]/D (DFFRPQ_X1M_A9TR40)                          0.116686  0.000027   2.030383 f
+  data arrival time                                                                  2.030383
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  state_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)                                   0.000000   2.450000 r
+  library setup time                                                      -0.058001  2.391999
+  data required time                                                                 2.391999
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.391999
+  data arrival time                                                                  -2.030383
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.361615
+
+
+  Startpoint: margin_sel_i[1]
+              (input port clocked by cal_clk)
+  Endpoint: state_q_reg[0]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  input external delay                                                    0.500000   0.500000 f
+  margin_sel_i[1] (in)                                          0.000000  0.000000   0.500000 f
+  margin_sel_i[1] (net)                         5     0.007288            0.000000   0.500000 f
+  u_exact_mapper/margin_sel_i[1] (ftc_detection_margin_mapper)            0.000000   0.500000 f
+  u_exact_mapper/margin_sel_i[1] (net)                0.007288            0.000000   0.500000 f
+  u_exact_mapper/U4/A (INV_X2M_A9TR40)                          0.000000  0.000024   0.500024 f
+  u_exact_mapper/U4/Y (INV_X2M_A9TR40)                          0.050583  0.029326   0.529350 r
+  u_exact_mapper/n6 (net)                       3     0.004019            0.000000   0.529350 r
+  u_exact_mapper/U14/A (NOR2_X0P7B_A9TR40)                      0.050583  0.000017   0.529367 r
+  u_exact_mapper/U14/Y (NOR2_X0P7B_A9TR40)                      0.137198  0.099799   0.629166 f
+  u_exact_mapper/n1 (net)                       3     0.003879            0.000000   0.629166 f
+  u_exact_mapper/U48/C (NAND3_X1M_A9TR40)                       0.137198  0.000018   0.629184 f
+  u_exact_mapper/U48/Y (NAND3_X1M_A9TR40)                       0.121586  0.122196   0.751380 r
+  u_exact_mapper/n21 (net)                      2     0.002607            0.000000   0.751380 r
+  u_exact_mapper/U8/B (AND2_X1M_A9TR40)                         0.121586  0.000019   0.751399 r
+  u_exact_mapper/U8/Y (AND2_X1M_A9TR40)                         0.120520  0.166996   0.918395 r
+  u_exact_mapper/n8 (net)                       4     0.004923            0.000000   0.918395 r
+  u_exact_mapper/U40/B (NAND2B_X1M_A9TR40)                      0.120520  0.000018   0.918413 r
+  u_exact_mapper/U40/Y (NAND2B_X1M_A9TR40)                      0.076402  0.089569   1.007982 f
+  u_exact_mapper/target_medium_therm_o[4] (net)
+                                                2     0.002660            0.000000   1.007982 f
+  u_exact_mapper/U9/AN (NAND3B_X2M_A9TR40)                      0.076402  0.000020   1.008001 f
+  u_exact_mapper/U9/Y (NAND3B_X2M_A9TR40)                       0.074539  0.121370   1.129371 f
+  u_exact_mapper/target_medium_therm_o[3] (net)
+                                                2     0.002722            0.000000   1.129371 f
+  u_exact_mapper/U39/A (INV_X1M_A9TR40)                         0.074539  0.000021   1.129392 f
+  u_exact_mapper/U39/Y (INV_X1M_A9TR40)                         0.096750  0.080296   1.209688 r
+  u_exact_mapper/n4 (net)                       2     0.003527            0.000000   1.209688 r
+  u_exact_mapper/U3/B (NAND2_X2A_A9TR40)                        0.096750  0.000033   1.209721 r
+  u_exact_mapper/U3/Y (NAND2_X2A_A9TR40)                        0.079102  0.064403   1.274124 f
+  u_exact_mapper/target_medium_therm_o[2] (net)
+                                                2     0.002648            0.000000   1.274124 f
+  u_exact_mapper/U16/AN (NAND3BB_X1M_A9TR40)                    0.079102  0.000019   1.274144 f
+  u_exact_mapper/U16/Y (NAND3BB_X1M_A9TR40)                     0.146571  0.180088   1.454232 f
+  u_exact_mapper/mapping_supported_o (net)      5     0.006742            0.000000   1.454232 f
+  u_exact_mapper/mapping_supported_o (ftc_detection_margin_mapper)        0.000000   1.454232 f
+  mapper_mapping_supported (net)                      0.006742            0.000000   1.454232 f
+  U151/A (NAND2_X2A_A9TR40)                                     0.146571  0.000024   1.454256 f
+  U151/Y (NAND2_X2A_A9TR40)                                     0.071978  0.073944   1.528200 r
+  n38 (net)                                     2     0.002793            0.000000   1.528200 r
+  U157/A (INV_X1M_A9TR40)                                       0.071978  0.000021   1.528221 r
+  U157/Y (INV_X1M_A9TR40)                                       0.049106  0.054095   1.582316 f
+  n137 (net)                                    2     0.002723            0.000000   1.582316 f
+  U147/A0 (OAI31_X1M_A9TR40)                                    0.049106  0.000018   1.582334 f
+  U147/Y (OAI31_X1M_A9TR40)                                     0.161025  0.116242   1.698576 r
+  n56 (net)                                     1     0.001501            0.000000   1.698576 r
+  U146/C0 (AOI211_X1M_A9TR40)                                   0.161025  0.000026   1.698602 r
+  U146/Y (AOI211_X1M_A9TR40)                                    0.108573  0.108731   1.807332 f
+  n54 (net)                                     1     0.001404            0.000000   1.807332 f
+  U115/B0 (OAI22_X0P5M_A9TR40)                                  0.108573  0.000024   1.807357 f
+  U115/Y (OAI22_X0P5M_A9TR40)                                   0.209352  0.137291   1.944648 r
+  n130 (net)                                    1     0.001559            0.000000   1.944648 r
+  state_q_reg[0]/D (DFFRPQ_X1M_A9TR40)                          0.209352  0.000027   1.944675 r
+  data arrival time                                                                  1.944675
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  state_q_reg[0]/CK (DFFRPQ_X1M_A9TR40)                                   0.000000   2.450000 r
+  library setup time                                                      -0.113601  2.336400
+  data required time                                                                 2.336400
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.336400
+  data arrival time                                                                  -1.944675
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.391725
+
+
+  Startpoint: margin_select_valid_i
+              (input port clocked by cal_clk)
+  Endpoint: state_q_reg[1]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  input external delay                                                    0.500000   0.500000 f
+  margin_select_valid_i (in)                                    0.000000  0.000000   0.500000 f
+  margin_select_valid_i (net)                   6     0.007187            0.000000   0.500000 f
+  U124/B (NOR2_X0P5A_A9TR40)                                    0.000000  0.000014   0.500014 f
+  U124/Y (NOR2_X0P5A_A9TR40)                                    0.241537  0.144736   0.644751 r
+  n48 (net)                                     2     0.002556            0.000000   0.644751 r
+  U159/C0 (OAI221_X1M_A9TR40)                                   0.241537  0.000019   0.644770 r
+  U159/Y (OAI221_X1M_A9TR40)                                    0.190596  0.195170   0.839940 f
+  n53 (net)                                     3     0.003607            0.000000   0.839940 f
+  U122/A (INV_X0P5B_A9TR40)                                     0.190596  0.000016   0.839957 f
+  U122/Y (INV_X0P5B_A9TR40)                                     0.199453  0.183400   1.023357 r
+  n46 (net)                                     4     0.004854            0.000000   1.023357 r
+  U158/C0 (OA21A1OI2_X0P7M_A9TR40)                              0.199453  0.000016   1.023373 r
+  U158/Y (OA21A1OI2_X0P7M_A9TR40)                               0.159527  0.120842   1.144215 f
+  n47 (net)                                     1     0.001424            0.000000   1.144215 f
+  U161/C0 (OA21A1OI2_X0P7M_A9TR40)                              0.159527  0.000025   1.144239 f
+  U161/Y (OA21A1OI2_X0P7M_A9TR40)                               0.212438  0.177887   1.322126 r
+  n45 (net)                                     1     0.001420            0.000000   1.322126 r
+  U108/A (INV_X0P5B_A9TR40)                                     0.212438  0.000025   1.322151 r
+  U108/Y (INV_X0P5B_A9TR40)                                     0.094406  0.118744   1.440894 f
+  n127 (net)                                    1     0.001539            0.000000   1.440894 f
+  state_q_reg[1]/D (DFFRPQ_X1M_A9TR40)                          0.094406  0.000027   1.440921 f
+  data arrival time                                                                  1.440921
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  state_q_reg[1]/CK (DFFRPQ_X1M_A9TR40)                                   0.000000   2.450000 r
+  library setup time                                                      -0.050976  2.399024
+  data required time                                                                 2.399024
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.399024
+  data arrival time                                                                  -1.440921
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        0.958103
+
+
+  Startpoint: margin_select_valid_i
+              (input port clocked by cal_clk)
+  Endpoint: state_q_reg[3]
+            (rising edge-triggered flip-flop clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  input external delay                                                    0.500000   0.500000 f
+  margin_select_valid_i (in)                                    0.000000  0.000000   0.500000 f
+  margin_select_valid_i (net)                   6     0.007187            0.000000   0.500000 f
+  U124/B (NOR2_X0P5A_A9TR40)                                    0.000000  0.000014   0.500014 f
+  U124/Y (NOR2_X0P5A_A9TR40)                                    0.241537  0.144736   0.644751 r
+  n48 (net)                                     2     0.002556            0.000000   0.644751 r
+  U159/C0 (OAI221_X1M_A9TR40)                                   0.241537  0.000019   0.644770 r
+  U159/Y (OAI221_X1M_A9TR40)                                    0.190596  0.195170   0.839940 f
+  n53 (net)                                     3     0.003607            0.000000   0.839940 f
+  U114/B (NOR2B_X0P5M_A9TR40)                                   0.190596  0.000016   0.839956 f
+  U114/Y (NOR2B_X0P5M_A9TR40)                                   0.168555  0.168271   1.008227 r
+  n129 (net)                                    1     0.001559            0.000000   1.008227 r
+  state_q_reg[3]/D (DFFRPQ_X1M_A9TR40)                          0.168555  0.000027   1.008254 r
+  data arrival time                                                                  1.008254
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  state_q_reg[3]/CK (DFFRPQ_X1M_A9TR40)                                   0.000000   2.450000 r
+  library setup time                                                      -0.101863  2.348137
+  data required time                                                                 2.348137
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.348137
+  data arrival time                                                                  -1.008254
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        1.339882
+
+
+1

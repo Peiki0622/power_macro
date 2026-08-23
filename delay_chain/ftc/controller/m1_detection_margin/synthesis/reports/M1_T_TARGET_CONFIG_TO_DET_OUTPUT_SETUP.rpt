@@ -1,0 +1,179 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -input_pins
+        -nets
+        -max_paths 80
+        -transition_time
+        -capacitance
+Design : ftc_detection_margin_manager
+Version: W-2024.09
+Date   : Sun Aug 23 13:28:07 2026
+****************************************
+
+Operating Conditions: ss_typical_max_0p99v_125c   Library: sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+Wire Load Model Mode: top
+
+  Startpoint: state_q_reg[2]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_takeover_ready_o
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  state_q_reg[2]/CK (DFFRPQ_X1M_A9TR40)                         0.050000  0.000000   0.000000 r
+  state_q_reg[2]/Q (DFFRPQ_X1M_A9TR40) <-                       0.086762  0.302334   0.302334 f
+  state_q[2] (net)                              5     0.006072            0.000000   0.302334 f
+  U134/A (INV_X0P5B_A9TR40)                                     0.086762  0.000015   0.302348 f
+  U134/Y (INV_X0P5B_A9TR40)                                     0.158167  0.119887   0.422236 r
+  n50 (net)                                     3     0.003803            0.000000   0.422236 r
+  U133/B (NAND2_X0P5A_A9TR40)                                   0.158167  0.000016   0.422252 r
+  U133/Y (NAND2_X0P5A_A9TR40)                                   0.212014  0.192980   0.615232 f
+  n37 (net)                                     4     0.004940            0.000000   0.615232 f
+  U197/A (NOR3_X1A_A9TR40)                                      0.212014  0.000017   0.615248 f
+  U197/Y (NOR3_X1A_A9TR40)                                      0.212610  0.183355   0.798603 r
+  det_takeover_ready_o (net)                    2     0.002004            0.000000   0.798603 r
+  det_takeover_ready_o (out)                                    0.212610  0.000011   0.798614 r
+  data arrival time                                                                  0.798614
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  output external delay                                                   -0.400000  2.050000
+  data required time                                                                 2.050000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.050000
+  data arrival time                                                                  -0.798614
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        1.251386
+
+
+  Startpoint: state_q_reg[1]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_takeover_ready_o
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  state_q_reg[1]/CK (DFFRPQ_X1M_A9TR40)                         0.050000  0.000000   0.000000 r
+  state_q_reg[1]/Q (DFFRPQ_X1M_A9TR40) <-                       0.165710  0.346932   0.346932 r
+  state_q[1] (net)                              6     0.007180            0.000000   0.346932 r
+  U132/A (INV_X0P5B_A9TR40)                                     0.165710  0.000015   0.346947 r
+  U132/Y (INV_X0P5B_A9TR40)                                     0.160497  0.164915   0.511862 f
+  n35 (net)                                     4     0.004946            0.000000   0.511862 f
+  U197/C (NOR3_X1A_A9TR40)                                      0.160497  0.000017   0.511879 f
+  U197/Y (NOR3_X1A_A9TR40)                                      0.212610  0.194642   0.706520 r
+  det_takeover_ready_o (net)                    2     0.002004            0.000000   0.706520 r
+  det_takeover_ready_o (out)                                    0.212610  0.000011   0.706531 r
+  data arrival time                                                                  0.706531
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  output external delay                                                   -0.400000  2.050000
+  data required time                                                                 2.050000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.050000
+  data arrival time                                                                  -0.706531
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        1.343469
+
+
+  Startpoint: state_q_reg[0]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_takeover_ready_o
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  state_q_reg[0]/CK (DFFRPQ_X1M_A9TR40)                         0.050000  0.000000   0.000000 r
+  state_q_reg[0]/Q (DFFRPQ_X1M_A9TR40) <-                       0.123869  0.324410   0.324410 r
+  state_q[0] (net)                              4     0.005048            0.000000   0.324410 r
+  U133/A (NAND2_X0P5A_A9TR40)                                   0.123869  0.000016   0.324426 r
+  U133/Y (NAND2_X0P5A_A9TR40)                                   0.212014  0.173823   0.498249 f
+  n37 (net)                                     4     0.004940            0.000000   0.498249 f
+  U197/A (NOR3_X1A_A9TR40)                                      0.212014  0.000017   0.498266 f
+  U197/Y (NOR3_X1A_A9TR40)                                      0.212610  0.183355   0.681620 r
+  det_takeover_ready_o (net)                    2     0.002004            0.000000   0.681620 r
+  det_takeover_ready_o (out)                                    0.212610  0.000011   0.681631 r
+  data arrival time                                                                  0.681631
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  output external delay                                                   -0.400000  2.050000
+  data required time                                                                 2.050000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.050000
+  data arrival time                                                                  -0.681631
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        1.368369
+
+
+  Startpoint: state_q_reg[3]
+              (rising edge-triggered flip-flop clocked by cal_clk)
+  Endpoint: det_takeover_ready_o
+            (output port clocked by cal_clk)
+  Path Group: cal_clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  ftc_detection_margin_manager
+                     Small                 sc9mc_logic0040ll_base_rvt_c40_ss_typical_max_0p99v_125c
+
+  Point                                       Fanout       Cap     Trans      Incr       Path
+  ----------------------------------------------------------------------------------------------
+  clock cal_clk (rise edge)                                               0.000000   0.000000
+  clock network delay (ideal)                                             0.000000   0.000000
+  state_q_reg[3]/CK (DFFRPQ_X1M_A9TR40)                         0.050000  0.000000   0.000000 r
+  state_q_reg[3]/Q (DFFRPQ_X1M_A9TR40) <-                       0.076971  0.295809   0.295809 f
+  state_q[3] (net)                              4     0.005101            0.000000   0.295809 f
+  U197/B (NOR3_X1A_A9TR40)                                      0.076971  0.000016   0.295826 f
+  U197/Y (NOR3_X1A_A9TR40)                                      0.212610  0.158633   0.454459 r
+  det_takeover_ready_o (net)                    2     0.002004            0.000000   0.454459 r
+  det_takeover_ready_o (out)                                    0.212610  0.000011   0.454469 r
+  data arrival time                                                                  0.454469
+
+  clock cal_clk (rise edge)                                               2.500000   2.500000
+  clock network delay (ideal)                                             0.000000   2.500000
+  clock uncertainty                                                       -0.050000  2.450000
+  output external delay                                                   -0.400000  2.050000
+  data required time                                                                 2.050000
+  ----------------------------------------------------------------------------------------------
+  data required time                                                                 2.050000
+  data arrival time                                                                  -0.454469
+  ----------------------------------------------------------------------------------------------
+  slack (MET)                                                                        1.595531
+
+
+1

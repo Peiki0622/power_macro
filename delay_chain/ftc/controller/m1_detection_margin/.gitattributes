@@ -1,0 +1,5 @@
+# Design Compiler's formal text reports intentionally retain fixed-width table
+# padding at line ends.  Preserve that native presentation for remote STA
+# review, while excluding only these generated M1-T reports from Git's source-
+# code trailing-space diagnostic.  No RTL or handwritten source is covered.
+synthesis/reports/M1_T_*.rpt whitespace=-trailing-space
