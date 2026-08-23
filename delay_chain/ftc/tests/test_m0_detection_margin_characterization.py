@@ -16,6 +16,7 @@ from pathlib import Path
 FTC_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(FTC_ROOT / "scripts"))
 import run_m0_detection_margin_characterization as study  # noqa: E402
+import plot_m0_detection_margin_figures as m0_plots  # noqa: E402
 
 
 class M0DetectionMarginCharacterizationTests(unittest.TestCase):
@@ -114,6 +115,72 @@ class M0DetectionMarginCharacterizationTests(unittest.TestCase):
             self.assertEqual(study.read_csv(path, ("required",), allow_empty=True), [])
             with self.assertRaisesRegex(ValueError, "CSV is empty"):
                 study.read_csv(path, ("required",))
+
+    def test_complete_trip_csv_uses_the_last_fine_q0_before_first_q1(self):
+        """Derive Table M0-B from all rows, not the coarse-sweep loop state.
+
+        The 0.89 V Q=0 row is a fine point inserted after the 0.90 V coarse
+        Q=0.  It must become ``R_at_last_q0_ps`` while the first stable Q=1 at
+        0.88 V remains the Vtrip definition and therefore preserves ΔVtrip.
+        """
+
+        candidate = {
+            "candidate_id": "fixture_L1", "baseline_vdd_v": 0.95,
+            "margin_level": "L1", "M_det": 4, "F_det": 9,
+            "nominal_D_ref_shift_ps": 24.0,
+        }
+        rows = [
+            {"candidate_id": "fixture_L1", "physical_vdd_v": "0.95", "valid": "1", "q_final": "0", "q_state": "stable_low", "R_ps": "-1.0"},
+            {"candidate_id": "fixture_L1", "physical_vdd_v": "0.90", "valid": "1", "q_final": "0", "q_state": "stable_low", "R_ps": "43.60"},
+            {"candidate_id": "fixture_L1", "physical_vdd_v": "0.89", "valid": "1", "q_final": "0", "q_state": "stable_low", "R_ps": "54.63"},
+            {"candidate_id": "fixture_L1", "physical_vdd_v": "0.88", "valid": "1", "q_final": "1", "q_state": "stable_high", "R_ps": "68.18"},
+            {"candidate_id": "fixture_L1", "physical_vdd_v": "0.85", "valid": "1", "q_final": "1", "q_state": "stable_high", "R_ps": "114.79"},
+        ]
+        derived = study.derive_trip_map_from_sweep_rows([candidate], rows)["trip_map"][0]
+        self.assertEqual(derived["trip_status"], "IN_RANGE_TRIP")
+        self.assertAlmostEqual(derived["R_at_last_q0_ps"], 54.63)
+        self.assertAlmostEqual(derived["R_at_first_q1_ps"], 68.18)
+        self.assertAlmostEqual(derived["Vtrip_v"], 0.88)
+        self.assertAlmostEqual(derived["DeltaV_trip_mv"], 70.0)
+
+    def test_complete_trip_csv_rejects_q1_to_q0_reversal(self):
+        """A later safe Q after a trip cannot be accepted as a valid bracket."""
+
+        candidate = {
+            "candidate_id": "reversal_L1", "baseline_vdd_v": 0.95,
+            "margin_level": "L1", "M_det": 4, "F_det": 9,
+            "nominal_D_ref_shift_ps": 24.0,
+        }
+        rows = [
+            {"candidate_id": "reversal_L1", "physical_vdd_v": "0.95", "valid": "1", "q_final": "0", "q_state": "stable_low", "R_ps": "-1.0"},
+            {"candidate_id": "reversal_L1", "physical_vdd_v": "0.90", "valid": "1", "q_final": "1", "q_state": "stable_high", "R_ps": "40.0"},
+            {"candidate_id": "reversal_L1", "physical_vdd_v": "0.89", "valid": "1", "q_final": "0", "q_state": "stable_low", "R_ps": "50.0"},
+        ]
+        derived = study.derive_trip_map_from_sweep_rows([candidate], rows)["trip_map"][0]
+        self.assertEqual(derived["trip_status"], "INVALID")
+        self.assertEqual(derived["reason"], "q_one_to_zero_reversal")
+        self.assertIsNone(derived["Vtrip_v"])
+
+    def test_local_surface_panels_share_one_zero_centered_normalization(self):
+        """Ensure M0-1 color meaning is identical across all three baselines."""
+
+        surface = [
+            {"scenario_id": "surface_080", "baseline_vdd_v": "0.80", "physical_vdd_v": "0.80", "medium_code": "7", "fine_code": "6", "R_ps": "-40.0", "q_final": "0", "valid": "1"},
+            {"scenario_id": "surface_095", "baseline_vdd_v": "0.95", "physical_vdd_v": "0.95", "medium_code": "4", "fine_code": "6", "R_ps": "0.0", "q_final": "0", "valid": "1"},
+            {"scenario_id": "surface_110", "baseline_vdd_v": "1.10", "physical_vdd_v": "1.10", "medium_code": "2", "fine_code": "9", "R_ps": "60.0", "q_final": "0", "valid": "1"},
+        ]
+        figure, _ = m0_plots.fig_local_surface(surface, [])
+        try:
+            mapped_collections = [collection for axis in figure.axes[:3] for collection in axis.collections if collection.get_array() is not None]
+            self.assertEqual(len(mapped_collections), 3)
+            shared_norm = mapped_collections[0].norm
+            self.assertIsInstance(shared_norm, m0_plots.TwoSlopeNorm)
+            self.assertTrue(all(collection.norm is shared_norm for collection in mapped_collections))
+            self.assertAlmostEqual(shared_norm(-40.0), 0.0)
+            self.assertAlmostEqual(shared_norm(0.0), 0.5)
+            self.assertAlmostEqual(shared_norm(60.0), 1.0)
+        finally:
+            m0_plots.plt.close(figure)
 
     def test_surface_gate_requires_complete_two_dimensional_ordering(self):
         """Build synthetic full windows to verify both M and F adjacency gates."""

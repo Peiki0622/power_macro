@@ -954,6 +954,139 @@ def phase_mechanism() -> Dict[str, Any]:
     return result
 
 
+def classify_complete_trip_bracket(rows: Sequence[Mapping[str, Any]]) -> Tuple[str, Optional[Mapping[str, Any]], Optional[Mapping[str, Any]], Optional[str]]:
+    """Derive one real-DFF trip bracket from the complete recorded sweep.
+
+    The sweep is ordered from high to low physical VDD.  The first stable
+    Q=1 in that order is the formal ``Vtrip``; its nearest preceding stable
+    Q=0 is the actual final safe observation.  This intentionally derives the
+    publication bracket from *all* persisted coarse and fine rows, rather than
+    from the mutable loop variables that originally controlled the HSPICE
+    sweep.  Therefore a newly observed fine-step Q=0 cannot be lost when the
+    formal Table M0-B residual is written.
+
+    Returns ``(status, last_q0_row, first_q1_row, reason)``.  Any invalid or
+    ambiguous row, or an observed Q=1-to-Q=0 reversal while VDD decreases,
+    makes the candidate ``INVALID`` instead of accepting a misleading trip.
+    """
+
+    if not rows:
+        return "INVALID", None, None, "missing_trip_sweep_rows"
+    try:
+        ordered = sorted(rows, key=lambda row: -float(row["physical_vdd_v"]))
+    except (KeyError, TypeError, ValueError):
+        return "INVALID", None, None, "invalid_trip_sweep_vdd"
+
+    q_series: List[Tuple[Mapping[str, Any], int]] = []
+    for row in ordered:
+        try:
+            valid = int(row["valid"])
+        except (KeyError, TypeError, ValueError):
+            return "INVALID", None, None, "invalid_trip_sweep_valid_flag"
+        q_value = optional_float(row.get("q_final"))
+        if valid != 1:
+            return "INVALID", None, None, "invalid_trip_sweep_probe"
+        if q_value not in (0.0, 1.0):
+            return "INVALID", None, None, "ambiguous_q"
+        q = int(q_value)
+        expected_state = "stable_low" if q == 0 else "stable_high"
+        if row.get("q_state") != expected_state:
+            return "INVALID", None, None, "q_state_not_stable"
+        q_series.append((row, q))
+
+    # A valid static sweep may remain Q=0 or may transition once to Q=1 as
+    # VDD decreases.  Re-entering Q=0 after any Q=1 invalidates the bracket;
+    # it is never silently selected as a later "safe" point.
+    if any(left_q == 1 and right_q == 0 for (_, left_q), (_, right_q) in zip(q_series, q_series[1:])):
+        return "INVALID", None, None, "q_one_to_zero_reversal"
+
+    first_q1_index = next((index for index, (_, q) in enumerate(q_series) if q == 1), None)
+    if first_q1_index is None:
+        return "NO_IN_RANGE_TRIP", None, None, None
+    upper_q0 = [row for row, q in q_series[:first_q1_index] if q == 0]
+    if not upper_q0:
+        return "INVALID", None, None, "q1_without_prior_q0"
+    return "IN_RANGE_TRIP", upper_q0[-1], q_series[first_q1_index][0], None
+
+
+def derive_trip_map_from_sweep_rows(candidates: Sequence[Mapping[str, Any]], sweep_rows: Sequence[Mapping[str, Any]]) -> Dict[str, Any]:
+    """Recompute all M0-5 map fields solely from the persisted trip CSV rows.
+
+    This helper is shared by the normal M0-5 producer and the M0-E repair
+    phase.  It is deliberately free of deck rendering, simulator dispatch, and
+    physical-topology calls: with an existing ``trip_sweep.csv`` it performs
+    only deterministic CSV/JSON post-processing.
+    """
+
+    rows_by_candidate: Dict[str, List[Mapping[str, Any]]] = {}
+    for row in sweep_rows:
+        rows_by_candidate.setdefault(str(row.get("candidate_id", "")), []).append(row)
+    map_rows: List[Dict[str, Any]] = []
+    for candidate in candidates:
+        candidate_id = str(candidate["candidate_id"])
+        status, last_q0_row, first_q1_row, reason = classify_complete_trip_bracket(rows_by_candidate.get(candidate_id, []))
+        baseline = float(candidate["baseline_vdd_v"])
+        first_q1_vdd = None if first_q1_row is None else float(first_q1_row["physical_vdd_v"])
+        map_rows.append({
+            "baseline_vdd_v": baseline, "margin_level": candidate["margin_level"], "candidate_id": candidate_id,
+            "M_det": candidate["M_det"], "F_det": candidate["F_det"], "nominal_D_ref_shift_ps": candidate["nominal_D_ref_shift_ps"],
+            "trip_status": status, "Vtrip_v": first_q1_vdd if status == "IN_RANGE_TRIP" else None,
+            "DeltaV_trip_mv": (baseline - first_q1_vdd) * 1000.0 if status == "IN_RANGE_TRIP" and first_q1_vdd is not None else None,
+            "R_at_last_q0_ps": None if last_q0_row is None else optional_float(last_q0_row.get("R_ps")),
+            "R_at_first_q1_ps": None if first_q1_row is None else optional_float(first_q1_row.get("R_ps")),
+            "ordering_ok": None, "reason": reason,
+        })
+
+    for baseline in (0.95, 1.10):
+        group = sorted((row for row in map_rows if float(row["baseline_vdd_v"]) == baseline and row["trip_status"] == "IN_RANGE_TRIP"), key=lambda row: float(row["nominal_D_ref_shift_ps"]))
+        ordering_ok = all(float(right["DeltaV_trip_mv"]) >= float(left["DeltaV_trip_mv"]) for left, right in zip(group, group[1:]))
+        for row in map_rows:
+            if float(row["baseline_vdd_v"]) == baseline:
+                row["ordering_ok"] = ordering_ok if row["trip_status"] == "IN_RANGE_TRIP" else None
+        if not ordering_ok:
+            for row in group:
+                row["reason"] = (str(row["reason"]) + ";" if row["reason"] else "") + "trip_depth_ordering_reversal"
+    per_baseline = {key: [row for row in map_rows if voltage_key(float(row["baseline_vdd_v"])) == key] for key in ("0.95", "1.10")}
+    has_trip = {key: any(row["trip_status"] == "IN_RANGE_TRIP" for row in group) for key, group in per_baseline.items()}
+    ordering = {key: all(row.get("ordering_ok") is not False for row in group) for key, group in per_baseline.items()}
+    return {
+        "schema_version": 1,
+        "study": STUDY,
+        "decision": "GO" if all(has_trip.values()) and all(ordering.values()) else "NO-GO",
+        "per_baseline_has_in_range_trip": has_trip,
+        "per_baseline_ordering_ok": ordering,
+        "trip_map": map_rows,
+    }
+
+
+def phase_trip_rederive() -> Dict[str, Any]:
+    """Rebuild M0 trip-map evidence from CSV without launching HSPICE.
+
+    This M0-E entry point is intentionally a post-processing-only operation.
+    It consumes the completed authoritative ``trip_sweep.csv`` plus frozen
+    candidate/mechanism decisions and rewrites only derived M0 CSV/JSON files.
+    """
+
+    require_dl()
+    paths = analysis_paths()
+    mechanism = load_json(paths["mechanism_summary"])
+    selection = load_json(paths["candidate_summary"])
+    if mechanism.get("decision") != "GO":
+        result = {"schema_version": 1, "study": STUDY, "decision": "NOT_RUN_MECHANISM_NO_GO", "reason": "mechanism_gate_not_go", "trip_map": []}
+        write_csv(paths["trip_map"], TRIP_MAP_FIELDS, [])
+        write_csv(paths["trip_table"], TRIP_MAP_FIELDS, [])
+        write_json(paths["trip_summary"], result)
+        return result
+    sweep_rows = read_csv(paths["trip_sweep"], TRIP_SWEEP_FIELDS)
+    accepted = {candidate_id for item in mechanism["per_baseline"].values() for candidate_id in item["accepted_candidate_ids"]}
+    candidates = [item for item in selection["candidates"] if item["candidate_id"] in accepted]
+    result = derive_trip_map_from_sweep_rows(candidates, sweep_rows)
+    write_csv(paths["trip_map"], TRIP_MAP_FIELDS, result["trip_map"])
+    write_csv(paths["trip_table"], TRIP_MAP_FIELDS, result["trip_map"])
+    write_json(paths["trip_summary"], result)
+    return result
+
+
 def phase_trip() -> Dict[str, Any]:
     """Implement M0-5's bracketed static Vtrip extraction without a 2-D sweep."""
 
@@ -976,7 +1109,6 @@ def phase_trip() -> Dict[str, Any]:
     accepted = {candidate_id for item in mechanism["per_baseline"].values() for candidate_id in item["accepted_candidate_ids"]}
     candidates = [item for item in selection["candidates"] if item["candidate_id"] in accepted]
     sweep_rows: List[Dict[str, Any]] = []
-    map_rows: List[Dict[str, Any]] = []
     for candidate in candidates:
         baseline = float(candidate["baseline_vdd_v"])
         # CSV has no numeric types.  Convert the two control-flow values at
@@ -1036,41 +1168,12 @@ def phase_trip() -> Dict[str, Any]:
                     break
                 voltage = round(voltage - 0.01, 2)
         ordered = sorted(observations.values(), key=lambda row: -float(row["physical_vdd_v"]))
-        q_values = [row["q_final"] for row in ordered if int(row["valid"]) == 1]
-        if any(left == 1 and right == 0 for left, right in zip(q_values, q_values[1:])):
-            invalid_reason = invalid_reason or "q_one_to_zero_reversal"
-        status = "IN_RANGE_TRIP" if invalid_reason is None and first_q1 is not None else "NO_IN_RANGE_TRIP" if invalid_reason is None else "INVALID"
-        last_q0_row = observations.get(last_q0) if last_q0 is not None else None
-        first_q1_row = observations.get(first_q1) if first_q1 is not None else None
-        map_rows.append({
-            "baseline_vdd_v": baseline, "margin_level": candidate["margin_level"], "candidate_id": candidate["candidate_id"],
-            "M_det": candidate["M_det"], "F_det": candidate["F_det"], "nominal_D_ref_shift_ps": candidate["nominal_D_ref_shift_ps"],
-            "trip_status": status, "Vtrip_v": first_q1 if status == "IN_RANGE_TRIP" else None,
-            "DeltaV_trip_mv": (baseline - first_q1) * 1000.0 if status == "IN_RANGE_TRIP" and first_q1 is not None else None,
-            "R_at_last_q0_ps": None if last_q0_row is None else last_q0_row.get("R_ps"),
-            "R_at_first_q1_ps": None if first_q1_row is None else first_q1_row.get("R_ps"),
-            "ordering_ok": None, "reason": invalid_reason,
-        })
         sweep_rows.extend(ordered)
-    for baseline in (0.95, 1.10):
-        group = sorted((row for row in map_rows if float(row["baseline_vdd_v"]) == baseline and row["trip_status"] == "IN_RANGE_TRIP"), key=lambda row: float(row["nominal_D_ref_shift_ps"]))
-        ordering_ok = all(float(right["DeltaV_trip_mv"]) >= float(left["DeltaV_trip_mv"]) for left, right in zip(group, group[1:]))
-        for row in map_rows:
-            if float(row["baseline_vdd_v"]) == baseline:
-                row["ordering_ok"] = ordering_ok if row["trip_status"] == "IN_RANGE_TRIP" else None
-        if not ordering_ok:
-            for row in group:
-                row["reason"] = (str(row["reason"]) + ";" if row["reason"] else "") + "trip_depth_ordering_reversal"
-    per_baseline = {key: [row for row in map_rows if voltage_key(float(row["baseline_vdd_v"])) == key] for key in ("0.95", "1.10")}
-    has_trip = {key: any(row["trip_status"] == "IN_RANGE_TRIP" for row in group) for key, group in per_baseline.items()}
-    ordering = {key: all(row.get("ordering_ok") is not False for row in group) for key, group in per_baseline.items()}
-    decision = "GO" if all(has_trip.values()) and all(ordering.values()) else "NO-GO"
-    result = {"schema_version": 1, "study": STUDY, "decision": decision, "per_baseline_has_in_range_trip": has_trip, "per_baseline_ordering_ok": ordering, "trip_map": map_rows}
+    # Persist the whole sweep before deriving Table M0-B.  The re-reader below
+    # treats CSV as the single source of truth for both coarse and fine points,
+    # which prevents a loop-local last_q0 value from bypassing a later fine Q=0.
     write_csv(paths["trip_sweep"], TRIP_SWEEP_FIELDS, sweep_rows)
-    write_csv(paths["trip_map"], TRIP_MAP_FIELDS, map_rows)
-    write_csv(paths["trip_table"], TRIP_MAP_FIELDS, map_rows)
-    write_json(paths["trip_summary"], result)
-    return result
+    return phase_trip_rederive()
 
 
 def ensure_terminal_artifacts(stop_reason: str) -> None:
@@ -1178,6 +1281,8 @@ def generate_summary_and_report() -> Dict[str, Any]:
         lines.append("| {} | {} | M{}/F{} | {} | {} | {} | {} | {} |".format(row["baseline_vdd_v"], row["margin_level"], row["M_det"], row["F_det"], row["trip_status"], row["Vtrip_v"] or "", row["DeltaV_trip_mv"] or "", row["R_at_last_q0_ps"] or "", row["R_at_first_q1_ps"] or ""))
     lines.extend([
         "",
+        "- `Vtrip` 是完整 `trip_sweep.csv` 中最高 VDD 的稳定 Q=1；`R@last Q=0` 是其上方最近稳定 Q=0。M0-E 仅据此重派生表格，未增加任何 HSPICE 场景。",
+        "",
         "## 7. margin -> M_det/F_det -> ps -> Vtrip -> mV mapping",
         "",
         "- Table M0-A 与 Table M0-B 通过相同的 baseline、margin level 和 M_det/F_det 连接：每个 level 的实测 nominal shift、真实 DFF Vtrip 与 ΔVtrip 均可在正式 CSV 中逐行追溯。",
@@ -1264,7 +1369,7 @@ def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:
     """Expose explicit stages for review; ``all`` is the only normal workflow."""
 
     parser = argparse.ArgumentParser(description="FTC M0 detection-margin characterization")
-    parser.add_argument("--phase", choices=("freeze", "contract", "surface", "select", "mechanism", "trip", "plot", "finalize", "all"), required=True)
+    parser.add_argument("--phase", choices=("freeze", "contract", "surface", "select", "mechanism", "trip", "trip-rederive", "plot", "finalize", "all"), required=True)
     return parser.parse_args(argv)
 
 
@@ -1280,6 +1385,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         "select": phase_select,
         "mechanism": phase_mechanism,
         "trip": phase_trip,
+        "trip-rederive": phase_trip_rederive,
         "plot": run_plotter,
         "finalize": generate_summary_and_report,
         "all": run_all,

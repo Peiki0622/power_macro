@@ -5,7 +5,7 @@
       "figure_id": "M0-1",
       "matplotlib_version": "3.9.4",
       "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_local_code_surface.pdf",
-      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plot_script_sha256": "daf3ed4a826b8ee272ad5225f0a5b80da18db886e844c962dcfd94c26c714bbe",
       "plotted_scenario_ids": [
         "m0_probe__b0p80__v0p80__m06__f03__d5da2e707d0fc7ab8dbd",
         "m0_probe__b0p80__v0p80__m06__f04__f40f847c5f4e879af143",
@@ -87,7 +87,7 @@
       "figure_id": "M0-2",
       "matplotlib_version": "3.9.4",
       "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_voltage_response.pdf",
-      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plot_script_sha256": "daf3ed4a826b8ee272ad5225f0a5b80da18db886e844c962dcfd94c26c714bbe",
       "plotted_scenario_ids": [
         "m0_probe__b0p95__v0p85__m04__f09__d4b4d1846b7ae8b6f65b",
         "m0_probe__b0p95__v0p85__m05__f06__6a852672576381d8af6c",
@@ -128,7 +128,7 @@
       "figure_id": "M0-3",
       "matplotlib_version": "3.9.4",
       "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_residual_trip.pdf",
-      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plot_script_sha256": "daf3ed4a826b8ee272ad5225f0a5b80da18db886e844c962dcfd94c26c714bbe",
       "plotted_scenario_ids": [
         "m0_probe__b0p95__v0p80__m05__f09__16de1897d4ff8f072522",
         "m0_probe__b0p95__v0p83__m05__f09__465e7023e62be9d08de5",
@@ -186,7 +186,7 @@
       ],
       "source_sha256": {
         "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/mechanism_gate/mechanism_gate.csv": "2427dccabe79030c442865d80ff3e8da1c609af3b42e61de384ceeef0e7312e9",
-        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "7d439070b99f928b38da30e4897a6b1f49d09e3bcda8917b18967ac10bc87fab",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "db889aeae8c9719736dffa705a7139359b57dffbfd0938f07fb5e9cfe00b99ef",
         "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_sweep.csv": "a00f2ab733f17e32333b7b5d43a0f4d32d4e863907e728660af60e1579d7489e"
       }
     },
@@ -195,7 +195,7 @@
       "figure_id": "M0-4",
       "matplotlib_version": "3.9.4",
       "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_trip_depth_summary.pdf",
-      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plot_script_sha256": "daf3ed4a826b8ee272ad5225f0a5b80da18db886e844c962dcfd94c26c714bbe",
       "plotted_scenario_ids": [],
       "png_dpi": [
         599.9988,
@@ -209,7 +209,7 @@
         "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv"
       ],
       "source_sha256": {
-        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "7d439070b99f928b38da30e4897a6b1f49d09e3bcda8917b18967ac10bc87fab"
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "db889aeae8c9719736dffa705a7139359b57dffbfd0938f07fb5e9cfe00b99ef"
       }
     }
   ],

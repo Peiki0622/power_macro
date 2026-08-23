@@ -25,6 +25,8 @@ if os.environ.get("CONDA_DEFAULT_ENV") != "DL":
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize, TwoSlopeNorm
 from matplotlib.lines import Line2D
 from PIL import Image
 
@@ -118,6 +120,32 @@ def candidate_lookup(candidates: Sequence[Mapping[str, str]]) -> Dict[Tuple[floa
     }
 
 
+def local_surface_normalization(surface: Sequence[Mapping[str, str]]) -> Normalize:
+    """Create one physically meaningful R scale shared by all M0-1 panels.
+
+    A per-panel autoscale makes equal colors represent different residuals and
+    makes a single shared colorbar scientifically incorrect.  M0 residual R
+    has a natural physical boundary at 0 ps, so a shared ``TwoSlopeNorm`` is
+    preferred whenever the formal valid surface spans both signs.  The plain
+    ``Normalize`` fallback keeps a one-sided terminal NO-GO surface legible
+    without inventing an unavailable opposite-sign range.
+    """
+
+    residuals = [number(row, "R_ps") for row in surface if int(number(row, "valid")) == 1]
+    if not residuals:
+        raise ValueError("M0-1 has no valid residual values for normalization")
+    lower = min(residuals)
+    upper = max(residuals)
+    if lower < 0.0 < upper:
+        return TwoSlopeNorm(vmin=lower, vcenter=0.0, vmax=upper)
+    if lower == upper:
+        # Matplotlib requires a non-zero range even for a degenerate terminal
+        # evidence table.  This does not alter a normal multi-point M0 plot.
+        span = max(abs(lower), 1.0) * 0.01
+        return Normalize(vmin=lower - span, vmax=upper + span)
+    return Normalize(vmin=lower, vmax=upper)
+
+
 def save_figure(figure_id: str, figure: plt.Figure, source_files: Sequence[Path], plotted_ids: Set[str]) -> Dict[str, Any]:
     """Write PDF/600-dpi PNG and perform the required machine-checkable QA."""
 
@@ -160,13 +188,17 @@ def fig_local_surface(surface: Sequence[Mapping[str, str]], candidates: Sequence
     figure, axes = plt.subplots(1, 3, figsize=(10.8, 3.25), constrained_layout=True)
     chosen = candidate_lookup(candidates)
     plotted: Set[str] = set()
-    scatter = None
+    # Every panel receives this exact same object, and the colorbar below is
+    # constructed from the same object rather than from whichever scatter was
+    # rendered last.  Thus a color always represents the same residual R.
+    normalization = local_surface_normalization(surface)
+    cmap = plt.get_cmap("coolwarm")
     for axis, baseline in zip(axes, (0.80, 0.95, 1.10)):
         rows = [row for row in surface if round(number(row, "baseline_vdd_v"), 2) == baseline]
         valid = [row for row in rows if int(number(row, "valid")) == 1]
         invalid = [row for row in rows if int(number(row, "valid")) != 1]
         if valid:
-            scatter = axis.scatter([number(row, "fine_code") for row in valid], [number(row, "medium_code") for row in valid], c=[number(row, "R_ps") for row in valid], cmap="coolwarm", marker="s", s=120, edgecolors="black", linewidths=0.4, zorder=2)
+            axis.scatter([number(row, "fine_code") for row in valid], [number(row, "medium_code") for row in valid], c=[number(row, "R_ps") for row in valid], cmap=cmap, norm=normalization, marker="s", s=120, edgecolors="black", linewidths=0.4, zorder=2)
             plotted.update(row["scenario_id"] for row in valid)
             for row in valid:
                 q = int(number(row, "q_final"))
@@ -182,10 +214,11 @@ def fig_local_surface(surface: Sequence[Mapping[str, str]], candidates: Sequence
                 axis.scatter([number(row, "fine_code")], [number(row, "medium_code")], facecolors="none", edgecolors="black", marker="o", s=210, linewidths=1.1, zorder=6)
         axis.set_title("{:.2f} V".format(baseline), fontsize=9)
         style_axis(axis, "Fine code F", "Medium code M")
-    if scatter is not None:
-        colorbar = figure.colorbar(scatter, ax=axes, shrink=0.82, pad=0.02)
-        colorbar.set_label("Residual R (ps)", fontsize=8)
-        colorbar.ax.tick_params(labelsize=7)
+    color_mapper = ScalarMappable(norm=normalization, cmap=cmap)
+    color_mapper.set_array([])
+    colorbar = figure.colorbar(color_mapper, ax=axes, shrink=0.82, pad=0.02)
+    colorbar.set_label("Residual R (ps)", fontsize=8)
+    colorbar.ax.tick_params(labelsize=7)
     # A shared legend sits outside the measured grids.  Per-panel legends
     # overlapped the calibration star at the upper-left code, obscuring a
     # required physical marker in the publication evidence.
@@ -215,8 +248,13 @@ def fig_voltage_response(mechanism: Sequence[Mapping[str, str]]) -> Tuple[plt.Fi
         for candidate_id, series in sorted(grouped.items()):
             ordered = sorted(series, key=lambda row: number(row, "physical_vdd_v"))
             volts = [number(row, "physical_vdd_v") for row in ordered]
-            axis.plot(volts, [number(row, "W_xor_ps") for row in ordered], marker="o", linestyle="-", linewidth=1.2, markersize=4, label="{} W".format(candidate_id.split("_")[-1]))
-            axis.plot(volts, [number(row, "D_ref_ps") for row in ordered], marker="s", linestyle="--", linewidth=1.2, markersize=4, label="{} D".format(candidate_id.split("_")[-1]))
+            level = candidate_id.split("_")[-1]
+            # Line style distinguishes the physical quantity; marker shape
+            # distinguishes L1/L2/L3.  The curves remain separable when color
+            # is unavailable in a grayscale paper printout.
+            marker = {"L1": "o", "L2": "s", "L3": "^"}[level]
+            axis.plot(volts, [number(row, "W_xor_ps") for row in ordered], marker=marker, linestyle="-", linewidth=1.2, markersize=4, label="{} W".format(level))
+            axis.plot(volts, [number(row, "D_ref_ps") for row in ordered], marker=marker, linestyle="--", linewidth=1.2, markersize=4, label="{} D".format(level))
             plotted.update(row["scenario_id"] for row in ordered)
         style_axis(axis, "Static VDD (V)", "Time (ps)")
         axis.set_title("{:.2f} V baseline".format(baseline), fontsize=9)
@@ -251,7 +289,10 @@ def fig_residual_trip(mechanism: Sequence[Mapping[str, str]], trip_sweep: Sequen
             ordered = sorted(series, key=lambda row: number(row, "physical_vdd_v"))
             volts = [number(row, "physical_vdd_v") for row in ordered]
             residuals = [number(row, "R_ps") for row in ordered]
-            axis.plot(volts, residuals, linewidth=1.1, label=candidate_id.split("_")[-1])
+            level = candidate_id.split("_")[-1]
+            # Candidate identity is encoded by line style as well as color;
+            # Q state remains separately encoded by the open/filled markers.
+            axis.plot(volts, residuals, linewidth=1.1, linestyle={"L1": "-", "L2": "--", "L3": "-."}[level], label=level)
             q0 = [row for row in ordered if int(number(row, "q_final")) == 0]
             q1 = [row for row in ordered if int(number(row, "q_final")) == 1]
             axis.scatter([number(row, "physical_vdd_v") for row in q0], [number(row, "R_ps") for row in q0], marker="o", facecolors="white", edgecolors="black", s=24, zorder=3)
