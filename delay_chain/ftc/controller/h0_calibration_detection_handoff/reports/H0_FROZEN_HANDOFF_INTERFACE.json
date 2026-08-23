@@ -1,0 +1,31 @@
+{
+  "frozen_fields": [
+    "cal_cfg_valid",
+    "det_prepare",
+    "det_takeover_ready",
+    "det_owner_valid",
+    "sense_dff_reset",
+    "sense_s_clk",
+    "medium_therm",
+    "fine_therm",
+    "POR-only reset"
+  ],
+  "interface_status": "FROZEN_FOR_DOWNSTREAM_DETECTION",
+  "new_rtl": {
+    "delay_chain/ftc/controller/rtl/ftc_cal_detect_handoff_top.sv": {
+      "git_blob_sha": "6d863ab09e1b3b99bf2dda01c2c3b8790ba8b2f5",
+      "sha256": "508f788d8936387a8996146d11e97b51b80be9c7698c7c0a71e371c836ffc3ae"
+    },
+    "delay_chain/ftc/controller/rtl/ftc_sensor_owner_handoff.sv": {
+      "git_blob_sha": "3d917d0580b6f353fad15065cf1fa05bab9b15db",
+      "sha256": "3455a7e67e31692ffe51f0423926e5bb3942d51ee7672ec949b19decdb0b1019"
+    }
+  },
+  "ownership_semantics": "CAL/WAIT -> one-cycle SWITCH_SAFE -> registered DET; malformed ready and cal_fail permanently block until POR.",
+  "schema_version": 1,
+  "sensor_control_semantics": "Glitch-resistant registered CAL/SAFE/DET/blocked enables; SAFE and DET overlap only while detector controls equal the snapshot, with one detector precharge-drain cycle after DET ownership is published.",
+  "snapshot_semantics": "One-shot M_cal/F_cal and exact medium/fine thermometer capture after successful CAL; POR clears validity.",
+  "stage": "H0-final",
+  "upstream_baseline_decision": "PASS",
+  "upstream_baseline_manifest": "delay_chain/ftc/controller/h0_calibration_detection_handoff/baseline/h0_baseline_manifest.json"
+}

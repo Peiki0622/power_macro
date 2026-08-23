@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "stage": "H0-1",
+  "physical_domain_assumption": {
+    "interface_model": "ideal_power_aware",
+    "ctrl_to_sense_high": "VDD_LOCAL",
+    "ctrl_to_sense_low": "VSS_LOCAL",
+    "extra_crossing_delay": false,
+    "extra_crossing_jitter": false,
+    "back_powering_model": "none_in_ideal_abstraction",
+    "real_level_shifter_signoff": "out_of_scope"
+  },
+  "clock_reset": {
+    "clock": "cal_clk_i",
+    "clock_frequency_hz": 400000000,
+    "clock_period_ns": 2.5,
+    "por": "ctrl_por_n_i",
+    "det_takeover_ready_clock_domain": "cal_clk_i_synchronized"
+  },
+  "calibration_inputs": {
+    "status": ["cal_busy_i", "cal_done_i", "cal_fail_i", "lock_valid_i"],
+    "sensor_control": [
+      "cal_sense_dff_reset_i",
+      "cal_sense_s_clk_i",
+      "cal_medium_therm_i[15:0]",
+      "cal_fine_therm_i[9:0]"
+    ],
+    "debug_code": ["cal_medium_code_i[4:0]", "cal_fine_code_i[3:0]"]
+  },
+  "detection_inputs": {
+    "ready": "det_takeover_ready_i",
+    "sensor_control": [
+      "det_sense_dff_reset_i",
+      "det_sense_s_clk_i",
+      "det_medium_therm_i[15:0]",
+      "det_fine_therm_i[9:0]"
+    ],
+    "clock_frequency": "not_frozen_by_H0"
+  },
+  "sensor_outputs": {
+    "owner_muxed_controls": [
+      "sense_dff_reset_o",
+      "sense_s_clk_o",
+      "medium_therm_o[15:0]",
+      "fine_therm_o[9:0]"
+    ],
+    "q_final": "bypasses_H0_and_remains_PD_SENSE_to_PD_CTRL"
+  },
+  "snapshot": {
+    "write_condition": "cal_done_i && lock_valid_i && !cal_fail_i && !cal_busy_i && cal_sense_dff_reset_i && !cal_sense_s_clk_i",
+    "write_once_until_por": true,
+    "fields": [
+      "cal_medium_code_snapshot_o[4:0]",
+      "cal_fine_code_snapshot_o[3:0]",
+      "cal_medium_therm_snapshot_o[15:0]",
+      "cal_fine_therm_snapshot_o[9:0]"
+    ]
+  },
+  "handoff_rules": {
+    "det_prepare_requires_snapshot": true,
+    "ready_requires_exact_therm_match": true,
+    "ready_requires_reset_high": true,
+    "ready_requires_sclk_low": true,
+    "safe_hold_cycles": 1,
+    "detector_precharge_drain_cycles": 1,
+    "detector_controls_hold_snapshot_through_first_det_cycle": true,
+    "det_owner_is_registered_state": true,
+    "det_to_cal_without_por": false,
+    "protocol_error_is_sticky_until_por": true
+  }
+}

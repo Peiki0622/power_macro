@@ -1,0 +1,22 @@
+{
+  "authoritative_run": "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/vcs11",
+  "assertion_file": "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/ftc_sensor_owner_handoff_sva.sv",
+  "assertion_compile_run": "VCS W-2024.09 compile and complete RTL replay in /tmp; no assertion failures",
+  "assertion_run_pass": true,
+  "compile_log": "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/vcs11_compile.log",
+  "coverage": [
+    "0.80 V -> M7/F6 exact thermometer snapshot",
+    "0.95 V -> M4/F6 exact thermometer snapshot",
+    "1.10 V -> M2/F9 exact thermometer snapshot",
+    "early ready, busy/reset/S_CLK unsafe calibration, cal_fail",
+    "malformed medium/fine/reset/S_CLK ready",
+    "DET ownership isolation and POR-only return to CAL"
+  ],
+  "decision": "PASS",
+  "result_text": "H0 RTL verification PASS: nominal, negative, and POR-only paths covered",
+  "run_log": "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/vcs11_run.log",
+  "schema_version": 1,
+  "stage": "H0-4",
+  "wrapper_compile_log": "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/top_compile/compile.log",
+  "wrapper_compile_pass": true
+}

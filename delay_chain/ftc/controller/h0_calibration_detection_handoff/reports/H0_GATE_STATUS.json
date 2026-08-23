@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    "delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_TIMING_COMPOSITION.json",
+    "delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_FROZEN_HANDOFF_INTERFACE.json",
+    "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/H0_RTL_UNIT_RESULTS.json",
+    "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/ftc_sensor_owner_handoff_sva.sv",
+    "delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/gate_sdf/H0_GATE_SDF_RESULTS.json"
+  ],
+  "checks": {
+    "baseline_pass": true,
+    "mapped_sdf_pass": true,
+    "physical_composition_pass": true,
+    "rtl_assertions_pass": true,
+    "rtl_unit_pass": true,
+    "synthesis_design_rules_pass": true,
+    "synthesis_setup_hold_pass": true,
+    "top_level_integration_synthesis": "not_required"
+  },
+  "decision": "H0 \u6821\u51c6\u5230\u68c0\u6d4b\u539f\u5b50\u5316\u63a7\u5236\u6743\u5207\u6362 = \u901a\u8fc7",
+  "h0_8_reason": "\u72ec\u7acb H0 STA\u3001\u7269\u7406\u4e8b\u4ef6\u7ec4\u5408\u548c mapped+SDF \u5207\u6362\u5747\u5df2\u95ed\u5408\uff0c\u5b8c\u6574 ftc_cal_detect_handoff_top \u7efc\u5408/STA \u4e0d\u89e6\u53d1\u3002",
+  "schema_version": 1,
+  "stage": "H0"
+}

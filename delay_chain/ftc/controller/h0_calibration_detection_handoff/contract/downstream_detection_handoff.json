@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "stage": "H0-1",
+  "consumer": "future_detection_controller",
+  "frozen_outputs": [
+    "cal_cfg_valid_o",
+    "cal_medium_code_snapshot_o[4:0]",
+    "cal_fine_code_snapshot_o[3:0]",
+    "cal_medium_therm_snapshot_o[15:0]",
+    "cal_fine_therm_snapshot_o[9:0]",
+    "det_prepare_o",
+    "det_owner_valid_o",
+    "handoff_blocked_o",
+    "handoff_protocol_error_o",
+    "handoff_state_o"
+  ],
+  "initial_detection_configuration": {
+    "medium": "cal_medium_therm_snapshot_o",
+    "fine": "cal_fine_therm_snapshot_o",
+    "sense_dff_reset": 1,
+    "sense_s_clk": 0
+  },
+  "ownership_protocol": {
+    "ready_signal": "det_takeover_ready_i",
+    "ready_must_be_cal_clk_synchronized": true,
+    "ready_is_not_mux_select": true,
+    "det_owner_is_one_way_until_por": true
+  },
+  "explicit_non_scope": [
+    "detection_margin_algorithm",
+    "M_det_or_F_det_delta_encoding",
+    "detection_probe_cadence",
+    "alarm_policy",
+    "dynamic_recalibration",
+    "real_power_intent_or_level_shifter_implementation"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "stage": "H0-1",
+  "state_encoding": {
+    "H_CAL_OWNED": 0,
+    "H_WAIT_DET": 1,
+    "H_SWITCH_SAFE": 2,
+    "H_DET_OWNED": 3,
+    "H_BLOCKED": 4
+  },
+  "reset_state": "H_CAL_OWNED",
+  "transition_table": [
+    {
+      "from": "H_CAL_OWNED",
+      "condition": "cal_fail_i",
+      "to": "H_BLOCKED"
+    },
+    {
+      "from": "H_CAL_OWNED",
+      "condition": "cal_done_i && lock_valid_i && !cal_fail_i && !cal_busy_i && cal_sense_dff_reset_i && !cal_sense_s_clk_i",
+      "to": "H_WAIT_DET",
+      "side_effect": "capture_calibration_snapshot"
+    },
+    {
+      "from": "H_WAIT_DET",
+      "condition": "det_takeover_ready_i && exact_snapshot_match && det_sense_dff_reset_i && !det_sense_s_clk_i",
+      "to": "H_SWITCH_SAFE"
+    },
+    {
+      "from": "H_WAIT_DET",
+      "condition": "det_takeover_ready_i && !exact_snapshot_match_or_safe_controls",
+      "to": "H_BLOCKED",
+      "side_effect": "latch_protocol_error"
+    },
+    {
+      "from": "H_SWITCH_SAFE",
+      "condition": "one_full_cal_clk_cycle_elapsed",
+      "to": "H_DET_OWNED"
+    },
+    {
+      "from": "H_DET_OWNED",
+      "condition": "any_non_por_input",
+      "to": "H_DET_OWNED"
+    },
+    {
+      "from": "H_BLOCKED",
+      "condition": "any_non_por_input",
+      "to": "H_BLOCKED"
+    }
+  ],
+  "output_semantics": {
+    "H_CAL_OWNED": "mux_cal_outputs",
+    "H_WAIT_DET": "mux_cal_outputs",
+    "H_SWITCH_SAFE": "snapshot_and_reset_high_sclk_low",
+    "H_DET_OWNED": "mux_det_outputs_after_one_cycle_precharge_drain; detector controls remain snapshot-equal during the first DET cycle",
+    "H_BLOCKED": "last_calibration_therm_with_reset_high_sclk_low"
+  },
+  "invariants": [
+    "det_owner_valid implies state == H_DET_OWNED",
+    "cal_cfg_valid remains stable after first successful snapshot until POR",
+    "cal_fail implies not det_owner_valid",
+    "det_takeover_ready with invalid precharge enters H_BLOCKED",
+    "ownership never returns from DET to CAL without POR",
+    "H_SWITCH_SAFE outputs do not create a sensor clock edge"
+    ,"first DET cycle keeps SAFE and DET mux inputs snapshot-equal"
+  ]
+}

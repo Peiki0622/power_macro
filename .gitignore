@@ -193,6 +193,18 @@ hspice_command.log
 /csrc/
 /delay_chain/ftc/controller/**/csrc/
 
+# H0 calibration-to-detection handoff keeps the reviewed Verilog/SDF/SDC
+# handoff, contracts, SVA, testbenches and compact JSON/Markdown decisions.
+# Design Compiler's work database and VCS build trees are reproducible local
+# products and must not make the H0 change appear larger or less reviewable.
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/work/
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/*.ddc
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/run/default.svf
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/rtl/vcs*/
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/top_compile/vcs/
+/delay_chain/ftc/controller/h0_calibration_detection_handoff/verification/gate_sdf/build/
+!/delay_chain/ftc/controller/h0_calibration_detection_handoff/baseline/h0_baseline_manifest.json
+
 # Corrected Phase 9 XA diagnostic launch directories contain task-scoped
 # copies of decks, wrappers, testbenches, and bridge configuration generated
 # by the run scripts.  The authored diagnostic deck and compact JSON evidence

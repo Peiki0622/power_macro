@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "stage": "H0-6",
+  "decision": "PASS",
+  "clock_hz": 400000000,
+  "period_ns": 2.5,
+  "event_composition_ns": {
+    "reset_release_to_sclk_rise_minimum": 0.49,
+    "reset_release_to_sclk_rise_remaining": 0.49,
+    "sclk_rise_to_q_sample_1_minimum": 2.30,
+    "sclk_rise_to_q_sample_1_remaining": 1.83,
+    "reset_complete_to_sclk_fall_minimum": 0.29,
+    "reset_complete_to_sclk_fall_remaining": 0.27,
+    "configuration_settle_remaining": 2.02
+  },
+  "rf8_slack_after_h0_ns": {
+    "sense_s_clk": 1.29,
+    "sense_dff_reset": 1.30,
+    "thermometer": 1.38,
+    "q_final_sampling_unaffected": 1.50
+  },
+  "checks": {
+    "physical_event_margins_positive": true,
+    "configuration_margin_positive": true,
+    "rf8_slack_after_h0_positive": true
+  },
+  "source_report": "delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_TIMING_COMPOSITION.json"
+}

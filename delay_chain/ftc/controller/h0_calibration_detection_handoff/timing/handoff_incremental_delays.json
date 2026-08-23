@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "stage": "H0-5",
+  "decision": "PASS",
+  "source_directory": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/reports",
+  "clock_hz": 400000000,
+  "period_ns": 2.5,
+  "internal_sta_slack_ns": {
+    "setup_worst": 0.29,
+    "hold_worst": 0.03
+  },
+  "incremental_delays_ns": {
+    "sclk_rise_max": 0.47,
+    "sclk_fall_max": 0.45,
+    "sclk_min": 0.11,
+    "reset_rise_max": 0.44,
+    "reset_fall_max": 0.47,
+    "reset_min": 0.12,
+    "medium_rise_max": 0.44,
+    "medium_fall_max": 0.48,
+    "medium_min": 0.12,
+    "fine_rise_max": 0.44,
+    "fine_fall_max": 0.48,
+    "fine_min": 0.12,
+    "medium_bit_skew_max": 0.0,
+    "fine_bit_skew_max": 0.0
+  },
+  "design_rule_violations": {
+    "max_transition": 0,
+    "max_fanout": 0,
+    "max_capacitance": 0
+  }
+}

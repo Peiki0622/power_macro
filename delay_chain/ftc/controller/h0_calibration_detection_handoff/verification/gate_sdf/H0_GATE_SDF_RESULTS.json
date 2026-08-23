@@ -1,0 +1,25 @@
+{
+  "cell_model": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v",
+  "compile_flags": [
+    "+neg_tchk",
+    "-sdf max:tb_h0_owner_handoff_sdf.dut"
+  ],
+  "decision": "PASS",
+  "glitch_events": 0,
+  "golden_cases": [
+    "0p80_M7_F6",
+    "0p95_M4_F6",
+    "1p10_M2_F9"
+  ],
+  "netlist": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.v",
+  "pass_string_present": true,
+  "schema_version": 1,
+  "sdf": "delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.sdf",
+  "sdf_annotation_completed": true,
+  "sdf_annotation_errors": 0,
+  "sdf_negative_delay_warnings": 374,
+  "stage": "H0-7",
+  "timing_checks_enabled": true,
+  "timing_violation_count": 0,
+  "warning_note": "The SMIC40LL SDF contains negative interconnect values; VCS clamps them to zero and reports warnings, while annotation errors and timing violations remain zero."
+}

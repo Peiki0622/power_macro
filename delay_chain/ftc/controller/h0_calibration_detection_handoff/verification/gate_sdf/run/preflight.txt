@@ -1,0 +1,6 @@
+date_utc=2026-08-23T04:11:49Z
+hostname=pillar
+vcs=vcs script version : W-2024.09
+netlist=/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.v
+sdf=/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/synthesis/netlist/ftc_sensor_owner_handoff_synth.sdf
+cell_model=/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v
