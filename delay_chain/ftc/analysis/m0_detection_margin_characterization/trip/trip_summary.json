@@ -1,0 +1,105 @@
+{
+  "decision": "GO",
+  "per_baseline_has_in_range_trip": {
+    "0.95": true,
+    "1.10": true
+  },
+  "per_baseline_ordering_ok": {
+    "0.95": true,
+    "1.10": true
+  },
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1",
+  "trip_map": [
+    {
+      "DeltaV_trip_mv": 69.99999999999996,
+      "F_det": 9,
+      "M_det": 4,
+      "R_at_first_q1_ps": 68.17643000000004,
+      "R_at_last_q0_ps": 43.595301000000006,
+      "Vtrip_v": 0.88,
+      "baseline_vdd_v": 0.95,
+      "candidate_id": "0p95_L1",
+      "margin_level": "L1",
+      "nominal_D_ref_shift_ps": 24.305359000000124,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    },
+    {
+      "DeltaV_trip_mv": 89.99999999999997,
+      "F_det": 6,
+      "M_det": 5,
+      "R_at_first_q1_ps": 69.27948300000025,
+      "R_at_last_q0_ps": 19.679972000000078,
+      "Vtrip_v": 0.86,
+      "baseline_vdd_v": 0.95,
+      "candidate_id": "0p95_L2",
+      "margin_level": "L2",
+      "nominal_D_ref_shift_ps": 43.78578300000015,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    },
+    {
+      "DeltaV_trip_mv": 120.0,
+      "F_det": 9,
+      "M_det": 5,
+      "R_at_first_q1_ps": 94.27401099999997,
+      "R_at_last_q0_ps": 57.939455000000066,
+      "Vtrip_v": 0.83,
+      "baseline_vdd_v": 0.95,
+      "candidate_id": "0p95_L3",
+      "margin_level": "L3",
+      "nominal_D_ref_shift_ps": 68.10312900000014,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    },
+    {
+      "DeltaV_trip_mv": 90.00000000000009,
+      "F_det": 10,
+      "M_det": 2,
+      "R_at_first_q1_ps": 35.04463299999969,
+      "R_at_last_q0_ps": 15.594315999999935,
+      "Vtrip_v": 1.01,
+      "baseline_vdd_v": 1.1,
+      "candidate_id": "1p10_L1",
+      "margin_level": "L1",
+      "nominal_D_ref_shift_ps": 7.111681999999917,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    },
+    {
+      "DeltaV_trip_mv": 140.0000000000001,
+      "F_det": 8,
+      "M_det": 3,
+      "R_at_first_q1_ps": 42.79617300000007,
+      "R_at_last_q0_ps": 17.18200999999982,
+      "Vtrip_v": 0.96,
+      "baseline_vdd_v": 1.1,
+      "candidate_id": "1p10_L2",
+      "margin_level": "L2",
+      "nominal_D_ref_shift_ps": 25.802927999999753,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    },
+    {
+      "DeltaV_trip_mv": 170.00000000000003,
+      "F_det": 10,
+      "M_det": 3,
+      "R_at_first_q1_ps": 50.959621999999854,
+      "R_at_last_q0_ps": 33.99784600000004,
+      "Vtrip_v": 0.93,
+      "baseline_vdd_v": 1.1,
+      "candidate_id": "1p10_L3",
+      "margin_level": "L3",
+      "nominal_D_ref_shift_ps": 40.046292999999906,
+      "ordering_ok": true,
+      "reason": null,
+      "trip_status": "IN_RANGE_TRIP"
+    }
+  ]
+}

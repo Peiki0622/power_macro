@@ -1,0 +1,26 @@
+{
+  "decision": "GO",
+  "per_anchor": {
+    "0.80": {
+      "expected_row_count": 21,
+      "reasons": [],
+      "row_count": 21,
+      "status": "GO"
+    },
+    "0.95": {
+      "expected_row_count": 21,
+      "reasons": [],
+      "row_count": 21,
+      "status": "GO"
+    },
+    "1.10": {
+      "expected_row_count": 15,
+      "reasons": [],
+      "row_count": 15,
+      "status": "GO"
+    }
+  },
+  "reasons": [],
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}

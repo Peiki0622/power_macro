@@ -1,0 +1,8 @@
+{
+  "hspice_invocation": "configured W-2024.09 wrapper; one scenario directory per physical point",
+  "raw_run_root": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/m0_detection_margin_characterization",
+  "reuse_rule": "reuse only PASS scenario with identical physical contract, parameters, rendered deck SHA256, listing, and measurement file",
+  "scenario_identity": "SHA256(single_probe_contract + baseline_vdd + physical_vdd + M + F + deck)",
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}

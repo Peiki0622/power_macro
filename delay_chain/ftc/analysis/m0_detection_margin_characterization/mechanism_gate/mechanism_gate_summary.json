@@ -1,0 +1,36 @@
+{
+  "decision": "GO",
+  "per_baseline": {
+    "0.95": {
+      "accepted_candidate_ids": [
+        "0p95_L1",
+        "0p95_L2",
+        "0p95_L3"
+      ],
+      "rejected_candidates": {},
+      "status": "GO",
+      "vdd_points_v": [
+        0.95,
+        0.9,
+        0.85
+      ]
+    },
+    "1.10": {
+      "accepted_candidate_ids": [
+        "1p10_L1",
+        "1p10_L2",
+        "1p10_L3"
+      ],
+      "rejected_candidates": {},
+      "status": "GO",
+      "vdd_points_v": [
+        1.1,
+        1.05,
+        1.0
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope_0p80": "local_code_surface_and_normal_point_only; no below-0.80-V detection claim",
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}

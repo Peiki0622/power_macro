@@ -1,0 +1,144 @@
+{
+  "anchors": {
+    "0.80": {
+      "F_cal": 6,
+      "M_cal": 7,
+      "baseline_vdd_v": 0.8,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "0.95": {
+      "F_cal": 6,
+      "M_cal": 4,
+      "baseline_vdd_v": 0.95,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        3,
+        4,
+        5
+      ]
+    },
+    "1.10": {
+      "F_cal": 9,
+      "M_cal": 2,
+      "baseline_vdd_v": 1.1,
+      "f_values": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "m_values": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "decision": "GO",
+  "electrical_scope": "single_static_vdd_probe_only",
+  "example_deck_sha256": "c11f4596d04ffde34965481289078f4252c9e43af4185bea172c1e20bd888ede",
+  "measurement_fields": [
+    "scenario_id",
+    "baseline_vdd_v",
+    "physical_vdd_v",
+    "medium_code",
+    "fine_code",
+    "t_xor_rise_s",
+    "t_xor_fall_s",
+    "t_ck_rise_s",
+    "t_ck_rise_2_s",
+    "W_xor_ps",
+    "D_ref_ps",
+    "R_ps",
+    "q_final_v",
+    "q_final_late_v",
+    "q_final",
+    "q_state",
+    "active_ck_edge_count",
+    "recovery_max_ratio",
+    "valid",
+    "reason",
+    "scenario_path",
+    "deck_sha256",
+    "physical_contract_sha256"
+  ],
+  "q_decision": {
+    "q_high_ratio": 0.9,
+    "q_low_ratio": 0.1,
+    "residual_role": "diagnostic_only",
+    "trip_decision": "stable_real_dff_q_equals_1",
+    "two_samples_required": true
+  },
+  "schema_version": 1,
+  "snapshot_semantics": "M/F rails are initialized to the requested thermometer code at t=0 and held constant; no calibration transition is rendered.",
+  "source_sha256": {
+    "cycle_timing": "beea19863f715c5d1d4b1b125059fd598493586b65dd7822fabea7da4240c304",
+    "empty_subckt": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca",
+    "event_order": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a",
+    "ftc_config": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+    "lvt_cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+    "model_library": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+    "physical_renderer": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+    "rvt_cdl": "8d5de89579e7d7d37d21a9614c975ebccc893c35a119b2ba8e4387f754b1d80e",
+    "selected_cells": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318"
+  },
+  "study": "ftc_m0_detection_margin_characterization_v1",
+  "timing_s": {
+    "launch_time_s": 1.49e-09,
+    "q_read_late_time_s": 3.99e-09,
+    "q_read_time_s": 3.7899999999999995e-09,
+    "recovery_end_s": 7.189999999999999e-09,
+    "reset_assert_end_s": 4.1999999999999996e-09,
+    "reset_assert_start_s": 4.19e-09,
+    "reset_release_s": 1e-09,
+    "sclk_fall_s": 4.489999999999999e-09,
+    "stop_time_s": 7.3899999999999995e-09
+  },
+  "topology": {
+    "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+    "dff_port_order": "Q VDD VNW VPW VSS CK D R",
+    "fine_K": 10,
+    "fine_driver": "BUF_X0P8M_A9TL40",
+    "fine_load": "NOR2_X4A_A9TL40",
+    "medium_N": 16,
+    "medium_delay_cell": "BUF_X0P7M_A9TL40",
+    "medium_mux_cell": "MXT2_X0P5M_A9TL40",
+    "sensor": "4 RVT prefix + 30 observable stages; tap29 real XOR input",
+    "xor_cell": "XOR2_X0P5M_A9TR40"
+  },
+  "topology_checks": {
+    "constant_fine_snapshot": true,
+    "constant_medium_snapshot": true,
+    "fine_driver_is_only_dff_clock_path": true,
+    "k10_fine_load": true,
+    "medium_input_is_xor": true,
+    "n16_medium": true,
+    "no_forbidden_hardware": true,
+    "no_ideal_delay_or_capacitor": true,
+    "requested_codes_legal": true,
+    "tap29_real_xor": true,
+    "xor_is_dff_data": true
+  }
+}

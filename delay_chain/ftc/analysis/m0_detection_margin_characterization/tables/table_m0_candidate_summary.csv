@@ -1,0 +1,13 @@
+baseline_vdd_v,M_cal,F_cal,margin_level,candidate_id,M_det,F_det,nominal_D_ref_shift_ps,nominal_R_ps,normal_Q,selection_reason
+0.8,7,6,L0,0p80_L0,7,6,0.0,59.91654899999992,0,frozen H0 calibration/guard snapshot
+0.8,7,6,L1,0p80_L1,8,6,66.79391999999996,-7.043777999999975,0,ordered local-surface timing margin; not a fixed fine-code increment
+0.8,7,6,L2,0p80_L2,8,8,84.88855799999999,-25.13739799999985,0,ordered local-surface timing margin; not a fixed fine-code increment
+0.8,7,6,L3,0p80_L3,8,9,94.64021200000013,-34.887420999999904,0,ordered local-surface timing margin; not a fixed fine-code increment
+0.95,4,6,L0,0p95_L0,4,6,0.0,22.815484000000026,0,frozen H0 calibration/guard snapshot
+0.95,4,6,L1,0p95_L1,4,9,24.305359000000124,-1.4822530000001848,0,ordered local-surface timing margin; not a fixed fine-code increment
+0.95,4,6,L2,0p95_L2,5,6,43.78578300000015,-20.855357999999967,0,ordered local-surface timing margin; not a fixed fine-code increment
+0.95,4,6,L3,0p95_L3,5,9,68.10312900000014,-45.170455999999945,0,ordered local-surface timing margin; not a fixed fine-code increment
+1.1,2,9,L0,1p10_L0,2,9,0.0,4.155604999999866,0,frozen H0 calibration/guard snapshot
+1.1,2,9,L1,1p10_L1,2,10,7.111681999999917,-2.955218999999829,0,ordered local-surface timing margin; not a fixed fine-code increment
+1.1,2,9,L2,1p10_L2,3,8,25.802927999999753,-21.62344499999969,0,ordered local-surface timing margin; not a fixed fine-code increment
+1.1,2,9,L3,1p10_L3,3,10,40.046292999999906,-35.86549899999986,0,ordered local-surface timing margin; not a fixed fine-code increment

@@ -1,0 +1,93 @@
+{
+  "anchors": {
+    "0.80": {
+      "F_cal": 6,
+      "M_cal": 7,
+      "baseline_vdd_v": 0.8,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "0.95": {
+      "F_cal": 6,
+      "M_cal": 4,
+      "baseline_vdd_v": 0.95,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        3,
+        4,
+        5
+      ]
+    },
+    "1.10": {
+      "F_cal": 9,
+      "M_cal": 2,
+      "baseline_vdd_v": 1.1,
+      "f_values": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "m_values": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "decision": "CONDITIONAL_GO",
+  "downstream_handoff": "M1 may consume snapshot semantics, legal M_det/F_det levels, nominal ps shifts, Vtrip envelope, and unsupported scope; M0 implements no margin-generator RTL.",
+  "environment": {
+    "conda_env": "DL",
+    "hspice_executable": "/home/zhupl25/.local/bin/hspice",
+    "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+    "matplotlib_version": "3.9.4",
+    "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+    "python_version": "3.9.25",
+    "schema_version": 1,
+    "study": "ftc_m0_detection_margin_characterization_v1"
+  },
+  "figure_manifest": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figure_manifest.json",
+  "forbidden_reruns": [
+    "calibration_rtl_change",
+    "sensor_change",
+    "h0_rtl_change",
+    "rf6_rf8_rf9c_rf9d_rerun",
+    "full_startup_calibration_rerun",
+    "cell_search",
+    "detector_rtl",
+    "dynamic_droop",
+    "pvt_mc_postlayout"
+  ],
+  "frozen_inputs_sha256": "2074b0d45b47f9ef79f1e21d87c15c89619e80187dc7838c9aa01c9c9c0dcae0",
+  "raw_hspice_pass_count": 91,
+  "raw_hspice_scenario_count": 91,
+  "reasons": [
+    "0.80 V is local-code-surface/normal-point only; no <0.80 V detection claim"
+  ],
+  "schema_version": 1,
+  "scope_boundary": "0.80 V is the formal minimum VDD; M0 makes no below-0.80-V detection claim.",
+  "single_probe_contract_sha256": "3cadeaa3bcb0f064ce53751acd1af8456a043843e4733455b6b2250258faeea7",
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}

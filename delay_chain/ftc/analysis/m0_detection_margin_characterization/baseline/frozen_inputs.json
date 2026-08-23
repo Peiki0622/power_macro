@@ -1,0 +1,205 @@
+{
+  "anchors": {
+    "0.80": {
+      "F_cal": 6,
+      "M_cal": 7,
+      "baseline_vdd_v": 0.8,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        6,
+        7,
+        8
+      ]
+    },
+    "0.95": {
+      "F_cal": 6,
+      "M_cal": 4,
+      "baseline_vdd_v": 0.95,
+      "f_values": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "m_values": [
+        3,
+        4,
+        5
+      ]
+    },
+    "1.10": {
+      "F_cal": 9,
+      "M_cal": 2,
+      "baseline_vdd_v": 1.1,
+      "f_values": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "m_values": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "forbidden_work": [
+    "calibration_rtl_change",
+    "sensor_change",
+    "h0_rtl_change",
+    "rf6_rf8_rf9c_rf9d_rerun",
+    "full_startup_calibration_rerun",
+    "cell_search",
+    "detector_rtl",
+    "dynamic_droop",
+    "pvt_mc_postlayout"
+  ],
+  "git_head": "550553e802d902be3a6eb6921731f5df71a7fddd",
+  "inputs": {
+    "cycle_timing": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/refrequency/timing_contract/cycle_timing_contract_refrequency.json",
+      "sha256": "beea19863f715c5d1d4b1b125059fd598493586b65dd7822fabea7da4240c304"
+    },
+    "empty_subckt": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/spice/empty_subckt.sp_cal",
+      "sha256": "f59ea415c549f8330a8eaf86db2cf5d05b1c72d47b7fc497f73b15e5242a2cca"
+    },
+    "event_order": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/analysis/cycle_protocol_event_order_v2/exact_path_event_order_audit.json",
+      "sha256": "ea0b28a59e2bef82003b503103a9da828c53869cf654242b4df3522d1b8dc41a"
+    },
+    "exact_final": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/final_acceptance.json",
+      "sha256": "99bcfe076c08be696b3b8c45cca5a8456671a660e2bdf28f2b1d72b5c8996c62"
+    },
+    "exact_runner": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/scripts/run_exact_reachable_path_hspice.py",
+      "sha256": "a922056968eaaca9be1a50034c46b5e93720a54a48c6a3b23434c40fdb658b36"
+    },
+    "exact_schedule/0p80": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_0p80/operation_schedule.json",
+      "sha256": "427a4866247a5e4b7a21b668ffb60a5b26f11dea5eecb54e428fefac3177b66f"
+    },
+    "exact_schedule/0p95": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_0p95/operation_schedule.json",
+      "sha256": "48045f2c26e54ac1fb05e2e24798c506e2dfab9f4dac4aec06de643ded5dfb30"
+    },
+    "exact_schedule/1p10": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/reachable_path_acceptance/exact_hspice/exact_path_1p10/operation_schedule.json",
+      "sha256": "7b671530ad9102fb5146aca1a5becc7cb9b6ea24fd54f0df00cc74939be15703"
+    },
+    "frozen_calibration_rtl/ftc_cal_controller_top.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_controller_top.sv",
+      "sha256": "eb7646fb477e0038b77a642f0559375dcf8d45ba0971c1f70202e3d69c7d45ba"
+    },
+    "frozen_calibration_rtl/ftc_cal_fsm.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_fsm.sv",
+      "sha256": "2131ef7fcd5374045175667dba022f4e1c461ce7aa1f1b9a5dded6231a389932"
+    },
+    "frozen_calibration_rtl/ftc_cal_pkg.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_pkg.sv",
+      "sha256": "4a546ecb0d495dbf9bafd5bd4d8e3fdca560ccf69fd45d6740379c6753f35fbe"
+    },
+    "frozen_calibration_rtl/ftc_cfg_therm_regs.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cfg_therm_regs.sv",
+      "sha256": "37bf5352dc59619f6b1aa333c204bfa3abe9905c4c856473e27de4f44b66e589"
+    },
+    "frozen_calibration_rtl/ftc_operation_sequencer.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_operation_sequencer.sv",
+      "sha256": "661fd54c344b0b8bfda5abf736dfc0609241a94dc7ebbff178d34ac18548eec3"
+    },
+    "frozen_calibration_rtl/ftc_q_sampler.sv": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_q_sampler.sv",
+      "sha256": "6bfd0ed8266e84a30f645536d0c9dbec4b1066c7ce2a9cefb5b665ccfb621362"
+    },
+    "ftc_config": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/ftc_config.json",
+      "sha256": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f"
+    },
+    "h0_baseline": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/baseline/h0_baseline_manifest.json",
+      "sha256": "2d57497dad74757ec57db964d4d09ccb7f5ed7c5a1e638385b810c79c260e7f2"
+    },
+    "h0_final_report": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_FINAL_REPORT.md",
+      "sha256": "8c8c17b4f92d3055587d8c1c11b20a4886f28fe5dfa8907d1ef6de00bf54d301"
+    },
+    "h0_gate_status": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_GATE_STATUS.json",
+      "sha256": "b596d3ffc354c433f2f9acec7b2c83502613573439b1b095f9c0ca552b923991"
+    },
+    "h0_interface": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_FROZEN_HANDOFF_INTERFACE.json",
+      "sha256": "52042f23f61115dd6ce42b33cba6bea645a71d1c9e7b00f7f2c533dc78c187e7"
+    },
+    "h0_owner_rtl": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_sensor_owner_handoff.sv",
+      "sha256": "3455a7e67e31692ffe51f0423926e5bb3942d51ee7672ec949b19decdb0b1019"
+    },
+    "h0_timing": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/h0_calibration_detection_handoff/reports/H0_TIMING_COMPOSITION.json",
+      "sha256": "c43f24356174c6b7b03e32a58120c6ebc448180088b0a50d52c51dad8add7ff4"
+    },
+    "h0_top_rtl": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/controller/rtl/ftc_cal_detect_handoff_top.sv",
+      "sha256": "508f788d8936387a8996146d11e97b51b80be9c7698c7c0a71e371c836ffc3ae"
+    },
+    "hspice_wrapper": {
+      "path": "/home/zhupl25/.local/bin/hspice",
+      "sha256": "1dd3a423aa211ff6c6c14af4bafc79aec3b2391cc9782d35edc2c1dde7f73c15"
+    },
+    "lvt_cdl": {
+      "path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl",
+      "sha256": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351"
+    },
+    "model_library": {
+      "path": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+      "sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e"
+    },
+    "physical_renderer": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/scripts/run_dynamic_startup_calibration_protocol.py",
+      "sha256": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5"
+    },
+    "rvt_cdl": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl",
+      "sha256": "8d5de89579e7d7d37d21a9614c975ebccc893c35a119b2ba8e4387f754b1d80e"
+    },
+    "selected_cells": {
+      "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/discovery/selected_cells.json",
+      "sha256": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318"
+    }
+  },
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1",
+  "upstream": {
+    "exact_anchor_codes": {
+      "0p80": [
+        7,
+        6
+      ],
+      "0p95": [
+        4,
+        6
+      ],
+      "1p10": [
+        2,
+        9
+      ]
+    },
+    "exact_decision": "GO",
+    "h0_decision": "H0 \u6821\u51c6\u5230\u68c0\u6d4b\u539f\u5b50\u5316\u63a7\u5236\u6743\u5207\u6362 = \u901a\u8fc7"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "conda_env": "DL",
+  "hspice_executable": "/home/zhupl25/.local/bin/hspice",
+  "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+  "matplotlib_version": "3.9.4",
+  "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+  "python_version": "3.9.25",
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}

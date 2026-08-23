@@ -1,0 +1,225 @@
+{
+  "figures": [
+    {
+      "conda_env": "DL",
+      "figure_id": "M0-1",
+      "matplotlib_version": "3.9.4",
+      "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_local_code_surface.pdf",
+      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plotted_scenario_ids": [
+        "m0_probe__b0p80__v0p80__m06__f03__d5da2e707d0fc7ab8dbd",
+        "m0_probe__b0p80__v0p80__m06__f04__f40f847c5f4e879af143",
+        "m0_probe__b0p80__v0p80__m06__f05__82ba66d3dd24cf5a2162",
+        "m0_probe__b0p80__v0p80__m06__f06__681caf81dc4d76ac1a9a",
+        "m0_probe__b0p80__v0p80__m06__f07__e8bdcfe0680d5c291b01",
+        "m0_probe__b0p80__v0p80__m06__f08__5176ac8596e5ee192dd3",
+        "m0_probe__b0p80__v0p80__m06__f09__d4da300331b16f901a02",
+        "m0_probe__b0p80__v0p80__m07__f03__ca005bc511262742bc1c",
+        "m0_probe__b0p80__v0p80__m07__f04__c07ea8f185e3514184fa",
+        "m0_probe__b0p80__v0p80__m07__f05__227dc62a10d225219ef5",
+        "m0_probe__b0p80__v0p80__m07__f06__f45f1ca259eec5ded99a",
+        "m0_probe__b0p80__v0p80__m07__f07__fbe0fec2be7ff4fe6a8e",
+        "m0_probe__b0p80__v0p80__m07__f08__d74344112b1128d879e9",
+        "m0_probe__b0p80__v0p80__m07__f09__a79067851729e3357a17",
+        "m0_probe__b0p80__v0p80__m08__f03__7eb294a40cf2cd8dbda9",
+        "m0_probe__b0p80__v0p80__m08__f04__a743cf5581e5899ed242",
+        "m0_probe__b0p80__v0p80__m08__f05__d71d51e5eeb6f0616703",
+        "m0_probe__b0p80__v0p80__m08__f06__af2deab34038e06d6521",
+        "m0_probe__b0p80__v0p80__m08__f07__7207269deeddef626ed8",
+        "m0_probe__b0p80__v0p80__m08__f08__806c9dc39808a4ebc36c",
+        "m0_probe__b0p80__v0p80__m08__f09__c8c642293aa5d531366e",
+        "m0_probe__b0p95__v0p95__m03__f03__244ed24f2771bfe48854",
+        "m0_probe__b0p95__v0p95__m03__f04__6db421f671321e0111b5",
+        "m0_probe__b0p95__v0p95__m03__f05__097ce5d770278b4c7cbc",
+        "m0_probe__b0p95__v0p95__m03__f06__e98271456403c6420b09",
+        "m0_probe__b0p95__v0p95__m03__f07__34088df123b31022221a",
+        "m0_probe__b0p95__v0p95__m03__f08__9acf9210cb92a7f25397",
+        "m0_probe__b0p95__v0p95__m03__f09__eba75f274613a38a2f83",
+        "m0_probe__b0p95__v0p95__m04__f03__ddae476780090cffa4af",
+        "m0_probe__b0p95__v0p95__m04__f04__c22c5e312e7088fbf55c",
+        "m0_probe__b0p95__v0p95__m04__f05__37bc95cde8661a02a023",
+        "m0_probe__b0p95__v0p95__m04__f06__f634ed4930967cb98a2d",
+        "m0_probe__b0p95__v0p95__m04__f07__4ccf674b0c52a3e3ae4e",
+        "m0_probe__b0p95__v0p95__m04__f08__323ba601d584d2a46afd",
+        "m0_probe__b0p95__v0p95__m04__f09__c137aba3461b78cdcd33",
+        "m0_probe__b0p95__v0p95__m05__f03__e5cae9dc810e8a3db582",
+        "m0_probe__b0p95__v0p95__m05__f04__07a58c63ac92252acf89",
+        "m0_probe__b0p95__v0p95__m05__f05__f0aef984ef52c06e4e18",
+        "m0_probe__b0p95__v0p95__m05__f06__551d20db3f4f9a5fb066",
+        "m0_probe__b0p95__v0p95__m05__f07__7ac712dd34f0d7af40f9",
+        "m0_probe__b0p95__v0p95__m05__f08__248bbc83eb36fa40e66a",
+        "m0_probe__b0p95__v0p95__m05__f09__4c08b96793444fb0c90a",
+        "m0_probe__b1p10__v1p10__m01__f06__bb4181e4d0dd953aaa79",
+        "m0_probe__b1p10__v1p10__m01__f07__bc0f79b3f28f0b01126b",
+        "m0_probe__b1p10__v1p10__m01__f08__7c86bd79694d0bb52a12",
+        "m0_probe__b1p10__v1p10__m01__f09__51374369ff88bce32609",
+        "m0_probe__b1p10__v1p10__m01__f10__8e33e27cd1f46e2813a6",
+        "m0_probe__b1p10__v1p10__m02__f06__07e823d9b246a59c91c2",
+        "m0_probe__b1p10__v1p10__m02__f07__ba7e666c322a4a87fc70",
+        "m0_probe__b1p10__v1p10__m02__f08__2e9bf982a3998d97c722",
+        "m0_probe__b1p10__v1p10__m02__f09__274b8794097df4af5965",
+        "m0_probe__b1p10__v1p10__m02__f10__8be2de7da7cbf606fe9b",
+        "m0_probe__b1p10__v1p10__m03__f06__0036127275397508c080",
+        "m0_probe__b1p10__v1p10__m03__f07__8ff16ee89b2d0e2e970d",
+        "m0_probe__b1p10__v1p10__m03__f08__3d4c6e61ae61d8fa30d1",
+        "m0_probe__b1p10__v1p10__m03__f09__daba31837ad4c50c6a09",
+        "m0_probe__b1p10__v1p10__m03__f10__ab94cf51af4fc10777d8"
+      ],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 2171,
+      "png_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_local_code_surface.png",
+      "png_width_px": 6547,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_files": [
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/local_code_surface.csv",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/tables/table_m0_candidate_summary.csv"
+      ],
+      "source_sha256": {
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/local_surface/local_code_surface.csv": "db8c3b9e7ff66bdaa97168887ae2cc3d9ee9372ab5af7c6fbfe8b5a7fa801fa3",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/tables/table_m0_candidate_summary.csv": "f37e4ece14dfecbdaa0260bb51aa8218794541b3743144bb66b26b88f52e2c65"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_id": "M0-2",
+      "matplotlib_version": "3.9.4",
+      "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_voltage_response.pdf",
+      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plotted_scenario_ids": [
+        "m0_probe__b0p95__v0p85__m04__f09__d4b4d1846b7ae8b6f65b",
+        "m0_probe__b0p95__v0p85__m05__f06__6a852672576381d8af6c",
+        "m0_probe__b0p95__v0p85__m05__f09__9ac31309765fff265663",
+        "m0_probe__b0p95__v0p90__m04__f09__4bf421bd5bbb714a3076",
+        "m0_probe__b0p95__v0p90__m05__f06__df7d538402f423570df3",
+        "m0_probe__b0p95__v0p90__m05__f09__a22db7466e4c25938603",
+        "m0_probe__b0p95__v0p95__m04__f09__c137aba3461b78cdcd33",
+        "m0_probe__b0p95__v0p95__m05__f06__551d20db3f4f9a5fb066",
+        "m0_probe__b0p95__v0p95__m05__f09__4c08b96793444fb0c90a",
+        "m0_probe__b1p10__v1p00__m02__f10__495bb0d76b3b91c4d315",
+        "m0_probe__b1p10__v1p00__m03__f08__058fc9c3e58cfbbaff54",
+        "m0_probe__b1p10__v1p00__m03__f10__7bd789ce56da05a5464e",
+        "m0_probe__b1p10__v1p05__m02__f10__c0d7d39b5a9fba1090a8",
+        "m0_probe__b1p10__v1p05__m03__f08__e01ad0e163e1a4db020d",
+        "m0_probe__b1p10__v1p05__m03__f10__b3745498b6e1fd183788",
+        "m0_probe__b1p10__v1p10__m02__f10__8be2de7da7cbf606fe9b",
+        "m0_probe__b1p10__v1p10__m03__f08__3d4c6e61ae61d8fa30d1",
+        "m0_probe__b1p10__v1p10__m03__f10__ab94cf51af4fc10777d8"
+      ],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 1959,
+      "png_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_voltage_response.png",
+      "png_width_px": 4329,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_files": [
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/mechanism_gate/mechanism_gate.csv"
+      ],
+      "source_sha256": {
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/mechanism_gate/mechanism_gate.csv": "2427dccabe79030c442865d80ff3e8da1c609af3b42e61de384ceeef0e7312e9"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_id": "M0-3",
+      "matplotlib_version": "3.9.4",
+      "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_residual_trip.pdf",
+      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plotted_scenario_ids": [
+        "m0_probe__b0p95__v0p80__m05__f09__16de1897d4ff8f072522",
+        "m0_probe__b0p95__v0p83__m05__f09__465e7023e62be9d08de5",
+        "m0_probe__b0p95__v0p84__m05__f09__4e000ff26812028993ab",
+        "m0_probe__b0p95__v0p85__m04__f09__d4b4d1846b7ae8b6f65b",
+        "m0_probe__b0p95__v0p85__m05__f06__6a852672576381d8af6c",
+        "m0_probe__b0p95__v0p85__m05__f09__9ac31309765fff265663",
+        "m0_probe__b0p95__v0p86__m05__f06__1a53f444aa83272a2f36",
+        "m0_probe__b0p95__v0p87__m05__f06__ad9c820dccb50d90c1f4",
+        "m0_probe__b0p95__v0p88__m04__f09__d2b4e20eeb66d55d97ea",
+        "m0_probe__b0p95__v0p88__m05__f06__79414b8f660e8848cf73",
+        "m0_probe__b0p95__v0p89__m04__f09__98353c9fa9d3f751e26d",
+        "m0_probe__b0p95__v0p89__m05__f06__e06f6c418455f760a678",
+        "m0_probe__b0p95__v0p90__m04__f09__4bf421bd5bbb714a3076",
+        "m0_probe__b0p95__v0p90__m05__f06__df7d538402f423570df3",
+        "m0_probe__b0p95__v0p90__m05__f09__a22db7466e4c25938603",
+        "m0_probe__b0p95__v0p95__m04__f09__c137aba3461b78cdcd33",
+        "m0_probe__b0p95__v0p95__m05__f06__551d20db3f4f9a5fb066",
+        "m0_probe__b0p95__v0p95__m05__f09__4c08b96793444fb0c90a",
+        "m0_probe__b1p10__v0p90__m03__f10__31aae27c7c9e463c0b4f",
+        "m0_probe__b1p10__v0p93__m03__f10__4d92787e8848894f9198",
+        "m0_probe__b1p10__v0p94__m03__f10__f91d1c4c8aec3945fbb9",
+        "m0_probe__b1p10__v0p95__m03__f08__8d0d7ad9770d8ab910f4",
+        "m0_probe__b1p10__v0p95__m03__f10__80392c0c0594b9c0d896",
+        "m0_probe__b1p10__v0p96__m03__f08__d34f6199e8124b73773c",
+        "m0_probe__b1p10__v0p97__m03__f08__20738f74e715e84e5fe3",
+        "m0_probe__b1p10__v0p98__m03__f08__55bc5583322c07488dc9",
+        "m0_probe__b1p10__v0p99__m03__f08__a98226a37469d059d4c9",
+        "m0_probe__b1p10__v1p00__m02__f10__495bb0d76b3b91c4d315",
+        "m0_probe__b1p10__v1p00__m03__f08__058fc9c3e58cfbbaff54",
+        "m0_probe__b1p10__v1p00__m03__f10__7bd789ce56da05a5464e",
+        "m0_probe__b1p10__v1p01__m02__f10__f55d3935dd39b7c09b8c",
+        "m0_probe__b1p10__v1p02__m02__f10__e640ce073af5b1a302a3",
+        "m0_probe__b1p10__v1p03__m02__f10__d80c40e14a4573ac6628",
+        "m0_probe__b1p10__v1p04__m02__f10__dcff8aecbf5b00ece824",
+        "m0_probe__b1p10__v1p05__m02__f10__c0d7d39b5a9fba1090a8",
+        "m0_probe__b1p10__v1p05__m03__f08__e01ad0e163e1a4db020d",
+        "m0_probe__b1p10__v1p05__m03__f10__b3745498b6e1fd183788",
+        "m0_probe__b1p10__v1p10__m02__f10__8be2de7da7cbf606fe9b",
+        "m0_probe__b1p10__v1p10__m03__f08__3d4c6e61ae61d8fa30d1",
+        "m0_probe__b1p10__v1p10__m03__f10__ab94cf51af4fc10777d8"
+      ],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 1994,
+      "png_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_residual_trip.png",
+      "png_width_px": 4288,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_files": [
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/mechanism_gate/mechanism_gate.csv",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_sweep.csv",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv"
+      ],
+      "source_sha256": {
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/mechanism_gate/mechanism_gate.csv": "2427dccabe79030c442865d80ff3e8da1c609af3b42e61de384ceeef0e7312e9",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "7d439070b99f928b38da30e4897a6b1f49d09e3bcda8917b18967ac10bc87fab",
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_sweep.csv": "a00f2ab733f17e32333b7b5d43a0f4d32d4e863907e728660af60e1579d7489e"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_id": "M0-4",
+      "matplotlib_version": "3.9.4",
+      "pdf_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_trip_depth_summary.pdf",
+      "plot_script_sha256": "533aa10242dc5d0a1d296bf31467a7c07fd459fb77cd58781256b75cfaa4bbfb",
+      "plotted_scenario_ids": [],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 1959,
+      "png_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/figures/fig_m0_trip_depth_summary.png",
+      "png_width_px": 2529,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_files": [
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv"
+      ],
+      "source_sha256": {
+        "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/m0_detection_margin_characterization/trip/trip_map.csv": "7d439070b99f928b38da30e4897a6b1f49d09e3bcda8917b18967ac10bc87fab"
+      }
+    }
+  ],
+  "qa": {
+    "all_target_pdf_png_nonempty": true,
+    "below_0p80_detection_claim": false,
+    "plotted_scenarios_in_formal_csv": true,
+    "png_600_dpi": true,
+    "source_hashes_match_current_files": true
+  },
+  "schema_version": 1,
+  "study": "ftc_m0_detection_margin_characterization_v1"
+}
