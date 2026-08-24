@@ -143,13 +143,44 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertEqual(rails[1][0], "first_q1_anchor")
 
     def test_terminal_gate_keeps_t0_2_pass_and_blocks_cadence(self):
-        """A later terminal STOP must not overwrite corrected T0-2 history."""
+        """T0-4 GO does not authorize the explicitly out-of-scope later stages."""
 
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
         downstream = json.loads((FTC_ROOT / "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").read_text())
         self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
-        self.assertEqual(gate["t0_4_status"], "STOP")
+        self.assertEqual(gate["t0_4_status"], "GO")
+        self.assertEqual(gate["t0_5_status"], "BLOCKED_BY_USER_SCOPE_T0_4_ONLY")
+        self.assertEqual(gate["t0_6_status"], "BLOCKED_BY_USER_SCOPE_T0_4_ONLY")
         self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
+
+    def test_t0_4_negative_controls_and_clean_q1_boundaries(self):
+        """Null duration is legal only for stable-Q0 negative controls."""
+
+        summary = json.loads((FTC_ROOT / "analysis/t0_transient_droop/amplitude_duration/summary.json").read_text())
+        self.assertTrue(summary["negative_control_pass"])
+        self.assertEqual(summary["valid_minimum_duration_count"], 18)
+        self.assertEqual(summary["invalid_minimum_duration_count"], 0)
+        self.assertEqual(summary["q1_to_q0_reversal_count"], 0)
+        controls = [item for item in summary["boundaries"] if item["point_label"] == "last_q0_control"]
+        self.assertEqual(len(controls), 6)
+        self.assertTrue(all(item["minimum_detectable_hold_ps"] is None and item["negative_control_pass"] for item in controls))
+        corrected = [item for item in summary["boundaries"] if item["baseline_vdd_v"] == "0.95" and item["margin_level"] == "L3" and item["point_label"] == "first_q1_anchor"]
+        self.assertEqual(corrected[0]["clean_q1_bracket_ps"], {"q0_ps": 1500.0, "q1_ps": 2000.0})
+
+    def test_t0_4_diagnostics_exclude_real_second_clock(self):
+        """The recovery-local second crossing is slew-sensitive and Q stays high."""
+
+        diagnostics = json.loads((FTC_ROOT / "analysis/t0_transient_droop/amplitude_duration/anomaly_diagnostics.json").read_text())
+        self.assertEqual(diagnostics["unique_diagnostic_case_count"], 4)
+        self.assertEqual(diagnostics["new_hspice"], 8)
+        for case in diagnostics["cases"]:
+            self.assertTrue(case["slew_1ps"]["second_ratio_cross_present"])
+            self.assertTrue(case["slew_1ps"]["raw_second_cross_present"])
+            self.assertEqual(case["slew_1ps"]["ratio_min_between_local_recovery_crossings"], 0.5)
+            self.assertFalse(case["slew_10ps"]["second_ratio_cross_present"])
+            self.assertFalse(case["slew_10ps"]["raw_second_cross_present"])
+            self.assertEqual(case["slew_1ps"]["q_state"], "stable_high")
+            self.assertEqual(case["slew_10ps"]["q_state"], "stable_high")
 
 
 if __name__ == "__main__":

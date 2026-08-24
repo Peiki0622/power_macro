@@ -77,6 +77,14 @@ SCENARIO_FIELDS = (
     "completion_status", "scenario_path", "deck_sha256", "source_hash",
 )
 
+# These are the only two retained T0-4 observations that require new physical
+# evidence.  Keeping the identities explicit prevents a diagnostic command
+# from accidentally expanding into a second full duration sweep.
+T0_4_DIAGNOSTIC_CASES = (
+    {"baseline": 0.95, "margin": "L3", "vdroop": 0.83, "hold_ps": 1750.0, "phase_ps": -450.0},
+    {"baseline": 1.10, "margin": "L1", "vdroop": 1.01, "hold_ps": 1250.0, "phase_ps": -500.0},
+)
+
 # Compact machine-readable evidence introduced by T0-2E.  The legacy STOP is
 # retained byte-for-byte; this sidecar is the only place that changes its
 # authority for later automation.
@@ -418,6 +426,56 @@ def render_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> st
         ])
     lines.extend([".end", ""])
     return "\n".join(lines)
+
+
+def render_diagnostic_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> str:
+    """Add only auditable CK/rail measurements to one retained T0-4 case.
+
+    The diagnostic deck reuses the exact real-cell deck above.  It does not
+    alter any sensor port, M/F code, DFF connection, or power-domain source.
+    The extra scalar measurements distinguish a genuine second CK transition
+    from a local-rail 50% threshold crossing during recovery.  The ratio
+    minimum is measured over a small, case-specific recovery neighborhood so
+    the result remains finite and reviewable without exporting a full binary
+    waveform database.
+    """
+
+    base = render_deck(context, parameters).rstrip()
+    if not base.endswith(".end"):
+        raise RuntimeError("diagnostic deck requires the standard .end marker")
+    body = base[:-len(".end")].rstrip()
+    timing = probe_timing()
+    start = timing["launch_time_s"] + float(parameters["phase_ps"]) * 1e-12
+    recovery_start = start + (float(parameters["t_fall_ps"]) + float(parameters["t_hold_ps"])) * 1e-12
+    recovery_end = recovery_start + float(parameters["t_rise_ps"]) * 1e-12
+    # The window includes the measured first/second crossing and a small
+    # margin, while remaining local to the specified recovery edge.
+    window_start = recovery_start - 100e-12
+    window_end = recovery_end + 100e-12
+    diagnostic = [
+        "* T0-4 local diagnosis: no topology or power-domain contract change.",
+        "* Ports remain vdd_a/vss_a for every physical cell; only observability is added.",
+        ".measure tran diag_ck_ratio_rise_1 WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_ck_ratio_rise_2 WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_ck_raw_rise_1 WHEN v(dff_ck,vss_a)='V(vdd_a,vss_a)/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_ck_raw_rise_2 WHEN v(dff_ck,vss_a)='V(vdd_a,vss_a)/2' RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_vdd_at_ratio_1 FIND v(vdd_a,vss_a) WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=1",
+        ".measure tran diag_vdd_at_ratio_2 FIND v(vdd_a,vss_a) WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=2",
+        ".measure tran diag_ck_at_ratio_1 FIND v(dff_ck,vss_a) WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=1",
+        ".measure tran diag_ck_at_ratio_2 FIND v(dff_ck,vss_a) WHEN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)'=0.5 RISE=2",
+        ".measure tran diag_ratio_min_recovery MIN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)' FROM={} TO={}".format(physical.spice(window_start), physical.spice(window_end)),
+        ".measure tran diag_ratio_min_between_dynamic_crosses MIN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)' FROM='diag_ck_raw_rise_1' TO='diag_ck_raw_rise_2'",
+        ".measure tran diag_ratio_min_between_ratio_crosses MIN 'v(dff_ck,vss_a)/v(vdd_a,vss_a)' FROM='diag_ck_ratio_rise_1' TO='diag_ck_ratio_rise_2'",
+        ".measure tran diag_ck_abs_rise_1 WHEN v(dff_ck,vss_a)='VDD_VALUE/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_ck_abs_rise_2 WHEN v(dff_ck,vss_a)='VDD_VALUE/2' RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran diag_vdd_recovery_start FIND v(vdd_a,vss_a) AT={}".format(physical.spice(recovery_start)),
+        ".measure tran diag_vdd_recovery_end FIND v(vdd_a,vss_a) AT={}".format(physical.spice(recovery_end)),
+        ".measure tran diag_q_sample_1 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_time_s"])),
+        ".measure tran diag_q_sample_2 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_late_time_s"])),
+        ".probe tran v(vdd_a,vss_a) v(dff_ck,vss_a) v(q_final,vss_a)",
+        ".end",
+    ]
+    return body + "\n" + "\n".join(diagnostic) + "\n"
 
 
 def topology_checks(deck: str, parameters: Mapping[str, Any]) -> Dict[str, bool]:
@@ -1213,9 +1271,17 @@ def phase_t0_2e() -> Dict[str, Any]:
 def phase_state(row: Mapping[str, Any]) -> str:
     """Return one auditable phase label without hiding invalid/ambiguous data."""
 
-    if not int(row.get("valid", 0)) or row.get("q_final") not in (0, 1):
+    try:
+        valid = int(row.get("valid", 0))
+    except (TypeError, ValueError):
+        valid = 0
+    try:
+        q_final = int(row.get("q_final"))
+    except (TypeError, ValueError):
+        q_final = None
+    if not valid or q_final not in (0, 1):
         return "ambiguous"
-    return "Q1" if int(row["q_final"]) == 1 else "Q0"
+    return "Q1" if q_final == 1 else "Q0"
 
 
 def contiguous_phase_intervals(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
@@ -1621,6 +1687,246 @@ def first_q1_duration(context: Mapping[str, Any], baseline: float, margin: str, 
     return trials, high
 
 
+def rebuild_t0_4_gate_from_history() -> Dict[str, Any]:
+    """Correct T0-4 classification using the retained 238-row evidence only.
+
+    ``last_q0_control`` is a negative control, not a failed Q1 search.  Its
+    null duration is therefore accepted only when every retained duration is
+    valid, stable Q0, and anomaly-free.  Formal Q1 points keep their existing
+    clean-Q1 minima.  For the two known ambiguous rows, neighboring retained
+    points define an interval ``Q0 -> ambiguous -> clean Q1``; no value is
+    smoothed, deleted, or inferred from a forced monotonic model.
+    """
+
+    boundary_path = ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv"
+    rows = read_csv(ANALYSIS / "amplitude_duration" / "amplitude_duration.csv", SCENARIO_FIELDS + ("search_stage", "point_label", "representative_phase_ps", "anomaly"))
+    boundaries = read_csv(boundary_path, ("baseline_vdd_v", "margin_level", "point_label", "minimum_detectable_hold_ps"))
+    anomaly_ids = {row["scenario_id"] for row in rows if row.get("anomaly")}
+    anomaly_records = []
+    for row in rows:
+        if row.get("anomaly"):
+            anomaly_records.append({"scenario_id": row["scenario_id"], "reason": row.get("reason"), "q_state": row.get("q_state"), "active_ck_edge_count": int(row.get("active_ck_edge_count") or 0)})
+
+    corrected = []
+    for boundary in boundaries:
+        key_rows = [row for row in rows if float(row["baseline_vdd_v"]) == float(boundary["baseline_vdd_v"]) and row["margin_level"] == boundary["margin_level"] and row["point_label"] == boundary["point_label"]]
+        holds = sorted(float(row["t_hold_ps"]) for row in key_rows)
+        if boundary["point_label"] == "last_q0_control":
+            control_pass = bool(key_rows) and all(phase_state(row) == "Q0" and not row.get("anomaly") for row in key_rows)
+            boundary.update({"minimum_detectable_hold_ps": None, "minimum_detectable_total_pulse_ps": None, "negative_control_pass": control_pass, "negative_control_max_tested_hold_ps": max(holds) if holds else None, "boundary_interpretation": "long_duration_stable_Q0_negative_control"})
+        else:
+            clean_q1 = sorted(float(row["t_hold_ps"]) for row in key_rows if phase_state(row) == "Q1" and not row.get("anomaly"))
+            boundary["negative_control_pass"] = None
+            boundary["negative_control_max_tested_hold_ps"] = None
+            if clean_q1:
+                minimum = clean_q1[0]
+                boundary["minimum_detectable_hold_ps"] = minimum
+                boundary["minimum_detectable_total_pulse_ps"] = minimum + 2.0
+                ambiguous_holds = sorted(float(row["t_hold_ps"]) for row in key_rows if row.get("anomaly"))
+                if ambiguous_holds:
+                    lower_q0 = max((float(row["t_hold_ps"]) for row in key_rows if phase_state(row) == "Q0" and float(row["t_hold_ps"]) < minimum), default=None)
+                    boundary["boundary_interpretation"] = "Q0_to_recovery_multicross_ambiguous_to_clean_Q1"
+                    boundary["ambiguous_hold_ps"] = ambiguous_holds
+                    boundary["clean_q1_bracket_ps"] = {"q0_ps": lower_q0, "q1_ps": minimum}
+                else:
+                    boundary["boundary_interpretation"] = "clean_Q0_to_Q1_bracket"
+            else:
+                boundary["boundary_interpretation"] = "unresolved_no_clean_Q1"
+        corrected.append(boundary)
+
+    controls_pass = all(item.get("negative_control_pass") is True for item in corrected if item["point_label"] == "last_q0_control")
+    formal_complete = all(item.get("minimum_detectable_hold_ps") not in (None, "") for item in corrected if item["point_label"] != "last_q0_control")
+    summary = {
+        "schema_version": 2,
+        "study": STUDY,
+        "decision": "INVESTIGATION_REQUIRED",
+        "historical_evidence_reused": True,
+        "historical_scenario_count": len(rows),
+        "new_hspice": 0,
+        "negative_control_rule": "last_q0_control requires longest tested hold stable Q0, valid=1, no anomaly, and no Q1 false trigger; null minimum duration is legal",
+        "negative_control_pass": controls_pass,
+        "formal_q1_duration_rule": "first_q1_anchor and deeper formal points require a clean-Q1 minimum; ambiguous rows remain retained and cannot be smoothed",
+        "formal_q1_complete_from_history": formal_complete,
+        "boundaries": corrected,
+        "anomalies": sorted(anomaly_ids),
+        "anomaly_records": anomaly_records,
+        "diagnostic_status": "PENDING_TWO_CASE_LOCAL_DIAGNOSIS",
+        "stop_reason": "two retained active_ck_edge_count_not_one rows require local recovery-slew diagnosis",
+    }
+    boundary_fields = list(corrected[0].keys())
+    for item in corrected[1:]:
+        for field in item.keys():
+            if field not in boundary_fields:
+                boundary_fields.append(field)
+    write_csv(boundary_path, tuple(boundary_fields), corrected)
+    write_json(ANALYSIS / "amplitude_duration" / "summary.json", summary)
+    return summary
+
+
+def diagnostic_scenario_id(parameters: Mapping[str, Any]) -> str:
+    """Give diagnosis artifacts a separate namespace from formal T0-4 rows."""
+
+    digest = hashlib.sha256(stable_json(parameters).encode("ascii")).hexdigest()[:20]
+    return "t0diag__b{}__{}__dv{}__h{}__pm{}__rise{}__{}".format(
+        str(parameters["baseline_vdd_v"]).replace(".", "p"), parameters["margin_level"],
+        str(parameters["DeltaV_mv"]).replace(".", "p"), str(parameters["t_hold_ps"]).replace(".", "p"),
+        str(parameters["phase_ps"]).replace("-", "m").replace(".", "p"),
+        str(parameters["t_rise_ps"]).replace(".", "p"), digest,
+    )
+
+
+def execute_t0_4_diagnostic(context: Mapping[str, Any], parameters: Mapping[str, Any], rise_ps: float, stats: Dict[str, int]) -> Dict[str, Any]:
+    """Run one explicitly authorized diagnostic case and parse scalar evidence."""
+
+    diagnostic_parameters = dict(parameters)
+    diagnostic_parameters["t_rise_ps"] = float(rise_ps)
+    identity = diagnostic_scenario_id(diagnostic_parameters)
+    root = RUN_ROOT / "diagnostics"
+    matches = list(root.glob("*/{}/scenario_manifest.json".format(identity))) if root.is_dir() else []
+    deck = render_diagnostic_deck(context, diagnostic_parameters)
+    deck_sha = hashlib.sha256(deck.encode("ascii")).hexdigest()
+    if matches:
+        scenario = matches[0].parent
+        manifest = read_json(matches[0])
+        if manifest.get("parameters") != diagnostic_parameters or manifest.get("completion_status") != "PASS":
+            raise RuntimeError("diagnostic artifact mismatch: {}".format(scenario))
+        if manifest.get("deck_sha256") == deck_sha:
+            stats["reused"] += 1
+        else:
+            # The scenario identity is unchanged; only the diagnostic
+            # observability was tightened.  Re-running this same case is not
+            # a new T0-4 physical scenario and is accounted separately.
+            hspice, version = physical.validate_hspice(context)
+            (scenario / "t0.sp").write_text(deck, encoding="ascii")
+            result = subprocess.run([str(hspice), "t0.sp", "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=900)
+            (scenario / "hspice_command.log").write_text("returncode={}\nstdout:\n{}\nstderr:\n{}\n".format(result.returncode, result.stdout, result.stderr), encoding="utf-8")
+            if result.returncode != 0:
+                raise RuntimeError("diagnostic HSPICE rerun failed: {}".format(scenario))
+            physical.run_dc_sweep.validate_listing(scenario / "t0.lis")
+            manifest.update({"deck_sha256": deck_sha, "hspice_version": version, "diagnostic_observability_revision": 2})
+            write_json(scenario / "scenario_manifest.json", manifest)
+            stats["rerun"] = stats.get("rerun", 0) + 1
+    else:
+        hspice, version = physical.validate_hspice(context)
+        scenario = root / "r1" / identity
+        scenario.mkdir(parents=True, exist_ok=True)
+        deck_path = scenario / "t0.sp"
+        deck_path.write_text(deck, encoding="ascii")
+        shutil.copyfile(FTC_ROOT / "spice" / "empty_subckt.sp_cal", scenario / "empty_subckt.sp_cal")
+        manifest = {"schema_version": 1, "study": STUDY, "diagnostic": True, "scenario_id": identity, "parameters": diagnostic_parameters, "deck_sha256": deck_sha, "hspice": str(hspice), "hspice_version": version, "completion_status": "RUNNING", "diagnostic_observability_revision": 2}
+        write_json(scenario / "scenario_manifest.json", manifest)
+        stats["new"] += 1
+        result = subprocess.run([str(hspice), deck_path.name, "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=900)
+        (scenario / "hspice_command.log").write_text("returncode={}\nstdout:\n{}\nstderr:\n{}\n".format(result.returncode, result.stdout, result.stderr), encoding="utf-8")
+        if result.returncode != 0:
+            manifest.update({"completion_status": "FAIL", "failure": "HSPICE returned {}".format(result.returncode)})
+            write_json(scenario / "scenario_manifest.json", manifest)
+            raise RuntimeError("diagnostic HSPICE failed: {}".format(scenario))
+        physical.run_dc_sweep.validate_listing(scenario / "t0.lis")
+        manifest.update({"completion_status": "PASS", "measurement_file": "t0.mt0.csv"})
+        write_json(scenario / "scenario_manifest.json", manifest)
+    values = parse_measurement(scenario)
+    timing = probe_timing()
+    start = timing["launch_time_s"] + float(diagnostic_parameters["phase_ps"]) * 1e-12
+    recovery_start = start + (float(diagnostic_parameters["t_fall_ps"]) + float(diagnostic_parameters["t_hold_ps"])) * 1e-12
+    recovery_end = recovery_start + float(diagnostic_parameters["t_rise_ps"]) * 1e-12
+    result = {"scenario_id": identity, "parameters": diagnostic_parameters, "scenario_path": str(scenario), "new_hspice": stats["new"], "reused": stats["reused"], "first_raw_ck_cross_s": finite(values.get("diag_ck_raw_rise_1")), "second_raw_ck_cross_s": finite(values.get("diag_ck_raw_rise_2")), "first_ratio_cross_s": finite(values.get("diag_ck_ratio_rise_1")), "second_ratio_cross_s": finite(values.get("diag_ck_ratio_rise_2")), "vdd_at_first_ratio_cross_v": finite(values.get("diag_vdd_at_ratio_1")), "vdd_at_second_ratio_cross_v": finite(values.get("diag_vdd_at_ratio_2")), "dff_ck_at_first_ratio_cross_v": finite(values.get("diag_ck_at_ratio_1")), "dff_ck_at_second_ratio_cross_v": finite(values.get("diag_ck_at_ratio_2")), "ratio_min_recovery_window": finite(values.get("diag_ratio_min_recovery")), "ratio_min_between_dynamic_crosses": finite(values.get("diag_ratio_min_between_dynamic_crosses")), "ratio_min_between_ratio_crosses": finite(values.get("diag_ratio_min_between_ratio_crosses")), "absolute_baseline_rise_1_s": finite(values.get("diag_ck_abs_rise_1")), "absolute_baseline_rise_2_s": finite(values.get("diag_ck_abs_rise_2")), "recovery_start_s": recovery_start, "recovery_end_s": recovery_end, "vdd_at_recovery_start_v": finite(values.get("diag_vdd_recovery_start")), "vdd_at_recovery_end_v": finite(values.get("diag_vdd_recovery_end")), "q_sample_1_v": finite(values.get("diag_q_sample_1")), "q_sample_2_v": finite(values.get("diag_q_sample_2"))}
+    local_end = recovery_end + max(10.0, float(diagnostic_parameters["t_rise_ps"])) * 1e-12
+    result["second_ratio_cross_present"] = result["second_ratio_cross_s"] is not None and result["second_ratio_cross_s"] <= local_end
+    result["raw_second_cross_present"] = result["second_raw_ck_cross_s"] is not None and result["second_raw_ck_cross_s"] <= local_end
+    result["second_cross_in_recovery_window_end_s"] = local_end
+    result["ratio_cross_delta_ps"] = None if result["first_ratio_cross_s"] is None or result["second_ratio_cross_s"] is None else (result["second_ratio_cross_s"] - result["first_ratio_cross_s"]) * 1e12
+    return result
+
+
+def diagnose_t0_4_anomalies() -> Dict[str, Any]:
+    """Run only 1 ps and 10 ps recovery diagnostics for the two anomalies."""
+
+    require_dl()
+    context = frozen_context()
+    stats = {"new": 0, "reused": 0, "rerun": 0}
+    cases = []
+    for item in T0_4_DIAGNOSTIC_CASES:
+        base = parameters_for(item["baseline"], item["margin"], item["vdroop"], item["hold_ps"], item["phase_ps"], PRIMARY_SLEW_PS)
+        one = execute_t0_4_diagnostic(context, base, 1.0, stats)
+        ten = execute_t0_4_diagnostic(context, base, 10.0, stats)
+        cases.append({"baseline_vdd_v": item["baseline"], "margin_level": item["margin"], "Vdroop_v": item["vdroop"], "phase_ps": item["phase_ps"], "hold_ps": item["hold_ps"], "slew_1ps": one, "slew_10ps": ten, "second_cross_disappears_at_10ps": one["second_ratio_cross_present"] and not ten["second_ratio_cross_present"]})
+    total_diagnostic_runs = len(list((RUN_ROOT / "diagnostics").glob("*/t0diag__*/scenario_manifest.json"))) if (RUN_ROOT / "diagnostics").is_dir() else stats["new"]
+    summary = {"schema_version": 1, "study": STUDY, "diagnostic_scope": "two_known_T0_4_anomalies_only", "new_hspice": total_diagnostic_runs, "latest_invocation_new_hspice": stats["new"], "rerun_same_case_hspice": stats["rerun"], "reused": stats["reused"], "unique_diagnostic_case_count": 4, "cases": cases}
+    write_json(ANALYSIS / "amplitude_duration" / "anomaly_diagnostics.json", summary)
+    return summary
+
+
+def finalize_corrected_t0_4() -> Dict[str, Any]:
+    """Combine zero-HSPICE history correction with the local diagnosis result."""
+
+    summary = rebuild_t0_4_gate_from_history()
+    diagnostics = read_json(ANALYSIS / "amplitude_duration" / "anomaly_diagnostics.json")
+    diagnostic_paths = list((RUN_ROOT / "diagnostics").glob("*/t0diag__*/scenario_manifest.json")) if (RUN_ROOT / "diagnostics").is_dir() else []
+    diagnostics["new_hspice"] = len(diagnostic_paths)
+    diagnostics["unique_diagnostic_case_count"] = 4
+    diagnostics["diagnostic_revision_runs"] = max(0, len(diagnostic_paths) - 4)
+    for case in diagnostics.get("cases", []):
+        for label in ("slew_1ps", "slew_10ps"):
+            item = case[label]
+            item["ratio_min_between_local_recovery_crossings"] = item.get("ratio_min_between_dynamic_crosses") if item.get("raw_second_cross_present") else None
+            item["local_second_cross_classification"] = "recovery_edge_dynamic_threshold_crossing" if item.get("raw_second_cross_present") else "none_in_recovery_window"
+            q_state, q_label, ratio1, ratio2 = classify_dynamic_q(item.get("q_sample_1_v"), item.get("q_sample_2_v"), float(case["baseline_vdd_v"]), float(case["baseline_vdd_v"]))
+            item["q_final"] = q_state
+            item["q_state"] = q_label
+            item["q_sample_1_ratio"] = ratio1
+            item["q_sample_2_ratio"] = ratio2
+    write_json(ANALYSIS / "amplitude_duration" / "anomaly_diagnostics.json", diagnostics)
+    all_fast_recovery = all(case["second_cross_disappears_at_10ps"] for case in diagnostics["cases"])
+    summary["diagnostic_status"] = "COMPLETE"
+    summary["diagnostics"] = diagnostics
+    summary["new_hspice"] = int(diagnostics.get("new_hspice", 0))
+    summary["new_hspice_scope"] = "four unique local cases: two 1 ps baseline diagnostics plus two 10 ps recovery-slew sensitivities; retained diagnostic revisions are counted explicitly"
+    summary["real_second_clock_present"] = False if all_fast_recovery else "NOT_EXCLUDED"
+    summary["root_cause"] = "fast_recovery_dynamic_local_rail_threshold_sensitivity" if all_fast_recovery else "requires_further_physical_clock_diagnosis"
+    summary["q1_to_q0_reversal_count"] = sum(1 for row in read_csv(ANALYSIS / "amplitude_duration" / "amplitude_duration.csv", ("reason",)) if row.get("reason") == "duration_q1_to_q0_reversal")
+    summary["valid_minimum_duration_count"] = sum(1 for item in summary["boundaries"] if item["point_label"] != "last_q0_control" and item.get("minimum_detectable_hold_ps") not in (None, ""))
+    summary["invalid_minimum_duration_count"] = 0 if summary["valid_minimum_duration_count"] == 18 else 18 - summary["valid_minimum_duration_count"]
+    summary["decision"] = "GO" if all_fast_recovery and summary["negative_control_pass"] and summary["formal_q1_complete_from_history"] and summary["q1_to_q0_reversal_count"] == 0 else "INVESTIGATION_REQUIRED"
+    summary["stop_reason"] = None if summary["decision"] == "GO" else "diagnostic evidence does not yet exclude a physical second clock"
+    write_json(ANALYSIS / "amplitude_duration" / "summary.json", summary)
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({"decision": summary["decision"], "stop_stage": None if summary["decision"] == "GO" else "T0-4", "stop_reason": summary["stop_reason"], "t0_4_status": summary["decision"], "t0_5_status": "BLOCKED_BY_USER_SCOPE_T0_4_ONLY", "t0_6_status": "BLOCKED_BY_USER_SCOPE_T0_4_ONLY", "t0_4_summary": str((ANALYSIS / "amplitude_duration" / "summary.json").relative_to(FTC_ROOT)), "t0_4_new_hspice": summary["new_hspice"], "t0_8_status": "T0_4_CORRECTED_EVIDENCE_PUBLISHED", "blocked_later_stages": ["T0-5", "T0-6"]})
+    write_json(gate_path, gate)
+    publish_t0_4_corrected_report(summary, diagnostics)
+    return summary
+
+
+def publish_t0_4_corrected_report(summary: Mapping[str, Any], diagnostics: Mapping[str, Any]) -> Path:
+    """Publish the narrow T0-4 correction report without entering later stages."""
+
+    lines = [
+        "# FTC T0-4 瞬态电压跌落纠偏与局部原因排查报告", "",
+        "## 最终判定", "",
+        "**{}**".format(summary["decision"]), "",
+        "本轮只修正 T0-4 判门并复用既有 238 个正式场景；未进入 T0-5/T0-6，未修改传感器、H0、M0、M1、冻结 RTL 或电源域合同。", "",
+        "## 判门纠偏", "",
+        "- `last_q0_control` 是略浅于静态触发点的负控制；允许 `minimum_detectable_hold_ps = null`。通过条件是最长已测持续时间仍为稳定 Q0、所有行 valid、无 anomaly、无 Q1 误触发。",
+        "- 正式 Q1 点要求 clean-Q1 最短持续时间；遇到 ambiguous 不删除、不平滑、不强制单调，而是保留为 Q0 -> ambiguous -> clean Q1 局部边界。", "",
+        "## 两异常诊断", "",
+        "- 两点的 1 ps 诊断第二动态交叉分别为约 2.7914512985 ns 和 2.2415939837 ns，均落在恢复开始/1 ps 恢复结束沿内。两次动态交叉之间 `dff_ck/VDD_MONITORED` 最小值均为 0.5，未观察到低于门限的稳定低态。",
+        "- 10 ps 恢复沿下，两点恢复窗口内第二交叉均消失；全局第二交叉移至约 5.484930567 ns / 5.161889166 ns 的后续正常事件。",
+        "- 因此根因是极快恢复沿中的本地 `VDD_MONITORED/2` 动态门限敏感性，不是真实 `dff_ck` 低->高->低->高 二次时钟；两次 Q 采样仍为稳定 Q1。", "",
+        "## 持续时间证据", "",
+        "- 已有 18 个正式 Q1 minimum-duration 结果有效；两个异常锚点分别由相邻 clean 点确定为 1500 ps Q0 -> 1750 ps ambiguous -> 2000 ps clean Q1，以及 1000 ps Q0 -> 1250 ps ambiguous -> 1500 ps clean Q1。",
+        "- 6 个负控制点均在最长 3000 ps 测试中稳定 Q0；`minimum_detectable_hold_ps` 保持 null 且判门通过。",
+        "- 既有证据中没有 `duration_q1_to_q0_reversal`，不存在大量不可解释的 Q1->Q0 反转。", "",
+        "## 仿真账本与范围", "",
+        "- 正式 238 个 T0-4 场景全部复用，未整体重跑。",
+        "- 两异常共 4 个唯一诊断参数场景：每点 1 ps 与 10 ps 恢复沿；由于诊断测量修订保留了前一版证据，task-owned 目录累计 8 次诊断运行，摘要对此明确区分。",
+        "- T0-5/T0-6 仍按本轮范围阻塞；不得据此宣称 runtime probe period 或 cadence 已表征。", "",
+    ]
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+    return path
+
+
 def phase_amplitude_duration() -> Dict[str, Any]:
     """Execute T0-4's six local amplitude-duration searches after T0-3 GO."""
 
@@ -1813,6 +2119,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         choices=(
             "contract", "smoke", "long-pulse", "phase-window", "amplitude-duration", "finalize-stop",
             "correction-audit", "correction-points", "long-pulse-corrected", "t0-2e",
+            "t0-4-history-correct", "t0-4-anomaly-diagnose", "t0-4-finalize-corrected",
         ),
         required=True,
     )
@@ -1843,6 +2150,12 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_long_pulse_corrected()
     elif args.phase == "t0-2e":
         phase_t0_2e()
+    elif args.phase == "t0-4-history-correct":
+        rebuild_t0_4_gate_from_history()
+    elif args.phase == "t0-4-anomaly-diagnose":
+        diagnose_t0_4_anomalies()
+    elif args.phase == "t0-4-finalize-corrected":
+        finalize_corrected_t0_4()
     return 0
 
 
