@@ -1,0 +1,16 @@
+{
+  "authorized_scenarios": [
+    "br1_0p95_l2_repeated_sensor",
+    "br1_1p10_l2_repeated_sensor"
+  ],
+  "forbidden_flow_runs": [
+    "T0_campaign",
+    "M0_campaign",
+    "capture_bank"
+  ],
+  "scenario_limit": 2,
+  "schema_version": 1,
+  "sclk_fall_offset_ps": 1687.575705,
+  "stage": "D0-BR1",
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+}

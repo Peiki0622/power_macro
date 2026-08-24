@@ -1,0 +1,95 @@
+{
+  "authority_state": {
+    "blocking_root_cause": "measured_dff_ck_high_width_violates_formal_cell_minimum",
+    "d0a_decision": "ARCHITECTURE_ESCALATION_REQUIRED",
+    "dff_timing_checks_ns": {
+      "minimum_ck_high_width_ns": 1.0,
+      "minimum_ck_low_width_ns": 1.0,
+      "minimum_reset_width_ns": 1.0,
+      "recovery_ns": 1.0,
+      "removal_ns": 0.5
+    },
+    "p_lane_verified_ps": null,
+    "t0_pmax_coverage_ps": 2075.0
+  },
+  "gate": "D0_BR_BASELINE_READY",
+  "inputs": {
+    "d0a_candidate_timing_contract": {
+      "path": "analysis/d0_runtime_fastpath/a2_single_path_candidate/candidate_timing_contract.json",
+      "sha256": "dcb7872b4e54909ae74ca5dfee9dc9350a6a660d2cb48cd6b8d8b066620e9e72"
+    },
+    "d0a_gate": {
+      "path": "analysis/d0_runtime_fastpath/reports/D0_A_GATE_STATUS.json",
+      "sha256": "01e5947100b68867d3dfaa3f6319c34e5ab8f5bd536e063d05f5fb6b10154cde"
+    },
+    "d0a_lane_count_analysis": {
+      "path": "analysis/d0_runtime_fastpath/a5_interleave_review/lane_count_analysis.json",
+      "sha256": "bd80fe436b9b364943f65f461605f9bf0e3b4e55470a8959cacb16840395a8b4"
+    },
+    "d0a_physical_timing_budget": {
+      "path": "analysis/d0_runtime_fastpath/a1_physical_budget/physical_timing_budget.json",
+      "sha256": "0bd699e238a792d53c54cf4f7ebb9bc0eee13186618f4aa8fd43c7d5dd06978b"
+    },
+    "d0br_plan": {
+      "path": "../../plans/ftc_d0b_interleaved_capture_architecture_plan.md",
+      "sha256": "c345e10f565f1f09f75512aece7f1e72fbdd77c4366d35438d11ca6a81d1a42b"
+    },
+    "h0_downstream_handoff": {
+      "path": "controller/h0_calibration_detection_handoff/contract/downstream_detection_handoff.json",
+      "sha256": "6e55e3a02f03550ef0a615957eef5b2b5f63d4c4f8db16486a0de30796d87cf9"
+    },
+    "m0_single_probe_contract": {
+      "path": "analysis/m0_detection_margin_characterization/probe_contract/single_probe_contract.json",
+      "sha256": "3cadeaa3bcb0f064ce53751acd1af8456a043843e4733455b6b2250258faeea7"
+    },
+    "m1_downstream_handoff": {
+      "path": "controller/m1_detection_margin/contract/M1_DOWNSTREAM_T0_D0_HANDOFF.json",
+      "sha256": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5"
+    },
+    "pd1_configuration_crossing": {
+      "path": "controller/pd1_power_domain_interface/crossings/configuration_crossing_contract.json",
+      "sha256": "70b6f01d436204d48cb9574b9db368cf4fae1a607b6eb9e10f6d6955e6728afb"
+    },
+    "pd1_crossing_inventory": {
+      "path": "controller/pd1_power_domain_interface/crossings/crossing_inventory.json",
+      "sha256": "4837a62255a8c6a50bee258f4fc1830ff72ddbad16bf4de260f8a7670ec953f0"
+    },
+    "pd1_qfinal_return": {
+      "path": "controller/pd1_power_domain_interface/crossings/qfinal_return_contract.json",
+      "sha256": "927dc7b818b4c48f84dba2ba7b2a4d7b93152aeb4c63205d32ab84855a66d26d"
+    },
+    "pd1_reset_crossing": {
+      "path": "controller/pd1_power_domain_interface/crossings/reset_crossing_contract.json",
+      "sha256": "9873792b6ff2ff3852763a4c853ea3462ad4bb6a6d8434b455a7d4dc659eaee2"
+    },
+    "pd1_sclk_crossing": {
+      "path": "controller/pd1_power_domain_interface/crossings/sclk_crossing_contract.json",
+      "sha256": "5fa43c1e93e514ee5eff29c1f226181001141dcfad2ed8b16e583bcbeb2baa17"
+    },
+    "rf_sequential_timing": {
+      "path": "controller/refrequency/library_audit/sequential_cell_timing_capability.json",
+      "sha256": "fb1b126a3b512f58919126d2bb4fa96372ce233245089e611d5dd691c1f6a54d"
+    },
+    "t0_downstream_contract": {
+      "path": "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json",
+      "sha256": "e666d94526ecd1cdd254bc0bbd5eb1dc12e8693debf782399de72cc246f0618f"
+    }
+  },
+  "schema_version": 1,
+  "scope": {
+    "detection_only_capture_research_authorized": true,
+    "full_campaign_reruns_forbidden": true,
+    "h0_m1_t0_modified": false,
+    "runtime_rtl_implemented": false,
+    "sensor_core_modified": false
+  },
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "stage": "D0-BR0",
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+}

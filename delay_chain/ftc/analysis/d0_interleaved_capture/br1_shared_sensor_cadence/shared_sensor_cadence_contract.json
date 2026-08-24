@@ -1,0 +1,170 @@
+{
+  "diagnostics": [
+    {
+      "F_det": 6,
+      "M_det": 5,
+      "Vdroop_v": 0.86,
+      "baseline_vdd_v": 0.95,
+      "d_ref_ps": {
+        "probe0": 495.249981,
+        "probe1": 496.249353
+      },
+      "deck_sha256": "4c0db5a9eab9e17456a81aee112296e7512af3e5cd8777de773834c169d00823",
+      "fragile_reasons": [],
+      "gate": "SHARED_SENSOR_CADENCE_FAIL",
+      "nodes": {
+        "medium": {
+          "fall_times_s": [
+            3.063304088e-09,
+            4.576770402e-09
+          ],
+          "prelaunch_ratio": 9.39e-07,
+          "rearm_margin_ps": 501.695912,
+          "rise_count_observed": 3,
+          "rise_times_s": [
+            2.482734223e-09,
+            4.238982123e-09,
+            4.701768943e-09
+          ]
+        },
+        "raw_ck": {
+          "fall_times_s": [
+            3.152024849e-09,
+            4.637051346e-09
+          ],
+          "prelaunch_ratio": 1.3915e-05,
+          "rearm_margin_ps": 412.975151,
+          "rise_count_observed": 3,
+          "rise_times_s": [
+            2.632678738e-09,
+            4.388945164e-09,
+            4.795161517e-09
+          ]
+        },
+        "xor": {
+          "fall_times_s": [
+            2.693964616e-09,
+            4.21141208e-09
+          ],
+          "prelaunch_ratio": 9.27e-07,
+          "rearm_margin_ps": 871.035384,
+          "rise_count_observed": 3,
+          "rise_times_s": [
+            2.137428757e-09,
+            3.892695811e-09,
+            4.393149654e-09
+          ]
+        }
+      },
+      "scenario_key": "br1_0p95_l2_repeated_sensor",
+      "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_interleaved_capture/br1_shared_sensor_cadence/br1_0p95_l2_repeated_sensor__a36042dd72f7deb73d00",
+      "structural_failures": [
+        "xor_rise_count_is_3_not_2",
+        "medium_rise_count_is_3_not_2",
+        "raw_ck_rise_count_is_3_not_2"
+      ],
+      "timing": {
+        "fall0_s": 3.177575705e-09,
+        "fall_offset_ps": 1687.575705,
+        "launch0_s": 1.49e-09,
+        "launch1_s": 3.565e-09,
+        "prelaunch_s": 3.564e-09,
+        "stop_s": 5.567e-09
+      }
+    },
+    {
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.96,
+      "baseline_vdd_v": 1.1,
+      "d_ref_ps": {
+        "probe0": 324.726837,
+        "probe1": 325.294157
+      },
+      "deck_sha256": "a2a9eecfacb37f25aa3a2aff701ae61932ed744abe831f46c2939f77cbe6e341",
+      "fragile_reasons": [],
+      "gate": "SHARED_SENSOR_CADENCE_FAIL",
+      "nodes": {
+        "medium": {
+          "fall_times_s": [
+            2.558768515e-09,
+            4.609022727e-09
+          ],
+          "prelaunch_ratio": -1.399e-06,
+          "rearm_margin_ps": 1006.231485,
+          "rise_count_observed": 2,
+          "rise_times_s": [
+            2.185561881e-09,
+            3.913729388e-09,
+            null
+          ]
+        },
+        "raw_ck": {
+          "fall_times_s": [
+            2.631592257e-09,
+            4.671230776e-09
+          ],
+          "prelaunch_ratio": 5.555e-06,
+          "rearm_margin_ps": 933.407743,
+          "rise_count_observed": 2,
+          "rise_times_s": [
+            2.33001885e-09,
+            4.058131797e-09,
+            null
+          ]
+        },
+        "xor": {
+          "fall_times_s": [
+            2.369970319e-09,
+            4.046998609e-09
+          ],
+          "prelaunch_ratio": 8.32e-07,
+          "rearm_margin_ps": 1195.029681,
+          "rise_count_observed": 3,
+          "rise_times_s": [
+            2.005292013e-09,
+            3.73283764e-09,
+            4.076079023e-09
+          ]
+        }
+      },
+      "scenario_key": "br1_1p10_l2_repeated_sensor",
+      "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_interleaved_capture/br1_shared_sensor_cadence/br1_1p10_l2_repeated_sensor__143bed1c056b45b2e69c",
+      "structural_failures": [
+        "xor_rise_count_is_3_not_2"
+      ],
+      "timing": {
+        "fall0_s": 3.177575705e-09,
+        "fall_offset_ps": 1687.575705,
+        "launch0_s": 1.49e-09,
+        "launch1_s": 3.565e-09,
+        "prelaunch_s": 3.564e-09,
+        "stop_s": 5.517e-09
+      }
+    }
+  ],
+  "gate": "SHARED_SENSOR_CADENCE_FAIL",
+  "next_action": "publish_multi_sensor_lane_escalation_only",
+  "probe_period_ps": 2075.0,
+  "retained_timing_inventory": {
+    "can_prove_repeated_sensor_rearm": false,
+    "m0_listing_count": 91,
+    "m0_measurement_count": 91,
+    "m0_tr0_count": 0,
+    "reason": "retained evidence is scalar single-probe data with no waveform and no second S_CLK launch",
+    "t0_listing_count": 515,
+    "t0_measurement_count": 514,
+    "t0_tr0_count": 0
+  },
+  "schema_version": 1,
+  "sclk_fall_offset_ps": 1687.575705,
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 2,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 2
+  },
+  "stage": "D0-BR1",
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+}

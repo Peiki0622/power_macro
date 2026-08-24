@@ -1,0 +1,30 @@
+{
+  "br1_evidence": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br1_shared_sensor_cadence/shared_sensor_cadence_contract.json",
+  "decision": "SHARED_SENSOR_CADENCE_FAIL",
+  "preserved_contracts": {
+    "capture_bank_created": false,
+    "capture_event_legalizer_created": false,
+    "d0a_decision": "ARCHITECTURE_ESCALATION_REQUIRED",
+    "h0_m1_modified": false,
+    "runtime_rtl_created": false,
+    "t0_decision": "CONDITIONAL_GO",
+    "t0_full_phase_requirement": "100_percent_CLEAN_Q1"
+  },
+  "runtime_probe_requirement_ps": 2075.0,
+  "schema_version": 1,
+  "shared_sensor_cadence": {
+    "n_sensor_min": null,
+    "n_sensor_min_status": "NOT_COMPUTABLE: BR1 disproves 2075 ps but does not characterize a longer safe P_sensor",
+    "p_sensor_verified_ps": null,
+    "verified_at_2075ps": false
+  },
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 2,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 2
+  },
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1",
+  "terminal_stage": "D0-BR1"
+}
