@@ -1,23 +1,21 @@
-# FTC T0-4E 证据闭合与 T0-5 解封报告
+# FTC T0-5 单 probe 时间覆盖进展报告
 
-## 当前判定
+## 阶段判定
 
-**T0-4 = GO；T0-5 = ENABLED**
+**T0-5A：GO**
 
-本阶段只冻结纠偏后的 T0-4 权威证据、取代旧 STOP 占位状态并建立跨 source-hash 的电气等价复用。未运行 HSPICE，未重跑 238 个正式 T0-4 场景，也未提前声明 T0-5 覆盖率或 T0-6 cadence。
+所有区间均为已采样相位格点边界；CLEAN_Q1 之外的 Q0 或 ambiguous 区间均不计入保证检测。
 
-## 已冻结证据
+| 场景 | 总脉冲 (ps) | CLEAN_Q1 点 | ambiguous 点 | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |
+|---|---:|---:|---:|---|---:|
+| t0_5a_0p95_l2_boundary | 1456.0 | 4 | 0 | True/True | 225.0 |
+| t0_5a_0p95_l2_long | 3002.0 | 12 | 0 | True/True | 2400.0 |
+| t0_5a_1p10_l2_boundary | 1190.0 | 4 | 0 | True/True | 225.0 |
+| t0_5a_1p10_l2_long | 3002.0 | 13 | 0 | True/True | 2450.0 |
 
-- 正式历史场景：238；6 个 last-Q0 负控制通过，18 个 clean-Q1 minimum-duration 边界有效。
-- 唯一诊断电气点：4；诊断目录累计运行：8；真实二次时钟：False。
-- 电气等价复用只接受相同的显式物理参数投影和规范化 deck SHA256；单独的 source_hash 漂移不再触发 HSPICE。
+## 仿真账本
 
-## 下游状态
-
-- T0-5 已解封，必须先完成两个 L2 的完整单-probe 窗口；T0-6 仍等待 T0-5 gate。
-- `runtime_probe_period.maximum_period_s` 仍为 null；2.5 ns 控制时钟不被当作 runtime probe cadence。
-- `VDD_MONITORED < 0.80 V` 继续只允许 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义。
-
-## 本阶段账本
-
-- 新增 HSPICE：0；复用旧场景：0；电气等价复用：0；仅重解析：0；禁止流程新增运行：0。
+- 新增 HSPICE：75；精确复用：0；电气等价 source-hash 复用：44。
+- 同一逻辑 T0-5A 阶段因进程恢复而重解析的既有 T0-5A 点：60；唯一物理场景总数：119。
+- 未运行 H0、M0、M1、T0-2、T0-3 已有点或 T0-4 全量场景。
+- T0-6 cadence 仍未计算，除非本阶段 gate 已完成并解封。

@@ -1,0 +1,294 @@
+{
+  "decision": "GO",
+  "forbidden_flow_runs": 0,
+  "latest_invocation_new_hspice": 15,
+  "latest_invocation_reused": 104,
+  "new_hspice": 75,
+  "reparsed": 0,
+  "reused": 44,
+  "reused_electrical": 44,
+  "reused_exact": 0,
+  "reused_interrupted_t0_5a": 60,
+  "scenarios": [
+    {
+      "Vdroop_v": 0.86,
+      "ambiguous_dominates": false,
+      "ambiguous_sample_count": 0,
+      "baseline_vdd_v": 0.95,
+      "clean_phase_coverage_fraction": 0.17391304347826086,
+      "clean_q1_intervals": [
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -450.0,
+          "sample_count": 4,
+          "state": "CLEAN_Q1",
+          "width_ps": 525.0
+        }
+      ],
+      "clean_q1_sample_count": 4,
+      "intervals": [
+        {
+          "phase_end_ps": -475.0,
+          "phase_start_ps": -700.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -450.0,
+          "sample_count": 4,
+          "state": "CLEAN_Q1",
+          "width_ps": 525.0
+        },
+        {
+          "phase_end_ps": 300.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 9,
+          "state": "STABLE_Q0",
+          "width_ps": 200.0
+        }
+      ],
+      "left_closed_by_stable_q0": true,
+      "margin_level": "L2",
+      "maximum_non_guarantee_window_ps": 225.0,
+      "needs_local_recovery_diagnosis_count": 0,
+      "other_invalid_ambiguous_intervals": [],
+      "recovery_edge_ambiguous_intervals": [],
+      "right_closed_by_stable_q0": true,
+      "sample_count": 23,
+      "scenario_family": "L2_BOUNDARY_MINIMUM",
+      "scenario_key": "t0_5a_0p95_l2_boundary",
+      "stable_q0_intervals": [
+        {
+          "phase_end_ps": -475.0,
+          "phase_start_ps": -700.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 300.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 9,
+          "state": "STABLE_Q0",
+          "width_ps": 200.0
+        }
+      ],
+      "stable_sample_count": 23,
+      "t_hold_ps": 1454.0,
+      "total_pulse_ps": 1456.0
+    },
+    {
+      "Vdroop_v": 0.86,
+      "ambiguous_dominates": false,
+      "ambiguous_sample_count": 0,
+      "baseline_vdd_v": 0.95,
+      "clean_phase_coverage_fraction": 0.3333333333333333,
+      "clean_q1_intervals": [
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -2000.0,
+          "sample_count": 12,
+          "state": "CLEAN_Q1",
+          "width_ps": 2075.0
+        }
+      ],
+      "clean_q1_sample_count": 12,
+      "intervals": [
+        {
+          "phase_end_ps": -2025.0,
+          "phase_start_ps": -2250.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -2000.0,
+          "sample_count": 12,
+          "state": "CLEAN_Q1",
+          "width_ps": 2075.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 14,
+          "state": "STABLE_Q0",
+          "width_ps": 2400.0
+        }
+      ],
+      "left_closed_by_stable_q0": true,
+      "margin_level": "L2",
+      "maximum_non_guarantee_window_ps": 2400.0,
+      "needs_local_recovery_diagnosis_count": 0,
+      "other_invalid_ambiguous_intervals": [],
+      "recovery_edge_ambiguous_intervals": [],
+      "right_closed_by_stable_q0": true,
+      "sample_count": 36,
+      "scenario_family": "L2_LONG_PULSE",
+      "scenario_key": "t0_5a_0p95_l2_long",
+      "stable_q0_intervals": [
+        {
+          "phase_end_ps": -2025.0,
+          "phase_start_ps": -2250.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 14,
+          "state": "STABLE_Q0",
+          "width_ps": 2400.0
+        }
+      ],
+      "stable_sample_count": 36,
+      "t_hold_ps": 3000.0,
+      "total_pulse_ps": 3002.0
+    },
+    {
+      "Vdroop_v": 0.96,
+      "ambiguous_dominates": false,
+      "ambiguous_sample_count": 0,
+      "baseline_vdd_v": 1.1,
+      "clean_phase_coverage_fraction": 0.17391304347826086,
+      "clean_q1_intervals": [
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -500.0,
+          "sample_count": 4,
+          "state": "CLEAN_Q1",
+          "width_ps": 525.0
+        }
+      ],
+      "clean_q1_sample_count": 4,
+      "intervals": [
+        {
+          "phase_end_ps": -525.0,
+          "phase_start_ps": -750.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -500.0,
+          "sample_count": 4,
+          "state": "CLEAN_Q1",
+          "width_ps": 525.0
+        },
+        {
+          "phase_end_ps": 250.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 9,
+          "state": "STABLE_Q0",
+          "width_ps": 200.0
+        }
+      ],
+      "left_closed_by_stable_q0": true,
+      "margin_level": "L2",
+      "maximum_non_guarantee_window_ps": 225.0,
+      "needs_local_recovery_diagnosis_count": 0,
+      "other_invalid_ambiguous_intervals": [],
+      "recovery_edge_ambiguous_intervals": [],
+      "right_closed_by_stable_q0": true,
+      "sample_count": 23,
+      "scenario_family": "L2_BOUNDARY_MINIMUM",
+      "scenario_key": "t0_5a_1p10_l2_boundary",
+      "stable_q0_intervals": [
+        {
+          "phase_end_ps": -525.0,
+          "phase_start_ps": -750.0,
+          "sample_count": 10,
+          "state": "STABLE_Q0",
+          "width_ps": 225.0
+        },
+        {
+          "phase_end_ps": 250.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 9,
+          "state": "STABLE_Q0",
+          "width_ps": 200.0
+        }
+      ],
+      "stable_sample_count": 23,
+      "t_hold_ps": 1188.0,
+      "total_pulse_ps": 1190.0
+    },
+    {
+      "Vdroop_v": 0.96,
+      "ambiguous_dominates": false,
+      "ambiguous_sample_count": 0,
+      "baseline_vdd_v": 1.1,
+      "clean_phase_coverage_fraction": 0.35135135135135137,
+      "clean_q1_intervals": [
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -2300.0,
+          "sample_count": 13,
+          "state": "CLEAN_Q1",
+          "width_ps": 2325.0
+        }
+      ],
+      "clean_q1_sample_count": 13,
+      "intervals": [
+        {
+          "phase_end_ps": -2325.0,
+          "phase_start_ps": -2500.0,
+          "sample_count": 8,
+          "state": "STABLE_Q0",
+          "width_ps": 175.0
+        },
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -2300.0,
+          "sample_count": 13,
+          "state": "CLEAN_Q1",
+          "width_ps": 2325.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 16,
+          "state": "STABLE_Q0",
+          "width_ps": 2450.0
+        }
+      ],
+      "left_closed_by_stable_q0": true,
+      "margin_level": "L2",
+      "maximum_non_guarantee_window_ps": 2450.0,
+      "needs_local_recovery_diagnosis_count": 0,
+      "other_invalid_ambiguous_intervals": [],
+      "recovery_edge_ambiguous_intervals": [],
+      "right_closed_by_stable_q0": true,
+      "sample_count": 37,
+      "scenario_family": "L2_LONG_PULSE",
+      "scenario_key": "t0_5a_1p10_l2_long",
+      "stable_q0_intervals": [
+        {
+          "phase_end_ps": -2325.0,
+          "phase_start_ps": -2500.0,
+          "sample_count": 8,
+          "state": "STABLE_Q0",
+          "width_ps": 175.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 16,
+          "state": "STABLE_Q0",
+          "width_ps": 2450.0
+        }
+      ],
+      "stable_sample_count": 37,
+      "t_hold_ps": 3000.0,
+      "total_pulse_ps": 3002.0
+    }
+  ],
+  "schema_version": 1,
+  "stage": "T0-5A",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "unique_physical_scenario_count": 119
+}

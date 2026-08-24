@@ -142,12 +142,13 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertEqual(rails[0][0], "last_q0_control")
             self.assertEqual(rails[1][0], "first_q1_anchor")
 
-    def test_terminal_gate_keeps_t0_2_pass_and_blocks_cadence(self):
-        """T0-4E unlocks T0-5 without fabricating a cadence result.
+    def test_t0_4e_keeps_t0_2_pass_and_never_fabricates_cadence(self):
+        """T0-4E remains valid after T0-5A, but cadence stays unqualified.
 
-        The transition is intentionally asymmetric: phase coverage may now be
-        measured, but cadence needs those completed windows and therefore
-        remains pending with no numerical maximum probe period.
+        The repository may be inspected immediately after T0-4E or after the
+        separately authorized T0-5A run.  In either case the earlier evidence
+        must remain GO, while T0-6 must retain a null numerical period until
+        the remaining T0-5B physical gate authorizes cadence mapping.
         """
 
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
@@ -155,11 +156,60 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
         self.assertEqual(gate["t0_4_status"], "GO")
         self.assertEqual(gate["t0_4e_status"], "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE")
-        self.assertEqual(gate["t0_5_status"], "ENABLED")
+        self.assertIn(gate["t0_5_status"], ("ENABLED", "T0-5A GO; T0-5B ENABLED"))
         self.assertEqual(gate["t0_6_status"], "WAITING_FOR_T0_5_GATE")
         self.assertEqual(downstream["source_gate"], "T0-4 GO")
         self.assertEqual(downstream["runtime_probe_period"]["status"], "PENDING_T0_5_T0_6")
         self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
+
+    def test_t0_5a_pre_simulation_phase_closure_is_real_and_complete(self):
+        """Confirm the repaired T0-5A Gate uses physical Q0 closure only.
+
+        Both long pulses must extend left beyond the old time-zero source
+        coordinate and then actually return to stable Q0.  The test checks
+        the compact post-HSPICE evidence, not a smoke model: all four planned
+        T0-5A maps must be present, all endpoints must be stable Q0, the
+        recorded prelude must be positive only for deep negative phases, and
+        the gate must unlock T0-5B without publishing a cadence result.
+        """
+
+        summary_path = FTC_ROOT / "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json"
+        phase_path = FTC_ROOT / "analysis/t0_transient_droop/phase_coverage/phase_coverage.csv"
+        summary = json.loads(summary_path.read_text())
+        with phase_path.open(newline="") as stream:
+            rows = list(csv.DictReader(stream))
+        by_key = {}
+        for row in rows:
+            by_key.setdefault(row["scenario_key"], []).append(row)
+
+        self.assertEqual(summary["decision"], "GO")
+        self.assertEqual(summary["new_hspice"], 75)
+        self.assertEqual(summary["reused"], 44)
+        self.assertEqual(summary["reused_electrical"], 44)
+        self.assertEqual(summary["reused_interrupted_t0_5a"], 60)
+        self.assertEqual(summary["unique_physical_scenario_count"], 119)
+        self.assertEqual(summary["latest_invocation_new_hspice"], 15)
+        self.assertEqual(set(by_key), {
+            "t0_5a_0p95_l2_boundary", "t0_5a_0p95_l2_long",
+            "t0_5a_1p10_l2_boundary", "t0_5a_1p10_l2_long",
+        })
+        for item in summary["scenarios"]:
+            group = sorted(by_key[item["scenario_key"]], key=lambda row: float(row["phase_ps"]))
+            self.assertTrue(item["left_closed_by_stable_q0"])
+            self.assertTrue(item["right_closed_by_stable_q0"])
+            self.assertTrue(item["clean_q1_intervals"])
+            self.assertEqual(item["ambiguous_sample_count"], 0)
+            self.assertEqual(group[0]["t0_5_state"], "STABLE_Q0")
+            self.assertEqual(group[-1]["t0_5_state"], "STABLE_Q0")
+
+        for key, expected_left in (("t0_5a_0p95_l2_long", -2250.0), ("t0_5a_1p10_l2_long", -2500.0)):
+            group = sorted(by_key[key], key=lambda row: float(row["phase_ps"]))
+            self.assertEqual(float(group[0]["phase_ps"]), expected_left)
+            self.assertGreater(float(group[0]["time_axis_shift_s"]), 0.0)
+        gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
+        self.assertEqual(gate["t0_5a_status"], "GO")
+        self.assertEqual(gate["t0_5_status"], "T0-5A GO; T0-5B ENABLED")
+        self.assertEqual(gate["t0_6_status"], "WAITING_FOR_T0_5_GATE")
 
     def test_t0_4e_authority_hashes_and_stop_supersession_are_present(self):
         """The T0-4E handoff must hash evidence rather than trust filenames.
@@ -198,6 +248,92 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(stats["new"], 0)
         self.assertEqual(stats["reused_electrical"], 1)
         self.assertEqual(row["electrical_projection_sha256"], study.electrical_projection_sha256(parameters))
+
+    def test_early_t0_5_phase_uses_uniform_pre_simulation_translation(self):
+        """Represent a pre-probe long pulse without changing probe physics.
+
+        A 3002 ps pulse needs phases earlier than the old time-zero source
+        limit before it can recover before the probe.  This test verifies the
+        renderer's only permitted remedy: add one common offset to reset,
+        S_CLK, both Q reads, reset assert, S_CLK fall, recovery, and stop.
+        It deliberately checks differences rather than absolute timestamps,
+        because the phase and frozen M0 event intervals are the physical
+        contract while the added HSPICE prelude is only a testbench coordinate.
+        """
+
+        parameters = study.parameters_for(0.95, "L2", 0.86, 3000.0, -3250.0)
+        frozen = study.probe_timing()
+        shifted = study.shifted_probe_timing(parameters)
+        shift = shifted["time_axis_shift_s"]
+        self.assertGreater(shift, 0.0)
+        self.assertAlmostEqual(
+            shifted["launch_time_s"] + parameters["phase_ps"] * 1e-12,
+            study.T0_PRE_SIMULATION_TIME_S,
+            places=18,
+        )
+        self.assertAlmostEqual(
+            (shifted["launch_time_s"] + parameters["phase_ps"] * 1e-12 - shifted["launch_time_s"]) * 1e12,
+            parameters["phase_ps"],
+            places=9,
+        )
+        for key in (
+            "reset_release_s", "launch_time_s", "q_read_time_s",
+            "q_read_late_time_s", "reset_assert_start_s",
+            "reset_assert_end_s", "sclk_fall_s", "recovery_end_s",
+            "stop_time_s",
+        ):
+            self.assertAlmostEqual(shifted[key] - frozen[key], shift, places=18)
+
+        deck = study.render_deck(self.context, parameters)
+        for key in (
+            "launch_time_s", "q_read_time_s", "q_read_late_time_s",
+            "reset_assert_start_s", "reset_assert_end_s", "sclk_fall_s",
+            "recovery_end_s",
+        ):
+            self.assertIn(study.physical.spice(shifted[key]), deck)
+        self.assertTrue(all(study.topology_checks(deck, parameters).values()))
+
+    def test_retained_t0_3_left_endpoint_needs_no_time_translation(self):
+        """Keep the existing -1000 ps long-pulse deck reusable byte-for-byte.
+
+        The formal T0-3 left endpoint already starts at positive HSPICE time,
+        so the new prelude mechanism must be dormant.  Together with the
+        retained-measurement reuse test above, this protects against an
+        accidental whole-map rerun caused only by runner source growth.
+        """
+
+        parameters = study.parameters_for(0.95, "L2", 0.86, 3000.0, -1000.0)
+        timing = study.shifted_probe_timing(parameters)
+        self.assertEqual(timing["time_axis_shift_s"], 0.0)
+        self.assertGreater(timing["launch_time_s"] + parameters["phase_ps"] * 1e-12, 0.0)
+        self.assertFalse(hasattr(study, "MIN_LEGAL_PHASE_PS"))
+
+    def test_t0_3_csv_selects_canonical_duplicate_phase_evidence(self):
+        """Reuse the T0-3-selected listing when a source-only duplicate exists.
+
+        The 1.10 V/L2/3000 ps/-500 ps physical deck has two PASS directories
+        with identical HSPICE scalar measurements.  The generic reuse helper
+        must remain conservative about such duplicates, while T0-5's explicit
+        T0-3 reuse must consume the compact phase-window authority row rather
+        than rerunning a completed electrical point or choosing a directory
+        by incidental filesystem order.
+        """
+
+        spec = next(item for item in study.T0_5A_SPECS if item["scenario_key"] == "t0_5a_1p10_l2_long")
+        authority = next(
+            item for item in study.t0_3_reusable_rows(spec)
+            if float(item["phase_ps"]) == -500.0
+        )
+        parameters = study.parameters_for(1.10, "L2", 0.96, 3000.0, -500.0)
+        stats = {"new": 0, "reused": 0}
+        row = study.reuse_t0_3_authority_row(
+            parameters, study.render_deck(self.context, parameters), authority, stats,
+        )
+        self.assertEqual(authority["scenario_id"], row["scenario_id"])
+        self.assertIn("/r103/", row["scenario_path"])
+        self.assertEqual(row["evidence_source"], "REUSED_T0_3_AUTHORITY_ROW")
+        self.assertEqual(stats["new"], 0)
+        self.assertEqual(stats["reused_electrical"], 1)
 
     def test_legacy_t0_4_entry_cannot_overwrite_corrected_go(self):
         """Historical amplitude-duration code must fail closed after T0-4E."""
