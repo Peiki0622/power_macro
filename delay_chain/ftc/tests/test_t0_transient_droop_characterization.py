@@ -203,6 +203,14 @@ class T0TransientDroopTests(unittest.TestCase):
             "t0_5b_0p95_l3_recovery", "t0_5b_1p10_l1_recovery",
         })
         summaries = {item["scenario_key"]: item for item in summary["scenarios"]}
+        expected_time_measure = {
+            "t0_5a_0p95_l2_boundary": (1000.0, 525.0, 0.525, 250.0),
+            "t0_5a_0p95_l2_long": (4750.0, 2075.0, 2075.0 / 4750.0, 2425.0),
+            "t0_5a_1p10_l2_boundary": (1000.0, 525.0, 0.525, 250.0),
+            "t0_5a_1p10_l2_long": (5000.0, 2325.0, 0.465, 2475.0),
+            "t0_5b_0p95_l3_recovery": (1250.0, 875.0, 0.70, 250.0),
+            "t0_5b_1p10_l1_recovery": (1250.0, 950.0, 0.76, 175.0),
+        }
         for item in summaries.values():
             group = sorted(by_key[item["scenario_key"]], key=lambda row: float(row["phase_ps"]))
             self.assertTrue(item["left_closed_by_stable_q0"])
@@ -210,6 +218,15 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertTrue(item["clean_q1_intervals"])
             self.assertEqual(group[0]["t0_5_state"], "STABLE_Q0")
             self.assertEqual(group[-1]["t0_5_state"], "STABLE_Q0")
+            span, clean_measure, coverage, maximum_non_guarantee = expected_time_measure[item["scenario_key"]]
+            self.assertNotIn("clean_phase_coverage_fraction", item)
+            self.assertAlmostEqual(item["characterized_phase_span_ps"], span)
+            self.assertAlmostEqual(item["guaranteed_clean_measure_ps"], clean_measure)
+            self.assertAlmostEqual(item["clean_time_coverage_fraction"], coverage)
+            self.assertAlmostEqual(item["non_guarantee_measure_ps"], span - clean_measure)
+            self.assertAlmostEqual(item["maximum_non_guarantee_window_ps"], maximum_non_guarantee)
+            self.assertAlmostEqual(
+                item["guaranteed_clean_measure_ps"] + item["non_guarantee_measure_ps"], span)
 
         # The original four maps contain no ambiguity; their phase closure
         # remains untouched by publication of the two supplementary maps.
@@ -244,6 +261,72 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(gate["decision"], "GO_PENDING_T0_6")
         self.assertEqual(gate["t0_6_status"], "ENABLED")
         self.assertEqual(gate["t0_8_status"], "WAITING_FOR_T0_6")
+
+    def test_t0_5_time_measure_ignores_adaptive_sample_density_and_keeps_boundary_gaps(self):
+        """Measure identical physical windows identically on coarse and fine grids.
+
+        The two first synthetic maps have the same closed Q0 domain and the
+        same confirmed CLEAN_Q1 interval, but one includes an extra in-window
+        refinement sample.  Time coverage must be identical despite different
+        sample counts.  The third map inserts a recovery ambiguity between two
+        clean intervals: it verifies both that they remain distinct and that
+        the two transition brackets plus the ambiguous phase remain in the
+        non-guaranteed complement.
+        """
+
+        def summarize(key, samples):
+            rows = []
+            for phase_ps, state in samples:
+                rows.append({
+                    "scenario_key": key,
+                    "scenario_family": "TEST_INTERVAL_MEASURE",
+                    "baseline_vdd_v": 0.95,
+                    "margin_level": "L2",
+                    "Vdroop_v": 0.86,
+                    "t_hold_ps": 1454.0,
+                    "t_fall_ps": 1.0,
+                    "t_rise_ps": 1.0,
+                    "phase_ps": phase_ps,
+                    "t0_5_state": state,
+                    "recovery_model_status": "NOT_APPLICABLE",
+                })
+            return study.summarize_t0_5_rows(rows)[0]
+
+        coarse = summarize("coarse", [
+            (0.0, "STABLE_Q0"), (25.0, "CLEAN_Q1"),
+            (75.0, "CLEAN_Q1"), (100.0, "STABLE_Q0"),
+        ])
+        refined = summarize("refined", [
+            (0.0, "STABLE_Q0"), (25.0, "CLEAN_Q1"),
+            (50.0, "CLEAN_Q1"), (75.0, "CLEAN_Q1"), (100.0, "STABLE_Q0"),
+        ])
+        self.assertNotEqual(coarse["sample_count"], refined["sample_count"])
+        self.assertEqual(coarse["clean_q1_sample_count"], 2)
+        self.assertEqual(refined["clean_q1_sample_count"], 3)
+        for item in (coarse, refined):
+            self.assertAlmostEqual(item["characterized_phase_span_ps"], 100.0)
+            self.assertAlmostEqual(item["guaranteed_clean_measure_ps"], 50.0)
+            self.assertAlmostEqual(item["clean_time_coverage_fraction"], 0.50)
+            self.assertAlmostEqual(item["maximum_non_guarantee_window_ps"], 25.0)
+            self.assertEqual(item["non_guarantee_intervals"], [
+                {"phase_start_ps": 0.0, "phase_end_ps": 25.0, "width_ps": 25.0},
+                {"phase_start_ps": 75.0, "phase_end_ps": 100.0, "width_ps": 25.0},
+            ])
+
+        ambiguous = summarize("ambiguous", [
+            (0.0, "STABLE_Q0"), (25.0, "CLEAN_Q1"), (50.0, "CLEAN_Q1"),
+            (75.0, "RECOVERY_EDGE_AMBIGUOUS"), (100.0, "CLEAN_Q1"),
+            (125.0, "CLEAN_Q1"), (150.0, "STABLE_Q0"),
+        ])
+        self.assertEqual(len(ambiguous["clean_q1_intervals"]), 2)
+        self.assertAlmostEqual(ambiguous["guaranteed_clean_measure_ps"], 50.0)
+        self.assertAlmostEqual(ambiguous["non_guarantee_measure_ps"], 100.0)
+        self.assertAlmostEqual(ambiguous["clean_time_coverage_fraction"], 1.0 / 3.0)
+        self.assertAlmostEqual(ambiguous["maximum_non_guarantee_window_ps"], 50.0)
+        self.assertIn(
+            {"phase_start_ps": 50.0, "phase_end_ps": 100.0, "width_ps": 50.0},
+            ambiguous["non_guarantee_intervals"],
+        )
 
     def test_t0_4e_authority_hashes_and_stop_supersession_are_present(self):
         """The T0-4E handoff must hash evidence rather than trust filenames.

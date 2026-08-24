@@ -2699,8 +2699,100 @@ def contiguous_t0_5_intervals(rows: Sequence[Mapping[str, Any]]) -> List[Dict[st
     return intervals
 
 
+def t0_5_time_measure(intervals: Sequence[Mapping[str, Any]], phase_start_ps: float,
+                      phase_end_ps: float) -> Dict[str, Any]:
+    """Measure guaranteed CLEAN_Q1 time and its conservative complement.
+
+    T0-5's adaptive scan deliberately has a non-uniform lattice: it uses
+    250 ps exploration points and inserts 25 ps points only around observed
+    transitions.  Counting CLEAN_Q1 samples would therefore make reported
+    coverage depend on where the scanner chose to refine, rather than on the
+    retained physical window.  This helper instead treats every same-state
+    CLEAN_Q1 interval as a confirmed interval on the phase axis and measures
+    its width directly.
+
+    The characterized domain is the closed, physically verified interval
+    ``[phase_start_ps, phase_end_ps]``.  Its non-guaranteed set is constructed
+    as the complement of the CLEAN_Q1 interval union.  In particular, a
+    change from one sampled state to another leaves the entire separation
+    between their phase coordinates in that complement.  Thus the 25 ps
+    transition brackets, STABLE_Q0 regions, and zero-width sampled ambiguous
+    states all remain non-guaranteed.  Two CLEAN_Q1 intervals separated by an
+    ambiguous sample are never merged: the complement retains the interval
+    between their end and start coordinates.
+
+    The returned interval endpoints are sampled phase coordinates.  Their
+    width is the only quantity used for coverage; endpoint inclusion has zero
+    measure and cannot hide a boundary uncertainty gap.
+    """
+
+    start = float(phase_start_ps)
+    end = float(phase_end_ps)
+    if end < start:
+        raise ValueError("T0-5 characterized phase domain is reversed")
+    clean = [
+        {
+            "phase_start_ps": float(item["phase_start_ps"]),
+            "phase_end_ps": float(item["phase_end_ps"]),
+        }
+        for item in intervals
+        if item["state"] == "CLEAN_Q1"
+    ]
+    # ``contiguous_t0_5_intervals`` emits disjoint intervals in ascending
+    # order.  Sort and validate again here because this numerical summary is
+    # safety-critical evidence and must not silently accept malformed callers.
+    clean.sort(key=lambda item: (item["phase_start_ps"], item["phase_end_ps"]))
+    cursor = start
+    non_guarantee: List[Dict[str, float]] = []
+    guaranteed_clean_measure_ps = 0.0
+    for item in clean:
+        clean_start = item["phase_start_ps"]
+        clean_end = item["phase_end_ps"]
+        if clean_start < start or clean_end > end or clean_end < clean_start:
+            raise ValueError("CLEAN_Q1 interval lies outside the characterized T0-5 phase domain")
+        if clean_start < cursor:
+            raise ValueError("CLEAN_Q1 intervals overlap in T0-5 time measure")
+        if clean_start > cursor:
+            non_guarantee.append({
+                "phase_start_ps": cursor,
+                "phase_end_ps": clean_start,
+                "width_ps": clean_start - cursor,
+            })
+        guaranteed_clean_measure_ps += clean_end - clean_start
+        cursor = clean_end
+    if cursor < end:
+        non_guarantee.append({
+            "phase_start_ps": cursor,
+            "phase_end_ps": end,
+            "width_ps": end - cursor,
+        })
+    span = end - start
+    non_guarantee_measure_ps = sum(item["width_ps"] for item in non_guarantee)
+    # Exact arithmetic on decimal phase coordinates is normally sufficient,
+    # but retain a tight guard so a future non-integer scan step cannot let
+    # accumulated floating-point roundoff create or erase coverage measure.
+    if not math.isclose(guaranteed_clean_measure_ps + non_guarantee_measure_ps, span,
+                        rel_tol=0.0, abs_tol=1e-9):
+        raise RuntimeError("T0-5 clean and non-guarantee measures do not partition the phase domain")
+    return {
+        "characterized_phase_span_ps": span,
+        "guaranteed_clean_measure_ps": guaranteed_clean_measure_ps,
+        "non_guarantee_measure_ps": non_guarantee_measure_ps,
+        "clean_time_coverage_fraction": None if span == 0.0 else guaranteed_clean_measure_ps / span,
+        "non_guarantee_intervals": non_guarantee,
+        "maximum_non_guarantee_window_ps": max(
+            (item["width_ps"] for item in non_guarantee), default=0.0),
+    }
+
+
 def summarize_t0_5_rows(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
-    """Produce per-waveform intervals and gate-relevant counts from sampled rows."""
+    """Produce per-waveform four-state intervals and time-domain coverage.
+
+    Sample counts remain useful diagnostics for the adaptive scanner, but are
+    intentionally excluded from every physical coverage calculation.  Time
+    metrics are defined only after both endpoints have been measured as
+    STABLE_Q0; an unclosed map has no finite characterized phase domain.
+    """
 
     by_key: Dict[str, List[Mapping[str, Any]]] = {}
     for row in rows:
@@ -2711,7 +2803,12 @@ def summarize_t0_5_rows(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any
         intervals = contiguous_t0_5_intervals(ordered)
         states = [row["t0_5_state"] for row in ordered]
         ambiguous = [row for row in ordered if row["t0_5_state"] in ("RECOVERY_EDGE_AMBIGUOUS", "OTHER_INVALID_AMBIGUOUS")]
-        non_guarantee = [item for item in intervals if item["state"] != "CLEAN_Q1"]
+        left_closed = states[0] == "STABLE_Q0"
+        right_closed = states[-1] == "STABLE_Q0"
+        measure = (
+            t0_5_time_measure(intervals, float(ordered[0]["phase_ps"]), float(ordered[-1]["phase_ps"]))
+            if left_closed and right_closed else None
+        )
         summaries.append({
             "scenario_key": key,
             "scenario_family": ordered[0]["scenario_family"],
@@ -2725,14 +2822,20 @@ def summarize_t0_5_rows(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any
             "stable_q0_intervals": [item for item in intervals if item["state"] == "STABLE_Q0"],
             "recovery_edge_ambiguous_intervals": [item for item in intervals if item["state"] == "RECOVERY_EDGE_AMBIGUOUS"],
             "other_invalid_ambiguous_intervals": [item for item in intervals if item["state"] == "OTHER_INVALID_AMBIGUOUS"],
-            "maximum_non_guarantee_window_ps": max((item["width_ps"] for item in non_guarantee), default=None),
+            "characterized_phase_start_ps": float(ordered[0]["phase_ps"]) if measure is not None else None,
+            "characterized_phase_end_ps": float(ordered[-1]["phase_ps"]) if measure is not None else None,
+            "characterized_phase_span_ps": None if measure is None else measure["characterized_phase_span_ps"],
+            "guaranteed_clean_measure_ps": None if measure is None else measure["guaranteed_clean_measure_ps"],
+            "non_guarantee_measure_ps": None if measure is None else measure["non_guarantee_measure_ps"],
+            "clean_time_coverage_fraction": None if measure is None else measure["clean_time_coverage_fraction"],
+            "non_guarantee_intervals": [] if measure is None else measure["non_guarantee_intervals"],
+            "maximum_non_guarantee_window_ps": None if measure is None else measure["maximum_non_guarantee_window_ps"],
             "sample_count": len(ordered),
             "stable_sample_count": sum(state in ("CLEAN_Q1", "STABLE_Q0") for state in states),
             "clean_q1_sample_count": states.count("CLEAN_Q1"),
             "ambiguous_sample_count": len(ambiguous),
-            "clean_phase_coverage_fraction": states.count("CLEAN_Q1") / float(len(states)),
-            "left_closed_by_stable_q0": states[0] == "STABLE_Q0",
-            "right_closed_by_stable_q0": states[-1] == "STABLE_Q0",
+            "left_closed_by_stable_q0": left_closed,
+            "right_closed_by_stable_q0": right_closed,
             "ambiguous_dominates": len(ambiguous) >= sum(state in ("CLEAN_Q1", "STABLE_Q0") for state in states),
             "needs_local_recovery_diagnosis_count": sum(row.get("recovery_model_status") == "NEEDS_LOCAL_10PS_DIAGNOSIS" for row in ambiguous),
         })
@@ -2820,15 +2923,21 @@ def write_t0_5_progress_report(stage: str, summaries: Sequence[Mapping[str, Any]
 
     lines = [
         "# FTC T0-5 单 probe 时间覆盖进展报告", "", "## 阶段判定", "", "**{}：{}**".format(stage, decision), "",
-        "所有区间均为已采样相位格点边界；CLEAN_Q1 之外的 Q0 或 ambiguous 区间均不计入保证检测。", "",
-        "| 场景 | 总脉冲 (ps) | CLEAN_Q1 点 | ambiguous 点 | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |",
-        "|---|---:|---:|---:|---|---:|",
+        "时间覆盖率只使用左右 Q0 闭合相位域中的 CLEAN_Q1 区间宽度；CLEAN_Q1 样本数和 ambiguous 样本数仅为自适应扫描诊断。",
+        "CLEAN_Q1 区间并集的补集均为非保证区域，包含 Q0、ambiguous 以及相邻不同状态采样点之间的边界间隙。", "",
+        "| 场景 | 总脉冲 (ps) | 确认 CLEAN 测度 (ps) | clean 时间覆盖率 | CLEAN 点（诊断） | ambiguous 点（诊断） | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |",
+        "|---|---:|---:|---:|---:|---:|---|---:|",
     ]
     for item in summaries:
-        lines.append("| {} | {:.1f} | {} | {} | {}/{} | {} |".format(
-            item["scenario_key"], item["total_pulse_ps"], item["clean_q1_sample_count"],
-            item["ambiguous_sample_count"], item["left_closed_by_stable_q0"],
-            item["right_closed_by_stable_q0"], item["maximum_non_guarantee_window_ps"],
+        clean_measure = item["guaranteed_clean_measure_ps"]
+        coverage = item["clean_time_coverage_fraction"]
+        lines.append("| {} | {:.1f} | {} | {} | {} | {} | {}/{} | {} |".format(
+            item["scenario_key"], item["total_pulse_ps"],
+            "N/A" if clean_measure is None else "{:.1f}".format(clean_measure),
+            "N/A" if coverage is None else "{:.2%}".format(coverage),
+            item["clean_q1_sample_count"], item["ambiguous_sample_count"],
+            item["left_closed_by_stable_q0"], item["right_closed_by_stable_q0"],
+            item["maximum_non_guarantee_window_ps"],
         ))
     lines.extend([
         "", "## 仿真账本", "",
@@ -2847,6 +2956,11 @@ def write_t0_5_progress_report(stage: str, summaries: Sequence[Mapping[str, Any]
             "- 本次 T0-5B：新增 HSPICE：{}；复用旧场景：{}；精确复用：{}；电气等价 source-hash 复用：{}。".format(
                 stats.get("new_this_stage", 0), stats.get("reused_this_stage", 0),
                 stats.get("reused_exact_this_stage", 0), stats.get("reused_electrical_this_stage", 0)),
+        ])
+    if "coverage_metric_refresh_hspice_scenarios" in stats:
+        lines.extend([
+            "- 本轮覆盖率区间测度重生成：HSPICE：{}；输入仅为已提交的 phase_coverage.csv。".format(
+                stats["coverage_metric_refresh_hspice_scenarios"]),
         ])
     path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -2975,9 +3089,15 @@ def publish_t0_5b_artifacts(rows: Sequence[Mapping[str, Any]], t0_5a_summary: Ma
         "reused_exact_this_stage": int(invocation_stats.get("reused_exact", 0)),
         "reused_electrical_this_stage": int(invocation_stats.get("reused_electrical", 0)),
     }
+    if "coverage_metric_refresh_hspice_scenarios" in invocation_stats:
+        # This key is present only for the CSV-only correction entry below.
+        # Keep it out of normal physical-run accounting so a reader cannot
+        # mistake a prior T0-5B HSPICE campaign for a zero-HSPICE phase.
+        combined_stats["coverage_metric_refresh_hspice_scenarios"] = int(
+            invocation_stats["coverage_metric_refresh_hspice_scenarios"])
     write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS, rows)
     result = {
-        "schema_version": 1, "study": STUDY, "stage": "T0-5 COMPLETE", "decision": decision,
+        "schema_version": 2, "study": STUDY, "stage": "T0-5 COMPLETE", "decision": decision,
         "new_hspice": combined_stats["new"], "reused": combined_stats["reused"],
         "reused_exact": combined_stats["reused_exact"], "reused_electrical": combined_stats["reused_electrical"],
         "reused_interrupted_t0_5a": combined_stats["reused_interrupted_t0_5a"],
@@ -2998,6 +3118,15 @@ def publish_t0_5b_artifacts(rows: Sequence[Mapping[str, Any]], t0_5a_summary: Ma
         },
         "reparsed": 0, "forbidden_flow_runs": 0, "scenarios": summaries,
     }
+    if "coverage_metric_refresh_hspice_scenarios" in combined_stats:
+        result["coverage_metric_refresh"] = {
+            "method": "closed_phase_interval_measure",
+            "clean_measure": "sum(CLEAN_Q1 interval widths)",
+            "coverage_fraction": "guaranteed_clean_measure_ps / characterized_phase_span_ps",
+            "non_guarantee": "characterized-domain complement of CLEAN_Q1 intervals, including state-transition gaps",
+            "input": "phase_coverage.csv",
+            "hspice_scenarios": combined_stats["coverage_metric_refresh_hspice_scenarios"],
+        }
     write_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json", result)
     gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
     gate = read_json(gate_path)
@@ -3059,15 +3188,15 @@ def phase_t0_5b() -> Dict[str, Any]:
 
 
 def phase_t0_5b_accounting_refresh() -> Dict[str, Any]:
-    """Refresh finished T0-5B publication fields with strictly zero HSPICE.
+    """Refresh completed T0-5 coverage metrics with strictly zero HSPICE.
 
     The entry is only for a completed ``T0-5 COMPLETE`` GO summary whose
     retained rows have already been simulated.  It reuses the stage-local
     counters written by the original invocation, rebuilds the compact
     intervals and Gate wording, and cannot reach ``execute`` or render a
-    deck.  It exists to correct reporting metadata such as a stale
-    ``GO_PENDING_T0_5B`` decision without ever changing the underlying
-    transistor-level evidence population.
+    deck.  It also corrects interval-based coverage summaries without ever
+    changing the underlying transistor-level evidence population.  It must
+    not derive cadence: T0-6 remains an independently authorized later phase.
     """
 
     require_dl()
@@ -3102,6 +3231,10 @@ def phase_t0_5b_accounting_refresh() -> Dict[str, Any]:
         "reused": int(t0_5b_accounting.get("reused", 0)),
         "reused_exact": int(t0_5b_accounting.get("reused_exact", 0)),
         "reused_electrical": int(t0_5b_accounting.get("reused_electrical", 0)),
+        # This command only reads the committed compact CSV and writes compact
+        # evidence.  The explicit zero makes the correction auditable without
+        # inferring it from the absence of a run directory.
+        "coverage_metric_refresh_hspice_scenarios": 0,
     })
 
 

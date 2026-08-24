@@ -4,16 +4,17 @@
 
 **T0-5 COMPLETE：GO**
 
-所有区间均为已采样相位格点边界；CLEAN_Q1 之外的 Q0 或 ambiguous 区间均不计入保证检测。
+时间覆盖率只使用左右 Q0 闭合相位域中的 CLEAN_Q1 区间宽度；CLEAN_Q1 样本数和 ambiguous 样本数仅为自适应扫描诊断。
+CLEAN_Q1 区间并集的补集均为非保证区域，包含 Q0、ambiguous 以及相邻不同状态采样点之间的边界间隙。
 
-| 场景 | 总脉冲 (ps) | CLEAN_Q1 点 | ambiguous 点 | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |
-|---|---:|---:|---:|---|---:|
-| t0_5a_0p95_l2_boundary | 1456.0 | 4 | 0 | True/True | 225.0 |
-| t0_5a_0p95_l2_long | 3002.0 | 12 | 0 | True/True | 2400.0 |
-| t0_5a_1p10_l2_boundary | 1190.0 | 4 | 0 | True/True | 225.0 |
-| t0_5a_1p10_l2_long | 3002.0 | 13 | 0 | True/True | 2450.0 |
-| t0_5b_0p95_l3_recovery | 2002.0 | 19 | 1 | True/True | 225.0 |
-| t0_5b_1p10_l1_recovery | 1502.0 | 22 | 1 | True/True | 150.0 |
+| 场景 | 总脉冲 (ps) | 确认 CLEAN 测度 (ps) | clean 时间覆盖率 | CLEAN 点（诊断） | ambiguous 点（诊断） | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |
+|---|---:|---:|---:|---:|---:|---|---:|
+| t0_5a_0p95_l2_boundary | 1456.0 | 525.0 | 52.50% | 4 | 0 | True/True | 250.0 |
+| t0_5a_0p95_l2_long | 3002.0 | 2075.0 | 43.68% | 12 | 0 | True/True | 2425.0 |
+| t0_5a_1p10_l2_boundary | 1190.0 | 525.0 | 52.50% | 4 | 0 | True/True | 250.0 |
+| t0_5a_1p10_l2_long | 3002.0 | 2325.0 | 46.50% | 13 | 0 | True/True | 2475.0 |
+| t0_5b_0p95_l3_recovery | 2002.0 | 875.0 | 70.00% | 19 | 1 | True/True | 250.0 |
+| t0_5b_1p10_l1_recovery | 1502.0 | 950.0 | 76.00% | 22 | 1 | True/True | 175.0 |
 
 ## 仿真账本
 
@@ -22,3 +23,4 @@
 - 未运行 H0、M0、M1、T0-2、T0-3 已有点或 T0-4 全量场景。
 - 本阶段未计算 T0-6 cadence；T0-6 是否解封只由当前 Gate 记录。
 - 本次 T0-5B：新增 HSPICE：64；复用旧场景：2；精确复用：0；电气等价 source-hash 复用：2。
+- 本轮覆盖率区间测度重生成：HSPICE：0；输入仅为已提交的 phase_coverage.csv。
