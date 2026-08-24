@@ -331,28 +331,16 @@
       }
     }
   ],
-  "gate": "SHARED_SENSOR_CADENCE_FIXED_FALL_FAIL",
-  "next_action": "continue_to_BR1R_fall_retiming",
-  "probe_period_ps": 2075.0,
-  "retained_timing_inventory": {
-    "can_prove_repeated_sensor_rearm": false,
-    "m0_listing_count": 91,
-    "m0_measurement_count": 91,
-    "m0_tr0_count": 0,
-    "reason": "retained evidence is scalar single-probe data with no waveform and no second S_CLK launch",
-    "t0_listing_count": 515,
-    "t0_measurement_count": 514,
-    "t0_tr0_count": 0
-  },
+  "fall_offset_ps": 1687.575705,
   "schema_version": 1,
-  "sclk_fall_offset_ps": 1687.575705,
   "simulation_accounting": {
     "electrically_equivalent_reuse_scenarios": 0,
     "forbidden_flow_runs": 0,
-    "new_hspice_scenarios": 2,
-    "reparsed_hspice_scenarios": 0,
-    "reused_hspice_scenarios": 2
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 2,
+    "reused_hspice_scenarios": 0
   },
-  "stage": "D0-BR1",
+  "source": "D0-BR1 retained listings",
+  "stage": "D0-BR1R",
   "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
 }

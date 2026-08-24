@@ -5,7 +5,7 @@
 本计划替代本文件上一版“直接从双 capture bank 开始评审”的推进方式，但保留其历史提交作为证据。最新权威入口提交为：
 
 ```text
-214519931e381e5065862119b918e1132c69a0e0
+8c81a5eab4d555141741756a0cc6de13ce8702a5
 ```
 
 D0-A 已发布：
@@ -267,22 +267,31 @@ rise1 后第二个 rising probe 的 D_ref 是否仍定义清晰
 
 S_CLK fall 时刻必须由已有物理事件完成时间构造，不允许做 broad duty-cycle sweep。若只有靠极窄、相互重叠的 rising/falling wavefront 才能勉强工作，则分类为 `TIMING_FRAGILE`，不要继续 capture-bank 实现。
 
-## 6.4 Gate
+## 6.4 固定占空比 Gate
 
 只允许以下结果：
 
 ```text
-SHARED_SENSOR_CADENCE_GO
+SHARED_SENSOR_CADENCE_FIXED_FALL_GO
     同一个 sensing path 可以在 <=2075 ps successive launches 下可靠 re-arm。
 
-SHARED_SENSOR_TIMING_FRAGILE
-    功能上勉强存在，但依赖极小 re-arm/wavefront margin；停止并升级架构。
+SHARED_SENSOR_CADENCE_FIXED_FALL_FAIL
+    已绑定的固定 ``S_CLK fall offset`` 不能使连续 launch 分离；这只是否定该占空比，
+    不是对全部合法 fall timing 的物理否定。
 
-SHARED_SENSOR_CADENCE_FAIL
-    sensing path 本身不能达到 2075 ps；capture-bank-only 路线立即终止。
+SHARED_SENSOR_TIMING_FRAGILE
+    功能上勉强存在，但依赖极小 re-arm/wavefront margin；同样只是否定该固定占空比，
+    必须进入 D0-BR1R，不得进入 capture-bank。
+
+SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED
+    在 D0-BR1R 的有限、物理导出的 fall retiming 搜索内，两个正式 target 均无法令三组
+    波前在 2075 ps 周期内分离；capture-bank-only 路线立即终止。
 ```
 
-若 FAIL/FRAGILE，下一步不是继续做 pulse stretcher，而是另立 **multi-sensor-lane interleave** 计划，并根据实际 `P_sensor_verified` 计算：
+`SHARED_SENSOR_CADENCE_FIXED_FALL_FAIL` 或固定占空比的 `SHARED_SENSOR_TIMING_FRAGILE`
+必须先进入 D0-BR1R；不得仅凭固定占空比结果进入 multi-sensor-lane 或 capture bank。
+只有 `SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED` 才进入独立 **multi-sensor-lane interleave**
+计划，并根据实际 `P_sensor_verified` 计算：
 
 ```text
 N_sensor_min = ceil(P_sensor_verified / 2075 ps)
@@ -292,7 +301,89 @@ N_sensor_min = ceil(P_sensor_verified / 2075 ps)
 
 ---
 
-# 7. D0-BR2：合法 capture event 形成结构筛选【仅 BR1=GO，0 HSPICE】
+## 6.5 D0-BR1R：固定拓扑的有限 S_CLK falling-edge retiming【优先复用；最多 6 个新 HSPICE】
+
+### 6.5.1 目的与冻结边界
+
+BR1 的 `1687.575705 ps` fall offset 是由已测 primary raw-CK fall 加 25 ps 得出的单一
+保守占空比。它产生 wavefront collision 时，只能说明该固定 fall 时刻失败，不能直接说明
+共享 sensing path 在所有合法 source 高/低时间分配下都不能满足 2075 ps。
+
+BR1R 唯一允许改变的是第一笔 source 的 falling edge：
+
+```text
+S_CLK rise0  = 冻结 T0 launch
+S_CLK rise1  = rise0 + 2075 ps（严格不变）
+S_CLK fall0  = rise0 + one approved retiming offset
+M/F、4-RVT/0-LVT/tap29/XOR/medium N=16/fine K=10/DFF input load 均不变
+```
+
+capture DFF 继续保持 reset asserted，只保留真实 D/CK 负载；不得加入 pulse legalizer、
+capture bank、runtime FSM、sensor copy 或任何理想 delay。不得重跑 M0/T0/H0/M1/RF/XA。
+
+### 6.5.2 先复用既有 BR1 证据【0 HSPICE】
+
+对两个 retained `1687.575705 ps` deck/listing 重新解析。禁止再按全局 `rise1/rise2/rise3`
+序号把事件直接当作 probe0/probe1；必须按 source 因果时间窗分成：
+
+```text
+[rise0, fall0)  : probe0 rising-wave event
+[fall0, rise1)  : falling-wave event
+[rise1, stop)   : probe1 rising-wave event
+```
+
+每一窗分别报告 `xor_29`、`medium_out`、`raw_dff_ck` 的 rise/fall count、完整事件时间、
+以及同一窗口内 `D_ref = t(raw_dff_ck rise) - t(xor_29 rise)`。falling-wave 的任一敏感
+node crossing 落到 `rise1` 以后，都必须标为 collision，不能误配成 probe1。
+
+### 6.5.3 有限 retiming 集合【最多 6 个新 HSPICE】
+
+只使用已有 BR1 两个正式 target，并对两个 target 使用同一组三个 source high-width：
+
+```text
+750 ps   = 已有两个 target 中最慢 probe0 XOR rise 后 100 ps 的 25 ps 网格点
+1000 ps  = 750 ps 与 1250 ps 的唯一中点
+1250 ps  = 已有两个 target 中最慢 probe0 raw_dff_ck rise 后 100 ps 的 25 ps 网格点
+```
+
+这不是 duty-cycle sweep：三个点分别检查 probe0 XOR 已建立、两条波前之间的中间释放、以及
+probe0 raw CK 已建立后的释放。BR1 已有的 `1687.575705 ps` retained deck 是“primary raw CK
+fall 后释放”端点证据，只重解析、不重跑。BR1R 因此最多新增 `3 offsets × 2 targets = 6`
+个 task-owned HSPICE scenarios；不得添加第三个电压、M/F code、phase、hold 或拓扑变体。
+
+每个新 deck 必须观测至少六个 rise 和六个 fall crossing，避免隐藏第四个边沿。输出只能保留
+在 `delay_chain/ftc/runs/d0_interleaved_capture/br1r_fall_retiming/`。
+
+### 6.5.4 因果 Gate
+
+单个 target/offset 只有同时满足以下条件才是 `CAUSAL_WINDOW_PASS`：
+
+1. 三个 source 窗口内每个 sensitive node 恰有一个完整 rise/fall event；
+2. probe0 event 在 `fall0` 前结束，falling-wave event 在 `rise1` 前结束；
+3. probe1 event 在 `rise1` 后完整传播到 XOR、medium、raw_dff_ck，且没有被此前 falling-wave 吞并；
+4. 三个窗口各自的 raw `D_ref` 定义、为正；
+5. probe1 与 probe0 的 raw `D_ref` 差值不超过既有 T0 25 ps boundary-resolution；
+6. 每一相邻窗口有至少 25 ps 的 event-completion margin。
+
+若同一个 retiming offset 在两个正式 target 都 `CAUSAL_WINDOW_PASS`，发布：
+
+```text
+SHARED_SENSOR_CADENCE_RETIMING_GO
+```
+
+此时只授权进入 D0-BR2 的合法 capture event/pulse legalizer 研究，仍不授权 bank 或 runtime
+FSM。若三点及 retained fixed-fall endpoint 均无法在两个 target 满足 Gate，发布：
+
+```text
+SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED
+```
+
+并另立 multi-sensor-lane 计划；`P_sensor_verified` 未经更长周期证据不得填写，
+`N_sensor_min` 不得伪造为数字。
+
+---
+
+# 7. D0-BR2：合法 capture event 形成结构筛选【仅 BR1R=RETIMING_GO，0 HSPICE】
 
 ## 7.1 目标
 
@@ -742,7 +833,7 @@ D0_INTERLEAVED_CAPTURE_GO
 
 必须同时满足：
 
-1. shared sensing path 在 successive launch <=2075 ps 下物理可 re-arm；
+1. BR1R 已在同一 fall timing 下证明两个正式 target 的 shared sensing path 在 successive launch <=2075 ps 下物理可 re-arm；
 2. raw 301~520 ps capture event 已转换为正式 timing-check 合法的 bank CK；
 3. legal CK high/low 均满足 1 ns，且有报告的真实 margin；
 4. `Delta_t_rise` 已量化，未被隐藏；
@@ -769,7 +860,7 @@ delay_chain/ftc/reports/FTC_D0_INTERLEAVED_CAPTURE_ARCHITECTURE_CLOSURE.md
 若任何一项失败，最终状态按根因只能是：
 
 ```text
-SHARED_SENSOR_CADENCE_FAIL
+SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED
 CAPTURE_EVENT_ARCHITECTURE_BLOCKED
 TIMING_FRAGILE
 CALIBRATION_COMPATIBILITY_FAIL
@@ -782,9 +873,10 @@ ARCHITECTURE_ESCALATION_REQUIRED
 
 ---
 
-# 13. 若 shared sensor 失败，正确的下一层架构是什么
+# 13. 若 BR1R 证明 shared sensor 物理阻塞，正确的下一层架构是什么
 
-如果 BR1 已证明同一个 sensing path 不能每 2075 ps re-arm，则本计划立即结束。
+只有 BR1R 已在其有限且物理导出的共同 fall timing 集合内证明两个正式 target 都无法在
+2075 ps 分离三组波前，才认为同一个 sensing path 物理阻塞并结束本计划。
 
 此时必须承认：
 
@@ -830,6 +922,10 @@ delay_chain/ftc/analysis/d0_interleaved_capture/
 ├── br1_shared_sensor_cadence/
 │   ├── retained_timing_inventory.json
 │   ├── shared_sensor_cadence_contract.json
+│   └── diagnostic_manifest.json
+├── br1r_fall_retiming/
+│   ├── retained_fixed_fall_causal_reanalysis.json
+│   ├── retiming_search_contract.json
 │   └── diagnostic_manifest.json
 ├── br2_capture_event_legalizer/
 │   ├── candidate_screen.json
@@ -877,10 +973,12 @@ D0-BR0  冻结权威输入                              0 HSPICE
         v
 D0-BR1  共享 sensing path 能否 <=2075 ps re-arm    先 0 HSPICE；必要时最多2点
         |
-        +-- FAIL/FRAGILE --> 停止，另立 multi-sensor-lane plan
+        +-- FIXED_FALL_FAIL --> D0-BR1R（固定拓扑 fall retiming，最多3 offsets×2 targets）
+        |                           |
+        |                           +-- PHYSICALLY_BLOCKED --> 停止，另立 multi-sensor-lane plan
         |
         v
-D0-BR2  合法 capture event/pulse legalizer 筛选     0 HSPICE
+D0-BR2  合法 capture event/pulse legalizer 筛选     仅 BR1R=RETIMING_GO，0 HSPICE
         |
         +-- BLOCKED --> 停止
         |
@@ -918,4 +1016,4 @@ D0-BR7  D0_INTERLEAVED_CAPTURE_GO
 
 # 16. 给 Codex 的最高优先级防跑偏原则
 
-> **不要把“DFF 的 raw CK 太窄”直接等价为“加两个 DFF 就解决”。先证明共享 RVT/LVT/XOR/medium/fine sensing path 自身能够每 2.075 ns 重新装载；若 sensing path 做不到，立即停止 capture-bank 路线并升级到 sensor-lane interleave。只有共享 sensing path 通过后，才研究最小标准单元 pulse legalizer，并优先保持 raw dff_ck 的上升沿语义、只延后 falling edge；任何新增 legalizer/bank 都必须量化对 xor_29、raw dff_ck 和有效 capture rise 的负载与延迟偏移。再用正式 CK/reset/recovery timing check 计算 capture context 数量，不允许用复杂 FSM 压缩物理恢复。最后必须对修改后的最终架构重新闭合两个正式 L2/3002 ps target 的 CLEAN_Q1 phase boundary 并重新计算 Pmax；旧 T0 的 2075 ps 不能未经重新资格化直接继承。整个过程中优先复用历史 listing/JSON，只有新的拓扑或连续 probe 物理问题才运行最小 HSPICE，绝不重跑已有完整 campaign。**
+> **不要把“DFF 的 raw CK 太窄”直接等价为“加两个 DFF 就解决”，也不要把一个固定 S_CLK 占空比失败直接等价为共享 sensor 物理失败。先以 source 因果时间窗重新解释既有 BR1 evidence；只有 BR1R 在冻结 topology、M/F 与 2075 ps 周期下找不到共同的无碰撞 fall timing，才停止 capture-bank 路线并升级到 sensor-lane interleave。共享 sensing path 通过后，才研究最小标准单元 pulse legalizer，并优先保持 raw dff_ck 的上升沿语义、只延后 falling edge；任何新增 legalizer/bank 都必须量化对 xor_29、raw dff_ck 和有效 capture rise 的负载与延迟偏移。再用正式 CK/reset/recovery timing check 计算 capture context 数量，不允许用复杂 FSM 压缩物理恢复。最后必须对修改后的最终架构重新闭合两个正式 L2/3002 ps target 的 CLEAN_Q1 phase boundary 并重新计算 Pmax；旧 T0 的 2075 ps 不能未经重新资格化直接继承。整个过程中优先复用历史 listing/JSON，只有新的 topology 或连续 probe 物理问题才运行最小 HSPICE，绝不重跑已有完整 campaign。**

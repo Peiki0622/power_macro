@@ -32,7 +32,7 @@
     },
     "d0br_plan": {
       "path": "../../plans/ftc_d0b_interleaved_capture_architecture_plan.md",
-      "sha256": "c345e10f565f1f09f75512aece7f1e72fbdd77c4366d35438d11ca6a81d1a42b"
+      "sha256": "a83e0ad11c85a221ea00f50e2e083b82252f7bd9ff0124d1ecf64c3d8875ccda"
     },
     "h0_downstream_handoff": {
       "path": "controller/h0_calibration_detection_handoff/contract/downstream_detection_handoff.json",

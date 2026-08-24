@@ -1,0 +1,31 @@
+{
+  "approved_common_fall_offsets_ps": [
+    750.0,
+    1000.0,
+    1250.0
+  ],
+  "forbidden_flow_runs": [
+    "M0_campaign",
+    "T0_campaign",
+    "H0",
+    "M1",
+    "RF",
+    "XA",
+    "capture_bank"
+  ],
+  "formal_targets": [
+    "br1_0p95_l2_repeated_sensor",
+    "br1_1p10_l2_repeated_sensor"
+  ],
+  "frozen": [
+    "probe_period_2075ps",
+    "M_F_codes",
+    "sensor_topology",
+    "DFF_input_load"
+  ],
+  "new_hspice_scenario_limit": 6,
+  "reused_fixed_fall_scenarios": 2,
+  "schema_version": 1,
+  "stage": "D0-BR1R",
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+}

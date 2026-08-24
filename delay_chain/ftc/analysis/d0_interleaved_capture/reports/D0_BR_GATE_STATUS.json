@@ -1,21 +1,21 @@
 {
-  "decision": "SHARED_SENSOR_CADENCE_FAIL",
+  "decision": "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED",
   "forbidden_after_failure": [
     "capture_event_legalizer",
     "capture_bank",
     "runtime_fsm",
     "sensor_lane_copy_in_this_plan"
   ],
-  "reason": "shared sensing path did not close 2075 ps re-arm before any capture-bank topology was authorised",
+  "reason": "no approved common fall timing separated probe0, falling-wave and probe1 events at 2075 ps",
   "required_next_plan": "multi_sensor_lane_interleave_architecture_plan",
   "schema_version": 1,
   "simulation_accounting": {
     "electrically_equivalent_reuse_scenarios": 0,
     "forbidden_flow_runs": 0,
-    "new_hspice_scenarios": 2,
-    "reparsed_hspice_scenarios": 0,
-    "reused_hspice_scenarios": 2
+    "new_hspice_scenarios": 6,
+    "reparsed_hspice_scenarios": 2,
+    "reused_hspice_scenarios": 6
   },
   "study": "ftc_d0b_interleaved_capture_architecture_closure_v1",
-  "terminal_stage": "D0-BR1"
+  "terminal_stage": "D0-BR1R"
 }

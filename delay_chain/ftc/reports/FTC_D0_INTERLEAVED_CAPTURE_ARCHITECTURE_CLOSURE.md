@@ -1,18 +1,21 @@
 # FTC D0-BR 合法捕获与交错架构闭合
 
-## 最终 Gate
+## BR1R Gate
 
-**SHARED_SENSOR_CADENCE_FAIL**。BR1 已在两个正式 T0 L2 / 3002 ps target 点直接检查共享 RVT/LVT/XOR/medium/fine sensing path 的 2075 ps re-arm；该 Gate 在任何 pulse legalizer、capture bank 或 D0 runtime RTL 之前执行。
+**SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED**。原 BR1 的 `1687.575705 ps` fixed-fall result被重新解释为单一 S_CLK 占空比证据；BR1R 在保持 2075 ps probe period、正式 M/F、真实 sensor/DFF input load 和所有既有 topology 不变的前提下，只重定时第一笔 S_CLK fall。
 
-## 结论边界
+## 范围与方法
 
-- D0-A 的窄 raw `dff_ck` 根因和 T0 的 2075 ps / 100% CLEAN_Q1 要求均未修改。
-- 本轮只执行 BR1 允许的两项 task-owned sensor-only HSPICE diagnostics；未重跑 M0、T0、H0、M1、RF 或 XA。
-- capture-bank-only 不能隐藏 sensing path 自身的 re-arm 限制，因此本计划在 BR1 正确终止；后续必须另立 multi-sensor-lane interleave 计划。
+- 已重解析两个 retained BR1 listing，按测得的 `rise0 -> fall0 -> rise1` 三个因果窗口归属 XOR、medium、raw CK crossing；未按全局 `rise1/rise2/rise3` 序号配对 probe。
+- 新运行只允许共同的 750、1000、1250 ps fall offset 与两个正式 L2/3002 ps target；没有 M0/T0/H0/M1/RF/XA campaign，也没有任何 legalizer、capture bank、runtime FSM 或 sensor copy。
+- 单一 target 只有在三窗口各 node 均为一个完整 rise/fall、falling-wave 在 rise1 前清空、probe1 D_ref 完整且与 probe0 相差不超过 25 ps 时才通过。
 
-## BR1 物理观测
+## 有限 retiming 结果
 
-- `br1_0p95_l2_repeated_sensor`: medium=3, raw_ck=3, xor=3; D_ref0/D_ref1=495.249981 / 496.249353 ps。
-- `br1_1p10_l2_repeated_sensor`: medium=2, raw_ck=2, xor=3; D_ref0/D_ref1=324.726837 / 325.294157 ps。
+- fall0 offset 750.0 ps：br1_0p95_l2_repeated_sensor=CAUSAL_WINDOW_FAIL, br1_1p10_l2_repeated_sensor=CAUSAL_WINDOW_FAIL；共同 Gate=CAUSAL_WINDOW_FAIL。
+- fall0 offset 1000.0 ps：br1_0p95_l2_repeated_sensor=CAUSAL_WINDOW_FAIL, br1_1p10_l2_repeated_sensor=CAUSAL_WINDOW_FAIL；共同 Gate=CAUSAL_WINDOW_FAIL。
+- fall0 offset 1250.0 ps：br1_0p95_l2_repeated_sensor=CAUSAL_WINDOW_FAIL, br1_1p10_l2_repeated_sensor=CAUSAL_WINDOW_FAIL；共同 Gate=CAUSAL_WINDOW_FAIL。
 
-`P_sensor_verified_ps` 仍为 `null`：本轮只证明 2075 ps 不可用，没有执行未经授权的更长周期搜索。因此也不能把 `N_sensor_min` 写成一个伪精确数字。
+## 后续边界
+
+两个正式 target 在规定的共同 retiming 集合内均未闭合；后续必须另立 multi-sensor-lane 计划。`P_sensor_verified_ps` 与 `N_sensor_min` 保持 `null`。
