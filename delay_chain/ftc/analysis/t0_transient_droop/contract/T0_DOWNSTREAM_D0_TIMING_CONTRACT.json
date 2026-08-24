@@ -1,0 +1,25 @@
+{
+  "below_floor_requirement": {
+    "condition": "VDD_MONITORED < 0.80 V",
+    "precise_timing_trip_allowed": false,
+    "required_semantics": [
+      "heartbeat",
+      "stuck_q",
+      "timeout",
+      "no_valid_detection_result"
+    ]
+  },
+  "decision": "BLOCKED_BY_T0_STOP",
+  "precise_timing_detection_range": {
+    "minimum_vdd_v": 0.8,
+    "status": "not_extended_below_floor"
+  },
+  "runtime_probe_period": {
+    "maximum_period_s": null,
+    "reason": "T0-3_and_later_phases_blocked_by_T0-2",
+    "status": "not_qualified"
+  },
+  "schema_version": 1,
+  "source_gate": "T0-2",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+}

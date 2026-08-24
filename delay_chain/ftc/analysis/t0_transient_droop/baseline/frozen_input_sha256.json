@@ -1,0 +1,28 @@
+{
+  "contract_sha256": "acadab42fc898dded8c7eca3db3331a051d5ccabcd8a09451f6d1ab286af651c",
+  "implementation_git_head": "7943453b52efaddac75ef45bb05f84720070ec43",
+  "plan_input_baseline": "46ebf25e9bb15aba29be23f79e8aa3ed8b8ad474",
+  "schema_version": 1,
+  "simulation_accounting": {
+    "forbidden": 0,
+    "new_hspice": 0,
+    "reparsed": 0,
+    "reused": 0
+  },
+  "source_hash": "468db0c2c5cf82b31f97b9ebaa1121a0a400ba850ab95c7b9cbdcaf933a1cc98",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "topology_checks": {
+    "fine_driver_is_only_dff_clock_path": true,
+    "finite_vdd_pwl": true,
+    "k10_fine_load": true,
+    "medium_input_is_xor": true,
+    "n16_medium": true,
+    "no_forbidden_hardware": true,
+    "no_ideal_delay_or_capacitor": true,
+    "pwl_no_zero_slope": true,
+    "real_dff_two_reads": true,
+    "requested_codes_legal": true,
+    "tap29_real_xor": true,
+    "xor_is_dff_data": true
+  }
+}

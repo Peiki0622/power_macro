@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "plan_input_baseline": "46ebf25e9bb15aba29be23f79e8aa3ed8b8ad474",
+  "implementation_git_head": "7943453b52efaddac75ef45bb05f84720070ec43",
+  "formal_scope": {
+    "baseline_vdd_v": [0.95, 1.1],
+    "margin_levels": ["L1", "L2", "L3"],
+    "excluded_margin_levels": ["L0"],
+    "formal_minimum_vdd_v": 0.8,
+    "below_minimum_semantics": "fail_safe_only"
+  },
+  "phase_definition": {
+    "reference_event": "single_probe_S_CLK_rising_edge",
+    "phase_zero_ps": 0.0,
+    "phase_sign": "positive_means_supply_fall_starts_after_reference_event",
+    "absolute_start_formula": "probe_timing.launch_time_s + phase_ps * 1e-12"
+  },
+  "waveform": {
+    "shape": "finite_slope_trapezoid_pwl",
+    "parameters": ["Vbase", "DeltaV", "Vdroop", "t_fall", "t_hold", "t_rise", "phase"],
+    "primary_slew_ps": {
+      "t_fall_ps": 1.0,
+      "t_rise_ps": 1.0,
+      "status": "study_assumption_only"
+    },
+    "secondary_slew_ps": {
+      "t_fall_ps": 10.0,
+      "t_rise_ps": 10.0,
+      "status": "sensitivity_check_only"
+    },
+    "zero_time_voltage_jump_forbidden": true,
+    "minimum_hold_ps": 1.0,
+    "minimum_vdroop_v": 0.8
+  },
+  "decision": {
+    "authoritative_decision": "real_dff_q_two_sample_stable_state",
+    "q_samples_required": 2,
+    "residual_definition": "R_ps = W_xor_ps - D_ref_ps",
+    "residual_role": "diagnostic_only"
+  },
+  "frozen_inputs": {
+    "run_m0_detection_margin_characterization.py": "66a36ad7980bda3487c573bda9f0a9727caade5f2a762712b03cc9fc588172c1",
+    "run_dynamic_startup_calibration_protocol.py": "77db55003d7394394981e4065fb474b0ab356de116af9555882e3df5847be6a5",
+    "m0_trip_sweep.csv": "a00f2ab733f17e32333b7b5d43a0f4d32d4e863907e728660af60e1579d7489e",
+    "m0_trip_summary.json": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
+    "m0_candidate_summary.csv": "f37e4ece14dfecbdaa0260bb51aa8218794541b3743144bb66b26b88f52e2c65",
+    "m1_downstream_t0_d0_handoff.json": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5"
+  },
+  "forbidden_work": [
+    "rerun_H0_or_H0_E",
+    "rerun_full_startup_calibration",
+    "rerun_M0_static_surface_or_trip_sweep",
+    "rerun_M0_E",
+    "rerun_M1_RTL_SVA_synthesis_mapped_SDF_or_STA",
+    "rerun_RF_or_XA_flow",
+    "modify_frozen_sensor_or_control_RTL",
+    "dynamic_recalibration",
+    "PVT_Monte_Carlo_post_layout",
+    "D0_runtime_detector_RTL"
+  ],
+  "simulation_accounting": {
+    "new_hspice_scenarios": 0,
+    "reused_old_scenarios": 0,
+    "reparsed_old_scenarios": 0,
+    "forbidden_flow_runs": 0
+  }
+}

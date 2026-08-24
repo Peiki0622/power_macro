@@ -1,0 +1,13 @@
+{
+  "candidate_count": 6,
+  "decision": "STOP",
+  "failures": [
+    "t0__b0p95__L2__dv80p0__h4488p999__pm1489p999__1e0e11cf018effbf605a",
+    "t0__b0p95__L3__dv110p0__h4488p999__pm1489p999__668d7c59e0508bf178d9",
+    "t0__b1p1__L1__dv80p0__h4488p999__pm1489p999__d6adaf56bdad7a1a79f2",
+    "t0__b1p1__L2__dv130p0__h4488p999__pm1489p999__6ba809a2a5f257d46a16"
+  ],
+  "new_hspice": 12,
+  "reused": 0,
+  "scenario_count": 12
+}

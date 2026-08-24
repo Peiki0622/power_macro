@@ -1,0 +1,19 @@
+{
+  "blocked_later_stages": [
+    "T0-3",
+    "T0-4",
+    "T0-5",
+    "T0-6"
+  ],
+  "completed_non_electrical_stage": "T0-7 fail-safe boundary and T0-8 terminal evidence",
+  "decision": "NO-GO / STOP",
+  "forbidden_flow_runs": 0,
+  "long_pulse_summary": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/t0_transient_droop/long_pulse_consistency/summary.json",
+  "new_hspice_scenarios_total": 62,
+  "reparsed_old_scenarios": 0,
+  "reused_old_scenarios": 0,
+  "schema_version": 1,
+  "stop_reason": "long_pulse_static_to_transient_consistency_failed",
+  "stop_stage": "T0-2",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+}
