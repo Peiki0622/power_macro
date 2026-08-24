@@ -2803,7 +2803,20 @@ def t0_5a_logical_stage_stats(rows: Sequence[Mapping[str, Any]]) -> Dict[str, in
 
 def write_t0_5_progress_report(stage: str, summaries: Sequence[Mapping[str, Any]], stats: Mapping[str, int],
                                decision: str) -> Path:
-    """Write an interim physical-status report without pre-claiming cadence."""
+    """Write a phase-coverage report with stage-scoped and total accounting.
+
+    T0-5A can be resumed, while T0-5B is a separately authorized physical
+    supplement.  The caller therefore supplies the accounting appropriate to
+    the report it is publishing: the normal fields describe the complete
+    evidence set represented by the summary, and optional ``*_this_stage``
+    fields record only the invocation that just finished.  Keeping both views
+    prevents the final T0-5 report from accidentally describing T0-5A's
+    retained runs as if they were newly simulated during T0-5B.
+
+    This writer intentionally never derives cadence.  Releasing T0-6 is a
+    Gate state change only; its 0-HSPICE mathematical mapping remains a later
+    phase and must not be pre-claimed by a coverage progress report.
+    """
 
     lines = [
         "# FTC T0-5 单 probe 时间覆盖进展报告", "", "## 阶段判定", "", "**{}：{}**".format(stage, decision), "",
@@ -2819,13 +2832,22 @@ def write_t0_5_progress_report(stage: str, summaries: Sequence[Mapping[str, Any]
         ))
     lines.extend([
         "", "## 仿真账本", "",
-        "- 新增 HSPICE：{}；精确复用：{}；电气等价 source-hash 复用：{}。".format(
+        "- 本报告覆盖的 T0-5 证据：新增 HSPICE：{}；精确复用：{}；电气等价 source-hash 复用：{}。".format(
             stats.get("new", 0), stats.get("reused_exact", 0), stats.get("reused_electrical", 0)),
-        "- 同一逻辑 T0-5A 阶段因进程恢复而重解析的既有 T0-5A 点：{}；唯一物理场景总数：{}。".format(
+        "- T0-5A 因进程恢复而保留并重解析的既有点：{}；本报告唯一物理场景总数：{}。".format(
             stats.get("reused_interrupted_t0_5a", 0), stats.get("unique_physical_scenario_count", 0)),
         "- 未运行 H0、M0、M1、T0-2、T0-3 已有点或 T0-4 全量场景。",
-        "- T0-6 cadence 仍未计算，除非本阶段 gate 已完成并解封。",
+        "- 本阶段未计算 T0-6 cadence；T0-6 是否解封只由当前 Gate 记录。",
     ])
+    # A complete T0-5 report needs to preserve the small T0-5B delta as well
+    # as the aggregate.  T0-5A reports do not carry these optional fields and
+    # consequently retain their concise, single-stage ledger above.
+    if "new_this_stage" in stats:
+        lines.extend([
+            "- 本次 T0-5B：新增 HSPICE：{}；复用旧场景：{}；精确复用：{}；电气等价 source-hash 复用：{}。".format(
+                stats.get("new_this_stage", 0), stats.get("reused_this_stage", 0),
+                stats.get("reused_exact_this_stage", 0), stats.get("reused_electrical_this_stage", 0)),
+        ])
     path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return path
@@ -2912,42 +2934,175 @@ def phase_t0_5a_accounting_refresh() -> Dict[str, Any]:
     })
 
 
+def publish_t0_5b_artifacts(rows: Sequence[Mapping[str, Any]], t0_5a_summary: Mapping[str, Any],
+                            invocation_stats: Mapping[str, int]) -> Dict[str, Any]:
+    """Publish the complete T0-5 result without scheduling any HSPICE run.
+
+    The physical scanner and the narrowly scoped post-run refresh share this
+    writer.  Both consume the already retained CSV rows and may only derive
+    four-state intervals, accounting, report text, and Gate fields from those
+    rows.  This division is important after a metadata-only correction: an
+    evidence refresh must never be capable of appending a phase point or
+    invoking HSPICE a second time.
+    """
+
+    required_t0_5a_fields = (
+        "new_hspice", "reused", "reused_exact", "reused_electrical",
+        "reused_interrupted_t0_5a", "unique_physical_scenario_count",
+    )
+    missing_t0_5a_fields = [field for field in required_t0_5a_fields if field not in t0_5a_summary]
+    if missing_t0_5a_fields:
+        raise RuntimeError("T0-5B publication lacks T0-5A accounting: {}".format(
+            ", ".join(missing_t0_5a_fields)))
+    summaries = summarize_t0_5_rows(rows)
+    keys = [item["scenario_key"] for item in T0_5A_SPECS + T0_5B_SPECS]
+    decision = "GO" if t0_5_gate_ok(summaries, keys) else "STOP_T0_5B"
+    combined_stats = {
+        # Aggregate totals span the two plan-defined substages.  A reused
+        # T0-4 special-boundary listing is not counted as a new T0-5 HSPICE
+        # run because ``stats[\"new\"]`` changes only when this invocation
+        # actually launches the container-local simulator.
+        "new": int(t0_5a_summary["new_hspice"]) + int(invocation_stats.get("new", 0)),
+        "reused": int(t0_5a_summary["reused"]) + int(invocation_stats.get("reused", 0)),
+        "reused_exact": int(t0_5a_summary["reused_exact"]) + int(invocation_stats.get("reused_exact", 0)),
+        "reused_electrical": int(t0_5a_summary["reused_electrical"]) + int(invocation_stats.get("reused_electrical", 0)),
+        "reused_interrupted_t0_5a": int(t0_5a_summary["reused_interrupted_t0_5a"]),
+        "unique_physical_scenario_count": len({str(row["scenario_path"]) for row in rows}),
+        # These four values make the supplementary run independently auditable
+        # without conflating it with the retained T0-5A population above.
+        "new_this_stage": int(invocation_stats.get("new", 0)),
+        "reused_this_stage": int(invocation_stats.get("reused", 0)),
+        "reused_exact_this_stage": int(invocation_stats.get("reused_exact", 0)),
+        "reused_electrical_this_stage": int(invocation_stats.get("reused_electrical", 0)),
+    }
+    write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS, rows)
+    result = {
+        "schema_version": 1, "study": STUDY, "stage": "T0-5 COMPLETE", "decision": decision,
+        "new_hspice": combined_stats["new"], "reused": combined_stats["reused"],
+        "reused_exact": combined_stats["reused_exact"], "reused_electrical": combined_stats["reused_electrical"],
+        "reused_interrupted_t0_5a": combined_stats["reused_interrupted_t0_5a"],
+        "unique_physical_scenario_count": combined_stats["unique_physical_scenario_count"],
+        "t0_5a_accounting": {
+            "new_hspice": int(t0_5a_summary["new_hspice"]),
+            "reused": int(t0_5a_summary["reused"]),
+            "reused_exact": int(t0_5a_summary["reused_exact"]),
+            "reused_electrical": int(t0_5a_summary["reused_electrical"]),
+            "reused_interrupted_t0_5a": int(t0_5a_summary["reused_interrupted_t0_5a"]),
+            "unique_physical_scenario_count": int(t0_5a_summary["unique_physical_scenario_count"]),
+        },
+        "t0_5b_accounting": {
+            "new_hspice": combined_stats["new_this_stage"],
+            "reused": combined_stats["reused_this_stage"],
+            "reused_exact": combined_stats["reused_exact_this_stage"],
+            "reused_electrical": combined_stats["reused_electrical_this_stage"],
+        },
+        "reparsed": 0, "forbidden_flow_runs": 0, "scenarios": summaries,
+    }
+    write_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json", result)
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({
+        # T0-5 itself is now complete, but no cadence mathematics has been
+        # performed.  A GO here therefore unlocks T0-6 rather than claiming
+        # final T0 completion or any D0 runtime-period qualification.
+        "decision": "GO_PENDING_T0_6" if decision == "GO" else "NO-GO / STOP",
+        "stop_stage": None if decision == "GO" else "T0-5B",
+        "stop_reason": None if decision == "GO" else "t0_5b_special_recovery_edge_phase_window_gate_not_met",
+        "t0_5b_status": decision,
+        "t0_5_status": "GO" if decision == "GO" else "STOP_T0_5B",
+        "t0_6_status": "ENABLED" if decision == "GO" else "WAITING_FOR_T0_5_GATE",
+        "t0_8_status": "WAITING_FOR_T0_6" if decision == "GO" else "WAITING_FOR_T0_5_T0_6",
+        "blocked_later_stages": ["T0-8"] if decision == "GO" else ["T0-6", "T0-8"],
+        "t0_5_summary": str((ANALYSIS / "phase_coverage" / "phase_coverage_summary.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    write_t0_5_progress_report("T0-5 COMPLETE", summaries, combined_stats, decision)
+    if decision != "GO":
+        raise RuntimeError("T0-5B STOP: special recovery-edge phase window gate not met")
+    return result
+
+
 def phase_t0_5b() -> Dict[str, Any]:
-    """Run the two and only two T0-5B recovery-edge supplementary maps."""
+    """Run the two and only two T0-5B recovery-edge supplementary maps.
+
+    This command is intentionally single-use.  A finished T0-5B map is a
+    physical evidence set, not a request to append a second copy of the same
+    sampled phases.  The preflight also confirms that the CSV still contains
+    exactly the four closed T0-5A maps before T0-5B is allowed to add its two
+    plan-authorized special-margin maps.
+    """
 
     require_dl()
     gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
     gate = read_json(gate_path)
-    if gate.get("t0_5a_status") != "GO":
+    if gate.get("t0_5a_status") != "GO" or gate.get("t0_5_status") != "T0-5A GO; T0-5B ENABLED":
         raise RuntimeError("T0-5B requires T0-5A GO")
+    if gate.get("t0_5b_status") is not None:
+        raise RuntimeError("T0-5B has already published a terminal physical result")
     existing = read_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS)
+    expected_t0_5a_keys = {item["scenario_key"] for item in T0_5A_SPECS}
+    observed_t0_5a_keys = {str(row["scenario_key"]) for row in existing}
+    if observed_t0_5a_keys != expected_t0_5a_keys:
+        raise RuntimeError("T0-5B requires exactly the four retained T0-5A maps")
+    # Preserve T0-5A's logical accounting before the final summary replaces
+    # its JSON file.  The T0-5B invocation counters alone are deliberately
+    # insufficient: they exclude 75 prior T0-5A physical HSPICE cases and 44
+    # CSV-authority T0-3 reuses that remain part of complete T0-5 provenance.
+    t0_5a_summary = read_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json")
+    if t0_5a_summary.get("stage") != "T0-5A" or t0_5a_summary.get("decision") != "GO":
+        raise RuntimeError("T0-5B requires the authoritative T0-5A GO summary")
     context, stats = frozen_context(), {"new": 0, "reused": 0}
     rows: List[Dict[str, Any]] = [dict(row) for row in existing]
     for spec in T0_5B_SPECS:
         rows.extend(adaptive_t0_5_scan(context, spec, stats))
-    summaries = summarize_t0_5_rows(rows)
-    keys = [item["scenario_key"] for item in T0_5A_SPECS + T0_5B_SPECS]
-    decision = "GO" if t0_5_gate_ok(summaries, keys) else "STOP_T0_5B"
-    write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS, rows)
-    result = {
-        "schema_version": 1, "study": STUDY, "stage": "T0-5 COMPLETE", "decision": decision,
-        "new_hspice": stats.get("new", 0), "reused": stats.get("reused", 0),
-        "reused_exact": stats.get("reused_exact", 0), "reused_electrical": stats.get("reused_electrical", 0),
-        "reparsed": 0, "forbidden_flow_runs": 0, "scenarios": summaries,
-    }
-    write_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json", result)
-    gate.update({
-        "t0_5b_status": decision,
-        "t0_5_status": "GO" if decision == "GO" else "STOP_T0_5B",
-        "t0_6_status": "ENABLED" if decision == "GO" else "WAITING_FOR_T0_5_GATE",
-        "blocked_later_stages": [] if decision == "GO" else ["T0-6"],
-        "t0_5_summary": str((ANALYSIS / "phase_coverage" / "phase_coverage_summary.json").relative_to(FTC_ROOT)),
+    return publish_t0_5b_artifacts(rows, t0_5a_summary, stats)
+
+
+def phase_t0_5b_accounting_refresh() -> Dict[str, Any]:
+    """Refresh finished T0-5B publication fields with strictly zero HSPICE.
+
+    The entry is only for a completed ``T0-5 COMPLETE`` GO summary whose
+    retained rows have already been simulated.  It reuses the stage-local
+    counters written by the original invocation, rebuilds the compact
+    intervals and Gate wording, and cannot reach ``execute`` or render a
+    deck.  It exists to correct reporting metadata such as a stale
+    ``GO_PENDING_T0_5B`` decision without ever changing the underlying
+    transistor-level evidence population.
+    """
+
+    require_dl()
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    summary = read_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json")
+    if (gate.get("t0_5b_status") != "GO" or summary.get("stage") != "T0-5 COMPLETE"
+            or summary.get("decision") != "GO"):
+        raise RuntimeError("T0-5B accounting refresh requires completed T0-5B GO evidence")
+    t0_5a_accounting = summary.get("t0_5a_accounting")
+    t0_5b_accounting = summary.get("t0_5b_accounting")
+    if not isinstance(t0_5a_accounting, dict) or not isinstance(t0_5b_accounting, dict):
+        raise RuntimeError("T0-5B accounting refresh lacks substage accounting")
+    rows = read_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS)
+    # The first T0-5B publication predates the explicit nested resume and
+    # unique-path fields.  Reconstruct them only from the four immutable
+    # T0-5A keys in the retained CSV; using the complete-map total here would
+    # incorrectly fold the two new T0-5B maps into the earlier substage.
+    t0_5a_keys = {item["scenario_key"] for item in T0_5A_SPECS}
+    t0_5a_rows = [row for row in rows if row.get("scenario_key") in t0_5a_keys]
+    if {row.get("scenario_key") for row in t0_5a_rows} != t0_5a_keys:
+        raise RuntimeError("T0-5B accounting refresh cannot reconstruct all T0-5A maps")
+    t0_5a_summary = dict(t0_5a_accounting)
+    t0_5a_summary["reused_interrupted_t0_5a"] = len({
+        str(row["scenario_path"]) for row in t0_5a_rows
+        if row.get("evidence_source") == "REUSED_RETAINED_MEASUREMENT"
     })
-    write_json(gate_path, gate)
-    write_t0_5_progress_report("T0-5B", summaries, stats, decision)
-    if decision != "GO":
-        raise RuntimeError("T0-5B STOP: special recovery-edge phase window gate not met")
-    return result
+    t0_5a_summary["unique_physical_scenario_count"] = len({
+        str(row["scenario_path"]) for row in t0_5a_rows
+    })
+    return publish_t0_5b_artifacts(rows, t0_5a_summary, {
+        "new": int(t0_5b_accounting.get("new_hspice", 0)),
+        "reused": int(t0_5b_accounting.get("reused", 0)),
+        "reused_exact": int(t0_5b_accounting.get("reused_exact", 0)),
+        "reused_electrical": int(t0_5b_accounting.get("reused_electrical", 0)),
+    })
 
 
 def phase_amplitude_duration() -> Dict[str, Any]:
@@ -3147,7 +3302,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
             "contract", "smoke", "long-pulse", "phase-window", "amplitude-duration", "finalize-stop",
             "correction-audit", "correction-points", "long-pulse-corrected", "t0-2e",
             "t0-4-history-correct", "t0-4-anomaly-diagnose", "t0-4-finalize-corrected", "t0-4e",
-            "t0-5a", "t0-5a-accounting-refresh", "t0-5b",
+            "t0-5a", "t0-5a-accounting-refresh", "t0-5b", "t0-5b-accounting-refresh",
         ),
         required=True,
     )
@@ -3192,6 +3347,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_t0_5a_accounting_refresh()
     elif args.phase == "t0-5b":
         phase_t0_5b()
+    elif args.phase == "t0-5b-accounting-refresh":
+        phase_t0_5b_accounting_refresh()
     return 0
 
 

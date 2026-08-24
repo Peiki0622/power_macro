@@ -143,12 +143,12 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertEqual(rails[1][0], "first_q1_anchor")
 
     def test_t0_4e_keeps_t0_2_pass_and_never_fabricates_cadence(self):
-        """T0-4E remains valid after T0-5A, but cadence stays unqualified.
+        """T0-4E remains valid through T0-5, but cadence stays unqualified.
 
-        The repository may be inspected immediately after T0-4E or after the
-        separately authorized T0-5A run.  In either case the earlier evidence
-        must remain GO, while T0-6 must retain a null numerical period until
-        the remaining T0-5B physical gate authorizes cadence mapping.
+        This evidence can be inspected after T0-4E, T0-5A, or complete T0-5.
+        In every case the earlier corrected evidence must remain GO.  Even
+        after T0-5B releases T0-6, the downstream numerical period must remain
+        null until the separately planned T0-6 mathematical mapping runs.
         """
 
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
@@ -156,21 +156,22 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
         self.assertEqual(gate["t0_4_status"], "GO")
         self.assertEqual(gate["t0_4e_status"], "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE")
-        self.assertIn(gate["t0_5_status"], ("ENABLED", "T0-5A GO; T0-5B ENABLED"))
-        self.assertEqual(gate["t0_6_status"], "WAITING_FOR_T0_5_GATE")
+        self.assertIn(gate["t0_5_status"], ("ENABLED", "T0-5A GO; T0-5B ENABLED", "GO"))
+        self.assertIn(gate["t0_6_status"], ("WAITING_FOR_T0_5_GATE", "ENABLED"))
         self.assertEqual(downstream["source_gate"], "T0-4 GO")
         self.assertEqual(downstream["runtime_probe_period"]["status"], "PENDING_T0_5_T0_6")
         self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
 
-    def test_t0_5a_pre_simulation_phase_closure_is_real_and_complete(self):
-        """Confirm the repaired T0-5A Gate uses physical Q0 closure only.
+    def test_t0_5_complete_phase_closure_is_real_and_complete(self):
+        """Confirm complete T0-5 uses physical Q0 closure and audited reuse.
 
         Both long pulses must extend left beyond the old time-zero source
-        coordinate and then actually return to stable Q0.  The test checks
-        the compact post-HSPICE evidence, not a smoke model: all four planned
-        T0-5A maps must be present, all endpoints must be stable Q0, the
-        recorded prelude must be positive only for deep negative phases, and
-        the gate must unlock T0-5B without publishing a cadence result.
+        coordinate and then actually return to stable Q0.  The two T0-5B
+        special-margin maps must also close at Q0 while preserving their one
+        known T0-4 fast-recovery ambiguity each.  This is an evidence test,
+        not a smoke test: it checks all six published maps, per-substage
+        HSPICE/reuse accounting, four-state intervals, and the final Gate
+        without claiming that the still-pending T0-6 cadence was computed.
         """
 
         summary_path = FTC_ROOT / "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json"
@@ -183,33 +184,66 @@ class T0TransientDroopTests(unittest.TestCase):
             by_key.setdefault(row["scenario_key"], []).append(row)
 
         self.assertEqual(summary["decision"], "GO")
-        self.assertEqual(summary["new_hspice"], 75)
-        self.assertEqual(summary["reused"], 44)
-        self.assertEqual(summary["reused_electrical"], 44)
+        self.assertEqual(summary["stage"], "T0-5 COMPLETE")
+        self.assertEqual(summary["new_hspice"], 139)
+        self.assertEqual(summary["reused"], 46)
+        self.assertEqual(summary["reused_electrical"], 46)
         self.assertEqual(summary["reused_interrupted_t0_5a"], 60)
-        self.assertEqual(summary["unique_physical_scenario_count"], 119)
-        self.assertEqual(summary["latest_invocation_new_hspice"], 15)
+        self.assertEqual(summary["unique_physical_scenario_count"], 185)
+        self.assertEqual(summary["t0_5a_accounting"]["new_hspice"], 75)
+        self.assertEqual(summary["t0_5a_accounting"]["reused"], 44)
+        self.assertEqual(summary["t0_5a_accounting"]["reused_interrupted_t0_5a"], 60)
+        self.assertEqual(summary["t0_5a_accounting"]["unique_physical_scenario_count"], 119)
+        self.assertEqual(summary["t0_5b_accounting"], {
+            "new_hspice": 64, "reused": 2, "reused_exact": 0, "reused_electrical": 2,
+        })
         self.assertEqual(set(by_key), {
             "t0_5a_0p95_l2_boundary", "t0_5a_0p95_l2_long",
             "t0_5a_1p10_l2_boundary", "t0_5a_1p10_l2_long",
+            "t0_5b_0p95_l3_recovery", "t0_5b_1p10_l1_recovery",
         })
-        for item in summary["scenarios"]:
+        summaries = {item["scenario_key"]: item for item in summary["scenarios"]}
+        for item in summaries.values():
             group = sorted(by_key[item["scenario_key"]], key=lambda row: float(row["phase_ps"]))
             self.assertTrue(item["left_closed_by_stable_q0"])
             self.assertTrue(item["right_closed_by_stable_q0"])
             self.assertTrue(item["clean_q1_intervals"])
-            self.assertEqual(item["ambiguous_sample_count"], 0)
             self.assertEqual(group[0]["t0_5_state"], "STABLE_Q0")
             self.assertEqual(group[-1]["t0_5_state"], "STABLE_Q0")
+
+        # The original four maps contain no ambiguity; their phase closure
+        # remains untouched by publication of the two supplementary maps.
+        for key in (
+                "t0_5a_0p95_l2_boundary", "t0_5a_0p95_l2_long",
+                "t0_5a_1p10_l2_boundary", "t0_5a_1p10_l2_long"):
+            self.assertEqual(summaries[key]["ambiguous_sample_count"], 0)
 
         for key, expected_left in (("t0_5a_0p95_l2_long", -2250.0), ("t0_5a_1p10_l2_long", -2500.0)):
             group = sorted(by_key[key], key=lambda row: float(row["phase_ps"]))
             self.assertEqual(float(group[0]["phase_ps"]), expected_left)
             self.assertGreater(float(group[0]["time_axis_shift_s"]), 0.0)
+
+        # T0-5B is deliberately restricted to two T0-4 recovery-edge
+        # boundaries.  At each one, exactly one sampled phase is a known fast
+        # recovery ambiguity; it is retained as non-guaranteed rather than
+        # silently promoted to CLEAN_Q1, and no unknown invalid state remains.
+        for key in ("t0_5b_0p95_l3_recovery", "t0_5b_1p10_l1_recovery"):
+            item = summaries[key]
+            group = by_key[key]
+            self.assertEqual(item["ambiguous_sample_count"], 1)
+            self.assertEqual(len(item["recovery_edge_ambiguous_intervals"]), 1)
+            self.assertFalse(item["other_invalid_ambiguous_intervals"])
+            self.assertEqual(item["needs_local_recovery_diagnosis_count"], 0)
+            ambiguous_rows = [row for row in group if row["t0_5_state"] == "RECOVERY_EDGE_AMBIGUOUS"]
+            self.assertEqual(len(ambiguous_rows), 1)
+            self.assertEqual(ambiguous_rows[0]["recovery_model_status"], "KNOWN_T0_4_FAST_RECOVERY_PATTERN")
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
         self.assertEqual(gate["t0_5a_status"], "GO")
-        self.assertEqual(gate["t0_5_status"], "T0-5A GO; T0-5B ENABLED")
-        self.assertEqual(gate["t0_6_status"], "WAITING_FOR_T0_5_GATE")
+        self.assertEqual(gate["t0_5b_status"], "GO")
+        self.assertEqual(gate["t0_5_status"], "GO")
+        self.assertEqual(gate["decision"], "GO_PENDING_T0_6")
+        self.assertEqual(gate["t0_6_status"], "ENABLED")
+        self.assertEqual(gate["t0_8_status"], "WAITING_FOR_T0_6")
 
     def test_t0_4e_authority_hashes_and_stop_supersession_are_present(self):
         """The T0-4E handoff must hash evidence rather than trust filenames.

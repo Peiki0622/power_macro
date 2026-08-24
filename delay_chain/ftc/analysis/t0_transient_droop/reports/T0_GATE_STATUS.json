@@ -1,11 +1,11 @@
 {
   "blocked_later_stages": [
-    "T0-6"
+    "T0-8"
   ],
   "constant_low_equivalent_to_m0": true,
   "corrected_evidence_scenario_count": 16,
   "correction_status": "PD_SENSE_LOCAL_VDD_NORMALIZED",
-  "decision": "GO_PENDING_T0_5B",
+  "decision": "GO_PENDING_T0_6",
   "failed_syntax_diagnostic_scenarios": 1,
   "forbidden_flow_runs": 0,
   "formal_12_summary": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/t0_transient_droop/correction/formal_12_summary.json",
@@ -39,12 +39,13 @@
   "t0_4_summary": "analysis/t0_transient_droop/amplitude_duration/summary.json",
   "t0_4e_reuse_contract": "analysis/t0_transient_droop/t0_4e_closure/electrical_reuse_contract.json",
   "t0_4e_status": "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE",
-  "t0_5_status": "T0-5A GO; T0-5B ENABLED",
+  "t0_5_status": "GO",
   "t0_5_summary": "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json",
   "t0_5a_status": "GO",
-  "t0_6_status": "WAITING_FOR_T0_5_GATE",
+  "t0_5b_status": "GO",
+  "t0_6_status": "ENABLED",
   "t0_7_status": "PASS_FAIL_SAFE_REQUIREMENT_PUBLISHED",
-  "t0_8_status": "WAITING_FOR_T0_5_T0_6",
+  "t0_8_status": "WAITING_FOR_T0_6",
   "terminal_figure_manifest": "analysis/t0_transient_droop/figures/figure_manifest.json",
   "terminal_report": "reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
 }
