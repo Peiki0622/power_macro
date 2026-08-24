@@ -1,0 +1,105 @@
+{
+  "architecture_review": {
+    "blocking_structure": "single real DFF capture path with one S_CLK waveform, two required stable Q observations, and reset between probes",
+    "not_a_digital_logic_fix": true,
+    "required_question": "Provide a physically justified capture/reset architecture or revised timing contract that can complete two independent Q observations and a reset cycle within 2075 ps before any new multi-probe simulation is proposed."
+  },
+  "candidate_microsequence": {
+    "available": false,
+    "reason": "No <= 2075 ps sequence can preserve the frozen two-Q-sample, reset, and S_CLK event order: the optimistic serial-reset lower bound alone is 3200 ps.",
+    "why_no_multi_probe_hspice": "A valid <= 2075 ps waveform cannot be constructed from the frozen single-probe separations. HSPICE is therefore not used to guess a changed waveform; defining such a waveform requires the architecture review first."
+  },
+  "decision": "ARCHITECTURE_REVIEW",
+  "decision_basis": "zero_hspice_frozen_contract_timing_budget",
+  "frozen_single_probe_evidence": {
+    "event_offsets_from_sclk_rise_ps": {
+      "q_sample_1": 2300.0,
+      "q_sample_2": 2500.0,
+      "recovery_end": 5700.0,
+      "reset_assert_end": 2710.0,
+      "reset_assert_start": 2700.0,
+      "reset_release": -490.0,
+      "sclk_fall": 3000.0,
+      "sclk_rise": 0.0
+    },
+    "q_decision": {
+      "q_high_ratio": 0.9,
+      "q_low_ratio": 0.1,
+      "trip_decision": "stable_real_dff_q_equals_1",
+      "two_samples_required": true
+    },
+    "verified_event_intervals_ps": {
+      "q_sample_1_to_q_sample_2": 200.0,
+      "q_sample_2_to_reset_assert_start": 200.0,
+      "reset_assert_end_to_sclk_fall": 290.0,
+      "reset_assert_width": 10.0,
+      "reset_release_to_sclk_rise": 490.0,
+      "sclk_fall_to_recovery_end": 2700.0,
+      "sclk_rise_to_q_sample_1": 2300.0
+    }
+  },
+  "input_paths": {
+    "m0_single_probe_contract": "analysis/m0_detection_margin_characterization/probe_contract/single_probe_contract.json",
+    "m1_downstream_t0_d0_handoff": "controller/m1_detection_margin/contract/M1_DOWNSTREAM_T0_D0_HANDOFF.json",
+    "t0_downstream_d0_timing_contract": "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json"
+  },
+  "input_sha256": {
+    "m0_single_probe_contract": "3cadeaa3bcb0f064ce53751acd1af8456a043843e4733455b6b2250258faeea7",
+    "m1_downstream_t0_d0_handoff": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5",
+    "t0_downstream_d0_timing_contract": "e666d94526ecd1cdd254bc0bbd5eb1dc12e8693debf782399de72cc246f0618f"
+  },
+  "runtime_requirement": {
+    "control_clock_is_runtime_probe_cadence": false,
+    "control_clock_period_ps": 2500.0,
+    "maximum_period_ps": 2075.0,
+    "maximum_period_s": 2.075e-09,
+    "probe_reference_event": "successive S_CLK rising edges",
+    "source_status": "QUALIFIED_BY_T0_6_INTERVAL_MATH"
+  },
+  "schema_version": 1,
+  "scope": {
+    "forbidden_implementations": [
+      "d0_fsm",
+      "alarm",
+      "heartbeat",
+      "timeout",
+      "sensor_or_m_f_topology_change",
+      "h0_m0_m1_t0_rerun"
+    ],
+    "frozen_contracts_modified": [],
+    "m1_boundary_condition": [
+      "margin_cfg_valid_o == 1",
+      "mapping_supported_o == 1",
+      "margin_protocol_error_o == 0",
+      "det_owner_valid_o == 1",
+      "sensor controls remain reset=1 and S_CLK=0 at the M1 boundary"
+    ],
+    "m1_output_configuration": "STATIC_UNMODIFIED"
+  },
+  "simulation_accounting": {
+    "hspice_scenarios": 0,
+    "method": "published_contract_arithmetic_only",
+    "new_hspice_scenarios": 0,
+    "rerun_t0_3_or_t0_4": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "stage": "D0-0",
+  "study": "ftc_d0_runtime_timing_feasibility_v1",
+  "timing_budget": {
+    "full_recovery_nonoverlap_reference_ps": 5700.0,
+    "full_recovery_shortfall_to_requirement_ps": 3625.0,
+    "optimistic_serial_reset_to_next_rise_lower_bound_ps": 3200.0,
+    "q2_completion_lower_bound_ps": 2500.0,
+    "q2_completion_shortfall_to_requirement_ps": 425.0,
+    "sclk_high_width_lower_bound_ps": 3000.0,
+    "sclk_high_width_shortfall_to_requirement_ps": 925.0,
+    "serial_reset_shortfall_to_requirement_ps": 1125.0,
+    "unfinished_current_probe_events_at_required_next_rise_ps": {
+      "q_sample_1_after_next_rise_ps": 225.0,
+      "q_sample_2_after_next_rise_ps": 425.0,
+      "recovery_end_after_next_rise_ps": 3625.0,
+      "reset_assert_start_after_next_rise_ps": 625.0,
+      "sclk_fall_after_next_rise_ps": 925.0
+    }
+  }
+}
