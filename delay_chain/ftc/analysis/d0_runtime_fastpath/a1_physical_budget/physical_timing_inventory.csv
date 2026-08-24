@@ -1,0 +1,11 @@
+metric,classification,evidence,limitation
+S_CLK_rise_to_dff_ck_first_rise,PHYSICAL_MEASURED,retained M0/T0 t_ck_rise scalar measurements,value belongs to old one-probe stimulus
+active_capture_CK_edge_count,PHYSICAL_MEASURED,retained exact-path CK audits and T0 t_ck_rise_2,only old active window is qualified
+Q_at_old_Q_SAMPLE_1_and_Q_SAMPLE_2,PHYSICAL_MEASURED,retained M0/T0 Q scalar measurements,does not prove earliest Q response or stable dwell
+recovery_node_level_at_old_recovery_endpoint,PHYSICAL_MEASURED,retained recovery end/tail measures,does not prove earliest repeatable next probe
+capture_CK_high_width_and_next_low_width,PHYSICAL_MEASURED,two authorized D0-A1 scalar diagnostics,single-probe observability only; second CK edge is post-reset and not a legal next capture
+capture_CK_high_low_hard_minimum,MODEL_TIMING_CHECK,RF sequential_cell_timing_capability,1.0 ns high and 1.0 ns low model checks
+CK_to_Q_90_percent_and_Q_reset_clear,PHYSICAL_MEASURED,two authorized D0-A1 Q threshold/reset-clear measurements,does not establish two independent runtime observation instants
+Q_observation_1_to_observation_2_spacing,PROTOCOL_SCHEDULED,old 200 ps observation spacing,not a physical lower bound and no runtime observer exists
+reset_release_to_rearm,MODEL_TIMING_CHECK,RF recovery/removal timing,requires later continuous-probe validation if a candidate exists
+S_CLK_fall_to_path_low,PHYSICAL_MEASURED,two authorized D0-A1 XOR/medium/CK falling crossings,falling crossings precede S_CLK fall in the frozen one-shot; no multi-probe re-arm claim

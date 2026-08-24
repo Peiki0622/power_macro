@@ -1,0 +1,78 @@
+{
+  "authority_state": {
+    "d0_0_decision": "ARCHITECTURE_REVIEW",
+    "m0_two_samples_required": true,
+    "m1_static_configuration_required": true,
+    "t0_decision": "CONDITIONAL_GO",
+    "t0_runtime_period_ps": 2075.0
+  },
+  "gate": "D0_A0_READY",
+  "inputs": {
+    "d0_0_report": {
+      "path": "reports/FTC_D0_RUNTIME_TIMING_FEASIBILITY.md",
+      "sha256": "d688c640a4fac3387ff5578b7b130b310e141883c8c2ba2eacb396eb68e342ad"
+    },
+    "d0_0_timing_budget": {
+      "path": "analysis/d0_runtime_timing/contract/D0_0_RUNTIME_TIMING_BUDGET.json",
+      "sha256": "660b22564cc6a2d0f82748f4a91de3cd8d25b554eeaa21489f557c8aaef8a42a"
+    },
+    "d0a_plan": {
+      "path": "../../plans/ftc_d0a_runtime_fastpath_architecture_closure_plan.md",
+      "sha256": "ed28432910f0381e9d371fbc9fb73c5a5b0373b7e7eb6e1261ac323fac26e56f"
+    },
+    "m0_single_probe_contract": {
+      "path": "analysis/m0_detection_margin_characterization/probe_contract/single_probe_contract.json",
+      "sha256": "3cadeaa3bcb0f064ce53751acd1af8456a043843e4733455b6b2250258faeea7"
+    },
+    "m1_handoff": {
+      "path": "controller/m1_detection_margin/contract/M1_DOWNSTREAM_T0_D0_HANDOFF.json",
+      "sha256": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5"
+    },
+    "pd1_qfinal_return": {
+      "path": "controller/pd1_power_domain_interface/crossings/qfinal_return_contract.json",
+      "sha256": "927dc7b818b4c48f84dba2ba7b2a4d7b93152aeb4c63205d32ab84855a66d26d"
+    },
+    "pd1_reset_crossing": {
+      "path": "controller/pd1_power_domain_interface/crossings/reset_crossing_contract.json",
+      "sha256": "9873792b6ff2ff3852763a4c853ea3462ad4bb6a6d8434b455a7d4dc659eaee2"
+    },
+    "pd1_sclk_crossing": {
+      "path": "controller/pd1_power_domain_interface/crossings/sclk_crossing_contract.json",
+      "sha256": "5fa43c1e93e514ee5eff29c1f226181001141dcfad2ed8b16e583bcbeb2baa17"
+    },
+    "refrequency_final_report": {
+      "path": "controller/refrequency/reports/REFREQUENCY_FINAL_REPORT.md",
+      "sha256": "61d01a85590facad2cb4dccdc32dce306c85a45c26291c42709b2dcb1d88df38"
+    },
+    "refrequency_sequential_timing": {
+      "path": "controller/refrequency/library_audit/sequential_cell_timing_capability.json",
+      "sha256": "fb1b126a3b512f58919126d2bb4fa96372ce233245089e611d5dd691c1f6a54d"
+    },
+    "t0_cadence_summary": {
+      "path": "analysis/t0_transient_droop/cadence/cadence_summary.json",
+      "sha256": "419bbb17cdebb7b04f1f19e6c8d803d8b616b83d43cd68aaae964996f56c3100"
+    },
+    "t0_downstream_contract": {
+      "path": "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json",
+      "sha256": "e666d94526ecd1cdd254bc0bbd5eb1dc12e8693debf782399de72cc246f0618f"
+    }
+  },
+  "schema_version": 1,
+  "scope": {
+    "d0_0_architecture_review_preserved": true,
+    "detection_only_fastpath_study_authorized": true,
+    "h0_m1_t0_reruns_forbidden": true,
+    "runtime_rtl_implemented": false,
+    "sensor_core_modification_authorized": false,
+    "t0_pmax_coverage_ps_preserved": 2075.0
+  },
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "stage": "D0-A0",
+  "study": "ftc_d0_runtime_fastpath_architecture_closure_v1"
+}

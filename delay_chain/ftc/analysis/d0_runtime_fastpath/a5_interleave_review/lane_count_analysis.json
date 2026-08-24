@@ -1,0 +1,20 @@
+{
+  "N_min_model_guarded": 2,
+  "P_lane_model_guarded_min_ps": 2500.0,
+  "P_lane_verified_ps": null,
+  "P_lane_verified_status": "NOT_CLOSED_WITHOUT_MULTI_PROBE_PHYSICAL_EVIDENCE",
+  "calculation": "ceil(2500.0 / 2075.0) = 2",
+  "decision": "ARCHITECTURE_ESCALATION_REQUIRED",
+  "important_limit": "N_min is a guarded-model architecture floor, not a claim that a lane is physically verified at 2500 ps.",
+  "schema_version": 1,
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "single_lane_root_cause": "measured_dff_ck_high_width_violates_formal_cell_minimum",
+  "stage": "D0-A5",
+  "study": "ftc_d0_runtime_fastpath_architecture_closure_v1"
+}

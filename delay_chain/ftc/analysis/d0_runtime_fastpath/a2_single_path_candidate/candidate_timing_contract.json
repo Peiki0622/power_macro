@@ -1,0 +1,149 @@
+{
+  "attempted_single_lane_microsequence_inequality_proof": {
+    "first_failure": "measured_capture_CK_high_width_is_below_formal_minimum_before_Q_or_reset_can_close",
+    "formal_ck_high_plus_low_ps": 2000.0,
+    "measured_first_capture_ck_high_end_range_ps": [
+      301.263213,
+      519.66491
+    ],
+    "period_budget_ps": 2075.0,
+    "reference_event": "S_CLK_rise_at_0ps_for_budget_arithmetic_only",
+    "required_capture_ck_low_before_next_capture_ps": 1000.0,
+    "required_first_capture_ck_high_end_no_earlier_than_ps": 1000.0,
+    "residual_after_formal_ck_checks_ps": 75.0
+  },
+  "capture_ck_timing": {
+    "all_measured_high_width_param_checks_consistent": true,
+    "formal_hard_total_ps": 2000.0,
+    "formal_high_min_ps": 1000.0,
+    "formal_low_min_ps": 1000.0,
+    "guarded_shortfall_to_2075ps": 425.0,
+    "guarded_two_phase_requirement_ps": 2500.0,
+    "hard_residual_at_2075ps": 75.0,
+    "minimum_measured_ck_low_interval_to_post_reset_edge_ps": 2323.514836,
+    "minimum_measured_target_ck_high_width_ps": 301.263213,
+    "per_target_ck_high_shortfall_to_formal_min_ps": [
+      480.33509,
+      698.736787
+    ],
+    "per_target_measured_ck_high_width_ps": [
+      519.66491,
+      301.263213
+    ],
+    "post_reset_second_ck_edge_present_in_each_target": true,
+    "rf_guard_per_half_cycle_ps": 250.0
+  },
+  "classification": "SENSOR_CLOCK_OR_RECOVERY_LIMITED",
+  "q_observation_contract": {
+    "old_200ps_spacing_is_not_promoted_to_physical_minimum": true,
+    "physical_q90_results": [
+      {
+        "F_det": 6,
+        "M_det": 5,
+        "Vdroop_v": 0.86,
+        "baseline_vdd_v": 0.95,
+        "capture_edges_between_release_and_assert": 1,
+        "ck_rise_to_q_high_10_ps": 277.78605,
+        "ck_rise_to_q_high_90_ps": 292.090947,
+        "dff_ck_high_width_measure_consistent": true,
+        "dff_ck_high_width_ps": 519.66491,
+        "dff_ck_high_width_reported_ps": 519.66491,
+        "dff_ck_low_width_to_second_edge_ps": 2323.514836,
+        "extra_ck_rise_present": true,
+        "missing_required_measurements": [],
+        "phase_ps": 75.0,
+        "q_high_10_to_90_ps": 14.304897,
+        "reset_assert_to_q_low_10_ps": 58.022043,
+        "reset_release_to_ck_rise_ps": 1627.410795,
+        "scenario_key": "d0a1_0p95_l2_long_right_clean",
+        "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_runtime_fastpath/a1_physical_budget/d0a1_0p95_l2_long_right_clean__60fe0087463e0ffdefc6",
+        "sclk_fall_to_ck_fall_ps": -1338.424295,
+        "sclk_fall_to_medium_fall_ps": -1427.310208,
+        "sclk_fall_to_xor_fall_ps": -1796.228589,
+        "sclk_high_width_ps": 3001.0,
+        "sclk_rise_to_ck_fall_ps": 1662.575705,
+        "sclk_rise_to_ck_rise_ps": 1142.910795,
+        "second_ck_rise_after_reset_assert": true
+      },
+      {
+        "F_det": 8,
+        "M_det": 3,
+        "Vdroop_v": 0.96,
+        "baseline_vdd_v": 1.1,
+        "capture_edges_between_release_and_assert": 1,
+        "ck_rise_to_q_high_10_ps": 174.267343,
+        "ck_rise_to_q_high_90_ps": 185.380069,
+        "dff_ck_high_width_measure_consistent": true,
+        "dff_ck_high_width_ps": 301.263213,
+        "dff_ck_high_width_reported_ps": 301.263213,
+        "dff_ck_low_width_to_second_edge_ps": 2555.537881,
+        "extra_ck_rise_present": true,
+        "missing_required_measurements": [],
+        "phase_ps": 25.0,
+        "q_high_10_to_90_ps": 11.112726,
+        "reset_assert_to_q_low_10_ps": 43.256984,
+        "reset_release_to_ck_rise_ps": 1324.285809,
+        "scenario_key": "d0a1_1p10_l2_long_right_clean",
+        "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_runtime_fastpath/a1_physical_budget/d0a1_1p10_l2_long_right_clean__c1ca6dce5fa515a267ce",
+        "sclk_fall_to_ck_fall_ps": -1859.950978,
+        "sclk_fall_to_medium_fall_ps": -1932.614746,
+        "sclk_fall_to_xor_fall_ps": -2120.681811,
+        "sclk_high_width_ps": 3001.0,
+        "sclk_rise_to_ck_fall_ps": 1141.049022,
+        "sclk_rise_to_ck_rise_ps": 839.785809,
+        "second_ck_rise_after_reset_assert": true
+      }
+    ],
+    "runtime_observer_implemented": false,
+    "two_independent_real_dff_q_observations_required": true
+  },
+  "root_cause": "measured_dff_ck_high_width_violates_formal_cell_minimum",
+  "routing": {
+    "a3_multi_probe_authorized": false,
+    "a4_q_local_hold_authorized": false,
+    "a5_interleave_review_required": true,
+    "reason": "the root cause is capture CK width margin, which a Q-side hold cannot repair"
+  },
+  "runtime_requirement": {
+    "full_phase_requirement": "100_percent_CLEAN_Q1",
+    "maximum_period_ps": 2075.0,
+    "probe_reference_event": "successive_S_CLK_rising_edges",
+    "target_threat": "formal_T0_L2_3002ps_at_0p95_and_1p10"
+  },
+  "schema_version": 1,
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "stage": "D0-A2",
+  "study": "ftc_d0_runtime_fastpath_architecture_closure_v1",
+  "three_bottleneck_assessment": {
+    "capture_q_decision": {
+      "assessment": "not_the_first_blocker; capture_CK_width_fails_before_Q_observation_timing_can_be_closed",
+      "max_measured_ck_rise_to_q90_ps": 292.090947,
+      "max_measured_reset_assert_to_q_low10_ps": 58.022043,
+      "two_independent_runtime_observation_minimum": "UNKNOWN_not_promoted_from_old_200ps_schedule"
+    },
+    "reset_rearm": {
+      "assessment": "continuous_probe_rearm_is_not_claimed; A3 is prohibited because the root CK width fails",
+      "formal_recovery_ps": 1000.0,
+      "formal_removal_ps": 500.0,
+      "single_probe_reset_release_to_first_ck_ps": [
+        1627.410795,
+        1324.285809
+      ]
+    },
+    "sclk_ck_repeatability": {
+      "assessment": "root_limiter: a 3001ps frozen S_CLK high creates only 301.263ps/519.665ps DFF CK high pulses",
+      "extra_post_reset_ck_edge_in_each_target": true,
+      "one_capture_edge_before_reset_assert_in_each_target": true,
+      "single_probe_external_sclk_high_width_ps": [
+        3001.0,
+        3001.0
+      ]
+    }
+  }
+}

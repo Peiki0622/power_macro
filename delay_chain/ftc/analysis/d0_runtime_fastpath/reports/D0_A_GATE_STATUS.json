@@ -1,0 +1,29 @@
+{
+  "a1_gate": "SINGLE_LANE_PHYSICAL_BUDGET_READY",
+  "a2_classification": "SENSOR_CLOCK_OR_RECOVERY_LIMITED",
+  "a5_model_guarded_min_lane_count": 2,
+  "blocking_root_cause": "measured_dff_ck_high_width_violates_formal_cell_minimum",
+  "d0_0_decision_preserved": "ARCHITECTURE_REVIEW",
+  "decision": "ARCHITECTURE_ESCALATION_REQUIRED",
+  "forbidden_in_this_stage": [
+    "d0_runtime_fsm",
+    "alarm",
+    "heartbeat",
+    "timeout",
+    "sensor_core_change",
+    "H0_M1_T0_rerun"
+  ],
+  "next_architecture_plan": "plans/ftc_d0b_interleaved_capture_architecture_plan.md",
+  "next_authorized_work": "separate_two_capture_bank_or_interleave_architecture_plan",
+  "schema_version": 1,
+  "simulation_accounting": {
+    "electrically_equivalent_reuse_scenarios": 0,
+    "forbidden_flow_runs": 0,
+    "new_hspice_scenarios": 2,
+    "reparsed_hspice_scenarios": 605,
+    "reused_hspice_scenarios": 2
+  },
+  "study": "ftc_d0_runtime_fastpath_architecture_closure_v1",
+  "t0_decision_preserved": "CONDITIONAL_GO",
+  "t0_runtime_period_ps": 2075.0
+}
