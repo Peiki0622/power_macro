@@ -1,0 +1,22 @@
+{
+  "baseline_vdd_v": 0.87,
+  "checks": {
+    "all_28_crossings_explicit": true,
+    "constant_monitored_rail": true,
+    "local_high_is_0p87_v": true,
+    "same_formal_code": true,
+    "same_probe_event_times": true,
+    "same_sensor_supply_and_wells": true,
+    "same_transistor_instance_netlist": true
+  },
+  "equivalent": true,
+  "hspice_scenarios": 0,
+  "m0_code": {
+    "F_det": 6,
+    "M_det": 5
+  },
+  "mode": "CONSTANT_LOW_VOLTAGE_COMPATIBILITY",
+  "schema_version": 1,
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "t0_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED"
+}

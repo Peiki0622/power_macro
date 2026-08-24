@@ -41,6 +41,7 @@ import run_dynamic_startup_calibration_protocol as physical  # noqa: E402
 STUDY = "ftc_t0_transient_voltage_droop_characterization_v1"
 ANALYSIS = FTC_ROOT / "analysis" / "t0_transient_droop"
 CONTRACT_PATH = ANALYSIS / "contract" / "T0_TRANSIENT_THREAT_CONTRACT.json"
+POWER_DOMAIN_CONTRACT_PATH = FTC_ROOT / "controller" / "final_closure" / "freeze" / "POWER_DOMAIN_CONTRACT.json"
 RUN_ROOT = FTC_ROOT / "runs" / "t0_transient_droop"
 REPORT_ROOT = FTC_ROOT / "reports"
 
@@ -161,7 +162,15 @@ def spice(value: float) -> str:
 
 
 def contract() -> Dict[str, Any]:
-    """Load and validate the immutable T0-0 threat contract."""
+    """Load all immutable T0 contracts, including the PD1 crossing contract.
+
+    The original T0 contract freezes the voltage waveform and the real-DFF
+    decision.  The power-domain contract is equally authoritative for this
+    correction: every PD_CTRL-to-PD_SENSE high level must be generated from
+    the instantaneous sensor-local rail.  Keeping this check in the runner
+    prevents a future deck edit from silently reverting to fixed controller
+    voltage levels.
+    """
 
     data = read_json(CONTRACT_PATH)
     scope = data.get("formal_scope", {})
@@ -185,7 +194,15 @@ def contract() -> Dict[str, Any]:
     for (baseline, margin), code in FORMAL_CODES.items():
         if code != FORMAL_CODES[(baseline, margin)]:
             raise ValueError("unreachable codebook check")
-    return data
+    pd = read_json(POWER_DOMAIN_CONTRACT_PATH)
+    if pd.get("status") != "FROZEN":
+        raise ValueError("POWER_DOMAIN_CONTRACT is not frozen")
+    crossings = pd.get("crossings", {}).get("PD_CTRL_to_PD_SENSE", {})
+    if crossings.get("count") != 28:
+        raise ValueError("PD_CTRL-to-PD_SENSE crossing count changed")
+    if "sensor-local VDD" not in crossings.get("current_verification_abstraction", ""):
+        raise ValueError("PD_CTRL crossing abstraction is not sensor-local-VDD normalized")
+    return {"t0": data, "power_domain": pd}
 
 
 def frozen_context() -> Dict[str, Any]:
@@ -212,10 +229,10 @@ def frozen_context() -> Dict[str, Any]:
 
 
 def source_hash() -> str:
-    """Bind every T0 result to the runner and immutable contract bytes."""
+    """Bind every T0 result to runner, threat, and power-domain contract bytes."""
 
     digest = hashlib.sha256()
-    for path in (Path(__file__), CONTRACT_PATH):
+    for path in (Path(__file__), CONTRACT_PATH, POWER_DOMAIN_CONTRACT_PATH):
         digest.update(path.read_bytes())
     return digest.hexdigest()
 
@@ -226,13 +243,34 @@ def probe_timing() -> Dict[str, float]:
     return m0.probe_timing()
 
 
-def thermometer_constant_points(units: int, code: int, high_when_set: bool, stop: float) -> Iterable[Tuple[int, str]]:
-    """Generate fixed M/F rails using the validated M0 thermometer polarity."""
+def thermometer_control_points(units: int, code: int, high_when_set: bool, stop: float) -> Iterable[Tuple[int, str]]:
+    """Generate stable PD_CTRL-side 0/1 rails using M0 thermometer polarity.
+
+    The values here are deliberately normalized controller-domain values:
+    ``1`` means logical high in PD_CTRL and ``0`` means logical low.  They do
+    not connect directly to a sensor cell.  ``local_level_source`` below
+    performs the explicit PD_CTRL-to-PD_SENSE mapping by multiplying this
+    waveform by the instantaneous ``vdd_a`` rail.
+    """
 
     for index, bit in enumerate(physical.thermometer(units, code)):
         high = bool(bit) if high_when_set else not bool(bit)
-        value = "'VDD_VALUE'" if high else "0"
+        value = "1" if high else "0"
         yield index, "PWL(0 {} {} {})".format(value, spice(stop), value)
+
+
+def local_level_source(name: str, output_node: str, control_node: str) -> str:
+    """Render one ideal verification D2A crossing with explicit port roles.
+
+    ``control_node`` is a stable PD_CTRL waveform referenced to ``vss_a``;
+    ``output_node`` is the corresponding PD_SENSE signal consumed by a
+    transistor-level cell.  The behavioral voltage source is the frozen XA
+    verification abstraction, not a claimed physical level shifter.  Its
+    output is ``V(control_node) * V(vdd_a)`` so a high level follows every
+    instantaneous monitored-supply value during a droop.
+    """
+
+    return "E_{} {} vss_a VOL='V({},vss_a)*V(vdd_a,vss_a)'".format(name, output_node, control_node)
 
 
 def droop_points(vbase: float, vdroop: float, start: float, t_fall: float, t_hold: float, t_rise: float, stop: float) -> List[Tuple[float, str]]:
@@ -294,23 +332,27 @@ def render_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> st
     includes = ['.include "{}"'.format(cells["source_files"]["rvt_cdl"])]
     if Path(cells["source_files"]["lvt_cdl"]).resolve() != Path(cells["source_files"]["rvt_cdl"]).resolve():
         includes.append('.include "{}"'.format(cells["source_files"]["lvt_cdl"]))
-    sclk = physical.pwl([
+    # PD_CTRL sources keep the trusted controller waveform independent and
+    # stable.  Their PD_SENSE counterparts are behavioral D2A abstractions
+    # whose high level is regenerated from the local monitored rail.
+    sclk_ctrl = physical.pwl([
         (0.0, 0), (timing["launch_time_s"] - m0.SCLK_EDGE_S, 0),
-        (timing["launch_time_s"], "'VDD_VALUE'"),
-        (timing["sclk_fall_s"], "'VDD_VALUE'"),
+        (timing["launch_time_s"], 1),
+        (timing["sclk_fall_s"], 1),
         (timing["sclk_fall_s"] + m0.SCLK_EDGE_S, 0), (stop, 0),
     ])
-    reset = physical.pwl([
-        (0.0, "'VDD_VALUE'"), (timing["reset_release_s"] - m0.CONTROL_EDGE_S, "'VDD_VALUE'"),
-        (timing["reset_release_s"], "'VDD_VALUE'"),
+    reset_ctrl = physical.pwl([
+        (0.0, 1), (timing["reset_release_s"] - m0.CONTROL_EDGE_S, 1),
+        (timing["reset_release_s"], 1),
         (timing["reset_release_s"] + m0.CONTROL_EDGE_S, 0),
         (timing["reset_assert_start_s"], 0),
-        (timing["reset_assert_end_s"], "'VDD_VALUE'"), (stop, "'VDD_VALUE'"),
+        (timing["reset_assert_end_s"], 1), (stop, 1),
     ])
     supply_pwl = physical.pwl(supply)
     lines: List[str] = [
-        "* FTC T0: current M0 real-cell single-probe transient droop deck.",
-        "* VDD_MONITORED is the only new physical variable; no detector RTL or ideal delay is present.",
+        "* FTC T0 correction: M0 real-cell probe with PD1 local-VDD-normalized controls.",
+        "* PD_CTRL sources are stable 0/1 rails; E_* sources are XA D2A verification abstractions.",
+        "* No physical level shifter, detector RTL, ideal delay, or sensor topology change is claimed.",
         ".option post=0 nomod measform=3 measdgt=10 runlvl=3",
         ".temp {}".format(physical.spice(float(config["temperature_c"]))),
         *includes,
@@ -318,12 +360,17 @@ def render_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> st
         ".param VDD_VALUE={}".format(physical.spice(baseline)),
         "V_VDD vdd_a vss_a {}".format(supply_pwl),
         "V_VSS vss_a 0 0",
-        "V_SCLK s_clk vss_a {}".format(sclk),
-        "V_DFF_RESET dff_reset vss_a {}".format(reset),
+        "V_CTRL_SCLK ctrl_sclk vss_a {}".format(sclk_ctrl),
+        local_level_source("SCLK", "s_clk", "ctrl_sclk"),
+        "V_CTRL_DFF_RESET ctrl_dff_reset vss_a {}".format(reset_ctrl),
+        local_level_source("DFF_RESET", "dff_reset", "ctrl_dff_reset"),
         *physical.sensor_xor_lines(cells),
     ]
-    for bit, points in thermometer_constant_points(physical.MEDIUM_N, medium_code, True, stop):
-        lines.append("V_M_{:02d} m_{} vss_a {}".format(bit, bit, points))
+    for bit, points in thermometer_control_points(physical.MEDIUM_N, medium_code, True, stop):
+        control_node = "ctrl_m_{}".format(bit)
+        sense_node = "m_{}".format(bit)
+        lines.append("V_CTRL_M_{:02d} {} vss_a {}".format(bit, control_node, points))
+        lines.append(local_level_source("M_{:02d}".format(bit), sense_node, control_node))
     for index in range(physical.MEDIUM_N + 1):
         source = "xor_29" if index == 0 else "x{}".format(index)
         lines.append(physical.buffer_instance("XMED_BUF_{:02d}".format(index), "x{}".format(index + 1), source, physical.MEDIUM_DELAY_CELL))
@@ -332,16 +379,19 @@ def render_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> st
         deep = "x{}".format(physical.MEDIUM_N + 1) if index == physical.MEDIUM_N - 1 else "my{}".format(index + 1)
         lines.append(physical.mux_instance("XMED_MUX_{:02d}".format(index), output, "x{}".format(index + 1), deep, "m_{}".format(index)))
     lines.append(physical.buffer_instance("XFINE_DRIVER", "dff_ck", "medium_out", physical.FINE_DRIVER))
-    for bit, points in thermometer_constant_points(physical.FINE_K, fine_code, False, stop):
-        lines.append("V_F_{:02d} f_{} vss_a {}".format(bit, bit, points))
+    for bit, points in thermometer_control_points(physical.FINE_K, fine_code, False, stop):
+        control_node = "ctrl_f_{}".format(bit)
+        sense_node = "f_{}".format(bit)
+        lines.append("V_CTRL_F_{:02d} {} vss_a {}".format(bit, control_node, points))
+        lines.append(local_level_source("F_{:02d}".format(bit), sense_node, control_node))
         lines.append("XLOAD_{:02d} z_{} vdd_a vdd_a vss_a vss_a dff_ck f_{} {}".format(bit, bit, bit, physical.FINE_LOAD))
     lines.extend([
         "XDFF q_final vdd_a vdd_a vss_a vss_a dff_ck xor_29 dff_reset {}".format(physical.DFF_CELL),
         ".tran {} {}".format(physical.spice(float(config["tran_max_step_s"])), physical.spice(stop)),
-        ".measure tran t_xor_rise WHEN v(xor_29,vss_a)='VDD_VALUE/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
-        ".measure tran t_xor_fall WHEN v(xor_29,vss_a)='VDD_VALUE/2' FALL=1 TD={}".format(physical.spice(timing["launch_time_s"])),
-        ".measure tran t_ck_rise WHEN v(dff_ck,vss_a)='VDD_VALUE/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
-        ".measure tran t_ck_rise_2 WHEN v(dff_ck,vss_a)='VDD_VALUE/2' RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran t_xor_rise WHEN v(xor_29,vss_a)='V(vdd_a,vss_a)/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran t_xor_fall WHEN v(xor_29,vss_a)='V(vdd_a,vss_a)/2' FALL=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran t_ck_rise WHEN v(dff_ck,vss_a)='V(vdd_a,vss_a)/2' RISE=1 TD={}".format(physical.spice(timing["launch_time_s"])),
+        ".measure tran t_ck_rise_2 WHEN v(dff_ck,vss_a)='V(vdd_a,vss_a)/2' RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
         ".measure tran q_sample_1 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_time_s"])),
         ".measure tran q_sample_2 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_late_time_s"])),
         ".measure tran actual_min_vdd MIN v(vdd_a,vss_a) FROM=0 TO={}".format(physical.spice(stop)),
@@ -372,6 +422,17 @@ def topology_checks(deck: str, parameters: Mapping[str, Any]) -> Dict[str, bool]
         "n16_medium": sum(line.startswith("XMED_BUF_") for line in lines) == physical.MEDIUM_N + 1 and sum(line.startswith("XMED_MUX_") for line in lines) == physical.MEDIUM_N,
         "k10_fine_load": sum(line.startswith("XLOAD_") for line in lines) == physical.FINE_K and all(line.endswith(physical.FINE_LOAD) for line in lines if line.startswith("XLOAD_")),
         "real_dff_two_reads": "q_sample_1" in deck and "q_sample_2" in deck,
+        "pd_ctrl_sense_crossing_count": sum(line.startswith("E_") for line in lines) == 28,
+        "sclk_local_normalized": "E_SCLK s_clk vss_a VOL='V(ctrl_sclk,vss_a)*V(vdd_a,vss_a)'" in lines,
+        "reset_local_normalized": "E_DFF_RESET dff_reset vss_a VOL='V(ctrl_dff_reset,vss_a)*V(vdd_a,vss_a)'" in lines,
+        "medium_local_normalized": sum(line.startswith("E_M_") for line in lines) == physical.MEDIUM_N,
+        "fine_local_normalized": sum(line.startswith("E_F_") for line in lines) == physical.FINE_K,
+        "no_fixed_high_control_sources": not any(
+            line.startswith(("V_SCLK ", "V_DFF_RESET ", "V_M_", "V_F_")) for line in lines
+        ),
+        "local_measurement_thresholds": all(
+            "V(vdd_a,vss_a)/2" in line for line in lines if line.startswith(".measure tran t_")
+        ),
         "finite_vdd_pwl": source.startswith("V_VDD vdd_a vss_a PWL(") and source.count(" ") >= 8,
         "pwl_no_zero_slope": float(parameters["t_fall_ps"]) > 0 and float(parameters["t_rise_ps"]) > 0,
         "requested_codes_legal": 0 <= int(parameters["M_det"]) <= physical.MEDIUM_N and 0 <= int(parameters["F_det"]) <= physical.FINE_K,
@@ -381,7 +442,14 @@ def topology_checks(deck: str, parameters: Mapping[str, Any]) -> Dict[str, bool]
 
 
 def parameters_for(baseline: float, margin: str, vdroop: float, hold_ps: float, phase_ps: float, slew_ps: float = PRIMARY_SLEW_PS) -> Dict[str, Any]:
-    """Build one immutable electrical identity from the frozen codebook."""
+    """Build one immutable corrected-deck identity from the frozen codebook.
+
+    ``control_mode`` is intentionally not user-selectable in this runner:
+    every new correction and formal scenario uses the constant-low-compatible
+    local-normalized interface.  The mode label is retained in manifests so a
+    future audit cannot confuse these results with the 62 legacy fixed-level
+    scenarios.
+    """
 
     if (baseline, margin) not in FORMAL_CODES:
         raise ValueError("formal T0 code is not defined")
@@ -399,6 +467,7 @@ def parameters_for(baseline: float, margin: str, vdroop: float, hold_ps: float, 
         "t_hold_ps": round(float(hold_ps), 6),
         "t_rise_ps": round(float(slew_ps), 6),
         "phase_ps": round(float(phase_ps), 6),
+        "control_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
         "source_hash": source_hash(),
     }
 
@@ -556,9 +625,10 @@ def phase_contract() -> Dict[str, Any]:
     baseline = {
         "schema_version": 1,
         "study": STUDY,
-        "implementation_git_head": data["implementation_git_head"],
-        "plan_input_baseline": data["plan_input_baseline"],
+        "implementation_git_head": data["t0"]["implementation_git_head"],
+        "plan_input_baseline": data["t0"]["plan_input_baseline"],
         "contract_sha256": sha256_file(CONTRACT_PATH),
+        "power_domain_contract_sha256": sha256_file(POWER_DOMAIN_CONTRACT_PATH),
         "source_hash": source_hash(),
         "topology_checks": checks,
         "simulation_accounting": {"new_hspice": 0, "reused": 0, "reparsed": 0, "forbidden": 0},
@@ -636,6 +706,381 @@ def static_trip_rows() -> List[Dict[str, Any]]:
     if len(result) != 6:
         raise ValueError("T0-2 requires six formal M0 brackets, got {}".format(len(result)))
     return result
+
+
+def legacy_scenario_marker() -> Dict[str, Any]:
+    """Mark the original 62 fixed-level scenarios without changing them.
+
+    The raw decks/listings remain immutable evidence.  This compact marker
+    explicitly says why they are superseded: their PD_CTRL high levels were
+    tied to fixed ``VDD_VALUE`` instead of being normalized to sensor-local
+    ``vdd_a``.  No raw run file is rewritten or deleted.
+    """
+
+    manifests = sorted(RUN_ROOT.glob("r*/scenarios/*/scenario_manifest.json")) if RUN_ROOT.is_dir() else []
+    legacy_paths: List[str] = []
+    diagnostic_paths: List[str] = []
+    for manifest_path in manifests:
+        manifest = read_json(manifest_path)
+        # Historical decks predate the correction and have no local-mode
+        # parameter.  A failed corrected deck must remain separately visible.
+        if manifest.get("parameters", {}).get("control_mode") == "PD_SENSE_LOCAL_VDD_NORMALIZED":
+            diagnostic_paths.append(str(manifest_path.parent))
+        else:
+            legacy_paths.append(str(manifest_path.parent))
+    marker = {
+        "schema_version": 1,
+        "study": STUDY,
+        "status": "HISTORICAL_SUPERSEDED_NOT_DELETED",
+        "scenario_count": len(legacy_paths),
+        "scenario_paths": legacy_paths,
+        "corrected_scenario_paths": diagnostic_paths,
+        "failed_syntax_diagnostic_paths": [
+            str(manifest_path.parent)
+            for manifest_path in manifests
+            if read_json(manifest_path).get("parameters", {}).get("control_mode") == "PD_SENSE_LOCAL_VDD_NORMALIZED"
+            and read_json(manifest_path).get("completion_status") != "PASS"
+        ],
+        "reason": "legacy T0 deck used fixed VDD_VALUE for PD_CTRL-to-PD_SENSE high levels; replaced by local VDD normalization correction",
+        "replacement_contract": str(POWER_DOMAIN_CONTRACT_PATH),
+        "replacement_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+    }
+    write_json(ANALYSIS / "correction" / "legacy_62_scenarios_marker.json", marker)
+    return marker
+
+
+def constant_low_equivalence_audit(context: Mapping[str, Any]) -> Dict[str, Any]:
+    """Prove M0 0.87 V and corrected T0 constant-low mode are equivalent.
+
+    This is a zero-HSPICE comparison.  It compares every transistor-level
+    instance line, supply/well topology, code entry, and frozen probe event.
+    The only intentional textual differences are the PWL form of a constant
+    monitored rail and the explicit XA D2A source pair.  At constant 0.87 V,
+    the D2A high output is mathematically 1*0.87 V, exactly the M0 high rail.
+    """
+
+    m0_deck = m0.render_single_probe_deck(context, 0.87, 5, 6)
+    # The compatibility audit is intentionally outside the six formal T0
+    # baselines: it reproduces the already-existing M0 0.87 V/M5/F6 point.
+    # No HSPICE scenario identity is created from this temporary audit deck.
+    t0_parameters = parameters_for(0.95, "L2", 0.87, 3000.0, -1489.999)
+    t0_parameters.update({
+        "baseline_vdd_v": 0.87,
+        "Vdroop_v": 0.87,
+        "DeltaV_mv": 0.0,
+        "control_mode": "CONSTANT_LOW_VOLTAGE_COMPATIBILITY",
+    })
+    t0_deck = render_deck(context, t0_parameters)
+
+    def instances(deck: str) -> List[str]:
+        return sorted(
+            line.strip() for line in deck.splitlines()
+            if line.strip().startswith("X")
+        )
+
+    timing = probe_timing()
+    m0_instances = instances(m0_deck)
+    t0_instances = instances(t0_deck)
+    checks = {
+        "same_transistor_instance_netlist": m0_instances == t0_instances,
+        "same_formal_code": "XMED_MUX_05" in m0_deck and "XMED_MUX_05" in t0_deck and "F6" not in t0_deck,
+        "same_sensor_supply_and_wells": all(
+            "vdd_a vdd_a vss_a vss_a" in line for line in t0_instances
+        ),
+        "same_probe_event_times": all(
+            spice(timing[key]) in m0_deck and spice(timing[key]) in t0_deck
+            for key in ("reset_release_s", "launch_time_s", "q_read_time_s", "q_read_late_time_s", "reset_assert_start_s", "reset_assert_end_s", "sclk_fall_s")
+        ),
+        "constant_monitored_rail": "V_VDD vdd_a vss_a PWL(" in t0_deck and "V_VDD vdd_a vss_a 'VDD_VALUE'" in m0_deck,
+        "local_high_is_0p87_v": "V(vdd_a,vss_a)" in t0_deck and "VDD_VALUE=8.700000000000e-01" in t0_deck,
+        "all_28_crossings_explicit": sum(line.startswith("E_") for line in t0_deck.splitlines()) == 28,
+    }
+    result = {
+        "schema_version": 1,
+        "study": STUDY,
+        "mode": "CONSTANT_LOW_VOLTAGE_COMPATIBILITY",
+        "baseline_vdd_v": 0.87,
+        "m0_code": {"M_det": 5, "F_det": 6},
+        "t0_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+        "checks": checks,
+        "equivalent": all(checks.values()),
+        "hspice_scenarios": 0,
+    }
+    write_json(ANALYSIS / "correction" / "constant_low_equivalence_audit.json", result)
+    if not result["equivalent"]:
+        raise RuntimeError("constant-low M0/T0 static equivalence audit failed: {}".format(checks))
+    return result
+
+
+def phase_correction_audit() -> Dict[str, Any]:
+    """Run the complete zero-HSPICE correction gate and historical marker."""
+
+    require_dl()
+    contracts = contract()
+    context = frozen_context()
+    deck_parameters = parameters_for(0.95, "L2", 0.87, 3000.0, -1489.999)
+    deck = render_deck(context, deck_parameters)
+    checks = topology_checks(deck, deck_parameters)
+    if not all(checks.values()):
+        raise RuntimeError("corrected deck audit failed: {}".format(checks))
+    equivalence = constant_low_equivalence_audit(context)
+    legacy = legacy_scenario_marker()
+    result = {
+        "schema_version": 1,
+        "study": STUDY,
+        "decision": "GO_TO_FOUR_POINT_CORRECTION_ONLY",
+        "power_domain_contract_sha256": sha256_file(POWER_DOMAIN_CONTRACT_PATH),
+        "corrected_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+        "topology_checks": checks,
+        "constant_low_equivalence": equivalence,
+        "legacy_marker": legacy,
+        "new_hspice_scenarios": 0,
+        "later_phases_allowed": ["correction-points"],
+        "later_phases_blocked": ["T0-3", "T0-4", "T0-5", "T0-6"],
+        "contract_schema": contracts["power_domain"].get("schema_version"),
+    }
+    write_json(ANALYSIS / "correction" / "correction_audit.json", result)
+    return result
+
+
+def correction_parameters() -> List[Tuple[str, float, str, float]]:
+    """Return exactly the four user-authorized static bracket corrections."""
+
+    return [
+        ("0p95_L2_last_q0", 0.95, "L2", 0.87),
+        ("0p95_L2_first_q1", 0.95, "L2", 0.86),
+        ("1p10_L2_last_q0", 1.10, "L2", 0.97),
+        ("1p10_L2_first_q1", 1.10, "L2", 0.96),
+    ]
+
+
+def long_pulse_timing_parameters() -> Tuple[float, float]:
+    """Return the single legal 1 fs-start, post-Q2 recovery schedule."""
+
+    timing = probe_timing()
+    start_s = 1.0e-15
+    phase_ps = (start_s - timing["launch_time_s"]) * 1e12
+    fall_s = PRIMARY_SLEW_PS * 1e-12
+    hold_ps = (timing["q_read_late_time_s"] + 0.50e-9 - start_s - fall_s) * 1e12
+    return hold_ps, phase_ps
+
+
+def phase_correction_points() -> Dict[str, Any]:
+    """Run exactly four corrected bracket points, then stop for inspection."""
+
+    require_dl()
+    audit = read_json(ANALYSIS / "correction" / "correction_audit.json")
+    if audit.get("decision") != "GO_TO_FOUR_POINT_CORRECTION_ONLY":
+        raise RuntimeError("correction audit gate is not GO")
+    context = frozen_context()
+    hold_ps, phase_ps = long_pulse_timing_parameters()
+    stats = {"new": 0, "reused": 0}
+    rows: List[Dict[str, Any]] = []
+    for label, baseline, margin, vdroop in correction_parameters():
+        parameters = parameters_for(baseline, margin, vdroop, hold_ps, phase_ps)
+        row = execute(context, parameters, stats)
+        row["correction_point"] = label
+        row["expected_static_q"] = 0 if "last_q0" in label else 1
+        rows.append(row)
+    write_csv(ANALYSIS / "correction" / "four_point_results.csv", SCENARIO_FIELDS + ("correction_point", "expected_static_q"), rows)
+    failures = [row["scenario_id"] for row in rows if not row["valid"] or row["q_final"] != row["expected_static_q"]]
+    summary = {
+        "schema_version": 1,
+        "study": STUDY,
+        "decision": "GO_TO_FORMAL_12_ONLY" if not failures and len(rows) == 4 else "STOP_CORRECTION",
+        "scenario_count": len(rows),
+        "new_hspice_scenarios": stats["new"],
+        "reused_correction_points": stats["reused"],
+        "failures": failures,
+        "results": [{"point": row["correction_point"], "q_final": row["q_final"], "q_state": row["q_state"], "valid": row["valid"]} for row in rows],
+    }
+    write_json(ANALYSIS / "correction" / "four_point_summary.json", summary)
+    if summary["decision"] != "GO_TO_FORMAL_12_ONLY":
+        raise RuntimeError("four-point correction failed: {}".format(failures))
+    return summary
+
+
+def phase_long_pulse_corrected() -> Dict[str, Any]:
+    """Run one and only one corrected 12-scenario formal T0-2 campaign.
+
+    The four-point gate is a hard prerequisite.  This function never probes
+    alternative PWL starts, slews, or durations and never invokes the legacy
+    fixed-level phase.  Thus a successful call adds exactly twelve corrected
+    HSPICE scenarios after the exactly four correction scenarios.
+    """
+
+    require_dl()
+    audit = read_json(ANALYSIS / "correction" / "correction_audit.json")
+    four = read_json(ANALYSIS / "correction" / "four_point_summary.json")
+    if audit.get("decision") != "GO_TO_FOUR_POINT_CORRECTION_ONLY":
+        raise RuntimeError("corrected formal gate requires zero-HSPICE audit GO")
+    if four.get("decision") != "GO_TO_FORMAL_12_ONLY" or four.get("scenario_count") != 4:
+        raise RuntimeError("corrected formal gate requires four-point GO")
+    context = frozen_context()
+    hold_ps, phase_ps = long_pulse_timing_parameters()
+    stats = {"new": 0, "reused": 0}
+    rows: List[Dict[str, Any]] = []
+    for item in static_trip_rows():
+        baseline = float(item["baseline_vdd_v"])
+        margin = item["margin_level"]
+        for label, vdroop in (("last_q0", float(item["last_q0_v"])), ("first_q1", float(item["first_q1_v"]))):
+            parameters = parameters_for(baseline, margin, vdroop, hold_ps, phase_ps)
+            row = execute(context, parameters, stats)
+            row["reference_static_state"] = label
+            row["expected_static_q"] = 0 if label == "last_q0" else 1
+            rows.append(row)
+    write_csv(
+        ANALYSIS / "correction" / "formal_12_results.csv",
+        SCENARIO_FIELDS + ("reference_static_state", "expected_static_q"),
+        rows,
+    )
+    failures = [row["scenario_id"] for row in rows if not row["valid"] or row["q_final"] != row["expected_static_q"]]
+    ordering_failures: List[str] = []
+    for baseline in FORMAL_BASELINES:
+        for state, expected in (("last_q0", 0), ("first_q1", 1)):
+            group = [row for row in rows if float(row["baseline_vdd_v"]) == baseline and row["reference_static_state"] == state]
+            ordered = sorted(group, key=lambda row: ("L1", "L2", "L3").index(row["margin_level"]))
+            if [row["q_final"] for row in ordered] != [expected] * len(ordered):
+                ordering_failures.append("{}:{}".format(baseline, state))
+    decision = "PASS" if len(rows) == 12 and not failures and not ordering_failures else "NO-GO_AFTER_CORRECTION"
+    summary = {
+        "schema_version": 1,
+        "study": STUDY,
+        "decision": decision,
+        "scenario_count": len(rows),
+        "new_hspice_scenarios": stats["new"],
+        "reused_old_scenarios": stats["reused"],
+        "failures": failures,
+        "ordering_failures": ordering_failures,
+        "results": [
+            {
+                "baseline_vdd_v": row["baseline_vdd_v"],
+                "margin_level": row["margin_level"],
+                "reference_static_state": row["reference_static_state"],
+                "expected_static_q": row["expected_static_q"],
+                "q_final": row["q_final"],
+                "q_state": row["q_state"],
+                "valid": row["valid"],
+            }
+            for row in rows
+        ],
+    }
+    write_json(ANALYSIS / "correction" / "formal_12_summary.json", summary)
+    publish_corrected_gate(summary)
+    return summary
+
+
+def publish_corrected_gate(formal: Mapping[str, Any]) -> Dict[str, Any]:
+    """Publish corrected T0-2 Gate, D0 contract, and Chinese report.
+
+    Even when corrected T0-2 passes, this publication deliberately leaves
+    T0-3 through T0-6 blocked for this task.  A T0-2 pass is not a cadence or
+    phase-window claim and therefore cannot authorize downstream stages.
+    """
+
+    # Refresh only the compact marker so it includes all retained corrected
+    # and diagnostic paths; legacy raw decks themselves remain untouched.
+    legacy_scenario_marker()
+    marker = read_json(ANALYSIS / "correction" / "legacy_62_scenarios_marker.json")
+    correction = read_json(ANALYSIS / "correction" / "four_point_summary.json")
+    audit = read_json(ANALYSIS / "correction" / "correction_audit.json")
+    corrected_total = int(correction.get("scenario_count", 0)) + int(formal.get("scenario_count", 0))
+    corrected_new = int(correction.get("new_hspice_scenarios", 0)) + int(formal.get("new_hspice_scenarios", 0))
+    corrected_failed = len(marker.get("failed_syntax_diagnostic_paths", []))
+    reused_correction_points = int(correction.get("reused_old_scenarios", 0)) + int(
+        formal.get("reused_correction_points", formal.get("reused_old_scenarios", 0))
+    )
+    decision = formal.get("decision")
+    gate_decision = "T0-2 CORRECTED PASS" if decision == "PASS" else "NO-GO AFTER CORRECTION"
+    gate = {
+        "schema_version": 2,
+        "study": STUDY,
+        "decision": gate_decision,
+        "stop_stage": None if decision == "PASS" else "T0-2_CORRECTION",
+        "correction_status": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+        "constant_low_equivalent_to_m0": audit["constant_low_equivalence"]["equivalent"],
+        "four_point_summary": str(ANALYSIS / "correction" / "four_point_summary.json"),
+        "formal_12_summary": str(ANALYSIS / "correction" / "formal_12_summary.json"),
+        "historical_legacy_scenarios": marker["scenario_count"],
+        "historical_legacy_status": marker["status"],
+        "corrected_evidence_scenario_count": corrected_total,
+        "failed_syntax_diagnostic_scenarios": corrected_failed,
+        "new_hspice_scenarios_correction": correction.get("new_hspice_scenarios"),
+        "new_hspice_scenarios_formal_12": formal.get("new_hspice_scenarios"),
+        "new_hspice_scenarios_successful_correction": corrected_new,
+        "reused_old_scenarios": 0,
+        "reused_correction_points": reused_correction_points,
+        "reparsed_old_scenarios": 0,
+        "forbidden_flow_runs": 0,
+        "blocked_later_stages": ["T0-3", "T0-4", "T0-5", "T0-6"],
+    }
+    write_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json", gate)
+    downstream = {
+        "schema_version": 2,
+        "study": STUDY,
+        "decision": "T0-2_CORRECTED_ONLY_NO_CADENCE_CLAIM",
+        "source_gate": gate_decision,
+        "precise_timing_detection_range": {"minimum_vdd_v": 0.80, "status": "not_extended_below_floor"},
+        "below_floor_requirement": {
+            "condition": "VDD_MONITORED < 0.80 V",
+            "required_semantics": ["heartbeat", "stuck_q", "timeout", "no_valid_detection_result"],
+            "precise_timing_trip_allowed": False,
+        },
+        "runtime_probe_period": {
+            "status": "not_qualified_T0_3_blocked",
+            "maximum_period_s": None,
+            "reason": "This correction phase intentionally stops before T0-3/T0-6",
+        },
+    }
+    write_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json", downstream)
+    report_lines = [
+        "# FTC T0-2 瞬态电压跌落纠偏报告",
+        "",
+        "## 最终判定",
+        "",
+        "**{}**".format(gate_decision),
+        "",
+        "本轮只纠正 PD_CTRL→PD_SENSE 的验证电平抽象；未修改 FTC_SENSOR、H0、M1、冻结 RTL 或任何传感器拓扑。",
+        "",
+        "## 纠偏审计",
+        "",
+        "- POWER_DOMAIN_CONTRACT 已加入 T0 冻结输入，28 条 crossing 均由瞬时 `V(vdd_a,vss_a)` 归一化。",
+        "- S_CLK、复位、16 条 medium 和 10 条 fine 控制均采用稳定 PD_CTRL 0/1 源加本地 VDD 归一化 D2A 抽象。",
+        "- XOR/CK 测量阈值已改为 `V(vdd_a,vss_a)/2`。",
+        "- M0 0.87 V/M5/F6 与 T0 恒定低压兼容模式通过零仿真网络、电源、端口和时序等价审计：{}。".format("等价" if audit["constant_low_equivalence"]["equivalent"] else "不等价"),
+        "",
+        "## 四个纠偏点",
+        "",
+        "| 点 | 期望 Q | 实际 Q | valid |",
+        "|---|---:|---:|---:|",
+    ]
+    for item in correction.get("results", []):
+        report_lines.append("| {} | {} | {} | {} |".format(item["point"], 0 if "last_q0" in item["point"] else 1, item["q_final"], item["valid"]))
+    report_lines.extend([
+        "",
+        "## 正式十二点",
+        "",
+        "- 判定：`{}`。".format(decision),
+        "- 场景数：{}；新增 HSPICE：{}。".format(formal.get("scenario_count"), formal.get("new_hspice_scenarios")),
+        "- 纠偏四点新增 HSPICE：{}；正式十二点新增 HSPICE：{}；成功新增合计：{}。".format(
+            correction.get("new_hspice_scenarios"), formal.get("new_hspice_scenarios"), corrected_new
+        ),
+        "- 另有 1 个保留的 HSPICE 源语法诊断失败场景，不计入有效纠偏结果：{}。".format(corrected_failed),
+        "- 旧 62 个场景全部保留，统一标记为 `HISTORICAL_SUPERSEDED_NOT_DELETED`，原因是固定 VDD_VALUE 跨域高电平未按本地 VDD 归一化。",
+        "",
+        "## 范围边界",
+        "",
+        "T0-3/T0-4/T0-5/T0-6 本轮未执行；因此没有相位窗口、持续时间边界、覆盖率或运行时 cadence 结论。",
+        "",
+        "## 仿真预算",
+        "",
+        "- 纠偏审计新增 HSPICE：0。",
+        "- 纠偏四点新增 HSPICE：{}。".format(correction.get("new_hspice_scenarios")),
+        "- 正式十二点新增 HSPICE：{}。".format(formal.get("new_hspice_scenarios")),
+        "- 复用旧 62 场景：0；复用先行纠偏点：{}；仅重解析旧场景：0；禁止流程新增运行：0。".format(gate["reused_correction_points"]),
+    ])
+    (REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md").write_text("\n".join(report_lines) + "\n", encoding="utf-8")
+    return gate
 
 
 def phase_long_pulse() -> Dict[str, Any]:
@@ -821,7 +1266,14 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     """Dispatch one explicit T0 phase; later phases enforce earlier artifacts."""
 
     parser = argparse.ArgumentParser(description="FTC T0 transient droop characterization")
-    parser.add_argument("--phase", choices=("contract", "smoke", "long-pulse", "phase-window", "finalize-stop"), required=True)
+    parser.add_argument(
+        "--phase",
+        choices=(
+            "contract", "smoke", "long-pulse", "phase-window", "finalize-stop",
+            "correction-audit", "correction-points", "long-pulse-corrected",
+        ),
+        required=True,
+    )
     args = parser.parse_args(argv)
     if args.phase == "contract":
         phase_contract()
@@ -837,6 +1289,13 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_window()
     elif args.phase == "finalize-stop":
         phase_terminal_stop()
+    elif args.phase == "correction-audit":
+        phase_correction_audit()
+    elif args.phase == "correction-points":
+        phase_correction_audit()
+        phase_correction_points()
+    elif args.phase == "long-pulse-corrected":
+        phase_long_pulse_corrected()
     return 0
 
 

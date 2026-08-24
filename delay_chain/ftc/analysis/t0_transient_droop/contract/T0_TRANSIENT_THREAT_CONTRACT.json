@@ -45,7 +45,11 @@
     "m0_trip_sweep.csv": "a00f2ab733f17e32333b7b5d43a0f4d32d4e863907e728660af60e1579d7489e",
     "m0_trip_summary.json": "78d46c5212abe356451aa09d052b866d519fe3e609330ae474fa1e8a7faa895b",
     "m0_candidate_summary.csv": "f37e4ece14dfecbdaa0260bb51aa8218794541b3743144bb66b26b88f52e2c65",
-    "m1_downstream_t0_d0_handoff.json": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5"
+    "m1_downstream_t0_d0_handoff.json": "736b0ec505af181ecfe53d587e6123633ea354b108099dec0a6366da3718bca5",
+    "POWER_DOMAIN_CONTRACT.json": "38e4863bfa4996659fdc896d8b026299c465d87821e831a7b96bc4a0c3bd3c45",
+    "sclk_crossing_contract.json": "5fa43c1e93e514ee5eff29c1f226181001141dcfad2ed8b16e583bcbeb2baa17",
+    "reset_crossing_contract.json": "9873792b6ff2ff3852763a4c853ea3462ad4bb6a6d8434b455a7d4dc659eaee2",
+    "configuration_crossing_contract.json": "70b6f01d436204d48cb9574b9db368cf4fae1a607b6eb9e10f6d6955e6728afb"
   },
   "forbidden_work": [
     "rerun_H0_or_H0_E",

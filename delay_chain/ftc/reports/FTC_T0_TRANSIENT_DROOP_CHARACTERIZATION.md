@@ -1,29 +1,42 @@
-# FTC T0 瞬态电压跌落检测表征报告
+# FTC T0-2 瞬态电压跌落纠偏报告
 
 ## 最终判定
 
-**NO-GO / STOP（停止阶段：T0-2）**
+**T0-2 CORRECTED PASS**
 
-T0-2 的有限斜率长脉冲无法在全部六个正式候选上复现 M0 最近静态 Q0/Q1 bracket。该结果是当前冻结传感器的物理一致性失败，不是通过增加数字逻辑可以掩盖的问题。
+本轮只纠正 PD_CTRL→PD_SENSE 的验证电平抽象；未修改 FTC_SENSOR、H0、M1、冻结 RTL 或任何传感器拓扑。
 
-## 证据
+## 纠偏审计
 
-- M0 原始 `trip_sweep.csv` 被直接读取，没有重新执行静态扫描。
-- T0-2 共运行 12 个正式 long-pulse 场景；每个场景均使用当前 medium/fine、真实 tap29 XOR 和真实 DFF 双采样。
-- PWL 起点依次检查到 0.5 ns、1 ps 和 1 fs，下降/恢复斜率保持非零；反转仍然存在。
-- 失败点保留在 `delay_chain/ftc/runs/t0_transient_droop/`，没有覆盖或删除。
+- POWER_DOMAIN_CONTRACT 已加入 T0 冻结输入，28 条 crossing 均由瞬时 `V(vdd_a,vss_a)` 归一化。
+- S_CLK、复位、16 条 medium 和 10 条 fine 控制均采用稳定 PD_CTRL 0/1 源加本地 VDD 归一化 D2A 抽象。
+- XOR/CK 测量阈值已改为 `V(vdd_a,vss_a)/2`。
+- M0 0.87 V/M5/F6 与 T0 恒定低压兼容模式通过零仿真网络、电源、端口和时序等价审计：等价。
 
-## 禁止越过的阶段
+## 四个纠偏点
 
-T0-3 相位窗口、T0-4 持续时间边界、T0-5 覆盖率和 T0-6 cadence 均标记为 BLOCKED，未进行新的 HSPICE 扩展。
+| 点 | 期望 Q | 实际 Q | valid |
+|---|---:|---:|---:|
+| 0p95_L2_last_q0 | 0 | 0 | 1 |
+| 0p95_L2_first_q1 | 1 | 1 | 1 |
+| 1p10_L2_last_q0 | 0 | 0 | 1 |
+| 1p10_L2_first_q1 | 1 | 1 | 1 |
 
-## D0 下游边界
+## 正式十二点
 
-精确 timing detection 不能扩展到低于 0.80 V；D0 必须为该范围采用 heartbeat、stuck-Q、timeout 或无有效检测结果等失效保护语义。当前没有经过 T0-3 至 T0-6 验证的运行时检测间隔。
+- 判定：`PASS`。
+- 场景数：12；新增 HSPICE：8。
+- 纠偏四点新增 HSPICE：4；正式十二点新增 HSPICE：8；成功新增合计：12。
+- 另有 1 个保留的 HSPICE 源语法诊断失败场景，不计入有效纠偏结果：1。
+- 旧 62 个场景全部保留，统一标记为 `HISTORICAL_SUPERSEDED_NOT_DELETED`，原因是固定 VDD_VALUE 跨域高电平未按本地 VDD 归一化。
 
-## 仿真统计
+## 范围边界
 
-- 新增 T0 HSPICE 场景（含两次试跑和五轮 T0-2 bracket 复核）：62。
-- 复用旧 HSPICE 场景：0。
-- 仅重解析旧场景：0。
-- 禁止流程新增运行：0。
+T0-3/T0-4/T0-5/T0-6 本轮未执行；因此没有相位窗口、持续时间边界、覆盖率或运行时 cadence 结论。
+
+## 仿真预算
+
+- 纠偏审计新增 HSPICE：0。
+- 纠偏四点新增 HSPICE：4。
+- 正式十二点新增 HSPICE：8。
+- 复用旧 62 场景：0；复用先行纠偏点：4；仅重解析旧场景：0；禁止流程新增运行：0。

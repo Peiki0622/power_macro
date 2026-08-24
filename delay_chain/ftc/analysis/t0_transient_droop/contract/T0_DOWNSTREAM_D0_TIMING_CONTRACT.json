@@ -9,17 +9,17 @@
       "no_valid_detection_result"
     ]
   },
-  "decision": "BLOCKED_BY_T0_STOP",
+  "decision": "T0-2_CORRECTED_ONLY_NO_CADENCE_CLAIM",
   "precise_timing_detection_range": {
     "minimum_vdd_v": 0.8,
     "status": "not_extended_below_floor"
   },
   "runtime_probe_period": {
     "maximum_period_s": null,
-    "reason": "T0-3_and_later_phases_blocked_by_T0-2",
-    "status": "not_qualified"
+    "reason": "This correction phase intentionally stops before T0-3/T0-6",
+    "status": "not_qualified_T0_3_blocked"
   },
-  "schema_version": 1,
-  "source_gate": "T0-2",
+  "schema_version": 2,
+  "source_gate": "T0-2 CORRECTED PASS",
   "study": "ftc_t0_transient_voltage_droop_characterization_v1"
 }

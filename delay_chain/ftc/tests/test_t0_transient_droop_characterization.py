@@ -1,7 +1,7 @@
 """Zero-HSPICE regression tests for the FTC T0 transient contracts.
 
-These tests check renderer structure, input reuse, waveform legality, and
-terminal STOP evidence.  They never substitute for the retained HSPICE
+These tests check renderer structure, input reuse, waveform legality, power
+domain normalization, and the zero-HSPICE correction gate.  They never substitute for the retained HSPICE
 scenarios in ``delay_chain/ftc/runs/t0_transient_droop``.
 """
 
@@ -29,10 +29,13 @@ class T0TransientDroopTests(unittest.TestCase):
 
     def test_contract_has_only_formal_baselines_and_margins(self):
         contract = study.contract()
-        self.assertEqual(contract["formal_scope"]["baseline_vdd_v"], [0.95, 1.1])
-        self.assertEqual(contract["formal_scope"]["margin_levels"], ["L1", "L2", "L3"])
-        self.assertEqual(contract["formal_scope"]["formal_minimum_vdd_v"], 0.8)
-        self.assertTrue(contract["waveform"]["zero_time_voltage_jump_forbidden"])
+        threat = contract["t0"]
+        power = contract["power_domain"]
+        self.assertEqual(threat["formal_scope"]["baseline_vdd_v"], [0.95, 1.1])
+        self.assertEqual(threat["formal_scope"]["margin_levels"], ["L1", "L2", "L3"])
+        self.assertEqual(threat["formal_scope"]["formal_minimum_vdd_v"], 0.8)
+        self.assertTrue(threat["waveform"]["zero_time_voltage_jump_forbidden"])
+        self.assertEqual(power["crossings"]["PD_CTRL_to_PD_SENSE"]["count"], 28)
 
     def test_codebook_matches_m1_entries(self):
         expected = {
@@ -54,8 +57,10 @@ class T0TransientDroopTests(unittest.TestCase):
         checks = study.topology_checks(deck, parameters)
         self.assertTrue(all(checks.values()), checks)
         self.assertIn("XDFF q_final vdd_a vdd_a vss_a vss_a dff_ck xor_29 dff_reset DFFRPQ_X0P5M_A9TR40", deck)
-        self.assertEqual(sum(line.startswith("V_M_") for line in deck.splitlines()), 16)
-        self.assertEqual(sum(line.startswith("V_F_") for line in deck.splitlines()), 10)
+        self.assertEqual(sum(line.startswith("E_M_") for line in deck.splitlines()), 16)
+        self.assertEqual(sum(line.startswith("E_F_") for line in deck.splitlines()), 10)
+        self.assertIn("E_SCLK s_clk vss_a VOL='V(ctrl_sclk,vss_a)*V(vdd_a,vss_a)'", deck)
+        self.assertIn("V(vdd_a,vss_a)/2", deck)
 
     def test_static_trip_rows_use_nearest_q0_from_original_sweep(self):
         rows = study.static_trip_rows()
@@ -72,13 +77,13 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(study.m0.stable_q(0.0, 0.0, 0.95), (0, "stable_low"))
         self.assertEqual(study.m0.stable_q(0.95, 0.0, 0.95), (None, "ambiguous"))
 
-    def test_terminal_gate_and_downstream_contract_are_present(self):
-        gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
-        downstream = json.loads((FTC_ROOT / "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").read_text())
-        self.assertEqual(gate["decision"], "NO-GO / STOP")
-        self.assertEqual(gate["stop_stage"], "T0-2")
-        self.assertFalse(downstream["below_floor_requirement"]["precise_timing_trip_allowed"])
-        self.assertIsNone(downstream["runtime_probe_period"]["maximum_period_s"])
+    def test_correction_audit_and_legacy_marker_are_present(self):
+        audit = json.loads((FTC_ROOT / "analysis/t0_transient_droop/correction/correction_audit.json").read_text())
+        equivalence = json.loads((FTC_ROOT / "analysis/t0_transient_droop/correction/constant_low_equivalence_audit.json").read_text())
+        marker = json.loads((FTC_ROOT / "analysis/t0_transient_droop/correction/legacy_62_scenarios_marker.json").read_text())
+        self.assertEqual(audit["decision"], "GO_TO_FOUR_POINT_CORRECTION_ONLY")
+        self.assertTrue(equivalence["equivalent"])
+        self.assertEqual(marker["scenario_count"], 62)
 
 
 if __name__ == "__main__":
