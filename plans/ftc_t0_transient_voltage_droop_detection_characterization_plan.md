@@ -4,7 +4,8 @@
 **目标分支：** `main`  
 **T0 原始输入基线：** `46ebf25e9bb15aba29be23f79e8aa3ed8b8ad474`  
 **T0-2 纠偏完成提交：** `b3fe480c461b6b8a5d2f10a276d763ba9aae9526`  
-**当前阶段状态：** T0-2 已在本地电源归一化接口抽象下纠偏通过；下一步不是重跑 T0-2，而是先进行零 HSPICE 的 T0-2E 证据闭合与 T0-3 解封，然后进入 T0-3 相位敏感窗口表征。  
+**T0-4 纠偏闭合提交：** `bfe5ba69e68849f9c46db36ff6d0f43022769f2e`  
+**当前阶段状态：** T0-2 已在本地电源归一化接口抽象下纠偏通过，T0-2E 已完成零 HSPICE 证据闭合，T0-3 相位敏感窗口已 GO，T0-4 六个正式检测配置的“跌落深度—最短可检测持续时间”边界已纠偏并 GO；下一步不是重跑 T0-4，而是先执行 **T0-4E：零 HSPICE 证据闭合、清理旧 T0-4 STOP 残留、建立跨 runner 修改的电气等价复用并解封 T0-5**，然后进入 T0-5A/T0-5B 时间覆盖率表征。  
 **阶段定位：** H0 校准到检测所有权切换已通过，M0/M0-E 静态检测裕量与静态触发电压已闭合，M1 可编程检测配置已通过，M1-T 时序证据已闭合；T0 只研究当前冻结传感器面对真实瞬态电压跌落时的物理检测边界，并为后续 D0 运行时检测状态机给出必须满足的检测时序合同。
 
 ---
@@ -16,10 +17,11 @@ T0 不再回答“静态电压下降多少会触发”，这个问题已经由 M
 T0 只回答以下几个物理问题：
 
 1. 一个有限持续时间的电压跌落，至少要多深、持续多久，当前传感器才会被真实触发器检测到；
-2. 同样的瞬态跌落出现在一次检测动作的不同时间位置时，哪些位置可检测、哪些位置属于盲区；
+2. 同样的瞬态跌落出现在一次检测动作的不同时间位置时，哪些位置可检测、哪些位置属于盲区或恢复沿模糊区；
 3. 不同检测裕量等级下，电压跌落深度与最短可检测持续时间之间是什么关系；
 4. 为了覆盖目标攻击持续时间，未来 D0 最多允许多长的检测间隔；
-5. 低于 0.80 V 的严重欠压应继续使用精确时序比较，还是应转入失效保护语义。
+5. 当前已经验证的一次性单 probe 时序与未来周期性运行时探测之间是否存在节拍矛盾；
+6. 低于 0.80 V 的严重欠压应继续使用精确时序比较，还是应转入失效保护语义。
 
 T0 的最终输出必须是一套可以直接约束 D0 的**瞬态威胁与检测时序合同**，而不是一批互不相干的 HSPICE 波形。
 
@@ -92,7 +94,7 @@ L3 -> M3/F10
 
 因此 T0 **不修改 M1，也不因为 +7.005 ps 重新综合或重跑 M1**。该余量只作为未来 D0 集成/布局布线阶段的实现风险保留。
 
-## 1.4 T0-2 纠偏后的权威证据
+## 1.4 T0-2 纠偏后的权威证据【已完成】
 
 提交 `b3fe480c461b6b8a5d2f10a276d763ba9aae9526` 已完成 T0-2 测试平台纠偏，后续 T0 必须以该提交及其后续明确取代证据作为物理基础，不得再使用原先固定高电平版本的结果作为正式结论。
 
@@ -117,6 +119,94 @@ HISTORICAL_SUPERSEDED_NOT_DELETED
 
 它们可以用于说明纠偏过程，不得用于后续 T0-3/T0-4/T0-5/T0-6 的物理结论，也不得再次被当成 T0-2 的正式失败证据。
 
+## 1.5 T0-3 权威证据【已完成，GO】
+
+T0-3 已在两个 L2 代表点上证明存在清楚、可重复的相位敏感窗口：
+
+```text
+0.95 V / L2 / M5-F6 / Vdroop=0.86 V / hold=3000 ps
+稳定 Q1 采样窗口：当前已观测 -1000 ps .. +75 ps
+其后进入稳定 Q0 区；转换边界细化到 25 ps。
+
+1.10 V / L2 / M3-F8 / Vdroop=0.96 V / hold=3000 ps
+稳定 Q1 采样窗口：当前已观测 -1000 ps .. +25 ps
+其后进入稳定 Q0 区；转换边界细化到 25 ps。
+```
+
+当前两个 Q1 区的左端都停在已扫描范围的 `-1000 ps` 边界，因此这些结果证明了**存在时间敏感窗口**，但还不能把 `-1000 ps` 当作真实左边界。T0-5A 必须复用这些数据并仅向更早相位扩展，直到得到稳定 Q0，形成真正封闭的单 probe 可检测窗口。
+
+## 1.6 T0-4 权威证据【已完成，GO】
+
+提交 `bfe5ba69e68849f9c46db36ff6d0f43022769f2e` 已纠正 T0-4 原错误判门并完成两个异常的局部物理诊断。
+
+正式事实：
+
+```text
+T0-4 = GO
+正式 T0-4 历史场景 = 238 个，全部保留并复用，没有整体重跑；
+6 个 last_q0_control 均在最长 3000 ps 测试下稳定 Q0；
+last_q0_control 的 minimum_detectable_hold_ps=null 是正确负控制语义，不是失败；
+18 个正式 Q1 检测点均已得到有效 clean-Q1 minimum duration；
+invalid minimum duration = 0；
+duration Q1 -> Q0 reversal = 0。
+```
+
+六个正式候选的持续时间边界以 `amplitude_duration/minimum_duration_boundary.csv` 为权威表，关键值包括：
+
+```text
+0.95 V / L1 / M4-F9：
+70 mV -> 1360 ps
+80 mV -> 1344 ps
+90 mV -> 1296 ps
+
+0.95 V / L2 / M5-F6：
+90 mV  -> 1454 ps
+100 mV -> 1438 ps
+110 mV -> 1360 ps
+
+0.95 V / L3 / M5-F9：
+120 mV -> 2000 ps（1500 ps Q0 -> 1750 ps 恢复沿模糊 -> 2000 ps clean Q1）
+130 mV -> 1562 ps
+140 mV -> 1578 ps
+
+1.10 V / L1 / M2-F10：
+90 mV  -> 1500 ps（1000 ps Q0 -> 1250 ps 恢复沿模糊 -> 1500 ps clean Q1）
+100 mV -> 1062 ps
+110 mV -> 1031 ps
+
+1.10 V / L2 / M3-F8：
+140 mV -> 1188 ps
+150 mV -> 1188 ps
+160 mV -> 1172 ps
+
+1.10 V / L3 / M3-F10：
+170 mV -> 1234 ps
+180 mV -> 1250 ps
+190 mV -> 1250 ps
+```
+
+### 1.6.1 两个 T0-4 异常的最终定性
+
+原异常点：
+
+```text
+0.95 V / L3 / Vdroop=0.83 V / phase=-450 ps / hold=1750 ps
+1.10 V / L1 / Vdroop=1.01 V / phase=-500 ps / hold=1250 ps
+```
+
+两点在 1 ps 电源恢复沿下都曾出现第二次 `dff_ck` 相对本地 `VDD_MONITORED/2` 的交叉；但诊断确认：
+
+```text
+两次交叉之间 dff_ck/VDD_MONITORED 的最低局部值约为 0.5；
+没有观察到一个稳定的逻辑低态；
+两点 Q 双采样始终保持 stable_high；
+恢复沿改为 10 ps 后，恢复窗口中的第二交叉都消失；
+因此 real_second_clock_present = false；
+根因 = fast_recovery_dynamic_local_rail_threshold_sensitivity。
+```
+
+正式结论：这是**1 ps 极快恢复沿下的本地动态门限敏感性**，不是一个已经证实的 `dff_ck` 低→高→低→高真实二次时钟。未来新的相位场景若出现类似现象，不得自动忽略，也不得自动判整个 T0 失败；应先保留为恢复沿模糊点，只在必要时做局部 10 ps 恢复沿敏感性检查。
+
 ---
 
 # 2. 本阶段绝对禁止事项
@@ -124,16 +214,10 @@ HISTORICAL_SUPERSEDED_NOT_DELETED
 除非后续某个明确停止门证明已有结构本身有错误，否则禁止：
 
 ```text
-重跑 H0
-重跑 H0-E
+重跑 H0 / H0-E
 重跑完整启动校准
-重跑 M0 静态局部面
-重跑 M0 静态 trip sweep
-重跑 M0-E
-重跑 M1 RTL/SVA
-重跑 M1 综合
-重跑 M1 mapped+SDF
-重跑 M1-T STA
+重跑 M0 静态局部面 / trip sweep / M0-E
+重跑 M1 RTL/SVA / 综合 / mapped+SDF / M1-T STA
 重跑 RF6 / RF8 / RF9C / RF9D
 重跑 XA 全流程
 修改六个冻结校准 RTL
@@ -150,21 +234,25 @@ HISTORICAL_SUPERSEDED_NOT_DELETED
 搜索或引入真实跨压 level shifter / isolation cell
 ```
 
-从纠偏完成后开始，额外禁止：
+额外禁止：
 
 ```text
-因为修改 T0 runner 而自动重跑已经通过的 T0-2 正式 12 点
-再次尝试 0.5 ns / 1 ps / 1 fs 等多轮 T0-2 起点试探
-重新运行旧的固定高电平 T0-2 流程
-把旧 long_pulse_consistency/summary.json 中的 STOP 当成当前权威 Gate
-删除、覆盖或改写旧 62 个历史场景
+因为修改 T0 runner 而自动重跑已经通过的 T0-2 正式 12 点；
+因为 source_hash 改变而整体重跑 T0-3 或 T0-4；
+重新运行旧的固定高电平 T0-2 流程；
+把旧 long_pulse_consistency/summary.json 的 STOP 当成当前权威 Gate；
+把旧 T0-4 STOP 的 phase_coverage/cadence/downstream 占位状态当作当前物理结论；
+删除、覆盖或改写旧 62 个 T0-2 历史场景；
+删除 T0-4 两个恢复沿异常或通过后处理强制单调化；
+重新执行全部 238 个 T0-4 场景；
+仅为了“保险”做六个 margin × 多深度 × 多持续时间 × 全相位暴力网格。
 ```
 
 **核心原则：** T0 只新增“现有证据回答不了的瞬态物理问题”的仿真。能由已有 CSV/JSON/报告直接复用的内容一律不得通过重新跑仿真获得。
 
 ---
 
-# 3. T0 的正式研究范围
+# 3. T0 的正式研究范围与判决语义
 
 ## 3.1 正式检测工作点
 
@@ -189,7 +277,7 @@ R = W_xor - D_ref
 
 只能作为机理解释量，不得替代真实 DFF 判决。
 
-对 T0-3 及其后的动态相位场景，两个 Q 采样点必须分别按**各自采样时刻的本地 `VDD_MONITORED`**进行高低判决，不能继续把固定 `Vdroop` 作为两个采样点共同的判决电压。
+对 T0-3 及其后的动态相位场景，两个 Q 采样点必须分别按**各自采样时刻的本地 `VDD_MONITORED`**进行高低判决，不能把固定 `Vdroop` 作为两个采样点共同的判决电压。
 
 至少需要记录：
 
@@ -201,71 +289,66 @@ Q_sample_2 / VDD_at_Q_sample_2
 Q_final
 ```
 
-如果任一采样点处于电源边沿且无法形成稳定高/低状态，应标记为 `ambiguous`，不得强行归类成 Q0 或 Q1。
+## 3.3 T0-5 以后必须使用四状态解释
+
+后续完整相位覆盖分析至少区分：
+
+```text
+CLEAN_Q1：两次 Q 采样稳定高，场景有效，无未解释多交叉；
+STABLE_Q0：两次 Q 采样稳定低，场景有效；
+RECOVERY_EDGE_AMBIGUOUS：恢复沿导致动态本地门限重新交叉或 Q 判决不能保证；
+OTHER_INVALID_AMBIGUOUS：其它缺失 crossing、采样不稳定、恢复不安静等未解决异常。
+```
+
+其中只有 `CLEAN_Q1` 可以计入“保证检测”覆盖。恢复沿模糊点不得因为 Q 最终为高就自动计入 clean detection，也不得直接等价为物理失败。
 
 ---
 
-# 4. T0-0 —— 冻结瞬态威胁与单次检测实验合同
+# 4. T0-0 —— 冻结瞬态威胁与单次检测实验合同【已完成】
 
-本阶段已经完成；后续不得无理由重新定义其相位参考和波形语义。
-
-## 4.1 统一瞬态电压跌落波形
-
-所有正式 T0 瞬态必须使用有限斜率的梯形/PWL 电源波形：
+所有正式 T0 瞬态继续使用有限斜率梯形/PWL 电源波形：
 
 ```text
 正常电压 Vbase
-   ↓ 下降时间 t_fall
+   ↓ t_fall
 最低电压 Vdroop
-   ↓ 保持时间 t_hold
+   ↓ t_hold
 恢复到 Vbase
-   ↑ 恢复时间 t_rise
+   ↑ t_rise
 ```
 
 统一参数：
 
 ```text
 Vbase
-跌落深度 DeltaV = Vbase - Vdroop
+DeltaV = Vbase - Vdroop
 t_fall
 t_hold
 t_rise
 phase
 ```
 
-`phase` 已冻结为：
+`phase` 冻结为：
 
 > 电源下降开始时刻相对于本次真实检测 `S_CLK` 上升沿的时间偏移。
 
-后续所有扫描必须保持同一相位定义。
+PWL 不允许同一时刻从 Vbase 直接跳到 Vdroop；必须有非零 `t_fall/t_rise`。
 
-## 4.2 不允许理想电压跳变
-
-PWL 不允许同一时刻从 Vbase 直接跳到 Vdroop。必须有非零 `t_fall/t_rise`。
-
-主研究斜率仍属于实验假设，不得写成真实芯片电源网络已经证明的边沿速度。
-
-## 4.3 权威合同
+当前合同仍把 1 ps 下降/恢复作为主研究斜率，把 10 ps 作为敏感性检查。它们都是研究假设，不得写成真实芯片电源网络已经证明的斜率。
 
 至少继续冻结：
 
 ```text
 delay_chain/ftc/analysis/t0_transient_droop/contract/T0_TRANSIENT_THREAT_CONTRACT.json
 delay_chain/ftc/controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json
-以及 S_CLK / reset / configuration 的跨域合同
+S_CLK / reset / configuration 跨域合同
 ```
-
-后续 T0 任何物理场景都必须保持 PD_SENSE 本地电源归一化接口抽象。
 
 ---
 
-# 5. T0-1 —— 当前 FTC 专用瞬态单次检测 runner
+# 5. T0-1 —— 当前 FTC 专用瞬态单次检测 runner【已完成并纠偏】
 
-T0-1 已经完成并在 T0-2 纠偏中修正。后续不得重新建立另一套近似传感器模型。
-
-## 5.1 冻结原则
-
-必须继续保持：
+后续不得重新建立另一套近似传感器模型。必须保持：
 
 ```text
 当前 FTC_SENSOR
@@ -278,242 +361,269 @@ PD_CTRL 稳定逻辑语义
 PD_SENSE 本地 VDD 归一化跨域抽象
 ```
 
-唯一允许变化的物理研究变量仍然是：
+唯一允许变化的物理研究变量仍然是 `VDD_MONITORED` 的瞬态波形参数。
 
-```text
-VDD_MONITORED 的瞬态波形参数
-```
-
-## 5.2 后续 runner 修改约束
-
-后续为了实现 T0-3/T0-4/T0-5 可以扩展：
-
-```text
-相位扫描
-持续时间扫描
-自适应边界搜索
-采样时刻本地 VDD 记录
-窗口/覆盖率后处理
-```
-
-但不得改变：
-
-```text
-传感器拓扑
-M/F 物理编码
-DFF 连接
-PD_SENSE 本地电平归一化方式
-M0 单次 probe 事件时序
-```
-
-## 5.3 场景身份与复用规则
-
-后续代码修改可能改变 runner 文件哈希，因此**不得把“runner 文件整体哈希发生变化”作为必须重跑 T0-2 已通过物理场景的理由**。
-
-T0-2 的纠偏后权威结果必须通过单独的冻结证据哈希和提交身份引用，而不是通过再次执行物理仿真来“重新确认”。
-
-新 T0-3 以后场景可以使用新的场景身份；但 T0-2 历史结论应读取已提交的纠偏结果，不重新生成。
+后续 runner 可以扩展相位扫描、持续时间扫描、窗口后处理、覆盖率和 cadence 数学分析，但不得改变传感器拓扑、M/F 物理编码、DFF 连接、本地电源归一化方式和已冻结单 probe 事件时序。
 
 ---
 
-# 6. T0-2 —— 长脉冲静态到瞬态一致性硬门【已纠偏通过】
+# 6. T0-2 —— 长脉冲静态到瞬态一致性硬门【CORRECTED PASS】
 
-T0-2 已完成，不再是待执行阶段。
+T0-2 已完成，禁止再次执行旧 `phase_long_pulse()`、旧 `--phase long-pulse`、旧固定高电平 12 点或纠偏后正式 12 点，除非未来明确发现已保存的 deck/listing/measurement 损坏且无法复核。
 
-## 6.1 纠偏后的正式判定
-
-权威判定：
-
-```text
-T0-2 CORRECTED PASS
-```
-
-四个先行纠偏点：
-
-```text
-0.95 V / L2 / 0.87 V：期望 Q0，实际 Q0
-0.95 V / L2 / 0.86 V：期望 Q1，实际 Q1
-1.10 V / L2 / 0.97 V：期望 Q0，实际 Q0
-1.10 V / L2 / 0.96 V：期望 Q1，实际 Q1
-```
-
-随后六个正式检测配置的 12 个长脉冲点全部保持 M0 最近 Q0/Q1 bracket 的方向与总体顺序。
-
-## 6.2 旧失败结果的处理
-
-旧目录：
-
-```text
-delay_chain/ftc/analysis/t0_transient_droop/long_pulse_consistency/
-```
-
-其中原始 `STOP` 是纠偏前测试平台产生的历史证据。不得删除，但后续机器流程不得把它作为当前 T0-2 Gate。
-
-后续权威 T0-2 入口必须指向：
-
-```text
-delay_chain/ftc/analysis/t0_transient_droop/correction/
-```
-
-及纠偏后的 `T0_GATE_STATUS.json`。
-
-## 6.3 不允许再次执行
-
-进入 T0-3 前不得再次运行：
-
-```text
-phase_long_pulse()
-旧 --phase long-pulse
-旧固定高电平 12 点
-纠偏后正式 12 点
-```
-
-除非未来明确发现纠偏后保存的 deck/listing/measurement 已损坏或无法复核；仅仅因为 Python 脚本变更、哈希变化、增加 T0-3 功能都不是重跑理由。
+旧 `long_pulse_consistency/summary.json` 的 STOP 只保留历史审计意义，当前权威入口是 `correction/` 和当前 `T0_GATE_STATUS.json`。
 
 ---
 
-# 7. T0-2E —— 纠偏后证据闭合与 T0-3 解封【零 HSPICE】
+# 7. T0-2E —— 纠偏后证据闭合【已完成，0 HSPICE】
 
-这是当前下一步，必须在 T0-3 新物理仿真之前完成。
-
-## 7.1 目标
-
-把“本轮纠偏任务主动阻塞 T0-3～T0-6”的状态，转换成“基于已通过的纠偏证据允许进入 T0-3”，同时修复远程仓库中仍存在的证据链歧义。
-
-**本阶段新增 HSPICE：0。**
-
-## 7.2 必须闭合的证据
-
-首先检查并提交远程可复核的机器可读摘要：
+T0-2E 已完成以下工作：
 
 ```text
-correction/four_point_summary.json
-correction/formal_12_summary.json
+correction/four_point_summary.json 已远程闭合；
+correction/formal_12_summary.json 已远程闭合；
+旧 T0-2 STOP 已机器可读 superseded；
+phase-window 已切断旧 phase_long_pulse 重跑路径；
+动态 Q 判决已使用两个采样时刻各自本地 VDD；
+T0-3 已被合法解封并完成。
 ```
 
-如果它们只存在于本地运行目录或未进入版本库，必须直接由已经提交的 `four_point_results.csv`、`formal_12_results.csv` 和现有 Gate 重新生成；禁止为生成摘要重新跑 HSPICE。
-
-随后必须对旧 `long_pulse_consistency/summary.json` 做**证据取代标记**：
-
-- 不删除原 STOP；
-- 不修改原始历史场景；
-- 新增机器可读 `superseded_by` / `authoritative_gate` / `reason` 信息，或者建立单独的 supersession JSON；
-- 明确当前权威结论来自 `correction/formal_12_summary.json` 和 `T0_GATE_STATUS.json`；
-- 后续代码不得读取旧 STOP 作为执行阻塞条件。
-
-## 7.3 T0 Gate 解封
-
-将当前纠偏任务中的：
-
-```text
-blocked_later_stages = [T0-3, T0-4, T0-5, T0-6]
-```
-
-解释为“纠偏任务本身的主动边界”，而不是新的物理 NO-GO。
-
-T0-2E 完成后应发布新的执行状态：
-
-```text
-T0-2 = CORRECTED PASS
-T0-3 = ENABLED
-T0-4/T0-5/T0-6 = WAITING_FOR_UPSTREAM_GATE
-```
-
-此处只是允许进入 T0-3，不得提前宣称 T0-4/T0-5/T0-6 已通过。
-
-## 7.4 切断无意义重跑路径
-
-当前 `--phase phase-window` 不得再执行：
-
-```text
-phase_contract()
-phase_long_pulse()
-phase_window()
-```
-
-应修改成只做：
-
-```text
-读取并验证 T0-2 CORRECTED PASS 机器可读证据
-验证纠偏后的电源域合同哈希/模式
-直接进入 phase_window()
-```
-
-验证只检查文件存在、摘要内容、哈希/提交身份和纠偏模式，不调用 HSPICE。
-
-## 7.5 动态 Q 判决修正
-
-在真正进入 T0-3 前，扩展测量和分类逻辑，记录两个 Q 采样时刻的实际本地电源：
-
-```text
-VDD_at_Q_sample_1
-VDD_at_Q_sample_2
-```
-
-并按各自本地电源判断：
-
-```text
-Q_sample_1 是否为稳定高/低
-Q_sample_2 是否为稳定高/低
-```
-
-不得继续统一使用 `Vdroop` 作为两个采样点的 Q 高低判决基准。
-
-该修改只针对未来动态相位场景的正确解释，不构成重跑 T0-2 的理由。
-
-## 7.6 Gate
-
-只有全部满足以下条件才允许执行 T0-3：
-
-```text
-纠偏后四点摘要可远程复核
-纠偏后正式十二点摘要可远程复核
-旧 STOP 已机器可读地标记为被纠偏结果取代
-T0 Gate 已明确 T0-3 ENABLED
-phase-window 不会调用任何 T0-2 HSPICE
-PD_SENSE 本地 VDD 归一化合同仍冻结
-两个 Q 采样点使用各自采样时刻的本地 VDD 判决
-```
-
-任何一项缺失都只修证据/代码，不运行新的物理扫描。
+后续不得重新把 T0-2E 当成待执行阶段。
 
 ---
 
-# 8. T0-3 —— 中等裕量的相位敏感窗口试探
+# 8. T0-3 —— 中等裕量相位敏感窗口【已完成，GO】
 
-只有 T0-2E 通过才执行。
+T0-3 已完成两个 L2 代表点的粗扫和 25 ps 边界细化，证明当前冻结结构存在清楚、可重复的时间敏感窗口。
 
-## 8.1 先只研究两个代表点
-
-只研究：
+权威结果来自：
 
 ```text
-0.95 V 的 L2：M5/F6
-1.10 V 的 L2：M3/F8
+delay_chain/ftc/analysis/t0_transient_droop/phase_window/phase_window.csv
+delay_chain/ftc/analysis/t0_transient_droop/phase_window/summary.json
 ```
 
-理由：L2 位于三个检测裕量的中间位置，更适合先判断当前冻结结构是否存在清楚、可重复的时间敏感窗口。
+T0-3 的作用只是在物理上证明“存在 Q0/Q1 时间窗口并可重复定位边界”。由于两个可检测窗口的左端都被当前扫描下限 `-1000 ps` 截断，T0-3 不能直接承担最终完整相位覆盖率结论；该缺口交给 T0-5A 用最小新增仿真闭合。
 
-不得一开始就对六个 margin 做完整相位扫描。
+---
 
-## 8.2 固定跌落深度和持续时间，只扫相位
+# 9. T0-4 —— 六个正式工作点的“跌落深度—最短可检测持续时间”边界【已纠偏完成，GO】
 
-为每个代表点选择一个已经明显进入静态 Q1 区、但仍满足 `Vdroop >= 0.80 V` 的跌落深度；固定一个足够覆盖感知区间的持续时间，只移动跌落相对于 probe 的开始时刻。
+## 9.1 当前权威判门
 
-先做粗扫描，寻找：
+T0-4 的正确规则已经冻结：
 
 ```text
-稳定 Q0 区域
-Q0/Q1 转换边界
-稳定 Q1 区域
-恢复到 Q0 的区域
+last_q0_control：
+  这是略浅于静态 trip 的负控制；
+  允许 minimum_detectable_hold_ps = null；
+  最长已测 3000 ps 仍稳定 Q0、valid、无 anomaly、无 Q1 误触发 -> PASS。
+
+first_q1_anchor 及更深点：
+  必须存在 clean-Q1 minimum duration；
+  ambiguous 点永久保留，不平滑、不删除、不强制单调；
+  若局部结构为 Q0 -> ambiguous -> clean Q1，则 minimum 取第一个已有 clean Q1 点，并同时保留 bracket。
 ```
 
-再只对状态转换附近做细扫描。
+## 9.2 两个恢复沿特殊边界
 
-不得在尚未看到状态转换时直接扩大到六个检测裕量。
+当前两个特殊正式边界保留为：
 
-## 8.3 每个场景必须输出
+```text
+0.95 V / L3 / 120 mV：
+1500 ps Q0 -> 1750 ps RECOVERY_EDGE_AMBIGUOUS -> 2000 ps CLEAN_Q1
+正式 minimum clean-Q1 = 2000 ps
+
+1.10 V / L1 / 90 mV：
+1000 ps Q0 -> 1250 ps RECOVERY_EDGE_AMBIGUOUS -> 1500 ps CLEAN_Q1
+正式 minimum clean-Q1 = 1500 ps
+```
+
+这两个点的模糊行为已经通过 1 ps/10 ps 局部诊断解释，不得再次作为阻塞 T0-5 的理由。
+
+## 9.3 T0-4 当前 Gate
+
+```text
+T0-4 = GO
+6 个负控制 PASS
+18 个正式 clean-Q1 minimum duration 有效
+Q1->Q0 reversal = 0
+real second clock = false
+```
+
+除非未来新的独立证据直接推翻上述事实，否则禁止再次运行完整 `phase_amplitude_duration()` 或用旧的错误判门覆盖当前结果。
+
+---
+
+# 10. T0-4E —— T0-4→T0-5 零仿真证据闭合与执行解封【当前下一步，0 HSPICE】
+
+这是当前唯一正确的下一阶段。**新增 HSPICE 必须严格为 0。**
+
+## 10.1 目标一：冻结 T0-4 权威证据身份
+
+建立机器可读 T0-4E 证据闭合记录，至少绑定以下文件及 SHA256：
+
+```text
+amplitude_duration/summary.json
+amplitude_duration/minimum_duration_boundary.csv
+amplitude_duration/anomaly_diagnostics.json
+reports/T0_GATE_STATUS.json
+reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md
+controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json
+```
+
+必须明确：
+
+```text
+T0-4 = GO
+T0-4 formal historical scenario count = 238
+T0-4 diagnostic unique electrical cases = 4（两个异常 × 1 ps/10 ps）
+诊断目录累计运行数可大于 4，但必须区分测量修订重跑与唯一电气场景数
+T0-4E 本阶段 HSPICE = 0
+```
+
+## 10.2 目标二：清理旧 T0-4 STOP 残留，但不伪造 T0-5/T0-6 结果
+
+当前仓库仍有历史占位文件写着 `BLOCKED_BY_T0_4_STOP`，至少包括：
+
+```text
+phase_coverage/phase_coverage.csv
+cadence/cadence.csv
+contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json
+```
+
+T0-4E 必须把这些状态改成与当前 Gate 一致的**等待下游表征**状态，而不是物理阻塞：
+
+```text
+T0-4 = GO
+T0-5 = ENABLED
+T0-6 = WAITING_FOR_T0_5_GATE
+runtime_probe_period.maximum_period_s = null
+runtime_probe_period.status = PENDING_T0_5_T0_6
+source_gate = T0-4 GO
+```
+
+不得在 T0-4E 提前填写覆盖率、最大 probe period 或 400 MHz 资格。
+
+旧 `BLOCKED_BY_T0_4_STOP` 内容可以通过独立 supersession/audit 记录保留历史，不得继续作为当前程序的执行条件。
+
+## 10.3 目标三：保护旧 STOP/旧 amplitude-duration 入口
+
+当前 runner 中保留的历史入口不能再有能力覆盖已纠偏的权威 T0-4 结果。至少做到：
+
+```text
+旧 amplitude-duration 入口若发现当前 T0-4 已冻结为 GO，默认拒绝执行；
+旧 finalize-stop / publish_t0_4_stop 只能用于真正新的未闭合 STOP，不得覆盖当前 corrected GO；
+旧错误条件“所有 boundary 均要求 minimum != null”不得再成为任何当前 Gate；
+任何历史终态报告函数不得把已纠偏的 T0-4 又写回 NO-GO。
+```
+
+优先采用显式阶段状态检查和机器可读权威证据哈希，不删除历史函数和历史结果。
+
+## 10.4 目标四：建立跨 runner 修改的电气等价复用
+
+这是 T0-5 前必须完成的关键基础设施。
+
+当前 `source_hash()` 会包含整个 runner 源码；以后只要增加 T0-5/T0-6 后处理代码，就可能使场景身份变化。**源码哈希变化本身绝不能成为重跑旧 T0-3/T0-4 HSPICE 的理由。**
+
+后续 `execute()`/复用逻辑至少应支持：
+
+```text
+第一优先：精确 scenario_id + parameters + deck hash 命中 -> 直接复用。
+
+若仅因 source_hash 不同导致 scenario_id 不命中：
+  1. 建立“电气参数投影”，忽略 source_hash 和纯编排/报告字段；
+  2. 比较 baseline_vdd_v、margin、M/F、Vdroop、t_fall、t_hold、t_rise、phase、control_mode 等真正决定 deck 的物理参数；
+  3. 用当前冻结 renderer 重新生成候选 deck；
+  4. 若与已保存 deck 的有效电气内容/规范化 deck SHA 等价，则复用原 listing/measurement；
+  5. 记录 reuse_reason = ELECTRICALLY_EQUIVALENT_SOURCE_HASH_DRIFT；
+  6. 不运行 HSPICE。
+```
+
+如果当前 deck 内包含不影响电气行为的 source hash 注释，允许先做规范化 deck hash（只去除明确声明的非电气元数据行），但必须把规范化规则机器可读冻结，禁止通过宽松文本处理把真正的电路差异误判为等价。
+
+只有真正电气参数或 deck 有差异时才允许建立新 T0-5 场景。
+
+## 10.5 T0-4E Gate
+
+只有全部满足才可解封 T0-5：
+
+```text
+T0-4 authority hash record 完整；
+旧 BLOCKED_BY_T0_4_STOP 状态已被当前 T0-4 GO 取代；
+T0_DOWNSTREAM_D0_TIMING_CONTRACT 不再声称 T0-4 STOP；
+T0-5 = ENABLED；
+T0-6 = WAITING_FOR_T0_5_GATE；
+旧 amplitude-duration/STOP 入口不能覆盖 corrected T0-4；
+电气等价复用测试覆盖 source_hash drift 且 HSPICE=0；
+T0-4E 本阶段新增 HSPICE=0。
+```
+
+任何一项失败都只修证据/代码，不进入新的物理相位扫描。
+
+---
+
+# 11. T0-5 —— 将持续时间边界放回完整相位，量化时间覆盖率
+
+T0-5 只在 T0-4E PASS 后执行。不得直接把 T0-4 的“代表相位最短持续时间”写成任意相位保证检测。
+
+T0-5 分成 **T0-5A 主闭合** 和 **T0-5B 极小补充**，禁止一次性做六个 margin 的全维暴力扫描。
+
+## 11.1 T0-5A —— 两个 L2 代表点的完整单 probe 时间窗口
+
+优先继续使用 T0-3 的两个 L2 配置，以保证物理问题连续并最大化复用。
+
+### 11.1.1 边界附近场景
+
+固定使用 T0-4 已闭合的 first-Q1 深度和 minimum clean-Q1 持续时间：
+
+```text
+0.95 V / L2 / M5-F6
+Vdroop = 0.86 V
+DeltaV = 90 mV
+hold = 1454 ps
+总脉冲约 1456 ps（1 ps fall + hold + 1 ps rise）
+
+1.10 V / L2 / M3-F8
+Vdroop = 0.96 V
+DeltaV = 140 mV
+hold = 1188 ps
+总脉冲约 1190 ps
+```
+
+这两个点回答“刚达到代表相位检测边界的脉冲，在完整时间位置上到底有多少覆盖”。
+
+### 11.1.2 明显可检测长脉冲场景
+
+同时保留：
+
+```text
+0.95 V / L2 / 0.86 V / hold=3000 ps
+1.10 V / L2 / 0.96 V / hold=3000 ps
+```
+
+这两类场景必须优先复用 T0-3 已有 phase 点，禁止重跑相同电气参数。
+
+T0-3 当前左边界被 `-1000 ps` 截断。T0-5A 对长脉冲只允许：
+
+```text
+从 -1000 ps 向更早相位按约 250 ps 粗步进扩展；
+直到首次得到合法稳定 Q0；
+然后只在最新 Q0/Q1 边界附近按 25 ps 细化；
+已有 -1000 ps 及之后全部相位点直接复用。
+```
+
+如果右侧现有扫描端仍未回到稳定 Q0，也采用同样原则只向右扩；禁止重扫整个区间。
+
+### 11.1.3 边界附近短脉冲的相位扫描
+
+对 1454 ps / 1188 ps 两个边界脉冲，先使用 T0-3 已知时间窗口作为初始中心，只对未知区域做 250 ps 粗扫；出现任意状态变化后仅在边界附近做 25 ps 细化。
+
+扫描范围的终止条件不是固定点数，而是两端都已经得到连续稳定 Q0，且所有 CLEAN_Q1/AMBIGUOUS 区间均被左右 Q0 闭合。
+
+如果最左/最右仍为 Q1 或 ambiguous，只向该方向继续扩展，不回头重跑已覆盖区域。
+
+## 11.2 T0-5A 每个场景必须记录
 
 至少记录：
 
@@ -523,212 +633,220 @@ VDD_at_Q_sample_1
 VDD_at_Q_sample_2
 Q_sample_1
 Q_sample_2
-Q_final / ambiguous
-R
+Q_sample_1/VDD_at_Q_sample_1
+Q_sample_2/VDD_at_Q_sample_2
+Q state
+active CK crossing 信息
+恢复沿开始/结束时刻
 实际最小 VDD
-droop 与 XOR/CK/Q 的相对位置
+R（仅诊断）
+reuse/new/reparsed 证据来源
 ```
 
-并提取：
+并按第 3.3 节四状态语义输出。
+
+## 11.3 恢复沿模糊点的处理
+
+如果 T0-5 新出现与 T0-4 相似的恢复沿二次动态交叉：
 
 ```text
-所有连续可检测窗口区间
-所有连续盲区区间
-每个窗口宽度
-最大盲区宽度
-窗口相对于 S_CLK 的边界
+先保留为 RECOVERY_EDGE_AMBIGUOUS；
+不得计入 clean detection；
+不得删除或强制改成 Q1；
+只有当它改变窗口边界/覆盖率结论且已有 T0-4 诊断不能解释时，才允许对该新边界点增加一个 10 ps 恢复沿局部敏感性检查；
+禁止做完整 10 ps 相位扫描。
 ```
 
-不要只输出一个全局 `phase_min/phase_max`，因为真实结果可能存在多个不连续窗口。
+如果局部 10 ps 行为与 T0-4 已知模式一致：1 ps 有动态交叉、10 ps 消失、Q 始终稳定高，则归类为“极快恢复沿敏感模糊区”，不是新物理二次时钟。
 
-## 8.4 加强后的 Gate
+## 11.4 T0-5B —— 两个最有信息量的特殊裕量点
 
-不能再用“至少出现一个 Q1 点”作为 T0-3 通过条件。
-
-两个基准电压都必须至少具备：
+只有 T0-5A GO 后才执行，且只补两个 T0-4 特殊边界：
 
 ```text
-一个合法稳定 Q0 区域
-一个合法稳定 Q1 区域
-至少一个可定位、可重复的状态转换边界
-无大量 ambiguous 点主导整个扫描
-窗口/盲区可以用连续区间解释
+0.95 V / L3 / M5-F9 / Vdroop=0.83 V / hold=2000 ps
+1.10 V / L1 / M2-F10 / Vdroop=1.01 V / hold=1500 ps
 ```
 
-如果两个代表点都形成可解释、可重复的相位敏感窗口：
+理由：这两个点正好对应 T0-4 的 `Q0 -> recovery ambiguous -> clean Q1` 特殊边界，可以判断可编程 margin 与恢复沿敏感性如何共同改变完整时间覆盖。
+
+T0-5B 同样只做自适应相位粗扫 + 边界细化；不得扩展成六个 margin 的全相位网格。
+
+## 11.5 T0-5 核心输出
+
+每个代表场景都必须输出所有连续区间，而不是一个全局最小/最大相位：
 
 ```text
-T0-3 = GO
-```
-
-如果相位行为高度混乱、主要由 ambiguous 状态构成或无法形成可重复边界：
-
-```text
-T0-3 = STOP
-```
-
-此时只允许检查物理波形、采样时刻本地 VDD、Q 判决和相位定义，不得直接扩大到六个 margin。
-
----
-
-# 9. T0-4 —— 六个正式工作点的“跌落深度—最短可检测持续时间”边界
-
-只有 T0-3 通过才执行。
-
-## 9.1 禁止暴力二维网格
-
-不得直接做巨大 `DeltaV × duration` 笛卡尔积。
-
-每个正式候选采用**自适应 bracket + refine**：
-
-```text
-固定 DeltaV
-先粗略改变 duration 找到 Q0/Q1 边界
-然后只在边界附近细化
-得到该 DeltaV 下的最短可检测持续时间
-```
-
-再换下一个 DeltaV。
-
-## 9.2 跌落深度选择
-
-不同 margin 不共用一套绝对 mV 列表。
-
-每个候选以自己的 M0 静态 Vtrip 为锚，至少选择：
-
-```text
-略浅于静态 trip 的控制点
-接近静态 trip 的点
-明显深于静态 trip 的点
-必要时再增加 1-2 个中间点
-```
-
-所有正式场景必须满足：
-
-```text
-Vdroop >= 0.80 V
-```
-
-不得越过 0.80 V 正式下限后继续宣称精确时序检测能力。
-
-## 9.3 单调性审计
-
-在相同相位下，应检查：
-
-```text
-跌落更深，检测不应系统性变差
-持续时间更长，检测不应系统性从 Q1 反转为 Q0
-```
-
-任何 `Q1 -> Q0` 反转必须保留为异常场景并检查，不得在后处理中平滑、删除或强制单调化。
-
-## 9.4 核心输出
-
-最终每个候选形成：
-
-```text
-DeltaV -> minimum detectable duration
-```
-
-并保留原始 bracket 点、细化点以及每个边界点对应的实际采样时刻本地 VDD。
-
----
-
-# 10. T0-5 —— 将持续时间边界放回完整相位，量化时间覆盖率
-
-T0-4 得到的是特定有利/代表相位下的边界，不能直接等价为任意时间到达都可检测。
-
-## 10.1 代表场景选择
-
-每个基准电压至少选：
-
-```text
-一个接近检测边界的场景
-一个明显可检测的场景
-```
-
-必要时优先覆盖 L1/L2/L3 中差异最大的检测裕量。
-
-## 10.2 完整相位扫描
-
-将攻击开始时刻在一个完整 probe interval 内移动，统计：
-
-```text
-总相位点数
-有效判决相位点数
-检测到的相位点数
+所有 CLEAN_Q1 连续区间
+所有 STABLE_Q0 连续盲区
+所有 RECOVERY_EDGE_AMBIGUOUS 区间
+所有 OTHER_INVALID_AMBIGUOUS 区间
+每个区间宽度
+最大连续非保证检测窗口
+总采样相位点数
+有效稳定相位点数
+clean detection 相位点数
 ambiguous 相位点数
-phase coverage fraction
-连续 blind window 最大宽度
-是否存在所有相位都能检测的 guaranteed region
+clean phase coverage fraction
 ```
 
-## 10.3 结果必须区分三个概念
+必须明确区分：
 
 ```text
 最佳相位可检测
-时间覆盖率
+单 probe clean detection 时间覆盖率
+恢复沿非保证区域
 全相位保证检测
 ```
 
-禁止把“某个相位能检测 1 ns droop”写成“保证检测 1 ns droop”。
+禁止把“某个相位可以检测”写成“任意相位保证检测”。
+
+## 11.6 T0-5 Gate
+
+T0-5A 两个基准电压都必须满足：
+
+```text
+边界脉冲和长脉冲均形成左右闭合的时间响应；
+至少存在一个合法 CLEAN_Q1 区；
+左右最终均回到 STABLE_Q0；
+ambiguous 不主导整个相位响应；
+没有大量不可解释的 Q1->Q0 物理反转；
+所有新增恢复沿异常都可被现有模型解释或被单独保留；
+没有因为 source_hash 变化而重跑已有 T0-3/T0-4 场景。
+```
+
+若 T0-5A 不满足，先停在 T0-5A 检查窗口定义/物理波形，不执行 T0-5B。
+
+T0-5A GO 后执行 T0-5B；T0-5B 的特殊点允许出现明确记录的恢复沿模糊区，只要可重复、非主导且没有新真实二次时钟证据。
+
+T0-5 完成后：
+
+```text
+T0-5 = GO
+T0-6 = ENABLED
+```
 
 ---
 
-# 11. T0-6 —— 由物理相位窗口反推未来运行时检测间隔
+# 12. T0-6 —— 由单 probe 物理窗口反推未来运行时检测间隔
 
-这一阶段不写 D0 RTL。
+这一阶段不写 D0 RTL，也不默认需要新增 HSPICE。
 
-## 11.1 目标
+## 12.1 优先做 0 HSPICE 数学窗口映射
 
-根据 T0-3/T0-5 的真实时间敏感窗口，计算或用轻量事件级仿真推导：
+把 T0-5 得到的每个单 probe CLEAN_Q1 区间表示成时间集合：
 
 ```text
-probe period
-目标 droop duration
+W = W1 ∪ W2 ∪ ...
+```
+
+对于候选 probe period `P`，周期复制：
+
+```text
+W_P = ⋃(W + kP)
+```
+
+在一个周期模 `P` 的攻击相位域中计算：
+
+```text
+clean detection coverage
+ambiguous coverage
+stable blind coverage
+最大连续非保证窗口
 最坏攻击 phase
-检测覆盖率
+是否全相位保证检测
 ```
 
-之间的关系。
+优先只消费 T0-5 已有窗口边界做数学/脚本级推导。不得为每个候选 `P` 跑一套 HSPICE。
 
-## 11.2 不要默认检测频率等于 400 MHz
+只有当多个相邻 probe 的真实电源/复位/内部节点状态会发生重叠，导致“单 probe 窗口平移叠加”明显不再成立时，才允许增加极少量多 probe 晶体管级验证，并必须先写出为什么纯窗口叠加无法回答问题。
 
-当前 400 MHz 是校准/所有权/配置控制时钟，不自动等于未来运行时检测频率。
+## 12.2 必须同时给出两个不同的时序限制
 
-T0 必须先回答：
+T0-6 不能只输出一个“400 MHz 是否足够”。必须分别输出：
+
+### A. 物理覆盖要求
+
+由攻击持续时间和相位窗口推导：
 
 ```text
-现有 400 MHz 能否满足目标瞬态威胁类别？
+Pmax_coverage = 满足目标 clean coverage / guaranteed detection 的最大 probe period
 ```
 
-如果可以：
+### B. 当前冻结单 probe 序列的非重叠实现下限
+
+当前单 probe 关键时刻约为：
 
 ```text
-未来 D0 可以优先复用 400 MHz 节拍
+S_CLK rise = 1.49 ns
+Q1 sample = 3.79 ns
+Q2 sample = 3.99 ns
+reset assert = 4.19~4.20 ns
+S_CLK fall = 4.49 ns
+recovery end = 7.19 ns
 ```
 
-如果不可以：
+若要求下一次 S_CLK rise 必须在本次 `recovery end` 之后，则当前冻结 one-shot 序列给出的 S_CLK-rise 到下一次 S_CLK-rise 非重叠下限约为：
 
 ```text
-T0 输出“需要更快的专用运行时检测时序”约束
+7.19 ns - 1.49 ns = 5.70 ns
 ```
 
-但 T0 不得自行设计新的高速时钟、DLL、分频器或检测状态机。
+这个 5.70 ns 是**当前已验证 one-shot 时序的实现参考下限**，不是未来 D0 永久不可缩短的物理极限。D0 若设计更紧凑的运行时 probe 序列，必须重新验证 reset/S_CLK/Q/recovery 时序。
 
-## 11.3 优先轻量后处理
+## 12.3 400 MHz 必须这样判断
 
-该阶段优先使用 T0 已有相位窗口数据做数学/脚本级覆盖率推导，不应为了每一个 probe period 都新跑一套 HSPICE。
+当前 400 MHz / 2.5 ns 是校准、所有权和配置控制时钟合同，不自动等于“每 2.5 ns 可以完成一次当前 one-shot probe”。
 
-只有当简单窗口叠加无法描述真实多次 probe 物理交互时，才允许增加极少量多 probe HSPICE 验证，并必须先说明现有单 probe 数据为什么无法回答该问题。
+因此 T0-6 必须分别回答：
+
+```text
+1. 2.5 ns 周期从纯检测窗口覆盖角度是否满足目标攻击持续时间？
+2. 当前 5.70 ns 级 one-shot 非重叠序列能否满足 Pmax_coverage？
+3. 如果覆盖要求比当前 one-shot 可实现节拍更快，未来 D0 需要把运行时 probe 序列压缩到什么上限？
+```
+
+可能的结果：
+
+```text
+若 Pmax_coverage >= 当前可实现非重叠 probe period：
+  当前序列原则上可实现，T0 可向 GO 收敛。
+
+若 Pmax_coverage < 当前可实现非重叠 probe period，但传感器物理窗口本身清楚：
+  T0 = CONDITIONAL_GO；
+  条件：D0 必须实现 <= Pmax_coverage 的更紧凑运行时 probe 序列，并重新做时序验证。
+
+若即使非常短的 P 也因窗口/ambiguous 结构无法形成目标覆盖：
+  才考虑 T0 NO-GO。
+```
+
+T0 不得自行设计 DLL、高速时钟、分频器或完整检测 FSM。
+
+## 12.4 T0-6 输出
+
+至少生成：
+
+```text
+cadence/coverage_vs_probe_period.csv
+cadence/cadence_summary.json
+contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json
+```
+
+下游合同至少明确：
+
+```text
+目标威胁持续时间
+目标覆盖口径（clean coverage / guaranteed）
+Pmax_coverage
+400 MHz/2.5 ns 的覆盖资格
+当前 one-shot 5.70 ns 参考实现约束
+D0 是否需要更紧凑运行时 probe 序列
+VDD<0.80 V fail-safe 需求
+```
 
 ---
 
-# 12. T0-7 —— `<0.80 V` 严重欠压的失效保护语义
-
-本阶段不要求新 HSPICE。
-
-## 12.1 明确边界
+# 13. T0-7 —— `<0.80 V` 严重欠压的失效保护语义【需求已发布，保持冻结】
 
 当前正式精确时序检测只在：
 
@@ -741,27 +859,31 @@ VDD_MONITORED >= 0.80 V
 低于 0.80 V 时：
 
 - 传感路径标准单元可能进入未正式表征区；
-- DFF 行为也不能继续当作精确时间比较器；
-- 因此不得通过几条深跌落波形宣称精确 Vtrip 能力。
+- DFF 行为不能继续当作精确时间比较器；
+- 不得通过少量深跌落波形宣称精确 Vtrip 能力。
 
-## 12.2 给 D0 的要求
-
-T0 应输出一个清楚的下游需求：
+D0 必须采用：
 
 ```text
-低于正式工作范围时，D0 应使用 heartbeat / stuck-Q / timeout / 无有效检测结果等失效保护语义，
-而不是继续依赖精细 timing trip 数值。
+heartbeat
+stuck-Q
+timeout
+无有效检测结果
 ```
+
+等失效保护语义，而不是继续依赖精细 timing trip 数值。
 
 T0 只定义需求，不实现 RTL。
 
 ---
 
-# 13. T0-8 —— 正式论文级证据、图和最终 Gate
+# 14. T0-8 —— 正式论文级证据、图和最终 Gate
 
-## 13.1 必须形成的核心图
+T0-8 必须在 T0-5/T0-6 完成后重新生成当前正式图、报告和下游合同；此前因历史 T0-4 STOP 生成的 blocked 图/占位文件不得直接复用为最终结论。
 
-至少形成以下五类正式图。
+## 14.1 必须形成的核心图
+
+至少形成以下五类正式图：
 
 ### 图 T0-1：代表性瞬态波形
 
@@ -774,25 +896,34 @@ XOR 有效脉冲/窗口
 真实 Q
 ```
 
-并清楚标注电压跌落的下降、保持、恢复和相位。
+清楚标注下降、保持、恢复、相位以及恢复沿模糊点的解释。
 
 ### 图 T0-2：单 probe 时间敏感窗口
 
-横轴为攻击相位；纵向/符号为 Q0/Q1/ambiguous 或检测状态；同时给出连续可检测窗口、盲区和边界。
+横轴为攻击相位，显示：
+
+```text
+CLEAN_Q1
+STABLE_Q0
+RECOVERY_EDGE_AMBIGUOUS
+OTHER_INVALID_AMBIGUOUS
+```
+
+并标注所有连续区间和边界。
 
 ### 图 T0-3：跌落深度—持续时间二维检测边界
 
-至少分别展示 0.95 V 和 1.10 V。
+至少分别展示 0.95 V 和 1.10 V；负控制不得被画成“失败 minimum”。
 
-### 图 T0-4：跌落深度—最短可检测持续时间
+### 图 T0-4：跌落深度—最短 clean-Q1 持续时间
 
-同一基准电压下比较 L1/L2/L3，强调可编程检测裕量对瞬态能力的影响。
+同一基准电压下比较 L1/L2/L3，特殊恢复沿模糊 bracket 必须显式标记。
 
-### 图 T0-5：检测间隔—时间覆盖率/保证检测关系
+### 图 T0-5：probe period—时间覆盖率/保证检测关系
 
-用于直接支撑未来 D0 的检测节拍选择。
+直接支撑未来 D0 的检测节拍选择，并同时标出 2.5 ns 控制时钟参考和当前约 5.70 ns one-shot 非重叠参考。
 
-## 13.2 绘图环境
+## 14.2 绘图环境
 
 继续统一使用现有 Miniconda `DL` 环境和 matplotlib。
 
@@ -816,37 +947,42 @@ conda_env=DL
 
 禁止手工编辑正式图片。
 
-## 13.3 纠偏历史在论文证据中的处理
+## 14.3 纠偏历史的论文处理
 
-正式 T0 图和结论只能消费纠偏后的本地 VDD 归一化场景。旧 62 个固定高电平场景不得进入正式性能曲线；它们只能在方法学或验证附录中作为“测试平台错误被发现并纠正”的审计证据。
+正式 T0 性能曲线只能消费纠偏后的本地 VDD 归一化场景和 T0-4 corrected GO 证据。
+
+旧 62 个固定高电平 T0-2 场景、旧 T0-4 STOP 占位结果、被 supersede 的 blocked phase/cadence 文件只能作为方法学审计证据，不得进入正式性能曲线。
 
 ---
 
-# 14. T0 最终判定标准
+# 15. T0 最终判定标准
 
-## 14.1 T0 = GO
+## 15.1 T0 = GO
 
 至少满足：
 
-1. 纠偏后的长脉冲 transient 与 M0 static Q0/Q1 ordering 一致；
-2. 0.95 V 和 1.10 V 都存在可解释、可重复的瞬态检测区域；
-3. 六个 trip-qualified margin 的 `DeltaV -> minimum detectable duration` 已提取；
-4. 相位敏感窗口和盲区已量化；
-5. 动态 Q 判决使用各采样时刻的本地 `VDD_MONITORED`，没有用固定 `Vdroop` 错判边沿场景；
+1. T0-2 纠偏后的长脉冲 transient 与 M0 static Q0/Q1 ordering 一致；
+2. T0-3/T0-5 证明 0.95 V 和 1.10 V 都存在完整、可解释、可重复的瞬态检测窗口；
+3. 六个 trip-qualified margin 的 `DeltaV -> minimum clean-Q1 duration` 已提取；
+4. T0-5 已量化 CLEAN_Q1、Q0 盲区和恢复沿模糊区；
+5. 动态 Q 判决使用各采样时刻本地 `VDD_MONITORED`；
 6. 不存在大量无法解释的“更深/更长反而稳定漏检”反转；
-7. 至少针对一个明确瞬态威胁类别，可以推导出可实现的最大 probe period；
-8. 已区分“最佳相位可检测”“覆盖率”“全相位保证检测”；
-9. `<0.80 V` 已明确转为失效保护语义；
-10. 论文级图和机器可读合同完整；
-11. 没有无意义重跑 H0/M0/M1/M1-T/T0-2 已完成仿真。
+7. 至少针对一个明确瞬态威胁类别，可以推导出可实现的 `Pmax_coverage`；
+8. 当前可实现 probe 序列能够满足该 `Pmax_coverage`，或者已有等价实现证据；
+9. 已区分“最佳相位可检测”“clean coverage”“ambiguous 区”“全相位保证检测”；
+10. `<0.80 V` 已明确转为失效保护语义；
+11. 论文级图、机器可读合同和 provenance 完整；
+12. 没有无意义重跑 H0/M0/M1/M1-T/T0-2/T0-3/T0-4 已完成物理证据。
 
-## 14.2 T0 = CONDITIONAL_GO
+## 15.2 T0 = CONDITIONAL_GO
 
 如果：
 
 ```text
-物理瞬态检测机制成立，
-但当前 400 MHz 节拍无法保证目标短脉冲在所有 phase 下被检测，
+传感器物理瞬态检测机制成立；
+T0-5 的单 probe 时间窗口清楚；
+T0-6 可以给出明确 Pmax_coverage；
+但当前已验证 one-shot probe 序列不能以该周期无重叠重复；
 ```
 
 则允许：
@@ -857,34 +993,37 @@ T0 = CONDITIONAL_GO
 
 条件必须明确写为：
 
-> 未来 D0 需要满足由 T0 推导出的更短 probe period / 更高运行时检测频率。
+> 未来 D0 必须实现不慢于 T0-6 所要求 `Pmax_coverage` 的运行时 probe 序列，并重新验证其 reset/S_CLK/Q 双采样/恢复时序。
 
-不得把不足的相位覆盖率隐藏成普通 GO。
+不得简单把“400 MHz 不够”写成模糊条件，也不得把当前 400 MHz 控制时钟直接等价为 runtime probe rate。
 
-## 14.3 T0 = NO-GO / STOP
+## 15.3 T0 = NO-GO / STOP
 
-以下情况至少任一出现，应停止进入 D0：
+以下任一出现才允许真正停止进入 D0：
 
 ```text
-纠偏后的 long-pulse 无法重现 M0 静态方向
-真实 DFF Q 与预期物理机制持续矛盾
-phase 行为无可重复边界
-动态相位场景主要由不可解释的 ambiguous 状态构成
-amplitude-duration 关系出现大量不可解释反转
-即使最佳 phase + 足够长 pulse 也无法得到稳定检测区域
+纠偏后的 long-pulse 无法重现 M0 静态方向；
+真实 DFF Q 与预期物理机制持续矛盾；
+完整 phase 行为无法形成可重复边界；
+动态相位场景主要由不可解释 ambiguous 状态构成；
+amplitude-duration 出现大量不可解释反转；
+即使最佳 phase + 足够长 pulse 也无法形成稳定 clean detection 区；
+即使把 probe period 明显缩短仍无法得到目标覆盖；
+发现新的、可重复的真实 dff_ck 二次时钟且会破坏检测语义。
 ```
 
-NO-GO 后先检查瞬态物理感知机制、采样判决和 deck，不得用更复杂的数字 FSM 掩盖物理问题。
+NO-GO 后先检查瞬态物理感知机制、采样判决和 deck，不得用更复杂数字 FSM 掩盖物理问题。
 
 ---
 
-# 15. 仿真预算与“非必要不重跑”规则
+# 16. 仿真预算与“非必要不重跑”规则
 
 Codex 必须遵守以下优先级：
 
 ```text
 已有 JSON/CSV/报告可回答 -> 直接复用，仿真数 0
 已有 raw run 可重解析 -> 重解析，仿真数 0
+仅 source_hash 变化且电气 deck 等价 -> 复用，仿真数 0
 只缺后处理/摘要/证据取代标记 -> 只做后处理，仿真数 0
 只有新的瞬态物理问题无法由已有证据回答 -> 才允许新增 HSPICE
 ```
@@ -893,26 +1032,28 @@ Codex 必须遵守以下优先级：
 
 ```text
 完整 startup calibration
-M0 local surface
-M0 trip sweep
-M1 RTL/SDF
-M1-T STA
+M0 local surface / trip sweep / M0-E
+M1 RTL/SDF / M1-T STA
 RF 系列
 XA 全链路
-T0-2 纠偏四点
-T0-2 纠偏后正式十二点
+T0-2 纠偏四点 / 正式十二点
+T0-3 已有相位点
+T0-4 238 个正式历史场景
+T0-4 已完成的四个唯一诊断电气场景
 ```
 
 特别规定：
 
-> **修改 `run_t0_transient_droop_characterization.py` 导致源码哈希变化，不构成重跑 T0-2 的理由。T0-2 已经通过的物理证据必须通过冻结的结果文件、场景 deck 哈希、提交 SHA 和纠偏合同继续引用。**
+> **修改 `run_t0_transient_droop_characterization.py` 导致源码哈希变化，不构成重跑任何已完成 T0 电气场景的理由。应先做电气参数投影和 deck 等价复用。**
 
 每一阶段报告必须明确记录：
 
 ```text
 本阶段新增 HSPICE 场景数
 复用旧场景数
+电气等价复用场景数
 仅重解析场景数
+诊断测量修订重跑数（如有）
 禁止流程新增运行数
 ```
 
@@ -920,7 +1061,7 @@ T0-2 纠偏后正式十二点
 
 ---
 
-# 16. 推荐任务目录
+# 17. 推荐任务目录
 
 ```text
 delay_chain/ftc/analysis/t0_transient_droop/
@@ -938,11 +1079,25 @@ delay_chain/ftc/analysis/t0_transient_droop/
 │   ├── formal_12_summary.json
 │   └── legacy_62_scenarios_marker.json
 ├── long_pulse_consistency/
-│   └── 历史纠偏前结果及其 superseded 标记
+│   └── 历史纠偏前结果及 superseded 标记
 ├── phase_window/
+│   ├── phase_window.csv
+│   └── summary.json
 ├── amplitude_duration/
+│   ├── amplitude_duration.csv
+│   ├── minimum_duration_boundary.csv
+│   ├── anomaly_diagnostics.json
+│   └── summary.json
+├── t0_4e_closure/
+│   ├── authoritative_evidence_hashes.json
+│   ├── stale_stop_supersession.json
+│   └── electrical_reuse_contract.json
 ├── phase_coverage/
+│   ├── phase_coverage.csv
+│   └── phase_coverage_summary.json
 ├── cadence/
+│   ├── coverage_vs_probe_period.csv
+│   └── cadence_summary.json
 ├── figures/
 ├── scripts/
 └── reports/
@@ -954,47 +1109,51 @@ delay_chain/ftc/analysis/t0_transient_droop/
 
 ---
 
-# 17. Codex 严格逐阶段执行顺序
+# 18. Codex 严格逐阶段执行顺序
 
 当前正确执行序列更新为：
 
 ```text
-T0-0  瞬态威胁 / 相位 / 波形合同                         已完成
+T0-0   瞬态威胁 / 相位 / 波形合同                         已完成
   ↓
-T0-1  当前 FTC 瞬态单次检测 runner                      已完成并纠偏
+T0-1   当前 FTC 瞬态单次检测 runner                      已完成并纠偏
   ↓
-T0-2  本地 VDD 归一化后的长脉冲静态→瞬态一致性         CORRECTED PASS
+T0-2   本地 VDD 归一化后的长脉冲静态→瞬态一致性          CORRECTED PASS
   ↓
-T0-2E 证据闭合 + 旧 STOP superseded + T0-3 解封          ← 当前下一步，0 HSPICE
-  ├─ FAIL -> 只修证据/代码，不运行新物理扫描
+T0-2E  纠偏证据闭合 + 旧 T0-2 STOP superseded             PASS，0 HSPICE
+  ↓
+T0-3   两个 L2 代表点相位敏感窗口                          GO
+  ↓
+T0-4   六个 margin 自适应 DeltaV→minimum clean-Q1 duration GO
+  ↓
+T0-4E  T0-4 authority + 旧 STOP 清理 + 电气等价复用        ← 当前下一步，0 HSPICE
+  ├─ FAIL -> 只修证据/复用逻辑，不运行新物理扫描
+  ↓ PASS
+T0-5A  两个 L2：边界脉冲 + 3000 ps 长脉冲完整单 probe 窗口
+  ├─ FAIL -> STOP 在 T0-5A，不执行 T0-5B
   ↓ GO
-T0-3  两个 L2 代表点提取相位敏感窗口
-  ├─ FAIL -> STOP，不扩大到六个 margin
-  ↓ GO
-T0-4  六个 margin 自适应提取 DeltaV→minimum duration
+T0-5B  0.95/L3 与 1.10/L1 两个特殊恢复沿边界完整相位
   ↓
-T0-5  代表边界点做完整 phase coverage
+T0-6   用 T0-5 窗口数学反推 Pmax_coverage / cadence
   ↓
-T0-6  用已有 phase 数据反推未来最大 probe period / cadence
+T0-7   保持 <0.80 V fail-safe 下游需求
   ↓
-T0-7  冻结 <0.80 V fail-safe 下游需求
-  ↓
-T0-8  论文级图 + 正式报告 + T0 GO / CONDITIONAL_GO / NO-GO
+T0-8   重建论文级图 + 正式报告 + D0 合同 + 最终 Gate
 ```
 
-任何后续入口都不得隐式重新调用 T0-2 HSPICE。
+任何后续入口都不得隐式重新调用 T0-2/T0-3/T0-4 已完成的 HSPICE。
 
 ---
 
-# 18. 宏观防跑偏原则
+# 19. 宏观防跑偏原则
 
-Codex 在整个 T0 必须始终遵守以下方向：
+Codex 在整个后续 T0 必须始终遵守以下方向：
 
-> **T0 的任务是测清楚当前冻结传感器的瞬态物理能力，不是继续优化 M1，不是重做 M0，不是提前写 D0，也不是为了得到漂亮结果去扩大架构。T0-2 已经在正确的本地 VDD 归一化接口抽象下纠偏通过，后续不得因脚本修改重新跑 T0-2；先用零 HSPICE 完成证据解封，再只用两个 L2 代表点找出真实时间敏感窗口，并用采样时刻的本地 VDD 对真实 DFF 双采样进行判决。只有 T0-3 机制清楚后才扩大到六个 margin 的深度—持续时间边界，最后才用已有相位数据推导运行时检测间隔。任何已有证据能回答的问题都禁止通过重跑仿真回答；任何物理机制没有通过停止门的问题都禁止用更复杂的数字逻辑绕过去。**
+> **T0-4 已经纠偏并通过，当前不再排查旧 T0-4，也不允许因为 runner 修改重新跑其 238 个正式场景。下一步先用零 HSPICE 的 T0-4E 把权威证据、旧 STOP 占位状态和跨源码哈希的电气等价复用彻底闭合，然后只用两个 L2 代表点完成真正左右封闭的单 probe 时间窗口；已有 T0-3 phase 点必须直接复用，只对未知左/右边界做自适应扩展。T0-5A 通过后才补 0.95/L3 和 1.10/L1 两个恢复沿特殊点。T0-6 优先完全基于 T0-5 窗口做周期数学映射，分别回答“物理覆盖允许的最大 probe period”和“当前 one-shot 序列可实现的非重叠节拍”，不能把 400 MHz 控制时钟直接等价为运行时 probe rate。只有现有证据无法回答的新物理问题才允许新增 HSPICE。**
 
 ---
 
-# 19. T0 结束后的唯一正确下一步
+# 20. T0 结束后的唯一正确下一步
 
 只有 T0 最终给出 GO 或带明确 cadence 条件的 CONDITIONAL_GO，才允许进入：
 
@@ -1016,21 +1175,33 @@ Q 双采样判决
 总体路线冻结为：
 
 ```text
-H0    校准→检测所有权切换                       PASS
+H0     校准→检测所有权切换                         PASS
  ↓
-M0    静态检测裕量 / 静态触发电压               CONDITIONAL_GO（仅范围边界）
+M0     静态检测裕量 / 静态触发电压                 CONDITIONAL_GO（仅范围边界）
  ↓
-M1    精确检测配置 / 安全装载                    GO
+M1     精确检测配置 / 安全装载                      GO
  ↓
-M1-T  检测配置时序证据闭合                       PASS
+M1-T   检测配置时序证据闭合                         PASS
  ↓
-T0-2  瞬态长脉冲静态一致性                       CORRECTED PASS
+T0-2   瞬态长脉冲静态一致性                         CORRECTED PASS
  ↓
-T0-2E 证据闭合与 T0-3 解封                       当前下一步
+T0-2E  纠偏证据闭合                                 PASS
  ↓
-T0-3~8 瞬态深度×持续时间×相位 + 检测间隔         待执行
+T0-3   相位敏感窗口                                 GO
  ↓
-D0    运行时检测状态机 / 判决 / 报警 / 失效保护
+T0-4   深度×最短 clean-Q1 持续时间                  GO
  ↓
-V0/V1 完整控制器 + 混合信号 + 晶体管级瞬态闭环
+T0-4E  证据闭合 / 旧 STOP 清理 / 电气等价复用       当前下一步
+ ↓
+T0-5   完整单 probe 时间覆盖                         待执行
+ ↓
+T0-6   最大 probe period / cadence                  待执行
+ ↓
+T0-7   <0.80 V 失效保护需求                         已冻结
+ ↓
+T0-8   论文证据 / 最终 Gate / D0 合同               待执行
+ ↓
+D0     运行时检测状态机 / 判决 / 报警 / 失效保护
+ ↓
+V0/V1  完整控制器 + 混合信号 + 晶体管级瞬态闭环
 ```
