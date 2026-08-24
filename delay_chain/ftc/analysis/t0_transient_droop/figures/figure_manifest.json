@@ -1,0 +1,102 @@
+{
+  "decision": "CONDITIONAL_GO",
+  "figures": [
+    {
+      "conda_env": "DL",
+      "figure_stem": "fig_t0_1_representative_waveform",
+      "matplotlib_version": "3.9.4",
+      "pdf": "analysis/t0_transient_droop/figures/fig_t0_1_representative_waveform.pdf",
+      "plot_script_sha256": "cafc7eece55d07be57e898a35ed31cb84dab974d289beed4703ea249c3736451",
+      "png": "analysis/t0_transient_droop/figures/fig_t0_1_representative_waveform.png",
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 3827,
+      "png_width_px": 4612,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_sha256": {
+        "analysis/t0_transient_droop/phase_coverage/phase_coverage.csv": "9aee5df301d9af8414cc85e91735e65b710a808fcaa65daca0ace67faa50c56b",
+        "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json": "967cf6fe4b7ea1d4e05393d58fe6cc0fe19e9a7f00f8e6bd6d2f3cfb4ed8bf5b"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_stem": "fig_t0_2_phase_window",
+      "matplotlib_version": "3.9.4",
+      "pdf": "analysis/t0_transient_droop/figures/fig_t0_2_phase_window.pdf",
+      "plot_script_sha256": "cafc7eece55d07be57e898a35ed31cb84dab974d289beed4703ea249c3736451",
+      "png": "analysis/t0_transient_droop/figures/fig_t0_2_phase_window.png",
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 5025,
+      "png_width_px": 5939,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_sha256": {
+        "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json": "967cf6fe4b7ea1d4e05393d58fe6cc0fe19e9a7f00f8e6bd6d2f3cfb4ed8bf5b"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_stem": "fig_t0_3_amplitude_duration_boundary",
+      "matplotlib_version": "3.9.4",
+      "pdf": "analysis/t0_transient_droop/figures/fig_t0_3_amplitude_duration_boundary.pdf",
+      "plot_script_sha256": "cafc7eece55d07be57e898a35ed31cb84dab974d289beed4703ea249c3736451",
+      "png": "analysis/t0_transient_droop/figures/fig_t0_3_amplitude_duration_boundary.png",
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 2701,
+      "png_width_px": 5939,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_sha256": {
+        "analysis/t0_transient_droop/amplitude_duration/minimum_duration_boundary.csv": "66840a8f27c9d6d26deb1b0a716ea1f4df385023e892021cbf23c6c076adb66b",
+        "analysis/t0_transient_droop/amplitude_duration/summary.json": "a524cafaf555e39765f801e4ca9036d72740ee785a9e7c3431fa13919c233632"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_stem": "fig_t0_4_margin_duration_comparison",
+      "matplotlib_version": "3.9.4",
+      "pdf": "analysis/t0_transient_droop/figures/fig_t0_4_margin_duration_comparison.pdf",
+      "plot_script_sha256": "cafc7eece55d07be57e898a35ed31cb84dab974d289beed4703ea249c3736451",
+      "png": "analysis/t0_transient_droop/figures/fig_t0_4_margin_duration_comparison.png",
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 2701,
+      "png_width_px": 5940,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_sha256": {
+        "analysis/t0_transient_droop/amplitude_duration/minimum_duration_boundary.csv": "66840a8f27c9d6d26deb1b0a716ea1f4df385023e892021cbf23c6c076adb66b",
+        "analysis/t0_transient_droop/amplitude_duration/summary.json": "a524cafaf555e39765f801e4ca9036d72740ee785a9e7c3431fa13919c233632"
+      }
+    },
+    {
+      "conda_env": "DL",
+      "figure_stem": "fig_t0_5_cadence_coverage",
+      "matplotlib_version": "3.9.4",
+      "pdf": "analysis/t0_transient_droop/figures/fig_t0_5_cadence_coverage.pdf",
+      "plot_script_sha256": "cafc7eece55d07be57e898a35ed31cb84dab974d289beed4703ea249c3736451",
+      "png": "analysis/t0_transient_droop/figures/fig_t0_5_cadence_coverage.png",
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "png_height_px": 3906,
+      "png_width_px": 5098,
+      "python_executable": "/home/zhupl25/miniconda3/envs/DL/bin/python",
+      "source_sha256": {
+        "analysis/t0_transient_droop/cadence/cadence_summary.json": "419bbb17cdebb7b04f1f19e6c8d803d8b616b83d43cd68aaae964996f56c3100",
+        "analysis/t0_transient_droop/cadence/coverage_vs_probe_period.csv": "db983b792594c595179b37e4d0ba24019d02e126d930251a500d2825b97b88d3"
+      }
+    }
+  ],
+  "schema_version": 3,
+  "stage": "T0-8",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+}

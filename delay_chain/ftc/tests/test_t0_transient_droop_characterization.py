@@ -142,13 +142,13 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertEqual(rails[0][0], "last_q0_control")
             self.assertEqual(rails[1][0], "first_q1_anchor")
 
-    def test_t0_4e_keeps_t0_2_pass_and_never_fabricates_cadence(self):
-        """T0-4E remains valid through T0-5, but cadence stays unqualified.
+    def test_t0_4e_keeps_t0_2_pass_and_t0_6_is_the_only_cadence_authority(self):
+        """Keep T0-4E provenance separate from the later T0-6 conclusion.
 
-        This evidence can be inspected after T0-4E, T0-5A, or complete T0-5.
-        In every case the earlier corrected evidence must remain GO.  Even
-        after T0-5B releases T0-6, the downstream numerical period must remain
-        null until the separately planned T0-6 mathematical mapping runs.
+        T0-4E released phase coverage but never manufactured a runtime
+        cadence.  The completed repository must retain the corrected upstream
+        statuses while assigning the numerical Pmax only to the zero-HSPICE
+        T0-6 interval-mapping contract.
         """
 
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
@@ -156,11 +156,11 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
         self.assertEqual(gate["t0_4_status"], "GO")
         self.assertEqual(gate["t0_4e_status"], "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE")
-        self.assertIn(gate["t0_5_status"], ("ENABLED", "T0-5A GO; T0-5B ENABLED", "GO"))
-        self.assertIn(gate["t0_6_status"], ("WAITING_FOR_T0_5_GATE", "ENABLED"))
-        self.assertEqual(downstream["source_gate"], "T0-4 GO")
-        self.assertEqual(downstream["runtime_probe_period"]["status"], "PENDING_T0_5_T0_6")
-        self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
+        self.assertEqual(gate["t0_5_status"], "GO")
+        self.assertEqual(gate["t0_6_status"], "CONDITIONAL_GO")
+        self.assertEqual(downstream["source_gate"], "T0-6 CONDITIONAL_GO")
+        self.assertEqual(downstream["runtime_probe_period"]["status"], "QUALIFIED_BY_T0_6_INTERVAL_MATH")
+        self.assertAlmostEqual(downstream["runtime_probe_period"]["maximum_period_s"], 2075.0e-12)
 
     def test_t0_5_complete_phase_closure_is_real_and_complete(self):
         """Confirm complete T0-5 uses physical Q0 closure and audited reuse.
@@ -170,8 +170,8 @@ class T0TransientDroopTests(unittest.TestCase):
         special-margin maps must also close at Q0 while preserving their one
         known T0-4 fast-recovery ambiguity each.  This is an evidence test,
         not a smoke test: it checks all six published maps, per-substage
-        HSPICE/reuse accounting, four-state intervals, and the final Gate
-        without claiming that the still-pending T0-6 cadence was computed.
+        HSPICE/reuse accounting, four-state intervals, and proves that later
+        cadence publication did not alter the retained physical T0-5 result.
         """
 
         summary_path = FTC_ROOT / "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json"
@@ -258,9 +258,9 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(gate["t0_5a_status"], "GO")
         self.assertEqual(gate["t0_5b_status"], "GO")
         self.assertEqual(gate["t0_5_status"], "GO")
-        self.assertEqual(gate["decision"], "GO_PENDING_T0_6")
-        self.assertEqual(gate["t0_6_status"], "ENABLED")
-        self.assertEqual(gate["t0_8_status"], "WAITING_FOR_T0_6")
+        self.assertEqual(gate["decision"], "CONDITIONAL_GO")
+        self.assertEqual(gate["t0_6_status"], "CONDITIONAL_GO")
+        self.assertEqual(gate["t0_8_status"], "FINAL_EVIDENCE_PUBLISHED")
 
     def test_t0_5_time_measure_ignores_adaptive_sample_density_and_keeps_boundary_gaps(self):
         """Measure identical physical windows identically on coarse and fine grids.
@@ -327,6 +327,144 @@ class T0TransientDroopTests(unittest.TestCase):
             {"phase_start_ps": 50.0, "phase_end_ps": 100.0, "width_ps": 50.0},
             ambiguous["non_guarantee_intervals"],
         )
+
+    def test_t0_6_periodic_interval_math_keeps_circle_seams_and_ambiguity_conservative(self):
+        """Check T0-6 geometry without any HSPICE or runner side effect.
+
+        The first synthetic map proves an interval that crosses the period
+        seam remains one continuous blind window.  The second proves a
+        non-zero recovery-ambiguous interval and every sampled transition gap
+        remain non-guaranteed even when a different periodic copy is absent.
+        """
+
+        simple = {
+            "characterized_phase_start_ps": 0.0,
+            "characterized_phase_end_ps": 150.0,
+            "left_closed_by_stable_q0": True,
+            "right_closed_by_stable_q0": True,
+            "recovery_edge_ambiguous_intervals": [],
+            "other_invalid_ambiguous_intervals": [],
+            "intervals": [
+                {"state": "STABLE_Q0", "phase_start_ps": 0.0, "phase_end_ps": 25.0},
+                {"state": "CLEAN_Q1", "phase_start_ps": 50.0, "phase_end_ps": 100.0},
+                {"state": "STABLE_Q0", "phase_start_ps": 125.0, "phase_end_ps": 150.0},
+            ],
+        }
+        measure = study.t0_6_measure_period(simple, 75.0)
+        self.assertAlmostEqual(measure["guaranteed_clean_measure_ps"], 50.0)
+        self.assertAlmostEqual(measure["boundary_uncertainty_measure_ps"], 25.0)
+        self.assertAlmostEqual(measure["stable_blind_measure_ps"], 0.0)
+        self.assertAlmostEqual(measure["maximum_non_guarantee_window_ps"], 25.0)
+        self.assertAlmostEqual(measure["worst_attack_phase_ps"], 25.0)
+        self.assertFalse(measure["full_phase_guaranteed"])
+
+        wrapped_width, wrapped_phase = study.t0_6_largest_circular_interval([
+            {"phase_start_ps": 0.0, "phase_end_ps": 20.0},
+            {"phase_start_ps": 70.0, "phase_end_ps": 75.0},
+        ], 75.0)
+        self.assertAlmostEqual(wrapped_width, 25.0)
+        self.assertAlmostEqual(wrapped_phase, 70.0)
+
+        ambiguous = {
+            "characterized_phase_start_ps": 0.0,
+            "characterized_phase_end_ps": 220.0,
+            "left_closed_by_stable_q0": True,
+            "right_closed_by_stable_q0": True,
+            "recovery_edge_ambiguous_intervals": [
+                {"state": "RECOVERY_EDGE_AMBIGUOUS", "phase_start_ps": 100.0, "phase_end_ps": 120.0},
+            ],
+            "other_invalid_ambiguous_intervals": [],
+            "intervals": [
+                {"state": "STABLE_Q0", "phase_start_ps": 0.0, "phase_end_ps": 20.0},
+                {"state": "CLEAN_Q1", "phase_start_ps": 40.0, "phase_end_ps": 80.0},
+                {"state": "RECOVERY_EDGE_AMBIGUOUS", "phase_start_ps": 100.0, "phase_end_ps": 120.0},
+                {"state": "CLEAN_Q1", "phase_start_ps": 140.0, "phase_end_ps": 180.0},
+                {"state": "STABLE_Q0", "phase_start_ps": 200.0, "phase_end_ps": 220.0},
+            ],
+        }
+        measure = study.t0_6_measure_period(ambiguous, 300.0)
+        self.assertAlmostEqual(measure["guaranteed_clean_measure_ps"], 80.0)
+        self.assertAlmostEqual(measure["recovery_ambiguous_measure_ps"], 20.0)
+        self.assertAlmostEqual(measure["boundary_uncertainty_measure_ps"], 80.0)
+        self.assertAlmostEqual(measure["stable_blind_measure_ps"], 120.0)
+        self.assertEqual(measure["recovery_ambiguous_event_count"], 1)
+        self.assertAlmostEqual(measure["non_guarantee_measure_ps"], 220.0)
+
+    def test_t0_6_completed_cadence_contract_uses_only_interval_evidence(self):
+        """Validate target Pmax, reference periods, and the zero-HSPICE ledger.
+
+        The selected threat is the common 3002 ps L2 long pulse.  The narrower
+        0.95 V clean interval limits its full-phase guaranteed cadence to
+        2075 ps, so neither the 2.5 ns control clock nor the 5.70 ns one-shot
+        reference can be misreported as a qualified runtime implementation.
+        """
+
+        cadence_csv = FTC_ROOT / "analysis/t0_transient_droop/cadence/coverage_vs_probe_period.csv"
+        cadence_summary_path = FTC_ROOT / "analysis/t0_transient_droop/cadence/cadence_summary.json"
+        with cadence_csv.open(newline="") as stream:
+            rows = list(csv.DictReader(stream))
+        summary = json.loads(cadence_summary_path.read_text())
+        downstream = json.loads((FTC_ROOT / "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").read_text())
+        self.assertEqual(len(rows), 6 * 240)
+        self.assertEqual(summary["decision"], "CONDITIONAL_GO")
+        self.assertEqual(summary["simulation_accounting"]["hspice_scenarios"], 0)
+        self.assertEqual(summary["pmax_coverage_ps"], 2075.0)
+        self.assertEqual(summary["target_threat"]["scenario_keys"], list(study.T0_6_TARGET_SCENARIO_KEYS))
+        by_key_period = {(row["scenario_key"], float(row["probe_period_ps"])): row for row in rows}
+        low_2075 = by_key_period[("t0_5a_0p95_l2_long", 2075.0)]
+        low_2500 = by_key_period[("t0_5a_0p95_l2_long", 2500.0)]
+        high_2500 = by_key_period[("t0_5a_1p10_l2_long", 2500.0)]
+        self.assertEqual(low_2075["full_phase_guaranteed"], "True")
+        self.assertAlmostEqual(float(low_2500["clean_coverage_fraction"]), 0.83)
+        self.assertAlmostEqual(float(high_2500["clean_coverage_fraction"]), 0.93)
+        self.assertEqual(low_2500["full_phase_guaranteed"], "False")
+        self.assertFalse(downstream["control_clock_reference"]["is_runtime_probe_cadence"])
+        self.assertFalse(downstream["control_clock_reference"]["target_full_phase_guaranteed"])
+        self.assertFalse(downstream["one_shot_nonoverlap_reference"]["target_full_phase_guaranteed"])
+        self.assertTrue(downstream["d0_runtime_probe_requirement"]["needs_more_compact_sequence"])
+        self.assertEqual(downstream["d0_runtime_probe_requirement"]["maximum_runtime_probe_period_ps"], 2075.0)
+        self.assertEqual(downstream["simulation_accounting"]["hspice_scenarios"], 0)
+
+    def test_t0_8_final_package_has_current_figures_report_and_zero_hspice_accounting(self):
+        """Require the five final figures to cite current corrected evidence.
+
+        The test validates manifest hashes rather than trusting filenames.  It
+        also checks the final report and Gate retain CONDITIONAL_GO with the
+        concrete D0 period condition, instead of the obsolete T0-4 STOP image
+        text or an unqualified claim that the 400 MHz control clock is runtime
+        probe hardware.
+        """
+
+        manifest_path = FTC_ROOT / "analysis/t0_transient_droop/figures/figure_manifest.json"
+        report_path = FTC_ROOT / "reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+        manifest = json.loads(manifest_path.read_text())
+        gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
+        self.assertEqual(manifest["schema_version"], 3)
+        self.assertEqual(manifest["stage"], "T0-8")
+        self.assertEqual(manifest["decision"], "CONDITIONAL_GO")
+        expected_sources = study.t0_8_expected_figure_sources()
+        figures = {item["figure_stem"]: item for item in manifest["figures"]}
+        self.assertEqual(set(figures), set(expected_sources))
+        for stem, sources in expected_sources.items():
+            item = figures[stem]
+            self.assertEqual(item["plot_script_sha256"], study.sha256_file(FTC_ROOT / "scripts/plot_t0_transient_droop_figures.py"))
+            self.assertEqual(item["conda_env"], "DL")
+            self.assertGreaterEqual(min(item["png_dpi"]), 590.0)
+            self.assertGreaterEqual(item["png_width_px"], 1200)
+            self.assertGreaterEqual(item["png_height_px"], 800)
+            self.assertEqual(item["source_sha256"], {
+                str(path.relative_to(FTC_ROOT)): study.sha256_file(path) for path in sources
+            })
+            self.assertTrue((FTC_ROOT / item["pdf"]).is_file())
+            self.assertTrue((FTC_ROOT / item["png"]).is_file())
+        report = report_path.read_text()
+        self.assertIn("**CONDITIONAL_GO**", report)
+        self.assertIn("2.075 ns", report)
+        self.assertIn("T0-6 interval mapping：新增 HSPICE 0", report)
+        self.assertNotIn("T0-4 STOP", report)
+        self.assertEqual(gate["decision"], "CONDITIONAL_GO")
+        self.assertEqual(gate["t0_8_status"], "FINAL_EVIDENCE_PUBLISHED")
+        self.assertEqual(gate["t0_8_simulation_accounting"]["hspice_scenarios"], 0)
 
     def test_t0_4e_authority_hashes_and_stop_supersession_are_present(self):
         """The T0-4E handoff must hash evidence rather than trust filenames.

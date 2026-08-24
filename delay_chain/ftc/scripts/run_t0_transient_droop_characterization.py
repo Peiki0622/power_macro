@@ -51,6 +51,35 @@ FORMAL_MINIMUM_VDD = 0.80
 PRIMARY_SLEW_PS = 1.0
 SECONDARY_SLEW_PS = 10.0
 
+# T0-6 consumes the closed T0-5 phase windows on the same 25 ps resolution
+# used to refine their physical boundaries.  It is deliberately a finite,
+# auditable candidate set rather than an optimisation loop: no new analogue
+# waveform is simulated while sweeping these mathematical probe periods.
+T0_6_PERIOD_RESOLUTION_PS = 25.0
+T0_6_PERIOD_MIN_PS = 25.0
+T0_6_PERIOD_MAX_PS = 6000.0
+
+# These two completed T0-5A maps describe the user-selected target threat:
+# a 3002 ps L2 long pulse at each formal baseline.  T0-6 retains curves for
+# all six maps, but this pair jointly defines the downstream Pmax contract.
+T0_6_TARGET_SCENARIO_KEYS = (
+    "t0_5a_0p95_l2_long",
+    "t0_5a_1p10_l2_long",
+)
+
+# The two references below have different meanings and must never be
+# conflated.  2.5 ns is the frozen control-clock contract, while 5.70 ns is
+# the measured one-shot S_CLK-rise-to-next-rise non-overlap reference.  Neither
+# value authorises a recurring runtime probe until T0-6 qualifies it.
+T0_6_CONTROL_CLOCK_PERIOD_PS = 2500.0
+T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS = 5700.0
+
+# Numerical geometry only compares values originating from decimal picosecond
+# evidence.  A tiny tolerance prevents floating-point representation of values
+# such as 0.1 ps from creating a false zero-width gap; it is far below the
+# retained 25 ps physical boundary resolution and never widens a clean window.
+T0_6_INTERVAL_EPSILON_PS = 1e-9
+
 # The six M1 codebook entries are deliberately written out.  This makes a
 # changed mapper visible in review and avoids synthesizing or interpolating a
 # new margin code inside the analog runner.
@@ -3238,6 +3267,716 @@ def phase_t0_5b_accounting_refresh() -> Dict[str, Any]:
     })
 
 
+# The T0-6 table is intentionally rectangular: one row is one retained T0-5
+# scenario evaluated at one mathematical probe period.  It contains measures
+# rather than sample counts, because the T0-5 scan is adaptive and a sample
+# density is not a physical time-coverage metric.
+T0_6_CADENCE_FIELDS = (
+    "scenario_key", "scenario_family", "baseline_vdd_v", "margin_level",
+    "Vdroop_v", "total_pulse_ps", "is_target_threat", "probe_period_ps",
+    "guaranteed_clean_measure_ps", "clean_coverage_fraction",
+    "stable_blind_measure_ps", "stable_blind_coverage_fraction",
+    "recovery_ambiguous_measure_ps", "recovery_ambiguous_coverage_fraction",
+    "other_invalid_ambiguous_measure_ps", "other_invalid_ambiguous_coverage_fraction",
+    "boundary_uncertainty_measure_ps", "boundary_uncertainty_coverage_fraction",
+    "non_guarantee_measure_ps", "non_guarantee_coverage_fraction",
+    "maximum_non_guarantee_window_ps", "worst_attack_phase_ps",
+    "full_phase_guaranteed", "recovery_ambiguous_event_count",
+    "other_invalid_ambiguous_event_count",
+)
+
+
+def t0_6_interval_union(intervals: Sequence[Mapping[str, Any]], domain_start_ps: float,
+                          domain_end_ps: float) -> List[Dict[str, float]]:
+    """Clip and merge measured closed intervals on one finite phase domain.
+
+    The helper is shared by every T0-6 category.  Inputs use sampled T0-5
+    endpoints, whose inclusion has zero measure; merging touching endpoints
+    therefore cannot manufacture a guaranteed-clean width.  Zero-width
+    intervals are intentionally discarded here and retained separately as
+    ambiguity *event counts*.  This is important for the two T0-5B recovery
+    points: they remain auditable but cannot contribute non-zero time coverage.
+    """
+
+    start_limit, end_limit = float(domain_start_ps), float(domain_end_ps)
+    if end_limit < start_limit:
+        raise ValueError("T0-6 interval domain is reversed")
+    clipped: List[Tuple[float, float]] = []
+    for item in intervals:
+        try:
+            start = float(item["phase_start_ps"])
+            end = float(item["phase_end_ps"])
+        except (KeyError, TypeError, ValueError) as error:
+            raise ValueError("T0-6 interval lacks finite phase endpoints") from error
+        if not math.isfinite(start) or not math.isfinite(end) or end < start - T0_6_INTERVAL_EPSILON_PS:
+            raise ValueError("T0-6 interval has invalid phase endpoints")
+        start, end = max(start, start_limit), min(end, end_limit)
+        if end - start > T0_6_INTERVAL_EPSILON_PS:
+            clipped.append((start, end))
+    clipped.sort()
+    merged: List[Dict[str, float]] = []
+    for start, end in clipped:
+        if not merged or start > merged[-1]["phase_end_ps"] + T0_6_INTERVAL_EPSILON_PS:
+            merged.append({"phase_start_ps": start, "phase_end_ps": end})
+        else:
+            merged[-1]["phase_end_ps"] = max(merged[-1]["phase_end_ps"], end)
+    for item in merged:
+        item["width_ps"] = item["phase_end_ps"] - item["phase_start_ps"]
+    return merged
+
+
+def t0_6_subtract_intervals(base: Sequence[Mapping[str, Any]], masks: Sequence[Mapping[str, Any]],
+                            domain_start_ps: float, domain_end_ps: float) -> List[Dict[str, float]]:
+    """Return ``base - masks`` without interpolating a T0-5 state boundary.
+
+    All callers work inside either one measured phase span or one period
+    ``[0, P]``.  Normalizing both operands first makes overlapping shifted
+    copies harmless and keeps priority decisions explicit in the caller.
+    """
+
+    normalized_base = t0_6_interval_union(base, domain_start_ps, domain_end_ps)
+    normalized_masks = t0_6_interval_union(masks, domain_start_ps, domain_end_ps)
+    result: List[Dict[str, float]] = []
+    for interval in normalized_base:
+        cursor, end = interval["phase_start_ps"], interval["phase_end_ps"]
+        for mask in normalized_masks:
+            if mask["phase_end_ps"] <= cursor + T0_6_INTERVAL_EPSILON_PS:
+                continue
+            if mask["phase_start_ps"] >= end - T0_6_INTERVAL_EPSILON_PS:
+                break
+            if mask["phase_start_ps"] > cursor + T0_6_INTERVAL_EPSILON_PS:
+                result.append({
+                    "phase_start_ps": cursor,
+                    "phase_end_ps": min(mask["phase_start_ps"], end),
+                    "width_ps": min(mask["phase_start_ps"], end) - cursor,
+                })
+            cursor = max(cursor, mask["phase_end_ps"])
+            if cursor >= end - T0_6_INTERVAL_EPSILON_PS:
+                break
+        if cursor < end - T0_6_INTERVAL_EPSILON_PS:
+            result.append({"phase_start_ps": cursor, "phase_end_ps": end, "width_ps": end - cursor})
+    return result
+
+
+def t0_6_complement_intervals(masks: Sequence[Mapping[str, Any]], domain_start_ps: float,
+                               domain_end_ps: float) -> List[Dict[str, float]]:
+    """Return the conservative complement of measured intervals in one domain."""
+
+    return t0_6_subtract_intervals(
+        [{"phase_start_ps": float(domain_start_ps), "phase_end_ps": float(domain_end_ps)}],
+        masks, domain_start_ps, domain_end_ps,
+    )
+
+
+def t0_6_largest_circular_interval(intervals: Sequence[Mapping[str, Any]], period_ps: float) -> Tuple[float, Optional[float]]:
+    """Measure the longest interval on a phase *circle*, including seam wraps.
+
+    A non-guarantee span ending at ``P`` and one beginning at zero are one
+    continuous attack-phase blind window, not two independent line segments.
+    The returned phase is the beginning of that clockwise circular interval;
+    choosing the higher (pre-seam) endpoint for a wrapped window keeps the
+    witness reproducible in the canonical ``[0, P)`` coordinate system.
+    """
+
+    period = float(period_ps)
+    normalized = t0_6_interval_union(intervals, 0.0, period)
+    if not normalized:
+        return 0.0, None
+    candidates: List[Tuple[float, float]] = [
+        (float(item["width_ps"]), float(item["phase_start_ps"])) for item in normalized
+    ]
+    if (len(normalized) > 1
+            and normalized[0]["phase_start_ps"] <= T0_6_INTERVAL_EPSILON_PS
+            and normalized[-1]["phase_end_ps"] >= period - T0_6_INTERVAL_EPSILON_PS):
+        candidates.append((normalized[0]["width_ps"] + normalized[-1]["width_ps"],
+                           normalized[-1]["phase_start_ps"]))
+    # A full-period interval is already represented by its sole [0, P] span.
+    width, phase = max(candidates, key=lambda item: (item[0], -item[1]))
+    return width, phase
+
+
+def t0_6_project_periodic(intervals: Sequence[Mapping[str, Any]], period_ps: float) -> List[Dict[str, float]]:
+    """Project a finite set onto the attack phase circle ``[0, P]``.
+
+    ``W + kP`` is infinite on the real line, but modulo ``P`` every finite
+    interval is either a single span, two spans crossing zero, or the entire
+    period.  This exact reduction is why T0-6 can answer cadence questions
+    from T0-5 evidence alone rather than launching a repeated-probe HSPICE run.
+    """
+
+    period = float(period_ps)
+    if not math.isfinite(period) or period <= T0_6_INTERVAL_EPSILON_PS:
+        raise ValueError("T0-6 probe period must be positive")
+    projected: List[Dict[str, float]] = []
+    for item in intervals:
+        start, end = float(item["phase_start_ps"]), float(item["phase_end_ps"])
+        width = end - start
+        if width <= T0_6_INTERVAL_EPSILON_PS:
+            continue
+        if width >= period - T0_6_INTERVAL_EPSILON_PS:
+            projected.append({"phase_start_ps": 0.0, "phase_end_ps": period})
+            continue
+        start_mod = start % period
+        # Values numerically adjacent to the circle seam denote the same
+        # endpoint.  Canonicalizing to zero prevents a floating-point sliver.
+        if start_mod <= T0_6_INTERVAL_EPSILON_PS or period - start_mod <= T0_6_INTERVAL_EPSILON_PS:
+            start_mod = 0.0
+        end_mod_unwrapped = start_mod + width
+        if end_mod_unwrapped < period - T0_6_INTERVAL_EPSILON_PS:
+            projected.append({"phase_start_ps": start_mod, "phase_end_ps": end_mod_unwrapped})
+        else:
+            projected.append({"phase_start_ps": start_mod, "phase_end_ps": period})
+            wrapped_end = end_mod_unwrapped - period
+            if wrapped_end > T0_6_INTERVAL_EPSILON_PS:
+                projected.append({"phase_start_ps": 0.0, "phase_end_ps": wrapped_end})
+    return t0_6_interval_union(projected, 0.0, period)
+
+
+def t0_6_state_intervals(summary: Mapping[str, Any]) -> Dict[str, List[Dict[str, float]]]:
+    """Extract four-state T0-5 evidence and explicit transition uncertainty.
+
+    T0-5 guarantees only its observed CLEAN_Q1 spans.  The unmeasured gap
+    between different sampled state endpoints is therefore converted to
+    ``boundary_uncertainty`` rather than silently assigned to either neighbour.
+    Outside the two measured stable-Q0 closure endpoints, a phase is treated
+    as stable blind only after no periodic copy provides CLEAN_Q1, ambiguity,
+    or a retained boundary gap; the closure is precisely what permits that
+    conservative extension without inventing another clean interval.
+    """
+
+    try:
+        domain_start = float(summary["characterized_phase_start_ps"])
+        domain_end = float(summary["characterized_phase_end_ps"])
+        reported = list(summary["intervals"])
+    except (KeyError, TypeError, ValueError) as error:
+        raise ValueError("T0-6 requires a closed T0-5 phase summary") from error
+    if not bool(summary.get("left_closed_by_stable_q0")) or not bool(summary.get("right_closed_by_stable_q0")):
+        raise ValueError("T0-6 refuses an unclosed T0-5 phase map")
+    buckets: Dict[str, List[Mapping[str, Any]]] = {
+        "clean": [], "recovery_ambiguous": [], "other_invalid_ambiguous": [], "stable": [],
+    }
+    state_to_bucket = {
+        "CLEAN_Q1": "clean",
+        "RECOVERY_EDGE_AMBIGUOUS": "recovery_ambiguous",
+        "OTHER_INVALID_AMBIGUOUS": "other_invalid_ambiguous",
+        "STABLE_Q0": "stable",
+    }
+    for item in reported:
+        state = item.get("state")
+        if state not in state_to_bucket:
+            raise ValueError("T0-6 found an unknown T0-5 state: {}".format(state))
+        buckets[state_to_bucket[state]].append(item)
+    if not buckets["clean"] or not buckets["stable"]:
+        raise ValueError("T0-6 requires both CLEAN_Q1 and STABLE_Q0 evidence")
+    all_reported = t0_6_interval_union(reported, domain_start, domain_end)
+    result = {
+        key: t0_6_interval_union(value, domain_start, domain_end)
+        for key, value in buckets.items()
+    }
+    result["boundary_uncertainty"] = t0_6_complement_intervals(all_reported, domain_start, domain_end)
+    return result
+
+
+def t0_6_measure_period(summary: Mapping[str, Any], period_ps: float) -> Dict[str, Any]:
+    """Measure one scenario's periodic detection classification without HSPICE.
+
+    Classification is deliberately priority-ordered.  One CLEAN_Q1 copy is
+    sufficient to detect an attack, so it dominates every other simultaneous
+    copy.  If no clean copy exists, recovery ambiguity dominates other-invalid
+    ambiguity, which dominates the 25 ps sampled-boundary uncertainty.  Every
+    remaining phase is a stable blind phase.  The five categories partition
+    exactly one probe period and make all non-guaranteed time visible.
+    """
+
+    period = float(period_ps)
+    source = t0_6_state_intervals(summary)
+    clean = t0_6_project_periodic(source["clean"], period)
+    recovery = t0_6_subtract_intervals(
+        t0_6_project_periodic(source["recovery_ambiguous"], period), clean, 0.0, period)
+    other = t0_6_subtract_intervals(
+        t0_6_project_periodic(source["other_invalid_ambiguous"], period), clean + recovery, 0.0, period)
+    boundary = t0_6_subtract_intervals(
+        t0_6_project_periodic(source["boundary_uncertainty"], period),
+        clean + recovery + other, 0.0, period)
+    non_guarantee = t0_6_complement_intervals(clean, 0.0, period)
+    stable = t0_6_subtract_intervals(non_guarantee, recovery + other + boundary, 0.0, period)
+
+    def measure(intervals: Sequence[Mapping[str, Any]]) -> float:
+        return sum(float(item["width_ps"]) for item in intervals)
+
+    measures = {
+        "guaranteed_clean_measure_ps": measure(clean),
+        "stable_blind_measure_ps": measure(stable),
+        "recovery_ambiguous_measure_ps": measure(recovery),
+        "other_invalid_ambiguous_measure_ps": measure(other),
+        "boundary_uncertainty_measure_ps": measure(boundary),
+    }
+    non_guarantee_measure = measure(non_guarantee)
+    partition_measure = sum(measures.values())
+    if not math.isclose(partition_measure, period, rel_tol=0.0, abs_tol=T0_6_INTERVAL_EPSILON_PS):
+        raise RuntimeError("T0-6 cadence categories do not partition one probe period")
+    if not math.isclose(measures["guaranteed_clean_measure_ps"] + non_guarantee_measure, period,
+                        rel_tol=0.0, abs_tol=T0_6_INTERVAL_EPSILON_PS):
+        raise RuntimeError("T0-6 clean and non-guarantee measures do not partition one probe period")
+    largest_width, worst_phase = t0_6_largest_circular_interval(non_guarantee, period)
+    result: Dict[str, Any] = {
+        **measures,
+        "clean_coverage_fraction": measures["guaranteed_clean_measure_ps"] / period,
+        "stable_blind_coverage_fraction": measures["stable_blind_measure_ps"] / period,
+        "recovery_ambiguous_coverage_fraction": measures["recovery_ambiguous_measure_ps"] / period,
+        "other_invalid_ambiguous_coverage_fraction": measures["other_invalid_ambiguous_measure_ps"] / period,
+        "boundary_uncertainty_coverage_fraction": measures["boundary_uncertainty_measure_ps"] / period,
+        "non_guarantee_measure_ps": non_guarantee_measure,
+        "non_guarantee_coverage_fraction": non_guarantee_measure / period,
+        "maximum_non_guarantee_window_ps": largest_width,
+        "worst_attack_phase_ps": worst_phase,
+        "full_phase_guaranteed": worst_phase is None,
+        # Zero-width ambiguous intervals have zero time measure but remain
+        # counted here, so a consumer cannot mistake "0 ps" for "not seen".
+        "recovery_ambiguous_event_count": len(summary.get("recovery_edge_ambiguous_intervals", [])),
+        "other_invalid_ambiguous_event_count": len(summary.get("other_invalid_ambiguous_intervals", [])),
+    }
+    return result
+
+
+def t0_6_candidate_periods_ps() -> List[float]:
+    """Return the fixed, evidence-resolution-aligned T0-6 period grid."""
+
+    count = int(round((T0_6_PERIOD_MAX_PS - T0_6_PERIOD_MIN_PS) / T0_6_PERIOD_RESOLUTION_PS))
+    periods = [T0_6_PERIOD_MIN_PS + index * T0_6_PERIOD_RESOLUTION_PS for index in range(count + 1)]
+    required = (T0_6_CONTROL_CLOCK_PERIOD_PS, T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS)
+    if any(period not in periods for period in required):
+        raise RuntimeError("T0-6 period grid omits a required timing reference")
+    return periods
+
+
+def t0_6_cadence_rows(summaries: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
+    """Evaluate every completed T0-5 map on every candidate cadence period."""
+
+    rows: List[Dict[str, Any]] = []
+    for summary in sorted(summaries, key=lambda item: str(item["scenario_key"])):
+        for period in t0_6_candidate_periods_ps():
+            measure = t0_6_measure_period(summary, period)
+            rows.append({
+                "scenario_key": summary["scenario_key"],
+                "scenario_family": summary["scenario_family"],
+                "baseline_vdd_v": summary["baseline_vdd_v"],
+                "margin_level": summary["margin_level"],
+                "Vdroop_v": summary["Vdroop_v"],
+                "total_pulse_ps": summary["total_pulse_ps"],
+                "is_target_threat": summary["scenario_key"] in T0_6_TARGET_SCENARIO_KEYS,
+                "probe_period_ps": period,
+                **measure,
+            })
+    return rows
+
+
+def t0_6_reference_rows(rows: Sequence[Mapping[str, Any]], period_ps: float) -> Dict[str, Dict[str, Any]]:
+    """Index one required reference period by scenario and reject grid drift."""
+
+    matches = {
+        str(row["scenario_key"]): dict(row)
+        for row in rows
+        if math.isclose(float(row["probe_period_ps"]), period_ps, rel_tol=0.0,
+                        abs_tol=T0_6_INTERVAL_EPSILON_PS)
+    }
+    if len(matches) != len({str(row["scenario_key"]) for row in rows}):
+        raise RuntimeError("T0-6 cadence table is missing a required reference period")
+    return matches
+
+
+def t0_6_pmax_coverage_ps(rows: Sequence[Mapping[str, Any]]) -> Optional[float]:
+    """Find the largest grid period that guarantees clean detection for both targets."""
+
+    by_period: Dict[float, Dict[str, Mapping[str, Any]]] = {}
+    for row in rows:
+        if str(row["scenario_key"]) in T0_6_TARGET_SCENARIO_KEYS:
+            by_period.setdefault(float(row["probe_period_ps"]), {})[str(row["scenario_key"])] = row
+    qualified = [
+        period for period, target_rows in by_period.items()
+        if set(target_rows) == set(T0_6_TARGET_SCENARIO_KEYS)
+        and all(bool(row["full_phase_guaranteed"]) for row in target_rows.values())
+    ]
+    return max(qualified) if qualified else None
+
+
+def t0_6_decision(pmax_coverage_ps: Optional[float]) -> str:
+    """Apply only the plan-defined physical-vs-one-shot cadence Gate."""
+
+    if pmax_coverage_ps is None or pmax_coverage_ps <= 0.0:
+        return "NO-GO"
+    if pmax_coverage_ps + T0_6_INTERVAL_EPSILON_PS >= T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS:
+        return "GO"
+    return "CONDITIONAL_GO"
+
+
+def phase_t0_6() -> Dict[str, Any]:
+    """Publish T0-6 cadence evidence from T0-5 intervals with zero HSPICE.
+
+    This command intentionally never calls ``require_dl``, ``frozen_context``,
+    deck rendering, or ``execute``.  Its only inputs are already committed
+    compact T0-5 rows/summaries; the explicit file hashes below make that
+    zero-HSPICE post-processing boundary reviewable in the final contract.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    summary_path = ANALYSIS / "phase_coverage" / "phase_coverage_summary.json"
+    phase_csv_path = ANALYSIS / "phase_coverage" / "phase_coverage.csv"
+    gate, phase_summary = read_json(gate_path), read_json(summary_path)
+    if gate.get("t0_5_status") != "GO" or gate.get("t0_6_status") != "ENABLED":
+        raise RuntimeError("T0-6 requires the completed T0-5 GO gate")
+    if phase_summary.get("stage") != "T0-5 COMPLETE" or phase_summary.get("decision") != "GO":
+        raise RuntimeError("T0-6 requires the authoritative completed T0-5 summary")
+    # Read the source CSV only to verify it still describes the same six maps.
+    # Geometry deliberately consumes the summary's published intervals, not a
+    # rerun or a reconstruction from raw HSPICE directories.
+    phase_rows = read_csv(phase_csv_path, PHASE_COVERAGE_FIELDS)
+    summaries = list(phase_summary.get("scenarios", []))
+    expected_keys = {item["scenario_key"] for item in T0_5A_SPECS + T0_5B_SPECS}
+    summary_keys = {str(item.get("scenario_key")) for item in summaries}
+    csv_keys = {str(item.get("scenario_key")) for item in phase_rows}
+    if summary_keys != expected_keys or csv_keys != expected_keys:
+        raise RuntimeError("T0-6 requires exactly the six completed T0-5 scenario maps")
+    by_key = {str(item["scenario_key"]): item for item in summaries}
+    for key in T0_6_TARGET_SCENARIO_KEYS:
+        if not math.isclose(float(by_key[key]["total_pulse_ps"]), 3002.0, rel_tol=0.0, abs_tol=1e-9):
+            raise RuntimeError("T0-6 target threat no longer matches the selected 3002 ps long pulse")
+
+    rows = t0_6_cadence_rows(summaries)
+    pmax = t0_6_pmax_coverage_ps(rows)
+    decision = t0_6_decision(pmax)
+    references = {
+        "control_clock_2500ps": t0_6_reference_rows(rows, T0_6_CONTROL_CLOCK_PERIOD_PS),
+        "one_shot_reference_5700ps": t0_6_reference_rows(rows, T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS),
+    }
+    target_reference = {
+        name: {key: value[key] for key in T0_6_TARGET_SCENARIO_KEYS}
+        for name, value in references.items()
+    }
+    pmax_rows = {} if pmax is None else {
+        key: row for key, row in t0_6_reference_rows(rows, pmax).items()
+        if key in T0_6_TARGET_SCENARIO_KEYS
+    }
+    if pmax is not None and not all(bool(item["full_phase_guaranteed"]) for item in pmax_rows.values()):
+        raise RuntimeError("T0-6 Pmax does not satisfy the selected full-phase clean requirement")
+
+    cadence_path = ANALYSIS / "cadence" / "coverage_vs_probe_period.csv"
+    cadence_summary_path = ANALYSIS / "cadence" / "cadence_summary.json"
+    write_csv(cadence_path, T0_6_CADENCE_FIELDS, rows)
+    cadence_summary = {
+        "schema_version": 1,
+        "study": STUDY,
+        "stage": "T0-6",
+        "decision": decision,
+        "simulation_accounting": {
+            "hspice_scenarios": 0,
+            "new_hspice_scenarios": 0,
+            "reused_hspice_scenarios": 0,
+            "reparsed_hspice_scenarios": 0,
+            "forbidden_flow_runs": 0,
+            "method": "closed_T0_5_interval_periodic_projection",
+        },
+        "input_sha256": {
+            "phase_coverage_csv": sha256_file(phase_csv_path),
+            "phase_coverage_summary": sha256_file(summary_path),
+        },
+        "target_threat": {
+            "description": "L2 3002 ps long pulse at both formal baselines",
+            "scenario_keys": list(T0_6_TARGET_SCENARIO_KEYS),
+            "total_pulse_ps": 3002.0,
+            "coverage_requirement": "100_percent_full_phase_CLEAN_Q1_guarantee",
+        },
+        "period_grid": {
+            "minimum_ps": T0_6_PERIOD_MIN_PS,
+            "maximum_ps": T0_6_PERIOD_MAX_PS,
+            "resolution_ps": T0_6_PERIOD_RESOLUTION_PS,
+            "candidate_count_per_scenario": len(t0_6_candidate_periods_ps()),
+        },
+        "pmax_coverage_ps": pmax,
+        "pmax_coverage_s": None if pmax is None else pmax * 1e-12,
+        "control_clock_period_ps": T0_6_CONTROL_CLOCK_PERIOD_PS,
+        "one_shot_nonoverlap_reference_ps": T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS,
+        "target_reference_results": target_reference,
+        "pmax_target_results": pmax_rows,
+        "all_scenario_full_guarantee_pmax_ps": {
+            key: max((float(row["probe_period_ps"]) for row in rows
+                      if str(row["scenario_key"]) == key and bool(row["full_phase_guaranteed"])), default=None)
+            for key in sorted(expected_keys)
+        },
+        "cadence_csv": str(cadence_path.relative_to(FTC_ROOT)),
+    }
+    write_json(cadence_summary_path, cadence_summary)
+    # ``cadence.csv`` was a T0-4E placeholder.  Keep a tiny supersession
+    # record instead of leaving stale blocked prose beside final cadence data.
+    write_csv(ANALYSIS / "cadence" / "cadence.csv",
+              ("status", "authoritative_coverage_csv", "reason"), [{
+                  "status": "SUPERSEDED_BY_T0_6",
+                  "authoritative_coverage_csv": str(cadence_path.relative_to(FTC_ROOT)),
+                  "reason": "T0-6 completed zero-HSPICE periodic interval mapping",
+              }])
+
+    needs_compact_runtime_probe = decision == "CONDITIONAL_GO"
+    contract = {
+        "schema_version": 5,
+        "study": STUDY,
+        "decision": decision,
+        "source_gate": "T0-6 {}".format(decision),
+        "precise_timing_detection_range": {
+            "minimum_vdd_v": FORMAL_MINIMUM_VDD,
+            "status": "not_extended_below_floor",
+        },
+        "below_floor_requirement": {
+            "condition": "VDD_MONITORED < 0.80 V",
+            "required_semantics": ["heartbeat", "stuck_q", "timeout", "no_valid_detection_result"],
+            "precise_timing_trip_allowed": False,
+        },
+        "target_threat": cadence_summary["target_threat"],
+        "runtime_probe_period": {
+            "status": "QUALIFIED_BY_T0_6_INTERVAL_MATH",
+            "coverage_requirement": "100_percent_full_phase_CLEAN_Q1_guarantee",
+            "maximum_period_ps": pmax,
+            "maximum_period_s": None if pmax is None else pmax * 1e-12,
+            "cadence_evidence": str(cadence_summary_path.relative_to(FTC_ROOT)),
+        },
+        "control_clock_reference": {
+            "period_ps": T0_6_CONTROL_CLOCK_PERIOD_PS,
+            "is_runtime_probe_cadence": False,
+            "target_full_phase_guaranteed": all(
+                bool(item["full_phase_guaranteed"])
+                for item in target_reference["control_clock_2500ps"].values()),
+        },
+        "one_shot_nonoverlap_reference": {
+            "period_ps": T0_6_ONE_SHOT_NONOVERLAP_REFERENCE_PS,
+            "meaning": "frozen_single_probe_S_CLK_rise_to_next_rise_reference_only",
+            "target_full_phase_guaranteed": all(
+                bool(item["full_phase_guaranteed"])
+                for item in target_reference["one_shot_reference_5700ps"].values()),
+        },
+        "d0_runtime_probe_requirement": {
+            "needs_more_compact_sequence": needs_compact_runtime_probe,
+            "maximum_runtime_probe_period_ps": pmax if needs_compact_runtime_probe else None,
+            "condition": None if not needs_compact_runtime_probe else (
+                "Future D0 must implement a runtime probe sequence no slower than "
+                "Pmax_coverage and re-verify reset/S_CLK/two-Q-sample/recovery timing."),
+            "d0_rtl_implemented_by_t0": False,
+        },
+        "simulation_accounting": cadence_summary["simulation_accounting"],
+        "input_sha256": cadence_summary["input_sha256"],
+    }
+    write_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json", contract)
+
+    gate.update({
+        "decision": decision,
+        "stop_stage": None,
+        "stop_reason": None,
+        "t0_6_status": decision,
+        "t0_6_summary": str(cadence_summary_path.relative_to(FTC_ROOT)),
+        "t0_8_status": "ENABLED",
+        "blocked_later_stages": [],
+        "d0_handoff_condition": contract["d0_runtime_probe_requirement"]["condition"],
+    })
+    write_json(gate_path, gate)
+    return cadence_summary
+
+
+def t0_8_expected_figure_sources() -> Dict[str, Tuple[Path, ...]]:
+    """Declare the compact corrected inputs permitted for each final figure.
+
+    This allowlist is intentionally explicit.  It prevents a future plotter
+    from quietly returning to the superseded T0-3/T0-4 STOP tables merely
+    because their filenames still exist for historical audit.
+    """
+
+    return {
+        "fig_t0_1_representative_waveform": (
+            ANALYSIS / "phase_coverage" / "phase_coverage.csv",
+            ANALYSIS / "phase_coverage" / "phase_coverage_summary.json",
+        ),
+        "fig_t0_2_phase_window": (ANALYSIS / "phase_coverage" / "phase_coverage_summary.json",),
+        "fig_t0_3_amplitude_duration_boundary": (
+            ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv",
+            ANALYSIS / "amplitude_duration" / "summary.json",
+        ),
+        "fig_t0_4_margin_duration_comparison": (
+            ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv",
+            ANALYSIS / "amplitude_duration" / "summary.json",
+        ),
+        "fig_t0_5_cadence_coverage": (
+            ANALYSIS / "cadence" / "coverage_vs_probe_period.csv",
+            ANALYSIS / "cadence" / "cadence_summary.json",
+        ),
+    }
+
+
+def validate_t0_8_figure_manifest(manifest: Mapping[str, Any]) -> None:
+    """Verify final figures are current, complete, and not blocked placeholders.
+
+    T0-8 must not trust a filename alone: every expected figure has a current
+    input hash, current plot-script hash, readable PDF/PNG paths, and explicit
+    600 dpi metadata.  This validation remains zero-HSPICE and deliberately
+    avoids importing matplotlib into the runner; rendering QA itself belongs to
+    the dedicated DL plot script that produced the manifest.
+    """
+
+    if manifest.get("stage") != "T0-8" or manifest.get("schema_version") != 3:
+        raise RuntimeError("T0-8 requires the current final figure manifest schema")
+    expected_sources = t0_8_expected_figure_sources()
+    figures = manifest.get("figures")
+    if not isinstance(figures, list):
+        raise RuntimeError("T0-8 figure manifest has no figure list")
+    by_stem = {str(item.get("figure_stem")): item for item in figures if isinstance(item, dict)}
+    if set(by_stem) != set(expected_sources):
+        raise RuntimeError("T0-8 figure manifest does not contain exactly five formal figures")
+    plot_script = FTC_ROOT / "scripts" / "plot_t0_transient_droop_figures.py"
+    script_hash = sha256_file(plot_script)
+    for stem, sources in expected_sources.items():
+        item = by_stem[stem]
+        expected_hashes = {str(path.relative_to(FTC_ROOT)): sha256_file(path) for path in sources}
+        if item.get("source_sha256") != expected_hashes:
+            raise RuntimeError("T0-8 figure provenance is stale: {}".format(stem))
+        if item.get("plot_script_sha256") != script_hash or item.get("conda_env") != "DL":
+            raise RuntimeError("T0-8 figure renderer provenance is stale: {}".format(stem))
+        for key in ("pdf", "png"):
+            relative = item.get(key)
+            if not isinstance(relative, str) or not (FTC_ROOT / relative).is_file():
+                raise RuntimeError("T0-8 figure artifact is missing: {} {}".format(stem, key))
+        dpi = item.get("png_dpi")
+        if (not isinstance(dpi, list) or len(dpi) != 2 or min(float(value) for value in dpi) < 590.0
+                or int(item.get("png_width_px", 0)) < 1200 or int(item.get("png_height_px", 0)) < 800):
+            raise RuntimeError("T0-8 figure does not meet 600 dpi publication QA: {}".format(stem))
+
+
+def write_t0_8_final_report(gate: Mapping[str, Any], phase_summary: Mapping[str, Any],
+                             amplitude_summary: Mapping[str, Any], cadence_summary: Mapping[str, Any],
+                             downstream: Mapping[str, Any], manifest_path: Path) -> Path:
+    """Write the final Chinese T0 report from compact authoritative artifacts.
+
+    The report intentionally distinguishes physical detection evidence from
+    implementation readiness.  A clear T0-6 Pmax with a slower verified
+    one-shot sequence is a CONDITIONAL_GO, not a reason to invent D0 RTL or
+    relabel the 400 MHz control clock as a completed recurring probe engine.
+    """
+
+    decision = str(cadence_summary["decision"])
+    pmax = float(cadence_summary["pmax_coverage_ps"])
+    target = cadence_summary["target_threat"]
+    reference_results = cadence_summary["target_reference_results"]
+    lines = [
+        "# FTC T0 瞬态电压跌落检测能力表征报告", "",
+        "## 最终判定", "",
+        "**{}**".format(decision), "",
+    ]
+    if decision == "CONDITIONAL_GO":
+        lines.extend([
+            "传感器的纠偏后瞬态检测物理证据、六个闭合单-probe 相位窗口和 T0-6 区间映射均已完成。",
+            "但当前冻结 one-shot 序列的约 5.70 ns 非重叠参考慢于目标要求的 2.075 ns，因此不能直接宣称已有 runtime probe 实现。",
+            "",
+            "> 条件：未来 D0 必须实现不慢于 **2.075 ns** 的运行时 probe 序列，并重新验证 reset/S_CLK/两次 Q 采样/recovery 时序。",
+            "",
+        ])
+    elif decision == "GO":
+        lines.extend(["当前已验证 one-shot 非重叠参考满足目标 Pmax_coverage。", ""])
+    else:
+        lines.extend(["在已表征窗口中不存在满足目标全相位 clean 保证的 probe period。", ""])
+    lines.extend([
+        "## 物理证据范围", "",
+        "- T0-2：纠偏后的本地 `VDD_MONITORED` 归一化长脉冲证据保持 PASS；历史固定高电平结果仅作审计，不进入正式曲线。",
+        "- T0-4：六个 formal margin 的 corrected GO duration 边界保持权威；两个恢复沿特殊点被保留为 ambiguous bracket，而非伪造 minimum。",
+        "- T0-5：六个场景均已由左右 `STABLE_Q0` 闭合；CLEAN 覆盖只按确认区间宽度衡量，采样边界间隙和 ambiguous 均为非保证区域。",
+        "",
+        "| T0-5 场景 | 总脉冲 (ps) | 确认 clean 测度 (ps) | 单 probe clean 时间覆盖率 | 最大非保证窗口 (ps) |",
+        "|---|---:|---:|---:|---:|",
+    ])
+    for item in sorted(phase_summary["scenarios"], key=lambda value: str(value["scenario_key"])):
+        lines.append("| {} | {:.0f} | {:.0f} | {:.2%} | {:.0f} |".format(
+            item["scenario_key"], float(item["total_pulse_ps"]), float(item["guaranteed_clean_measure_ps"]),
+            float(item["clean_time_coverage_fraction"]), float(item["maximum_non_guarantee_window_ps"])))
+    lines.extend([
+        "", "## T0-6 运行时节拍推导（HSPICE=0）", "",
+        "- 目标威胁：{}；要求：{}。".format(target["description"], target["coverage_requirement"]),
+        "- `Pmax_coverage = {:.0f} ps = {:.3f} ns`，由两个目标场景中较窄的确认 CLEAN_Q1 周期投影窗口限定。".format(pmax, pmax / 1000.0),
+        "- 400 MHz / 2.5 ns 是控制时钟合同，不等价于 runtime probe。其纯覆盖结果如下；5.70 ns 仅是冻结 one-shot 的非重叠实现参考。",
+        "",
+        "| 参考 period | 0.95 V L2 clean 覆盖率 | 1.10 V L2 clean 覆盖率 | 目标全相位保证 |",
+        "|---|---:|---:|---|",
+    ])
+    for result_key, label in (("control_clock_2500ps", "2.500 ns 控制时钟"),
+                              ("one_shot_reference_5700ps", "5.700 ns one-shot 参考")):
+        result = reference_results[result_key]
+        target_rows = [result[key] for key in target["scenario_keys"]]
+        lines.append("| {} | {:.2%} | {:.2%} | {} |".format(
+            label, float(target_rows[0]["clean_coverage_fraction"]),
+            float(target_rows[1]["clean_coverage_fraction"]),
+            all(bool(row["full_phase_guaranteed"]) for row in target_rows)))
+    lines.extend([
+        "", "## T0-7 严重欠压边界", "",
+        "- `VDD_MONITORED < 0.80 V` 不作精确 timing-trip 声明；下游仅可采用 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义。",
+        "",
+        "## 证据、图与账本", "",
+        "- 正式图：`{}`（五张 PDF + 600 dpi PNG；manifest 记录输入、脚本和 DL 环境 hash）。".format(
+            str(manifest_path.relative_to(FTC_ROOT))),
+        "- 下游合同：`analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json`。",
+        "- T0-5 物理证据账本保持：新增 HSPICE {}；电气等价复用 {}；禁止流程新增运行 {}。".format(
+            phase_summary["new_hspice"], phase_summary["reused_electrical"], phase_summary["forbidden_flow_runs"]),
+        "- 本轮 T0-6 interval mapping：新增 HSPICE 0；复用/重解析 HSPICE 0；T0-8 绘图和报告：HSPICE 0。",
+        "- 未重跑 H0、M0、M1、RF、XA、T0-2、T0-3、T0-4 或 T0-5；未实现 D0 RTL、DLL、时钟或 FSM。",
+    ])
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def phase_t0_8() -> Dict[str, Any]:
+    """Publish final T0-8 report/Gate after externally rendered formal figures.
+
+    Rendering remains a separate explicit DL command so the runner never
+    depends on a GUI or silently creates figures during a cadence calculation.
+    This publication verifies that exact rendered manifest first, then writes
+    only compact report and Gate artifacts.  No HSPICE, deck, or raw run path
+    is opened by this function.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    cadence_summary = read_json(ANALYSIS / "cadence" / "cadence_summary.json")
+    phase_summary = read_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json")
+    amplitude_summary = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
+    downstream = read_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json")
+    manifest_path = ANALYSIS / "figures" / "figure_manifest.json"
+    manifest = read_json(manifest_path)
+    if gate.get("t0_8_status") != "ENABLED":
+        raise RuntimeError("T0-8 requires the T0-6 Gate to enable final evidence publication")
+    if cadence_summary.get("decision") not in ("GO", "CONDITIONAL_GO"):
+        raise RuntimeError("T0-8 requires a non-terminal T0-6 cadence conclusion")
+    if gate.get("t0_6_status") != cadence_summary.get("decision"):
+        raise RuntimeError("T0-8 Gate and T0-6 cadence summary disagree")
+    if downstream.get("decision") != cadence_summary.get("decision"):
+        raise RuntimeError("T0-8 downstream contract and cadence summary disagree")
+    if cadence_summary.get("simulation_accounting", {}).get("hspice_scenarios") != 0:
+        raise RuntimeError("T0-8 refuses a cadence result that ran HSPICE")
+    validate_t0_8_figure_manifest(manifest)
+    report_path = write_t0_8_final_report(
+        gate, phase_summary, amplitude_summary, cadence_summary, downstream, manifest_path)
+    gate.update({
+        "decision": cadence_summary["decision"],
+        "stop_stage": None,
+        "stop_reason": None,
+        "t0_8_status": "FINAL_EVIDENCE_PUBLISHED",
+        "terminal_figure_manifest": str(manifest_path.relative_to(FTC_ROOT)),
+        "terminal_report": str(report_path.relative_to(FTC_ROOT)),
+        "t0_8_simulation_accounting": {
+            "hspice_scenarios": 0,
+            "new_hspice_scenarios": 0,
+            "reused_hspice_scenarios": 0,
+            "reparsed_hspice_scenarios": 0,
+            "forbidden_flow_runs": 0,
+        },
+        "blocked_later_stages": [],
+    })
+    write_json(gate_path, gate)
+    return gate
+
+
 def phase_amplitude_duration() -> Dict[str, Any]:
     """Execute T0-4's six local amplitude-duration searches after T0-3 GO."""
 
@@ -3435,7 +4174,7 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
             "contract", "smoke", "long-pulse", "phase-window", "amplitude-duration", "finalize-stop",
             "correction-audit", "correction-points", "long-pulse-corrected", "t0-2e",
             "t0-4-history-correct", "t0-4-anomaly-diagnose", "t0-4-finalize-corrected", "t0-4e",
-            "t0-5a", "t0-5a-accounting-refresh", "t0-5b", "t0-5b-accounting-refresh",
+            "t0-5a", "t0-5a-accounting-refresh", "t0-5b", "t0-5b-accounting-refresh", "t0-6", "t0-8",
         ),
         required=True,
     )
@@ -3482,6 +4221,10 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_t0_5b()
     elif args.phase == "t0-5b-accounting-refresh":
         phase_t0_5b_accounting_refresh()
+    elif args.phase == "t0-6":
+        phase_t0_6()
+    elif args.phase == "t0-8":
+        phase_t0_8()
     return 0
 
 

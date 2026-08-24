@@ -1,2 +1,2 @@
-status,reason
-PENDING_T0_5_T0_6,T0-4 GO; cadence requires completed T0-5 windows
+status,authoritative_coverage_csv,reason
+SUPERSEDED_BY_T0_6,analysis/t0_transient_droop/cadence/coverage_vs_probe_period.csv,T0-6 completed zero-HSPICE periodic interval mapping

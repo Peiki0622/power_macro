@@ -5,7 +5,7 @@
 **T0 原始输入基线：** `46ebf25e9bb15aba29be23f79e8aa3ed8b8ad474`  
 **T0-2 纠偏完成提交：** `b3fe480c461b6b8a5d2f10a276d763ba9aae9526`  
 **T0-4 纠偏闭合提交：** `bfe5ba69e68849f9c46db36ff6d0f43022769f2e`  
-**当前阶段状态：** T0-2 已在本地电源归一化接口抽象下纠偏通过，T0-2E 已完成零 HSPICE 证据闭合，T0-3 相位敏感窗口已 GO，T0-4 六个正式检测配置的“跌落深度—最短可检测持续时间”边界已纠偏并 GO；下一步不是重跑 T0-4，而是先执行 **T0-4E：零 HSPICE 证据闭合、清理旧 T0-4 STOP 残留、建立跨 runner 修改的电气等价复用并解封 T0-5**，然后进入 T0-5A/T0-5B 时间覆盖率表征。  
+**当前阶段状态：** T0-2/T0-2E/T0-3/T0-4/T0-4E、T0-5A/T0-5B 均已完成；T0-6 已只消费闭合 T0-5 区间完成零 HSPICE 周期映射。对两个基准电压下的 L2/3002 ps 长脉冲、100% `CLEAN_Q1` 全相位保证，`Pmax_coverage=2075 ps`；当前 2.5 ns 控制时钟和 5.70 ns one-shot 非重叠参考均不满足该物理覆盖要求。因此 T0 最终为 **CONDITIONAL_GO**：未来 D0 必须实现不慢于 2.075 ns 的运行时 probe 序列并重新验证 reset/S_CLK/Q 双采样/recovery。T0-7 `<0.80 V` fail-safe 需求保持冻结，T0-8 正式图、报告、合同和最终 Gate 已发布；未重跑既有 HSPICE。
 **阶段定位：** H0 校准到检测所有权切换已通过，M0/M0-E 静态检测裕量与静态触发电压已闭合，M1 可编程检测配置已通过，M1-T 时序证据已闭合；T0 只研究当前冻结传感器面对真实瞬态电压跌落时的物理检测边界，并为后续 D0 运行时检测状态机给出必须满足的检测时序合同。
 
 ---
@@ -1126,19 +1126,17 @@ T0-3   两个 L2 代表点相位敏感窗口                          GO
   ↓
 T0-4   六个 margin 自适应 DeltaV→minimum clean-Q1 duration GO
   ↓
-T0-4E  T0-4 authority + 旧 STOP 清理 + 电气等价复用        ← 当前下一步，0 HSPICE
-  ├─ FAIL -> 只修证据/复用逻辑，不运行新物理扫描
-  ↓ PASS
-T0-5A  两个 L2：边界脉冲 + 3000 ps 长脉冲完整单 probe 窗口
-  ├─ FAIL -> STOP 在 T0-5A，不执行 T0-5B
-  ↓ GO
-T0-5B  0.95/L3 与 1.10/L1 两个特殊恢复沿边界完整相位
+T0-4E  T0-4 authority + 旧 STOP 清理 + 电气等价复用        PASS，0 HSPICE
   ↓
-T0-6   用 T0-5 窗口数学反推 Pmax_coverage / cadence
+T0-5A  两个 L2：边界脉冲 + 3000 ps 长脉冲完整单 probe 窗口 GO
   ↓
-T0-7   保持 <0.80 V fail-safe 下游需求
+T0-5B  0.95/L3 与 1.10/L1 两个特殊恢复沿边界完整相位      GO
   ↓
-T0-8   重建论文级图 + 正式报告 + D0 合同 + 最终 Gate
+T0-6   用 T0-5 窗口数学反推 Pmax_coverage / cadence         CONDITIONAL_GO，0 HSPICE
+  ↓
+T0-7   保持 <0.80 V fail-safe 下游需求                      已冻结
+  ↓
+T0-8   重建论文级图 + 正式报告 + D0 合同 + 最终 Gate         FINAL_EVIDENCE_PUBLISHED
 ```
 
 任何后续入口都不得隐式重新调用 T0-2/T0-3/T0-4 已完成的 HSPICE。
@@ -1149,7 +1147,7 @@ T0-8   重建论文级图 + 正式报告 + D0 合同 + 最终 Gate
 
 Codex 在整个后续 T0 必须始终遵守以下方向：
 
-> **T0-4 已经纠偏并通过，当前不再排查旧 T0-4，也不允许因为 runner 修改重新跑其 238 个正式场景。下一步先用零 HSPICE 的 T0-4E 把权威证据、旧 STOP 占位状态和跨源码哈希的电气等价复用彻底闭合，然后只用两个 L2 代表点完成真正左右封闭的单 probe 时间窗口；已有 T0-3 phase 点必须直接复用，只对未知左/右边界做自适应扩展。T0-5A 通过后才补 0.95/L3 和 1.10/L1 两个恢复沿特殊点。T0-6 优先完全基于 T0-5 窗口做周期数学映射，分别回答“物理覆盖允许的最大 probe period”和“当前 one-shot 序列可实现的非重叠节拍”，不能把 400 MHz 控制时钟直接等价为运行时 probe rate。只有现有证据无法回答的新物理问题才允许新增 HSPICE。**
+> **T0 已完成且不再重跑既有物理证据。T0-6 完全基于 T0-5 闭合窗口得到 `Pmax_coverage=2.075 ns`；2.5 ns 控制时钟不等价于 runtime probe，5.70 ns one-shot 非重叠参考也不满足该上限。最终为 CONDITIONAL_GO，唯一后续条件是 D0 实现不慢于 2.075 ns 的运行时 probe 序列并重新验证 reset/S_CLK/Q 双采样/recovery。只有未来 D0 的新物理时序问题无法由这些证据回答时，才允许新增 HSPICE。**
 
 ---
 
@@ -1191,15 +1189,15 @@ T0-3   相位敏感窗口                                 GO
  ↓
 T0-4   深度×最短 clean-Q1 持续时间                  GO
  ↓
-T0-4E  证据闭合 / 旧 STOP 清理 / 电气等价复用       当前下一步
+T0-4E  证据闭合 / 旧 STOP 清理 / 电气等价复用       PASS，0 HSPICE
  ↓
-T0-5   完整单 probe 时间覆盖                         待执行
+T0-5   完整单 probe 时间覆盖                         GO
  ↓
-T0-6   最大 probe period / cadence                  待执行
+T0-6   最大 probe period / cadence                  CONDITIONAL_GO，Pmax=2.075 ns，0 HSPICE
  ↓
 T0-7   <0.80 V 失效保护需求                         已冻结
  ↓
-T0-8   论文证据 / 最终 Gate / D0 合同               待执行
+T0-8   论文证据 / 最终 Gate / D0 合同               FINAL_EVIDENCE_PUBLISHED
  ↓
 D0     运行时检测状态机 / 判决 / 报警 / 失效保护
  ↓

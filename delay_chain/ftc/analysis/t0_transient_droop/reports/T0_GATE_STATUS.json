@@ -1,11 +1,10 @@
 {
-  "blocked_later_stages": [
-    "T0-8"
-  ],
+  "blocked_later_stages": [],
   "constant_low_equivalent_to_m0": true,
   "corrected_evidence_scenario_count": 16,
   "correction_status": "PD_SENSE_LOCAL_VDD_NORMALIZED",
-  "decision": "GO_PENDING_T0_6",
+  "d0_handoff_condition": "Future D0 must implement a runtime probe sequence no slower than Pmax_coverage and re-verify reset/S_CLK/two-Q-sample/recovery timing.",
+  "decision": "CONDITIONAL_GO",
   "failed_syntax_diagnostic_scenarios": 1,
   "forbidden_flow_runs": 0,
   "formal_12_summary": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/t0_transient_droop/correction/formal_12_summary.json",
@@ -43,9 +42,17 @@
   "t0_5_summary": "analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json",
   "t0_5a_status": "GO",
   "t0_5b_status": "GO",
-  "t0_6_status": "ENABLED",
+  "t0_6_status": "CONDITIONAL_GO",
+  "t0_6_summary": "analysis/t0_transient_droop/cadence/cadence_summary.json",
   "t0_7_status": "PASS_FAIL_SAFE_REQUIREMENT_PUBLISHED",
-  "t0_8_status": "WAITING_FOR_T0_6",
+  "t0_8_simulation_accounting": {
+    "forbidden_flow_runs": 0,
+    "hspice_scenarios": 0,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 0,
+    "reused_hspice_scenarios": 0
+  },
+  "t0_8_status": "FINAL_EVIDENCE_PUBLISHED",
   "terminal_figure_manifest": "analysis/t0_transient_droop/figures/figure_manifest.json",
   "terminal_report": "reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
 }
