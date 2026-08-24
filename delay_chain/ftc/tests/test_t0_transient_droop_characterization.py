@@ -61,6 +61,10 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(sum(line.startswith("E_F_") for line in deck.splitlines()), 10)
         self.assertIn("E_SCLK s_clk vss_a VOL='V(ctrl_sclk,vss_a)*V(vdd_a,vss_a)'", deck)
         self.assertIn("V(vdd_a,vss_a)/2", deck)
+        # T0-3+ classifications are rail-relative at each individual Q read,
+        # so the deck must measure both instantaneous local supply values.
+        self.assertIn("vdd_at_q_sample_1 FIND v(vdd_a,vss_a)", deck)
+        self.assertIn("vdd_at_q_sample_2 FIND v(vdd_a,vss_a)", deck)
 
     def test_static_trip_rows_use_nearest_q0_from_original_sweep(self):
         rows = study.static_trip_rows()
@@ -84,6 +88,68 @@ class T0TransientDroopTests(unittest.TestCase):
         self.assertEqual(audit["decision"], "GO_TO_FOUR_POINT_CORRECTION_ONLY")
         self.assertTrue(equivalence["equivalent"])
         self.assertEqual(marker["scenario_count"], 62)
+
+    def test_dynamic_q_uses_each_sample_local_vdd(self):
+        """Reject a rail-edge pair that a fixed Vdroop threshold could mislabel."""
+
+        self.assertEqual(
+            # Keep both ratios strictly above 0.90 so IEEE floating-point
+            # representation at the exact threshold cannot obscure intent.
+            study.classify_dynamic_q(0.91, 0.73, 0.95, 0.80)[:2],
+            (1, "stable_high"),
+        )
+        self.assertEqual(
+            study.classify_dynamic_q(0.91, 0.73, 0.95, 0.95)[:2],
+            (None, "ambiguous"),
+        )
+        self.assertEqual(
+            study.classify_dynamic_q(0.05, 0.04, 0.95, None)[:2],
+            (None, "ambiguous"),
+        )
+
+    def test_t0_2e_evidence_closes_legacy_stop_without_simulation(self):
+        """Validate the T0-2E inputs without mutating the stage gate in a test."""
+
+        result = study.verify_corrected_t0_2_evidence()
+        supersession = json.loads((FTC_ROOT / "analysis/t0_transient_droop/long_pulse_consistency/supersession.json").read_text())
+        gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
+        self.assertEqual(result["hspice_scenarios"], 0)
+        self.assertEqual(supersession["historical_decision"], "STOP")
+        self.assertIn(gate["t0_3_status"], ("ENABLED", "GO"))
+
+    def test_phase_windows_keep_disconnected_q1_and_blind_intervals(self):
+        """Interval extraction must not collapse a multi-window physical result."""
+
+        rows = [
+            {"baseline_vdd_v": 0.95, "phase_ps": 0.0, "valid": 1, "q_final": 0},
+            {"baseline_vdd_v": 0.95, "phase_ps": 25.0, "valid": 1, "q_final": 1},
+            {"baseline_vdd_v": 0.95, "phase_ps": 50.0, "valid": 1, "q_final": 0},
+            {"baseline_vdd_v": 0.95, "phase_ps": 75.0, "valid": 1, "q_final": 1},
+        ]
+        summary = study.phase_window_summary(rows, 0.95)
+        self.assertEqual(len(summary["detectable_windows"]), 2)
+        self.assertEqual(len(summary["blind_windows"]), 2)
+        self.assertEqual(len(summary["transition_boundaries"]), 3)
+
+    def test_t0_4_uses_only_m0_brackets_and_formal_floor(self):
+        """Amplitude points are local to each margin and never cross 0.80 V."""
+
+        points = study.t0_4_vdroop_points()
+        self.assertEqual(len(points), 6)
+        for baseline, margin, rails in points:
+            self.assertIn((baseline, margin), study.FORMAL_CODES)
+            self.assertGreaterEqual(min(value for _, value in rails), 0.80)
+            self.assertEqual(rails[0][0], "last_q0_control")
+            self.assertEqual(rails[1][0], "first_q1_anchor")
+
+    def test_terminal_gate_keeps_t0_2_pass_and_blocks_cadence(self):
+        """A later terminal STOP must not overwrite corrected T0-2 history."""
+
+        gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
+        downstream = json.loads((FTC_ROOT / "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").read_text())
+        self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
+        self.assertEqual(gate["t0_4_status"], "STOP")
+        self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
 
 
 if __name__ == "__main__":

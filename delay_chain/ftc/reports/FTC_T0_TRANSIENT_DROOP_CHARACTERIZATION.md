@@ -1,42 +1,34 @@
-# FTC T0-2 瞬态电压跌落纠偏报告
+# FTC T0 瞬态电压跌落检测能力表征报告
 
 ## 最终判定
 
-**T0-2 CORRECTED PASS**
+**NO-GO / STOP（停止阶段：T0-4）**
 
-本轮只纠正 PD_CTRL→PD_SENSE 的验证电平抽象；未修改 FTC_SENSOR、H0、M1、冻结 RTL 或任何传感器拓扑。
+T0-2 已纠偏通过，T0-3 已证明两个 L2 代表点存在可重复相位窗口；但 T0-4 duration refine 保留了两个 `active_ck_edge_count_not_one` 的 ambiguous 场景。因此六个工作点的完整、可解释 amplitude-duration 合同未闭合，T0-5/T0-6 与 D0 不得继续。
 
-## 纠偏审计
+## T0-3 相位窗口
 
-- POWER_DOMAIN_CONTRACT 已加入 T0 冻结输入，28 条 crossing 均由瞬时 `V(vdd_a,vss_a)` 归一化。
-- S_CLK、复位、16 条 medium 和 10 条 fine 控制均采用稳定 PD_CTRL 0/1 源加本地 VDD 归一化 D2A 抽象。
-- XOR/CK 测量阈值已改为 `V(vdd_a,vss_a)/2`。
-- M0 0.87 V/M5/F6 与 T0 恒定低压兼容模式通过零仿真网络、电源、端口和时序等价审计：等价。
+| 基准电压 | 稳定 Q1 窗口（采样格点） | 最大盲区 | 边界分辨率 | ambiguous |
+|---:|---|---:|---:|---:|
+| 0.95 V | -1000.0..75.0 ps | 2400.0 ps | 25 ps | 0 |
+| 1.10 V | -1000.0..25.0 ps | 2450.0 ps | 25 ps | 0 |
 
-## 四个纠偏点
+## T0-4 停止证据
 
-| 点 | 期望 Q | 实际 Q | valid |
-|---|---:|---:|---:|
-| 0p95_L2_last_q0 | 0 | 0 | 1 |
-| 0p95_L2_first_q1 | 1 | 1 | 1 |
-| 1p10_L2_last_q0 | 0 | 0 | 1 |
-| 1p10_L2_first_q1 | 1 | 1 | 1 |
+- 238 个正式自适应场景；没有暴力二维网格。
+- 停止原因：ambiguous_duration_boundary: active_ck_edge_count_not_one。
+- 这两个场景均出现两个 active CK 边沿，双采样 Q 判定因此无效；它们不是被平滑或删除的普通 Q0/Q1 边界点。
+- 各 depth 已获得的部分 minimum-duration 数值只保留为原始观测，不构成六 margin 完整能力声明。
 
-## 正式十二点
+## 下游边界
 
-- 判定：`PASS`。
-- 场景数：12；新增 HSPICE：8。
-- 纠偏四点新增 HSPICE：4；正式十二点新增 HSPICE：8；成功新增合计：12。
-- 另有 1 个保留的 HSPICE 源语法诊断失败场景，不计入有效纠偏结果：1。
-- 旧 62 个场景全部保留，统一标记为 `HISTORICAL_SUPERSEDED_NOT_DELETED`，原因是固定 VDD_VALUE 跨域高电平未按本地 VDD 归一化。
+- `VDD_MONITORED < 0.80 V`：D0 只能使用 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义，禁止精确 timing trip 声明。
+- T0-5/T0-6 被阻塞；1 ns 威胁的最大 runtime probe period 与 400 MHz 复用资格均未被表征。
 
-## 范围边界
+## 仿真与审计账本
 
-T0-3/T0-4/T0-5/T0-6 本轮未执行；因此没有相位窗口、持续时间边界、覆盖率或运行时 cadence 结论。
-
-## 仿真预算
-
-- 纠偏审计新增 HSPICE：0。
-- 纠偏四点新增 HSPICE：4。
-- 正式十二点新增 HSPICE：8。
-- 复用旧 62 场景：0；复用先行纠偏点：4；仅重解析旧场景：0；禁止流程新增运行：0。
+- T0-2E：新增 HSPICE 0；复核纠偏四点和正式十二点摘要。
+- T0-3：新增 HSPICE 44；T0-4：新增 HSPICE 238。
+- 旧 T0-2 固定高电平场景：62，均为 `HISTORICAL_SUPERSEDED_NOT_DELETED`。
+- 本轮曾由已修复 dispatcher 错误调用 12 个 legacy long-pulse 场景；它们保留在 task-owned run 目录，已在 `T0_PROCESS_AUDIT.json` 标记为非权威，后续结论未消费。
+- 禁止流程（H0/M0/M1/M1-T/RF/XA/D0 RTL）新增运行：0。

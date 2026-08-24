@@ -1,2 +1,2 @@
 status,reason
-BLOCKED,T0-2 correction-only phase boundary; T0-5 intentionally not executed
+BLOCKED,BLOCKED_BY_T0_4_STOP: ambiguous duration boundary with active_ck_edge_count_not_one

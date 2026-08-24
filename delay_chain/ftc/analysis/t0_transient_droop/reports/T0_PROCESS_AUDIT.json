@@ -1,0 +1,23 @@
+{
+  "consumed_by_later_stages": false,
+  "reason": "pre-fix phase-window dispatcher invoked forbidden legacy phase_long_pulse before T0-3",
+  "remediation": "dispatcher fixed; legacy versioned summaries restored; all later gates consume correction and phase_window evidence only",
+  "scenario_count": 12,
+  "scenario_paths": [
+    "runs/t0_transient_droop/r76/scenarios/t0__b0p95__L1__dv60p0__h4488p999__pm1489p999__98bd42cff84daddfe967",
+    "runs/t0_transient_droop/r77/scenarios/t0__b0p95__L1__dv70p0__h4488p999__pm1489p999__c446ee947edb8f583390",
+    "runs/t0_transient_droop/r78/scenarios/t0__b0p95__L2__dv80p0__h4488p999__pm1489p999__d68d2140678799bcb1d3",
+    "runs/t0_transient_droop/r79/scenarios/t0__b0p95__L2__dv90p0__h4488p999__pm1489p999__a0e12b31c0578334b825",
+    "runs/t0_transient_droop/r80/scenarios/t0__b0p95__L3__dv110p0__h4488p999__pm1489p999__8776e3c04eb7402933d3",
+    "runs/t0_transient_droop/r81/scenarios/t0__b0p95__L3__dv120p0__h4488p999__pm1489p999__fc197086c00de9d42a1b",
+    "runs/t0_transient_droop/r82/scenarios/t0__b1p1__L1__dv80p0__h4488p999__pm1489p999__a4da6b0cd426b07ba5dc",
+    "runs/t0_transient_droop/r83/scenarios/t0__b1p1__L1__dv90p0__h4488p999__pm1489p999__25111f1eb90262c1aa2d",
+    "runs/t0_transient_droop/r84/scenarios/t0__b1p1__L2__dv130p0__h4488p999__pm1489p999__3673c263443212484671",
+    "runs/t0_transient_droop/r85/scenarios/t0__b1p1__L2__dv140p0__h4488p999__pm1489p999__a626e06c0414237f3d52",
+    "runs/t0_transient_droop/r86/scenarios/t0__b1p1__L3__dv160p0__h4488p999__pm1489p999__49890fbd2e49f7d4517a",
+    "runs/t0_transient_droop/r87/scenarios/t0__b1p1__L3__dv170p0__h4488p999__pm1489p999__9c319be894a23a362dd0"
+  ],
+  "schema_version": 1,
+  "status": "RETAINED_NONAUTHORITATIVE_PROCESS_VIOLATION",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+}

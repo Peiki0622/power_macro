@@ -68,10 +68,19 @@ SCENARIO_FIELDS = (
     "DeltaV_mv", "Vdroop_v", "t_fall_ps", "t_hold_ps", "t_rise_ps",
     "phase_ps", "actual_min_vdd_v", "t_xor_rise_s", "t_xor_fall_s",
     "t_ck_rise_s", "t_ck_rise_2_s", "W_xor_ps", "D_ref_ps", "R_ps",
-    "q_sample_1_v", "q_sample_2_v", "q_final", "q_state",
+    # The two Q samples must be interpreted against the local rail at their
+    # own sample instants.  A transient may recover between the samples, so a
+    # single fixed Vdroop threshold is physically incorrect for T0-3 onward.
+    "q_sample_1_v", "q_sample_2_v", "vdd_at_q_sample_1_v", "vdd_at_q_sample_2_v",
+    "q_sample_1_ratio", "q_sample_2_ratio", "q_final", "q_state",
     "active_ck_edge_count", "recovery_max_ratio", "valid", "reason",
     "completion_status", "scenario_path", "deck_sha256", "source_hash",
 )
+
+# Compact machine-readable evidence introduced by T0-2E.  The legacy STOP is
+# retained byte-for-byte; this sidecar is the only place that changes its
+# authority for later automation.
+SUPERSESSION_PATH = ANALYSIS / "long_pulse_consistency" / "supersession.json"
 
 
 def require_dl() -> Dict[str, str]:
@@ -394,6 +403,11 @@ def render_deck(context: Mapping[str, Any], parameters: Mapping[str, Any]) -> st
         ".measure tran t_ck_rise_2 WHEN v(dff_ck,vss_a)='V(vdd_a,vss_a)/2' RISE=2 TD={}".format(physical.spice(timing["launch_time_s"])),
         ".measure tran q_sample_1 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_time_s"])),
         ".measure tran q_sample_2 FIND v(q_final,vss_a) AT={}".format(physical.spice(timing["q_read_late_time_s"])),
+        # These are deliberately independent scalar measurements rather than
+        # a reconstructed PWL value.  They make the Q decision auditable when
+        # a sample lies on a supply fall or recovery edge.
+        ".measure tran vdd_at_q_sample_1 FIND v(vdd_a,vss_a) AT={}".format(physical.spice(timing["q_read_time_s"])),
+        ".measure tran vdd_at_q_sample_2 FIND v(vdd_a,vss_a) AT={}".format(physical.spice(timing["q_read_late_time_s"])),
         ".measure tran actual_min_vdd MIN v(vdd_a,vss_a) FROM=0 TO={}".format(physical.spice(stop)),
     ])
     for node, suffix in (("xor_29", "xor"), ("medium_out", "medium"), ("dff_ck", "ck")):
@@ -491,6 +505,25 @@ def parse_measurement(scenario: Path) -> Dict[str, Any]:
     return physical.run_dc_sweep.parse_measurements(measurement)
 
 
+def classify_dynamic_q(q1: Optional[float], q2: Optional[float], vdd1: Optional[float], vdd2: Optional[float]) -> Tuple[Optional[int], str, Optional[float], Optional[float]]:
+    """Classify Q with each sample's instantaneous sensor-local supply.
+
+    The real DFF is the authority.  A sample can only be called high or low
+    when its own rail is positive and Q is respectively above 90% or below
+    10% of that rail.  All mixed, missing, or rail-edge cases intentionally
+    stay ``ambiguous``; downstream interval logic must not coerce them.
+    """
+
+    if q1 is None or q2 is None or vdd1 is None or vdd2 is None or vdd1 <= 0.0 or vdd2 <= 0.0:
+        return None, "ambiguous", None, None
+    ratio1, ratio2 = q1 / vdd1, q2 / vdd2
+    if ratio1 >= m0.Q_HIGH_RATIO and ratio2 >= m0.Q_HIGH_RATIO:
+        return 1, "stable_high", ratio1, ratio2
+    if ratio1 <= m0.Q_LOW_RATIO and ratio2 <= m0.Q_LOW_RATIO:
+        return 0, "stable_low", ratio1, ratio2
+    return None, "ambiguous", ratio1, ratio2
+
+
 def classify(parameters: Mapping[str, Any], values: Mapping[str, Any], scenario: Path, deck_sha: str) -> Dict[str, Any]:
     """Convert raw HSPICE scalars into the authoritative real-DFF decision."""
 
@@ -502,7 +535,9 @@ def classify(parameters: Mapping[str, Any], values: Mapping[str, Any], scenario:
     ck_rise_2 = finite(values.get("t_ck_rise_2"))
     q1 = finite(values.get("q_sample_1"))
     q2 = finite(values.get("q_sample_2"))
-    q_final, q_state = m0.stable_q(q1, q2, vdd)
+    vdd1 = finite(values.get("vdd_at_q_sample_1"))
+    vdd2 = finite(values.get("vdd_at_q_sample_2"))
+    q_final, q_state, q_ratio1, q_ratio2 = classify_dynamic_q(q1, q2, vdd1, vdd2)
     width = None if xor_rise is None or xor_fall is None else (xor_fall - xor_rise) * 1e12
     delay = None if xor_rise is None or ck_rise is None else (ck_rise - xor_rise) * 1e12
     residual = None if width is None or delay is None else width - delay
@@ -528,7 +563,9 @@ def classify(parameters: Mapping[str, Any], values: Mapping[str, Any], scenario:
         "t_xor_rise_s": xor_rise, "t_xor_fall_s": xor_fall,
         "t_ck_rise_s": ck_rise, "t_ck_rise_2_s": ck_rise_2,
         "W_xor_ps": width, "D_ref_ps": delay, "R_ps": residual,
-        "q_sample_1_v": q1, "q_sample_2_v": q2, "q_final": q_final,
+        "q_sample_1_v": q1, "q_sample_2_v": q2,
+        "vdd_at_q_sample_1_v": vdd1, "vdd_at_q_sample_2_v": vdd2,
+        "q_sample_1_ratio": q_ratio1, "q_sample_2_ratio": q_ratio2, "q_final": q_final,
         "q_state": q_state, "active_ck_edge_count": active_count,
         "recovery_max_ratio": recovery_ratio, "valid": int(not reasons),
         "reason": ";".join(reasons) if reasons else None,
@@ -1083,6 +1120,170 @@ def publish_corrected_gate(formal: Mapping[str, Any]) -> Dict[str, Any]:
     return gate
 
 
+def verify_corrected_t0_2_evidence() -> Dict[str, Any]:
+    """Validate frozen corrected T0-2 evidence without rendering or running SPICE.
+
+    T0-2 is a completed physical experiment.  This function deliberately
+    consumes only committed compact evidence and immutable contracts, so a
+    later runner edit cannot manufacture a reason to rerun its twelve formal
+    scenarios.  The returned hashes are embedded in the T0-2E record and are
+    the identity used by all subsequent phase gates.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    four_path = ANALYSIS / "correction" / "four_point_summary.json"
+    formal_path = ANALYSIS / "correction" / "formal_12_summary.json"
+    for path in (gate_path, four_path, formal_path, POWER_DOMAIN_CONTRACT_PATH):
+        if not path.is_file():
+            raise RuntimeError("T0-2E requires committed evidence: {}".format(path))
+    gate, four, formal = read_json(gate_path), read_json(four_path), read_json(formal_path)
+    # A terminal T0-4 STOP changes the top-level study decision, but it must
+    # not retroactively erase the completed T0-2 corrected PASS.  New gates
+    # carry that immutable stage fact explicitly; older gates retain it in
+    # their former top-level decision for backward-compatible audit.
+    if gate.get("t0_2_status", gate.get("decision")) != "T0-2 CORRECTED PASS":
+        raise RuntimeError("T0-2E requires corrected PASS gate")
+    if four.get("decision") != "GO_TO_FORMAL_12_ONLY" or four.get("scenario_count") != 4:
+        raise RuntimeError("T0-2E four-point summary is not complete")
+    if formal.get("decision") != "PASS" or formal.get("scenario_count") != 12:
+        raise RuntimeError("T0-2E formal twelve-point summary is not PASS")
+    if any(int(row.get("valid", 0)) != 1 for row in formal.get("results", [])):
+        raise RuntimeError("T0-2E formal summary contains invalid evidence")
+    if gate.get("correction_status") != "PD_SENSE_LOCAL_VDD_NORMALIZED":
+        raise RuntimeError("T0-2E gate has the wrong PD_SENSE correction mode")
+    if sha256_file(POWER_DOMAIN_CONTRACT_PATH) != read_json(ANALYSIS / "correction" / "correction_audit.json").get("power_domain_contract_sha256"):
+        raise RuntimeError("T0-2E power-domain contract hash no longer matches correction audit")
+    return {
+        "four_point_summary_sha256": sha256_file(four_path),
+        "formal_12_summary_sha256": sha256_file(formal_path),
+        "power_domain_contract_sha256": sha256_file(POWER_DOMAIN_CONTRACT_PATH),
+        "corrected_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+        "hspice_scenarios": 0,
+    }
+
+
+def phase_t0_2e() -> Dict[str, Any]:
+    """Close the corrected-evidence chain and enable T0-3 with zero HSPICE.
+
+    The legacy T0-2 STOP remains in its original directory and is never
+    edited.  A separate supersession record makes the authority transition
+    explicit for humans and tools, while the current gate keeps later stages
+    serial: only T0-3 becomes runnable at this point.
+    """
+
+    require_dl()
+    evidence = verify_corrected_t0_2_evidence()
+    legacy_path = ANALYSIS / "long_pulse_consistency" / "summary.json"
+    legacy = read_json(legacy_path)
+    if legacy.get("decision") != "STOP":
+        raise RuntimeError("expected retained pre-correction T0-2 STOP")
+    supersession = {
+        "schema_version": 1,
+        "study": STUDY,
+        "historical_summary": str(legacy_path.relative_to(FTC_ROOT)),
+        "historical_decision": "STOP",
+        "historical_status": "HISTORICAL_SUPERSEDED_NOT_DELETED",
+        "superseded_by": str((ANALYSIS / "correction" / "formal_12_summary.json").relative_to(FTC_ROOT)),
+        "authoritative_gate": str((ANALYSIS / "reports" / "T0_GATE_STATUS.json").relative_to(FTC_ROOT)),
+        "reason": "legacy fixed VDD_VALUE PD_CTRL-to-PD_SENSE highs were replaced by sensor-local VDD normalization",
+        "new_hspice_scenarios": 0,
+        **evidence,
+    }
+    write_json(SUPERSESSION_PATH, supersession)
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({
+        "schema_version": 3,
+        "t0_2_status": "T0-2 CORRECTED PASS",
+        "t0_2e_status": "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE",
+        "t0_3_status": "ENABLED",
+        "t0_4_status": "WAITING_FOR_UPSTREAM_GATE",
+        "t0_5_status": "WAITING_FOR_UPSTREAM_GATE",
+        "t0_6_status": "WAITING_FOR_UPSTREAM_GATE",
+        "blocked_later_stages": ["T0-4", "T0-5", "T0-6"],
+        "legacy_long_pulse_supersession": str(SUPERSESSION_PATH.relative_to(FTC_ROOT)),
+        "t0_2e_evidence": evidence,
+    })
+    write_json(gate_path, gate)
+    result = {"decision": "T0-3 ENABLED", "new_hspice_scenarios": 0, **evidence}
+    write_json(ANALYSIS / "correction" / "t0_2e_summary.json", result)
+    return result
+
+
+def phase_state(row: Mapping[str, Any]) -> str:
+    """Return one auditable phase label without hiding invalid/ambiguous data."""
+
+    if not int(row.get("valid", 0)) or row.get("q_final") not in (0, 1):
+        return "ambiguous"
+    return "Q1" if int(row["q_final"]) == 1 else "Q0"
+
+
+def contiguous_phase_intervals(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
+    """Partition sorted sampled phases into same-state contiguous observations.
+
+    The reported bounds are sampled-grid bounds, not interpolated switching
+    times.  This avoids claiming precision not established by the 25 ps fine
+    sweep while still retaining every disconnected detection/blind interval.
+    """
+
+    unique = {float(row["phase_ps"]): row for row in rows}
+    ordered = [unique[phase] for phase in sorted(unique)]
+    if not ordered:
+        return []
+    intervals: List[Dict[str, Any]] = []
+    start = previous = ordered[0]
+    state = phase_state(start)
+    for row in ordered[1:]:
+        current_state = phase_state(row)
+        if current_state != state:
+            intervals.append({
+                "state": state,
+                "phase_start_ps": float(start["phase_ps"]),
+                "phase_end_ps": float(previous["phase_ps"]),
+                "sample_count": sum(1 for item in ordered if float(start["phase_ps"]) <= float(item["phase_ps"]) <= float(previous["phase_ps"]) and phase_state(item) == state),
+            })
+            start, state = row, current_state
+        previous = row
+    intervals.append({
+        "state": state,
+        "phase_start_ps": float(start["phase_ps"]),
+        "phase_end_ps": float(previous["phase_ps"]),
+        "sample_count": sum(1 for item in ordered if float(start["phase_ps"]) <= float(item["phase_ps"]) <= float(previous["phase_ps"]) and phase_state(item) == state),
+    })
+    for item in intervals:
+        item["width_ps"] = item["phase_end_ps"] - item["phase_start_ps"]
+    return intervals
+
+
+def phase_window_summary(rows: Sequence[Mapping[str, Any]], baseline: float) -> Dict[str, Any]:
+    """Summarize one baseline's Q0/Q1/ambiguous windows and gate evidence."""
+
+    group = [row for row in rows if float(row["baseline_vdd_v"]) == baseline]
+    intervals = contiguous_phase_intervals(group)
+    states = [phase_state(row) for row in group]
+    transitions = []
+    ordered = sorted({float(row["phase_ps"]): row for row in group}.items())
+    for (left_phase, left), (right_phase, right) in zip(ordered, ordered[1:]):
+        if phase_state(left) != phase_state(right) and "ambiguous" not in (phase_state(left), phase_state(right)):
+            transitions.append({"left_phase_ps": left_phase, "right_phase_ps": right_phase, "left_state": phase_state(left), "right_state": phase_state(right), "resolution_ps": right_phase - left_phase})
+    stable_count = sum(state in ("Q0", "Q1") for state in states)
+    ambiguous_count = states.count("ambiguous")
+    q1_windows = [item for item in intervals if item["state"] == "Q1"]
+    blind_windows = [item for item in intervals if item["state"] != "Q1"]
+    return {
+        "baseline_vdd_v": baseline,
+        "intervals": intervals,
+        "transition_boundaries": transitions,
+        "stable_q0_count": states.count("Q0"),
+        "stable_q1_count": states.count("Q1"),
+        "ambiguous_count": ambiguous_count,
+        "ambiguous_dominates": ambiguous_count >= stable_count,
+        "detectable_windows": q1_windows,
+        "blind_windows": blind_windows,
+        "maximum_blind_window_ps": max((item["width_ps"] for item in blind_windows), default=None),
+    }
+
+
 def phase_long_pulse() -> Dict[str, Any]:
     """Run T0-2's two long-pulse checks per formal candidate."""
 
@@ -1225,11 +1426,21 @@ def phase_window() -> Dict[str, Any]:
     """Run T0-3 phase exploration at the two L2 representative points."""
 
     require_dl()
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    if gate.get("t0_3_status") != "ENABLED":
+        raise RuntimeError("T0-3 requires a completed T0-2E evidence closure")
+    # Revalidate the frozen evidence immediately before new physics.  This is
+    # a filesystem/hash audit only; it must remain zero-HSPICE even after the
+    # runner grows later-stage functionality.
+    verify_corrected_t0_2_evidence()
     context = frozen_context()
     stats = {"new": 0, "reused": 0}
     rows: List[Dict[str, Any]] = []
     coarse = (-1000.0, -750.0, -500.0, -250.0, 0.0, 250.0, 500.0, 750.0, 1000.0, 1250.0, 1500.0, 2000.0, 2500.0)
-    for baseline, vdroop in ((0.95, 0.85), (1.10, 0.95)):
+    # User-approved first stable M0 Q1 anchors isolate phase sensitivity at
+    # the static boundary.  They replace the former arbitrary 10 mV-deeper
+    # points and avoid widening the T0-3 physical question.
+    for baseline, vdroop in ((0.95, 0.86), (1.10, 0.96)):
         for phase_ps in coarse:
             row = execute(context, parameters_for(baseline, "L2", vdroop, 3000.0, phase_ps), stats)
             row["sweep_kind"] = "coarse"
@@ -1244,22 +1455,353 @@ def phase_window() -> Dict[str, Any]:
                 boundaries.append((float(left["phase_ps"]) + float(right["phase_ps"])) / 2.0)
         for center in boundaries:
             for phase_ps in [center - 100.0, center - 75.0, center - 50.0, center - 25.0, center, center + 25.0, center + 50.0, center + 75.0, center + 100.0]:
-                vdroop = 0.85 if baseline == 0.95 else 0.95
+                vdroop = 0.86 if baseline == 0.95 else 0.96
                 row = execute(context, parameters_for(baseline, "L2", vdroop, 3000.0, phase_ps), stats)
                 row["sweep_kind"] = "fine"
                 rows.append(row)
     write_csv(ANALYSIS / "phase_window" / "phase_window.csv", SCENARIO_FIELDS + ("sweep_kind",), rows)
-    windows = []
-    for baseline in FORMAL_BASELINES:
-        group = sorted([row for row in rows if float(row["baseline_vdd_v"]) == baseline], key=lambda row: float(row["phase_ps"]))
-        stable_high = [row for row in group if row["valid"] and row["q_final"] == 1]
-        windows.append({"baseline_vdd_v": baseline, "stable_high_count": len(stable_high), "phase_min_ps": min((float(row["phase_ps"]) for row in stable_high), default=None), "phase_max_ps": max((float(row["phase_ps"]) for row in stable_high), default=None)})
-    decision = "GO" if all(item["stable_high_count"] > 0 for item in windows) else "STOP"
+    windows = [phase_window_summary(rows, baseline) for baseline in FORMAL_BASELINES]
+    decision = "GO" if all(
+        item["stable_q0_count"] > 0 and item["stable_q1_count"] > 0
+        and item["transition_boundaries"] and not item["ambiguous_dominates"]
+        for item in windows
+    ) else "STOP"
     summary = {"decision": decision, "scenario_count": len(rows), "new_hspice": stats["new"], "reused": stats["reused"], "windows": windows}
     write_json(ANALYSIS / "phase_window" / "summary.json", summary)
     if decision != "GO":
         raise RuntimeError("T0-3 STOP: no reproducible phase-sensitive window")
     return summary
+
+
+def publish_t0_3_gate() -> Dict[str, Any]:
+    """Promote only a passing T0-3 summary and leave T0-5/6 blocked.
+
+    The summary is read rather than recomputed so this transition never
+    launches HSPICE.  Keeping this explicit prevents a later caller from
+    treating a partially written phase CSV as permission for T0-4.
+    """
+
+    summary = read_json(ANALYSIS / "phase_window" / "summary.json")
+    if summary.get("decision") != "GO":
+        raise RuntimeError("T0-4 remains blocked because T0-3 is not GO")
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({
+        "t0_3_status": "GO",
+        "t0_4_status": "ENABLED",
+        "t0_5_status": "WAITING_FOR_UPSTREAM_GATE",
+        "t0_6_status": "WAITING_FOR_UPSTREAM_GATE",
+        "blocked_later_stages": ["T0-5", "T0-6"],
+        "t0_3_summary": str((ANALYSIS / "phase_window" / "summary.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    return gate
+
+
+def t0_3_unauthorized_rerun_audit() -> Dict[str, Any]:
+    """Record, without consuming, the twelve accidentally invoked T0-2 decks.
+
+    These task-owned raw directories are retained for reproducibility.  They
+    are explicitly excluded from authoritative evidence because the T0-3
+    command formerly invoked the forbidden legacy long-pulse phase.  This is
+    an audit disclosure, not a reinterpretation or deletion of any run.
+    """
+
+    paths = []
+    for manifest_path in sorted(RUN_ROOT.glob("r*/scenarios/*/scenario_manifest.json")):
+        manifest = read_json(manifest_path)
+        parameters = manifest.get("parameters", {})
+        # The bad dispatch occurred before its own source fix, therefore a
+        # current runner hash is deliberately not a selection criterion.  The
+        # unique retained signature is the forbidden legacy schedule: all six
+        # margins, two M0 bracket rails, 4488.999 ps hold and -1489.999 ps.
+        if (
+            manifest_path.parents[2].name in {"r76", "r77", "r78", "r79", "r80", "r81", "r82", "r83", "r84", "r85", "r86", "r87"}
+            and float(parameters.get("t_hold_ps", 0.0)) == 4488.999
+            and float(parameters.get("phase_ps", 0.0)) == -1489.999
+        ):
+            paths.append(str(manifest_path.parent.relative_to(FTC_ROOT)))
+    result = {
+        "schema_version": 1,
+        "study": STUDY,
+        "status": "RETAINED_NONAUTHORITATIVE_PROCESS_VIOLATION",
+        "reason": "pre-fix phase-window dispatcher invoked forbidden legacy phase_long_pulse before T0-3",
+        "scenario_count": len(paths),
+        "scenario_paths": paths,
+        "consumed_by_later_stages": False,
+        "remediation": "dispatcher fixed; legacy versioned summaries restored; all later gates consume correction and phase_window evidence only",
+    }
+    write_json(ANALYSIS / "reports" / "T0_PROCESS_AUDIT.json", result)
+    return result
+
+
+def t0_4_phase_by_baseline() -> Dict[float, float]:
+    """Choose an observed stable-Q1 window center for each baseline.
+
+    T0-4 is intentionally conditioned on one favorable, measured phase.  A
+    sampled center is used instead of an interpolated transition so the
+    amplitude-duration boundary never claims more phase precision than T0-3.
+    """
+
+    summary = read_json(ANALYSIS / "phase_window" / "summary.json")
+    if summary.get("decision") != "GO":
+        raise RuntimeError("T0-4 requires T0-3 GO")
+    result: Dict[float, float] = {}
+    for item in summary.get("windows", []):
+        windows = item.get("detectable_windows", [])
+        if not windows:
+            raise RuntimeError("T0-3 has no stable Q1 window for {}".format(item.get("baseline_vdd_v")))
+        widest = max(windows, key=lambda window: float(window["width_ps"]))
+        # Fine points lie on a 25 ps grid.  Rounding preserves the recorded
+        # measurement lattice and makes the follow-up scenario reproducible.
+        result[float(item["baseline_vdd_v"])] = round(((float(widest["phase_start_ps"]) + float(widest["phase_end_ps"])) / 2.0) / 25.0) * 25.0
+    if set(result) != set(FORMAL_BASELINES):
+        raise RuntimeError("T0-4 lacks a representative phase for a formal baseline")
+    return result
+
+
+def t0_4_vdroop_points() -> List[Tuple[float, str, List[Tuple[str, float]]]]:
+    """Derive four per-margin rails from existing M0 brackets, never a new sweep."""
+
+    result = []
+    for item in static_trip_rows():
+        baseline, margin = float(item["baseline_vdd_v"]), item["margin_level"]
+        first_q1 = float(item["first_q1_v"])
+        points = [("last_q0_control", float(item["last_q0_v"])), ("first_q1_anchor", first_q1)]
+        # Two deeper points provide a short local transient curve while still
+        # honoring the formal 0.80 V floor.  The selected M0 bracket itself
+        # remains included rather than being reconstructed from trip voltage.
+        for delta_mv in (10.0, 20.0):
+            vdroop = round(first_q1 - delta_mv / 1000.0, 2)
+            if vdroop >= FORMAL_MINIMUM_VDD:
+                points.append(("first_q1_minus_{:.0f}mV".format(delta_mv), vdroop))
+        result.append((baseline, margin, points))
+    return result
+
+
+def first_q1_duration(context: Mapping[str, Any], baseline: float, margin: str, vdroop: float, phase_ps: float, stats: Dict[str, int]) -> Tuple[List[Dict[str, Any]], Optional[float]]:
+    """Find a minimum stable-Q1 hold using bracketed samples and 25 ps refine.
+
+    The function preserves every trial in its returned list.  It deliberately
+    stops if duration response is non-monotonic; a Q1-to-Q0 reversal is an
+    anomaly requiring physical inspection, never an excuse to force a smooth
+    boundary in post-processing.
+    """
+
+    trials: List[Dict[str, Any]] = []
+    for hold_ps in (1.0, 10.0, 100.0, 1000.0, 3000.0):
+        row = execute(context, parameters_for(baseline, margin, vdroop, hold_ps, phase_ps), stats)
+        row["search_stage"] = "coarse"
+        trials.append(row)
+    ordered = sorted(trials, key=lambda row: float(row["t_hold_ps"]))
+    states = [phase_state(row) for row in ordered]
+    if any(left == "Q1" and right == "Q0" for left, right in zip(states, states[1:])):
+        for row in trials:
+            row["anomaly"] = "duration_q1_to_q0_reversal"
+        return trials, None
+    q1_index = next((index for index, state in enumerate(states) if state == "Q1"), None)
+    if q1_index is None:
+        return trials, None
+    if q1_index == 0:
+        return trials, float(ordered[0]["t_hold_ps"])
+    low, high = float(ordered[q1_index - 1]["t_hold_ps"]), float(ordered[q1_index]["t_hold_ps"])
+    while high - low > 25.0:
+        middle = round(((low + high) / 2.0) / 1.0) * 1.0
+        row = execute(context, parameters_for(baseline, margin, vdroop, middle, phase_ps), stats)
+        row["search_stage"] = "refine"
+        trials.append(row)
+        state = phase_state(row)
+        if state == "Q1":
+            high = middle
+        elif state == "Q0":
+            low = middle
+        else:
+            row["anomaly"] = "ambiguous_duration_boundary"
+            return trials, None
+    return trials, high
+
+
+def phase_amplitude_duration() -> Dict[str, Any]:
+    """Execute T0-4's six local amplitude-duration searches after T0-3 GO."""
+
+    require_dl()
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    if gate.get("t0_4_status") != "ENABLED":
+        raise RuntimeError("T0-4 is not enabled by the T0-3 gate")
+    context, phases, stats = frozen_context(), t0_4_phase_by_baseline(), {"new": 0, "reused": 0}
+    rows: List[Dict[str, Any]] = []
+    boundaries: List[Dict[str, Any]] = []
+    anomalies: List[str] = []
+    for baseline, margin, points in t0_4_vdroop_points():
+        for point_label, vdroop in points:
+            trials, minimum = first_q1_duration(context, baseline, margin, vdroop, phases[baseline], stats)
+            for row in trials:
+                row["point_label"] = point_label
+                row["representative_phase_ps"] = phases[baseline]
+                rows.append(row)
+                if row.get("anomaly"):
+                    anomalies.append(row["scenario_id"])
+            boundaries.append({
+                "baseline_vdd_v": baseline, "margin_level": margin, "M_det": FORMAL_CODES[(baseline, margin)][0], "F_det": FORMAL_CODES[(baseline, margin)][1],
+                "point_label": point_label, "Vdroop_v": vdroop, "DeltaV_mv": round((baseline - vdroop) * 1000.0, 6),
+                "representative_phase_ps": phases[baseline], "minimum_detectable_hold_ps": minimum,
+                "minimum_detectable_total_pulse_ps": None if minimum is None else minimum + 2.0,
+            })
+    fields = SCENARIO_FIELDS + ("search_stage", "point_label", "representative_phase_ps", "anomaly")
+    write_csv(ANALYSIS / "amplitude_duration" / "amplitude_duration.csv", fields, rows)
+    write_csv(ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv", tuple(boundaries[0].keys()), boundaries)
+    decision = "GO" if not anomalies and all(item["minimum_detectable_hold_ps"] is not None for item in boundaries) else "STOP"
+    summary = {
+        "decision": decision, "scenario_count": len(rows), "new_hspice": stats["new"], "reused": stats["reused"],
+        "boundaries": boundaries, "anomalies": anomalies,
+        # The current two anomalies are invalid dual-clock-edge observations,
+        # not a fabricated monotonicity conclusion.  Store their exact reason
+        # so terminal reporting can distinguish an unresolved physical/deck
+        # condition from a verified Q1-to-Q0 duration reversal.
+        "stop_reason": "ambiguous_duration_boundary_with_active_ck_edge_count_not_one" if anomalies else None,
+    }
+    write_json(ANALYSIS / "amplitude_duration" / "summary.json", summary)
+    if decision != "GO":
+        raise RuntimeError("T0-4 STOP: anomalous or unresolved duration boundary")
+    return summary
+
+
+def publish_t0_4_stop() -> Dict[str, Any]:
+    """Publish the T0-4 physical stop and T0-7 fail-safe requirement.
+
+    This terminal publication reads compact artifacts only.  It does not run
+    additional HSPICE to force an ambiguous duration boundary into a result,
+    and it deliberately leaves D0 unimplemented.
+    """
+
+    summary = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
+    if summary.get("decision") != "STOP":
+        raise RuntimeError("terminal T0-4 publication requires a T0-4 STOP")
+    anomaly_rows = [
+        row for row in read_csv(ANALYSIS / "amplitude_duration" / "amplitude_duration.csv", ("scenario_id", "reason", "anomaly"))
+        if row.get("anomaly")
+    ]
+    if not anomaly_rows:
+        raise RuntimeError("T0-4 STOP lacks retained anomaly rows")
+    reasons = sorted({row["reason"] for row in anomaly_rows})
+    summary["stop_reason"] = "ambiguous_duration_boundary: {}".format(",".join(reasons))
+    summary["anomaly_records"] = [{"scenario_id": row["scenario_id"], "reason": row["reason"]} for row in anomaly_rows]
+    write_json(ANALYSIS / "amplitude_duration" / "summary.json", summary)
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({
+        "decision": "NO-GO / STOP",
+        "t0_2_status": "T0-2 CORRECTED PASS",
+        "stop_stage": "T0-4",
+        "stop_reason": summary.get("stop_reason"),
+        "t0_4_status": "STOP",
+        "t0_5_status": "BLOCKED_BY_T0_4_STOP",
+        "t0_6_status": "BLOCKED_BY_T0_4_STOP",
+        "t0_7_status": "PASS_FAIL_SAFE_REQUIREMENT_PUBLISHED",
+        "t0_8_status": "TERMINAL_EVIDENCE_PENDING",
+        "blocked_later_stages": ["T0-5", "T0-6"],
+        "t0_4_summary": str((ANALYSIS / "amplitude_duration" / "summary.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    downstream = {
+        "schema_version": 3,
+        "study": STUDY,
+        "decision": "BLOCKED_BY_T0_4_STOP",
+        "source_gate": "T0-4 STOP",
+        "precise_timing_detection_range": {"minimum_vdd_v": FORMAL_MINIMUM_VDD, "status": "not_extended_below_floor"},
+        "below_floor_requirement": {
+            "condition": "VDD_MONITORED < 0.80 V",
+            "required_semantics": ["heartbeat", "stuck_q", "timeout", "no_valid_detection_result"],
+            "precise_timing_trip_allowed": False,
+        },
+        "runtime_probe_period": {
+            "status": "not_qualified_T0_5_T0_6_blocked",
+            "maximum_period_s": None,
+            "reason": "T0-4 contains unresolved ambiguous duration-boundary scenarios with two active CK edges",
+        },
+    }
+    write_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json", downstream)
+    return gate
+
+
+def publish_t0_terminal_report() -> Path:
+    """Write the final T0 report from completed evidence without new simulation.
+
+    This report intentionally does not promote partial amplitude-duration
+    values to six-qualified-margin capability.  It reports the useful T0-3
+    mechanism and T0-4 partial observations while preserving the terminal
+    NO-GO caused by retained ambiguous physical scenarios.
+    """
+
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    phase = read_json(ANALYSIS / "phase_window" / "summary.json")
+    amplitude = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
+    audit = read_json(ANALYSIS / "reports" / "T0_PROCESS_AUDIT.json")
+    lines = [
+        "# FTC T0 瞬态电压跌落检测能力表征报告", "",
+        "## 最终判定", "",
+        "**NO-GO / STOP（停止阶段：T0-4）**", "",
+        "T0-2 已纠偏通过，T0-3 已证明两个 L2 代表点存在可重复相位窗口；但 T0-4 duration refine 保留了两个 `active_ck_edge_count_not_one` 的 ambiguous 场景。因此六个工作点的完整、可解释 amplitude-duration 合同未闭合，T0-5/T0-6 与 D0 不得继续。", "",
+        "## T0-3 相位窗口", "",
+        "| 基准电压 | 稳定 Q1 窗口（采样格点） | 最大盲区 | 边界分辨率 | ambiguous |",
+        "|---:|---|---:|---:|---:|",
+    ]
+    for item in phase["windows"]:
+        windows = "; ".join("{}..{} ps".format(window["phase_start_ps"], window["phase_end_ps"]) for window in item["detectable_windows"])
+        lines.append("| {:.2f} V | {} | {} ps | 25 ps | {} |".format(item["baseline_vdd_v"], windows, item["maximum_blind_window_ps"], item["ambiguous_count"]))
+    lines.extend([
+        "", "## T0-4 停止证据", "",
+        "- 238 个正式自适应场景；没有暴力二维网格。",
+        "- 停止原因：{}。".format(amplitude["stop_reason"]),
+        "- 这两个场景均出现两个 active CK 边沿，双采样 Q 判定因此无效；它们不是被平滑或删除的普通 Q0/Q1 边界点。",
+        "- 各 depth 已获得的部分 minimum-duration 数值只保留为原始观测，不构成六 margin 完整能力声明。",
+        "", "## 下游边界", "",
+        "- `VDD_MONITORED < 0.80 V`：D0 只能使用 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义，禁止精确 timing trip 声明。",
+        "- T0-5/T0-6 被阻塞；1 ns 威胁的最大 runtime probe period 与 400 MHz 复用资格均未被表征。",
+        "", "## 仿真与审计账本", "",
+        "- T0-2E：新增 HSPICE 0；复核纠偏四点和正式十二点摘要。",
+        "- T0-3：新增 HSPICE {}；T0-4：新增 HSPICE {}。".format(phase["new_hspice"], amplitude["new_hspice"]),
+        "- 旧 T0-2 固定高电平场景：62，均为 `HISTORICAL_SUPERSEDED_NOT_DELETED`。",
+        "- 本轮曾由已修复 dispatcher 错误调用 12 个 legacy long-pulse 场景；它们保留在 task-owned run 目录，已在 `T0_PROCESS_AUDIT.json` 标记为非权威，后续结论未消费。",
+        "- 禁止流程（H0/M0/M1/M1-T/RF/XA/D0 RTL）新增运行：0。",
+    ])
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def publish_t0_8_terminal_evidence() -> Dict[str, Any]:
+    """Close T0-8 after a terminal STOP without manufacturing later data.
+
+    T0-5 and T0-6 are physically blocked, but T0 itself still needs a final
+    reviewable package.  This function verifies the five rendered figure
+    slots, updates their provenance-backed terminal gate, and rewrites only
+    the compact blocked placeholders with the actual upstream stop reason.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    if gate.get("stop_stage") != "T0-4" or gate.get("t0_4_status") != "STOP":
+        raise RuntimeError("T0-8 terminal publication requires T0-4 STOP")
+    manifest = read_json(ANALYSIS / "figures" / "figure_manifest.json")
+    figures = manifest.get("figures", [])
+    expected = {
+        "fig_t0_1_representative_waveform", "fig_t0_2_phase_window",
+        "fig_t0_3_amplitude_duration_boundary", "fig_t0_4_margin_duration_comparison",
+        "fig_t0_5_cadence_coverage",
+    }
+    if {item.get("figure_stem") for item in figures} != expected:
+        raise RuntimeError("T0-8 figure manifest is incomplete")
+    reason = "BLOCKED_BY_T0_4_STOP: ambiguous duration boundary with active_ck_edge_count_not_one"
+    for directory, filename in (("phase_coverage", "phase_coverage.csv"), ("cadence", "cadence.csv")):
+        write_csv(ANALYSIS / directory / filename, ("status", "reason"), [{"status": "BLOCKED", "reason": reason}])
+    gate.update({
+        "t0_8_status": "TERMINAL_EVIDENCE_PUBLISHED",
+        "terminal_figure_manifest": str((ANALYSIS / "figures" / "figure_manifest.json").relative_to(FTC_ROOT)),
+        "terminal_report": str((REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    return gate
 
 
 def main(argv: Optional[Iterable[str]] = None) -> int:
@@ -1269,8 +1811,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
     parser.add_argument(
         "--phase",
         choices=(
-            "contract", "smoke", "long-pulse", "phase-window", "finalize-stop",
-            "correction-audit", "correction-points", "long-pulse-corrected",
+            "contract", "smoke", "long-pulse", "phase-window", "amplitude-duration", "finalize-stop",
+            "correction-audit", "correction-points", "long-pulse-corrected", "t0-2e",
         ),
         required=True,
     )
@@ -1284,9 +1826,12 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_contract()
         phase_long_pulse()
     elif args.phase == "phase-window":
-        phase_contract()
-        phase_long_pulse()
+        # T0-2 is immutable corrected evidence.  This entry may inspect its
+        # committed summaries in ``phase_window`` but must never regenerate a
+        # legacy long-pulse deck or overwrite historical T0-2 evidence.
         phase_window()
+    elif args.phase == "amplitude-duration":
+        phase_amplitude_duration()
     elif args.phase == "finalize-stop":
         phase_terminal_stop()
     elif args.phase == "correction-audit":
@@ -1296,6 +1841,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         phase_correction_points()
     elif args.phase == "long-pulse-corrected":
         phase_long_pulse_corrected()
+    elif args.phase == "t0-2e":
+        phase_t0_2e()
     return 0
 
 

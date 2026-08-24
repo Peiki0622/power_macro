@@ -1,0 +1,110 @@
+{
+  "decision": "GO",
+  "new_hspice": 44,
+  "reused": 0,
+  "scenario_count": 44,
+  "windows": [
+    {
+      "ambiguous_count": 0,
+      "ambiguous_dominates": false,
+      "baseline_vdd_v": 0.95,
+      "blind_windows": [
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 14,
+          "state": "Q0",
+          "width_ps": 2400.0
+        }
+      ],
+      "detectable_windows": [
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -1000.0,
+          "sample_count": 8,
+          "state": "Q1",
+          "width_ps": 1075.0
+        }
+      ],
+      "intervals": [
+        {
+          "phase_end_ps": 75.0,
+          "phase_start_ps": -1000.0,
+          "sample_count": 8,
+          "state": "Q1",
+          "width_ps": 1075.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 100.0,
+          "sample_count": 14,
+          "state": "Q0",
+          "width_ps": 2400.0
+        }
+      ],
+      "maximum_blind_window_ps": 2400.0,
+      "stable_q0_count": 14,
+      "stable_q1_count": 8,
+      "transition_boundaries": [
+        {
+          "left_phase_ps": 75.0,
+          "left_state": "Q1",
+          "resolution_ps": 25.0,
+          "right_phase_ps": 100.0,
+          "right_state": "Q0"
+        }
+      ]
+    },
+    {
+      "ambiguous_count": 0,
+      "ambiguous_dominates": false,
+      "baseline_vdd_v": 1.1,
+      "blind_windows": [
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 16,
+          "state": "Q0",
+          "width_ps": 2450.0
+        }
+      ],
+      "detectable_windows": [
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -1000.0,
+          "sample_count": 6,
+          "state": "Q1",
+          "width_ps": 1025.0
+        }
+      ],
+      "intervals": [
+        {
+          "phase_end_ps": 25.0,
+          "phase_start_ps": -1000.0,
+          "sample_count": 6,
+          "state": "Q1",
+          "width_ps": 1025.0
+        },
+        {
+          "phase_end_ps": 2500.0,
+          "phase_start_ps": 50.0,
+          "sample_count": 16,
+          "state": "Q0",
+          "width_ps": 2450.0
+        }
+      ],
+      "maximum_blind_window_ps": 2450.0,
+      "stable_q0_count": 16,
+      "stable_q1_count": 6,
+      "transition_boundaries": [
+        {
+          "left_phase_ps": 25.0,
+          "left_state": "Q1",
+          "resolution_ps": 25.0,
+          "right_phase_ps": 50.0,
+          "right_state": "Q0"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "anomalies": [
+    "t0__b0p95__L3__dv120p0__h1750p0__pm450p0__c2c8160f090a8f845ee7",
+    "t0__b1p1__L1__dv90p0__h1250p0__pm500p0__8a0d6b363c26677e2ad2"
+  ],
+  "anomaly_records": [
+    {
+      "reason": "active_ck_edge_count_not_one",
+      "scenario_id": "t0__b0p95__L3__dv120p0__h1750p0__pm450p0__c2c8160f090a8f845ee7"
+    },
+    {
+      "reason": "active_ck_edge_count_not_one",
+      "scenario_id": "t0__b1p1__L1__dv90p0__h1250p0__pm500p0__8a0d6b363c26677e2ad2"
+    }
+  ],
+  "boundaries": [
+    {
+      "DeltaV_mv": 60.0,
+      "F_det": 9,
+      "M_det": 4,
+      "Vdroop_v": 0.89,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 70.0,
+      "F_det": 9,
+      "M_det": 4,
+      "Vdroop_v": 0.88,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": 1360.0,
+      "minimum_detectable_total_pulse_ps": 1362.0,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 80.0,
+      "F_det": 9,
+      "M_det": 4,
+      "Vdroop_v": 0.87,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": 1344.0,
+      "minimum_detectable_total_pulse_ps": 1346.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 90.0,
+      "F_det": 9,
+      "M_det": 4,
+      "Vdroop_v": 0.86,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": 1296.0,
+      "minimum_detectable_total_pulse_ps": 1298.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 80.0,
+      "F_det": 6,
+      "M_det": 5,
+      "Vdroop_v": 0.87,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 90.0,
+      "F_det": 6,
+      "M_det": 5,
+      "Vdroop_v": 0.86,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1454.0,
+      "minimum_detectable_total_pulse_ps": 1456.0,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 100.0,
+      "F_det": 6,
+      "M_det": 5,
+      "Vdroop_v": 0.85,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1438.0,
+      "minimum_detectable_total_pulse_ps": 1440.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 110.0,
+      "F_det": 6,
+      "M_det": 5,
+      "Vdroop_v": 0.84,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1360.0,
+      "minimum_detectable_total_pulse_ps": 1362.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 110.0,
+      "F_det": 9,
+      "M_det": 5,
+      "Vdroop_v": 0.84,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 120.0,
+      "F_det": 9,
+      "M_det": 5,
+      "Vdroop_v": 0.83,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 130.0,
+      "F_det": 9,
+      "M_det": 5,
+      "Vdroop_v": 0.82,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": 1562.0,
+      "minimum_detectable_total_pulse_ps": 1564.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 140.0,
+      "F_det": 9,
+      "M_det": 5,
+      "Vdroop_v": 0.81,
+      "baseline_vdd_v": 0.95,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": 1578.0,
+      "minimum_detectable_total_pulse_ps": 1580.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -450.0
+    },
+    {
+      "DeltaV_mv": 80.0,
+      "F_det": 10,
+      "M_det": 2,
+      "Vdroop_v": 1.02,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 90.0,
+      "F_det": 10,
+      "M_det": 2,
+      "Vdroop_v": 1.01,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 100.0,
+      "F_det": 10,
+      "M_det": 2,
+      "Vdroop_v": 1.0,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": 1062.0,
+      "minimum_detectable_total_pulse_ps": 1064.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 110.0,
+      "F_det": 10,
+      "M_det": 2,
+      "Vdroop_v": 0.99,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L1",
+      "minimum_detectable_hold_ps": 1031.0,
+      "minimum_detectable_total_pulse_ps": 1033.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 130.0,
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.97,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 140.0,
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.96,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1188.0,
+      "minimum_detectable_total_pulse_ps": 1190.0,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 150.0,
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.95,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1188.0,
+      "minimum_detectable_total_pulse_ps": 1190.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 160.0,
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.94,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L2",
+      "minimum_detectable_hold_ps": 1172.0,
+      "minimum_detectable_total_pulse_ps": 1174.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 160.0,
+      "F_det": 10,
+      "M_det": 3,
+      "Vdroop_v": 0.94,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": null,
+      "minimum_detectable_total_pulse_ps": null,
+      "point_label": "last_q0_control",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 170.0,
+      "F_det": 10,
+      "M_det": 3,
+      "Vdroop_v": 0.93,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": 1234.0,
+      "minimum_detectable_total_pulse_ps": 1236.0,
+      "point_label": "first_q1_anchor",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 180.0,
+      "F_det": 10,
+      "M_det": 3,
+      "Vdroop_v": 0.92,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": 1250.0,
+      "minimum_detectable_total_pulse_ps": 1252.0,
+      "point_label": "first_q1_minus_10mV",
+      "representative_phase_ps": -500.0
+    },
+    {
+      "DeltaV_mv": 190.0,
+      "F_det": 10,
+      "M_det": 3,
+      "Vdroop_v": 0.91,
+      "baseline_vdd_v": 1.1,
+      "margin_level": "L3",
+      "minimum_detectable_hold_ps": 1250.0,
+      "minimum_detectable_total_pulse_ps": 1252.0,
+      "point_label": "first_q1_minus_20mV",
+      "representative_phase_ps": -500.0
+    }
+  ],
+  "decision": "STOP",
+  "new_hspice": 238,
+  "reused": 0,
+  "scenario_count": 238,
+  "stop_reason": "ambiguous_duration_boundary: active_ck_edge_count_not_one"
+}

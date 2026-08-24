@@ -1,0 +1,16 @@
+{
+  "authoritative_gate": "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json",
+  "corrected_mode": "PD_SENSE_LOCAL_VDD_NORMALIZED",
+  "formal_12_summary_sha256": "bdb82ecbef51cf291d6ca516bc426fb515c4631c620cb95059f867a31133f5e5",
+  "four_point_summary_sha256": "b5ce927ed4ddf9cec4cb602842e02775e102873e797a1f5d34185e620b06617d",
+  "historical_decision": "STOP",
+  "historical_status": "HISTORICAL_SUPERSEDED_NOT_DELETED",
+  "historical_summary": "analysis/t0_transient_droop/long_pulse_consistency/summary.json",
+  "hspice_scenarios": 0,
+  "new_hspice_scenarios": 0,
+  "power_domain_contract_sha256": "38e4863bfa4996659fdc896d8b026299c465d87821e831a7b96bc4a0c3bd3c45",
+  "reason": "legacy fixed VDD_VALUE PD_CTRL-to-PD_SENSE highs were replaced by sensor-local VDD normalization",
+  "schema_version": 1,
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "superseded_by": "analysis/t0_transient_droop/correction/formal_12_summary.json"
+}

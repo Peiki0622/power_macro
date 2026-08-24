@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Generate the reproducible T0-8 figures and manifest.
+"""Render T0 evidence figures from compact, corrected T0 artifacts only.
 
-The T0-2 STOP is intentional.  Consequently the later phase tables contain
-an explicit ``BLOCKED`` row rather than invented measurements.  This plotter
-still emits all five required figure slots so reviewers can distinguish an
-unmeasured result from a silently omitted result.
+The plotter never reads raw HSPICE run directories. It consumes checked
+analysis CSV/JSON records, preserves blocked stages visibly, and writes only
+the task-owned ``analysis/t0_transient_droop/figures`` outputs.
 """
 
 import csv
@@ -13,7 +12,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Mapping
+from typing import Any, Dict, List
 
 if os.environ.get("CONDA_DEFAULT_ENV") != "DL":
     raise RuntimeError("T0 plotting requires CONDA_DEFAULT_ENV=DL")
@@ -24,22 +23,18 @@ import matplotlib.pyplot as plt
 from matplotlib import font_manager
 from PIL import Image
 
-# The container provides a checked-in system font rather than a conda-local
-# font package.  Selecting it explicitly keeps Chinese labels complete and
-# makes headless PDF/PNG rendering deterministic across T0 invocations.
+
+FTC_ROOT = Path(__file__).resolve().parents[1]
+ANALYSIS = FTC_ROOT / "analysis" / "t0_transient_droop"
+FIGURES = ANALYSIS / "figures"
 _CJK_FONT = "/usr/share/fonts/google-noto-cjk/NotoSansCJK-Regular.ttc"
 font_manager.fontManager.addfont(_CJK_FONT)
 matplotlib.rcParams["font.family"] = "Noto Sans CJK JP"
 matplotlib.rcParams["axes.unicode_minus"] = False
 
 
-FTC_ROOT = Path(__file__).resolve().parents[1]
-ANALYSIS = FTC_ROOT / "analysis" / "t0_transient_droop"
-FIGURES = ANALYSIS / "figures"
-
-
 def sha256_file(path: Path) -> str:
-    """Hash every compact input consumed by a formal figure."""
+    """Hash compact plotted evidence so every figure is reproducible."""
 
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -49,113 +44,91 @@ def sha256_file(path: Path) -> str:
 
 
 def rows(path: Path) -> List[Dict[str, str]]:
-    """Read a task-owned CSV while retaining blocked rows."""
+    """Read one rectangular T0 table without silently dropping rows."""
 
     with path.open(newline="", encoding="utf-8") as stream:
         return list(csv.DictReader(stream))
 
 
-def blocked(axis: plt.Axes, title: str, reason: str) -> None:
-    """Render an explicit blocked panel instead of an empty misleading plot."""
-
-    axis.set_title(title)
-    axis.text(0.5, 0.5, "BLOCKED\n{}".format(reason), ha="center", va="center", transform=axis.transAxes)
-    axis.set_xticks([])
-    axis.set_yticks([])
-
-
 def save(stem: str, figure: plt.Figure, sources: List[Path], manifest: List[Dict[str, Any]]) -> None:
-    """Write PDF and 600 dpi PNG, then verify dimensions and metadata."""
+    """Write PDF plus 600 dpi PNG and record rendering provenance."""
 
     FIGURES.mkdir(parents=True, exist_ok=True)
-    pdf = FIGURES / (stem + ".pdf")
-    png = FIGURES / (stem + ".png")
+    pdf, png = FIGURES / (stem + ".pdf"), FIGURES / (stem + ".png")
     figure.savefig(pdf, bbox_inches="tight")
     figure.savefig(png, dpi=600, bbox_inches="tight")
     plt.close(figure)
     with Image.open(png) as image:
-        width, height = image.size
-        dpi = image.info.get("dpi", (0.0, 0.0))
-    if width < 1200 or height < 800 or min(float(dpi[0]), float(dpi[1])) < 590.0:
-        raise RuntimeError("T0 figure QA failed: {} {}x{} dpi={}".format(stem, width, height, dpi))
+        width, height, dpi = image.size[0], image.size[1], image.info.get("dpi", (0.0, 0.0))
+    if width < 1200 or height < 800 or min(map(float, dpi)) < 590.0:
+        raise RuntimeError("T0 figure QA failed: {}".format(stem))
     manifest.append({
-        "figure_stem": stem,
-        "pdf": str(pdf),
-        "png": str(png),
+        "figure_stem": stem, "pdf": str(pdf), "png": str(png),
         "source_sha256": {str(path): sha256_file(path) for path in sources},
-        "plot_script_sha256": sha256_file(Path(__file__)),
-        "python_executable": sys.executable,
-        "matplotlib_version": matplotlib.__version__,
-        "conda_env": os.environ["CONDA_DEFAULT_ENV"],
-        "png_width_px": width,
-        "png_height_px": height,
-        "png_dpi": [float(dpi[0]), float(dpi[1])],
+        "plot_script_sha256": sha256_file(Path(__file__)), "python_executable": sys.executable,
+        "matplotlib_version": matplotlib.__version__, "conda_env": "DL",
+        "png_width_px": width, "png_height_px": height, "png_dpi": [float(dpi[0]), float(dpi[1])],
     })
 
 
 def main() -> int:
-    """Create T0-1 through T0-5 figure slots from compact evidence only."""
+    """Generate honest T0-1 through T0-5 figures after the T0-4 stop."""
 
-    smoke = ANALYSIS / "reports" / "t0_1_smoke.csv"
-    long_pulse = ANALYSIS / "long_pulse_consistency" / "long_pulse_results.csv"
-    blocked_files = [
-        ANALYSIS / "phase_window" / "phase_window.csv",
-        ANALYSIS / "amplitude_duration" / "amplitude_duration.csv",
-        ANALYSIS / "phase_coverage" / "phase_coverage.csv",
-        ANALYSIS / "cadence" / "cadence.csv",
-    ]
-    smoke_rows = rows(smoke)
-    long_rows = rows(long_pulse)
+    phase_csv = ANALYSIS / "phase_window" / "phase_window.csv"
+    phase_json = ANALYSIS / "phase_window" / "summary.json"
+    boundary_csv = ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv"
+    amplitude_json = ANALYSIS / "amplitude_duration" / "summary.json"
+    phase_rows, boundary_rows = rows(phase_csv), rows(boundary_csv)
     manifest: List[Dict[str, Any]] = []
 
-    # T0-1: the exact PWL stimulus is reconstructed from the recorded scenario
-    # parameters; crossing markers are measured HSPICE scalars, not invented
-    # analog traces.  This distinction matters because post=0 intentionally
-    # keeps large transient waveform files out of the repository.
+    # T0-1 uses a corrected L2 case. Markers are scalar measurements, never
+    # invented analog traces, and all fields retain the original deck timing.
+    row = next(item for item in phase_rows if item["baseline_vdd_v"] == "0.95" and item["phase_ps"] == "-250.0")
+    base, low = float(row["baseline_vdd_v"]), float(row["Vdroop_v"])
+    start = 1.49 + float(row["phase_ps"]) / 1000.0
+    fall, hold, rise = (float(row[key]) / 1000.0 for key in ("t_fall_ps", "t_hold_ps", "t_rise_ps"))
     figure, axes = plt.subplots(2, 1, figsize=(8.0, 5.2), sharex=True)
-    if smoke_rows:
-        row = next((item for item in smoke_rows if float(item["DeltaV_mv"]) > 0), smoke_rows[0])
-        base = float(row["baseline_vdd_v"])
-        low = float(row["Vdroop_v"])
-        start = 1.49 + float(row["phase_ps"]) / 1000.0
-        fall = float(row["t_fall_ps"]) / 1000.0
-        hold = float(row["t_hold_ps"]) / 1000.0
-        rise = float(row["t_rise_ps"]) / 1000.0
-        times = [0.0, start, start + fall, start + fall + hold, start + fall + hold + rise, 7.5]
-        values = [base, base, low, low, base, base]
-        axes[0].plot(times, values, color="black", linewidth=1.4, label="VDD_MONITORED PWL")
-        axes[0].set_ylabel("VDD (V)")
-        axes[0].legend(loc="best", fontsize=8)
-        for key, label, color in (("t_xor_rise_s", "XOR rise", "tab:blue"), ("t_xor_fall_s", "XOR fall", "tab:orange"), ("t_ck_rise_s", "CK rise", "tab:green")):
-            value = float(row[key]) * 1e9
-            axes[0].axvline(value, color=color, linestyle="--", linewidth=0.9, label=label)
-        axes[0].legend(loc="best", fontsize=7)
-        # The two points use the fixed M0 read instants (3.79 ns and 3.99 ns);
-        # their vertical values are measured DFF rails, not a proxy waveform.
-        axes[1].plot([3.79, 3.99], [float(row["q_sample_1_v"]), float(row["q_sample_2_v"])], marker="o", color="tab:red", label="真实 DFF Q 双采样")
-        axes[1].set_ylabel("Q (V)")
-        axes[1].set_xlabel("时间 (ns，测量标记)")
-        axes[1].set_xticks([3.79, 3.99])
-        axes[1].legend(loc="best", fontsize=8)
-    else:
-        blocked(axes[0], "图 T0-1：代表性瞬态波形", "没有紧凑试跑数据")
-        blocked(axes[1], "真实 DFF Q", "没有紧凑试跑数据")
-    save("fig_t0_1_representative_waveform", figure, [smoke], manifest)
+    axes[0].plot([0, start, start + fall, start + fall + hold, start + fall + hold + rise, 7.5], [base, base, low, low, base, base], color="black", label="VDD_MONITORED")
+    for key, label in (("t_xor_rise_s", "XOR rise"), ("t_ck_rise_s", "CK rise")):
+        axes[0].axvline(float(row[key]) * 1e9, linestyle="--", label=label)
+    axes[0].set_ylabel("VDD (V)"); axes[0].legend(fontsize=8)
+    axes[1].plot([3.79, 3.99], [float(row["q_sample_1_v"]), float(row["q_sample_2_v"])], "o-", color="tab:red", label="真实 DFF Q")
+    axes[1].set_xlabel("时间 (ns)"); axes[1].set_ylabel("Q (V)"); axes[1].legend(fontsize=8)
+    save("fig_t0_1_representative_waveform", figure, [phase_csv], manifest)
 
-    # T0-2: the phase table is unavailable because the T0-2 hard gate stopped
-    # before phase exploration.  The blocked panel is itself reviewable proof.
-    for stem, title, path in (
-        ("fig_t0_2_phase_window", "图 T0-2：单 probe 相位敏感窗口", blocked_files[0]),
-        ("fig_t0_3_amplitude_duration_boundary", "图 T0-3：跌落深度—持续时间边界", blocked_files[1]),
-        ("fig_t0_4_margin_duration_comparison", "图 T0-4：裕量与最短持续时间", blocked_files[2]),
-        ("fig_t0_5_cadence_coverage", "图 T0-5：检测间隔与时间覆盖率", blocked_files[3]),
+    # T0-2 plots every sampled state so physically disconnected Q1 windows
+    # cannot be collapsed into a misleading global phase range.
+    figure, axis = plt.subplots(figsize=(7.4, 4.2))
+    for baseline, color in ((0.95, "tab:blue"), (1.10, "tab:orange")):
+        group = [item for item in phase_rows if float(item["baseline_vdd_v"]) == baseline]
+        y = [1 if item["q_final"] == "1" and item["valid"] == "1" else 0 if item["q_final"] == "0" and item["valid"] == "1" else 0.5 for item in group]
+        axis.scatter([float(item["phase_ps"]) for item in group], y, label="{:.2f} V".format(baseline), color=color)
+    axis.set_xlabel("droop phase 相对 S_CLK (ps)"); axis.set_ylabel("Q 状态（1=检测，0=盲区，0.5=ambiguous）")
+    axis.set_yticks([0, 0.5, 1]); axis.legend(); axis.set_title("图 T0-2：单 probe 相位敏感窗口")
+    save("fig_t0_2_phase_window", figure, [phase_csv, phase_json], manifest)
+
+    # T0-3/T0-4 show only resolved measurements. Missing values remain gaps;
+    # titles explicitly retain the T0-4 STOP rather than asserting continuity.
+    for stem, title, group_by_margin in (
+        ("fig_t0_3_amplitude_duration_boundary", "图 T0-3：深度—持续时间观测（T0-4 STOP）", False),
+        ("fig_t0_4_margin_duration_comparison", "图 T0-4：裕量与最短持续时间（仅已解析点）", True),
     ):
-        figure, axis = plt.subplots(figsize=(7.2, 4.2))
-        blocked(axis, title, "T0-2 长脉冲一致性硬门失败")
-        save(stem, figure, [path, long_pulse], manifest)
+        figure, axis = plt.subplots(figsize=(7.4, 4.2))
+        groups = sorted({(item["baseline_vdd_v"], item["margin_level"]) if group_by_margin else (item["baseline_vdd_v"],) for item in boundary_rows})
+        for group in groups:
+            selected = [item for item in boundary_rows if ((item["baseline_vdd_v"], item["margin_level"]) if group_by_margin else (item["baseline_vdd_v"],)) == group and item["minimum_detectable_hold_ps"]]
+            if selected:
+                axis.plot([float(item["DeltaV_mv"]) for item in selected], [float(item["minimum_detectable_hold_ps"]) for item in selected], "o-", label=" / ".join(group))
+        axis.set_xlabel("跌落深度 ΔV (mV)"); axis.set_ylabel("最短可检 hold (ps)"); axis.set_title(title); axis.legend(fontsize=8)
+        save(stem, figure, [boundary_csv, amplitude_json], manifest)
 
-    write_path = ANALYSIS / "figures" / "figure_manifest.json"
-    write_path.write_text(json.dumps({"schema_version": 1, "study": "ftc_t0_transient_voltage_droop_characterization_v1", "figures": manifest}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # T0-5 must remain visibly blocked: T0-4 prevents coverage and cadence
+    # inference, so leaving a blank or drawing a speculative curve is invalid.
+    figure, axis = plt.subplots(figsize=(7.4, 4.2))
+    axis.text(0.5, 0.5, "BLOCKED\nT0-4 ambiguous duration boundary\n未推导 coverage / cadence", ha="center", va="center", transform=axis.transAxes)
+    axis.set_xticks([]); axis.set_yticks([]); axis.set_title("图 T0-5：检测间隔—时间覆盖率")
+    save("fig_t0_5_cadence_coverage", figure, [amplitude_json], manifest)
+    (FIGURES / "figure_manifest.json").write_text(json.dumps({"schema_version": 2, "study": "ftc_t0_transient_voltage_droop_characterization_v1", "figures": manifest}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return 0
 
 
