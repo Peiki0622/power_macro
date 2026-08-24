@@ -9,17 +9,18 @@
       "no_valid_detection_result"
     ]
   },
-  "decision": "BLOCKED_BY_T0_4_STOP",
+  "decision": "PENDING_T0_5_T0_6",
   "precise_timing_detection_range": {
     "minimum_vdd_v": 0.8,
     "status": "not_extended_below_floor"
   },
   "runtime_probe_period": {
     "maximum_period_s": null,
-    "reason": "T0-4 contains unresolved ambiguous duration-boundary scenarios with two active CK edges",
-    "status": "not_qualified_T0_5_T0_6_blocked"
+    "reason": "T0-4 GO unlocks phase coverage but does not yet qualify a runtime probe period",
+    "status": "PENDING_T0_5_T0_6"
   },
-  "schema_version": 3,
-  "source_gate": "T0-4 STOP",
-  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+  "schema_version": 4,
+  "source_gate": "T0-4 GO",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "t0_4e_hspice_scenarios": 0
 }

@@ -268,5 +268,12 @@ hspice_command.log
 /delay_chain/ftc/controller/**/simv.daidir/
 /delay_chain/ftc/controller/**/simv.msv/
 /delay_chain/ftc/controller/**/csrc/
+
+# T0 keeps raw HSPICE directories ignored, but its compact phase/cadence
+# summaries are reviewable source evidence for the downstream D0 contract.
+# These two narrow exceptions intentionally follow the generic *_summary.json
+# rule above so a normal Git status exposes only the audited conclusions.
+!/delay_chain/ftc/analysis/t0_transient_droop/phase_coverage/phase_coverage_summary.json
+!/delay_chain/ftc/analysis/t0_transient_droop/cadence/cadence_summary.json
 delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/reports/evidence_sha256.txt
 delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/input_sha256.txt

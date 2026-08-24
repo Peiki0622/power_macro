@@ -90,6 +90,97 @@ T0_4_DIAGNOSTIC_CASES = (
 # authority for later automation.
 SUPERSESSION_PATH = ANALYSIS / "long_pulse_consistency" / "supersession.json"
 
+# T0-4E makes the corrected T0-4 GO evidence authoritative before later
+# runner development begins.  These records are intentionally kept in an
+# analysis-only directory: they describe evidence identity and reuse policy,
+# not a new electrical experiment or a replacement for the retained decks.
+T0_4E_CLOSURE = ANALYSIS / "t0_4e_closure"
+T0_4E_AUTHORITY_PATH = T0_4E_CLOSURE / "authoritative_evidence_hashes.json"
+T0_4E_SUPERSESSION_PATH = T0_4E_CLOSURE / "stale_stop_supersession.json"
+T0_4E_REUSE_CONTRACT_PATH = T0_4E_CLOSURE / "electrical_reuse_contract.json"
+
+# Every field below either selects a frozen sensor code or is consumed by the
+# deck renderer to set the monitored-rail waveform.  ``source_hash`` and
+# report-only labels are deliberately absent: changing Python orchestration
+# must never turn an already retained electrical experiment into a new HSPICE
+# request.  The candidate deck hash remains a second, stricter check.
+ELECTRICAL_PARAMETER_FIELDS = (
+    "baseline_vdd_v", "margin_level", "M_det", "F_det", "DeltaV_mv",
+    "Vdroop_v", "t_fall_ps", "t_hold_ps", "t_rise_ps", "phase_ps",
+    "control_mode",
+)
+
+# The renderer currently emits no source-hash line.  Reserving exactly one
+# comment prefix is nevertheless useful for future provenance annotations:
+# only a line beginning with this literal prefix may be ignored by the
+# normalized deck hash.  All SPICE instances, sources, measures, options and
+# ordinary comments remain hash-covered, so this mechanism cannot hide a
+# circuit, timing, port, or measurement change.
+NON_ELECTRICAL_DECK_METADATA_PREFIX = "* T0_NON_ELECTRICAL_METADATA:"
+
+# Phase-coverage rows retain the complete scalar evidence from the real DFF
+# runner and append only post-processing facts.  Keeping the raw Q/VDD/CK
+# measurements beside the four-state label makes every interval traceable to
+# a physical deck rather than to an inferred timing-residual threshold.
+PHASE_COVERAGE_FIELDS = SCENARIO_FIELDS + (
+    "scenario_key", "scenario_family", "scan_stage", "t0_5_state",
+    "recovery_start_s", "recovery_end_s", "recovery_model_status",
+    "evidence_source", "reuse_reason", "electrical_projection_sha256",
+    "normalized_deck_sha256",
+)
+
+# The leftmost legal transient start is one femtosecond after time zero.  A
+# droop that starts earlier would violate ``droop_points`` and would no longer
+# be the frozen one-probe experiment.  This is a physical input boundary, not
+# an arbitrary scan-depth limit.
+MIN_LEGAL_PHASE_PS = -1490.0 + 0.001
+PHASE_COARSE_STEP_PS = 250.0
+PHASE_FINE_STEP_PS = 25.0
+
+# T0-5A deliberately contains only the two L2 representatives and exactly
+# the boundary/long durations approved by the T0 plan.  ``seed_phase_ps`` is
+# the existing measured favorable phase used to begin a new short-pulse map;
+# long-pulse maps instead seed from all retained T0-3 points.
+T0_5A_SPECS = (
+    {"scenario_key": "t0_5a_0p95_l2_boundary", "scenario_family": "L2_BOUNDARY_MINIMUM", "baseline": 0.95, "margin": "L2", "vdroop": 0.86, "hold_ps": 1454.0, "seed_phase_ps": -450.0, "reuse_t0_3_phase_points": False},
+    {"scenario_key": "t0_5a_0p95_l2_long", "scenario_family": "L2_LONG_PULSE", "baseline": 0.95, "margin": "L2", "vdroop": 0.86, "hold_ps": 3000.0, "seed_phase_ps": None, "reuse_t0_3_phase_points": True},
+    {"scenario_key": "t0_5a_1p10_l2_boundary", "scenario_family": "L2_BOUNDARY_MINIMUM", "baseline": 1.10, "margin": "L2", "vdroop": 0.96, "hold_ps": 1188.0, "seed_phase_ps": -500.0, "reuse_t0_3_phase_points": False},
+    {"scenario_key": "t0_5a_1p10_l2_long", "scenario_family": "L2_LONG_PULSE", "baseline": 1.10, "margin": "L2", "vdroop": 0.96, "hold_ps": 3000.0, "seed_phase_ps": None, "reuse_t0_3_phase_points": True},
+)
+
+# T0-5B is purposefully a two-point supplement.  These are the already
+# diagnosed T0-4 recovery-edge boundaries; no other margin receives a full
+# phase map unless a future plan changes this explicit finite tuple.
+T0_5B_SPECS = (
+    {"scenario_key": "t0_5b_0p95_l3_recovery", "scenario_family": "RECOVERY_EDGE_SPECIAL_MARGIN", "baseline": 0.95, "margin": "L3", "vdroop": 0.83, "hold_ps": 2000.0, "seed_phase_ps": -450.0, "reuse_t0_3_phase_points": False},
+    {"scenario_key": "t0_5b_1p10_l1_recovery", "scenario_family": "RECOVERY_EDGE_SPECIAL_MARGIN", "baseline": 1.10, "margin": "L1", "vdroop": 1.01, "hold_ps": 1500.0, "seed_phase_ps": -500.0, "reuse_t0_3_phase_points": False},
+)
+
+
+class T0_5LeftBoundaryUnclosed(RuntimeError):
+    """Carry sampled evidence for the one legal T0-5A left-boundary STOP.
+
+    A finite droop is rendered as a PWL source and therefore may not begin at
+    negative simulation time.  For a sufficiently long pulse, its legal
+    earliest start can still overlap the active probe CK edge.  In that case
+    there is no physically legal earlier phase at which to seek the required
+    left ``STABLE_Q0`` closure.  This exception deliberately carries the
+    already measured rows instead of discarding them through an unstructured
+    traceback.  It is used only by T0-5A's caller to publish the plan-required
+    STOP record; it is not a retry mechanism and never asks HSPICE to run an
+    impossible negative-time waveform.
+    """
+
+    def __init__(self, spec: Mapping[str, Any], rows_by_phase: Mapping[float, Mapping[str, Any]]) -> None:
+        self.spec = dict(spec)
+        self.rows = [dict(rows_by_phase[phase]) for phase in sorted(rows_by_phase)]
+        self.leftmost_phase_ps = min(rows_by_phase)
+        super().__init__(
+            "T0-5 left phase boundary reaches the legal time-zero PWL limit without stable Q0: {}".format(
+                self.spec["scenario_key"]
+            )
+        )
+
 
 def require_dl() -> Dict[str, str]:
     """Require the reviewed Miniconda environment before formal T0 work."""
@@ -252,6 +343,78 @@ def source_hash() -> str:
     for path in (Path(__file__), CONTRACT_PATH, POWER_DOMAIN_CONTRACT_PATH):
         digest.update(path.read_bytes())
     return digest.hexdigest()
+
+
+def electrical_parameter_projection(parameters: Mapping[str, Any]) -> Dict[str, Any]:
+    """Return the immutable, deck-relevant part of one scenario identity.
+
+    This projection is intentionally narrow and explicit.  It is not a loose
+    "similar scenario" heuristic: all waveform timing, supply depth, selected
+    medium/fine code, and the PD_CTRL-to-PD_SENSE verification abstraction are
+    retained.  The only omitted values are source and reporting provenance,
+    neither of which is a SPICE electrical input.  A caller still has to prove
+    normalized deck equality before it may reuse a retained measurement.
+    """
+
+    missing = [field for field in ELECTRICAL_PARAMETER_FIELDS if field not in parameters]
+    if missing:
+        raise ValueError("scenario lacks electrical parameters: {}".format(", ".join(missing)))
+    return {field: parameters[field] for field in ELECTRICAL_PARAMETER_FIELDS}
+
+
+def electrical_projection_sha256(parameters: Mapping[str, Any]) -> str:
+    """Hash the canonical electrical projection for compact provenance rows."""
+
+    return hashlib.sha256(stable_json(electrical_parameter_projection(parameters)).encode("ascii")).hexdigest()
+
+
+def normalized_deck_text(deck: str) -> str:
+    """Remove only declared non-electrical metadata from a rendered deck.
+
+    The literal prefix is the complete normalization rule.  In particular,
+    this helper does *not* remove arbitrary comments, whitespace, measures or
+    source lines.  That conservative policy makes a normalized hash suitable
+    for deciding whether an old transistor-level listing is physically
+    reusable after source-code-only changes.
+    """
+
+    return "\n".join(
+        line for line in deck.splitlines()
+        if not line.startswith(NON_ELECTRICAL_DECK_METADATA_PREFIX)
+    ) + "\n"
+
+
+def normalized_deck_sha256(deck: str) -> str:
+    """Return the frozen, metadata-normalized renderer identity."""
+
+    return hashlib.sha256(normalized_deck_text(deck).encode("ascii")).hexdigest()
+
+
+def increment_stat(stats: Dict[str, int], key: str) -> None:
+    """Increment optional accounting keys without constraining old callers.
+
+    Earlier completed T0 phases pass only ``new`` and ``reused``.  Later
+    phases require finer provenance accounting, so this helper permits the
+    upgraded executor to enrich the same mutable counter dictionary while
+    preserving historical call sites and their compact summaries.
+    """
+
+    stats[key] = int(stats.get(key, 0)) + 1
+
+
+def reject_if_t0_4_authoritative_go(entry_name: str) -> None:
+    """Prevent legacy terminal paths from replacing corrected T0-4 evidence.
+
+    Several retained functions intentionally model historical STOP outcomes.
+    They remain readable for audit, but once the current gate says T0-4 is
+    corrected GO none of those functions may write a stale NO-GO, blocked
+    cadence contract, or terminal report.  The check is centralized so each
+    old command has the same fail-closed behavior.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    if gate_path.is_file() and read_json(gate_path).get("t0_4_status") == "GO":
+        raise RuntimeError("{} is historical-only after corrected T0-4 GO".format(entry_name))
 
 
 def probe_timing() -> Dict[str, float]:
@@ -632,10 +795,91 @@ def classify(parameters: Mapping[str, Any], values: Mapping[str, Any], scenario:
     }
 
 
-def execute(context: Mapping[str, Any], parameters: Mapping[str, Any], stats: Dict[str, int]) -> Dict[str, Any]:
-    """Render, cache, execute, validate, and classify exactly one scenario."""
+def attach_evidence_provenance(row: Dict[str, Any], parameters: Mapping[str, Any], deck: str,
+                               evidence_source: str, reuse_reason: Optional[str]) -> Dict[str, Any]:
+    """Attach compact reuse evidence without changing the physical Q result.
 
-    hspice, version = physical.validate_hspice(context)
+    The row returned by :func:`classify` remains the direct interpretation of
+    a real retained or newly executed HSPICE measurement.  These additional
+    fields describe *why* that listing was selected, so T0-5 reports can
+    distinguish exact cache reuse, source-hash-only electrical reuse, and a
+    genuinely new physical execution without treating provenance as a sensor
+    input.
+    """
+
+    row.update({
+        "evidence_source": evidence_source,
+        "reuse_reason": reuse_reason,
+        "electrical_projection_sha256": electrical_projection_sha256(parameters),
+        "normalized_deck_sha256": normalized_deck_sha256(deck),
+    })
+    return row
+
+
+def electrically_equivalent_retained_scenario(parameters: Mapping[str, Any], deck: str) -> Optional[Path]:
+    """Find one PASS listing equal in electrical inputs and normalized deck.
+
+    Scenario identifiers intentionally include ``source_hash`` for historical
+    audit.  Consequently a later reporting-only code edit creates a distinct
+    identifier even when the generated transistor deck is unchanged.  This
+    lookup is the narrow bridge across that identity drift.  It accepts a
+    retained run only when all of the following hold:
+
+    * its explicit electrical projection exactly matches the requested one;
+    * its manifest and on-disk deck agree byte-for-byte;
+    * its normalized deck equals the current renderer output; and
+    * exactly one PASS candidate exists.
+
+    Rejecting multiple candidates is deliberate.  Choosing between several
+    historical listings would be an unreviewed evidence-selection policy;
+    such a condition must be resolved by inspection rather than silently
+    selecting the newest directory.
+    """
+
+    if not RUN_ROOT.is_dir():
+        return None
+    wanted_projection = electrical_parameter_projection(parameters)
+    wanted_normalized_sha = normalized_deck_sha256(deck)
+    candidates: List[Path] = []
+    for manifest_path in sorted(RUN_ROOT.glob("r*/scenarios/*/scenario_manifest.json")):
+        manifest = read_json(manifest_path)
+        retained_parameters = manifest.get("parameters")
+        scenario = manifest_path.parent
+        if not isinstance(retained_parameters, dict) or manifest.get("completion_status") != "PASS":
+            continue
+        try:
+            same_projection = electrical_parameter_projection(retained_parameters) == wanted_projection
+        except ValueError:
+            # Pre-correction or malformed historical manifests cannot be
+            # promoted into T0-5 evidence merely because a directory exists.
+            continue
+        if not same_projection:
+            continue
+        deck_path = scenario / "t0.sp"
+        if not deck_path.is_file():
+            continue
+        retained_deck = deck_path.read_text(encoding="ascii")
+        retained_deck_sha = sha256_file(deck_path)
+        if manifest.get("deck_sha256") != retained_deck_sha:
+            continue
+        if normalized_deck_sha256(retained_deck) != wanted_normalized_sha:
+            continue
+        candidates.append(scenario)
+    if len(candidates) > 1:
+        raise RuntimeError("ambiguous electrically equivalent retained T0 evidence: {}".format(candidates))
+    return candidates[0] if candidates else None
+
+
+def execute(context: Mapping[str, Any], parameters: Mapping[str, Any], stats: Dict[str, int]) -> Dict[str, Any]:
+    """Render, reuse when proven equivalent, or execute one T0 scenario.
+
+    Reuse checks intentionally happen before the HSPICE preflight.  A
+    completed retained deck must remain reusable for later zero-HSPICE
+    analysis even if no simulator is installed in the current process.  The
+    simulator/version validation is therefore required only along the new
+    physical-execution branch below.
+    """
+
     deck = render_deck(context, parameters)
     checks = topology_checks(deck, parameters)
     if not all(checks.values()):
@@ -653,9 +897,25 @@ def execute(context: Mapping[str, Any], parameters: Mapping[str, Any], stats: Di
         deck_path = scenario / "t0.sp"
         if not deck_path.is_file() or sha256_file(deck_path) != deck_sha or manifest.get("deck_sha256") != deck_sha:
             raise RuntimeError("retained T0 deck hash mismatch: {}".format(scenario))
-        stats["reused"] += 1
+        increment_stat(stats, "reused")
+        increment_stat(stats, "reused_exact")
         values = parse_measurement(scenario)
-        return classify(parameters, values, scenario, deck_sha)
+        return attach_evidence_provenance(
+            classify(parameters, values, scenario, deck_sha), parameters, deck,
+            "REUSED_EXACT_SCENARIO", "EXACT_SCENARIO_ID_PARAMETERS_AND_DECK",
+        )
+    equivalent = electrically_equivalent_retained_scenario(parameters, deck)
+    if equivalent is not None:
+        increment_stat(stats, "reused")
+        increment_stat(stats, "reused_electrical")
+        values = parse_measurement(equivalent)
+        return attach_evidence_provenance(
+            classify(parameters, values, equivalent, deck_sha), parameters, deck,
+            "REUSED_RETAINED_MEASUREMENT", "ELECTRICALLY_EQUIVALENT_SOURCE_HASH_DRIFT",
+        )
+    # No retained PASS measurement is physically identical to the request.
+    # Only this branch is authorized to resolve and invoke host HSPICE.
+    hspice, version = physical.validate_hspice(context)
     revisions = [int(path.name[1:]) for path in RUN_ROOT.glob("r*") if path.is_dir() and re.fullmatch(r"r\d+", path.name)] if RUN_ROOT.is_dir() else []
     run_dir = RUN_ROOT / "r{}".format(max(revisions, default=0) + 1)
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -671,8 +931,13 @@ def execute(context: Mapping[str, Any], parameters: Mapping[str, Any], stats: Di
         "completion_status": "RUNNING", "measurement_file": None,
     }
     write_json(scenario / "scenario_manifest.json", manifest)
-    stats["new"] += 1
-    result = subprocess.run([str(hspice), deck_path.name, "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=900)
+    increment_stat(stats, "new")
+    # The reviewed DL environment currently exposes Python 3.6.  Use the
+    # pre-3.7 spelling for decoded stdout/stderr so the local HSPICE command
+    # is actually invoked rather than failing after its task-owned manifest
+    # has been created.  The deck, port topology and simulator arguments are
+    # unchanged; this is process-launch compatibility only.
+    result = subprocess.run([str(hspice), deck_path.name, "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=False, timeout=900)
     (scenario / "hspice_command.log").write_text("returncode={}\nstdout:\n{}\nstderr:\n{}\n".format(result.returncode, result.stdout, result.stderr), encoding="utf-8")
     if result.returncode != 0:
         manifest.update({"completion_status": "FAIL", "failure": "HSPICE returned {}".format(result.returncode)})
@@ -687,7 +952,10 @@ def execute(context: Mapping[str, Any], parameters: Mapping[str, Any], stats: Di
         raise
     manifest.update({"completion_status": "PASS", "measurement_file": measurement.name})
     write_json(scenario / "scenario_manifest.json", manifest)
-    return classify(parameters, physical.run_dc_sweep.parse_measurements(measurement), scenario, deck_sha)
+    return attach_evidence_provenance(
+        classify(parameters, physical.run_dc_sweep.parse_measurements(measurement), scenario, deck_sha),
+        parameters, deck, "NEW_HSPICE_SCENARIO", None,
+    )
 
 
 def write_scenario_manifest() -> None:
@@ -1412,6 +1680,7 @@ def phase_terminal_stop() -> Dict[str, Any]:
     fail-safe requirement, but it receives no unverified cadence number.
     """
 
+    reject_if_t0_4_authoritative_go("finalize-stop / phase_terminal_stop")
     require_dl()
     contract()
     summary_path = ANALYSIS / "long_pulse_consistency" / "summary.json"
@@ -1798,7 +2067,10 @@ def execute_t0_4_diagnostic(context: Mapping[str, Any], parameters: Mapping[str,
             # a new T0-4 physical scenario and is accounted separately.
             hspice, version = physical.validate_hspice(context)
             (scenario / "t0.sp").write_text(deck, encoding="ascii")
-            result = subprocess.run([str(hspice), "t0.sp", "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=900)
+            # Keep the diagnostic retry compatible with the same Python 3.6
+            # DL runtime as normal T0-5 execution; no diagnostic port or
+            # measurement semantics are changed by this spelling.
+            result = subprocess.run([str(hspice), "t0.sp", "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=False, timeout=900)
             (scenario / "hspice_command.log").write_text("returncode={}\nstdout:\n{}\nstderr:\n{}\n".format(result.returncode, result.stdout, result.stderr), encoding="utf-8")
             if result.returncode != 0:
                 raise RuntimeError("diagnostic HSPICE rerun failed: {}".format(scenario))
@@ -1816,7 +2088,10 @@ def execute_t0_4_diagnostic(context: Mapping[str, Any], parameters: Mapping[str,
         manifest = {"schema_version": 1, "study": STUDY, "diagnostic": True, "scenario_id": identity, "parameters": diagnostic_parameters, "deck_sha256": deck_sha, "hspice": str(hspice), "hspice_version": version, "completion_status": "RUNNING", "diagnostic_observability_revision": 2}
         write_json(scenario / "scenario_manifest.json", manifest)
         stats["new"] += 1
-        result = subprocess.run([str(hspice), deck_path.name, "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=False, timeout=900)
+        # New local diagnostics use the same decoded-output compatibility
+        # path as formal scenarios, ensuring their retained command log is
+        # created only after Python has successfully launched HSPICE.
+        result = subprocess.run([str(hspice), deck_path.name, "-o", "t0"], cwd=scenario, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, check=False, timeout=900)
         (scenario / "hspice_command.log").write_text("returncode={}\nstdout:\n{}\nstderr:\n{}\n".format(result.returncode, result.stdout, result.stderr), encoding="utf-8")
         if result.returncode != 0:
             manifest.update({"completion_status": "FAIL", "failure": "HSPICE returned {}".format(result.returncode)})
@@ -1927,9 +2202,779 @@ def publish_t0_4_corrected_report(summary: Mapping[str, Any], diagnostics: Mappi
     return path
 
 
+def t0_4e_authority_inputs() -> Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any]]:
+    """Read and validate the completed T0-4 evidence before state promotion.
+
+    This is a deliberately read-only validation boundary.  T0-4E is allowed
+    to repair authority metadata and runner reuse semantics, but it is never
+    allowed to reinterpret the 238 retained formal rows or launch another
+    duration search.  Returning the parsed gate, summary and diagnostics also
+    keeps the promotion below free of duplicate, subtly different checks.
+    """
+
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    summary = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
+    diagnostics = read_json(ANALYSIS / "amplitude_duration" / "anomaly_diagnostics.json")
+    boundary_rows = read_csv(
+        ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv",
+        ("baseline_vdd_v", "margin_level", "point_label", "minimum_detectable_hold_ps"),
+    )
+    if gate.get("t0_4_status") != "GO" or summary.get("decision") != "GO":
+        raise RuntimeError("T0-4E requires the corrected T0-4 GO evidence")
+    if int(summary.get("historical_scenario_count", 0)) != 238:
+        raise RuntimeError("T0-4E requires exactly 238 retained formal T0-4 scenarios")
+    if int(diagnostics.get("unique_diagnostic_case_count", 0)) != 4:
+        raise RuntimeError("T0-4E requires four unique T0-4 diagnostic electrical cases")
+    if summary.get("real_second_clock_present") is not False:
+        raise RuntimeError("T0-4E cannot promote unresolved second-clock evidence")
+    controls = [row for row in boundary_rows if row["point_label"] == "last_q0_control"]
+    qualified = [row for row in boundary_rows if row["point_label"] != "last_q0_control"]
+    if len(controls) != 6 or len(qualified) != 18:
+        raise RuntimeError("T0-4E boundary table no longer has six controls and eighteen Q1 points")
+    if any(row["minimum_detectable_hold_ps"] for row in controls):
+        raise RuntimeError("T0-4E negative-control duration semantics changed")
+    if any(not row["minimum_detectable_hold_ps"] for row in qualified):
+        raise RuntimeError("T0-4E formal clean-Q1 duration evidence is incomplete")
+    return gate, summary, diagnostics
+
+
+def t0_4e_authority_hashes() -> Dict[str, str]:
+    """Hash exactly the six T0-4E authority inputs required by the plan."""
+
+    paths = (
+        ANALYSIS / "amplitude_duration" / "summary.json",
+        ANALYSIS / "amplitude_duration" / "minimum_duration_boundary.csv",
+        ANALYSIS / "amplitude_duration" / "anomaly_diagnostics.json",
+        ANALYSIS / "reports" / "T0_GATE_STATUS.json",
+        REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md",
+        POWER_DOMAIN_CONTRACT_PATH,
+    )
+    if any(not path.is_file() for path in paths):
+        raise RuntimeError("T0-4E authority input is missing")
+    return {str(path.relative_to(FTC_ROOT)): sha256_file(path) for path in paths}
+
+
+def write_t0_4e_report(summary: Mapping[str, Any], diagnostics: Mapping[str, Any]) -> Path:
+    """Publish the T0-4E handoff without claiming later physical results.
+
+    The report intentionally repeats only the small set of corrected T0-4
+    facts that authorize T0-5.  Coverage, cadence and a runtime 400 MHz
+    qualification remain absent until T0-5 and T0-6 generate their own
+    evidence.
+    """
+
+    diagnostic_runs = len(list((RUN_ROOT / "diagnostics").glob("*/t0diag__*/scenario_manifest.json")))
+    lines = [
+        "# FTC T0-4E 证据闭合与 T0-5 解封报告", "",
+        "## 当前判定", "", "**T0-4 = GO；T0-5 = ENABLED**", "",
+        "本阶段只冻结纠偏后的 T0-4 权威证据、取代旧 STOP 占位状态并建立跨 source-hash 的电气等价复用。未运行 HSPICE，未重跑 238 个正式 T0-4 场景，也未提前声明 T0-5 覆盖率或 T0-6 cadence。", "",
+        "## 已冻结证据", "",
+        "- 正式历史场景：{}；6 个 last-Q0 负控制通过，18 个 clean-Q1 minimum-duration 边界有效。".format(summary["historical_scenario_count"]),
+        "- 唯一诊断电气点：{}；诊断目录累计运行：{}；真实二次时钟：{}。".format(
+            diagnostics["unique_diagnostic_case_count"], diagnostic_runs, summary["real_second_clock_present"]),
+        "- 电气等价复用只接受相同的显式物理参数投影和规范化 deck SHA256；单独的 source_hash 漂移不再触发 HSPICE。", "",
+        "## 下游状态", "",
+        "- T0-5 已解封，必须先完成两个 L2 的完整单-probe 窗口；T0-6 仍等待 T0-5 gate。",
+        "- `runtime_probe_period.maximum_period_s` 仍为 null；2.5 ns 控制时钟不被当作 runtime probe cadence。",
+        "- `VDD_MONITORED < 0.80 V` 继续只允许 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义。", "",
+        "## 本阶段账本", "",
+        "- 新增 HSPICE：0；复用旧场景：0；电气等价复用：0；仅重解析：0；禁止流程新增运行：0。",
+    ]
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def phase_t0_4e() -> Dict[str, Any]:
+    """Close T0-4 authority and unlock T0-5 with strictly zero HSPICE.
+
+    Ordering is intentional.  The historical blocked artifacts are hashed
+    first for audit, then replaced by explicit pending records, then the
+    current gate/report are written, and only then are the six authority
+    inputs hashed.  This avoids recording a stale pre-promotion gate hash.
+    """
+
+    require_dl()
+    contract()
+    gate, summary, diagnostics = t0_4e_authority_inputs()
+    if gate.get("t0_4e_status") == "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE":
+        raise RuntimeError("T0-4E has already been closed; refusing to rewrite its authority record")
+    stale_paths = (
+        ANALYSIS / "phase_coverage" / "phase_coverage.csv",
+        ANALYSIS / "cadence" / "cadence.csv",
+        ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json",
+    )
+    stale_hashes = {str(path.relative_to(FTC_ROOT)): sha256_file(path) for path in stale_paths if path.is_file()}
+    if len(stale_hashes) != len(stale_paths):
+        raise RuntimeError("T0-4E requires all retained T0-4 STOP placeholders")
+
+    # This contract is machine-readable rather than implicit in Python.  It
+    # freezes the exact comparison basis that later permits T0-3/T0-4 results
+    # to survive runner growth without broad textual deck normalization.
+    write_json(T0_4E_REUSE_CONTRACT_PATH, {
+        "schema_version": 1,
+        "study": STUDY,
+        "status": "FROZEN_FOR_T0_5_AND_LATER",
+        "exact_reuse_first": "scenario_id + complete PASS parameters + byte-identical deck SHA256",
+        "source_hash_drift_reuse": "electrical projection + retained PASS deck + normalized deck SHA256",
+        "electrical_parameter_fields": list(ELECTRICAL_PARAMETER_FIELDS),
+        "ignored_parameter_fields": ["source_hash", "study", "reporting-only fields"],
+        "normalized_deck_rule": "remove only lines beginning with {}".format(NON_ELECTRICAL_DECK_METADATA_PREFIX),
+        "ambiguity_policy": "reject more than one equivalent retained candidate",
+        "failed_or_partial_evidence": "never reusable",
+        "hspice_scenarios": 0,
+    })
+    write_json(T0_4E_SUPERSESSION_PATH, {
+        "schema_version": 1,
+        "study": STUDY,
+        "historical_status": "HISTORICAL_SUPERSEDED_NOT_DELETED",
+        "historical_gate": "T0-4 STOP",
+        "historical_artifact_sha256": stale_hashes,
+        "superseded_by": [
+            str((ANALYSIS / "reports" / "T0_GATE_STATUS.json").relative_to(FTC_ROOT)),
+            str((ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").relative_to(FTC_ROOT)),
+        ],
+        "reason": "corrected T0-4 GO accepts valid null negative-control durations and excludes a real second clock",
+        "hspice_scenarios": 0,
+    })
+
+    pending_row = {"status": "PENDING_T0_5", "reason": "T0-4 GO; waiting for complete single-probe phase coverage"}
+    write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", ("status", "reason"), [pending_row])
+    write_csv(ANALYSIS / "cadence" / "cadence.csv", ("status", "reason"), [{
+        "status": "PENDING_T0_5_T0_6", "reason": "T0-4 GO; cadence requires completed T0-5 windows",
+    }])
+    downstream = {
+        "schema_version": 4,
+        "study": STUDY,
+        "decision": "PENDING_T0_5_T0_6",
+        "source_gate": "T0-4 GO",
+        "precise_timing_detection_range": {"minimum_vdd_v": FORMAL_MINIMUM_VDD, "status": "not_extended_below_floor"},
+        "below_floor_requirement": {
+            "condition": "VDD_MONITORED < 0.80 V",
+            "required_semantics": ["heartbeat", "stuck_q", "timeout", "no_valid_detection_result"],
+            "precise_timing_trip_allowed": False,
+        },
+        "runtime_probe_period": {
+            "status": "PENDING_T0_5_T0_6",
+            "maximum_period_s": None,
+            "reason": "T0-4 GO unlocks phase coverage but does not yet qualify a runtime probe period",
+        },
+        "t0_4e_hspice_scenarios": 0,
+    }
+    write_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json", downstream)
+    gate.update({
+        "schema_version": 4,
+        "t0_4_status": "GO",
+        "t0_4e_status": "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE",
+        "t0_4e_reuse_contract": str(T0_4E_REUSE_CONTRACT_PATH.relative_to(FTC_ROOT)),
+        "t0_5_status": "ENABLED",
+        "t0_6_status": "WAITING_FOR_T0_5_GATE",
+        "t0_8_status": "WAITING_FOR_T0_5_T0_6",
+        "blocked_later_stages": ["T0-6"],
+    })
+    write_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json", gate)
+    write_t0_4e_report(summary, diagnostics)
+    authority = {
+        "schema_version": 1,
+        "study": STUDY,
+        "t0_4_status": "GO",
+        "formal_historical_scenario_count": 238,
+        "diagnostic_unique_electrical_case_count": 4,
+        "diagnostic_directory_run_count": len(list((RUN_ROOT / "diagnostics").glob("*/t0diag__*/scenario_manifest.json"))),
+        "diagnostic_measurement_revision_reruns": int(diagnostics.get("diagnostic_revision_runs", 0)),
+        "authority_input_sha256": t0_4e_authority_hashes(),
+        "hspice_scenarios": 0,
+        "t0_5_status_after_closure": "ENABLED",
+        "t0_6_status_after_closure": "WAITING_FOR_T0_5_GATE",
+    }
+    write_json(T0_4E_AUTHORITY_PATH, authority)
+    return authority
+
+
+def t0_3_reusable_phases(spec: Mapping[str, Any]) -> List[float]:
+    """Return the exact retained T0-3 lattice for one approved long pulse.
+
+    T0-5A may extend the open left edge of a T0-3 long-pulse map, but it must
+    not regenerate its already sampled points.  This helper reads the compact
+    T0-3 table only to choose requested phase coordinates; ``execute`` then
+    proves the matching retained deck/listing before returning each row.
+    """
+
+    rows = read_csv(
+        ANALYSIS / "phase_window" / "phase_window.csv",
+        ("baseline_vdd_v", "margin_level", "Vdroop_v", "t_hold_ps", "t_fall_ps", "t_rise_ps", "phase_ps"),
+    )
+    phases = sorted({
+        float(row["phase_ps"])
+        for row in rows
+        if float(row["baseline_vdd_v"]) == float(spec["baseline"])
+        and row["margin_level"] == spec["margin"]
+        and float(row["Vdroop_v"]) == float(spec["vdroop"])
+        and float(row["t_hold_ps"]) == float(spec["hold_ps"])
+        and float(row["t_fall_ps"]) == PRIMARY_SLEW_PS
+        and float(row["t_rise_ps"]) == PRIMARY_SLEW_PS
+    })
+    if not phases:
+        raise RuntimeError("T0-5 long pulse lacks retained T0-3 phase evidence: {}".format(spec["scenario_key"]))
+    return phases
+
+
+def t0_5_recovery_times(parameters: Mapping[str, Any]) -> Tuple[float, float]:
+    """Calculate the physical PWL recovery interval for one sampled phase.
+
+    The returned times are derived directly from the same phase/fall/hold/rise
+    values used by the renderer.  They are report annotations, not a second
+    timing model: CK crossings continue to come only from HSPICE measures.
+    """
+
+    start = probe_timing()["launch_time_s"] + float(parameters["phase_ps"]) * 1e-12
+    recovery_start = start + (float(parameters["t_fall_ps"]) + float(parameters["t_hold_ps"])) * 1e-12
+    recovery_end = recovery_start + float(parameters["t_rise_ps"]) * 1e-12
+    return recovery_start, recovery_end
+
+
+def t0_5_state(row: Mapping[str, Any], recovery_start_s: float, recovery_end_s: float) -> Tuple[str, str]:
+    """Map a real-DFF row into the mandatory T0-5 four-state vocabulary.
+
+    A stable high Q is clean only when all original validity checks pass; a
+    high Q accompanying an extra active CK edge is therefore never silently
+    promoted to detection.  An extra second CK crossing inside the recovery
+    interval (plus the 10 ps local observation guard used by T0-4) is labeled
+    ``RECOVERY_EDGE_AMBIGUOUS``.  The second return value records whether its
+    measured shape already matches the T0-4 fast-recovery model or needs a
+    single, separately justified 10 ps diagnosis.
+    """
+
+    try:
+        valid = int(row.get("valid", 0)) == 1
+    except (TypeError, ValueError):
+        valid = False
+    try:
+        q_final = int(row.get("q_final"))
+    except (TypeError, ValueError):
+        q_final = None
+    if valid and q_final == 1:
+        return "CLEAN_Q1", "NOT_APPLICABLE"
+    if valid and q_final == 0:
+        return "STABLE_Q0", "NOT_APPLICABLE"
+    second_ck = finite(row.get("t_ck_rise_2_s"))
+    recovery_guard_end = recovery_end_s + max(10.0, float(row.get("t_rise_ps", PRIMARY_SLEW_PS))) * 1e-12
+    in_recovery = second_ck is not None and recovery_start_s <= second_ck <= recovery_guard_end
+    if in_recovery:
+        known_pattern = (
+            row.get("q_state") == "stable_high"
+            and int(float(row.get("active_ck_edge_count", 0))) == 2
+        )
+        return (
+            "RECOVERY_EDGE_AMBIGUOUS",
+            "KNOWN_T0_4_FAST_RECOVERY_PATTERN" if known_pattern else "NEEDS_LOCAL_10PS_DIAGNOSIS",
+        )
+    return "OTHER_INVALID_AMBIGUOUS", "NOT_APPLICABLE"
+
+
+def annotate_t0_5_row(row: Dict[str, Any], parameters: Mapping[str, Any], spec: Mapping[str, Any],
+                      scan_stage: str) -> Dict[str, Any]:
+    """Attach phase-window semantics while preserving all real-DFF scalars.
+
+    Port-level and Q/VDD data are emitted by ``render_deck``/``classify``;
+    this function adds no electrical inference.  It makes the phase family,
+    scan origin and recovery PWL interval explicit so a CSV row can be
+    independently checked against its retained deck and HSPICE listing.
+    """
+
+    recovery_start, recovery_end = t0_5_recovery_times(parameters)
+    state, recovery_model = t0_5_state(row, recovery_start, recovery_end)
+    row.update({
+        "scenario_key": spec["scenario_key"],
+        "scenario_family": spec["scenario_family"],
+        "scan_stage": scan_stage,
+        "t0_5_state": state,
+        "recovery_start_s": recovery_start,
+        "recovery_end_s": recovery_end,
+        "recovery_model_status": recovery_model,
+    })
+    return row
+
+
+def request_t0_5_phase(context: Mapping[str, Any], spec: Mapping[str, Any], phase_ps: float,
+                       scan_stage: str, rows_by_phase: Dict[float, Dict[str, Any]],
+                       stats: Dict[str, int]) -> Dict[str, Any]:
+    """Obtain one phase point once, with source-aware retained-evidence reuse.
+
+    ``rows_by_phase`` is per electrical waveform.  It prevents a fine-boundary
+    pass from issuing the same HSPICE request a second time while retaining the
+    first row's provenance.  Phase is rounded to the measured 25 ps lattice
+    except for the one-femtosecond legal-left-limit fallback.
+    """
+
+    phase = round(float(phase_ps), 6)
+    if phase in rows_by_phase:
+        return rows_by_phase[phase]
+    parameters = parameters_for(
+        float(spec["baseline"]), str(spec["margin"]), float(spec["vdroop"]),
+        float(spec["hold_ps"]), phase, PRIMARY_SLEW_PS,
+    )
+    row = annotate_t0_5_row(execute(context, parameters, stats), parameters, spec, scan_stage)
+    rows_by_phase[phase] = row
+    return row
+
+
+def refine_t0_5_transitions(context: Mapping[str, Any], spec: Mapping[str, Any],
+                            rows_by_phase: Dict[float, Dict[str, Any]], stats: Dict[str, int]) -> None:
+    """Add 25 ps samples only inside observed coarse state transitions.
+
+    A coarse pair with equal labels carries no license to fill its interior.
+    Conversely, a changed pair is locally resolved at the frozen 25 ps
+    precision.  The loop repeats because an ambiguous point may divide one
+    coarse transition into two separately auditable interval boundaries.
+    """
+
+    while True:
+        requested = False
+        ordered = sorted(rows_by_phase)
+        for left, right in zip(ordered, ordered[1:]):
+            if rows_by_phase[left]["t0_5_state"] == rows_by_phase[right]["t0_5_state"]:
+                continue
+            phase = left + PHASE_FINE_STEP_PS
+            while phase < right - 1e-9:
+                if round(phase, 6) not in rows_by_phase:
+                    request_t0_5_phase(context, spec, phase, "BOUNDARY_FINE_25PS", rows_by_phase, stats)
+                    requested = True
+                phase += PHASE_FINE_STEP_PS
+        if not requested:
+            return
+
+
+def adaptive_t0_5_scan(context: Mapping[str, Any], spec: Mapping[str, Any], stats: Dict[str, int]) -> List[Dict[str, Any]]:
+    """Close one waveform's sampled response with minimum new phase points.
+
+    Long pulses begin from every retained T0-3 phase.  Short and special
+    pulses begin only at their approved representative phase.  Both ends are
+    expanded outward in 250 ps steps until they are stable Q0, then only
+    changed-state gaps receive 25 ps points.  The left start cannot precede
+    time zero; reaching that physical PWL limit without Q0 is a gate failure,
+    not a reason to fabricate an earlier source timestamp.
+    """
+
+    rows_by_phase: Dict[float, Dict[str, Any]] = {}
+    if bool(spec["reuse_t0_3_phase_points"]):
+        for phase in t0_3_reusable_phases(spec):
+            request_t0_5_phase(context, spec, phase, "REUSED_T0_3_PHASE_POINT", rows_by_phase, stats)
+    else:
+        request_t0_5_phase(context, spec, float(spec["seed_phase_ps"]), "REPRESENTATIVE_PHASE_SEED", rows_by_phase, stats)
+
+    # Expand each side independently.  The loop intentionally has no nominal
+    # point-count budget: its physical completion condition is a stable Q0
+    # boundary, while the explicit legal-left source time is the only limit.
+    while rows_by_phase[min(rows_by_phase)]["t0_5_state"] != "STABLE_Q0":
+        left = min(rows_by_phase)
+        candidate = max(MIN_LEGAL_PHASE_PS, left - PHASE_COARSE_STEP_PS)
+        if candidate >= left:
+            # Reaching this branch is a physical T0-5A Gate result, not a
+            # software failure.  Preserve every already requested phase so
+            # the final report can show that the earliest legal PWL start was
+            # actually simulated and still failed to close the Q1 interval.
+            raise T0_5LeftBoundaryUnclosed(spec, rows_by_phase)
+        request_t0_5_phase(context, spec, candidate, "LEFT_COARSE_EXTENSION", rows_by_phase, stats)
+    while rows_by_phase[max(rows_by_phase)]["t0_5_state"] != "STABLE_Q0":
+        right = max(rows_by_phase)
+        request_t0_5_phase(context, spec, right + PHASE_COARSE_STEP_PS, "RIGHT_COARSE_EXTENSION", rows_by_phase, stats)
+    refine_t0_5_transitions(context, spec, rows_by_phase, stats)
+    return [rows_by_phase[phase] for phase in sorted(rows_by_phase)]
+
+
+def contiguous_t0_5_intervals(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
+    """Report every observed same-state phase interval without interpolation."""
+
+    ordered = sorted({float(row["phase_ps"]): row for row in rows}.items())
+    if not ordered:
+        return []
+    intervals: List[Dict[str, Any]] = []
+    start_phase, start_row = ordered[0]
+    previous_phase, previous_row = start_phase, start_row
+    state = start_row["t0_5_state"]
+    for phase, row in ordered[1:]:
+        current = row["t0_5_state"]
+        if current != state:
+            intervals.append({
+                "state": state, "phase_start_ps": start_phase, "phase_end_ps": previous_phase,
+                "width_ps": previous_phase - start_phase,
+                "sample_count": sum(1 for _, item in ordered if start_phase <= float(item["phase_ps"]) <= previous_phase and item["t0_5_state"] == state),
+            })
+            start_phase, state = phase, current
+        previous_phase, previous_row = phase, row
+    intervals.append({
+        "state": state, "phase_start_ps": start_phase, "phase_end_ps": previous_phase,
+        "width_ps": previous_phase - start_phase,
+        "sample_count": sum(1 for _, item in ordered if start_phase <= float(item["phase_ps"]) <= previous_phase and item["t0_5_state"] == state),
+    })
+    return intervals
+
+
+def summarize_t0_5_rows(rows: Sequence[Mapping[str, Any]]) -> List[Dict[str, Any]]:
+    """Produce per-waveform intervals and gate-relevant counts from sampled rows."""
+
+    by_key: Dict[str, List[Mapping[str, Any]]] = {}
+    for row in rows:
+        by_key.setdefault(str(row["scenario_key"]), []).append(row)
+    summaries = []
+    for key, group in sorted(by_key.items()):
+        ordered = sorted(group, key=lambda row: float(row["phase_ps"]))
+        intervals = contiguous_t0_5_intervals(ordered)
+        states = [row["t0_5_state"] for row in ordered]
+        ambiguous = [row for row in ordered if row["t0_5_state"] in ("RECOVERY_EDGE_AMBIGUOUS", "OTHER_INVALID_AMBIGUOUS")]
+        non_guarantee = [item for item in intervals if item["state"] != "CLEAN_Q1"]
+        summaries.append({
+            "scenario_key": key,
+            "scenario_family": ordered[0]["scenario_family"],
+            "baseline_vdd_v": float(ordered[0]["baseline_vdd_v"]),
+            "margin_level": ordered[0]["margin_level"],
+            "Vdroop_v": float(ordered[0]["Vdroop_v"]),
+            "t_hold_ps": float(ordered[0]["t_hold_ps"]),
+            "total_pulse_ps": float(ordered[0]["t_fall_ps"]) + float(ordered[0]["t_hold_ps"]) + float(ordered[0]["t_rise_ps"]),
+            "intervals": intervals,
+            "clean_q1_intervals": [item for item in intervals if item["state"] == "CLEAN_Q1"],
+            "stable_q0_intervals": [item for item in intervals if item["state"] == "STABLE_Q0"],
+            "recovery_edge_ambiguous_intervals": [item for item in intervals if item["state"] == "RECOVERY_EDGE_AMBIGUOUS"],
+            "other_invalid_ambiguous_intervals": [item for item in intervals if item["state"] == "OTHER_INVALID_AMBIGUOUS"],
+            "maximum_non_guarantee_window_ps": max((item["width_ps"] for item in non_guarantee), default=None),
+            "sample_count": len(ordered),
+            "stable_sample_count": sum(state in ("CLEAN_Q1", "STABLE_Q0") for state in states),
+            "clean_q1_sample_count": states.count("CLEAN_Q1"),
+            "ambiguous_sample_count": len(ambiguous),
+            "clean_phase_coverage_fraction": states.count("CLEAN_Q1") / float(len(states)),
+            "left_closed_by_stable_q0": states[0] == "STABLE_Q0",
+            "right_closed_by_stable_q0": states[-1] == "STABLE_Q0",
+            "ambiguous_dominates": len(ambiguous) >= sum(state in ("CLEAN_Q1", "STABLE_Q0") for state in states),
+            "needs_local_recovery_diagnosis_count": sum(row.get("recovery_model_status") == "NEEDS_LOCAL_10PS_DIAGNOSIS" for row in ambiguous),
+        })
+    return summaries
+
+
+def t0_5_gate_ok(summaries: Sequence[Mapping[str, Any]], required_keys: Sequence[str]) -> bool:
+    """Apply the plan's physical T0-5 gate without smoothing any ambiguity."""
+
+    by_key = {item["scenario_key"]: item for item in summaries}
+    if set(required_keys) - set(by_key):
+        return False
+    for key in required_keys:
+        item = by_key[key]
+        if not item["left_closed_by_stable_q0"] or not item["right_closed_by_stable_q0"]:
+            return False
+        if not item["clean_q1_intervals"] or item["ambiguous_dominates"]:
+            return False
+        if item["other_invalid_ambiguous_intervals"] or item["needs_local_recovery_diagnosis_count"]:
+            return False
+    return True
+
+
+def write_t0_5_progress_report(stage: str, summaries: Sequence[Mapping[str, Any]], stats: Mapping[str, int],
+                               decision: str, stop_context: Optional[Mapping[str, Any]] = None) -> Path:
+    """Write an interim physical-status report without pre-claiming cadence."""
+
+    lines = [
+        "# FTC T0-5 单 probe 时间覆盖进展报告", "", "## 阶段判定", "", "**{}：{}**".format(stage, decision), "",
+        "所有区间均为已采样相位格点边界；CLEAN_Q1 之外的 Q0 或 ambiguous 区间均不计入保证检测。", "",
+        "| 场景 | 总脉冲 (ps) | CLEAN_Q1 点 | ambiguous 点 | 左/右 Q0 闭合 | 最大非保证窗口 (ps) |",
+        "|---|---:|---:|---:|---|---:|",
+    ]
+    for item in summaries:
+        lines.append("| {} | {:.1f} | {} | {} | {}/{} | {} |".format(
+            item["scenario_key"], item["total_pulse_ps"], item["clean_q1_sample_count"],
+            item["ambiguous_sample_count"], item["left_closed_by_stable_q0"],
+            item["right_closed_by_stable_q0"], item["maximum_non_guarantee_window_ps"],
+        ))
+    if stop_context is not None:
+        lines.extend([
+            "", "## T0-5A 停止证据", "",
+            "- 未闭合场景：`{}`。".format(stop_context["scenario_key"]),
+            "- 最左合法 phase：{} ps；droop 起点：{:.3e} s；恢复结束：{:.3e} s。".format(
+                stop_context["leftmost_phase_ps"], stop_context["droop_start_s"], stop_context["recovery_end_s"]),
+            "- 该点的有效 CK 上升：{:.3e} s；Q 两次归一化结果：{:.6f}、{:.6f}。".format(
+                stop_context["t_ck_rise_s"], stop_context["q_sample_1_ratio"], stop_context["q_sample_2_ratio"]),
+            "- 因 droop 在最早合法时刻开始后仍覆盖有效 CK，左侧不可能形成 STABLE_Q0；按 T0-5 Gate 停止，不执行 T0-5B 或 T0-6。",
+        ])
+    lines.extend([
+        "", "## 仿真账本", "",
+        "- 新增 HSPICE：{}；精确复用：{}；电气等价 source-hash 复用：{}。".format(
+            stats.get("new", 0), stats.get("reused_exact", 0), stats.get("reused_electrical", 0)),
+        "- 未运行 H0、M0、M1、T0-2、T0-3 已有点或 T0-4 全量场景。",
+        "- T0-6 cadence 仍未计算，除非本阶段 gate 已完成并解封。",
+    ])
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def phase_t0_5a() -> Dict[str, Any]:
+    """Run only the two-L2 T0-5A boundary and long-pulse phase closures."""
+
+    require_dl()
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    if gate.get("t0_4e_status") != "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE" or gate.get("t0_5_status") != "ENABLED":
+        raise RuntimeError("T0-5A requires the completed T0-4E unlock")
+    context, stats = frozen_context(), {"new": 0, "reused": 0}
+    rows: List[Dict[str, Any]] = []
+    stop_context: Optional[Dict[str, Any]] = None
+    unstarted_keys: List[str] = []
+    for index, spec in enumerate(T0_5A_SPECS):
+        try:
+            rows.extend(adaptive_t0_5_scan(context, spec, stats))
+        except T0_5LeftBoundaryUnclosed as error:
+            # The plan forbids a T0-5B supplement after T0-5A fails.  It also
+            # gives no authorization to launch the remaining independent
+            # T0-5A maps merely to fill a table after this decisive physical
+            # left-closure failure.  Store their identities explicitly so a
+            # reviewer can distinguish "not needed after STOP" from missing
+            # or silently failed simulations.
+            rows.extend(error.rows)
+            left_row = error.rows[0]
+            stop_context = {
+                "reason": "left_stable_q0_closure_unreachable_at_legal_time_zero_pwl_limit",
+                "scenario_key": error.spec["scenario_key"],
+                "leftmost_phase_ps": error.leftmost_phase_ps,
+                "droop_start_s": probe_timing()["launch_time_s"] + error.leftmost_phase_ps * 1e-12,
+                "recovery_end_s": left_row["recovery_end_s"],
+                "t_ck_rise_s": left_row["t_ck_rise_s"],
+                "q_sample_1_ratio": left_row["q_sample_1_ratio"],
+                "q_sample_2_ratio": left_row["q_sample_2_ratio"],
+                "observed_state": left_row["t0_5_state"],
+                "legal_phase_limit_ps": MIN_LEGAL_PHASE_PS,
+            }
+            unstarted_keys = [item["scenario_key"] for item in T0_5A_SPECS[index + 1:]]
+            break
+    summaries = summarize_t0_5_rows(rows)
+    keys = [item["scenario_key"] for item in T0_5A_SPECS]
+    decision = "GO" if stop_context is None and t0_5_gate_ok(summaries, keys) else "STOP_T0_5A"
+    write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS, rows)
+    result = {
+        "schema_version": 1, "study": STUDY, "stage": "T0-5A", "decision": decision,
+        "new_hspice": stats.get("new", 0), "reused": stats.get("reused", 0),
+        "reused_exact": stats.get("reused_exact", 0), "reused_electrical": stats.get("reused_electrical", 0),
+        "reparsed": 0, "forbidden_flow_runs": 0, "scenarios": summaries,
+        "stop_context": stop_context,
+        "unstarted_after_stop_scenario_keys": unstarted_keys,
+    }
+    write_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json", result)
+    gate.update({
+        "decision": "NO-GO / STOP" if decision != "GO" else "GO_PENDING_T0_5B",
+        "stop_stage": "T0-5A" if decision != "GO" else None,
+        "stop_reason": None if stop_context is None else stop_context["reason"],
+        "t0_5a_status": decision,
+        "t0_5_status": "T0-5A GO; T0-5B ENABLED" if decision == "GO" else "STOP_T0_5A",
+        "t0_6_status": "WAITING_FOR_T0_5_GATE" if decision == "GO" else "BLOCKED_BY_T0_5A_STOP",
+        "blocked_later_stages": ["T0-6"],
+        "t0_5_summary": str((ANALYSIS / "phase_coverage" / "phase_coverage_summary.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    write_t0_5_progress_report("T0-5A", summaries, stats, decision, stop_context)
+    return result
+
+
+def phase_t0_5b() -> Dict[str, Any]:
+    """Run the two and only two T0-5B recovery-edge supplementary maps."""
+
+    require_dl()
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    if gate.get("t0_5a_status") != "GO":
+        raise RuntimeError("T0-5B requires T0-5A GO")
+    existing = read_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS)
+    context, stats = frozen_context(), {"new": 0, "reused": 0}
+    rows: List[Dict[str, Any]] = [dict(row) for row in existing]
+    for spec in T0_5B_SPECS:
+        rows.extend(adaptive_t0_5_scan(context, spec, stats))
+    summaries = summarize_t0_5_rows(rows)
+    keys = [item["scenario_key"] for item in T0_5A_SPECS + T0_5B_SPECS]
+    decision = "GO" if t0_5_gate_ok(summaries, keys) else "STOP_T0_5B"
+    write_csv(ANALYSIS / "phase_coverage" / "phase_coverage.csv", PHASE_COVERAGE_FIELDS, rows)
+    result = {
+        "schema_version": 1, "study": STUDY, "stage": "T0-5 COMPLETE", "decision": decision,
+        "new_hspice": stats.get("new", 0), "reused": stats.get("reused", 0),
+        "reused_exact": stats.get("reused_exact", 0), "reused_electrical": stats.get("reused_electrical", 0),
+        "reparsed": 0, "forbidden_flow_runs": 0, "scenarios": summaries,
+    }
+    write_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json", result)
+    gate.update({
+        "t0_5b_status": decision,
+        "t0_5_status": "GO" if decision == "GO" else "STOP_T0_5B",
+        "t0_6_status": "ENABLED" if decision == "GO" else "WAITING_FOR_T0_5_GATE",
+        "blocked_later_stages": [] if decision == "GO" else ["T0-6"],
+        "t0_5_summary": str((ANALYSIS / "phase_coverage" / "phase_coverage_summary.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    write_t0_5_progress_report("T0-5B", summaries, stats, decision)
+    if decision != "GO":
+        raise RuntimeError("T0-5B STOP: special recovery-edge phase window gate not met")
+    return result
+
+
+def publish_t0_5a_stop_contract() -> Dict[str, Any]:
+    """Publish the no-cadence downstream contract for a physical T0-5A STOP.
+
+    This is deliberately a zero-HSPICE terminal step.  T0-6 is allowed to
+    map cadence only after every required single-probe window is closed.  A
+    legal-time-zero left edge that remains CLEAN_Q1 violates that prerequisite,
+    so this function records the exact limitation rather than constructing a
+    speculative coverage curve or assigning a fabricated probe period.
+    """
+
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    summary_path = ANALYSIS / "phase_coverage" / "phase_coverage_summary.json"
+    summary = read_json(summary_path)
+    stop_context = summary.get("stop_context")
+    if gate.get("t0_4_status") != "GO" or gate.get("t0_5a_status") != "STOP_T0_5A":
+        raise RuntimeError("T0-5A STOP contract requires current T0-4 GO and T0-5A STOP evidence")
+    if summary.get("decision") != "STOP_T0_5A" or not isinstance(stop_context, dict):
+        raise RuntimeError("T0-5A STOP contract lacks a physical left-boundary evidence record")
+
+    reason = "T0-5A long-pulse left STABLE_Q0 closure is unreachable at the legal time-zero PWL limit"
+    cadence = {
+        "schema_version": 1,
+        "study": STUDY,
+        "status": "BLOCKED_BY_T0_5A_STOP",
+        "hspice_scenarios": 0,
+        "reason": reason,
+        "source_t0_5_summary": str(summary_path.relative_to(FTC_ROOT)),
+        "runtime_probe_period": None,
+        "exact_1ns_threat_status": "NOT_QUALIFIED: T0-5 uses only its exact 1456 ps and 1190 ps boundary waveforms; cadence inference is blocked",
+    }
+    write_csv(
+        ANALYSIS / "cadence" / "coverage_vs_probe_period.csv",
+        ("status", "reason"),
+        [{"status": cadence["status"], "reason": reason}],
+    )
+    write_json(ANALYSIS / "cadence" / "cadence_summary.json", cadence)
+
+    downstream = {
+        "schema_version": 5,
+        "study": STUDY,
+        "decision": "BLOCKED_BY_T0_5A_STOP",
+        "source_gate": "T0-5A STOP",
+        "t0_5a_stop_evidence": str(summary_path.relative_to(FTC_ROOT)),
+        "precise_timing_detection_range": {
+            "minimum_vdd_v": FORMAL_MINIMUM_VDD,
+            "status": "not_extended_below_floor",
+        },
+        "below_floor_requirement": {
+            "condition": "VDD_MONITORED < 0.80 V",
+            "required_semantics": ["heartbeat", "stuck_q", "timeout", "no_valid_detection_result"],
+            "precise_timing_trip_allowed": False,
+        },
+        "threat_qualification": {
+            "exact_t0_5_boundary_waveforms_ps": [1456.0, 1190.0],
+            "exact_1ns_status": "NOT_QUALIFIED",
+            "reason": "The plan does not permit interpolating 1.000 ns from the 1.190 ns and 1.456 ns physical pulses; T0-6 is blocked before cadence mapping.",
+        },
+        "runtime_probe_period": {
+            "status": "not_qualified_T0_5A_left_window_unclosed",
+            "maximum_period_s": None,
+            "pmax_coverage_s": None,
+            "control_clock_400mhz_qualified": False,
+            "current_one_shot_nonoverlap_reference_s": 5.70e-9,
+            "reason": reason,
+        },
+        "left_boundary_evidence": stop_context,
+    }
+    write_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json", downstream)
+    return downstream
+
+
+def write_t0_5a_stop_terminal_report() -> Path:
+    """Write the final report for the current T0-5A physical STOP only.
+
+    The prior T0-4 STOP report is not valid once T0-4E has made corrected
+    T0-4 GO evidence authoritative.  This replacement names the new stop
+    stage, distinguishes completed samples from intentionally unstarted maps,
+    and keeps cadence/D0 conclusions explicitly unqualified.
+    """
+
+    gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
+    summary = read_json(ANALYSIS / "phase_coverage" / "phase_coverage_summary.json")
+    contract_data = read_json(ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json")
+    context = summary.get("stop_context")
+    if gate.get("stop_stage") != "T0-5A" or not isinstance(context, dict):
+        raise RuntimeError("T0-5A final report requires the published T0-5A STOP context")
+
+    scenario = next(
+        item for item in summary["scenarios"] if item["scenario_key"] == context["scenario_key"]
+    )
+    lines = [
+        "# FTC T0 瞬态电压跌落检测能力表征报告", "",
+        "## 最终判定", "",
+        "**NO-GO / STOP（停止阶段：T0-5A）**", "",
+        "T0-4 已纠偏并通过；但 T0-5A 的 0.95 V/L2/0.86 V、3000 ps 长脉冲在最早合法 PWL 起点仍为 CLEAN_Q1，无法在左侧形成所要求的 STABLE_Q0 闭合。按冻结计划停止 T0-5A；T0-5B、T0-6 和 D0 不得继续。", "",
+        "## T0-5A 物理停止证据", "",
+        "- 场景：`{}`；最左合法 phase：{} ps。".format(context["scenario_key"], context["leftmost_phase_ps"]),
+        "- droop 起点：{:.3e} s；恢复结束：{:.3e} s；实测有效 CK 上升：{:.3e} s。".format(
+            context["droop_start_s"], context["recovery_end_s"], context["t_ck_rise_s"]),
+        "- Q/VDD 两次归一化读数：{:.6f}、{:.6f}；四状态分类：`{}`。".format(
+            context["q_sample_1_ratio"], context["q_sample_2_ratio"], context["observed_state"]),
+        "- 3000 ps hold 从该起点持续至有效 CK 之后；不存在更早的合法 PWL 相位。该结果不能被扩展扫描、重新运行或数字 FSM 修复。", "",
+        "## 已完成与未启动范围", "",
+        "- 已完成的未闭合 0.95 V/L2 长脉冲相位点：{}；左端未闭合。".format(scenario["sample_count"]),
+        "- STOP 后未启动的 T0-5A 场景：{}。".format(
+            ", ".join("`{}`".format(item) for item in summary.get("unstarted_after_stop_scenario_keys", [])) or "无"),
+        "- T0-5B 未执行（计划规定 T0-5A GO 前禁止执行）；T0-6 未执行（不能从未闭合窗口推导 cadence）。", "",
+        "## 下游合同边界", "",
+        "- `Pmax_coverage`、400 MHz/2.5 ns 覆盖资格和运行时 probe period 均为未表征，不得推断。",
+        "- 精确 1.000 ns 威胁也未取得资格：本计划的物理边界脉冲为 1456 ps 与 1190 ps，禁止插值替代。",
+        "- `VDD_MONITORED < 0.80 V` 仅允许 heartbeat、stuck-Q、timeout 或无有效检测结果等 fail-safe 语义。", "",
+        "## 仿真与审计账本", "",
+        "- T0-5A：新增 HSPICE {}；精确复用 {}；电气等价 source-hash 复用 {}；仅重解析 0；禁止流程新增运行 0。".format(
+            summary["new_hspice"], summary.get("reused_exact", 0), summary.get("reused_electrical", 0)),
+        "- T0-4E：0 HSPICE；T0-4 既有 238 个正式场景没有重跑。",
+        "- 下游合同状态：`{}`。".format(contract_data["runtime_probe_period"]["status"]),
+    ]
+    path = REPORT_ROOT / "FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def publish_t0_5a_stop_terminal_evidence() -> Dict[str, Any]:
+    """Finish T0-8 evidence after T0-5A STOP without later characterization.
+
+    The caller runs the DL plotting script immediately before this function.
+    Here we verify its five required fresh figure slots, publish the zero-HSPICE
+    blocked cadence contract, and point the gate at the final report.  It does
+    not reuse the obsolete T0-4 STOP publication helpers, which deliberately
+    reject corrected T0-4 GO authority.
+    """
+
+    downstream = publish_t0_5a_stop_contract()
+    report = write_t0_5a_stop_terminal_report()
+    manifest_path = ANALYSIS / "figures" / "figure_manifest.json"
+    manifest = read_json(manifest_path)
+    expected = {
+        "fig_t0_1_representative_waveform", "fig_t0_2_phase_window",
+        "fig_t0_3_amplitude_duration_boundary", "fig_t0_4_margin_duration_comparison",
+        "fig_t0_5_cadence_coverage",
+    }
+    figures = manifest.get("figures", [])
+    if {item.get("figure_stem") for item in figures} != expected:
+        raise RuntimeError("T0-8 T0-5A STOP figure manifest is incomplete")
+    gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
+    gate = read_json(gate_path)
+    gate.update({
+        "decision": "NO-GO / STOP",
+        "stop_stage": "T0-5A",
+        "t0_6_status": "BLOCKED_BY_T0_5A_STOP",
+        "t0_7_status": "PASS_FAIL_SAFE_REQUIREMENT_PUBLISHED",
+        "t0_8_status": "TERMINAL_EVIDENCE_PUBLISHED",
+        "terminal_figure_manifest": str(manifest_path.relative_to(FTC_ROOT)),
+        "terminal_report": str(report.relative_to(FTC_ROOT)),
+        "downstream_contract": str((ANALYSIS / "contract" / "T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").relative_to(FTC_ROOT)),
+    })
+    write_json(gate_path, gate)
+    return {"gate": gate, "downstream_contract": downstream}
+
+
 def phase_amplitude_duration() -> Dict[str, Any]:
     """Execute T0-4's six local amplitude-duration searches after T0-3 GO."""
 
+    reject_if_t0_4_authoritative_go("amplitude-duration")
     require_dl()
     gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
     if gate.get("t0_4_status") != "ENABLED":
@@ -1980,6 +3025,7 @@ def publish_t0_4_stop() -> Dict[str, Any]:
     and it deliberately leaves D0 unimplemented.
     """
 
+    reject_if_t0_4_authoritative_go("publish_t0_4_stop")
     summary = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
     if summary.get("decision") != "STOP":
         raise RuntimeError("terminal T0-4 publication requires a T0-4 STOP")
@@ -2039,6 +3085,7 @@ def publish_t0_terminal_report() -> Path:
     NO-GO caused by retained ambiguous physical scenarios.
     """
 
+    reject_if_t0_4_authoritative_go("publish_t0_terminal_report")
     gate = read_json(ANALYSIS / "reports" / "T0_GATE_STATUS.json")
     phase = read_json(ANALYSIS / "phase_window" / "summary.json")
     amplitude = read_json(ANALYSIS / "amplitude_duration" / "summary.json")
@@ -2085,6 +3132,7 @@ def publish_t0_8_terminal_evidence() -> Dict[str, Any]:
     the compact blocked placeholders with the actual upstream stop reason.
     """
 
+    reject_if_t0_4_authoritative_go("publish_t0_8_terminal_evidence")
     gate_path = ANALYSIS / "reports" / "T0_GATE_STATUS.json"
     gate = read_json(gate_path)
     if gate.get("stop_stage") != "T0-4" or gate.get("t0_4_status") != "STOP":
@@ -2119,7 +3167,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         choices=(
             "contract", "smoke", "long-pulse", "phase-window", "amplitude-duration", "finalize-stop",
             "correction-audit", "correction-points", "long-pulse-corrected", "t0-2e",
-            "t0-4-history-correct", "t0-4-anomaly-diagnose", "t0-4-finalize-corrected",
+            "t0-4-history-correct", "t0-4-anomaly-diagnose", "t0-4-finalize-corrected", "t0-4e",
+            "t0-5a", "t0-5b", "t0-5a-stop-finalize",
         ),
         required=True,
     )
@@ -2156,6 +3205,14 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         diagnose_t0_4_anomalies()
     elif args.phase == "t0-4-finalize-corrected":
         finalize_corrected_t0_4()
+    elif args.phase == "t0-4e":
+        phase_t0_4e()
+    elif args.phase == "t0-5a":
+        phase_t0_5a()
+    elif args.phase == "t0-5b":
+        phase_t0_5b()
+    elif args.phase == "t0-5a-stop-finalize":
+        publish_t0_5a_stop_terminal_evidence()
     return 0
 
 

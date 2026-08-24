@@ -1,6 +1,5 @@
 {
   "blocked_later_stages": [
-    "T0-5",
     "T0-6"
   ],
   "constant_low_equivalent_to_m0": true,
@@ -20,7 +19,7 @@
   "reparsed_old_scenarios": 0,
   "reused_correction_points": 4,
   "reused_old_scenarios": 0,
-  "schema_version": 3,
+  "schema_version": 4,
   "stop_reason": null,
   "stop_stage": null,
   "study": "ftc_t0_transient_voltage_droop_characterization_v1",
@@ -38,10 +37,12 @@
   "t0_4_new_hspice": 8,
   "t0_4_status": "GO",
   "t0_4_summary": "analysis/t0_transient_droop/amplitude_duration/summary.json",
-  "t0_5_status": "BLOCKED_BY_USER_SCOPE_T0_4_ONLY",
-  "t0_6_status": "BLOCKED_BY_USER_SCOPE_T0_4_ONLY",
+  "t0_4e_reuse_contract": "analysis/t0_transient_droop/t0_4e_closure/electrical_reuse_contract.json",
+  "t0_4e_status": "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE",
+  "t0_5_status": "ENABLED",
+  "t0_6_status": "WAITING_FOR_T0_5_GATE",
   "t0_7_status": "PASS_FAIL_SAFE_REQUIREMENT_PUBLISHED",
-  "t0_8_status": "T0_4_CORRECTED_EVIDENCE_PUBLISHED",
+  "t0_8_status": "WAITING_FOR_T0_5_T0_6",
   "terminal_figure_manifest": "analysis/t0_transient_droop/figures/figure_manifest.json",
   "terminal_report": "reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md"
 }

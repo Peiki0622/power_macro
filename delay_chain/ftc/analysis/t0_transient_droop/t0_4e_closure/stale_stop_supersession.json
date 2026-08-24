@@ -1,0 +1,17 @@
+{
+  "historical_artifact_sha256": {
+    "analysis/t0_transient_droop/cadence/cadence.csv": "0a92cc1971bf59278c18565c9763028c04b49bf13959b553ac30a4180dbda415",
+    "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json": "d77d1cc6083c407f1aacc3fd12b149a3e05e85f227888f52534a048daf7a9007",
+    "analysis/t0_transient_droop/phase_coverage/phase_coverage.csv": "0a92cc1971bf59278c18565c9763028c04b49bf13959b553ac30a4180dbda415"
+  },
+  "historical_gate": "T0-4 STOP",
+  "historical_status": "HISTORICAL_SUPERSEDED_NOT_DELETED",
+  "hspice_scenarios": 0,
+  "reason": "corrected T0-4 GO accepts valid null negative-control durations and excludes a real second clock",
+  "schema_version": 1,
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "superseded_by": [
+    "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json",
+    "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json"
+  ]
+}

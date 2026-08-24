@@ -1,0 +1,29 @@
+{
+  "ambiguity_policy": "reject more than one equivalent retained candidate",
+  "electrical_parameter_fields": [
+    "baseline_vdd_v",
+    "margin_level",
+    "M_det",
+    "F_det",
+    "DeltaV_mv",
+    "Vdroop_v",
+    "t_fall_ps",
+    "t_hold_ps",
+    "t_rise_ps",
+    "phase_ps",
+    "control_mode"
+  ],
+  "exact_reuse_first": "scenario_id + complete PASS parameters + byte-identical deck SHA256",
+  "failed_or_partial_evidence": "never reusable",
+  "hspice_scenarios": 0,
+  "ignored_parameter_fields": [
+    "source_hash",
+    "study",
+    "reporting-only fields"
+  ],
+  "normalized_deck_rule": "remove only lines beginning with * T0_NON_ELECTRICAL_METADATA:",
+  "schema_version": 1,
+  "source_hash_drift_reuse": "electrical projection + retained PASS deck + normalized deck SHA256",
+  "status": "FROZEN_FOR_T0_5_AND_LATER",
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1"
+}

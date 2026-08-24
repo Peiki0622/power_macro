@@ -143,15 +143,70 @@ class T0TransientDroopTests(unittest.TestCase):
             self.assertEqual(rails[1][0], "first_q1_anchor")
 
     def test_terminal_gate_keeps_t0_2_pass_and_blocks_cadence(self):
-        """T0-4 GO does not authorize the explicitly out-of-scope later stages."""
+        """T0-4E unlocks T0-5 without fabricating a cadence result.
+
+        The transition is intentionally asymmetric: phase coverage may now be
+        measured, but cadence needs those completed windows and therefore
+        remains pending with no numerical maximum probe period.
+        """
 
         gate = json.loads((FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json").read_text())
         downstream = json.loads((FTC_ROOT / "analysis/t0_transient_droop/contract/T0_DOWNSTREAM_D0_TIMING_CONTRACT.json").read_text())
         self.assertEqual(gate["t0_2_status"], "T0-2 CORRECTED PASS")
         self.assertEqual(gate["t0_4_status"], "GO")
-        self.assertEqual(gate["t0_5_status"], "BLOCKED_BY_USER_SCOPE_T0_4_ONLY")
-        self.assertEqual(gate["t0_6_status"], "BLOCKED_BY_USER_SCOPE_T0_4_ONLY")
+        self.assertEqual(gate["t0_4e_status"], "PASS_ZERO_HSPICE_EVIDENCE_CLOSURE")
+        self.assertEqual(gate["t0_5_status"], "ENABLED")
+        self.assertEqual(gate["t0_6_status"], "WAITING_FOR_T0_5_GATE")
+        self.assertEqual(downstream["source_gate"], "T0-4 GO")
+        self.assertEqual(downstream["runtime_probe_period"]["status"], "PENDING_T0_5_T0_6")
         self.assertEqual(downstream["runtime_probe_period"]["maximum_period_s"], None)
+
+    def test_t0_4e_authority_hashes_and_stop_supersession_are_present(self):
+        """The T0-4E handoff must hash evidence rather than trust filenames.
+
+        This check reads the six authoritative inputs directly.  It protects
+        against a future report/gate edit leaving a stale hash record that
+        could incorrectly unlock a later physical phase.
+        """
+
+        closure = FTC_ROOT / "analysis/t0_transient_droop/t0_4e_closure"
+        authority = json.loads((closure / "authoritative_evidence_hashes.json").read_text())
+        supersession = json.loads((closure / "stale_stop_supersession.json").read_text())
+        self.assertEqual(authority["t0_4_status"], "GO")
+        self.assertEqual(authority["formal_historical_scenario_count"], 238)
+        self.assertEqual(authority["diagnostic_unique_electrical_case_count"], 4)
+        self.assertEqual(authority["hspice_scenarios"], 0)
+        self.assertEqual(len(authority["authority_input_sha256"]), 6)
+        self.assertEqual(supersession["historical_status"], "HISTORICAL_SUPERSEDED_NOT_DELETED")
+        self.assertEqual(supersession["historical_gate"], "T0-4 STOP")
+
+    def test_source_hash_drift_reuses_electrically_identical_t0_3_measurement(self):
+        """Runner growth must not rerun a retained long-pulse phase point.
+
+        The requested parameters intentionally receive the current runner
+        hash, whereas the retained T0-3 manifest carries the old one.  The
+        executor may reuse it only after the explicit electrical projection
+        and normalized transistor deck both match; this test also proves that
+        the reuse path does not need an HSPICE preflight.
+        """
+
+        parameters = study.parameters_for(0.95, "L2", 0.86, 3000.0, -1000.0)
+        stats = {"new": 0, "reused": 0}
+        row = study.execute(self.context, parameters, stats)
+        self.assertEqual(row["evidence_source"], "REUSED_RETAINED_MEASUREMENT")
+        self.assertEqual(row["reuse_reason"], "ELECTRICALLY_EQUIVALENT_SOURCE_HASH_DRIFT")
+        self.assertEqual(stats["new"], 0)
+        self.assertEqual(stats["reused_electrical"], 1)
+        self.assertEqual(row["electrical_projection_sha256"], study.electrical_projection_sha256(parameters))
+
+    def test_legacy_t0_4_entry_cannot_overwrite_corrected_go(self):
+        """Historical amplitude-duration code must fail closed after T0-4E."""
+
+        gate_path = FTC_ROOT / "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json"
+        before = gate_path.read_text()
+        with self.assertRaisesRegex(RuntimeError, "historical-only"):
+            study.phase_amplitude_duration()
+        self.assertEqual(gate_path.read_text(), before)
 
     def test_t0_4_negative_controls_and_clean_q1_boundaries(self):
         """Null duration is legal only for stable-Q0 negative controls."""

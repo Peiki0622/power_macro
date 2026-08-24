@@ -1,2 +1,2 @@
 status,reason
-BLOCKED,BLOCKED_BY_T0_4_STOP: ambiguous duration boundary with active_ck_edge_count_not_one
+PENDING_T0_5_T0_6,T0-4 GO; cadence requires completed T0-5 windows

@@ -1,0 +1,20 @@
+{
+  "authority_input_sha256": {
+    "analysis/t0_transient_droop/amplitude_duration/anomaly_diagnostics.json": "dec515c1c2fb013d65943a49d67b0166919033cd2a545803b9ac44d4432a938b",
+    "analysis/t0_transient_droop/amplitude_duration/minimum_duration_boundary.csv": "66840a8f27c9d6d26deb1b0a716ea1f4df385023e892021cbf23c6c076adb66b",
+    "analysis/t0_transient_droop/amplitude_duration/summary.json": "a524cafaf555e39765f801e4ca9036d72740ee785a9e7c3431fa13919c233632",
+    "analysis/t0_transient_droop/reports/T0_GATE_STATUS.json": "0c1c1a627ed92c4ca4afbbe02b12642a9966809992a2cc3fbde6885569d0dbee",
+    "controller/final_closure/freeze/POWER_DOMAIN_CONTRACT.json": "38e4863bfa4996659fdc896d8b026299c465d87821e831a7b96bc4a0c3bd3c45",
+    "reports/FTC_T0_TRANSIENT_DROOP_CHARACTERIZATION.md": "5f58e0bee48fe473866b04e7a7da52acd348da2b49f5fc35111ab4de25d446f1"
+  },
+  "diagnostic_directory_run_count": 8,
+  "diagnostic_measurement_revision_reruns": 4,
+  "diagnostic_unique_electrical_case_count": 4,
+  "formal_historical_scenario_count": 238,
+  "hspice_scenarios": 0,
+  "schema_version": 1,
+  "study": "ftc_t0_transient_voltage_droop_characterization_v1",
+  "t0_4_status": "GO",
+  "t0_5_status_after_closure": "ENABLED",
+  "t0_6_status_after_closure": "WAITING_FOR_T0_5_GATE"
+}
