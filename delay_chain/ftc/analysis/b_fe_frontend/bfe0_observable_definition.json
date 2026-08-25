@@ -1,0 +1,23 @@
+{
+  "bit_definition": "1 iff V(xor_i,t) > 0.5 * V(VDD_MONITORED,t); otherwise 0",
+  "derived_fields": [
+    "raw_code",
+    "start",
+    "end",
+    "len",
+    "center",
+    "run_count",
+    "bubble_count",
+    "left_headroom",
+    "right_headroom"
+  ],
+  "main_run_tie_policy": "record_all_equal_length_maximum_runs; do_not_repair_raw_code",
+  "schema_version": 1,
+  "stage": "B-FE0",
+  "tap_index_range": [
+    0,
+    29
+  ],
+  "threshold_follows_instantaneous_local_supply": true,
+  "undefined_level_policy": "exclude_interval_and_record_diagnostic"
+}

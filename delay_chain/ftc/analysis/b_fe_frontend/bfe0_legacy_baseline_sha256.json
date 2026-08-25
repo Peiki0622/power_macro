@@ -1,0 +1,57 @@
+{
+  "authority_files": {
+    "delay_chain/ftc/analysis/t0_transient_droop/cadence/cadence_summary.json": {
+      "path": "delay_chain/ftc/analysis/t0_transient_droop/cadence/cadence_summary.json",
+      "sha256": "419bbb17cdebb7b04f1f19e6c8d803d8b616b83d43cd68aaae964996f56c3100"
+    },
+    "delay_chain/ftc/analysis/t0_transient_droop/contract/T0_TRANSIENT_THREAT_CONTRACT.json": {
+      "path": "delay_chain/ftc/analysis/t0_transient_droop/contract/T0_TRANSIENT_THREAT_CONTRACT.json",
+      "sha256": "6a532c24b7f90eb4a285a5a3b8c7ef86a40b5b0120737495c4d73558cb397d7f"
+    }
+  },
+  "baseline_commit": "725855dc71ce16362a2b84bd7f4d45fe7389d7cb",
+  "byte_identity_required": true,
+  "current_commit": "cfc46d35204fa57899e6677c65f570230928584a",
+  "files": {
+    "delay_chain/ftc/discovery/selected_cells.json": {
+      "path": "delay_chain/ftc/discovery/selected_cells.json",
+      "sha256": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318"
+    },
+    "delay_chain/ftc/ftc_config.json": {
+      "path": "delay_chain/ftc/ftc_config.json",
+      "sha256": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f"
+    },
+    "delay_chain/ftc/rtl/ftc_capture_struct.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_capture_struct.sv",
+      "sha256": "7a449be8ce524f8aed36cb166d49fcc3066471250546babe8e64b50d660b78ed"
+    },
+    "delay_chain/ftc/rtl/ftc_config_pkg.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_config_pkg.sv",
+      "sha256": "dc31007b894a1491c9851f1fa5feccbf132e9917222440e364cce4be58ae04a8"
+    },
+    "delay_chain/ftc/rtl/ftc_lvt_delay_stage_struct.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_lvt_delay_stage_struct.sv",
+      "sha256": "d406919fc85763af70924cbea7c5684b39d802a08d70d799dc1d18c296239102"
+    },
+    "delay_chain/ftc/rtl/ftc_rvt_delay_stage_struct.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_rvt_delay_stage_struct.sv",
+      "sha256": "ee3c328992b7a2301aec8dda2afe408aab32b98f607fa9a09c3dcf7f2cb1d139"
+    },
+    "delay_chain/ftc/rtl/ftc_sensor.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_sensor.sv",
+      "sha256": "e63e0a344de7a2ad89cd6007f882168f2d67d8cb7413a926a8bc0bcb76a43367"
+    },
+    "delay_chain/ftc/rtl/ftc_xor_stage_struct.sv": {
+      "path": "delay_chain/ftc/rtl/ftc_xor_stage_struct.sv",
+      "sha256": "e74c43995e0a988bc49e0bb18d38bca82416c2757b9a82523bdd2591b6a1f00c"
+    },
+    "delay_chain/ftc/scripts/generate_ftc_deck.py": {
+      "path": "delay_chain/ftc/scripts/generate_ftc_deck.py",
+      "sha256": "8f7fa8bbfe487e5975bdf8ec821bfbe5c24442e25f2aa9e557c86442512881fd"
+    }
+  },
+  "legacy_xor_cell": "XOR2_X0P5M_A9TR40",
+  "legacy_xor_is_not_bfe1_evidence": true,
+  "schema_version": 1,
+  "stage": "B-FE0"
+}

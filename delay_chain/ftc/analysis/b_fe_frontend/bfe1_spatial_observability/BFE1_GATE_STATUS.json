@@ -1,0 +1,11 @@
+{
+  "all_path_monotonic": true,
+  "clean_pair_count": 2,
+  "forbidden_work_performed": false,
+  "gate": "BFE1_SPATIAL_OBSERVABILITY_GO",
+  "new_hspice_scenarios": 4,
+  "pair_count": 2,
+  "reason": "both formal baselines have a positive-width, interior, stable common discrimination platform",
+  "schema_version": 1,
+  "stage": "B-FE1"
+}
