@@ -13,7 +13,8 @@ def test_l0_manifest_is_fixed_pair_and_zero_hspice():
     assert manifest["fixed_sample_close_ps"] == 534.524618567
     assert manifest["new_hspice_scenarios"] == 0
     assert manifest["gate"] == "BFE2_L0_SAFE_DOMAIN_PASS"
-    assert manifest["vcs_execution"]["status"] == "blocked"
+    assert manifest["vcs_execution"]["status"] == "passed"
+    assert manifest["xa_execution"]["status"] == "passed"
 
 
 def test_l0_ideal_replay_has_no_post_close_crossing_and_is_distinguishable():

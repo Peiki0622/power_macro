@@ -2,10 +2,10 @@
 // B-FE2-L0 VCS behavioral replay testbench
 //
 // The bench replays the immutable B-FE2.2C normal/L2 stimulus.  Thirty scalar
-// real variables are used instead of unpacked real arrays because the host
-// VCS front end crashes while finalizing unpacked-real aggregate designs.
-// The scalar names are the 30 modular XOR, safe_d, and Q ports; macro calls
-// below expand the identical equation for every tap without hiding a tap.
+// real variables are used instead of unpacked real arrays so the 30 modular
+// XOR, safe_d, and Q ports stay explicit in both the source and output record.
+// Macro calls below expand the identical equation for every tap without
+// hiding a tap or changing the fixed 30-tap topology.
 // ============================================================================
 `timescale 1ps/1ps
 
@@ -16,6 +16,10 @@ module tb_bfe2_l0;
     integer output_fd;
     integer rc;
     integer row_count;
+    // The replay file has one human-readable column contract line.  Consume
+    // it explicitly before numeric scanning so VCS does not interpret the
+    // leading '#' as a failed numeric conversion at time zero.
+    string input_header;
     real time_ps;
     real previous_time_ps;
     real delta_ps;
@@ -72,6 +76,8 @@ module tb_bfe2_l0;
         q_10=0.0; q_11=0.0; q_12=0.0; q_13=0.0; q_14=0.0; q_15=0.0; q_16=0.0; q_17=0.0; q_18=0.0; q_19=0.0;
         q_20=0.0; q_21=0.0; q_22=0.0; q_23=0.0; q_24=0.0; q_25=0.0; q_26=0.0; q_27=0.0; q_28=0.0; q_29=0.0;
 
+        if ($fgets(input_header, input_fd) == 0)
+            $fatal(1, "L0_FAIL missing replay header");
         while (!$feof(input_fd)) begin
             rc = $fscanf(input_fd, "%f %f %f", time_ps, vdd_sense_voltage, g_voltage);
             if (rc != 3) break;
@@ -88,10 +94,30 @@ module tb_bfe2_l0;
             `L0_STEP(xor_21,safe_d_21,q_21); `L0_STEP(xor_22,safe_d_22,q_22); `L0_STEP(xor_23,safe_d_23,q_23);
             `L0_STEP(xor_24,safe_d_24,q_24); `L0_STEP(xor_25,safe_d_25,q_25); `L0_STEP(xor_26,safe_d_26,q_26);
             `L0_STEP(xor_27,safe_d_27,q_27); `L0_STEP(xor_28,safe_d_28,q_28); `L0_STEP(xor_29,safe_d_29,q_29);
+            /* Legacy aggregate writes below were accepted by the old remote
+             * compiler but the local W-2024.09 front end detects their
+             * format/argument mismatch.  They remain visible as history and
+             * are replaced by explicit ten-tap writes after the comment.
             $fwrite(output_fd, "%0.9f %0.9f %0.9f %0.9f", time_ps, vdd_sense_voltage, FIXED_PD_SAFE_V, g_voltage);
             $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", xor_0, xor_1, xor_2, xor_3, xor_4, xor_5, xor_6, xor_7, xor_8, xor_9, xor_10, xor_11, xor_12, xor_13, xor_14, xor_15, xor_16, xor_17, xor_18, xor_19, xor_20, xor_21, xor_22, xor_23, xor_24, xor_25, xor_26, xor_27, xor_28, xor_29);
             $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", safe_d_0, safe_d_1, safe_d_2, safe_d_3, safe_d_4, safe_d_5, safe_d_6, safe_d_7, safe_d_8, safe_d_9, safe_d_10, safe_d_11, safe_d_12, safe_d_13, safe_d_14, safe_d_15, safe_d_16, safe_d_17, safe_d_18, safe_d_19, safe_d_20, safe_d_21, safe_d_22, safe_d_23, safe_d_24, safe_d_25, safe_d_26, safe_d_27, safe_d_28, safe_d_29);
             $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_7, q_8, q_9, q_10, q_11, q_12, q_13, q_14, q_15, q_16, q_17, q_18, q_19, q_20, q_21, q_22, q_23, q_24, q_25, q_26, q_27, q_28, q_29);
+            */
+            // Re-emit the complete fixed-width probe record.  The first four
+            // fields are time, source-domain supply, safe-domain supply, and
+            // latch gate; each following group is explicitly ten taps.
+            $fwrite(output_fd, "%0.9f %0.9f %0.9f %0.9f", time_ps, vdd_sense_voltage, FIXED_PD_SAFE_V, g_voltage);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", xor_0, xor_1, xor_2, xor_3, xor_4, xor_5, xor_6, xor_7, xor_8, xor_9);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", xor_10, xor_11, xor_12, xor_13, xor_14, xor_15, xor_16, xor_17, xor_18, xor_19);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", xor_20, xor_21, xor_22, xor_23, xor_24, xor_25, xor_26, xor_27, xor_28, xor_29);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", safe_d_0, safe_d_1, safe_d_2, safe_d_3, safe_d_4, safe_d_5, safe_d_6, safe_d_7, safe_d_8, safe_d_9);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", safe_d_10, safe_d_11, safe_d_12, safe_d_13, safe_d_14, safe_d_15, safe_d_16, safe_d_17, safe_d_18, safe_d_19);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", safe_d_20, safe_d_21, safe_d_22, safe_d_23, safe_d_24, safe_d_25, safe_d_26, safe_d_27, safe_d_28, safe_d_29);
+            // Emit Q in three explicit ten-tap groups: 30 conversions and
+            // 30 arguments, with each group mapping to a modular tap range.
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", q_0, q_1, q_2, q_3, q_4, q_5, q_6, q_7, q_8, q_9);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", q_10, q_11, q_12, q_13, q_14, q_15, q_16, q_17, q_18, q_19);
+            $fwrite(output_fd, " %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f %0.9f", q_20, q_21, q_22, q_23, q_24, q_25, q_26, q_27, q_28, q_29);
             $fwrite(output_fd, "\n");
             previous_time_ps = time_ps;
             row_count = row_count + 1;

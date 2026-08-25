@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Prepare and remotely run the two B-FE2-L0 VCS behavior scenarios.
+"""Prepare and locally run the two B-FE2-L0 VCS behavior scenarios.
 
 The source waveforms are the immutable B-FE2.2C normal and formal 0.95->0.86 V
 L2 traces.  This runner converts only their existing sampled probes into a
 task-scoped whitespace stimulus file; it does not regenerate HSPICE, alter
-the 4/0 delay chain, or select another close time.  VCS P-2019.06-SP2 runs on
-the configured EDA host through SSH port 40022, as required for host-only
-mixed-signal work in this repository.
+the 4/0 delay chain, or select another close time.  VCS and PrimeSim XA are
+invoked from their verified container-local W-2024.09 installations.
 """
 
 import hashlib
@@ -28,21 +27,19 @@ ANALYSIS_ROOT = FTC_ROOT / "analysis" / "b_fe_frontend" / "bfe2_real_latch"
 SNAPSHOT_ROOT = ANALYSIS_ROOT / "real_snapshot"
 L0_ROOT = ANALYSIS_ROOT / "l0"
 SOURCE_ROOT = L0_ROOT / "src"
-RUN_ROOT = FTC_ROOT / "runs" / "b_fe_frontend" / "bfe2_real_latch" / "l0"
+# Keep the prior remote/offline L0 directory immutable.  This new directory is
+# the sole task-scoped home for local W-2024.09 VCS/XA evidence.
+RUN_ROOT = FTC_ROOT / "runs" / "b_fe_frontend" / "bfe2_real_latch" / "l0_local_vcs_xa"
 BFE2C_MANIFEST = SNAPSHOT_ROOT / "BFE2_2C_SCENARIO_MANIFEST.json"
 SEED_JSON = SNAPSHOT_ROOT / "safe_seed_revised" / "BFE2_2S_REVISED_SELECTED_SEED.json"
 SCENARIO_IDS = ("BFE2L-095-N", "BFE2L-095-L2")
 FIXED_CLOSE_PS = 534.524618567
 FIXED_PD_SAFE_V = 0.95
-HOST_USER = "zhupl@166.111.78.45"
-HOST_PORT = "40022"
-LOCAL_ROOT = Path("/home/zhupl25")
-HOST_ROOT = Path("/home/zhupl/rocky8/container-home/zhupl25")
-# The host wrapper derives ``$VCS_HOME/linux``; this installation instead
-# exposes its verified 64-bit compiler under ``linux64/bin``. Keeping the
-# executable explicit records the exact tool used by this causal experiment.
-VCS_BIN = "/home/soft/synopsys/vcs/P-2019.06-SP2/linux64/bin/vcs1"
-VCS_VERSION = "VCS P-2019.06-SP2_Full64"
+VCS_BIN = "/home/synopsys/vcs/W-2024.09/bin/vcs"
+VCS_VERSION = "VCS W-2024.09_Full64"
+XA_BIN = "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09/bin/xa"
+XA_VERSION = "PrimeSim XA W-2024.09 linux64"
+XA_DEMO_SOURCE = Path("/home/zhupl25/synopsys/pt_xa/xa/W-2024.09/doc/tutorials/interactive")
 
 
 def read_json(path: Path) -> Dict[str, Any]:
@@ -78,6 +75,12 @@ def source_trace_path(scenario_id: str) -> Path:
             scenario_id.lower().replace("-", "_") / "bfe2c_corrected.tr0")
 
 
+def source_deck_path(scenario_id: str) -> Path:
+    """Return the immutable B-FE2.2C deck paired with the retained .tr0."""
+
+    return source_trace_path(scenario_id).with_suffix(".sp")
+
+
 def validate_inputs() -> List[Mapping[str, Any]]:
     """Freeze the pair identity and reject any close/L2 drift before running."""
 
@@ -93,6 +96,8 @@ def validate_inputs() -> List[Mapping[str, Any]]:
     for entry in entries:
         if not source_trace_path(entry["scenario_id"]).is_file():
             raise FileNotFoundError("missing immutable BFE2.2C trace")
+        if not source_deck_path(entry["scenario_id"]).is_file():
+            raise FileNotFoundError("missing immutable BFE2.2C deck")
     return entries
 
 
@@ -193,36 +198,108 @@ test -s {output_file}
             "host": "166.111.78.45", "run_dir": host_run}
 
 
+def run_local_vcs(run_dir: Path) -> Dict[str, str]:
+    """Compile and execute one fixed replay with container-local VCS.
+
+    The executable and all compiler databases stay under this scenario's
+    task-scoped directory.  No HSPICE command is issued here: the only input
+    is the already frozen B-FE2.2C sampled stimulus.
+    """
+
+    executable = run_dir / "simv_local_w2024_09"
+    compile_log = run_dir / "compile_local.log"
+    run_log = run_dir / "run_local.log"
+    probe = run_dir / "l0_probe.dat"
+    if not executable.is_file():
+        compile_command = [VCS_BIN, "-full64", "-sverilog",
+                           "-timescale=1ps/1ps", "-o", str(executable),
+                           "bfe2_l0_behavior_model.sv", "tb_bfe2_l0.sv"]
+        with compile_log.open("w", encoding="utf-8") as stream:
+            result = subprocess.run(compile_command, cwd=run_dir, stdout=stream,
+                                    stderr=subprocess.STDOUT, check=False,
+                                    timeout=900)
+        if result.returncode != 0:
+            raise RuntimeError("local VCS compile failed: {}".format(run_dir))
+    else:
+        compile_log.write_text("reused local VCS executable {}\n".format(executable.name),
+                               encoding="utf-8")
+    run_command = [str(executable), "+INPUT={}".format(run_dir / "stimulus.dat"),
+                   "+OUTPUT={}".format(probe)]
+    with run_log.open("w", encoding="utf-8") as stream:
+        result = subprocess.run(run_command, cwd=run_dir, stdout=stream,
+                                stderr=subprocess.STDOUT, check=False,
+                                timeout=900)
+    if result.returncode != 0 or not probe.is_file() or probe.stat().st_size == 0:
+        raise RuntimeError("local VCS replay failed: {}".format(run_dir))
+    if "L0_PASS" not in run_log.read_text(encoding="utf-8"):
+        raise RuntimeError("local VCS replay lacks L0_PASS: {}".format(run_dir))
+    version_log = run_dir / "vcs_version.txt"
+    with version_log.open("w", encoding="utf-8") as stream:
+        subprocess.run([VCS_BIN, "-ID"], stdout=stream, stderr=subprocess.STDOUT,
+                       check=False, timeout=60)
+    return {"compile_log": str(compile_log), "run_log": str(run_log),
+            "probe": str(probe), "version_log": str(version_log),
+            "executable": str(executable)}
+
+
+def run_xa_official_demo(run_root: Path) -> Dict[str, str]:
+    """Run the vendor tutorial with local XA and retain only task evidence.
+
+    This is an environment/tool validation, not an extra B-FE2 electrical
+    scenario.  The L0 causal decision still comes solely from the two fixed
+    B-FE2.2C replays above.
+    """
+
+    demo = run_root / "xa_official_demo"
+    if not demo.exists():
+        shutil.copytree(XA_DEMO_SOURCE, demo)
+    result_dir = demo / "RESULT"
+    result_dir.mkdir(exist_ok=True)
+    xa_log = run_root / "xa_demo.log"
+    with xa_log.open("w", encoding="utf-8") as stream:
+        result = subprocess.run([XA_BIN, "top.spi", "-o", "RESULT/xa"], cwd=demo,
+                                stdout=stream, stderr=subprocess.STDOUT,
+                                check=False, timeout=900)
+    version_log = run_root / "xa_version.txt"
+    with version_log.open("w", encoding="utf-8") as stream:
+        subprocess.run([XA_BIN, "-version"], stdout=stream,
+                       stderr=subprocess.STDOUT, check=False, timeout=60)
+    log_text = xa_log.read_text(encoding="utf-8")
+    if result.returncode != 0 or "Total number of comparison errors = 0" not in log_text:
+        raise RuntimeError("local XA official demo failed")
+    return {"tool": XA_VERSION, "binary": XA_BIN,
+            "log": str(xa_log), "version_log": str(version_log),
+            "result_log": str(result_dir / "xa.log")}
+
+
 def main() -> int:
     """Prepare and run exactly two fixed-close L0 scenarios."""
 
     entries = validate_inputs()
+    RUN_ROOT.mkdir(parents=True, exist_ok=True)
+    xa_evidence = run_xa_official_demo(RUN_ROOT)
     results = []
     for entry in entries:
         run_dir = RUN_ROOT / entry["scenario_id"].lower().replace("-", "_")
         if run_dir.exists() and (run_dir / "l0_probe.dat").is_file():
             disposition = "reused"
         elif run_dir.exists():
-            # A failed remote compile leaves only this task's own source and
+            # A failed local compile leaves only this task's own source and
             # log files.  Reuse that isolated directory after verifying the
             # required inputs, rather than deleting artifacts destructively.
-            required = (run_dir / "stimulus.dat", run_dir / "bfe2_l0_behavior_model.sv",
-                        run_dir / "tb_bfe2_l0.sv")
-            if not all(path.is_file() for path in required):
-                raise FileExistsError("partial L0 run directory lacks required inputs: {}".format(run_dir))
-            # Refresh only this task's copied sources after a compile-only
-            # failure.  The replay stimulus remains byte-identical evidence;
-            # no source waveform or close point is regenerated.
+            run_dir.mkdir(parents=True, exist_ok=True)
             for source in (SOURCE_ROOT / "bfe2_l0_behavior_model.sv", SOURCE_ROOT / "tb_bfe2_l0.sv"):
                 shutil.copyfile(source, run_dir / source.name)
-            run_remote(run_dir)
+            if not (run_dir / "stimulus.dat").is_file():
+                write_stimulus(entry, run_dir / "stimulus.dat")
+            run_local_vcs(run_dir)
             disposition = "new"
         else:
             run_dir.mkdir(parents=True)
             for source in (SOURCE_ROOT / "bfe2_l0_behavior_model.sv", SOURCE_ROOT / "tb_bfe2_l0.sv"):
                 shutil.copyfile(source, run_dir / source.name)
-            stimulus = write_stimulus(entry, run_dir / "stimulus.dat")
-            run_remote(run_dir)
+            write_stimulus(entry, run_dir / "stimulus.dat")
+            run_local_vcs(run_dir)
             disposition = "new"
         probe = run_dir / "l0_probe.dat"
         results.append({"scenario_id": entry["scenario_id"], "baseline_v": entry["baseline_v"],
@@ -230,19 +307,28 @@ def main() -> int:
                         "run_disposition": disposition, "probe_sha256": sha256_file(probe),
                         "stimulus_sha256": sha256_file(run_dir / "stimulus.dat"),
                         "source_tr0_sha256": sha256_file(source_trace_path(entry["scenario_id"])),
-                        "compile_log_sha256": sha256_file(run_dir / "compile.log"),
-                        "run_log_sha256": sha256_file(run_dir / "run.log"),
+                        "source_deck_sha256": sha256_file(source_deck_path(entry["scenario_id"])),
+                        "compile_log_sha256": sha256_file(run_dir / "compile_local.log"),
+                        "run_log_sha256": sha256_file(run_dir / "run_local.log"),
                         "tool": VCS_VERSION, "compiler": VCS_BIN,
+                        "vcs_version_log_sha256": sha256_file(run_dir / "vcs_version.txt"),
                         "pd_safe_v": FIXED_PD_SAFE_V,
                         "record_width": 124, "probe_columns": 94})
-    manifest = {"schema_version": 1, "stage": "B-FE2-L0", "tool_flow": "remote_VCS_behavior_model",
+    manifest = {"schema_version": 2, "stage": "B-FE2-L0", "tool_flow": "local_VCS_behavior_model_plus_XA_preflight",
                 "new_hspice_scenarios": 0, "new_vcs_scenarios": sum(item["run_disposition"] == "new" for item in results),
                 "scenario_ids": list(SCENARIO_IDS), "requested_close_ps": FIXED_CLOSE_PS,
                 "fixed_pd_safe_v": FIXED_PD_SAFE_V, "source_bfe2_2c_manifest_sha256": sha256_file(BFE2C_MANIFEST),
                 "source_bfe2_2c_analysis_sha256": sha256_file(SNAPSHOT_ROOT / "corrected_seed" / "BFE2_2C_ANALYSIS.json"),
+                "vcs_execution": {"status": "passed", "tool": VCS_VERSION, "compiler": VCS_BIN},
+                "xa_execution": {"status": "passed", "tool": xa_evidence["tool"],
+                                  "binary": xa_evidence["binary"],
+                                  "log": str(Path(xa_evidence["log"]).relative_to(FTC_ROOT)),
+                                  "result_log": str(Path(xa_evidence["result_log"]).relative_to(FTC_ROOT))},
                 "results": results}
     L0_ROOT.mkdir(parents=True, exist_ok=True)
     (L0_ROOT / "BFE2_L0_SCENARIO_MANIFEST.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (RUN_ROOT / "BFE2_L0_LOCAL_RUN_MANIFEST.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print("BFE2_L0_VCS_PAIR_COMPLETE new={}".format(manifest["new_vcs_scenarios"]))
     return 0
 

@@ -1,4 +1,9 @@
 {
+  "artifact_sha256": {
+    "analysis_script": "5574968c46b8484aaa60d3d00493df720e9d9278a32f4690165b447e86843cee",
+    "behavior_model": "5bad25680dd3d74f55b9bbfdb92e0b24c9b3f3d6c478d3964ce45c41b2d3d641",
+    "testbench": "26907026b527bb33b243345e172c825e3329cc031ce0ccbeb9bd1840dcaec6b7"
+  },
   "causal_interpretation": "Ideal PD_SAFE restoration plus transparent-high latch hold removes source-domain re-flips in deterministic replay; this does not prove a physical level shifter.",
   "final_q_hamming_distance": 10,
   "final_q_min_bit_margin_v": 0.475,
@@ -16,7 +21,11 @@
       "probe_sha256": "916c143bc9589db8d58bd5dbf8e89883f2bb6ade1777f30585010467713f51e3",
       "q_stable": true,
       "record_count": 415,
-      "scenario_id": "BFE2L-095-N"
+      "run_disposition": "reused",
+      "scenario_id": "BFE2L-095-N",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_tr0_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "stimulus_sha256": "226432ed58acac0dff4bb603d1f3a8b2f88219c7ebaa6461f4ed1300bdfa258d"
     },
     {
       "all_q_full_swing": true,
@@ -27,20 +36,32 @@
       "probe_sha256": "6d08e405af4b2684f0aa265b4d0a8d9b7ef1cbf0ec39421460ecf6fe71d19679",
       "q_stable": true,
       "record_count": 443,
-      "scenario_id": "BFE2L-095-L2"
+      "run_disposition": "reused",
+      "scenario_id": "BFE2L-095-L2",
+      "source_deck_sha256": "852e38065b51b53c4ceab34d14e1c5e02c764d9bbc91a85ab23160a92c6ddbec",
+      "source_tr0_sha256": "4f2d275977320018ec7b3af23b7b8318cdb91f856a000046ec7ef36ac7403679",
+      "stimulus_sha256": "46ecda450ea7533c5463ee16dfc29ae8108f14177ae94408bad9b1a3a42b23f4"
     }
   ],
   "scenario_ids": [
     "BFE2L-095-N",
     "BFE2L-095-L2"
   ],
-  "schema_version": 1,
+  "schema_version": 2,
+  "source_bfe2_2c_analysis_sha256": "566260f01383502901adc5d4069ffc40188e02303493081ead26a1334c8ab58a",
+  "source_bfe2_2c_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
   "stage": "B-FE2-L0",
   "vcs_execution": {
-    "compile_logs_retained": true,
-    "host": "166.111.78.45",
-    "status": "blocked",
-    "tool": "VCS P-2019.06-SP2_Full64"
+    "compiler": "/home/synopsys/vcs/W-2024.09/bin/vcs",
+    "status": "passed",
+    "tool": "VCS W-2024.09_Full64"
   },
-  "verification_mode": "offline_replay_due_vcs_compile_block"
+  "verification_mode": "local_vcs_behavior_replay_with_xa_preflight",
+  "xa_execution": {
+    "binary": "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09/bin/xa",
+    "log": "runs/b_fe_frontend/bfe2_real_latch/l0_local_vcs_xa/xa_demo.log",
+    "result_log": "runs/b_fe_frontend/bfe2_real_latch/l0_local_vcs_xa/xa_official_demo/RESULT/xa.log",
+    "status": "passed",
+    "tool": "PrimeSim XA W-2024.09 linux64"
+  }
 }

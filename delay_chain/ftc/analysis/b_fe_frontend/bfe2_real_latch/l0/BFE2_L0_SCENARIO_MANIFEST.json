@@ -7,19 +7,24 @@
     {
       "probe_sha256": "916c143bc9589db8d58bd5dbf8e89883f2bb6ade1777f30585010467713f51e3",
       "record_count": 415,
-      "scenario_id": "BFE2L-095-N"
+      "scenario_id": "BFE2L-095-N",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_tr0_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c"
     },
     {
       "probe_sha256": "6d08e405af4b2684f0aa265b4d0a8d9b7ef1cbf0ec39421460ecf6fe71d19679",
       "record_count": 443,
-      "scenario_id": "BFE2L-095-L2"
+      "scenario_id": "BFE2L-095-L2",
+      "source_deck_sha256": "852e38065b51b53c4ceab34d14e1c5e02c764d9bbc91a85ab23160a92c6ddbec",
+      "source_tr0_sha256": "4f2d275977320018ec7b3af23b7b8318cdb91f856a000046ec7ef36ac7403679"
     }
   ],
   "scenario_ids": [
     "BFE2L-095-N",
     "BFE2L-095-L2"
   ],
-  "schema_version": 1,
+  "schema_version": 2,
+  "source_bfe2_2c_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
   "source_trace_root": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/corrected_seed_534p525ps",
   "stage": "B-FE2-L0"
 }

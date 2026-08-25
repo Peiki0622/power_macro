@@ -10,4 +10,4 @@ L2 final Q: `000000000001111111111111000000`
 
 Hamming distance: `10`
 
-No post-close Q crossing/re-flip was observed in either deterministic L0 replay. VCS compilation was attempted remotely and its finalizer exited 255; therefore this PASS is an offline ideal-model causal result, not evidence that a real level shifter is implemented. `new_hspice_scenarios=0`.
+No post-close Q crossing/re-flip was observed in either deterministic L0 replay. Local VCS W-2024.09 compiled and executed both fixed stimuli; the local PrimeSim XA W-2024.09 official tutorial also completed with zero comparison errors. This PASS proves only that ideal PD_SAFE restoration plus ideal transparent-latch isolation removes the observed failure in this replay; it does not prove a physical level shifter implementation. `new_hspice_scenarios=0`.
