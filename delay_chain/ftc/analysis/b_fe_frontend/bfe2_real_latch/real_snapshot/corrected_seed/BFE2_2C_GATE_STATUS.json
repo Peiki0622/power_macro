@@ -1,0 +1,11 @@
+{
+  "bfe2_3_authorized": false,
+  "gate": "BFE2_2C_CORRECTED_SEED_FAILED",
+  "genuine_reflip_taps": [
+    27
+  ],
+  "new_hspice_scenarios": 0,
+  "reason": "corrected seed has a genuine source-free post-close Q re-flip or unresolved tap; retain B-FE2.2 conditional and stop before B-FE2.3",
+  "stage": "B-FE2.2C-analysis",
+  "unresolved_taps": []
+}

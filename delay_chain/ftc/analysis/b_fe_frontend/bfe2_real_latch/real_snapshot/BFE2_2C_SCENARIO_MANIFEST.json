@@ -1,0 +1,130 @@
+{
+  "authorization_gate": "BFE2_2S_SAFE_SEED_READY",
+  "authorized_new_scenarios": 2,
+  "corrected_seed_interval_ps": [
+    530.1252872210888,
+    538.923949913254
+  ],
+  "historical_evidence_preserved": {
+    "first_attempt_manifest": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_SCENARIO_MANIFEST.json",
+    "retry_manifest": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_RETRY_MANIFEST.json",
+    "root_cause": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/root_cause/BFE2_2R_ROOT_CAUSE.json"
+  },
+  "input_sha256": [
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/safe_seed_revised/BFE2_2S_REVISED_SELECTED_SEED.json",
+      "sha256": "2f44a8809ef1de1991b60217f21dd39488a14ce7f1875d45b0b27114c9b83fc9"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/safe_seed_revised/BFE2_2S_REVISED_GATE_STATUS.json",
+      "sha256": "a640fbd803cc2b7b9efcde40657cdd3c684fafef45bbcd8927d3a5cfd2681aae"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_GATE_STATUS.json",
+      "sha256": "2ee2008dfe959e67d6589f2d2157e1d7543bc0f72be75519466b0f5163044527"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/latch_load/BFE2_1_SCENARIO_MANIFEST.json",
+      "sha256": "e9a93e661a2051685da53b15124eb6fd337f7298798cde89101f2d9e2948c189"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_SCENARIO_MANIFEST.json",
+      "sha256": "ad12c7d5f352b52916f2049d3d8651969a1464c7f6ffa89f3e0756c42e85482f"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_RETRY_MANIFEST.json",
+      "sha256": "b37f4e2afa9a521e756f801466d690a155ce8d093e76c76830a89035a4be2f00"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/root_cause/BFE2_2R_ROOT_CAUSE.json",
+      "sha256": "f74829cec108b5f57423ecacb0ea59758ef87724bf66fa406f5df6c0a9cf758d"
+    }
+  ],
+  "new_hspice_scenarios": 2,
+  "requested_close_ps": 534.5246185671714,
+  "scenario_ids": [
+    "BFE2L-095-N",
+    "BFE2L-095-L2"
+  ],
+  "scenarios": [
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "droop_v": null,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "droop_v": null,
+        "g_edge_width_ps": 1.0,
+        "g_pwl": "one finite 1ps falling edge at corrected requested close",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "lvt_initial_stages": 0,
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "observable_taps": 30,
+        "phase_ps": null,
+        "requested_close_ps": 534.5246185671714,
+        "rvt_initial_stages": 4,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "stage": "B-FE2.2C",
+        "topology_version": "bfe2_real_latch_30tap_4over0_corrected_seed_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "42f3ea14b5da8974f834eef1b9fa0e08f3d92c6e6c66b815768f1c3ec33df36b",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": null,
+      "record_count": 415,
+      "record_width": 124,
+      "requested_close_ps": 534.5246185671714,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-N",
+      "stage": "B-FE2.2C",
+      "tr0_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c"
+    },
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "852e38065b51b53c4ceab34d14e1c5e02c764d9bbc91a85ab23160a92c6ddbec",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "g_edge_width_ps": 1.0,
+        "g_pwl": "one finite 1ps falling edge at corrected requested close",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "lvt_initial_stages": 0,
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "observable_taps": 30,
+        "phase_ps": 75.0,
+        "requested_close_ps": 534.5246185671714,
+        "rvt_initial_stages": 4,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "stage": "B-FE2.2C",
+        "topology_version": "bfe2_real_latch_30tap_4over0_corrected_seed_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "18eac8ccbe7aaa4e3954dcd3d82aa6138123da521a071fde50e2c1bcf20d95c3",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 75.0,
+      "record_count": 443,
+      "record_width": 124,
+      "requested_close_ps": 534.5246185671714,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-L2",
+      "stage": "B-FE2.2C",
+      "tr0_sha256": "4f2d275977320018ec7b3af23b7b8318cdb91f856a000046ec7ef36ac7403679"
+    }
+  ],
+  "schema_version": 1,
+  "stage": "B-FE2.2C",
+  "total_bfe2_2_new_hspice_scenarios": 8
+}
