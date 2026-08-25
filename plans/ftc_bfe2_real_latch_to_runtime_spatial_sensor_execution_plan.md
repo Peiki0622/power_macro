@@ -1,838 +1,590 @@
-# FTC 候选 B：从真实锁存器到运行时空间码检测的逐阶段执行计划
+# FTC 候选 B：从受监测域空间感知到安全域可靠捕获的逐阶段执行计划
 
-> 本文件是候选 B 的唯一阶段执行计划。2026-08-25 在 B-FE2.2R 根因闭合后修订。Codex 必须按 Gate 顺序推进；没有满足当前阶段 Gate 时，不得越级实现后续阶段。
+> 本文件是候选 B 在 `bfe-multitap-latched-frontend` 分支上的唯一阶段执行计划。2026-08-25 在 B-FE2.2C 失败与 B-FE2-L0 安全域因果验证通过后重构。Codex 必须严格按 Gate 顺序推进；不得继续沿旧的“在 PD_SENSE 内寻找新的 latch close”路线试点。
 
 ---
 
-# 0. 当前冻结状态与本轮修订
+# 0. 当前冻结状态与本轮架构纠偏
 
 当前工作分支：
 
 `bfe-multitap-latched-frontend`
 
-本计划最初起点：
+本轮计划重构依据的最新验证提交：
 
-`b4aaec19349344ef503e369c4300f78fa40a7be7`
+`cad9610c8c37f45950a6b35dbc04e6f535abe0e2`
 
-B-FE2.2R 根因闭合提交：
+当前已经成立、后续不得通过重复仿真重新争论的事实如下。
 
-`c5097c911c39f83f7977ddeb9b5cad8ed22938b0`
+1. B-FE0/B-FE1/B-FE1R 已证明“4 级 RVT 前缀 / 0 级 LVT 前缀 + 30 对 RVT/LVT 抽头 + 30 个真实 `XOR2_X0P5M_A9TL40`”能够形成随电压状态移动的空间信息；该感知几何目前继续冻结。
+2. B-FE2.0/B-FE2.1 已证明真实 `LATQ_X0P5M_A9TR40` 的连接、透明高/下降关闭语义，以及 30 个 latch D 负载不会破坏前端空间可观测性。B-FE2.1 已执行 4 个新 HSPICE 场景，Gate 为 `BFE2_1_LATCH_LOAD_GO`。
+3. 历史 B-FE2.2 在 `PD_SENSE/VDD_MONITORED` 内直接使用真实 latch 关闭，共执行 6 个新 HSPICE 场景；B-FE2.2R 用 0 个新 HSPICE 闭合了首次失败/retry 的因果分析。
+4. B-FE2.2S 的“必须无任何 in-flight D→Q”规则曾得到 BLOCKED；修订后允许单次正常关闭后解析，离线选出 `sample_close=534.524618567 ps`。这两个 B-FE2.2S 版本都作为方法学历史证据保留，不得覆盖。
+5. B-FE2.2C 在同一个 `sample_close=534.524618567 ps` 上又执行了 0.95 V normal 与 0.95→0.86 V formal L2 两个新物理场景，使 B-FE2.2 系列真实 HSPICE 累计达到 8 个。normal 的 tap27 出现一次可由 pre-close D 解释的 Q 上翻，随后出现 source-free Q 下翻，因此 Gate 为 `BFE2_2C_CORRECTED_SEED_FAILED`；不得再把此失败解释为“只需要第四/第五个关闭点”。
+6. B-FE2-L0 严格保持同一 0.95 V normal/L2 stimulus、同一 30 路 XOR 波形和同一 `sample_close=534.524618567 ps`，仅把 XOR 后的接收/锁存语义改成：以 `VDD_SENSE` 为参考进行理想 0/1 恢复，并在固定 `PD_SAFE=0.95 V` 的理想透明高 latch 中保持。该验证通过本地 VCS W-2024.09 行为 replay；PrimeSim XA W-2024.09 的官方 tutorial/preflight 也通过，但 XA tutorial 不是该 30-tap 电路的实际 transistor-level co-simulation。
+7. B-FE2-L0 Gate 为 `BFE2_L0_SAFE_DOMAIN_PASS`：normal 最终 Q 为 `000000000000000111111111111111`，L2 最终 Q 为 `000000000001111111111111000000`，Hamming distance=10；两边均无 post-close Q crossing/re-flip，最终 Q 全摆幅、稳定。
+8. B-FE2-L0 只证明：**理想电压域恢复 + 安全域理想锁存语义能够消除当前已观察到的失败，同时保留空间可分辨性**。它不证明真实 level shifter 已存在，也不证明真实 `LATQ_X0P5M_A9TR40` 在 `PD_SAFE` 下已经通过。
+9. 因此从本提交起，候选 B 的主问题从“在受监测域继续寻找更好的 G close”改为“建立并逐步收敛 `PD_SENSE → 跨域恢复接口 → PD_SAFE 捕获` 的物理契约”。
 
-当前已经成立、后续不得重复争论的事实如下。
-
-1. B-FE0/B-FE1/B-FE1R 已证明候选 B 的“30 个 RVT/LVT 对应抽头 + 30 个真实低阈值异或门”的空间观测机制成立。
-2. B-FE2.0 已冻结真实透明锁存器 `LATQ_X0P5M_A9TR40`，其 `G` 为高电平透明、下降沿进入保持状态。
-3. B-FE2.1 已真实加入 30 个 `LATQ_X0P5M_A9TR40` 的 D 输入负载，4 个必要 HSPICE 场景已经完成，Gate 为 `BFE2_1_LATCH_LOAD_GO`。30 个真实锁存器输入负载没有破坏空间可观测机制。
-4. B-FE2.2 已经执行 6 个真实关闭 HSPICE 场景：首轮 4 个，加 0.95 V normal/L2 一对替代关闭点。当前正式 Gate 仍是 `BFE2_2_REAL_SNAPSHOT_CONDITIONAL`，不能直接进入 B-FE2.3。
-5. B-FE2.2R 使用已有波形、0 个新 HSPICE，已得到 `BFE2_2R_ROOT_CAUSE_CONFIRMED`。
-6. 0.95 V normal retry 的 tap 6 中，关闭前 XOR/D 下穿事件可以通过 B-FE2.1 透明态实测 D→Q 延迟解释第一次关闭后 Q 下穿；之后的 Q 上穿没有时间一致的 D 上穿来源，因此是真正的外部 Q 关闭后再翻转。具体内部反馈晶体管未被探测，不得声称已直接观察到内部反馈节点。
-7. 根因是：旧 B-FE2.2 关闭种子直接来自 XOR `RAW_CODE` 平台，没有考虑真实透明锁存器 D→Q 传播、尚在传播中的 pre-close D 事件以及关闭 setup/hold（建立/保持）行为。
-8. B-FE2.2R 已生成 `BFE2_1_TRANSPARENT_DQ_TIMING.json`、`BFE2_2R_ROOT_CAUSE.json` 和 `BFE2_2R_EVIDENCE_LEDGER.json`。这些是后续关闭种子选择的权威输入。
-9. 物理仿真记账冻结为：B-FE2.1 已执行 4 个新 HSPICE；B-FE2.2 已执行 6 个新 HSPICE；B-FE2.2R 为 0 个新 HSPICE。
-
-因此，本计划现在**不能原样从旧 B-FE2.2 跳到 B-FE2.3**。必须先插入：
+本轮正式废止旧的主链：
 
 ```text
-B-FE2.2S  安全关闭种子离线重建，0 HSPICE
-    |
-    v
-B-FE2.2C  根因修正后的最后一对 0.95 V 确认仿真，最多 2 HSPICE
-    |
-    +-- 失败 --> 停止，不得继续试新的关闭点
-    |
-    v
-BFE2_2_REAL_SNAPSHOT_GO
-    |
-    v
-B-FE2.3   真实关闭安全窗口自适应闭合
+B-FE2.2C FAIL
+   -> 再找 corrected seed
+   -> B-FE2.3 在 PD_SENSE 内扫 global-G aperture
 ```
 
-B-FE2.2C 是对旧 B-FE2.2 “每个失败基线最多一个替代点”规则的一次**明确、受控、仅此一次的计划修订例外**。原因是前两个 0.95 V 关闭点都来自已经被 B-FE2.2R 证明错误的 XOR-only 种子规则。这个例外不能泛化成继续试第三、第四、第五个点。
+新的唯一主链为：
+
+```text
+B-FE2-L0   DONE / ideal restoration + ideal safe-domain latch / PASS
+    |
+    v
+B-FE2-L1A  ideal restoration + REAL LATQ @ PD_SAFE
+    |
+    +-- FAIL --> 停止，进入 capture-cell review；不得靠换 close 掩盖
+    |
+    v
+B-FE2-L1B  REAL LATQ @ PD_SAFE + bounded non-ideal crossing model
+    |
+    +-- FAIL --> 输出 interface-spec BLOCKED/INCONCLUSIVE
+    |
+    v
+B-FE2-L2   集成 PD_SENSE 前端 + 跨域接口模型 + PD_SAFE 真实捕获
+    |
+    +-- FAIL --> 回到接口/负载/捕获契约复审，不改 sensing geometry
+    |
+    v
+B-FE2-L3   在新跨域架构上闭合真实 sample-close aperture
+    |
+    v
+BFE2_SAFE_DOMAIN_FRONTEND_GO
+    |
+    v
+B-FE3 / B-FE4 / B-FE5
+```
 
 ---
 
 # 1. 最终宏的唯一主路线
 
-候选 B 的主结构继续冻结为：
+从本轮开始，候选 B 的电源域边界固定为：
 
 ```text
                          S_CLK
                            |
-             +-------------+-------------+
-             |                           |
-        4级RVT前缀                    0级LVT前缀
-             |                           |
-        30级RVT路径                  30级LVT路径
-             |                           |
-      rvt_0 ... rvt_29            lvt_0 ... lvt_29
-             |                           |
-             +-------------+-------------+
+              +------------+------------+
+              |                         |
+         4级RVT前缀                  0级LVT前缀
+              |                         |
+         30级RVT路径                30级LVT路径
+              |                         |
+       rvt_0 ... rvt_29          lvt_0 ... lvt_29
+              |                         |
+              +------------+------------+
                            |
-                30 x XOR2_X0P5M_A9TL40
+                 30 x XOR2_X0P5M_A9TL40
                            |
-                   xor_0 ... xor_29
+                    xor_0 ... xor_29
+                           |
+                  [ PD_SENSE 边界 ]
+                           |
+          30 x voltage-domain restoration interface
+                           |
+                    safe_d_0 ... safe_d_29
+                           |
+                   [ PD_SAFE 边界 ]
                            |
                 30 x LATQ_X0P5M_A9TR40
                            |
-                   q_0 ... q_29
+                     q_0 ... q_29
                            |
                     稳定30位空间码
                            |
                  START / END / LEN / CENTER
                            |
-             +-------------+-------------+
-             |                           |
-          启动自校准                  运行时检测
-             |
-             v
-       可编程 sample_close
+              +------------+------------+
+              |                         |
+           启动自校准                运行时检测
+              |
+              v
+       trusted programmable sample_close
 ```
 
-`sample_close` 的含义固定为“30 个真实透明锁存器公共 G 的关闭时刻”。它不是旧架构中的 D 型触发器时钟。
+电源职责固定为：
 
-如果当前 4/0 前缀、30 抽头、当前 XOR/LATQ 单元最终在 B-FE2 无法形成正宽度真实关闭安全区，应输出阻塞或几何复审 Gate；不得未经新计划自行恢复旧的窄脉冲 DFF 路线。
+- `PD_SENSE / VDD_MONITORED`：只承担对被监测电压敏感的 RVT/LVT delay path 与 XOR 空间信息形成。
+- `PD_SAFE / VDD_SAFE`：承担真实 latch 捕获、空间码保存与后续数字处理；研究阶段首先固定 `VDD_SAFE=0.95 V` 以保持 B-FE2-L0 连续性。
+- `sample_close/G` 必须属于可信控制/安全域语义，不能再由受跌落电源直接决定可靠性。
+- `PD_SENSE → PD_SAFE` 之间必须存在显式的跨电压域恢复接口。SMIC40 当前数字库未提供可直接使用的真实 level-shifter cell，因此研究阶段允许用 VCS/VCS-AMS/RNM/Verilog-AMS 或等价 mixed-signal 行为模型定义接口 contract；该模型不得被描述成已实现的物理 level shifter。
+
+`sample_close` 仍表示 30 个捕获单元公共 G 的关闭时刻，但只有在 B-FE2-L2 证明完整跨域结构成立后，才允许进入新的 aperture 搜索。
 
 ---
 
 # 2. 永久防跑偏规则
 
-以下行为在本分支禁止，除非人工明确再次修改本计划：
+以下行为在本分支禁止，除非人工再次修改本计划。
 
 - 禁止恢复 `xor_29` 单点检测主线。
-- 禁止把 XOR 脉冲或延迟后的 XOR 脉冲直接作为最终 DFF 时钟。
-- 禁止继续把“脉冲拉宽到满足 DFF 最小高/低脉宽”当作候选 B 主路线。
-- 禁止把旧 M/F 中调/细调码表直接当成新 `sample_close` 的已验证码表。
-- 禁止把旧 T0 的 2075 ps 直接宣布为候选 B 最终运行时重复探测周期。
-- 禁止为了得到更漂亮数据擅自改变 4/0 前缀、30 抽头、正式 L2 波形、正式基线或 LVT XOR 身份。
-- 禁止在 B-FE2 完成前做 PVT、Monte Carlo、全攻击相位、面积裁剪、运行时 FSM 或复杂告警逻辑。
-- 禁止通过修改判据、威胁波形或丢弃失败场景让 Gate 变成 GO。
-- 禁止再使用“XOR `RAW_CODE` 平台中点”直接产生真实锁存器 G 关闭时刻。
-- 禁止把 B-FE2.2R 使用的 5 ps 因果分类容差当成设计安全余量、setup、hold、抖动余量或 B-FE3 细调精度要求。
+- 禁止把 XOR 脉冲或延迟 XOR 脉冲直接作为 DFF clock。
+- 禁止回到“脉冲拉宽满足 DFF minimum pulse width”作为候选 B 主路线。
+- 禁止在 B-FE2-L1A/L1B/L2 通过前继续尝试新的 `sample_close`、新的 G 相位或新的 G sweep。
+- 禁止为了修 Gate 修改 4/0 prefix、30 taps、正式 0.95→0.86 V L2 波形、LVT XOR 单元身份或 B-FE2.2C 固定 close。
+- 禁止把 B-FE2-L0 的理想行为 latch 称为真实 `LATQ_X0P5M_A9TR40` 验证。
+- 禁止把 PrimeSim XA 官方 tutorial/preflight PASS 称为候选 B 电路已经完成 XA mixed-signal 验证。
+- 禁止把 B-FE2-L0 的 `xor > 0.5*VDD_SENSE` 零延迟恢复模型称为真实 level shifter。
+- 禁止把接口做成理想模型后直接进入 PVT/Monte Carlo/signoff；必须先经过 L1A、L1B、L2。
+- 禁止用行为模型删除、滤掉或手工压制 XOR 毛刺来制造 PASS；任何 pulse rejection/min-pulse 行为必须在 L1B 中作为显式接口参数研究。
+- 禁止把 B-FE2.2R 的 5 ps 因果分类容差当作接口延迟、setup/hold、安全余量或 G 精度。
+- 禁止把旧 T0 的 2075 ps 或旧 M/F codebook 直接继承为新架构运行时参数。
+- 禁止覆盖、删除或重命名 B-FE2.2/B-FE2.2R/B-FE2.2S/B-FE2.2C 的失败工件；这些是架构转向的冻结证据。
+- 禁止在 B-FE2-L3 之前做大规模 PVT、Monte Carlo、全攻击相位、面积裁剪、运行时 FSM 或复杂 alarm logic。
 
 ---
 
-# 3. 仿真复用与物理运行预算
-
-这是硬规则。
+# 3. 证据复用与仿真记账
 
 ## 3.1 先复用后运行
 
-准备任何 HSPICE 前，必须检查已有：
+任何新仿真前必须先检查并记录：
 
-- deck；
-- `.tr0`；
-- `.lis`；
-- HSPICE 命令记录；
-- 电气签名；
+- 输入 stimulus 来源；
+- deck / testbench / behavior model；
+- `.tr0` / replay probe / simulator log；
+- simulator 与版本；
+- 电气/行为签名；
 - SHA256；
-- 阶段 JSON/报告。
+- source commit；
+- Gate JSON / report。
 
-如果拓扑、单元、供电波形、输入波形、G 波形/关闭时刻、模型和其他电气参数完全一致，必须复用已有结果，不允许“为了保险”重跑。
+拓扑、源波形、close、供电和模型完全一致时必须复用，禁止“为了保险”重跑。
 
-## 3.2 不得因为离线分析变化而重跑
-
-下列变化只能复用已有 `.tr0`：
-
-- 修报告；
-- 修图；
-- 修改候选排序；
-- 增加派生指标；
-- 修解析器；
-- 补 SHA/manifest；
-- 调整 root-cause 分类逻辑但不改变电路/激励。
-
-## 3.3 当前累计预算
+## 3.2 当前冻结记账
 
 ```text
-B-FE2.1  已执行 4 个新 HSPICE
-B-FE2.2  已执行 6 个新 HSPICE
-B-FE2.2R 已执行 0 个新 HSPICE
-B-FE2.2S 预算严格为 0
-B-FE2.2C 最多再执行 2 个新 HSPICE
-B-FE2.3 在通过 B-FE2.2C 后最多额外执行 16 个新 HSPICE
+B-FE2.1        4 个新 HSPICE
+B-FE2.2历史    6 个新 HSPICE
+B-FE2.2C       2 个新 HSPICE
+B-FE2.2R/S     0 个新 HSPICE
+B-FE2-L0       0 个新 HSPICE；本地 VCS 行为 replay PASS
 ```
 
-因此 B-FE2.2 最终物理场景总数不得超过 8。
+因此旧 `PD_SENSE` latch-close 路线已经有 8 个真实关闭 HSPICE 场景，禁止继续追加“另一个 close”。
+
+## 3.3 新路线预算
+
+- B-FE2-L1A：最多 **2 个新的真实 latch transistor-level/mixed-signal 场景**，仅 0.95 V normal/L2 固定 pair。
+- B-FE2-L1B：优先行为/mixed-signal 参数实验，不得大范围暴力 sweep；在明确接口参数边界前不得新增感知链 HSPICE。
+- B-FE2-L2：第一轮最多 2 个 0.95 V integrated pair；只有 PASS 后才允许最多再加 2 个 1.10 V integrated pair。
+- B-FE2-L3：只有 L2 PASS 后才允许新的 sample-close aperture 搜索，预算另行由 L2 结果收敛，不得预先继承旧 B-FE2.3 的 16 场景额度。
+
+“物理场景”按电气签名计数，而不是按脚本调用次数计数。
 
 ---
 
-# 4. 从当前状态开始的阶段总图
-
-已经完成的阶段不得为了重复生成结果而重跑。
+# 4. 当前阶段总图
 
 ```text
-B-FE2.0  DONE / BFE2_0_LATCH_CONTRACT_READY
-   |
-B-FE2.1  DONE / BFE2_1_LATCH_LOAD_GO / 4 HSPICE
-   |
-B-FE2.2  DONE但未通过 / BFE2_2_REAL_SNAPSHOT_CONDITIONAL / 6 HSPICE
-   |
-B-FE2.2R DONE / BFE2_2R_ROOT_CAUSE_CONFIRMED / 0 HSPICE
-   |
-   v
-B-FE2.2S 安全关闭种子离线重建 / 0 HSPICE
-   |
-   +-- BLOCKED/INCONCLUSIVE --> 停止，不得运行新关闭点
-   |
-   v
-B-FE2.2C 只运行 0.95 V normal/L2 最后一对确认 / 最多2 HSPICE
-   |
-   +-- FAIL --> 停止，输出复审 Gate，不得继续试点
-   |
-   v
-BFE2_2_REAL_SNAPSHOT_GO
-   |
-   v
-B-FE2.3 真实关闭安全窗口自适应闭合 / 最多额外16 HSPICE
-   |
-   v
-BFE2_READY_FOR_BFE3
-   |
-   v
-B-FE3 中调/细调重构为可编程 sample_close 生成器
-   |
-   v
-B-FE4 空间码启动自校准
-   |
-   v
-B-FE5 运行时电压跌落检测与覆盖闭合
-   |
-   v
-后续 PVT / Monte Carlo / 版图寄生 / 物理集成 / 面积优化
+B-FE1/B-FE1R  空间可观测性                  DONE
+       |
+B-FE2.1       真实 latch D-load              DONE / GO
+       |
+B-FE2.2/R/S/C 旧 PD_SENSE latch-close 路线   FROZEN HISTORY
+       |                                     BFE2_2C_CORRECTED_SEED_FAILED
+       |
+       +----------------------------------------------+
+                                                      |
+B-FE2-L0      ideal restoration + ideal PD_SAFE latch DONE / PASS
+                                                      |
+                                                      v
+B-FE2-L1A     ideal restoration + REAL LATQ @ PD_SAFE    <-- NEXT
+                                                      |
+                         +----------------------------+------------------+
+                         | FAIL                                          | PASS
+                         v                                               v
+              CAPTURE_CELL_REVIEW_REQUIRED                       B-FE2-L1B
+              不得换 close 掩盖失败                      bounded non-ideal interface
+                                                                         |
+                                                                         v
+                                                                    B-FE2-L2
+                                                      integrated PD_SENSE->PD_SAFE
+                                                                         |
+                                                                         v
+                                                                    B-FE2-L3
+                                                        safe-domain sample-close aperture
+                                                                         |
+                                                                         v
+                                                      BFE2_SAFE_DOMAIN_FRONTEND_GO
+                                                                         |
+                                                                         v
+                                                          B-FE3 / B-FE4 / B-FE5
 ```
 
-每个新的子阶段必须独立提交并发布机器可读 Gate。一个提交不得跨越两个尚未解锁的阶段。
+每个新子阶段必须独立提交并发布机器可读 Gate。一个提交不得跨越两个尚未解锁的阶段。
 
 ---
 
-# 5. 已完成阶段的冻结结论
+# 5. 历史阶段冻结结论
 
-## 5.1 B-FE2.0
+## 5.1 B-FE2.1
 
-冻结 `LATQ_X0P5M_A9TR40`，`G` 高透明、下降关闭；XOR 和 latch 均属于 `PD_SENSE / VDD_MONITORED`。B-FE2 研究阶段的 G 仍允许理想外部源，真实控制域与分发属于 B-FE3。
+B-FE2.1 继续作为前端加载证据使用，但其“latch 与 XOR 同在 PD_SENSE”的供电连接不再代表最终宏拓扑。
+
+其权威价值仅包括：
+
+- 30 个真实 latch D 负载未破坏空间可观测性；
+- 已保存 30 路真实 XOR 与透明态 D→Q 历史；
+- 提供旧架构 closing-race 的因果对照。
+
+不得因为最终 latch 移到 `PD_SAFE` 就删除这些数据。
+
+## 5.2 B-FE2.2 / B-FE2.2R / B-FE2.2S / B-FE2.2C
+
+这些阶段统一改为 **FROZEN HISTORICAL EVIDENCE**。
+
+它们证明：
+
+- 在 `PD_SENSE` 内同时让 sensing path、XOR 与真实 latch 经历受监测供电，会产生难以通过单一 global G close 稳健消除的 closing/re-flip 行为；
+- 修改 seed 语义可以改变失败 tap，却没有给出足够理由继续用新的 close 试点；
+- B-FE2.2C 的 final normal/L2 code 仍有可分辨信息，因此感知信息本身并未消失。
+
+它们不再授权 B-FE2.3。
+
+---
+
+# 6. B-FE2-L0：安全域 Level-0 因果验证
+
+状态：**DONE**
 
 Gate：
 
-`BFE2_0_LATCH_CONTRACT_READY`
+`BFE2_L0_SAFE_DOMAIN_PASS`
 
-不得为本阶段新增 HSPICE。
-
-## 5.2 B-FE2.1
-
-真实结构：
+固定条件：
 
 ```text
-rvt_i ----+
-          +-- XOR2_X0P5M_A9TL40 --> xor_i --> D LATQ_X0P5M_A9TR40 Q --> q_i
-lvt_i ----+                                  G=持续高
+source stimulus: B-FE2.2C immutable 0.95-V normal/L2 XOR waveforms
+sample_close:    534.524618567 ps
+PD_SAFE:         0.95 V
+interface:       safe_d=0.95 V if xor>0.5*VDD_SENSE else 0 V
+interface delay: 0
+interface slew:  ideal
+hysteresis/X:    none
+latch:           ideal transparent-high / hold-low behavior
 ```
 
-四个正式场景已完成：
+冻结结果：
 
-- 0.95 V normal；
-- 0.95→0.86 V L2；
-- 1.10 V normal；
-- 1.10→0.96 V L2。
+```text
+normal final Q = 000000000000000111111111111111
+L2 final Q     = 000000000001111111111111000000
+Hamming        = 10
+post-close Q crossings = 0 / 0
+re-flip taps           = [] / []
+```
 
-Gate：
-
-`BFE2_1_LATCH_LOAD_GO`
-
-后续必须继续复用 `BFE2_1_TRANSPARENT_DQ_TIMING.json` 中 30 路真实透明态 D→Q 交叉事件和 Q 空间码稳定区。
-
-## 5.3 B-FE2.2 / B-FE2.2R
-
-B-FE2.2 的 6 个真实关闭场景全部保留为不可变历史证据。first attempt 与 retry 不能互相覆盖。
-
-当前 Gate：
-
-`BFE2_2_REAL_SNAPSHOT_CONDITIONAL`
-
-B-FE2.2R Gate：
-
-`BFE2_2R_ROOT_CAUSE_CONFIRMED`
-
-B-FE2.2R 的根因结论只证明旧关闭种子规则错误，不等价于真实快照已经 GO。
+L0 的唯一结论是：安全域恢复方向有继续研究价值。L0 不允许直接跳到 B-FE3。
 
 ---
 
-# 6. B-FE2.2S：安全关闭种子离线重建
+# 7. B-FE2-L1A：理想跨域恢复 + 真实 LATQ@PD_SAFE
 
 这是 Codex 从当前提交之后**必须立即执行的下一阶段**。
 
-本阶段严格 0 HSPICE。
-
-## 6.1 唯一目标
-
-从已有 B-FE2.1/B-FE2.2/B-FE2.2R 波形中，程序化建立“真实透明锁存器可以安全关闭”的 normal/L2 公共候选区，并只在存在物理上合理的正宽度区间时选出一个 0.95 V 研究关闭种子。
-
-本阶段不是再次给 XOR 平台排序。
-
-## 6.2 权威输入
-
-至少读取并校验：
-
-```text
-latch_load/BFE2_1_SCENARIO_MANIFEST.json
-latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json
-latch_load/BFE2_1_GATE_STATUS.json
-real_snapshot/BFE2_2_SCENARIO_MANIFEST.json
-real_snapshot/BFE2_2_RETRY_MANIFEST.json
-real_snapshot/BFE2_2_GATE_STATUS.json
-real_snapshot/root_cause/BFE2_2R_ROOT_CAUSE.json
-real_snapshot/root_cause/BFE2_2R_EVIDENCE_LEDGER.json
-BFE2_0_LATCH_CELL_AUDIT.json
-```
-
-必须验证 SHA/场景身份/电压条件一致，不得手抄时间常数替代权威工件。
-
-## 6.3 正确的安全关闭候选定义
-
-对每个基线分别处理 normal 和 L2，然后取两者交集。
-
-候选时刻 `t_close` 必须同时满足：
-
-1. normal/L2 使用同一个 `t_close`。
-2. `t_close` 位于两边都干净、非空、非碎裂、非贴 tap 边界、无未定义位的 **Q 空间码稳定区**，而不是只看 XOR 空间码。
-3. 对所有在 `t_close` 前已经发生、并会改变所观察 Q 码的 D/XOR 事件，必须利用对应 B-FE2.1 透明态实测 D→Q 延迟证明其 Q 响应已经在 `t_close` 前完成。若存在 `D < t_close` 但预测 `Q > t_close` 的 in-flight 事件，该时刻直接禁止。
-4. 对 `t_close` 附近的下一次 D 事件，必须检查 hold（保持）风险；不得只因为 Q 当前不跳变就认为安全。
-5. 必须考虑锁存器 G 下降沿实际阈值交叉相对 requested close 的偏差；后续候选应使用“实际 G 关闭”的语义，而不是假定 PWL 命令时刻就是内部有效关闭时刻。
-6. 必须应用可获得的 Liberty setup/hold 约束；若库中没有与该研究电压完全匹配且可直接使用的约束，禁止编造数值。
-7. 若缺少可直接适用的 Liberty 数值，允许本阶段形成一个**研究用经验关闭候选**，但必须显式标为 provisional（暂定），并用已有 transistor-level（晶体管级）D→Q、Q 稳定区、G 实测交叉、历史失败事件构造等效风险边界。这个等效边界只用于授权 B-FE2.2C 的一次确认仿真，不得宣称为 signoff setup/hold。
-8. B-FE2.2R 的 5 ps `classification_tolerance_ps` 仅用于判断一个 Q 事件是否与历史 D 事件时间一致，禁止直接作为第 6/7 条中的安全余量。
-
-可把核心禁止条件表达为：
-
-```text
-存在某个 pre-close D 事件 d：
-    d.time < t_close
-且 d.time + measured_DQ_delay > t_close
-=> t_close 禁止
-```
-
-但实现时必须逐 tap、逐方向使用真实测得的 D→Q 数据，不能只用一个全局平均值。
-
-## 6.4 normal/L2 公共安全区
-
-对 0.95 V 与 1.10 V 分别生成：
-
-- normal Q 稳定区；
-- L2 Q 稳定区；
-- 去除 in-flight D 风险后的区间；
-- setup/hold 或 provisional 等效风险收缩后的区间；
-- normal/L2 最终公共候选区；
-- 每个公共候选区中的 normal/L2 最终空间码、汉明距离、START/END/LEN/CENTER；
-- 左右最近失败机制与 tap；
-- 到最近 Q crossing、D crossing、预测 Q arrival、G 关闭风险边界的距离。
-
-如果候选区只有数学单点或宽度在数值误差量级内，不得视为 READY。
-
-## 6.5 种子排序
-
-只有已经满足 6.3/6.4 的候选区才允许排序。
-
-优先级依次为：
-
-1. 最小物理时间余量最大；
-2. normal/L2 两边都远离风险边界；
-3. 位于观察空间中部；
-4. 空间码无碎裂、无未定义位；
-5. normal/L2 可分辨性清楚；
-6. 不靠近 tap 0/29。
-
-禁止先按汉明距离或平台宽度挑点，再事后检查真实锁存器时序。
-
-最终只能选择 **一个 0.95 V normal/L2 共用的 corrected seed（根因修正关闭种子）** 供 B-FE2.2C 使用。
-
-1.10 V 已有通过的 B-FE2.2 正式 pair，不得因为本阶段重新排序而重跑。可以离线检查它是否也符合新规则；若不符合，应把 B-FE2.2S Gate 降为 INCONCLUSIVE 并停止，而不是偷偷挑新 1.10 V 点运行。
-
-## 6.6 输出
-
-建议新增：
-
-```text
-real_snapshot/safe_seed/
-  BFE2_2S_SAFE_INTERVALS.json
-  BFE2_2S_SELECTED_SEED.json
-  BFE2_2S_GATE_STATUS.json
-  BFE2_2S_REPORT.md
-```
-
-至少保存：
-
-- 所有输入 SHA；
-- 所有候选区及被剔除原因；
-- 选中候选点的 normal/L2 同时满足条件的证据；
-- margin 来源是 Liberty 还是 provisional transistor-level equivalent；
-- 1.10 V 历史通过 pair 对新规则的离线一致性检查；
-- `new_hspice_scenarios = 0`。
-
-## 6.7 Gate
-
-### `BFE2_2S_SAFE_SEED_READY`
-
-必须满足：
-
-- 0.95 V normal/L2 存在正宽度公共安全区；
-- 能选出唯一 corrected seed；
-- 所有相关 pre-close D 事件均不存在未完成 D→Q 传播；
-- setup/hold 或明确标注的 provisional 等效风险处理已完成；
-- 1.10 V 历史通过 pair 与新规则不存在明显冲突；
-- 0 个新 HSPICE。
-
-### `BFE2_2S_SAFE_SEED_INCONCLUSIVE`
-
-存在 Q 稳定交集，但无法用已有证据排除 in-flight/setup/hold 风险，或 1.10 V 历史通过点与新规则冲突。
-
-### `BFE2_2S_SAFE_SEED_BLOCKED`
-
-0.95 V normal/L2 在真实 Q 稳定与 D→Q 完成条件下没有任何正宽度公共候选区。
-
-只有 READY 才允许进入 B-FE2.2C。
-
----
-
-# 7. B-FE2.2C：根因修正后的最后一对确认仿真
-
-只有 `BFE2_2S_SAFE_SEED_READY` 才能进入。
-
-这是对 B-FE2.2 的**最后一次、仅一对、根因修正后的计划授权确认**。
-
-## 7.1 唯一目标
-
-用 B-FE2.2S 选出的 corrected seed，验证 0.95 V normal 和正式 0.95→0.86 V L2 在同一真实 G 关闭时刻下，都能冻结稳定、可解析、可分辨的 30 位 Q 空间码。
-
-## 7.2 仿真矩阵
-
-最多只允许两个新场景：
-
-```text
-0.95 V normal @ corrected seed
-0.95 -> 0.86 V formal L2 @ 同一个 corrected seed
-```
-
-不允许：
-
-- 重跑 1.10 V；
-- 再试第二个 corrected seed；
-- 在失败后自动扫参；
-- 更改前缀、tap、XOR、LATQ；
-- 做 PVT/Monte Carlo；
-- 提前做 B-FE2.3。
-
-运行前必须先建立电气签名并确认仓库中不存在完全相同的历史场景；若已存在则直接复用。
-
-## 7.3 必须检查
-
-对两个场景都检查：
-
-- 实测 G 关闭阈值交叉；
-- `xor_0..29` / `q_0..29`；
-- 所有关闭后 Q crossing；
-- 关闭后是否存在 genuine re-flip；
-- 是否存在未完成的 in-flight D 事件；
-- Q 最终空间码是否非空、无严重碎裂、无未定义位；
-- normal/L2 是否可分辨；
-- START/END/LEN/CENTER、汉明距离；
-- 最慢 Q 解析时间；
-- 离最近失败 tap/时间边界的余量。
-
-B-FE2.2R 的因果分类逻辑可以复用，但必须区分：
-
-- 正常的 pre-close in-flight 解析；
-- 真正关闭后 source-free re-flip。
-
-corrected seed 的设计目标应使前者在有效 G 关闭前已经完成；若仍出现，应视为种子规则没有真正修正。
-
-## 7.4 成功条件
-
-只有两个场景同时满足：
-
-- 30 个 Q 最终均明确解析；
-- 没有真正关闭后再翻转；
-- 没有影响目标空间码的未完成 pre-close D→Q 传播；
-- normal/L2 均得到稳定空间码；
-- normal/L2 空间码可区分；
-- 证据完整；
-
-才能把 B-FE2.2 正式 Gate 更新为：
-
-`BFE2_2_REAL_SNAPSHOT_GO`
-
-同时明确保留旧 6 场景及 root-cause 证据，不允许覆盖历史失败。
-
-## 7.5 失败条件
-
-如果 corrected seed 的任一场景仍存在 genuine post-close re-flip、未解析 Q、严重碎裂或 normal/L2 不可分辨：
-
-- 不得继续尝试新的关闭点；
-- 不得进入 B-FE2.3；
-- 保持 `BFE2_2_REAL_SNAPSHOT_CONDITIONAL` 或输出更明确的 `BFE2_2_CORRECTED_SEED_FAILED`；
-- 输出“锁存器关闭机制/前端几何复审”证据，等待新计划决定是否调整 latch、驱动、前缀或抽头几何。
-
-本阶段最多新增 2 个 HSPICE，使 B-FE2.2 累计场景总数最多达到 8。
-
----
-
-# 8. B-FE2.3：真实关闭安全窗口自适应闭合
-
-只有新的 `BFE2_2_REAL_SNAPSHOT_GO` 才能进入。
-
-## 8.1 唯一目标
+## 7.1 唯一问题
 
 回答：
 
-> 对 0.95 V 和 1.10 V 两个正式基线，分别存在多宽的真实公共关闭安全区，使 normal 与 L2 在同一关闭时刻下都能稳定得到可分辨空间码？
+> 保持 B-FE2-L0 的理想跨域恢复不变，仅把理想行为 latch 替换成真实 `LATQ_X0P5M_A9TR40`，并让真实 latch 的 `VDD/VNW/VPW/VSS` 正确属于稳定 `PD_SAFE=0.95 V` 后，B-FE2.2C 中的 source-free post-close re-flip 是否仍然存在？
 
-该阶段的结果才允许设计 B-FE3 的中调/细调范围、步进和关闭分发。
+这是单变量因果实验，不是接口优化阶段。
 
-## 8.2 搜索边界必须使用修正后的物理语义
+## 7.2 必须冻结的条件
 
-禁止回到旧规则“用 XOR crossing 决定左右边界”。
+- 仍使用 B-FE2.2C 的 0.95 V normal 与 0.95→0.86 V L2 source stimulus；
+- `sample_close` 固定 `534.524618567 ps`；
+- 30 taps、4/0 prefix、LVT XOR 身份不变；
+- 理想跨域判决仍为 `xor > 0.5*VDD_SENSE`；
+- 理想接口仍为零额外 delay、零额外 slew、无 hysteresis、无 X-region；
+- latch 必须恢复为真实 `LATQ_X0P5M_A9TR40`；
+- latch 供电固定在 `PD_SAFE=0.95 V`，不得再接 `VDD_MONITORED`；
+- G 为与 L0 相同语义的可信安全域关闭控制；
+- 不允许换第二个 close，不允许扫 G slew，不允许扫接口参数。
 
-B-FE2.3 的搜索先验必须来自：
+## 7.3 推荐执行方式
 
-- B-FE2.2S 的 Q 空间码安全候选区；
-- 真实透明态 D→Q 延迟；
-- pre-close in-flight 约束；
-- setup/hold 或 provisional 等效风险边界；
-- B-FE2.2/B-FE2.2C 已有通过/失败点。
+优先级：
 
-XOR crossing 仍可作为辅助因果信息，但不能单独定义真实 latch 关闭孔径。
+1. 若本地 VCS AMS / PrimeSim XA / CustomSim 能够对该真实 LATQ CDL/模型完成实际 mixed-signal 联合求解，则使用真实 mixed-signal 仿真，并在报告中明确 simulator、analog solver、model path 与版本；
+2. 若当前工具链不能把 VCS 行为接口与真实 LATQ 直接联立求解，则允许用 transistor-level HSPICE/XA 等价验证：从权威 L0/source replay 中按同一 `0.5*VDD_SENSE` crossing 构造 30 路**零额外延迟、PD_SAFE 全摆幅** `safe_d_i` PWL，驱动真实 `LATQ_X0P5M_A9TR40@0.95 V`。这种方式只验证“真实安全域 latch”这一变量，报告必须标记为 equivalent causal isolation，而不能伪称完整 AMS co-sim。
 
-## 8.3 禁止固定细网格暴力扫描
+PrimeSim XA 官方 tutorial/preflight 不能代替上述任一真实场景。
 
-不得从大范围按 1 ps/2 ps/5 ps 固定步长扫。
+## 7.4 必须保存的波形/证据
 
-必须采用有界自适应搜索：
-
-1. 从已经通过的 B-FE2.2/B-FE2.2C 关闭点开始；
-2. 使用 B-FE2.2S 给出的安全候选区作为先验范围；
-3. 先向左右各测试少量较远候选；
-4. 只在“通过点与失败点”之间局部二分/有界细化；
-5. 每个时刻 normal/L2 必须成对使用同一关闭时间；
-6. 完全相同电气签名必须复用；
-7. 必须保留通过点和失败点。
-
-## 8.4 仿真预算
-
-B-FE2.3 在已有全部 B-FE2.2 场景之外，最多额外执行 16 个 electrically unique HSPICE 场景。
-
-预算内无法形成清楚左右边界时，输出：
-
-`BFE2_3_APERTURE_CONDITIONAL`
-
-不得自动增加预算。
-
-## 8.5 安全点判据
-
-一个真实关闭点只有同时满足以下条件才算通过：
-
-- normal/L2 两边波形有效；
-- 30 个 Q 均可解析；
-- 没有 genuine post-close re-flip；
-- 没有影响目标码的未完成 pre-close in-flight D→Q；
-- 两边空间码非空、无严重碎裂、无未定义位；
-- normal/L2 保持明确差异；
-- 不依赖数学单点；
-- 没有明显亚稳态或极慢解析；
-- 关闭时刻与风险边界具有正余量。
-
-## 8.6 输出与最终 Gate
-
-建议：
+至少保存：
 
 ```text
-close_aperture/
-  BFE2_3_SEARCH_POINTS.json
-  BFE2_3_SAFE_APERTURES.json
-  BFE2_3_GATE_STATUS.json
-BFE2_GATE_STATUS.json
-BFE2_REAL_LATCH_REPORT.md
+VDD_SENSE
+VDD_SAFE
+G
+xor_0..29 或其权威 source crossing ledger
+safe_d_0..29
+q_0..29
 ```
 
-最终报告至少给出：
+每个 scenario 必须记录：
 
-- 0.95 V 真实关闭安全区；
-- 1.10 V 真实关闭安全区；
-- 左右失败边界及失败机制；
-- 首个失败 tap；
-- 最慢 Q 解析时间；
-- 最小真实时间余量；
-- 后续可编程关闭生成器所需粗略范围/分辨率，但不得提前实现 B-FE3。
+- input/source SHA；
+- behavior/PWL generation contract；
+- LATQ cell/CDL/model SHA；
+- deck 或 mixed-signal testbench SHA；
+- simulator/version；
+- 实测 G threshold crossing；
+- 每个 safe_d crossing；
+- 每个 Q crossing；
+- post-close Q event 分类；
+- final code 与 tail stability；
+- source-free re-flip taps；
+- unresolved/mid-rail taps。
 
-### `BFE2_READY_FOR_BFE3`
+## 7.5 Gate
 
-仅当两个正式基线均存在正宽度真实关闭安全区，且真实 Q 空间码稳定、可解析、可区分时输出。
+### `BFE2_L1A_REAL_SAFE_LATCH_PASS`
 
-### `BFE2_FRONTEND_GEOMETRY_REVIEW`
+两个固定场景必须同时满足：
 
-机制工作但安全区过窄、贴边或对实现分辨率明显不现实。此时不得进入 B-FE3，先由新计划决定是否调整前缀、tap、驱动或单元。
+- 无 source-free post-close re-flip；
+- 无 unresolved/multiple-closing oscillation；
+- 最终所有 Q 可明确解析并保持稳定；
+- final Q 不严重碎裂；
+- normal/L2 final code 可分辨；
+- Hamming distance 不低于冻结 B-FE2.2C 的 9；
+- 最终每位应进入明确 safe-domain rail 区，建议检查 `Q<=0.1*VDD_SAFE` 或 `Q>=0.9*VDD_SAFE`；
+- 未改变 fixed close 或正式 stimulus。
 
-### `BFE2_REAL_LATCH_BLOCKED`
+PASS 只证明真实 LATQ 在安全域供电下与理想跨域输入兼容，不证明真实 level shifter。
 
-真实锁存器机制无法为两个正式基线形成可用安全关闭区。
+### `BFE2_L1A_REAL_SAFE_LATCH_FAIL`
+
+只要任一固定场景仍存在 genuine re-flip、unresolved、长期 mid-rail、严重碎裂或丧失 normal/L2 可分辨性，即 FAIL。
+
+FAIL 后必须：
+
+- 停止，不得尝试新的 close；
+- 不得进入 L1B；
+- 发布 `BFE2_CAPTURE_CELL_REVIEW_REQUIRED`；
+- 允许后续人工决定改用其他 latch、DFF/sampler 或重新定义 capture mechanism，但不得修改 sensing geometry 来隐藏捕获失败。
+
+L1A 最多 2 个新的真实物理场景。
 
 ---
 
-# 9. B-FE3：中调/细调重构为可编程 sample_close 生成器
+# 8. B-FE2-L1B：真实安全域 latch + 有界非理想跨域接口
 
-只有 `BFE2_READY_FOR_BFE3` 才能创建和执行 B-FE3 详细子计划。
+只有 `BFE2_L1A_REAL_SAFE_LATCH_PASS` 才能进入。
 
-核心语义固定为：
+## 8.1 目标
+
+把 L0/L1A 的理想接口逐步替换成参数化、可审计的跨域接收/恢复模型，并得到下一阶段 integrated simulation 需要满足的接口 specification。
+
+接口至少显式参数化：
+
+- `VIL/VIH`，以 `VDD_SENSE` 为参考而不是直接以 `VDD_SAFE` 判源域逻辑；
+- rise/fall propagation delay；
+- output slew；
+- 可选 hysteresis；
+- uncertainty/X region；
+- minimum input pulse / pulse-transfer behavior；
+- source-side input loading contract（至少 `CIN_EQ` 或等价描述）。
+
+## 8.2 执行约束
+
+- 仍只使用 0.95 V normal/L2 fixed pair；
+- close 仍固定 534.524618567 ps；
+- 不做 PVT/Monte Carlo；
+- 不允许一次性大网格暴力 sweep；
+- 应从 L0 理想点开始，一次引入一类非理想因素，并通过边界/二分或少量代表点得到可接受区间；
+- 任何 pulse filtering 都必须由接口参数明确产生，不得脚本后处理删除 XOR pulse。
+
+## 8.3 输出
+
+至少输出：
+
+- 接口模型版本与 SHA；
+- 每个参数的 tested range；
+- PASS/FAIL boundary；
+- normal/L2 code robustness；
+- 真实 LATQ capture stability；
+- `INTERFACE_REQUIREMENTS.json`，给出 L2 所需的 provisional specification。
+
+Gate：
+
+`BFE2_L1B_INTERFACE_ENVELOPE_READY`
+
+如果不能得到非零参数余量，只能输出 `BFE2_L1B_INTERFACE_ENVELOPE_BLOCKED` 或 `...INCONCLUSIVE`，不得直接跳到集成。
+
+---
+
+# 9. B-FE2-L2：集成 PD_SENSE → 接口 → PD_SAFE 真实捕获
+
+只有 `BFE2_L1B_INTERFACE_ENVELOPE_READY` 才能进入。
+
+## 9.1 目标
+
+第一次在同一电气实验中同时包含：
 
 ```text
-S_CLK / 稳定控制参考
-        |
-        v
-路径选择中调
-        |
-        v
-标准单元电容细调
-        |
-        v
-sample_close_pre
-        |
-        v
-真实驱动/分发
-        |
-        v
-30个透明锁存器公共 G 关闭
+真实 RVT/LVT sensing paths @ PD_SENSE
+真实 XOR2_X0P5M_A9TL40 @ PD_SENSE
+经过 L1B 冻结的跨域接口模型
+真实 LATQ_X0P5M_A9TR40 @ PD_SAFE
+可信 G/sample_close
 ```
 
-禁止再恢复：
+L2 的关键意义是重新引入接口对 XOR 的 source-side load 与完整因果链，不能继续只 replay 历史 XOR waveform。
+
+## 9.2 第一轮矩阵
+
+最多两个：
 
 ```text
-XOR事件 -> M/F -> 窄DFF时钟
+0.95 V normal
+0.95 -> 0.86 V formal L2
 ```
 
-B-FE3 必须回答：
+仍固定 `sample_close=534.524618567 ps`。
 
-- 可编程关闭范围是否覆盖 B-FE2 两个安全区；
-- 实际步进是否足够；
-- 码到关闭时间是否单调；
-- 30 个 G 总负载所需真实驱动；
-- G 分发偏斜是否侵蚀 B-FE2 安全区；
-- 关闭控制是否来自 `PD_CTRL` 或其他不会被 `VDD_MONITORED` 跌落显著污染的稳定控制域。
-
-旧 M/F 数据只能用于结构参考和粗略范围经验，不能直接作为新码表。
-
----
-
-# 10. B-FE4：空间码启动自校准
-
-只有 B-FE3 证明真实可编程关闭生成器能覆盖 B-FE2 安全区后进入。
-
-校准目标从旧单 bit Q 边界搜索改为：
-
-- 找到可实现的关闭控制码；
-- 得到当前芯片正常供电下稳定 30 位参考空间码；
-- 得到参考 START/END/LEN/CENTER；
-- 建立运行时允许变化包络。
-
-建议输出：
+只有这两个都 PASS 后，才允许最多再执行：
 
 ```text
-selected_close_code
-reference_raw_code
-reference_start
-reference_end
-reference_len
-reference_center
-allowed_runtime_envelope
-calibration_valid
+1.10 V normal
+1.10 -> 0.96 V formal L2
 ```
 
-禁止为每个 M/F 代码重跑晶体管级 HSPICE；优先使用 B-FE3 的码到时间模型，仅对最终候选和少量边界做晶体管级锚点。
+1.10 V 下 `PD_SAFE` 供电策略必须在进入该 pair 前单独记录；禁止临时改变以制造 PASS。
+
+## 9.3 Gate
+
+`BFE2_L2_INTEGRATED_SAFE_DOMAIN_GO` 要求：
+
+- sensing spatial observability 未被接口负载破坏；
+- interface 输入/输出符合 L1B specification；
+- 真实 LATQ final Q 稳定、无 genuine re-flip/unresolved；
+- normal/L2 空间码可分辨；
+- 0.95 V pair 必须首先成立；
+- 证据可以从 PD_SENSE 的 XOR 一直追踪到 PD_SAFE 的 final Q。
+
+失败时必须判断是 source loading、interface contract、real latch capture 还是 sensing geometry；在证明 sensing geometry 本身失效前禁止修改 4/0/30-tap 前端。
 
 ---
 
-# 11. B-FE5：运行时电压跌落检测与覆盖闭合
+# 10. B-FE2-L3：新跨域架构下的 sample-close aperture
 
-只有 B-FE4 启动自校准稳定后进入。
+只有 `BFE2_L2_INTEGRATED_SAFE_DOMAIN_GO` 才能进入。
 
-运行时检测使用启动时获得的参考空间码/特征，研究：
+此时才重新研究 `sample_close`。
 
-- START 位移；
-- END 位移；
-- CENTER 位移；
-- LEN 变化；
-- 汉明距离；
-- 异常碎裂。
+目标不再是为旧 `PD_SENSE latch` 找安全点，而是回答：
 
-不得提前假设某一个特征必然单独判决。
+> 在“PD_SENSE 感知 + 跨域恢复 + PD_SAFE 真实捕获”成立的前提下，normal/L2 共用的真实关闭安全区有多宽？
 
-只有在 B-FE5 才允许：
+搜索规则：
 
-- 扩展 L1/L2/L3；
-- 做完整攻击相位覆盖；
-- 重新推导候选 B 最大重复探测间隔；
-- 研究恢复/重臂；
-- 加 sticky alarm、heartbeat、timeout 等系统逻辑。
+- 从已经通过的 534.524618567 ps 开始；
+- normal/L2 必须成对共享同一 close；
+- 使用有界自适应搜索，不做固定细网格暴力扫；
+- 记录通过点与失败点；
+- failure mechanism 必须区分 interface、safe_d/G setup-hold、real LATQ closing、source loading；
+- 只有正宽度 aperture 才能进入 B-FE3。
 
-旧 T0 的 2075 ps 只是历史目标，不是新前端已证明的最终周期。
+最终 Gate：
 
-旧 T0 冻结的正式电压跌落波形继续作为威胁输入权威；不得重新发明同样的威胁定义。
+`BFE2_SAFE_DOMAIN_FRONTEND_GO`
+
+该 Gate 才取代旧的 `BFE2_2_REAL_SNAPSHOT_GO/BFE2_READY_FOR_BFE3` 作为候选 B 新架构进入控制与运行时阶段的唯一授权。
 
 ---
 
-# 12. 后续物理签核
+# 11. B-FE3：可信 sample_close 生成器
 
-只有 B-FE5 功能闭合后才系统扩展：
+只有 `BFE2_SAFE_DOMAIN_FRONTEND_GO` 才能进入。
 
-- PVT；
-- Monte Carlo；
-- 版图寄生；
-- `sample_close` 分发偏斜；
-- 电源完整性；
-- 真实跨电源域单元；
-- 面积/功耗优化；
-- 抽头裁剪；
-- SoC/Chiplet 集成。
+旧 M/F 中调/细调结构可以被重新利用，但只能作为 **trusted sample_close generator** 的候选实现。
 
-不要在基本物理机制尚未通过时消耗大量 PVT/统计仿真预算。
+必须依据 L3 实测 aperture 重新定义：
 
----
+- coarse range；
+- fine step；
+- jitter/skew budget；
+- G edge/slew contract；
+- PD_SAFE/PD_CTRL 分发边界。
 
-# 13. 每阶段证据纪律
-
-每个阶段至少保存：
-
-- 输入权威工件 SHA256；
-- 新脚本 SHA256；
-- 新 deck SHA256；
-- 新 `.tr0` SHA256；
-- HSPICE 版本；
-- 电气签名；
-- `run_disposition = new/reused`；
-- 失败场景；
-- Gate 的程序化推导原因；
-- 本阶段实际新增 HSPICE 数；
-- 历史累计 HSPICE 数；
-- 本阶段明确未做的工作。
-
-原始大 `.tr0` 留在任务专属 `runs/` 目录，不复制进 Git 分析目录。Git 中保存紧凑证据与派生结果。
-
-任何报告数字必须可追溯到机器 JSON 或原始波形。
+不得继承旧 delayed-DFF 的 codebook 或 2075 ps 周期。
 
 ---
 
-# 14. 推荐目录
+# 12. B-FE4：空间码启动自校准
+
+在安全域捕获结构上完成：
+
+- startup code acquisition；
+- normal reference spatial code；
+- START/END/LEN/CENTER 或等价 robust feature；
+- 可编程 sample_close 选择；
+- 合法 codebook；
+- 参考值存于 PD_SAFE/PD_CTRL。
+
+必须容忍并记录边界 bit 的物理不确定性，不能简单要求 30 位永远逐位完全一致。
+
+---
+
+# 13. B-FE5：运行时电压跌落检测
+
+最终运行时判据基于安全域稳定空间码，验证：
+
+- formal 0.95→0.86 V L2；
+- formal 1.10→0.96 V L2；
+- normal false-positive；
+- 攻击相位覆盖；
+- detection latency；
+- repeated-probe cadence。
+
+只有此阶段之后才允许讨论全 PVT、Monte Carlo、版图寄生、接口物理实现、面积优化和最终 macro integration。
+
+---
+
+# 14. 研究结论边界
+
+在真实硬件 level shifter 尚未实现前，论文/报告中的措辞必须保持以下边界：
+
+可以说：
+
+> 候选 B 采用受监测域空间感知与安全域捕获解耦。由于当前 SMIC40 标准数字库未提供目标跨电压域接收单元，研究阶段使用参数化 mixed-signal 行为模型定义并验证跨域接口 specification。
+
+不可以说：
+
+> 已使用 SMIC40 标准单元实现并 signoff 了真实 level shifter。
+
+B-FE2-L0/L1B 的行为模型是 architecture/specification evidence；B-FE2-L1A/L2 的真实 LATQ 与 sensing-path 电气结果负责收敛物理可信度。最终若需要流片级实现，必须设计 custom level shifter/receiver 或替换成工艺可用的真实跨域单元并重新做 transistor-level/PVT/physical signoff。
+
+---
+
+# 15. Codex 当前唯一允许的下一动作
+
+从本计划提交之后，Codex 只能执行 **B-FE2-L1A**：
 
 ```text
-delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/
-  latch_load/
-  real_snapshot/
-  close_aperture/
-
-delay_chain/ftc/analysis/b_fe_frontend/bfe2_real_latch/
-  BFE2_0_CONTRACT.json
-  BFE2_0_LATCH_CELL_AUDIT.json
-  BFE2_0_EVIDENCE_BASELINE.json
-  latch_load/
-  real_snapshot/
-    root_cause/
-    safe_seed/
-    corrected_confirmation/
-  close_aperture/
-  BFE2_GATE_STATUS.json
-  BFE2_REAL_LATCH_REPORT.md
+ideal source-domain threshold/restoration
+        +
+REAL LATQ_X0P5M_A9TR40 @ fixed PD_SAFE=0.95 V
+        +
+fixed sample_close=534.524618567 ps
+        +
+ONLY 0.95-V normal/L2 pair
 ```
 
-新增脚本应按职责拆分，例如：
+不得先实现 L1B，不得搜索新 close，不得进入 B-FE3，不得修改 sensing geometry。
 
-```text
-analyze_bfe2_2s_safe_seed.py
-run_bfe2_2c_corrected_pair.py
-analyze_bfe2_2c_corrected_pair.py
-analyze_bfe2_close_aperture.py
-```
-
-不要把 runner、分析、Gate、B-FE3 实现写成一个巨型脚本。
-
----
-
-# 15. Codex 从当前提交之后的严格执行顺序
-
-Codex 只允许按下面顺序继续：
-
-```text
-下一提交：B-FE2.2S
-  - 读取 B-FE2.1/B-FE2.2/B-FE2.2R 已有证据
-  - 逐 tap 使用真实透明态 D→Q
-  - 建 Q 稳定区
-  - 排除 in-flight D 风险
-  - 处理 setup/hold 或明确的 provisional 等效风险边界
-  - 检查 1.10 V 历史通过 pair 与新规则一致性
-  - 选择唯一 0.95 V corrected seed
-  - 0 HSPICE
-  - 输出 READY / INCONCLUSIVE / BLOCKED
-
-若且仅若 BFE2_2S_SAFE_SEED_READY：
-
-下一提交：B-FE2.2C-run
-  - 只运行 0.95 V normal/L2 同一 corrected seed
-  - 最多 2 个新 HSPICE
-  - 不重跑 1.10 V
-  - 不尝试第二个 corrected seed
-  - 保存 deck/tr0/SHA/电气签名/实测 G close
-
-下一提交：B-FE2.2C-analysis
-  - 0 HSPICE
-  - 分析 Q 稳定、in-flight、genuine re-flip、空间可分辨性
-  - 成功则更新正式 Gate 为 BFE2_2_REAL_SNAPSHOT_GO
-  - 失败则停止，不得进入 B-FE2.3
-
-若且仅若 BFE2_2_REAL_SNAPSHOT_GO：
-
-下一阶段：B-FE2.3
-  - 从通过点开始
-  - 使用 Q/D→Q/setup-hold 修正后的安全先验
-  - 自适应寻找左右失败边界
-  - 额外最多 16 个新 HSPICE
-  - 输出 BFE2_READY_FOR_BFE3 / GEOMETRY_REVIEW / BLOCKED
-
-若且仅若 BFE2_READY_FOR_BFE3：
-
-才允许创建 B-FE3 详细计划和实现提交。
-```
-
-在 `BFE2_READY_FOR_BFE3` 出现之前，**禁止 Codex 实现 B-FE3、B-FE4、B-FE5**。
-
----
-
-# 16. 当前最重要的防跑偏判定
-
-如果 Codex 出现下列倾向，立即停止对应动作：
-
-1. “B-FE2.2R 根因确认了，所以直接进入 B-FE2.3” —— 错。B-FE2.2 正式 Gate 仍是 CONDITIONAL；先 B-FE2.2S，再 B-FE2.2C。
-2. “Q stable interval 有交集，所以直接取中点跑” —— 错。还必须排除 pre-close in-flight D→Q，并处理 setup/hold/等效风险。
-3. “5 ps root-cause tolerance 就当安全 margin” —— 错。它只是事件分类容差。
-4. “0.95 V 已经试过替代点，再随便试一个点也一样” —— 错。B-FE2.2C 仅授权由 B-FE2.2S 新规则程序化选出的唯一 corrected seed，且只允许一对。
-5. “corrected seed 失败，再选第二名” —— 错。失败即停止，进入复审，不得继续试点。
-6. “1.10 V 已经通过，但为了统一新算法顺手重跑” —— 错。先离线一致性审计；除非未来新计划明确证明原 1.10 V 证据失效，否则不得重跑。
-7. “B-FE1R 平台十几 ps，所以现在先做超细 M/F” —— 错。必须先闭合真实 latch 安全区。
-8. “旧 `ftc_sensor.sv` 有 latch+DFF，可以直接作为最终结构” —— 错。候选 B 的真实快照核心是透明锁存器，旧 DFF 语义不自动继承。
-9. “旧 2075 ps 已证明，所以直接做运行时 FSM” —— 错。B-FE5 才重新闭合新前端运行时覆盖。
-10. “B-FE2 成功后立刻 PVT/Monte Carlo” —— 错。先 B-FE3/B-FE4/B-FE5。
-
----
-
-# 17. 计划成功标准
-
-本计划的物理因果链必须始终保持：
-
-```text
-空间观测存在
-   -> 真实锁存器 D 负载下仍存在
-   -> 理解真实 D→Q 与关闭时序
-   -> 用正确规则找到安全关闭种子
-   -> 真实关闭确认通过
-   -> 找到正宽度真实关闭安全区
-   -> 可编程控制命中安全区
-   -> 启动自校准得到正常参考
-   -> 运行时空间偏移检测正式电压跌落
-   -> 最后做全相位/PVT/统计/物理集成
-```
-
-任何阶段失败，都必须停在该层保留证据并分析根因。不要用后级数字逻辑掩盖前级物理问题，也不要用更多仿真代替对失败原因的理解。
+L1A 必须形成独立 manifest、analysis、report、Gate 和单独 commit；只有 `BFE2_L1A_REAL_SAFE_LATCH_PASS` 才能继续下一阶段。
