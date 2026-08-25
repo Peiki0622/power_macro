@@ -53,6 +53,18 @@ class Bfe1rReviewTest(unittest.TestCase):
         self.assertEqual(evidence["scenario_evidence"]["scenarios"][1]["authority_scenario_key"], "t0_5a_0p95_l2_long")
         self.assertEqual(len(evidence["generated_review_artifact_sha256"]["BFE1R_REVIEW_STATUS.json"]), 64)
 
+    def test_gate_rejects_tampered_trace_identity(self):
+        """A stale or altered trace must block B-FE2 instead of yielding READY."""
+
+        gate = {"gate": "BFE1_SPATIAL_OBSERVABILITY_GO"}
+        bfe0 = {"xor_cell": "XOR2_X0P5M_A9TL40"}
+        scenario = {"scenario_id": "BFE1-095-N", "deck_sha256": "deck", "tr0_sha256": "new", "hspice_version": "W-2024.09"}
+        prior = {"scenario_evidence": {"scenarios": [{"scenario_id": "BFE1-095-N", "deck_sha256": "deck", "tr0_sha256": "old"}]}}
+        pairwise = {"pairs": [{"baseline_v": 0.95, "candidate_platforms": []}, {"baseline_v": 1.10, "candidate_platforms": []}]}
+        reasons = review_bfe1r.bfe1r_gate_reasons(gate, pairwise, {"scenarios": [scenario]}, prior, bfe0)
+        self.assertTrue(any("tr0_sha256 SHA mismatch" in reason for reason in reasons))
+        self.assertTrue(any("no clean central" in reason for reason in reasons))
+
 
 if __name__ == "__main__":
     unittest.main()

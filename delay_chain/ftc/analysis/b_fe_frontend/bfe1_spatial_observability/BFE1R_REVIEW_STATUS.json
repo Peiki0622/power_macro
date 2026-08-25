@@ -7376,6 +7376,7 @@
   },
   "forbidden_work_performed": false,
   "gate": "BFE1R_READY_FOR_BFE2",
+  "gate_reasons": [],
   "generated_review_report_sha256": "08dee780fa3ba2fe85b2ffe97036bb7d930ec7354a33b639ce13230a610b0184",
   "input_authority_sha256": {
     "delay_chain/ftc/analysis/b_fe_frontend/bfe0_architecture_contract.json": "876c6cddc3ae06f735866c25734d8191e0314062c12fd1b311e3c4d572cfa032",

@@ -1,0 +1,1440 @@
+{
+  "all_pairs_distinguishable": true,
+  "all_q_stable": false,
+  "gate": "BFE2_2_REAL_SNAPSHOT_CONDITIONAL",
+  "new_hspice_scenarios": 0,
+  "pairs": [
+    {
+      "baseline_v": 0.95,
+      "distinguishable": true,
+      "hamming_distance": 5,
+      "l2": {
+        "baseline_v": 0.95,
+        "close_ps": 320.333956,
+        "droop_v": 0.86,
+        "evidence_role": "replacement",
+        "final_code": {
+          "bubble_count": 0,
+          "center": 7.5,
+          "empty": false,
+          "end": 11,
+          "fragmented": false,
+          "left_headroom": 4,
+          "len": 8,
+          "main_run_ties": [
+            {
+              "end": 11,
+              "len": 8,
+              "start": 4
+            }
+          ],
+          "minimum_bit_margin_v": 0.47498837871531085,
+          "raw_code": "000011111111000000000000000000",
+          "right_headroom": 18,
+          "run_count": 1,
+          "start": 4,
+          "touches_left": false,
+          "touches_right": false
+        },
+        "q_samples": [
+          {
+            "after_close_ps": 5.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 7.5,
+              "empty": false,
+              "end": 11,
+              "fragmented": false,
+              "left_headroom": 4,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 11,
+                  "len": 8,
+                  "start": 4
+                }
+              ],
+              "minimum_bit_margin_v": 0.3854079246607653,
+              "raw_code": "000011111111000000000000000000",
+              "right_headroom": 18,
+              "run_count": 1,
+              "start": 4,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 20.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 7.5,
+              "empty": false,
+              "end": 11,
+              "fragmented": false,
+              "left_headroom": 4,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 11,
+                  "len": 8,
+                  "start": 4
+                }
+              ],
+              "minimum_bit_margin_v": 0.1190566184096859,
+              "raw_code": "000011111111000000000000000000",
+              "right_headroom": 18,
+              "run_count": 1,
+              "start": 4,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 100.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 7.5,
+              "empty": false,
+              "end": 11,
+              "fragmented": false,
+              "left_headroom": 4,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 11,
+                  "len": 8,
+                  "start": 4
+                }
+              ],
+              "minimum_bit_margin_v": 0.42988030987077547,
+              "raw_code": "000011111111000000000000000000",
+              "right_headroom": 18,
+              "run_count": 1,
+              "start": 4,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 500.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 7.5,
+              "empty": false,
+              "end": 11,
+              "fragmented": false,
+              "left_headroom": 4,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 11,
+                  "len": 8,
+                  "start": 4
+                }
+              ],
+              "minimum_bit_margin_v": 0.4299881827361824,
+              "raw_code": "000011111111000000000000000000",
+              "right_headroom": 18,
+              "run_count": 1,
+              "start": 4,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 5000.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 7.5,
+              "empty": false,
+              "end": 11,
+              "fragmented": false,
+              "left_headroom": 4,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 11,
+                  "len": 8,
+                  "start": 4
+                }
+              ],
+              "minimum_bit_margin_v": 0.47498837871531085,
+              "raw_code": "000011111111000000000000000000",
+              "right_headroom": 18,
+              "run_count": 1,
+              "start": 4,
+              "touches_left": false,
+              "touches_right": false
+            }
+          }
+        ],
+        "scenario_id": "BFE2L-095-L2",
+        "stable": true,
+        "transition_diagnostics": {
+          "first_post_close_event": null,
+          "max_final_resolution_ps": 0.0,
+          "per_tap": [
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 0
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 1
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 2
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 3
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 4
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 5
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 6
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 7
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 8
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 9
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 10
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 11
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 12
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 13
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 14
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 15
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 16
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 17
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 18
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 19
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 20
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 21
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 22
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 23
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 24
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 25
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 26
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 27
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 28
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 29
+            }
+          ],
+          "reflip_taps": []
+        }
+      },
+      "normal": {
+        "baseline_v": 0.95,
+        "close_ps": 320.333956,
+        "droop_v": null,
+        "evidence_role": "replacement",
+        "final_code": {
+          "bubble_count": 0,
+          "center": 10.0,
+          "empty": false,
+          "end": 14,
+          "fragmented": false,
+          "left_headroom": 6,
+          "len": 9,
+          "main_run_ties": [
+            {
+              "end": 14,
+              "len": 9,
+              "start": 6
+            }
+          ],
+          "minimum_bit_margin_v": 0.4749997,
+          "raw_code": "000000111111111000000000000000",
+          "right_headroom": 15,
+          "run_count": 1,
+          "start": 6,
+          "touches_left": false,
+          "touches_right": false
+        },
+        "q_samples": [
+          {
+            "after_close_ps": 5.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 10.0,
+              "empty": false,
+              "end": 14,
+              "fragmented": false,
+              "left_headroom": 6,
+              "len": 9,
+              "main_run_ties": [
+                {
+                  "end": 14,
+                  "len": 9,
+                  "start": 6
+                }
+              ],
+              "minimum_bit_margin_v": 0.18025559552024317,
+              "raw_code": "000000111111111000000000000000",
+              "right_headroom": 15,
+              "run_count": 1,
+              "start": 6,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 20.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 10.5,
+              "empty": false,
+              "end": 14,
+              "fragmented": false,
+              "left_headroom": 7,
+              "len": 8,
+              "main_run_ties": [
+                {
+                  "end": 14,
+                  "len": 8,
+                  "start": 7
+                }
+              ],
+              "minimum_bit_margin_v": 0.1858340109350951,
+              "raw_code": "000000011111111000000000000000",
+              "right_headroom": 15,
+              "run_count": 1,
+              "start": 7,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 100.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 10.0,
+              "empty": false,
+              "end": 14,
+              "fragmented": false,
+              "left_headroom": 6,
+              "len": 9,
+              "main_run_ties": [
+                {
+                  "end": 14,
+                  "len": 9,
+                  "start": 6
+                }
+              ],
+              "minimum_bit_margin_v": 0.46779312491299563,
+              "raw_code": "000000111111111000000000000000",
+              "right_headroom": 15,
+              "run_count": 1,
+              "start": 6,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 500.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 10.0,
+              "empty": false,
+              "end": 14,
+              "fragmented": false,
+              "left_headroom": 6,
+              "len": 9,
+              "main_run_ties": [
+                {
+                  "end": 14,
+                  "len": 9,
+                  "start": 6
+                }
+              ],
+              "minimum_bit_margin_v": 0.4749978711167716,
+              "raw_code": "000000111111111000000000000000",
+              "right_headroom": 15,
+              "run_count": 1,
+              "start": 6,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 5000.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 10.0,
+              "empty": false,
+              "end": 14,
+              "fragmented": false,
+              "left_headroom": 6,
+              "len": 9,
+              "main_run_ties": [
+                {
+                  "end": 14,
+                  "len": 9,
+                  "start": 6
+                }
+              ],
+              "minimum_bit_margin_v": 0.4749997,
+              "raw_code": "000000111111111000000000000000",
+              "right_headroom": 15,
+              "run_count": 1,
+              "start": 6,
+              "touches_left": false,
+              "touches_right": false
+            }
+          }
+        ],
+        "scenario_id": "BFE2L-095-N",
+        "stable": false,
+        "transition_diagnostics": {
+          "first_post_close_event": {
+            "after_close_ps": 8.94500672803207,
+            "tap": 6
+          },
+          "max_final_resolution_ps": 48.06037881169692,
+          "per_tap": [
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 0
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 1
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 2
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 3
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 4
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 5
+            },
+            {
+              "final_resolution_ps": 48.06037881169692,
+              "post_close_crossing_count": 2,
+              "post_close_crossings_ps": [
+                329.27896272803207,
+                368.3943348116969
+              ],
+              "tap": 6
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 7
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 8
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 9
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 10
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 11
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 12
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 13
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 14
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 15
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 16
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 17
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 18
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 19
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 20
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 21
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 22
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 23
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 24
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 25
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 26
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 27
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 28
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 29
+            }
+          ],
+          "reflip_taps": [
+            6
+          ]
+        }
+      }
+    },
+    {
+      "baseline_v": 1.1,
+      "distinguishable": true,
+      "hamming_distance": 11,
+      "l2": {
+        "baseline_v": 1.1,
+        "close_ps": 388.354659,
+        "droop_v": 0.96,
+        "evidence_role": "first_attempt",
+        "final_code": {
+          "bubble_count": 0,
+          "center": 14.5,
+          "empty": false,
+          "end": 19,
+          "fragmented": false,
+          "left_headroom": 10,
+          "len": 10,
+          "main_run_ties": [
+            {
+              "end": 19,
+              "len": 10,
+              "start": 10
+            }
+          ],
+          "minimum_bit_margin_v": 0.55,
+          "raw_code": "000000000011111111110000000000",
+          "right_headroom": 10,
+          "run_count": 1,
+          "start": 10,
+          "touches_left": false,
+          "touches_right": false
+        },
+        "q_samples": [
+          {
+            "after_close_ps": 5.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 14.5,
+              "empty": false,
+              "end": 19,
+              "fragmented": false,
+              "left_headroom": 10,
+              "len": 10,
+              "main_run_ties": [
+                {
+                  "end": 19,
+                  "len": 10,
+                  "start": 10
+                }
+              ],
+              "minimum_bit_margin_v": 0.0803921316277163,
+              "raw_code": "000000000011111111110000000000",
+              "right_headroom": 10,
+              "run_count": 1,
+              "start": 10,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 20.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 14.5,
+              "empty": false,
+              "end": 19,
+              "fragmented": false,
+              "left_headroom": 10,
+              "len": 10,
+              "main_run_ties": [
+                {
+                  "end": 19,
+                  "len": 10,
+                  "start": 10
+                }
+              ],
+              "minimum_bit_margin_v": 0.43494103014380436,
+              "raw_code": "000000000011111111110000000000",
+              "right_headroom": 10,
+              "run_count": 1,
+              "start": 10,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 100.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 14.5,
+              "empty": false,
+              "end": 19,
+              "fragmented": false,
+              "left_headroom": 10,
+              "len": 10,
+              "main_run_ties": [
+                {
+                  "end": 19,
+                  "len": 10,
+                  "start": 10
+                }
+              ],
+              "minimum_bit_margin_v": 0.47969991400214773,
+              "raw_code": "000000000011111111110000000000",
+              "right_headroom": 10,
+              "run_count": 1,
+              "start": 10,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 500.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 14.5,
+              "empty": false,
+              "end": 19,
+              "fragmented": false,
+              "left_headroom": 10,
+              "len": 10,
+              "main_run_ties": [
+                {
+                  "end": 19,
+                  "len": 10,
+                  "start": 10
+                }
+              ],
+              "minimum_bit_margin_v": 0.4799807331995982,
+              "raw_code": "000000000011111111110000000000",
+              "right_headroom": 10,
+              "run_count": 1,
+              "start": 10,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 5000.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 14.5,
+              "empty": false,
+              "end": 19,
+              "fragmented": false,
+              "left_headroom": 10,
+              "len": 10,
+              "main_run_ties": [
+                {
+                  "end": 19,
+                  "len": 10,
+                  "start": 10
+                }
+              ],
+              "minimum_bit_margin_v": 0.55,
+              "raw_code": "000000000011111111110000000000",
+              "right_headroom": 10,
+              "run_count": 1,
+              "start": 10,
+              "touches_left": false,
+              "touches_right": false
+            }
+          }
+        ],
+        "scenario_id": "BFE2L-110-L2",
+        "stable": true,
+        "transition_diagnostics": {
+          "first_post_close_event": {
+            "after_close_ps": 2.9757299110239614,
+            "tap": 9
+          },
+          "max_final_resolution_ps": 2.9757299110239614,
+          "per_tap": [
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 0
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 1
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 2
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 3
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 4
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 5
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 6
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 7
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 8
+            },
+            {
+              "final_resolution_ps": 2.9757299110239614,
+              "post_close_crossing_count": 1,
+              "post_close_crossings_ps": [
+                391.330388911024
+              ],
+              "tap": 9
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 10
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 11
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 12
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 13
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 14
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 15
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 16
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 17
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 18
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 19
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 20
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 21
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 22
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 23
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 24
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 25
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 26
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 27
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 28
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 29
+            }
+          ],
+          "reflip_taps": []
+        }
+      },
+      "normal": {
+        "baseline_v": 1.1,
+        "close_ps": 388.354659,
+        "droop_v": null,
+        "evidence_role": "first_attempt",
+        "final_code": {
+          "bubble_count": 0,
+          "center": 20.0,
+          "empty": false,
+          "end": 25,
+          "fragmented": false,
+          "left_headroom": 15,
+          "len": 11,
+          "main_run_ties": [
+            {
+              "end": 25,
+              "len": 11,
+              "start": 15
+            }
+          ],
+          "minimum_bit_margin_v": 0.5499998214028964,
+          "raw_code": "000000000000000111111111110000",
+          "right_headroom": 4,
+          "run_count": 1,
+          "start": 15,
+          "touches_left": false,
+          "touches_right": false
+        },
+        "q_samples": [
+          {
+            "after_close_ps": 5.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 20.0,
+              "empty": false,
+              "end": 25,
+              "fragmented": false,
+              "left_headroom": 15,
+              "len": 11,
+              "main_run_ties": [
+                {
+                  "end": 25,
+                  "len": 11,
+                  "start": 15
+                }
+              ],
+              "minimum_bit_margin_v": 0.05962355978240558,
+              "raw_code": "000000000000000111111111110000",
+              "right_headroom": 4,
+              "run_count": 1,
+              "start": 15,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 20.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 20.0,
+              "empty": false,
+              "end": 25,
+              "fragmented": false,
+              "left_headroom": 15,
+              "len": 11,
+              "main_run_ties": [
+                {
+                  "end": 25,
+                  "len": 11,
+                  "start": 15
+                }
+              ],
+              "minimum_bit_margin_v": 0.3030325524455669,
+              "raw_code": "000000000000000111111111110000",
+              "right_headroom": 4,
+              "run_count": 1,
+              "start": 15,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 100.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 20.0,
+              "empty": false,
+              "end": 25,
+              "fragmented": false,
+              "left_headroom": 15,
+              "len": 11,
+              "main_run_ties": [
+                {
+                  "end": 25,
+                  "len": 11,
+                  "start": 15
+                }
+              ],
+              "minimum_bit_margin_v": 0.5498088824075542,
+              "raw_code": "000000000000000111111111110000",
+              "right_headroom": 4,
+              "run_count": 1,
+              "start": 15,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 500.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 20.0,
+              "empty": false,
+              "end": 25,
+              "fragmented": false,
+              "left_headroom": 15,
+              "len": 11,
+              "main_run_ties": [
+                {
+                  "end": 25,
+                  "len": 11,
+                  "start": 15
+                }
+              ],
+              "minimum_bit_margin_v": 0.549999726940434,
+              "raw_code": "000000000000000111111111110000",
+              "right_headroom": 4,
+              "run_count": 1,
+              "start": 15,
+              "touches_left": false,
+              "touches_right": false
+            }
+          },
+          {
+            "after_close_ps": 5000.0,
+            "code": {
+              "bubble_count": 0,
+              "center": 20.0,
+              "empty": false,
+              "end": 25,
+              "fragmented": false,
+              "left_headroom": 15,
+              "len": 11,
+              "main_run_ties": [
+                {
+                  "end": 25,
+                  "len": 11,
+                  "start": 15
+                }
+              ],
+              "minimum_bit_margin_v": 0.5499998214028964,
+              "raw_code": "000000000000000111111111110000",
+              "right_headroom": 4,
+              "run_count": 1,
+              "start": 15,
+              "touches_left": false,
+              "touches_right": false
+            }
+          }
+        ],
+        "scenario_id": "BFE2L-110-N",
+        "stable": true,
+        "transition_diagnostics": {
+          "first_post_close_event": {
+            "after_close_ps": 4.276037939022842,
+            "tap": 14
+          },
+          "max_final_resolution_ps": 4.276037939022842,
+          "per_tap": [
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 0
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 1
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 2
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 3
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 4
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 5
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 6
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 7
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 8
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 9
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 10
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 11
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 12
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 13
+            },
+            {
+              "final_resolution_ps": 4.276037939022842,
+              "post_close_crossing_count": 1,
+              "post_close_crossings_ps": [
+                392.63069693902287
+              ],
+              "tap": 14
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 15
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 16
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 17
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 18
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 19
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 20
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 21
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 22
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 23
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 24
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 25
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 26
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 27
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 28
+            },
+            {
+              "final_resolution_ps": null,
+              "post_close_crossing_count": 0,
+              "post_close_crossings_ps": [],
+              "tap": 29
+            }
+          ],
+          "reflip_taps": []
+        }
+      }
+    }
+  ],
+  "reason": "at least one permitted-close scenario has a post-close Q re-flip or unresolved spatial code",
+  "schema_version": 1,
+  "stage": "B-FE2.2",
+  "total_bfe2_2_new_hspice_scenarios": 6
+}

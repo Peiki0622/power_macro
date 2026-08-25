@@ -1,0 +1,33 @@
+{
+  "bfe1r_evidence_sha256": "06a8f110e2ba3eadd34d71f89eb566dc01db6d29a0f538d2f52f2636fc8c051d",
+  "bfe1r_status_sha256": "6063fcc5a31b0dcb3023fe0c6506c472617a3faec5e7b747e03209ff47b8d78b",
+  "block_reason": null,
+  "formal_latch": "LATQ_X0P5M_A9TR40",
+  "frontend_power_semantics": "all XOR and latch cells use PD_SENSE/VDD_MONITORED; G is an ideal external research source",
+  "gate": "BFE2_0_LATCH_CONTRACT_READY",
+  "new_hspice_scenarios": 0,
+  "research_g_edge": {
+    "meaning": "B-FE2 latch-intrinsic study only; not B-FE3 clock-tree signoff",
+    "transition_ps": 1.0
+  },
+  "scenario_budgets": {
+    "bfe2_1_latch_load": 4,
+    "bfe2_2_real_snapshot": 8,
+    "bfe2_3_close_aperture_additional": 16
+  },
+  "schema_version": 1,
+  "signature_fields": [
+    "topology_version",
+    "rvt_lvt_buffer_cells",
+    "xor_cell",
+    "latch_cell",
+    "supply_pwl",
+    "s_clk_pwl",
+    "g_pwl",
+    "close_ps",
+    "model_sha256",
+    "hspice_version",
+    "tran_step_ps"
+  ],
+  "stage": "B-FE2.0"
+}

@@ -1,0 +1,81 @@
+{
+  "cdl": {
+    "path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/cdl/sc9mc_logic0040ll_base_rvt_c40.cdl",
+    "sha256": "1c76297a514ca69abd846adcb957fa563399235728f8796cc76214ed831cc158"
+  },
+  "cdl_ports": [
+    "Q",
+    "VDD",
+    "VNW",
+    "VPW",
+    "VSS",
+    "D",
+    "G"
+  ],
+  "cell": "LATQ_X0P5M_A9TR40",
+  "liberty": {
+    "inputs": {
+      "D": {
+        "capacitance": 0.000552408,
+        "timing_constraints": [
+          {
+            "constraint_tables": [
+              "fall_constraint",
+              "rise_constraint"
+            ],
+            "related_pin": "G",
+            "timing_type": "hold_falling"
+          },
+          {
+            "constraint_tables": [
+              "fall_constraint",
+              "rise_constraint"
+            ],
+            "related_pin": "G",
+            "timing_type": "setup_falling"
+          }
+        ]
+      },
+      "G": {
+        "capacitance": 0.00106708,
+        "timing_constraints": [
+          {
+            "constraint_tables": [
+              "rise_constraint"
+            ],
+            "related_pin": "G",
+            "timing_type": "min_pulse_width"
+          },
+          {
+            "constraint_tables": [
+              "rise_constraint"
+            ],
+            "related_pin": "G",
+            "timing_type": "min_pulse_width"
+          }
+        ]
+      }
+    },
+    "path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/lib/sc9mc_logic0040ll_base_rvt_c40_tt_typical_max_1p10v_25c.lib",
+    "sha256": "07cc4778869657495feee51aa1f9012ce6a18383ec0f7eabe7a5d521dd3b2b2f"
+  },
+  "port_semantics": {
+    "D": "data input",
+    "G": "active-high transparent gate",
+    "Q": "latched output",
+    "VDD/VNW": "PD_SENSE/VDD_MONITORED",
+    "VPW/VSS": "PD_SENSE ground/vss_a"
+  },
+  "verilog": {
+    "path": "/host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_rvt_c40/r1p1/verilog/sc9mc_logic0040ll_base_rvt_c40.v",
+    "sha256": "eeddc1e9dcc97f11e0b316ff2d73690ffca2f9c24df291258d2ca9c1188cfe09"
+  },
+  "verilog_powered_ports": [
+    "Q",
+    "VDD",
+    "VSS",
+    "D",
+    "G"
+  ],
+  "vt_class": "RVT"
+}

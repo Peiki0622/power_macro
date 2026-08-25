@@ -1,0 +1,47 @@
+{
+  "authorized_new_scenarios": 4,
+  "scenarios": [
+    {
+      "baseline_v": 0.95,
+      "close_ps": 404.941916,
+      "droop_v": null,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 409,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-N"
+    },
+    {
+      "baseline_v": 0.95,
+      "close_ps": 404.941916,
+      "droop_v": 0.86,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 443,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-L2"
+    },
+    {
+      "baseline_v": 1.1,
+      "close_ps": 388.354659,
+      "droop_v": null,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 386,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-110-N"
+    },
+    {
+      "baseline_v": 1.1,
+      "close_ps": 388.354659,
+      "droop_v": 0.96,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 419,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-110-L2"
+    }
+  ],
+  "seed_source": "B-FE2.1 common discrimination platforms",
+  "stage": "B-FE2.2"
+}

@@ -192,10 +192,32 @@ def compare_xor_cells() -> Dict[str, Any]:
     )
     lvt_timing = result["cells"]["LVT"]["liberty"]["timing"]
     rvt_timing = result["cells"]["RVT"]["liberty"]["timing"]
+    # Liberty may serialize otherwise identical timing arcs in a different
+    # order between VT libraries.  Timing comparison is therefore keyed by
+    # electrical arc identity, never by positional list order.  A missing or
+    # duplicate key is an audit failure: silently pairing it to another arc
+    # would manufacture a meaningless LVT/RVT comparison.
+    def arc_map(records, vt_name):
+        mapped = {}
+        for record in records:
+            key = "{}|{}".format(record["related_pin"], record["timing_sense"])
+            if key in mapped:
+                raise ValueError("duplicate Liberty timing arc in {}: {}".format(vt_name, key))
+            mapped[key] = record
+        return mapped
+
+    lvt_arcs = arc_map(lvt_timing, "LVT")
+    rvt_arcs = arc_map(rvt_timing, "RVT")
+    if set(lvt_arcs) != set(rvt_arcs):
+        raise ValueError("LVT/RVT Liberty timing arc identities differ: LVT={} RVT={}".format(
+            sorted(lvt_arcs), sorted(rvt_arcs)))
     timing_delta = {}
-    for lvt_record, rvt_record in zip(lvt_timing, rvt_timing):
-        arc = "{}|{}".format(lvt_record["related_pin"], lvt_record["timing_sense"])
+    for arc in sorted(lvt_arcs):
+        lvt_record = lvt_arcs[arc]
+        rvt_record = rvt_arcs[arc]
         timing_delta[arc] = {}
+        if set(lvt_record["tables"]) != set(rvt_record["tables"]):
+            raise ValueError("LVT/RVT Liberty timing tables differ for arc: {}".format(arc))
         for table_name, lvt_table in lvt_record["tables"].items():
             rvt_table = rvt_record["tables"][table_name]
             timing_delta[arc][table_name] = 100.0 * (lvt_table["mean"] / rvt_table["mean"] - 1.0)
@@ -329,7 +351,10 @@ def scenario_evidence() -> Dict[str, Any]:
             "authority_scenario_key": scenario.get("authority_scenario_key") or authority_keys.get(scenario_id),
             "deck_sha256": sha256_file(directory / "bfe1.sp"),
             "tr0_sha256": sha256_file(directory / "bfe1.tr0"),
-            "hspice_version": manifest.get("scenarios", [{}])[0].get("hspice_version"),
+            # Version is recorded per scenario.  It must not be copied from
+            # the first record, because mixed-solver evidence is invalid even
+            # when the four decks and traces otherwise look complete.
+            "hspice_version": scenario.get("hspice_version"),
             "record_count": trace["record_count"],
             "record_width": trace["record_width"],
         })
@@ -340,6 +365,49 @@ def write_json(path: Path, value: Mapping[str, Any]) -> None:
     """Write one deterministic, human-readable JSON artifact."""
 
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def bfe1r_gate_reasons(gate, pairwise, scenario_review, prior_evidence, bfe0):
+    """Return concrete B-FE1R readiness failures from retained evidence.
+
+    This is intentionally a small predicate, rather than a second detector:
+    it verifies that the already-approved B-FE1 physical evidence still says
+    what B-FE1R relies on.  Every failure is retained as a string so an
+    inconsistent review cannot be mistaken for a ready-to-run B-FE2 result.
+    """
+
+    reasons = []
+    if gate.get("gate") != "BFE1_SPATIAL_OBSERVABILITY_GO":
+        reasons.append("legacy B-FE1 gate is not BFE1_SPATIAL_OBSERVABILITY_GO")
+    if bfe0.get("xor_cell") != XOR_NAMES["LVT"]:
+        reasons.append("formal B-FE1 XOR is not XOR2_X0P5M_A9TL40")
+    if len(scenario_review["scenarios"]) != 4:
+        reasons.append("B-FE1 scenario count is not four")
+    previous = {item["scenario_id"]: item for item in prior_evidence.get("scenario_evidence", {}).get("scenarios", [])}
+    for record in scenario_review["scenarios"]:
+        expected = previous.get(record["scenario_id"])
+        if expected is None:
+            reasons.append("missing prior evidence for {}".format(record["scenario_id"]))
+            continue
+        for field in ("deck_sha256", "tr0_sha256"):
+            if record.get(field) != expected.get(field):
+                reasons.append("{} SHA mismatch for {}".format(field, record["scenario_id"]))
+        if not record.get("hspice_version"):
+            reasons.append("missing HSPICE version for {}".format(record["scenario_id"]))
+    for pair in pairwise.get("pairs", []):
+        baseline = pair.get("baseline_v")
+        clean = [item for item in pair.get("candidate_platforms", []) if
+                 item.get("interval_width_ps", 0.0) > 0.0 and
+                 not item["normal"].get("fragmented") and not item["l2"].get("fragmented") and
+                 item["normal"].get("undefined_bit_count") == 0 and item["l2"].get("undefined_bit_count") == 0 and
+                 not item["normal"].get("touches_left") and not item["normal"].get("touches_right") and
+                 not item["l2"].get("touches_left") and not item["l2"].get("touches_right")]
+        central = [item for item in clean if 10.0 <= (item["normal"]["center"] + item["l2"]["center"]) / 2.0 <= 19.0]
+        if not central:
+            reasons.append("no clean central positive-width candidate at {:.2f} V".format(baseline))
+    if len(pairwise.get("pairs", [])) != 2:
+        reasons.append("B-FE1 pairwise evidence does not contain both formal baselines")
+    return reasons
 
 
 def build_report(status: Mapping[str, Any]) -> str:
@@ -375,6 +443,10 @@ def main() -> int:
     sys.path.insert(0, str(FTC_ROOT / "scripts"))
     import bfe1_frontend  # noqa: E402
 
+    # Read the previous compact manifest before regenerating it.  This lets
+    # the review prove that the retained deck/trace bytes are unchanged rather
+    # than merely reporting the hashes it just computed.
+    prior_evidence = read_json(EVIDENCE_JSON)
     pairwise = read_json(PAIRWISE_JSON)
     manifest = read_json(SCENARIO_MANIFEST)
     gate = read_json(BFE1_GATE)
@@ -388,6 +460,8 @@ def main() -> int:
         FTC_ROOT / "analysis" / "t0_transient_droop" / "cadence" / "cadence_summary.json",
     ]
     analysis_inputs = [SCENARIO_MANIFEST, PAIRWISE_JSON, BFE1_GATE, BFE1_REPORT]
+    bfe0 = read_json(FTC_ROOT / "analysis" / "b_fe_frontend" / "bfe0_architecture_contract.json")
+    gate_reasons = bfe1r_gate_reasons(gate, pairwise, scenario_review, prior_evidence, bfe0)
     status = {
         "schema_version": 1,
         "stage": "B-FE1R",
@@ -396,7 +470,8 @@ def main() -> int:
         "new_hspice_scenarios": 0,
         "forbidden_work_performed": False,
         "legacy_bfe1_gate_preserved": gate.get("gate") == "BFE1_SPATIAL_OBSERVABILITY_GO",
-        "gate": "BFE1R_READY_FOR_BFE2",
+        "gate": "BFE1R_READY_FOR_BFE2" if not gate_reasons else "BFE1R_REVIEW_INCONSISTENT",
+        "gate_reasons": gate_reasons,
         "xor_review": xor_review,
         "candidate_review": candidate_review,
         "scenario_evidence": scenario_review,
@@ -426,7 +501,7 @@ def main() -> int:
         "BFE1R_REVIEW_REPORT.md": sha256_file(REPORT_MD),
     }
     write_json(EVIDENCE_JSON, evidence)
-    print("BFE1R_READY_FOR_BFE2 zero_hspice=0 candidates_reparsed={}".format(sum(item["candidate_count"] for item in candidate_review["pairs"])))
+    print("{} zero_hspice=0 candidates_reparsed={}".format(status["gate"], sum(item["candidate_count"] for item in candidate_review["pairs"])))
     return 0
 
 

@@ -7,7 +7,7 @@
   },
   "generated_review_artifact_sha256": {
     "BFE1R_REVIEW_REPORT.md": "08dee780fa3ba2fe85b2ffe97036bb7d930ec7354a33b639ce13230a610b0184",
-    "BFE1R_REVIEW_STATUS.json": "52934eedc4e89750d03ec3dfff328e3125ee446e15dd44f2a0ca6cf447f45e32"
+    "BFE1R_REVIEW_STATUS.json": "6063fcc5a31b0dcb3023fe0c6506c472617a3faec5e7b747e03209ff47b8d78b"
   },
   "input_authority_sha256": {
     "delay_chain/ftc/analysis/b_fe_frontend/bfe0_architecture_contract.json": "876c6cddc3ae06f735866c25734d8191e0314062c12fd1b311e3c4d572cfa032",

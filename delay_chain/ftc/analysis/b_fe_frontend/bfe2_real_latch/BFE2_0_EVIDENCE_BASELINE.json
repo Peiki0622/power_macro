@@ -1,0 +1,9 @@
+{
+  "bfe1r_evidence_sha256": "06a8f110e2ba3eadd34d71f89eb566dc01db6d29a0f538d2f52f2636fc8c051d",
+  "bfe1r_status_sha256": "6063fcc5a31b0dcb3023fe0c6506c472617a3faec5e7b747e03209ff47b8d78b",
+  "contract_sha256": "2172876503a3b544e102c3969399f20673f69e90c4829f15d18d7def8f2db701",
+  "latch_audit_sha256": "ac22bd20fb9a18f78c5cd0fed01af170cf407b66e125e4bea26f987c322f1ef1",
+  "new_hspice_scenarios": 0,
+  "schema_version": 1,
+  "stage": "B-FE2.0"
+}

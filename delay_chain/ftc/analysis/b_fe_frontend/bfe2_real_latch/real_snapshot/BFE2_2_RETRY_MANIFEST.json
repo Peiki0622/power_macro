@@ -1,0 +1,36 @@
+{
+  "new_hspice_scenarios": 2,
+  "retry_reason": "0.95-V first seed had post-close Q evolution",
+  "scenarios": [
+    {
+      "baseline_v": 0.95,
+      "close_ps": 320.333956,
+      "close_source": "B-FE2.1 312.251653--328.416258 ps platform midpoint",
+      "deck_sha256": "2e08ffb03bd3123a52671a47d0f59d33fb79d2b88e0907654649aa79cabcac24",
+      "droop_v": null,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": null,
+      "record_count": 417,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-N",
+      "tr0_sha256": "1a538a47fc304b14a2a21357fc9685e41ff94c9908f7231de6be708b80c0f4a1"
+    },
+    {
+      "baseline_v": 0.95,
+      "close_ps": 320.333956,
+      "close_source": "B-FE2.1 312.251653--328.416258 ps platform midpoint",
+      "deck_sha256": "0c754d93890282bb00c235c81b5347238cc4dd763446a500b43e7ccc372bcc18",
+      "droop_v": 0.86,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 75.0,
+      "record_count": 441,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-L2",
+      "tr0_sha256": "864dafddd28b834a04ed09bfa09913f36d4e27990997073ef28f40b2e7ab0ecb"
+    }
+  ],
+  "stage": "B-FE2.2",
+  "total_bfe2_2_new_hspice_scenarios": 6
+}

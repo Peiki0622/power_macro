@@ -1,0 +1,134 @@
+{
+  "authorized_new_scenarios": 4,
+  "scenarios": [
+    {
+      "authority_scenario_key": null,
+      "baseline_v": 0.95,
+      "deck_sha256": "2cd3b83327fc8c3dee5322504beaab773054136965a04a707d3b825c321da140",
+      "droop_v": null,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "close_ps": null,
+        "droop_v": null,
+        "g_pwl": "constant high from t=0 through stop",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": null,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_1_30_xor_30_real_latq_g_high_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "cfe3f96912d58e63542d3d9f711754c8b32c7d0fc07179f0586ab87f818caac9",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": null,
+      "record_count": 425,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-N",
+      "tr0_sha256": "00e91e49282dce5d6ddb990e80074ac9f7eab3e583764fcf4b4e88c83aa230a9"
+    },
+    {
+      "authority_scenario_key": "t0_5a_0p95_l2_long",
+      "baseline_v": 0.95,
+      "deck_sha256": "7e1201a678117deda33de996c933a1aeb6247ccddb862c7a937d94ed88766bed",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "close_ps": null,
+        "droop_v": 0.86,
+        "g_pwl": "constant high from t=0 through stop",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 75.0,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_1_30_xor_30_real_latq_g_high_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "aaec7588e8c9b3b5e3e8d62f9f22cfecd2d1ffb4276baa0aa5166e98ad399755",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 75.0,
+      "record_count": 452,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-095-L2",
+      "tr0_sha256": "3c4c6b2e7f1ae498b9a08c9ddb714e3bb2326bdfe1be0da7d883d01c3cffc87e"
+    },
+    {
+      "authority_scenario_key": null,
+      "baseline_v": 1.1,
+      "deck_sha256": "64aec7d00b666c9034b0f50bde31589acabede797fdde8f66307c02e8494cdf6",
+      "droop_v": null,
+      "electrical_signature": {
+        "baseline_v": 1.1,
+        "close_ps": null,
+        "droop_v": null,
+        "g_pwl": "constant high from t=0 through stop",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": null,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_1_30_xor_30_real_latq_g_high_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "c41b5d0c9aa0ee77432621017b5b8c49dd141450a895595bb0ff81b5637ac884",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": null,
+      "record_count": 407,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-110-N",
+      "tr0_sha256": "74f154b1f4cf1f10215fb7e16e4819657e91c72df1c550406b060c8811a02ef4"
+    },
+    {
+      "authority_scenario_key": "t0_5a_1p10_l2_long",
+      "baseline_v": 1.1,
+      "deck_sha256": "f03f992e27426f3f4d435d44b5f3cddfd619044a55a99d8f44f8ac2b48bf5d6b",
+      "droop_v": 0.96,
+      "electrical_signature": {
+        "baseline_v": 1.1,
+        "close_ps": null,
+        "droop_v": 0.96,
+        "g_pwl": "constant high from t=0 through stop",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 25.0,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_1_30_xor_30_real_latq_g_high_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "472aa9c6652775eac8fab130a179c590e087f89d987b7902a7e09acbbb46af47",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 25.0,
+      "record_count": 424,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE2L-110-L2",
+      "tr0_sha256": "ff6501d16bb51e8d76bf1be9bf1a08cc76f703ff0b0c13b1c25eb75fd92c8fcc"
+    }
+  ],
+  "stage": "B-FE2.1"
+}
