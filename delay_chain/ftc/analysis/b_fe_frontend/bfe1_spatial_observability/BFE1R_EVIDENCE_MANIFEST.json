@@ -1,0 +1,86 @@
+{
+  "existing_analysis_artifact_sha256": {
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe1_spatial_observability/BFE1_GATE_STATUS.json": "e844c049a123bbc0e6edc9c2632e0e5a557df913fd4738f4a1de3171e89a1831",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe1_spatial_observability/BFE1_SPATIAL_OBSERVABILITY_REPORT.md": "d122f95b274acad78d70c2ac5f9c796aeadf09df3a106a41f153fd2044258d99",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe1_spatial_observability/normal_l2_pairwise_discrimination.json": "670ed5cd5151380474776c93c74bb830ef7c019a4b8304270be2f6295c2182bc",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe1_spatial_observability/scenario_manifest.json": "c8f0676c8b379faa2c42655a7fcb13d369b1637cc9ba79d04a769acc0de420ff"
+  },
+  "generated_review_artifact_sha256": {
+    "BFE1R_REVIEW_REPORT.md": "08dee780fa3ba2fe85b2ffe97036bb7d930ec7354a33b639ce13230a610b0184",
+    "BFE1R_REVIEW_STATUS.json": "52934eedc4e89750d03ec3dfff328e3125ee446e15dd44f2a0ca6cf447f45e32"
+  },
+  "input_authority_sha256": {
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe0_architecture_contract.json": "876c6cddc3ae06f735866c25734d8191e0314062c12fd1b311e3c4d572cfa032",
+    "delay_chain/ftc/analysis/t0_transient_droop/cadence/cadence_summary.json": "419bbb17cdebb7b04f1f19e6c8d803d8b616b83d43cd68aaae964996f56c3100",
+    "delay_chain/ftc/analysis/t0_transient_droop/contract/T0_TRANSIENT_THREAT_CONTRACT.json": "6a532c24b7f90eb4a285a5a3b8c7ef86a40b5b0120737495c4d73558cb397d7f",
+    "delay_chain/ftc/discovery/selected_cells.json": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318",
+    "delay_chain/ftc/ftc_config.json": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f"
+  },
+  "large_tr0_copied": false,
+  "review_commit": "59a852c80d44c15b54726a095e0476c3d382cc4c",
+  "scenario_evidence": {
+    "hspice_scenario_count": 4,
+    "scenarios": [
+      {
+        "authority_scenario_key": null,
+        "baseline_v": 0.95,
+        "deck_sha256": "4b1fd5bc5151d07f6543fdf1ed09769af5be8cef7bcc65e8ed047c22d6563495",
+        "droop_v": null,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "phase_ps": null,
+        "record_count": 418,
+        "record_width": 93,
+        "scenario_id": "BFE1-095-N",
+        "tr0_sha256": "d85b9a9f85545049e3b410b9791b542d83bd866f4397b5aaac5ea9c108f961ed"
+      },
+      {
+        "authority_scenario_key": "t0_5a_0p95_l2_long",
+        "baseline_v": 0.95,
+        "deck_sha256": "abcfd492d715ca1e4c7d094fc2e7585efd1869d5590699a8091564a154eecd52",
+        "droop_v": 0.86,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "phase_ps": 75.0,
+        "record_count": 444,
+        "record_width": 93,
+        "scenario_id": "BFE1-095-L2",
+        "tr0_sha256": "e4a6348f9a0bdfdf61473db31217f0b92972bd4c29f2e32a036ba1a7fafb2835"
+      },
+      {
+        "authority_scenario_key": null,
+        "baseline_v": 1.1,
+        "deck_sha256": "461302784aeedd518eb0529f8dbad5cf0e8a24d6e9b19f01d24587d59323167b",
+        "droop_v": null,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "phase_ps": null,
+        "record_count": 396,
+        "record_width": 93,
+        "scenario_id": "BFE1-110-N",
+        "tr0_sha256": "6c71d9f0b89031b8cdef82234fc40f9fc494b4499c14cf9fe6ebbf2ba2785e57"
+      },
+      {
+        "authority_scenario_key": "t0_5a_1p10_l2_long",
+        "baseline_v": 1.1,
+        "deck_sha256": "6422dbb1d2b95aff05b14809d03755d65599685c89687a0f4014204fcd17e9df",
+        "droop_v": 0.96,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "phase_ps": 25.0,
+        "record_count": 412,
+        "record_width": 93,
+        "scenario_id": "BFE1-110-L2",
+        "tr0_sha256": "137ea22c1a3c1bd60c000882d9e7da67b199eba3edb10a1eda8ca1e93d5090cd"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "stage": "B-FE1R",
+  "xor_source_sha256": {
+    "LVT": {
+      "cdl": "ceb407f9d79e6614486c6e50d5794a1ed4b555d09bd6575c6b532ca69915b351",
+      "liberty": "01a42b44b753cea4fa85400b10ef47eff580392016b5113cd656b23b0f04cd4d"
+    },
+    "RVT": {
+      "cdl": "1c76297a514ca69abd846adcb957fa563399235728f8796cc76214ed831cc158",
+      "liberty": "07cc4778869657495feee51aa1f9012ce6a18383ec0f7eabe7a5d521dd3b2b2f"
+    }
+  }
+}
