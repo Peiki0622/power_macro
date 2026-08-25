@@ -1,0 +1,11 @@
+{
+  "gate": "BFE2_2S_SAFE_SEED_BLOCKED",
+  "historical_hspice_scenarios": {
+    "B-FE2.1": 4,
+    "B-FE2.2": 6
+  },
+  "new_hspice_scenarios": 0,
+  "reason": "0.95-V normal/L2 has no positive-width common Q-stable interval free of every measured pre-close D-to-Q flight",
+  "selected_seed_present": false,
+  "stage": "B-FE2.2S"
+}
