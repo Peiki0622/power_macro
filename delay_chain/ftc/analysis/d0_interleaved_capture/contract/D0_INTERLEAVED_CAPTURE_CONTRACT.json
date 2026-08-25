@@ -2,7 +2,7 @@
   "br1_fixed_fall_evidence": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br1_shared_sensor_cadence/shared_sensor_cadence_contract.json",
   "br1r_evidence": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br1r_fall_retiming/retiming_search_contract.json",
   "current_stage": "D0-BR1R",
-  "decision": "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED",
+  "decision": "SHARED_SENSOR_CADENCE_RETIMING_GO",
   "preserved_contracts": {
     "capture_bank_created": false,
     "capture_event_legalizer_created": false,
@@ -15,19 +15,19 @@
   "runtime_probe_requirement_ps": 2075.0,
   "schema_version": 1,
   "shared_sensor_cadence": {
-    "common_fall_offset_ps": null,
-    "n_sensor_min": null,
-    "n_sensor_min_status": "NOT_COMPUTABLE: BR1R did not search a longer safe P_sensor",
-    "p_sensor_verified_ps": null,
-    "verified_at_2075ps": false
+    "common_fall_offset_ps": 1000.0,
+    "n_sensor_min": 1,
+    "n_sensor_min_status": "ONE_SHARED_SENSOR_AT_2075PS_CONFIRMED_BY_BR1R",
+    "p_sensor_verified_ps": 2075.0,
+    "verified_at_2075ps": true
   },
   "simulation_accounting": {
     "electrically_equivalent_reuse_scenarios": 0,
     "forbidden_flow_runs": 0,
-    "new_hspice_scenarios": 6,
-    "reparsed_hspice_scenarios": 2,
+    "new_hspice_scenarios": 0,
+    "reparsed_hspice_scenarios": 8,
     "reused_hspice_scenarios": 6
   },
   "study": "ftc_d0b_interleaved_capture_architecture_closure_v1",
-  "terminal_stage": "D0-BR1R"
+  "terminal_stage": null
 }

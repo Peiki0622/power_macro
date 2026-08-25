@@ -1,161 +1,13 @@
 {
+  "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
   "diagnostics": [
     {
       "F_det": 6,
       "M_det": 5,
       "Vdroop_v": 0.86,
       "baseline_vdd_v": 0.95,
-      "causal_analysis": {
-        "event_windows": [
-          {
-            "completion_margin_ps": 26.050856,
-            "completion_time_s": 3.152024849e-09,
-            "d_ref_ps": 495.249981,
-            "end_s": 3.178075705e-09,
-            "name": "probe0_rising",
-            "nodes": {
-              "medium": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  3.063304088e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.482734223e-09
-                ]
-              },
-              "raw_ck": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  3.152024849e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.632678738e-09
-                ]
-              },
-              "xor": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  2.693964616e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.137428757e-09
-                ]
-              }
-            },
-            "source_cause": "S_CLK rise0",
-            "start_s": 1.4895e-09
-          },
-          {
-            "completion_margin_ps": null,
-            "completion_time_s": null,
-            "d_ref_ps": null,
-            "end_s": 3.5645e-09,
-            "name": "falling_wave",
-            "nodes": {
-              "medium": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              },
-              "raw_ck": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              },
-              "xor": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              }
-            },
-            "source_cause": "S_CLK fall0",
-            "start_s": 3.178075705e-09
-          },
-          {
-            "completion_margin_ps": 929.948654,
-            "completion_time_s": 4.637051346e-09,
-            "d_ref_ps": null,
-            "end_s": 5.567e-09,
-            "name": "probe1_rising",
-            "nodes": {
-              "medium": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.576770402e-09
-                ],
-                "rise_count": 2,
-                "rise_times_s": [
-                  4.238982123e-09,
-                  4.701768943e-09
-                ]
-              },
-              "raw_ck": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.637051346e-09
-                ],
-                "rise_count": 2,
-                "rise_times_s": [
-                  4.388945164e-09,
-                  4.795161517e-09
-                ]
-              },
-              "xor": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.21141208e-09
-                ],
-                "rise_count": 2,
-                "rise_times_s": [
-                  3.892695811e-09,
-                  4.393149654e-09
-                ]
-              }
-            },
-            "source_cause": "S_CLK rise1",
-            "start_s": 3.5645e-09
-          }
-        ],
-        "failures": [
-          "falling_wave_D_ref_is_ambiguous",
-          "falling_wave_completion_margin_below_25.0ps",
-          "falling_wave_medium_fall_count_is_0_not_1",
-          "falling_wave_medium_rise_count_is_0_not_1",
-          "falling_wave_raw_ck_fall_count_is_0_not_1",
-          "falling_wave_raw_ck_rise_count_is_0_not_1",
-          "falling_wave_xor_fall_count_is_0_not_1",
-          "falling_wave_xor_rise_count_is_0_not_1",
-          "probe1_rising_D_ref_is_ambiguous",
-          "probe1_rising_medium_rise_count_is_2_not_1",
-          "probe1_rising_raw_ck_rise_count_is_2_not_1",
-          "probe1_rising_xor_rise_count_is_2_not_1"
-        ],
-        "gate": "CAUSAL_WINDOW_FAIL",
-        "measured_source_edges_s": {
-          "fall0_s": 3.178075705e-09,
-          "rise0_s": 1.4895e-09,
-          "rise1_s": 3.5645e-09
-        },
-        "measurement_limits": {
-          "fall": 2,
-          "rise": 3
-        },
-        "measurement_prefix": "b1",
-        "prelaunch_ratios": {
-          "medium": 9.39e-07,
-          "raw_ck": 1.3915e-05,
-          "xor": 9.27e-07
-        },
-        "probe1_minus_probe0_d_ref_ps": null
-      },
       "deck_sha256": "4c0db5a9eab9e17456a81aee112296e7512af3e5cd8777de773834c169d00823",
-      "gate": "SHARED_SENSOR_CADENCE_FAIL",
+      "gate": "SHARED_SENSOR_CADENCE_EVIDENCE_INCOMPLETE",
       "scenario_key": "br1_0p95_l2_repeated_sensor",
       "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_interleaved_capture/br1_shared_sensor_cadence/br1_0p95_l2_repeated_sensor__a36042dd72f7deb73d00",
       "timing": {
@@ -165,141 +17,33 @@
         "launch1_s": 3.565e-09,
         "prelaunch_s": 3.564e-09,
         "stop_s": 5.567e-09
-      }
-    },
-    {
-      "F_det": 8,
-      "M_det": 3,
-      "Vdroop_v": 0.96,
-      "baseline_vdd_v": 1.1,
-      "causal_analysis": {
-        "event_windows": [
-          {
-            "completion_margin_ps": 546.483448,
-            "completion_time_s": 2.631592257e-09,
-            "d_ref_ps": 324.726837,
-            "end_s": 3.178075705e-09,
-            "name": "probe0_rising",
-            "nodes": {
-              "medium": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  2.558768515e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.185561881e-09
-                ]
-              },
-              "raw_ck": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  2.631592257e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.33001885e-09
-                ]
-              },
-              "xor": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  2.369970319e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  2.005292013e-09
-                ]
-              }
-            },
-            "source_cause": "S_CLK rise0",
-            "start_s": 1.4895e-09
+      },
+      "wavefront_analysis": {
+        "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
+        "d_ref_variation": {
+          "allowed_drift_limit_ps": null,
+          "attribution_note": "The transient-supply target can change physical delay. Scalar crossings establish that this is not a wavefront collision when the same-node separation and topology checks pass; they do not decompose all supply-versus-device-delay contributions.",
+          "classification": "INCOMPLETE_WAVEFRONT_OBSERVATION_NO_COLLISION_PROVEN",
+          "d_ref_ps_by_wavefront": {
+            "E0": 495.249981,
+            "E1": 402.011863,
+            "EF": 496.249353
           },
-          {
-            "completion_margin_ps": null,
-            "completion_time_s": null,
-            "d_ref_ps": null,
-            "end_s": 3.5645e-09,
-            "name": "falling_wave",
-            "nodes": {
-              "medium": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              },
-              "raw_ck": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              },
-              "xor": {
-                "fall_count": 0,
-                "fall_times_s": [],
-                "rise_count": 0,
-                "rise_times_s": []
-              }
-            },
-            "source_cause": "S_CLK fall0",
-            "start_s": 3.178075705e-09
+          "delta_from_E0_ps": {
+            "E0": 0.0,
+            "E1": -93.238118,
+            "EF": 0.999372
           },
-          {
-            "completion_margin_ps": 845.769224,
-            "completion_time_s": 4.671230776e-09,
-            "d_ref_ps": null,
-            "end_s": 5.517e-09,
-            "name": "probe1_rising",
-            "nodes": {
-              "medium": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.609022727e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  3.913729388e-09
-                ]
-              },
-              "raw_ck": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.671230776e-09
-                ],
-                "rise_count": 1,
-                "rise_times_s": [
-                  4.058131797e-09
-                ]
-              },
-              "xor": {
-                "fall_count": 1,
-                "fall_times_s": [
-                  4.046998609e-09
-                ],
-                "rise_count": 2,
-                "rise_times_s": [
-                  3.73283764e-09,
-                  4.076079023e-09
-                ]
-              }
-            },
-            "source_cause": "S_CLK rise1",
-            "start_s": 3.5645e-09
-          }
+          "gate_rule": "report_only; positive per-wavefront D_ref and physical separation are required"
+        },
+        "failures": [],
+        "gate": "WAVEFRONT_SEPARATION_INCOMPLETE",
+        "incomplete_observations": [
+          "E1_medium_fall_not_observed",
+          "E1_raw_ck_fall_not_observed",
+          "E1_topology_fall_order_unobservable",
+          "E1_xor_fall_not_observed"
         ],
-        "failures": [
-          "falling_wave_D_ref_is_ambiguous",
-          "falling_wave_completion_margin_below_25.0ps",
-          "falling_wave_medium_fall_count_is_0_not_1",
-          "falling_wave_medium_rise_count_is_0_not_1",
-          "falling_wave_raw_ck_fall_count_is_0_not_1",
-          "falling_wave_raw_ck_rise_count_is_0_not_1",
-          "falling_wave_xor_fall_count_is_0_not_1",
-          "falling_wave_xor_rise_count_is_0_not_1",
-          "probe1_rising_D_ref_is_ambiguous",
-          "probe1_rising_xor_rise_count_is_2_not_1"
-        ],
-        "gate": "CAUSAL_WINDOW_FAIL",
         "measured_source_edges_s": {
           "fall0_s": 3.178075705e-09,
           "rise0_s": 1.4895e-09,
@@ -310,15 +54,157 @@
           "rise": 3
         },
         "measurement_prefix": "b1",
-        "prelaunch_ratios": {
-          "medium": -1.399e-06,
-          "raw_ck": 5.555e-06,
-          "xor": 8.32e-07
+        "minimum_same_node_low_gap_ps": 124.998541,
+        "required_low_gap_margin_ps": 25.0,
+        "rise1_prelaunch_snapshot": {
+          "ratios": {
+            "medium": 9.39e-07,
+            "raw_ck": 1.3915e-05,
+            "xor": 9.27e-07
+          },
+          "reason": "EF need only finish before E1 reaches the same node, not before S_CLK rise1",
+          "used_for_gate": false
         },
-        "probe1_minus_probe0_d_ref_ps": null
-      },
+        "same_node_separation": {
+          "medium": [
+            {
+              "earlier_fall_s": 3.063304088e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 4.238982123e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1175.678035,
+              "margin_over_25.0_ps": 1150.678035
+            },
+            {
+              "earlier_fall_s": 4.576770402e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": 4.701768943e-09,
+              "later_wavefront": "E1",
+              "low_gap_ps": 124.998541,
+              "margin_over_25.0_ps": 99.998541
+            }
+          ],
+          "raw_ck": [
+            {
+              "earlier_fall_s": 3.152024849e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 4.388945164e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1236.920315,
+              "margin_over_25.0_ps": 1211.920315
+            },
+            {
+              "earlier_fall_s": 4.637051346e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": 4.795161517e-09,
+              "later_wavefront": "E1",
+              "low_gap_ps": 158.110171,
+              "margin_over_25.0_ps": 133.110171
+            }
+          ],
+          "xor": [
+            {
+              "earlier_fall_s": 2.693964616e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 3.892695811e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1198.731195,
+              "margin_over_25.0_ps": 1173.731195
+            },
+            {
+              "earlier_fall_s": 4.21141208e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": 4.393149654e-09,
+              "later_wavefront": "E1",
+              "low_gap_ps": 181.737574,
+              "margin_over_25.0_ps": 156.737574
+            }
+          ]
+        },
+        "source_window_completion_requirement": false,
+        "wavefronts": [
+          {
+            "d_ref_ps": 495.249981,
+            "id": "E0",
+            "legacy_name": "probe0_rising",
+            "nodes": {
+              "medium": {
+                "fall_s": 3.063304088e-09,
+                "rise_s": 2.482734223e-09,
+                "width_ps": 580.569865
+              },
+              "raw_ck": {
+                "fall_s": 3.152024849e-09,
+                "rise_s": 2.632678738e-09,
+                "width_ps": 519.346111
+              },
+              "xor": {
+                "fall_s": 2.693964616e-09,
+                "rise_s": 2.137428757e-09,
+                "width_ps": 556.535859
+              }
+            },
+            "source_cause": "S_CLK rise0",
+            "source_transition_s": 1.4895e-09
+          },
+          {
+            "d_ref_ps": 496.249353,
+            "id": "EF",
+            "legacy_name": "falling_wave",
+            "nodes": {
+              "medium": {
+                "fall_s": 4.576770402e-09,
+                "rise_s": 4.238982123e-09,
+                "width_ps": 337.788279
+              },
+              "raw_ck": {
+                "fall_s": 4.637051346e-09,
+                "rise_s": 4.388945164e-09,
+                "width_ps": 248.106182
+              },
+              "xor": {
+                "fall_s": 4.21141208e-09,
+                "rise_s": 3.892695811e-09,
+                "width_ps": 318.716269
+              }
+            },
+            "source_cause": "S_CLK fall0",
+            "source_transition_s": 3.178075705e-09
+          },
+          {
+            "d_ref_ps": 402.011863,
+            "id": "E1",
+            "legacy_name": "probe1_rising",
+            "nodes": {
+              "medium": {
+                "fall_s": null,
+                "rise_s": 4.701768943e-09,
+                "width_ps": null
+              },
+              "raw_ck": {
+                "fall_s": null,
+                "rise_s": 4.795161517e-09,
+                "width_ps": null
+              },
+              "xor": {
+                "fall_s": null,
+                "rise_s": 4.393149654e-09,
+                "width_ps": null
+              }
+            },
+            "source_cause": "S_CLK rise1",
+            "source_transition_s": 3.5645e-09
+          }
+        ]
+      }
+    },
+    {
+      "F_det": 8,
+      "M_det": 3,
+      "Vdroop_v": 0.96,
+      "baseline_vdd_v": 1.1,
       "deck_sha256": "a2a9eecfacb37f25aa3a2aff701ae61932ed744abe831f46c2939f77cbe6e341",
-      "gate": "SHARED_SENSOR_CADENCE_FAIL",
+      "gate": "SHARED_SENSOR_CADENCE_EVIDENCE_INCOMPLETE",
       "scenario_key": "br1_1p10_l2_repeated_sensor",
       "scenario_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/d0_interleaved_capture/br1_shared_sensor_cadence/br1_1p10_l2_repeated_sensor__143bed1c056b45b2e69c",
       "timing": {
@@ -328,6 +214,189 @@
         "launch1_s": 3.565e-09,
         "prelaunch_s": 3.564e-09,
         "stop_s": 5.517e-09
+      },
+      "wavefront_analysis": {
+        "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
+        "d_ref_variation": {
+          "allowed_drift_limit_ps": null,
+          "attribution_note": "The transient-supply target can change physical delay. Scalar crossings establish that this is not a wavefront collision when the same-node separation and topology checks pass; they do not decompose all supply-versus-device-delay contributions.",
+          "classification": "INCOMPLETE_WAVEFRONT_OBSERVATION_NO_COLLISION_PROVEN",
+          "d_ref_ps_by_wavefront": {
+            "E0": 324.726837,
+            "E1": null,
+            "EF": 325.294157
+          },
+          "delta_from_E0_ps": {
+            "E0": 0.0,
+            "E1": null,
+            "EF": 0.56732
+          },
+          "gate_rule": "report_only; positive per-wavefront D_ref and physical separation are required"
+        },
+        "failures": [],
+        "gate": "WAVEFRONT_SEPARATION_INCOMPLETE",
+        "incomplete_observations": [
+          "E1_D_ref_unobservable",
+          "E1_medium_pulse_not_observed",
+          "E1_raw_ck_pulse_not_observed",
+          "E1_topology_fall_order_unobservable",
+          "E1_topology_rise_order_unobservable",
+          "E1_xor_fall_not_observed",
+          "medium_EF_to_E1_low_gap_unobservable",
+          "raw_ck_EF_to_E1_low_gap_unobservable"
+        ],
+        "measured_source_edges_s": {
+          "fall0_s": 3.178075705e-09,
+          "rise0_s": 1.4895e-09,
+          "rise1_s": 3.5645e-09
+        },
+        "measurement_limits": {
+          "fall": 2,
+          "rise": 3
+        },
+        "measurement_prefix": "b1",
+        "minimum_same_node_low_gap_ps": 29.080414,
+        "required_low_gap_margin_ps": 25.0,
+        "rise1_prelaunch_snapshot": {
+          "ratios": {
+            "medium": -1.399e-06,
+            "raw_ck": 5.555e-06,
+            "xor": 8.32e-07
+          },
+          "reason": "EF need only finish before E1 reaches the same node, not before S_CLK rise1",
+          "used_for_gate": false
+        },
+        "same_node_separation": {
+          "medium": [
+            {
+              "earlier_fall_s": 2.558768515e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 3.913729388e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1354.960873,
+              "margin_over_25.0_ps": 1329.960873
+            },
+            {
+              "earlier_fall_s": 4.609022727e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": null,
+              "later_wavefront": "E1",
+              "low_gap_ps": null,
+              "margin_over_25.0_ps": null
+            }
+          ],
+          "raw_ck": [
+            {
+              "earlier_fall_s": 2.631592257e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 4.058131797e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1426.53954,
+              "margin_over_25.0_ps": 1401.53954
+            },
+            {
+              "earlier_fall_s": 4.671230776e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": null,
+              "later_wavefront": "E1",
+              "low_gap_ps": null,
+              "margin_over_25.0_ps": null
+            }
+          ],
+          "xor": [
+            {
+              "earlier_fall_s": 2.369970319e-09,
+              "earlier_wavefront": "E0",
+              "later_rise_s": 3.73283764e-09,
+              "later_wavefront": "EF",
+              "low_gap_ps": 1362.867321,
+              "margin_over_25.0_ps": 1337.867321
+            },
+            {
+              "earlier_fall_s": 4.046998609e-09,
+              "earlier_wavefront": "EF",
+              "later_rise_s": 4.076079023e-09,
+              "later_wavefront": "E1",
+              "low_gap_ps": 29.080414,
+              "margin_over_25.0_ps": 4.080414
+            }
+          ]
+        },
+        "source_window_completion_requirement": false,
+        "wavefronts": [
+          {
+            "d_ref_ps": 324.726837,
+            "id": "E0",
+            "legacy_name": "probe0_rising",
+            "nodes": {
+              "medium": {
+                "fall_s": 2.558768515e-09,
+                "rise_s": 2.185561881e-09,
+                "width_ps": 373.206634
+              },
+              "raw_ck": {
+                "fall_s": 2.631592257e-09,
+                "rise_s": 2.33001885e-09,
+                "width_ps": 301.573407
+              },
+              "xor": {
+                "fall_s": 2.369970319e-09,
+                "rise_s": 2.005292013e-09,
+                "width_ps": 364.678306
+              }
+            },
+            "source_cause": "S_CLK rise0",
+            "source_transition_s": 1.4895e-09
+          },
+          {
+            "d_ref_ps": 325.294157,
+            "id": "EF",
+            "legacy_name": "falling_wave",
+            "nodes": {
+              "medium": {
+                "fall_s": 4.609022727e-09,
+                "rise_s": 3.913729388e-09,
+                "width_ps": 695.293339
+              },
+              "raw_ck": {
+                "fall_s": 4.671230776e-09,
+                "rise_s": 4.058131797e-09,
+                "width_ps": 613.098979
+              },
+              "xor": {
+                "fall_s": 4.046998609e-09,
+                "rise_s": 3.73283764e-09,
+                "width_ps": 314.160969
+              }
+            },
+            "source_cause": "S_CLK fall0",
+            "source_transition_s": 3.178075705e-09
+          },
+          {
+            "d_ref_ps": null,
+            "id": "E1",
+            "legacy_name": "probe1_rising",
+            "nodes": {
+              "medium": {
+                "fall_s": null,
+                "rise_s": null,
+                "width_ps": null
+              },
+              "raw_ck": {
+                "fall_s": null,
+                "rise_s": null,
+                "width_ps": null
+              },
+              "xor": {
+                "fall_s": null,
+                "rise_s": 4.076079023e-09,
+                "width_ps": null
+              }
+            },
+            "source_cause": "S_CLK rise1",
+            "source_transition_s": 3.5645e-09
+          }
+        ]
       }
     }
   ],
@@ -342,5 +411,6 @@
   },
   "source": "D0-BR1 retained listings",
   "stage": "D0-BR1R",
-  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1",
+  "supersedes": "source_causal_completion_window_gate"
 }

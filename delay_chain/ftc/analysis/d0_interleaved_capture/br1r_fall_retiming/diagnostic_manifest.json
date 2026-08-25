@@ -24,6 +24,7 @@
     "DFF_input_load"
   ],
   "new_hspice_scenario_limit": 6,
+  "publication_mode": "zero_hspice_reparse",
   "reused_fixed_fall_scenarios": 2,
   "schema_version": 1,
   "stage": "D0-BR1R",

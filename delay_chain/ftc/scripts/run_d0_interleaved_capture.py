@@ -51,7 +51,9 @@ PLAN = FTC_ROOT.parent.parent / "plans" / "ftc_d0b_interleaved_capture_architect
 # 400 MHz calibration clock, and no D0-BR calculation is allowed to change it.
 RUNTIME_PERIOD_PS = 2075.0
 EDGE_GUARD_PS = 25.0
-LOW_RATIO_LIMIT = 0.10
+# This is an explicit same-node pulse-separation guard.  It is *not* T0's
+# phase-search resolution and must never be used as a D_ref drift allowance.
+WAVEFRONT_LOW_GAP_MARGIN_PS = 25.0
 
 # BR1R samples a deliberately small source-high-time bracket, not a duty-cycle
 # sweep.  The values are reproduced from retained BR1 propagation evidence:
@@ -61,7 +63,6 @@ LOW_RATIO_LIMIT = 0.10
 BR1R_FALL_OFFSETS_PS: Tuple[float, ...] = (750.0, 1000.0, 1250.0)
 BR1R_SOURCE_SETTLE_PS = 100.0
 BR1R_MEASURED_EDGE_LIMIT = 6
-BR1R_DREF_DISTORTION_LIMIT_PS = 25.0
 
 # These are the two and only BR1 electrical identities.  Their codes, depth,
 # waveform and phase are the formal T0 L2 / 3002 ps target values used by D0-A.
@@ -453,7 +454,8 @@ def scenario_identity(spec: Mapping[str, Any], parameters: Mapping[str, Any], fa
     return "{}__{}".format(spec["scenario_key"], hashlib.sha256(payload.encode("ascii")).hexdigest()[:20])
 
 
-def run_br1_scenario(context: Mapping[str, Any], spec: Mapping[str, Any], fall_offset_ps: float) -> Tuple[Dict[str, Any], bool]:
+def run_br1_scenario(context: Mapping[str, Any], spec: Mapping[str, Any], fall_offset_ps: float,
+                     reparse_only: bool = False) -> Tuple[Dict[str, Any], bool]:
     """Reuse or execute exactly one approved BR1 repeated-sensor diagnostic.
 
     The returned result always carries ``hspice_executed``.  It is a
@@ -494,6 +496,8 @@ def run_br1_scenario(context: Mapping[str, Any], spec: Mapping[str, Any], fall_o
                 "deck_sha256": deck_sha, "hspice_executed": True,
                 "measurements": parse_measurements(measurement_path)}, True
 
+    if reparse_only:
+        raise RuntimeError("0-HSPICE BR1 reparse requires retained matching evidence: {}".format(scenario))
     hspice, environment, version = require_hspice()
     scenario.mkdir(parents=True, exist_ok=True)
     (scenario / "br1.sp").write_text(deck, encoding="utf-8")
@@ -560,52 +564,77 @@ def measured_crossings(values: Mapping[str, Optional[float]], prefix: str, node:
             if value is not None]
 
 
-def crossings_in_window(crossings: Sequence[float], start_s: float, end_s: float) -> List[float]:
-    """Select crossings in a half-open source-causal interval ``[start, end)``."""
+WAVEFRONT_IDENTITIES: Tuple[Tuple[str, str, str], ...] = (
+    ("E0", "probe0_rising", "S_CLK rise0"),
+    ("EF", "falling_wave", "S_CLK fall0"),
+    ("E1", "probe1_rising", "S_CLK rise1"),
+)
 
-    return [crossing for crossing in crossings if start_s <= crossing < end_s]
 
+def node_pulse_records(rises: Sequence[float], falls: Sequence[float]) -> List[Dict[str, Optional[float]]]:
+    """Pair node crossings chronologically without using a source-time window.
 
-def causal_window_analysis(result: Mapping[str, Any], prefix: str, rise_limit: int,
-                           fall_limit: int, require_untruncated_measurement: bool) -> Dict[str, Any]:
-    """Classify a repeated sensor trace by its three measured S_CLK causes.
-
-    The source sequence is always ``rise0 -> fall0 -> rise1``.  A node edge is
-    therefore attributable to probe0 only before measured ``fall0``, to the
-    falling wave only before measured ``rise1``, and to probe1 only afterwards.
-    This deliberately makes a late falling-wave edge a collision instead of
-    silently relabelling it as probe1.  D_ref is calculated only when a window
-    contains exactly one XOR and one raw-CK rising event, so no global edge
-    ordinal can accidentally pair distinct physical causes.
+    A rising crossing owns the first still-unpaired later falling crossing.
+    This makes a non-alternating trace inspectable: a next rise before the
+    preceding fall remains visible as a negative same-node low interval below,
+    rather than being silently reclassified by the time of its source edge.
     """
 
-    values, timing = result["measurements"], result["timing"]
+    records: List[Dict[str, Optional[float]]] = []
+    next_fall = 0
+    for rise in rises:
+        while next_fall < len(falls) and falls[next_fall] <= rise:
+            next_fall += 1
+        fall = falls[next_fall] if next_fall < len(falls) else None
+        if fall is not None:
+            next_fall += 1
+        records.append({"rise_s": rise, "fall_s": fall,
+                        "width_ps": ps_difference(fall, rise)})
+    return records
+
+
+def prelaunch_observation(values: Mapping[str, Optional[float]], prefix: str) -> Dict[str, Optional[float]]:
+    """Retain legacy rise1 snapshots as non-gating diagnostics only."""
+
+    ratios: Dict[str, Optional[float]] = {}
+    for node in ("xor", "medium", "raw_ck"):
+        value = values.get("{}_{}_prelaunch".format(prefix, node))
+        rail = values.get("{}_{}_vdd_prelaunch".format(prefix, node))
+        ratio = None if value is None or rail is None or rail <= 0.0 else value / rail
+        ratios[node] = None if ratio is None else round(ratio, 9)
+    return ratios
+
+
+def wavefront_separation_analysis(result: Mapping[str, Any], prefix: str, rise_limit: int,
+                                  fall_limit: int, require_complete_wavefronts: bool) -> Dict[str, Any]:
+    """Reconstruct E0/EF/E1 from topology and check same-node separation.
+
+    ``rise0 -> fall0 -> rise1`` identifies the three injected wavefronts, but
+    their source-time windows are intentionally *not* completion deadlines.
+    A fall-induced EF may still be in medium/raw CK when S_CLK rises for E1;
+    this is legal when EF finishes at that node before E1 arrives there.  The
+    Gate therefore checks serial pulse order and low intervals at each node,
+    plus XOR -> medium -> raw-CK propagation for each wavefront.
+
+    D_ref differences are reported without a numerical drift limit.  Once the
+    topology and same-node separation checks pass, a changed positive D_ref is
+    classified as transient physical-delay variation, not as a collision.
+    """
+
+    values = result["measurements"]
     source_edges = {
         "rise0_s": values.get("{}_sclk_rise0".format(prefix)),
         "fall0_s": values.get("{}_sclk_fall0".format(prefix)),
         "rise1_s": values.get("{}_sclk_rise1".format(prefix)),
     }
-    source_failures: List[str] = []
+    failures: List[str] = []
+    incomplete: List[str] = []
     if any(value is None for value in source_edges.values()):
-        source_failures.append("missing_measured_sclk_transition")
-        # Timing values are retained only to produce an inspectable, bounded
-        # record after a simulator measurement failure.  A missing measured
-        # source edge remains a hard Gate failure and never becomes a pass.
-        rise0 = float(timing["launch0_s"])
-        fall0 = float(timing["fall0_s"])
-        rise1 = float(timing["launch1_s"])
-    else:
-        rise0 = float(source_edges["rise0_s"])
-        fall0 = float(source_edges["fall0_s"])
-        rise1 = float(source_edges["rise1_s"])
-    if not (rise0 < fall0 < rise1 < float(timing["stop_s"])):
-        source_failures.append("sclk_causal_order_is_not_strict")
+        failures.append("missing_measured_sclk_transition")
+    elif not (float(source_edges["rise0_s"]) < float(source_edges["fall0_s"]) <
+              float(source_edges["rise1_s"])):
+        failures.append("sclk_source_order_is_not_strict")
 
-    windows = (
-        ("probe0_rising", rise0, fall0, "S_CLK rise0"),
-        ("falling_wave", fall0, rise1, "S_CLK fall0"),
-        ("probe1_rising", rise1, float(timing["stop_s"]), "S_CLK rise1"),
-    )
     all_edges = {
         node: {
             "rise": measured_crossings(values, prefix, node, "rise", rise_limit),
@@ -613,89 +642,161 @@ def causal_window_analysis(result: Mapping[str, Any], prefix: str, rise_limit: i
         }
         for node in ("xor", "medium", "raw_ck")
     }
-    failures: List[str] = list(source_failures)
-    window_records: List[Dict[str, Any]] = []
-    for window_name, start_s, end_s, source_cause in windows:
-        nodes: Dict[str, Dict[str, Any]] = {}
-        for node in ("xor", "medium", "raw_ck"):
-            rises = crossings_in_window(all_edges[node]["rise"], start_s, end_s)
-            falls = crossings_in_window(all_edges[node]["fall"], start_s, end_s)
-            nodes[node] = {
-                "rise_times_s": rises,
-                "fall_times_s": falls,
-                "rise_count": len(rises),
-                "fall_count": len(falls),
-            }
-            if len(rises) != 1:
-                failures.append("{}_{}_rise_count_is_{}_not_1".format(window_name, node, len(rises)))
-            if len(falls) != 1:
-                failures.append("{}_{}_fall_count_is_{}_not_1".format(window_name, node, len(falls)))
-        xor_rises, raw_rises = nodes["xor"]["rise_times_s"], nodes["raw_ck"]["rise_times_s"]
-        d_ref = ps_difference(raw_rises[0], xor_rises[0]) if len(xor_rises) == len(raw_rises) == 1 else None
-        if d_ref is None:
-            failures.append("{}_D_ref_is_ambiguous".format(window_name))
-        elif d_ref <= 0.0:
-            failures.append("{}_D_ref_is_not_positive".format(window_name))
-        completion_s = max((nodes[node]["fall_times_s"][0] for node in nodes
-                            if len(nodes[node]["fall_times_s"]) == 1), default=None)
-        completion_margin = ps_difference(end_s, completion_s)
-        if completion_margin is None or completion_margin < EDGE_GUARD_PS:
-            failures.append("{}_completion_margin_below_{}ps".format(window_name, EDGE_GUARD_PS))
-        window_records.append({
-            "name": window_name,
-            "source_cause": source_cause,
-            "start_s": start_s,
-            "end_s": end_s,
-            "nodes": nodes,
-            "d_ref_ps": d_ref,
-            "completion_time_s": completion_s,
-            "completion_margin_ps": completion_margin,
-        })
+    node_pulses = {
+        node: node_pulse_records(edges["rise"], edges["fall"])
+        for node, edges in all_edges.items()
+    }
 
-    prelaunch_ratios: Dict[str, Optional[float]] = {}
-    for node in ("xor", "medium", "raw_ck"):
-        value = values.get("{}_{}_prelaunch".format(prefix, node))
-        rail = values.get("{}_{}_vdd_prelaunch".format(prefix, node))
-        ratio = None if value is None or rail is None or rail <= 0.0 else value / rail
-        prelaunch_ratios[node] = None if ratio is None else round(ratio, 9)
-        if ratio is None or ratio > LOW_RATIO_LIMIT:
-            failures.append("{}_not_low_before_rise1".format(node))
-
-    if require_untruncated_measurement:
+    if require_complete_wavefronts:
         for node in ("xor", "medium", "raw_ck"):
             for direction, limit in (("rise", rise_limit), ("fall", fall_limit)):
+                count = len(all_edges[node][direction])
+                if count < len(WAVEFRONT_IDENTITIES):
+                    incomplete.append("{}_{}_count_is_{}_not_{}".format(
+                        node, direction, count, len(WAVEFRONT_IDENTITIES)))
+                elif count > len(WAVEFRONT_IDENTITIES):
+                    failures.append("{}_{}_count_is_{}_not_{}".format(
+                        node, direction, count, len(WAVEFRONT_IDENTITIES)))
                 if len(all_edges[node][direction]) == limit:
-                    failures.append("{}_{}_measurement_limit_reached".format(node, direction))
-    probe0_dref, probe1_dref = window_records[0]["d_ref_ps"], window_records[2]["d_ref_ps"]
-    if probe0_dref is not None and probe1_dref is not None:
-        difference = round(abs(probe1_dref - probe0_dref), 6)
-        if difference > BR1R_DREF_DISTORTION_LIMIT_PS:
-            failures.append("probe1_D_ref_shift_exceeds_{}ps".format(BR1R_DREF_DISTORTION_LIMIT_PS))
-    else:
-        difference = None
+                    incomplete.append("{}_{}_measurement_limit_reached".format(node, direction))
 
+    wavefronts: List[Dict[str, Any]] = []
+    for index, (identity, legacy_name, source_cause) in enumerate(WAVEFRONT_IDENTITIES):
+        source_key = ("rise0_s", "fall0_s", "rise1_s")[index]
+        nodes: Dict[str, Dict[str, Optional[float]]] = {}
+        for node in ("xor", "medium", "raw_ck"):
+            pulse = node_pulses[node][index] if index < len(node_pulses[node]) else None
+            if pulse is None:
+                nodes[node] = {"rise_s": None, "fall_s": None, "width_ps": None}
+                incomplete.append("{}_{}_pulse_not_observed".format(identity, node))
+            else:
+                nodes[node] = dict(pulse)
+                if pulse["fall_s"] is None:
+                    incomplete.append("{}_{}_fall_not_observed".format(identity, node))
+                elif pulse["width_ps"] is None or float(pulse["width_ps"]) <= 0.0:
+                    failures.append("{}_{}_pulse_width_is_not_positive".format(identity, node))
+
+        xor_rise, medium_rise, raw_rise = (nodes[node]["rise_s"] for node in ("xor", "medium", "raw_ck"))
+        xor_fall, medium_fall, raw_fall = (nodes[node]["fall_s"] for node in ("xor", "medium", "raw_ck"))
+        if None not in (xor_rise, medium_rise, raw_rise):
+            if not (float(xor_rise) < float(medium_rise) < float(raw_rise)):
+                failures.append("{}_topology_rise_order_is_not_xor_medium_raw_ck".format(identity))
+        else:
+            incomplete.append("{}_topology_rise_order_unobservable".format(identity))
+        if None not in (xor_fall, medium_fall, raw_fall):
+            if not (float(xor_fall) < float(medium_fall) < float(raw_fall)):
+                failures.append("{}_topology_fall_order_is_not_xor_medium_raw_ck".format(identity))
+        else:
+            incomplete.append("{}_topology_fall_order_unobservable".format(identity))
+        if source_edges[source_key] is not None and xor_rise is not None:
+            if float(xor_rise) <= float(source_edges[source_key]):
+                failures.append("{}_xor_arrives_before_its_source_transition".format(identity))
+
+        d_ref = ps_difference(raw_rise, xor_rise)
+        if d_ref is None:
+            incomplete.append("{}_D_ref_unobservable".format(identity))
+        elif d_ref <= 0.0:
+            failures.append("{}_D_ref_is_not_positive".format(identity))
+        wavefronts.append({
+            "id": identity,
+            "legacy_name": legacy_name,
+            "source_cause": source_cause,
+            "source_transition_s": source_edges[source_key],
+            "nodes": nodes,
+            "d_ref_ps": d_ref,
+        })
+
+    same_node_separation: Dict[str, List[Dict[str, Any]]] = {}
+    for node in ("xor", "medium", "raw_ck"):
+        intervals: List[Dict[str, Any]] = []
+        for index, (earlier, later) in enumerate((("E0", "EF"), ("EF", "E1"))):
+            earlier_fall = wavefronts[index]["nodes"][node]["fall_s"]
+            later_rise = wavefronts[index + 1]["nodes"][node]["rise_s"]
+            low_gap = ps_difference(later_rise, earlier_fall)
+            record = {
+                "earlier_wavefront": earlier,
+                "later_wavefront": later,
+                "earlier_fall_s": earlier_fall,
+                "later_rise_s": later_rise,
+                "low_gap_ps": low_gap,
+                "margin_over_{}_ps".format(WAVEFRONT_LOW_GAP_MARGIN_PS):
+                    None if low_gap is None else round(low_gap - WAVEFRONT_LOW_GAP_MARGIN_PS, 6),
+            }
+            if low_gap is None:
+                incomplete.append("{}_{}_to_{}_low_gap_unobservable".format(node, earlier, later))
+            elif low_gap <= 0.0:
+                failures.append("{}_{}_to_{}_pulses_overlap_or_merge".format(node, earlier, later))
+            elif low_gap < WAVEFRONT_LOW_GAP_MARGIN_PS:
+                failures.append("{}_{}_to_{}_low_gap_below_{}ps".format(
+                    node, earlier, later, WAVEFRONT_LOW_GAP_MARGIN_PS))
+            intervals.append(record)
+        same_node_separation[node] = intervals
+
+    complete = not incomplete
+    drefs = {wavefront["id"]: wavefront["d_ref_ps"] for wavefront in wavefronts}
+    e0_dref = drefs["E0"]
+    dref_variation = {
+        "d_ref_ps_by_wavefront": drefs,
+        "delta_from_E0_ps": {
+            identity: None if e0_dref is None or dref is None else round(dref - e0_dref, 6)
+            for identity, dref in drefs.items()
+        },
+        "allowed_drift_limit_ps": None,
+        "gate_rule": "report_only; positive per-wavefront D_ref and physical separation are required",
+        "classification": (
+            "WAVEFRONT_COLLISION_OR_TOPOLOGY_FAILURE" if failures else
+            "INCOMPLETE_WAVEFRONT_OBSERVATION_NO_COLLISION_PROVEN" if not complete else
+            "TRANSIENT_PHYSICAL_DELAY_VARIATION_WITHOUT_WAVEFRONT_COLLISION"
+        ),
+        "attribution_note": (
+            "The transient-supply target can change physical delay. Scalar crossings establish that this is not "
+            "a wavefront collision when the same-node separation and topology checks pass; they do not decompose "
+            "all supply-versus-device-delay contributions."
+        ),
+    }
+    gate = ("WAVEFRONT_SEPARATION_FAIL" if failures else
+            "WAVEFRONT_SEPARATION_PASS" if complete else
+            "WAVEFRONT_SEPARATION_INCOMPLETE")
+    all_low_gaps = [record["low_gap_ps"] for records in same_node_separation.values()
+                    for record in records if record["low_gap_ps"] is not None]
     return {
+        "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
         "measurement_prefix": prefix,
         "measured_source_edges_s": source_edges,
         "measurement_limits": {"rise": rise_limit, "fall": fall_limit},
-        "event_windows": window_records,
-        "prelaunch_ratios": prelaunch_ratios,
-        "probe1_minus_probe0_d_ref_ps": difference,
+        "source_window_completion_requirement": False,
+        "rise1_prelaunch_snapshot": {
+            "ratios": prelaunch_observation(values, prefix),
+            "used_for_gate": False,
+            "reason": "EF need only finish before E1 reaches the same node, not before S_CLK rise1",
+        },
+        "wavefronts": wavefronts,
+        "same_node_separation": same_node_separation,
+        "minimum_same_node_low_gap_ps": min(all_low_gaps) if all_low_gaps else None,
+        "required_low_gap_margin_ps": WAVEFRONT_LOW_GAP_MARGIN_PS,
+        "d_ref_variation": dref_variation,
         "failures": sorted(set(failures)),
-        "gate": "CAUSAL_WINDOW_PASS" if not failures else "CAUSAL_WINDOW_FAIL",
+        "incomplete_observations": sorted(set(incomplete)),
+        "gate": gate,
     }
 
 
 def classify_br1(result: Mapping[str, Any]) -> Dict[str, Any]:
-    """Reclassify the fixed-fall BR1 evidence by source-causal time windows.
+    """Reclassify retained BR1 data without imposing source-time deadlines.
 
-    The retained BR1 deck measures only three rises and two falls per node, but
-    it is still sufficient to show its late falling wave escapes into the
-    probe1 window.  It cannot certify a passing schedule; BR1R adds six-edge
-    observability before any retimed offset may be granted a pass.
+    BR1 has only two measured falls per node, so it remains endpoint evidence
+    rather than a full E0/EF/E1 qualification.  Its partial third-pulse record
+    is not, however, evidence of a collision merely because EF is still in a
+    downstream stage at source rise1.
     """
 
-    causal = causal_window_analysis(result, "b1", 3, 2, False)
+    wavefront = wavefront_separation_analysis(result, "b1", 3, 2, False)
+    if wavefront["gate"] == "WAVEFRONT_SEPARATION_PASS":
+        gate = "SHARED_SENSOR_CADENCE_GO"
+    elif wavefront["gate"] == "WAVEFRONT_SEPARATION_FAIL":
+        gate = "SHARED_SENSOR_CADENCE_FAIL"
+    else:
+        gate = "SHARED_SENSOR_CADENCE_EVIDENCE_INCOMPLETE"
     return {
         "scenario_key": result["spec"]["scenario_key"],
         "baseline_vdd_v": result["spec"]["baseline_vdd_v"],
@@ -705,20 +806,19 @@ def classify_br1(result: Mapping[str, Any]) -> Dict[str, Any]:
         "scenario_path": result["scenario_path"],
         "deck_sha256": result["deck_sha256"],
         "timing": result["timing"],
-        "causal_analysis": causal,
-        "gate": "SHARED_SENSOR_CADENCE_GO" if causal["gate"] == "CAUSAL_WINDOW_PASS" else "SHARED_SENSOR_CADENCE_FAIL",
+        "wavefront_analysis": wavefront,
+        "gate": gate,
     }
 
 
-def run_br1() -> Dict[str, Any]:
+def run_br1(reparse_only: bool = False) -> Dict[str, Any]:
     """Run the BR1 hard gate, authorising exactly two HSPICE diagnostics.
 
-    ``new_hspice_scenarios`` in the published contract is the count of unique
-    BR1 identities proven to have run electrically in this study.  It remains
-    two during an idempotent replay.  ``reused_hspice_scenarios`` is instead
-    the number of those identities read without launching HSPICE this time.
-    The fields therefore answer different audit questions and are intentionally
-    not mutually exclusive on a repeat invocation.
+    A normal study publication records the two historically executed BR1
+    identities in ``new_hspice_scenarios``.  ``reparse_only`` instead publishes
+    zero new work, two reparsed retained results, and separate historical-run
+    provenance.  This makes a corrective Gate rebuild unable to disguise a
+    simulator launch as evidence reuse.
     """
 
     baseline = read_json(baseline_path())
@@ -731,7 +831,7 @@ def run_br1() -> Dict[str, Any]:
     reused = 0
     historical_new = 0
     for spec in BR1_SPECS:
-        result, was_reused = run_br1_scenario(context, spec, fall_offset)
+        result, was_reused = run_br1_scenario(context, spec, fall_offset, reparse_only=reparse_only)
         # Keep the physical-run ledger separate from the public diagnostic
         # result.  The latter intentionally exposes only electrical evidence,
         # while this counter proves every authorised deck has a retained run.
@@ -760,7 +860,12 @@ def run_br1() -> Dict[str, Any]:
         # fixed-duty failure proceeds only to BR1R's frozen-topology retiming,
         # never directly to a capture bank or a copied sensor lane.
         "next_action": "continue_to_BR1R_fall_retiming",
-        "simulation_accounting": accounting(new=historical_new, reused=reused, reparsed=0),
+        "simulation_accounting": accounting(new=0 if reparse_only else historical_new, reused=reused,
+                                              reparsed=len(results) if reparse_only else 0),
+        "retained_physical_evidence": {
+            "historical_distinct_hspice_scenarios": historical_new,
+            "this_publication_started_hspice": False if reparse_only else None,
+        },
     }
     write_json(br1_root() / "retained_timing_inventory.json", inventory)
     write_json(br1_root() / "diagnostic_manifest.json", {
@@ -791,14 +896,14 @@ def br1r_offset_rationale(fixed_diagnostics: Sequence[Mapping[str, Any]]) -> Dic
     xor_delays: List[float] = []
     raw_delays: List[float] = []
     for diagnostic in fixed_diagnostics:
-        causal = diagnostic["causal_analysis"]
-        rise0 = causal["measured_source_edges_s"]["rise0_s"]
-        probe0 = causal["event_windows"][0]["nodes"]
-        xor_rises, raw_rises = probe0["xor"]["rise_times_s"], probe0["raw_ck"]["rise_times_s"]
-        if rise0 is None or len(xor_rises) != 1 or len(raw_rises) != 1:
+        wavefront = diagnostic["wavefront_analysis"]
+        rise0 = wavefront["measured_source_edges_s"]["rise0_s"]
+        probe0 = wavefront["wavefronts"][0]["nodes"]
+        xor_rise, raw_rise = probe0["xor"]["rise_s"], probe0["raw_ck"]["rise_s"]
+        if rise0 is None or xor_rise is None or raw_rise is None:
             raise RuntimeError("BR1R cannot derive offsets from incomplete retained probe0 evidence")
-        xor_delays.append((xor_rises[0] - float(rise0)) * 1.0e12)
-        raw_delays.append((raw_rises[0] - float(rise0)) * 1.0e12)
+        xor_delays.append((float(xor_rise) - float(rise0)) * 1.0e12)
+        raw_delays.append((float(raw_rise) - float(rise0)) * 1.0e12)
     earliest = round_up_to_grid(max(xor_delays) + BR1R_SOURCE_SETTLE_PS)
     latest = round_up_to_grid(max(raw_delays) + BR1R_SOURCE_SETTLE_PS)
     midpoint = round((earliest + latest) / 2.0, 6)
@@ -888,7 +993,7 @@ def br1r_scenario_identity(spec: Mapping[str, Any], parameters: Mapping[str, Any
 
 
 def run_br1r_scenario(context: Mapping[str, Any], spec: Mapping[str, Any],
-                      fall_offset_ps: float) -> Tuple[Dict[str, Any], bool]:
+                      fall_offset_ps: float, reparse_only: bool = False) -> Tuple[Dict[str, Any], bool]:
     """Reuse or execute one of BR1R's six authorised causal-window decks.
 
     The reuse branch validates the complete deck identity, HSPICE listing and
@@ -921,6 +1026,8 @@ def run_br1r_scenario(context: Mapping[str, Any], spec: Mapping[str, Any],
                 "deck_sha256": deck_sha, "fall_offset_ps": float(fall_offset_ps), "hspice_executed": True,
                 "measurements": parse_measurements(measurement_path)}, True
 
+    if reparse_only:
+        raise RuntimeError("0-HSPICE BR1R reparse requires retained matching evidence: {}".format(scenario))
     hspice, environment, version = require_hspice()
     scenario.mkdir(parents=True, exist_ok=True)
     (scenario / "br1r.sp").write_text(deck, encoding="utf-8")
@@ -970,10 +1077,10 @@ def run_br1r_scenario(context: Mapping[str, Any], spec: Mapping[str, Any],
 
 
 def classify_br1r(result: Mapping[str, Any]) -> Dict[str, Any]:
-    """Attach target provenance to BR1R's causal-window, not ordinal, result."""
+    """Attach target provenance to BR1R's topology-ordered wavefront result."""
 
-    causal = causal_window_analysis(result, "b1r", BR1R_MEASURED_EDGE_LIMIT,
-                                    BR1R_MEASURED_EDGE_LIMIT, True)
+    wavefront = wavefront_separation_analysis(result, "b1r", BR1R_MEASURED_EDGE_LIMIT,
+                                               BR1R_MEASURED_EDGE_LIMIT, True)
     return {
         "scenario_key": result["spec"]["scenario_key"],
         "baseline_vdd_v": result["spec"]["baseline_vdd_v"],
@@ -984,19 +1091,20 @@ def classify_br1r(result: Mapping[str, Any]) -> Dict[str, Any]:
         "scenario_path": result["scenario_path"],
         "deck_sha256": result["deck_sha256"],
         "timing": result["timing"],
-        "causal_analysis": causal,
-        "gate": causal["gate"],
+        "wavefront_analysis": wavefront,
+        "gate": wavefront["gate"],
     }
 
 
-def run_br1r() -> Dict[str, Any]:
+def run_br1r(reparse_only: bool = False) -> Dict[str, Any]:
     """Run the finite common-fall search after re-parsing the fixed endpoint.
 
     The old BR1 listings are parsed as endpoint evidence only; their original
-    HSPICE decks are never rerun.  Exactly three new fall offsets are then run
-    at each of the two existing formal targets.  A common offset must pass at
-    both voltages, which prevents per-corner duty tuning from being mistaken
-    for a reusable shared-sensor cadence contract.
+    HSPICE decks are never rerun.  The bounded study authorises exactly three
+    fall offsets at each formal target, while ``reparse_only`` requires all
+    six outcomes to be retained already and never reaches an execution branch.
+    A common offset must pass at both voltages, which prevents per-corner duty
+    tuning from being mistaken for a reusable shared-sensor cadence contract.
     """
 
     baseline = read_json(baseline_path())
@@ -1011,7 +1119,7 @@ def run_br1r() -> Dict[str, Any]:
     context = t0.frozen_context()
     fixed_diagnostics: List[Dict[str, Any]] = []
     for spec in BR1_SPECS:
-        result, was_reused = run_br1_scenario(context, spec, fixed_offset)
+        result, was_reused = run_br1_scenario(context, spec, fixed_offset, reparse_only=reparse_only)
         if not was_reused:
             raise RuntimeError("BR1R must reuse, not rerun, the retained BR1 endpoint")
         fixed_diagnostics.append(classify_br1(result))
@@ -1021,7 +1129,7 @@ def run_br1r() -> Dict[str, Any]:
     historical_new = 0
     for offset in BR1R_FALL_OFFSETS_PS:
         for spec in BR1_SPECS:
-            result, was_reused = run_br1r_scenario(context, spec, offset)
+            result, was_reused = run_br1r_scenario(context, spec, offset, reparse_only=reparse_only)
             historical_new += int(result.get("hspice_executed") is True)
             reused_new += int(was_reused)
             diagnostics.append(classify_br1r(result))
@@ -1031,31 +1139,68 @@ def run_br1r() -> Dict[str, Any]:
     common_offsets: List[float] = []
     for offset in BR1R_FALL_OFFSETS_PS:
         rows = [row for row in diagnostics if row["fall_offset_ps"] == offset]
-        candidate_gate = "CAUSAL_WINDOW_PASS" if all(row["gate"] == "CAUSAL_WINDOW_PASS" for row in rows) else "CAUSAL_WINDOW_FAIL"
-        if candidate_gate == "CAUSAL_WINDOW_PASS":
+        if all(row["gate"] == "WAVEFRONT_SEPARATION_PASS" for row in rows):
+            candidate_gate = "WAVEFRONT_SEPARATION_PASS"
+        elif any(row["gate"] == "WAVEFRONT_SEPARATION_INCOMPLETE" for row in rows):
+            candidate_gate = "WAVEFRONT_SEPARATION_INCOMPLETE"
+        else:
+            candidate_gate = "WAVEFRONT_SEPARATION_FAIL"
+        if candidate_gate == "WAVEFRONT_SEPARATION_PASS":
             common_offsets.append(offset)
-        candidate_summary.append({"fall_offset_ps": offset, "target_diagnostics": rows, "gate": candidate_gate})
-    decision = "SHARED_SENSOR_CADENCE_RETIMING_GO" if common_offsets else "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED"
+        gap_values = [float(row["wavefront_analysis"]["minimum_same_node_low_gap_ps"]) for row in rows
+                      if row["wavefront_analysis"]["minimum_same_node_low_gap_ps"] is not None]
+        candidate_summary.append({
+            "fall_offset_ps": offset,
+            "target_diagnostics": rows,
+            "minimum_same_node_low_gap_ps": min(gap_values) if gap_values else None,
+            "gate": candidate_gate,
+        })
+    if common_offsets:
+        decision = "SHARED_SENSOR_CADENCE_RETIMING_GO"
+    elif all(row["gate"] == "WAVEFRONT_SEPARATION_FAIL" for row in candidate_summary):
+        decision = "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED"
+    else:
+        decision = "SHARED_SENSOR_CADENCE_RETIMING_EVIDENCE_INCOMPLETE"
+    preferred = max((row for row in candidate_summary if row["gate"] == "WAVEFRONT_SEPARATION_PASS"),
+                    key=lambda row: float(row["minimum_same_node_low_gap_ps"]), default=None)
     record = {
         "schema_version": 1,
         "study": STUDY,
         "stage": "D0-BR1R",
         "decision": decision,
         "runtime_probe_period_ps": RUNTIME_PERIOD_PS,
-        "fixed_fall_causal_reanalysis": fixed_diagnostics,
+        "fixed_fall_wavefront_reanalysis": fixed_diagnostics,
         "retiming_rationale": rationale,
         "candidate_summary": candidate_summary,
-        "selected_common_fall_offset_ps": common_offsets[0] if common_offsets else None,
-        "next_action": "continue_to_BR2_capture_event_research" if common_offsets else "publish_multi_sensor_lane_escalation_only",
-        # ``new`` is the cumulative count of distinct BR1R decks with a
-        # retained successful run; ``reused`` records only BR1R decks read on
-        # this invocation.  The two old BR1 decks appear in ``reparsed``.
-        "simulation_accounting": accounting(new=historical_new, reused=reused_new,
-                                              reparsed=len(fixed_diagnostics)),
+        "common_fall_offsets_ps": common_offsets,
+        "selected_common_fall_offset_ps": None if preferred is None else preferred["fall_offset_ps"],
+        "selected_common_fall_offset_rationale": (
+            None if preferred is None else
+            "largest minimum same-node low gap across both formal targets: {} ps".format(
+                preferred["minimum_same_node_low_gap_ps"])
+        ),
+        "priority_reaudit_fall_offset_ps": 1250.0,
+        "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
+        "supersedes": "source_causal_completion_window_gate",
+        "next_action": ("continue_to_BR2_capture_event_research" if common_offsets else
+                        "publish_multi_sensor_lane_escalation_only" if decision == "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED" else
+                        "define_minimal_wavefront_observability_only"),
+        # The normal path records historical BR1R executions in ``new``.  A
+        # corrective reparse records zero new HSPICE work and exposes the
+        # retained eight-scenario provenance separately; its six BR1R decks
+        # are reused and both fixed-fall endpoint decks are reparsed.
+        "simulation_accounting": accounting(new=0 if reparse_only else historical_new, reused=reused_new,
+                                              reparsed=len(fixed_diagnostics) + (len(diagnostics) if reparse_only else 0)),
+        "retained_physical_evidence": {
+            "historical_distinct_hspice_scenarios": historical_new + len(fixed_diagnostics),
+            "this_publication_started_hspice": False if reparse_only else None,
+        },
     }
     write_json(br1r_root() / "retained_fixed_fall_causal_reanalysis.json", {
         "schema_version": 1, "study": STUDY, "stage": "D0-BR1R", "source": "D0-BR1 retained listings",
         "fall_offset_ps": fixed_offset, "diagnostics": fixed_diagnostics,
+        "analysis_method": "topology_ordered_wavefront_identity_no_source_completion_windows",
+        "supersedes": "source_causal_completion_window_gate",
         "simulation_accounting": accounting(reparsed=len(fixed_diagnostics)),
     })
     write_json(br1r_root() / "diagnostic_manifest.json", {
@@ -1066,6 +1211,7 @@ def run_br1r() -> Dict[str, Any]:
         "approved_common_fall_offsets_ps": list(BR1R_FALL_OFFSETS_PS),
         "new_hspice_scenario_limit": len(BR1R_FALL_OFFSETS_PS) * len(BR1_SPECS),
         "reused_fixed_fall_scenarios": len(fixed_diagnostics),
+        "publication_mode": "zero_hspice_reparse" if reparse_only else "run_or_reuse",
         "frozen": ["probe_period_2075ps", "M_F_codes", "sensor_topology", "DFF_input_load"],
         "forbidden_flow_runs": ["M0_campaign", "T0_campaign", "H0", "M1", "RF", "XA", "capture_bank"],
     })
@@ -1074,16 +1220,18 @@ def run_br1r() -> Dict[str, Any]:
 
 
 def write_br1r_gate() -> Dict[str, Any]:
-    """Publish the only two legal BR1R outcomes without creating a new circuit.
+    """Publish the corrected BR1R outcome without creating a new circuit.
 
     A retiming GO grants *research entry* to BR2 only; it does not claim a
     legal DFF pulse, a capture bank, a controller or a completed D0-BR design.
-    A physical block is terminal because the finite common-fall search has
-    exhausted the sole stimulus freedom authorised by BR1R.
+    A physical block remains terminal only when the topology-ordered,
+    same-node wavefront evidence—not a source completion window—proves every
+    approved retiming point cannot carry the two formal targets independently.
     """
 
     br1r = read_json(br1r_root() / "retiming_search_contract.json")
     is_go = br1r.get("decision") == "SHARED_SENSOR_CADENCE_RETIMING_GO"
+    is_blocked = br1r.get("decision") == "SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED"
     shared_cadence = {
         "verified_at_2075ps": is_go,
         "common_fall_offset_ps": br1r.get("selected_common_fall_offset_ps"),
@@ -1106,7 +1254,7 @@ def write_br1r_gate() -> Dict[str, Any]:
         "study": STUDY,
         "decision": br1r["decision"],
         "current_stage": "D0-BR1R",
-        "terminal_stage": None if is_go else "D0-BR1R",
+        "terminal_stage": "D0-BR1R" if is_blocked else None,
         "runtime_probe_requirement_ps": RUNTIME_PERIOD_PS,
         "shared_sensor_cadence": shared_cadence,
         "preserved_contracts": preserved,
@@ -1124,49 +1272,77 @@ def write_br1r_gate() -> Dict[str, Any]:
             "forbidden_before_BR2_gate": ["capture_bank", "runtime_fsm", "sensor_lane_copy"],
             "simulation_accounting": br1r["simulation_accounting"],
         }
-    else:
+    elif is_blocked:
         gate = {
             "schema_version": 1,
             "study": STUDY,
             "decision": br1r["decision"],
             "terminal_stage": "D0-BR1R",
-            "reason": "no approved common fall timing separated probe0, falling-wave and probe1 events at 2075 ps",
+            "reason": "no approved common fall timing maintained topology-ordered, same-node E0/EF/E1 separation at 2075 ps",
             "required_next_plan": "multi_sensor_lane_interleave_architecture_plan",
             "forbidden_after_failure": ["capture_event_legalizer", "capture_bank", "runtime_fsm", "sensor_lane_copy_in_this_plan"],
+            "simulation_accounting": br1r["simulation_accounting"],
+        }
+    else:
+        gate = {
+            "schema_version": 1,
+            "study": STUDY,
+            "decision": br1r["decision"],
+            "current_stage": "D0-BR1R",
+            "next_permitted_stage": "D0-BR1R_minimal_wavefront_observability",
+            "reason": "retained scalar crossings do not prove independent propagation at every approved retiming point",
+            "forbidden_before_completion": ["capture_event_legalizer", "capture_bank", "runtime_fsm", "sensor_lane_copy"],
             "simulation_accounting": br1r["simulation_accounting"],
         }
     write_json(ANALYSIS / "contract" / "D0_INTERLEAVED_CAPTURE_CONTRACT.json", contract)
     write_json(ANALYSIS / "reports" / "D0_BR_GATE_STATUS.json", gate)
     candidate_rows = []
+    dref_rows = []
     for candidate in br1r["candidate_summary"]:
         target_states = ", ".join("{}={}".format(row["scenario_key"], row["gate"])
                                   for row in candidate["target_diagnostics"])
-        candidate_rows.append("- fall0 offset {} ps：{}；共同 Gate={}。".format(
-            candidate["fall_offset_ps"], target_states, candidate["gate"]))
+        candidate_rows.append("- fall0 offset {} ps：{}；两个 target 的最小同节点低电平间隔={} ps；共同 Gate={}。".format(
+            candidate["fall_offset_ps"], target_states, candidate["minimum_same_node_low_gap_ps"], candidate["gate"]))
+        target_drefs = []
+        for row in candidate["target_diagnostics"]:
+            variation = row["wavefront_analysis"]["d_ref_variation"]
+            drefs, deltas = variation["d_ref_ps_by_wavefront"], variation["delta_from_E0_ps"]
+            target_drefs.append("{}: E0/EF/E1={}/{}/{} ps, ΔE1-E0={} ps".format(
+                row["scenario_key"], drefs["E0"], drefs["EF"], drefs["E1"], deltas["E1"]))
+        dref_rows.append("- fall0 offset {} ps：{}。".format(candidate["fall_offset_ps"], "; ".join(target_drefs)))
     report = """# FTC D0-BR 合法捕获与交错架构闭合
 
 ## BR1R Gate
 
-**{decision}**。原 BR1 的 `1687.575705 ps` fixed-fall result被重新解释为单一 S_CLK 占空比证据；BR1R 在保持 2075 ps probe period、正式 M/F、真实 sensor/DFF input load 和所有既有 topology 不变的前提下，只重定时第一笔 S_CLK fall。
+**{decision}**。这是一次仅重解析既有 8 个 physical scenario 的 0-HSPICE 判门修正：原 BR1 的 `1687.575705 ps` fixed-fall result保留为部分观测端点；BR1R 的 750/1000/1250 ps crossing 全部按 E0/EF/E1 波前身份重新审计。2075 ps probe period、正式 M/F、真实 sensor/DFF input load 和所有既有 topology 均未改变。
 
 ## 范围与方法
 
-- 已重解析两个 retained BR1 listing，按测得的 `rise0 -> fall0 -> rise1` 三个因果窗口归属 XOR、medium、raw CK crossing；未按全局 `rise1/rise2/rise3` 序号配对 probe。
-- 新运行只允许共同的 750、1000、1250 ps fall offset 与两个正式 L2/3002 ps target；没有 M0/T0/H0/M1/RF/XA campaign，也没有任何 legalizer、capture bank、runtime FSM 或 sensor copy。
-- 单一 target 只有在三窗口各 node 均为一个完整 rise/fall、falling-wave 在 rise1 前清空、probe1 D_ref 完整且与 probe0 相差不超过 25 ps 时才通过。
+- E0=`S_CLK rise0`、EF=`S_CLK fall0`、E1=`S_CLK rise1` 以 XOR ingress 的序列及 XOR→medium→raw CK 拓扑顺序匹配。没有使用 `[rise0,fall0)`、`[fall0,rise1)`、`[rise1,stop)` 作为全链必须完成的硬时间窗。
+- Gate 只检查同一节点上 E0→EF→E1 的 rise/fall 交替、每个脉冲非重叠/不合并，以及相邻事件至少 {low_gap_margin} ps 的低电平间隔；EF 可在 E1 的 source rise 后仍处于下游级，只要 EF 在 E1 到达同一节点前结束。
+- 每条波前独立报告 `D_ref=t(raw_dff_ck rise)-t(xor_29 rise)`。未把 T0 的 25 ps phase 搜索分辨率当作 D_ref 漂移阈值：正的、已分离波前上的 D_ref 变化归为瞬态供电下的物理延迟变化报告，而非 collision。
+- 本次没有新 HSPICE，也没有重跑 M0/T0/H0/M1/RF/XA；没有创建 legalizer、capture bank、runtime FSM 或 sensor copy。
+- 1250 ps 为本次优先复审点；它在两个正式 target 都通过同节点波前分离 Gate。
 
 ## 有限 retiming 结果
 
 {candidate_rows}
+
+## D_ref 逐波前报告（非漂移判门）
+
+{dref_rows}
 
 ## 后续边界
 
 {next_boundary}
 """.format(
         decision=br1r["decision"],
+        low_gap_margin=WAVEFRONT_LOW_GAP_MARGIN_PS,
         candidate_rows="\n".join(candidate_rows),
+        dref_rows="\n".join(dref_rows),
         next_boundary=("BR1R 仅授权进入 BR2 的合法 capture event/pulse legalizer 研究；尚未实现任何该结构。" if is_go else
-                       "两个正式 target 在规定的共同 retiming 集合内均未闭合；后续必须另立 multi-sensor-lane 计划。`P_sensor_verified_ps` 与 `N_sensor_min` 保持 `null`。"))
+                       "两个正式 target 在规定的共同 retiming 集合内均未闭合；后续必须另立 multi-sensor-lane 计划。`P_sensor_verified_ps` 与 `N_sensor_min` 保持 `null`。" if is_blocked else
+                       "保留 crossing 尚不足以物理阻塞 shared sensor；只能先定义最小波前可观测性补证，不得升级到 multi-sensor-lane 或 capture 结构。"))
     REPORT.write_text(report, encoding="utf-8")
     return gate
 
@@ -1180,11 +1356,25 @@ def run_all() -> Dict[str, Any]:
     return write_br1r_gate()
 
 
+def run_br1r_zero_hspice_reparse() -> Dict[str, Any]:
+    """Publish the BR1R re-gate using only retained matching measurements.
+
+    This path is deliberately fail-closed: missing, changed, or unvalidated
+    retained listings raise before the runner reaches either HSPICE execution
+    branch.  It is the only command intended for a post-run gate correction.
+    """
+
+    run_br1(reparse_only=True)
+    run_br1r(reparse_only=True)
+    return write_br1r_gate()
+
+
 def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:
     """Expose explicit bounded phases; no user-supplied sweep argument exists."""
 
     parser = argparse.ArgumentParser(description="FTC D0-BR interleaved-capture architecture closure")
-    parser.add_argument("--phase", required=True, choices=("br0", "br1", "br1r", "finalize", "all"))
+    parser.add_argument("--phase", required=True,
+                        choices=("br0", "br1", "br1r", "br1r-reparse", "finalize", "all"))
     return parser.parse_args(list(argv) if argv is not None else None)
 
 
@@ -1198,6 +1388,8 @@ def main(argv: Optional[Iterable[str]] = None) -> int:
         run_br1()
     elif phase == "br1r":
         run_br1r()
+    elif phase == "br1r-reparse":
+        run_br1r_zero_hspice_reparse()
     elif phase == "finalize":
         write_br1r_gate()
     else:
