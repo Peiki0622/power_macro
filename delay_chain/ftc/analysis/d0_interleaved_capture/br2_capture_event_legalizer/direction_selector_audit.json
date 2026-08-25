@@ -1,0 +1,57 @@
+{
+  "boolean_identity": "xor_29 & lvt_29 == lvt_29 & ~rvt_29 when xor_29 == rvt_29 ^ lvt_29",
+  "candidate_a_direct_polarity": {
+    "added_input_capacitance_pf": {
+      "lvt_29": 0.0005492,
+      "rvt_29": 0.000575436
+    },
+    "formula": "lvt_29 & ~rvt_29",
+    "implementation": "INV_X0P5M_A9TR40 + AND2_X0P5M_A9TR40",
+    "rejected_reason": "E0 lvt_29 rises before xor_29; without a further delay this can launch medium/CK before the DFF D=xor_29 validity event."
+  },
+  "candidate_b_xor_gated": {
+    "added_input_capacitance_pf": {
+      "lvt_29": 0.000598355,
+      "xor_29": 0.0005492
+    },
+    "first_effective_rise_liberty_reference_ps": 36.852500000000006,
+    "formula": "xor_29 & lvt_29",
+    "implementation": "AND2_X0P5M_A9TR40",
+    "reference_condition": "first RVT TT 1.10 V/25 C Liberty table entry only; input slew/load are not extracted BR1R conditions and this is not a sign-off bound",
+    "residual_risk": "EF suppression is logically correct because lvt leaves first on a falling source wave.  Final-load transistor verification must still count rejected-event/glitch edges; scalar BR1R crossings do not expose lvt_29 crossings.",
+    "selection_reason": "xor-gating preserves D-before-CK causality and does not interpose a delay element in the frozen xor-to-D branch; its added xor fanout is explicitly recorded below and is not treated as neutral."
+  },
+  "candidate_c_nand_inverse": {
+    "added_xor_capacitance_pf": 0.000572748,
+    "formula": "!(NAND2(xor_29,lvt_29))",
+    "implementation": "NAND2_X0P5M_A9TR40 + INV_X0P5M_A9TR40",
+    "rejected_reason": "same Boolean function but two stages, larger xor_29 input capacitance, and an extra internal transition; no benefit over AND2."
+  },
+  "candidate_d_nor_de_morgan": {
+    "added_input_capacitance_pf": {
+      "lvt_29": 0.000575436,
+      "xor_29": 0.000575436
+    },
+    "formula": "NOR2(!xor_29,!lvt_29)",
+    "implementation": "2 x INV_X0P5M_A9TR40 + NOR2_X0P5M_A9TR40",
+    "nor2_input_capacitance_pf": 0.000548392,
+    "rejected_reason": "Boolean equivalent, but three stages create more first-edge delay and internal switching than AND2 without reducing sensor-side fanout."
+  },
+  "candidate_e_aoi_tied_rail": {
+    "added_input_capacitance_pf": {
+      "lvt_29": 0.000515723,
+      "xor_29": 0.000521012
+    },
+    "formula": "!AOI21(xor_29,lvt_29,VSS)",
+    "implementation": "AOI21_X0P5M_A9TR40 + INV_X0P5M_A9TR40; B0 tied to VSS",
+    "rejected_reason": "Boolean equivalent only with a tied rail; two stages and an additional constant-input assumption offer no causality, load, or glitch advantage over AND2."
+  },
+  "load_obligation": {
+    "effect": "the AND output replaces, rather than adds to, the medium first-buffer input; the new xor load can move xor/medium/raw D_ref and M/F trip relation and is not declared physically neutral.",
+    "medium_input_capacitance_pf": 0.000686289,
+    "xor_29_new_capacitance_pf": 0.0005492
+  },
+  "pd_sense_contract": "All audited cells are ordinary combinational base-library cells with Liberty power_down_function.  They may be placed and powered wholly in PD_SENSE/VDD_MONITORED; this audit grants no PD_CTRL crossing, isolation, or off-domain behavior.",
+  "placement": "replace only the frozen xor_29-to-medium input with dir_event; DFF D remains xor_29",
+  "primary": "xor_29_and_lvt_29_with_AND2_X0P5M_A9TR40"
+}

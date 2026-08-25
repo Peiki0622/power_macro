@@ -172,8 +172,8 @@ class D0InterleavedCaptureTests(unittest.TestCase):
         self.assertLess(timing["fall0_s"], timing["launch1_s"])
         self.assertEqual(round((timing["launch1_s"] - timing["launch0_s"]) * 1.0e12, 6), study.RUNTIME_PERIOD_PS)
 
-    def test_published_br1r_wavefront_go_authorizes_only_br2_research(self):
-        """Separated retained wavefronts revoke the false physical block only."""
+    def test_published_br1r_wavefront_go_survives_the_br2_static_screen(self):
+        """A BR2 legalizer block must not resurrect a false sensor block."""
 
         br1 = json.loads((FTC_ROOT / "analysis/d0_interleaved_capture/br1_shared_sensor_cadence/shared_sensor_cadence_contract.json").read_text())
         br1r = json.loads((FTC_ROOT / "analysis/d0_interleaved_capture/br1r_fall_retiming/retiming_search_contract.json").read_text())
@@ -194,8 +194,10 @@ class D0InterleavedCaptureTests(unittest.TestCase):
         self.assertFalse(contract["preserved_contracts"]["capture_event_legalizer_created"])
         self.assertFalse(contract["preserved_contracts"]["capture_bank_created"])
         self.assertFalse(contract["preserved_contracts"]["runtime_rtl_created"])
-        self.assertEqual(gate["next_permitted_stage"], "D0-BR2_capture_event_legalizer_research")
-        self.assertIn("capture_bank", gate["forbidden_before_BR2_gate"])
+        self.assertEqual(contract["capture_event_static_closure"]["decision"], "CAPTURE_EVENT_ARCHITECTURE_BLOCKED")
+        self.assertEqual(gate["decision"], "CAPTURE_EVENT_ARCHITECTURE_BLOCKED")
+        self.assertEqual(gate["shared_sensor_status"], "PRESERVED_RETIMING_GO_NOT_PHYSICALLY_BLOCKED")
+        self.assertIn("capture_bank", gate["forbidden_before_static_contract_closes"])
 
 
 if __name__ == "__main__":

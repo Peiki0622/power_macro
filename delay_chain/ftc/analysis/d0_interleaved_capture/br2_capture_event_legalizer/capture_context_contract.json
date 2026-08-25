@@ -1,0 +1,19 @@
+{
+  "continuous_overwrite": {
+    "formal_ck_high_plus_low_ps": 2000.0,
+    "minimum_raw_e0_to_e1_spacing_ps": 2063.7241129999998,
+    "nominal_spacing_headroom_ps": 63.72411299999976,
+    "reason": "It makes no per-probe reset-width/recovery payment; the DFF simply captures each legal E0/E1 event.",
+    "reason_not_closed": "The 63.724113 ps aggregate high+low headroom is smaller than the raw-width span across retained targets, yielding the empty fixed-extension intersection above.",
+    "selected_semantics": true,
+    "single_context_status": "TIMING_FRAGILE_AND_NOT_CLOSED"
+  },
+  "multi_context_note": "Alternating contexts could relax each context's reuse interval, but it cannot make a single global stateless legalizer satisfy its own CK-high/CK-low pulse train.  Per-context legalizers/gates require a later, separate static architecture and are not implemented here.",
+  "n_capture_min": null,
+  "per_probe_reset": {
+    "available_probe_spacing_ps": 2075.0,
+    "rejected_reason": "Waiting for the legal CK high interval, then reset high and reset-release recovery already costs 3000 ps before routing/removal/Q observation; reset must not be inserted into the 2075 ps path.",
+    "safe_nonoverlap_lower_bound_ps": 3000.0,
+    "selected_semantics": false
+  }
+}

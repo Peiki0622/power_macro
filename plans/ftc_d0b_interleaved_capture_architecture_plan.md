@@ -5,7 +5,7 @@
 本计划替代本文件上一版“直接从双 capture bank 开始评审”的推进方式，但保留其历史提交作为证据。最新权威入口提交为：
 
 ```text
-3c8cf2861b0f4ad7bb83135fc860d8ff0d36bfdf
+0e79423a1ec6ec823a5c0f64cfb4790a4cbdea38
 ```
 
 D0-A 已发布：
@@ -398,14 +398,24 @@ SHARED_SENSOR_CADENCE_PHYSICALLY_BLOCKED
 
 ---
 
-# 7. D0-BR2：合法 capture event 形成结构筛选【仅 BR1R=RETIMING_GO，0 HSPICE】
+# 7. D0-BR2：事件方向选择 + 合法 capture event 形成【仅 BR1R=RETIMING_GO，0 HSPICE】
 
 ## 7.1 目标
 
-在共享 sensor cadence 已经成立的前提下，研究最小 detection-only 结构，把：
+在共享 sensor cadence 已经成立的前提下，先把 E0/E1 与 EF 分开，再研究最小 detection-only 结构。禁止把全部 `raw_dff_ck` 直接统一拉宽：EF 也是实际 falling-wave，若直接送入 DFF，合法 CK high/low 将无法只按 rising probe 定义。
+
+方向选择器必须纯组合、无状态，且位于 PD_SENSE。定向审计以下等价布尔关系及其 NAND/NOR/AOI 实现，而不预先固定门型：
 
 ```text
-raw dff_ck high = 301~520 ps
+xor_29 & lvt_29 == lvt_29 & ~rvt_29
+```
+
+其中必须检查 E0 的 D=`xor_29` 是否先于 event/CK 有效上升。不能因为 `lvt_29 & ~rvt_29` 逻辑上正确就忽略它可能早于 `xor_29` 抵达。每个候选都要记录 XOR/RVT/LVT 输入电容、首个有效 rise 的 Liberty arc、EF 毛刺风险、PD_SENSE power-down 语义，以及对 xor→medium/fine/M/F 阈值关系的负载扰动；最多留下一个 direction-selector primary。
+
+只有方向选择后得到的 `raw_dir_ck` 才允许进入 legalizer。其目标是把：
+
+```text
+retained rising-wave raw CK high = 256~520 ps
 ```
 
 转换为满足：
@@ -417,13 +427,13 @@ capture CK low  >= 1000 ps
 
 的合法 DFF capture event，同时尽可能保持 raw `dff_ck` 上升沿的比较语义。
 
-## 7.2 首选方向：只延后 falling edge，不主动等待新的 rising edge
+## 7.2 首选 legalizer 方向：只延后 falling edge，不主动等待新的 rising edge
 
 优先筛选标准单元可实现的“直接支路 + 延迟支路合并”型 pulse extension，例如概念上：
 
 ```text
                      +----------------------+
-raw_dff_ck ----------|-------------------+  |
+raw_dir_ck ----------|-------------------+  |
                      |                   |  |
                      +-> delay chain ----+-> OR-like merge -> legal_ck
 ```
@@ -431,7 +441,7 @@ raw_dff_ck ----------|-------------------+  |
 目标是：
 
 ```text
-legal_ck rise ≈ raw_dff_ck rise + 一个最小组合门延迟
+legal_ck rise ≈ raw_dir_ck rise + 一个最小组合门延迟
 legal_ck fall = 延迟支路决定，从而把 high pulse 拉长
 ```
 
@@ -475,7 +485,7 @@ OR/NOR/AND/AOI/OAI 等可形成单调 pulse extension 的组合单元
 对每个候选列出：
 
 ```text
-raw_ck input capacitance
+raw_dir_ck input capacitance
 first-edge propagation path
 falling-edge extension mechanism
 是否有 sequential min-pulse dependency
@@ -486,19 +496,34 @@ VDD_MONITORED 下工作语义
 
 最多保留 **1 个 primary candidate** 进入下一阶段；若没有明确 primary，停止，不允许“多个方案都跑 HSPICE 看看”。
 
-## 7.5 Gate
+## 7.5 连续 E0→E1 与 capture-context 静态合同（仍属 BR2）
+
+不要预设每个 probe 后 reset DFF。必须比较：
 
 ```text
-CAPTURE_EVENT_LEGALIZER_CANDIDATE
+A. continuous overwrite：连续 legal E0/E1 event 直接 overwrite 同一 DFF
+B. per-probe reset：capture 后 reset high，再 release/recovery，才允许下一 CK
+```
+
+对 A，必须以所有 retained 750/1000/1250 ps、两个正式 target 的 E0/E1 raw rise spacing 和各自 raw width 给出同一 legalizer 的 CK high/low 可行区间。若 fixed-delay falling extension 的区间为空，禁止从某一个 target 挑一条 DLY 链宣称通用。
+
+对 B，必须显式支付 `CK high + reset width + recovery` 的安全非重叠下界；不能把 reset width/recovery 无证据重叠到 capture 结果尚未稳定的窗口。
+
+若 A 的 high+low 仅在 2075 ps 内剩很小余量，记录 `TIMING_FRAGILE`；multi-context 可在后续缓解 context reuse，却不能使一个 global legalizer 的 pulse train 违反 CK high/low 后自动合法。
+
+## 7.6 Gate
+
+```text
+CAPTURE_EVENT_LEGALIZER_CANDIDATE（唯一 direction selector 与 legalizer 均已闭合）
 或
 CAPTURE_EVENT_ARCHITECTURE_BLOCKED
 ```
 
 ---
 
-# 8. D0-BR3：交错 capture context 与负载/时序合同【0 HSPICE】
+# 8. 后续：交错 capture context 实现研究【仅 BR2 legalizer candidate，0 HSPICE】
 
-只有 BR2 有唯一候选时执行。
+只有 BR2 的方向选择、legalizer 和 overwrite/reset 静态合同均闭合时执行；本节不授权实现 bank。
 
 ## 8.1 先证明为什么 single capture context 是否足够
 
@@ -605,7 +630,7 @@ ARCHITECTURE_ESCALATION_REQUIRED
 
 ---
 
-# 9. D0-BR4：最终候选的最小晶体管级单-probe预检【仅 BR3 通过】
+# 9. D0-BR4：最终候选的最小晶体管级单-probe预检【仅 BR2 静态合同闭合；若有 BR3，亦须通过】
 
 这一阶段只验证**一个已经静态选定的完整候选**，不做方案赛马。
 
@@ -944,8 +969,10 @@ delay_chain/ftc/analysis/d0_interleaved_capture/
 │   ├── retiming_search_contract.json
 │   └── diagnostic_manifest.json
 ├── br2_capture_event_legalizer/
-│   ├── candidate_screen.json
-│   └── selected_candidate.json
+│   ├── direction_selector_audit.json
+│   ├── legalizer_candidate_screen.json
+│   ├── capture_context_contract.json
+│   └── br2_static_closure.json
 ├── br3_capture_context/
 │   ├── capture_context_budget.json
 │   ├── load_budget.json
@@ -994,9 +1021,10 @@ D0-BR1  共享 sensing path 能否 <=2075 ps re-arm    先 0 HSPICE；必要时�
         |                           +-- same-node PHYSICALLY_BLOCKED --> 停止，另立 multi-sensor-lane plan
         |
         v
-D0-BR2  合法 capture event/pulse legalizer 筛选     仅 BR1R=RETIMING_GO，0 HSPICE
+D0-BR2  方向选择 + capture event/legalizer 静态筛选  仅 BR1R=RETIMING_GO，0 HSPICE
         |
-        +-- BLOCKED --> 停止
+        +-- fixed-delay BLOCKED --> 仅继续 fixed-width/stateful legalizer 的 0-HSPICE 静态研究
+        |                            （不进入 HSPICE/bank/FSM）
         |
         v
 D0-BR3  capture context 数量 + load + 时序合同      0 HSPICE

@@ -1,19 +1,23 @@
 {
-  "current_stage": "D0-BR1R",
-  "decision": "SHARED_SENSOR_CADENCE_RETIMING_GO",
-  "forbidden_before_BR2_gate": [
+  "current_stage": "D0-BR2",
+  "decision": "CAPTURE_EVENT_ARCHITECTURE_BLOCKED",
+  "forbidden_before_static_contract_closes": [
+    "minimal_two_target_hspice",
     "capture_bank",
     "runtime_fsm",
-    "sensor_lane_copy"
+    "sensor_lane_copy",
+    "H0_M1_T0_M0_modification"
   ],
-  "next_permitted_stage": "D0-BR2_capture_event_legalizer_research",
+  "next_permitted_stage": "D0-BR2_stateful_or_pulse_width_normalizing_legalizer_static_research",
+  "reason": "A common added falling delay must be at least 743.391464 ps for the narrow 1.10 V E1 pulse, but at most 544.622663 ps for the long 0.95 V E0 pulse before the next legal CK-low interval.  The intervals do not intersect.",
   "schema_version": 1,
+  "shared_sensor_status": "PRESERVED_RETIMING_GO_NOT_PHYSICALLY_BLOCKED",
   "simulation_accounting": {
     "electrically_equivalent_reuse_scenarios": 0,
     "forbidden_flow_runs": 0,
     "new_hspice_scenarios": 0,
-    "reparsed_hspice_scenarios": 8,
+    "reparsed_hspice_scenarios": 6,
     "reused_hspice_scenarios": 6
   },
-  "study": "ftc_d0b_interleaved_capture_architecture_closure_v1"
+  "study": "ftc_d0b_br2_capture_event_static_closure_v1"
 }

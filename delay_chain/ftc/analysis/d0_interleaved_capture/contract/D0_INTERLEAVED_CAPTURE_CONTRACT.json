@@ -1,7 +1,13 @@
 {
   "br1_fixed_fall_evidence": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br1_shared_sensor_cadence/shared_sensor_cadence_contract.json",
   "br1r_evidence": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br1r_fall_retiming/retiming_search_contract.json",
-  "current_stage": "D0-BR1R",
+  "capture_event_static_closure": {
+    "decision": "CAPTURE_EVENT_ARCHITECTURE_BLOCKED",
+    "direction_selector_primary": "xor_29_and_lvt_29_with_AND2_X0P5M_A9TR40",
+    "legalizer_primary": null,
+    "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/d0_interleaved_capture/br2_capture_event_legalizer/br2_static_closure.json"
+  },
+  "current_stage": "D0-BR2",
   "decision": "SHARED_SENSOR_CADENCE_RETIMING_GO",
   "preserved_contracts": {
     "capture_bank_created": false,
@@ -29,5 +35,5 @@
     "reused_hspice_scenarios": 6
   },
   "study": "ftc_d0b_interleaved_capture_architecture_closure_v1",
-  "terminal_stage": null
+  "terminal_stage": "D0-BR2"
 }

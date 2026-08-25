@@ -1,0 +1,23 @@
+{
+  "all_retained_event_extension_interval_ps": {
+    "intersection_exists": false,
+    "permitted_max": 544.6226629999998,
+    "required_min": 743.391464
+  },
+  "candidate_library_cells": {
+    "delay": "DLY4_X0P5M_A9TR40",
+    "merge": "OR2_X0P5M_A9TR40"
+  },
+  "decision": "NO_STATELESS_FIXED_EXTENSION_CLOSED",
+  "dff_ck_existing_input_capacitance_pf": 0.000554403,
+  "dly4_first_falling_arc_reference_ps": 195.774,
+  "dly4_x4_note": "Four DLY4 stages give 783.096000 ps only at the first Liberty reference point; even that cannot repair the empty all-event interval and is not selected.",
+  "dly4_x4_reference_extension_ps": 783.096,
+  "first_effective_rise_from_raw_dir_ck_liberty_reference_ps": 29.395999999999997,
+  "first_effective_rise_note": "The direct OR branch preserves the event ordering and adds only this merge arc after raw_dir_ck; it is a Liberty reference entry, not a physical D_ref shift guarantee.",
+  "forbidden_inference": "No fixed DLY/OR chain is called a universal legalizer, and Liberty reference entries are not substituted for post-layout or transient HSPICE delay bounds.",
+  "raw_dir_ck_new_input_capacitance_pf": 0.0014814429999999998,
+  "reason": "A common added falling delay must be at least 743.391464 ps for the narrow 1.10 V E1 pulse, but at most 544.622663 ps for the long 0.95 V E0 pulse before the next legal CK-low interval.  The intervals do not intersect.",
+  "stateless_property": "legal_ck rise follows the direct branch; legal_ck fall follows raw pulse fall plus one common replica delay.",
+  "template": "dir_event -> frozen medium/fine -> raw_dir_ck; raw_dir_ck direct + delayed replica -> OR2 -> legal_ck"
+}
