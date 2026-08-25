@@ -1,0 +1,8 @@
+{
+  "analysis_sha256": "f0312ef60f48cb3e1ee7f9f5d222a47ff78130b631cda8c5bc8cf874f9d8e4bd",
+  "gate": "BFE2_L1A_REAL_SAFE_LATCH_FAIL",
+  "reason": "Hamming distance 4 < required 9",
+  "report_sha256": "9adf6f88acec4c0f752836c72a28b0fdc96b10bc1e0203908ab229ceefa1866e",
+  "review_gate": "BFE2_CAPTURE_CELL_REVIEW_REQUIRED",
+  "stage": "B-FE2-L1A"
+}

@@ -1,0 +1,228 @@
+-----------------------------------------------------------------
+Start Cosim VCS-Analog Processing (12:55:08 08/25/26)
+-----------------------------------------------------------------
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+mbind: Operation not permitted
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Aug 25 12:55 2026
+-----------------------------------------------------------
+PrimeSim XA linux64 W-2024.09  (built 03:15:29 Aug 24 2024)
+-----------------------------------------------------------
+
+Checking license with PRIMESIM=2 flow
+License initial existence check succeeded (no check-out yet)
+
+Warning: (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/bfe2_l1a_ams.sp:9)
+.END statement was encountered in an included file. It will be ignored.
+
+Warning: set_waveform will be obsolete command, please use set_waveform_option instead
+
+Commands
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| command                            | scope | location                                                                                                                                                   |
+|------------------------------------+-------+------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| set_sim_level 7                    |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:1)  |
+| set_waveform -format fsdb          |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:2)  |
+| probe_waveform_voltage vdd_sense   |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:3)  |
+| probe_waveform_voltage vdd_safe    |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:4)  |
+| probe_waveform_voltage latch_g_r   |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:5)  |
+| probe_waveform_voltage safe_d_r_00 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:6)  |
+| probe_waveform_voltage safe_d_r_01 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:7)  |
+| probe_waveform_voltage safe_d_r_02 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:8)  |
+| probe_waveform_voltage safe_d_r_03 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:9)  |
+| probe_waveform_voltage safe_d_r_04 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:10) |
+| probe_waveform_voltage safe_d_r_05 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:11) |
+| probe_waveform_voltage safe_d_r_06 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:12) |
+| probe_waveform_voltage safe_d_r_07 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:13) |
+| probe_waveform_voltage safe_d_r_08 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:14) |
+| probe_waveform_voltage safe_d_r_09 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:15) |
+| probe_waveform_voltage safe_d_r_10 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:16) |
+| probe_waveform_voltage safe_d_r_11 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:17) |
+| probe_waveform_voltage safe_d_r_12 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:18) |
+| probe_waveform_voltage safe_d_r_13 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:19) |
+| probe_waveform_voltage safe_d_r_14 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:20) |
+| probe_waveform_voltage safe_d_r_15 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:21) |
+| probe_waveform_voltage safe_d_r_16 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:22) |
+| probe_waveform_voltage safe_d_r_17 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:23) |
+| probe_waveform_voltage safe_d_r_18 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:24) |
+| probe_waveform_voltage safe_d_r_19 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:25) |
+| probe_waveform_voltage safe_d_r_20 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:26) |
+| probe_waveform_voltage safe_d_r_21 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:27) |
+| probe_waveform_voltage safe_d_r_22 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:28) |
+| probe_waveform_voltage safe_d_r_23 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:29) |
+| probe_waveform_voltage safe_d_r_24 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:30) |
+| probe_waveform_voltage safe_d_r_25 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:31) |
+| probe_waveform_voltage safe_d_r_26 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:32) |
+| probe_waveform_voltage safe_d_r_27 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:33) |
+| probe_waveform_voltage safe_d_r_28 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:34) |
+| probe_waveform_voltage safe_d_r_29 |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:35) |
+| probe_waveform_voltage q_00        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:36) |
+| probe_waveform_voltage q_01        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:37) |
+| probe_waveform_voltage q_02        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:38) |
+| probe_waveform_voltage q_03        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:39) |
+| probe_waveform_voltage q_04        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:40) |
+| probe_waveform_voltage q_05        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:41) |
+| probe_waveform_voltage q_06        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:42) |
+| probe_waveform_voltage q_07        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:43) |
+| probe_waveform_voltage q_08        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:44) |
+| probe_waveform_voltage q_09        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:45) |
+| probe_waveform_voltage q_10        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:46) |
+| probe_waveform_voltage q_11        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:47) |
+| probe_waveform_voltage q_12        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:48) |
+| probe_waveform_voltage q_13        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:49) |
+| probe_waveform_voltage q_14        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:50) |
+| probe_waveform_voltage q_15        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:51) |
+| probe_waveform_voltage q_16        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:52) |
+| probe_waveform_voltage q_17        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:53) |
+| probe_waveform_voltage q_18        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:54) |
+| probe_waveform_voltage q_19        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:55) |
+| probe_waveform_voltage q_20        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:56) |
+| probe_waveform_voltage q_21        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:57) |
+| probe_waveform_voltage q_22        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:58) |
+| probe_waveform_voltage q_23        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:59) |
+| probe_waveform_voltage q_24        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:60) |
+| probe_waveform_voltage q_25        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:61) |
+| probe_waveform_voltage q_26        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:62) |
+| probe_waveform_voltage q_27        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:63) |
+| probe_waveform_voltage q_28        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:64) |
+| probe_waveform_voltage q_29        |       | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:65) |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+Options
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| name           | type  | value | location                                                                                                                                                           |
+|----------------+-------+-------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| POST           | enum  | FSDB  | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg:2)          |
+| PROBE          | flag  | ON    | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/bfe2_l1a_ams.sp:2) |
+| SCALE          | value | 0.9   | (/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib:27)                |
+| TRANSIENT_TIME | value | 7e-09 | (/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/bfe2_l1a_ams.sp:8) |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+Summary of data compression for both waveform and diagnostic features
+-------------------------------------------------------------------------------
+| Data compression type           | Setting | Command to adjust it            |
+|---------------------------------+---------+---------------------------------|
+| slope-based voltage compression | 1e-06   | set_waveform_option -compress_v |
+| slope-based current compression | 1e-12   | set_waveform_option -compress_i |
+|-----------------------------------------------------------------------------|
+
+Summary of data compression for waveform only
+-----------------------------------------------------------------------
+| Data compression type       | Setting | Command to adjust it        |
+|-----------------------------+---------+-----------------------------|
+| time roundoff resolution    | 0       | set_waveform_option -tres   |
+| voltage roundoff resolution | 1e-06   | set_waveform_option -grid_v |
+| current roundoff resolution | 1e-12   | set_waveform_option -grid_i |
+|---------------------------------------------------------------------|
+
+Warning: "Unsupported option" occurs 1 times.
+
+Nodes statistics:
+-----------------------
+| type        | count |
+|-------------+-------|
+| Nodes TOTAL | 316   |
+|---------------------|
+
+Element statistics:
+--------------------------------------------------
+| type          | format | count | unique models |
+|---------------+--------+-------+---------------|
+| E             | HSPICE | 31    | 2             |
+| NMOS          | HSPICE | 210   | 2             |
+| PMOS          | HSPICE | 210   | 4             |
+| V             | HSPICE | 33    | 33            |
+| SIMPLE Cg     |        | 31    |               |
+| Element TOTAL |        | 515   | 41            |
+|------------------------------------------------|
+
+Source Files:
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| name                                                                                                                                                                   | type  |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------|
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/chiplets/FIR/syn/runs/fir_smic40ll_tt_1310ps_spice_20260722_r1/spice/sc9mc_logic0040ll_base_rvt_c40.hspice.cdl     | ideal |
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/bfe2_l1a_ams.sp         | ideal |
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/bfe2_l1a_ams_wrapper.sp | ideal |
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.cfg                  | ideal |
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/spice/empty_subckt.sp_cal                                                              | ideal |
+| /host/data/libtech/SMIC_40LL/ARM_SMIC40LL_Library_20131105/SMIC_log40ll_sc9mc/arm/smic/logic0040ll/sc9mc_base_lvt_c40/r0p1/cdl/sc9mc_logic0040ll_base_lvt_c40.cdl      | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_n11ll.mdl               | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_n25ll.mdl               | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_nhvt11ll.mdl            | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_nlvt11ll.mdl            | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_nod33ll.mdl             | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_nud18ll.mdl             | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_p11ll.mdl               | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_p25ll.mdl               | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_phvt11ll.mdl            | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_plvt11ll.mdl            | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_pod33ll.mdl             | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_lpe_v1p4_1r_pud18ll.mdl             | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib                         | ideal |
+| /host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.mdl                         | ideal |
+| /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/empty_subckt.sp_cal     | ideal |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+Base license checking succeeded
+
+Warning: "Output analysis statement skipped" occurs 63 times. The first 10 warnings are tabulated. To change the limit
+for every message type, use: "set_message_option -limit <limit>"
+
+Warning: "Dangling terminal" occurs 31 times. The first 10 warnings are tabulated. To change the limit for every
+message type, use: "set_message_option -limit <limit>"
+Information: [MSV-FLOW-100] Started analog simulator for mixed signal simulation.
+Entering DC method 1
+DC method 1 progress 10% done
+DC method 1 progress 20% done
+DC method 1 progress 30% done
+DC method 1 progress 40% done
+DC method 1 progress 50% done
+DC method 1 progress 60% done
+DC method 1 progress 70% done
+DC method 1 progress 80% done
+DC method 1 progress 90% done
+DC method 1 progress 100% done
+DC has successfully converged with method 1 ( wall time = 0 sec )
+FSDB Writer, Release Verdi_W-2024.09, RH Linux x86_64/64bit, 08/25/2026
+(C) 1996 - 2026 by Synopsys, Inc.
+*NOVAS WARN* The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+$finish called from file "tb_bfe2_l1a_vcs_xa.sv", line 702.
+$finish at simulation time                 7000
+
+Summary of Interface Activity: 
+Number of d2a events (including HighZ):  62
+Number of HighZ d2a events          :  0
+Number of a2d events (including HighZ):  25
+Number of HighZ a2d events          :  0
+Total number of events              :  87	for 51 interface signals
+End Summary of Interface Activity
+Peak Virtual Memory = 867 M
+Grand Total Time = 8 sec
+Total Wall Time = 9 sec
+Total Wall Time Excluding License Check Out Time = 8 sec
+Total number of comparison errors = 0
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7000 ps
+CPU Time:      8.450 seconds;       Data structure size:   0.1Mb
+Tue Aug 25 12:55:19 2026
+XA done: see
+"/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n/xa.log"
+for details.

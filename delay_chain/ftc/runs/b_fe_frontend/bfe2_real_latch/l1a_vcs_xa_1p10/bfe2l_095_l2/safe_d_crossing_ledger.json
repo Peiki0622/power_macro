@@ -1,0 +1,302 @@
+{
+  "tap_00": [
+    {
+      "logic_state": 1,
+      "time_ps": 1039.0798439377777
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1118.2043143060898
+    }
+  ],
+  "tap_01": [
+    {
+      "logic_state": 1,
+      "time_ps": 1056.1409276307656
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1157.0233131249993
+    }
+  ],
+  "tap_02": [
+    {
+      "logic_state": 1,
+      "time_ps": 1073.2005687845017
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1195.8107529333643
+    }
+  ],
+  "tap_03": [
+    {
+      "logic_state": 1,
+      "time_ps": 1094.8285965384841
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1234.5779728605553
+    }
+  ],
+  "tap_04": [
+    {
+      "logic_state": 1,
+      "time_ps": 1116.0377847907348
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1273.3173522215297
+    }
+  ],
+  "tap_05": [
+    {
+      "logic_state": 1,
+      "time_ps": 1137.0845826399866
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1312.2516526181187
+    }
+  ],
+  "tap_06": [
+    {
+      "logic_state": 1,
+      "time_ps": 1158.4033606632474
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1351.1238890579139
+    }
+  ],
+  "tap_07": [
+    {
+      "logic_state": 1,
+      "time_ps": 1179.6647546602526
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1389.845630123504
+    }
+  ],
+  "tap_08": [
+    {
+      "logic_state": 1,
+      "time_ps": 1200.8438483048824
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1428.642936893147
+    }
+  ],
+  "tap_09": [
+    {
+      "logic_state": 1,
+      "time_ps": 1222.213761153781
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1467.5428511838616
+    }
+  ],
+  "tap_10": [
+    {
+      "logic_state": 1,
+      "time_ps": 1243.3405701155862
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1506.2750823092254
+    }
+  ],
+  "tap_11": [
+    {
+      "logic_state": 1,
+      "time_ps": 1264.7175360203682
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1545.0053125101758
+    }
+  ],
+  "tap_12": [
+    {
+      "logic_state": 1,
+      "time_ps": 1285.896719325453
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1583.8233003913456
+    }
+  ],
+  "tap_13": [
+    {
+      "logic_state": 1,
+      "time_ps": 1307.1548070284318
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1622.5896750369038
+    }
+  ],
+  "tap_14": [
+    {
+      "logic_state": 1,
+      "time_ps": 1328.4261145185894
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1661.6937094695204
+    }
+  ],
+  "tap_15": [
+    {
+      "logic_state": 1,
+      "time_ps": 1349.59626064126
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1700.3251947581361
+    }
+  ],
+  "tap_16": [
+    {
+      "logic_state": 1,
+      "time_ps": 1370.8130923713695
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1739.3093198748913
+    }
+  ],
+  "tap_17": [
+    {
+      "logic_state": 1,
+      "time_ps": 1392.1300248351042
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1778.1980979154048
+    }
+  ],
+  "tap_18": [
+    {
+      "logic_state": 1,
+      "time_ps": 1413.3640386879015
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1817.1809351145769
+    }
+  ],
+  "tap_19": [
+    {
+      "logic_state": 1,
+      "time_ps": 1434.524164240112
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1856.0714347793971
+    }
+  ],
+  "tap_20": [
+    {
+      "logic_state": 1,
+      "time_ps": 1455.9755303220866
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1895.0593923762904
+    }
+  ],
+  "tap_21": [
+    {
+      "logic_state": 1,
+      "time_ps": 1477.1480115497443
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1933.9633780564689
+    }
+  ],
+  "tap_22": [
+    {
+      "logic_state": 1,
+      "time_ps": 1498.1276790682962
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 1972.7766541525039
+    }
+  ],
+  "tap_23": [
+    {
+      "logic_state": 1,
+      "time_ps": 1519.4637326811041
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2011.6721479204562
+    }
+  ],
+  "tap_24": [
+    {
+      "logic_state": 1,
+      "time_ps": 1540.6922521768247
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2050.377435532154
+    }
+  ],
+  "tap_25": [
+    {
+      "logic_state": 1,
+      "time_ps": 1561.7278107859815
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2089.138220968705
+    }
+  ],
+  "tap_26": [
+    {
+      "logic_state": 1,
+      "time_ps": 1582.992309819965
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2128.263942830317
+    }
+  ],
+  "tap_27": [
+    {
+      "logic_state": 1,
+      "time_ps": 1604.1746510777702
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2167.020435370153
+    }
+  ],
+  "tap_28": [
+    {
+      "logic_state": 1,
+      "time_ps": 1625.419238163655
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2206.1439160660266
+    }
+  ],
+  "tap_29": [
+    {
+      "logic_state": 1,
+      "time_ps": 1643.276388426368
+    },
+    {
+      "logic_state": 0,
+      "time_ps": 2241.745180514711
+    }
+  ]
+}

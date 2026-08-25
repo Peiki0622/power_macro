@@ -1,0 +1,3 @@
+bus_format [%d];
+use_spice -cell bfe2_l1a_ams;
+choose xa -hspice /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_l2/bfe2_l1a_ams.sp -c /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_l2/xa.cfg -o /home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_l2/xa;

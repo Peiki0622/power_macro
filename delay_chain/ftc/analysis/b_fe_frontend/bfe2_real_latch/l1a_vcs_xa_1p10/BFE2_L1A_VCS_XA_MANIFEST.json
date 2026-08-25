@@ -1,0 +1,53 @@
+{
+  "additional_delay_ps": 0.0,
+  "additional_slew": "none",
+  "container_tools": {
+    "vcs": "/home/synopsys/vcs/W-2024.09",
+    "xa": "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09"
+  },
+  "fixed_sample_close_ps": 534.524618567,
+  "hysteresis": "none",
+  "latch_cdl_sha256": "1c76297a514ca69abd846adcb957fa563399235728f8796cc76214ed831cc158",
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "safe_d_high_v": 0.95,
+  "safe_d_rule": "xor > 0.5*VDD_SENSE ? 0.95 V : 0 V",
+  "scenarios": [
+    {
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_n",
+      "ledger_sha256": "4d29c9df92ef8d6bc8bbba1c85cc8218d89e59e9b94dc67d034894defd28806c",
+      "run_returncode": 0,
+      "scenario_id": "BFE2L-095-N",
+      "xa_version_marker": true
+    },
+    {
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/l1a_vcs_xa_1p10/bfe2l_095_l2",
+      "ledger_sha256": "7a1dabff1904b7e2af7b9fd79af667667b76f4d8b79fcd860d7c1c57bc7bc1a3",
+      "run_returncode": 0,
+      "scenario_id": "BFE2L-095-L2",
+      "xa_version_marker": true
+    }
+  ],
+  "schema_version": 1,
+  "source_deck_sha256": {
+    "BFE2L-095-L2": "852e38065b51b53c4ceab34d14e1c5e02c764d9bbc91a85ab23160a92c6ddbec",
+    "BFE2L-095-N": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1"
+  },
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "source_trace_sha256": {
+    "BFE2L-095-L2": "4f2d275977320018ec7b3af23b7b8318cdb91f856a000046ec7ef36ac7403679",
+    "BFE2L-095-N": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c"
+  },
+  "analysis_artifact": "BFE2_L1A_VCS_XA_ANALYSIS.json",
+  "report_artifact": "BFE2_L1A_VCS_XA_REPORT.md",
+  "gate_artifact": "BFE2_L1A_VCS_XA_GATE.json",
+  "boundary_evidence": "xa_boundary_samples.csv",
+  "stage": "B-FE2-L1A",
+  "vdd_safe_v": 1.1,
+  "vdd_sense_source_v": "frozen B-FE2.2C 0.95 V normal / 0.95->0.86 V L2",
+  "verification_mode": "VCS-XA mixed-signal latch-boundary co-simulation",
+  "x_region": "none"
+}
