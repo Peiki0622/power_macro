@@ -1,0 +1,8 @@
+{
+  "gate": "BFE2_2S_SAFE_SEED_READY",
+  "new_hspice_scenarios": 0,
+  "reason": "0.95-V normal/L2 has a positive-width common Q-stable interval with only zero or single normal resolutions; no unresolved tap or historical re-flip lies at the selected midpoint, and the 1.10-V history is compatible",
+  "revision": "single_normal_resolution_allowed",
+  "selected_seed_present": true,
+  "stage": "B-FE2.2S"
+}
