@@ -1,0 +1,25 @@
+{
+  "fixed_pd_safe_v": 0.95,
+  "gate": "BFE2_L0_SAFE_DOMAIN_PASS",
+  "new_hspice_scenarios": 0,
+  "requested_close_ps": 534.524618567,
+  "results": [
+    {
+      "probe_sha256": "916c143bc9589db8d58bd5dbf8e89883f2bb6ade1777f30585010467713f51e3",
+      "record_count": 415,
+      "scenario_id": "BFE2L-095-N"
+    },
+    {
+      "probe_sha256": "6d08e405af4b2684f0aa265b4d0a8d9b7ef1cbf0ec39421460ecf6fe71d19679",
+      "record_count": 443,
+      "scenario_id": "BFE2L-095-L2"
+    }
+  ],
+  "scenario_ids": [
+    "BFE2L-095-N",
+    "BFE2L-095-L2"
+  ],
+  "schema_version": 1,
+  "source_trace_root": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/corrected_seed_534p525ps",
+  "stage": "B-FE2-L0"
+}

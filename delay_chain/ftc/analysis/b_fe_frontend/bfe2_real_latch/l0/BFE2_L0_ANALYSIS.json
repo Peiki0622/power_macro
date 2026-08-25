@@ -1,0 +1,46 @@
+{
+  "causal_interpretation": "Ideal PD_SAFE restoration plus transparent-high latch hold removes source-domain re-flips in deterministic replay; this does not prove a physical level shifter.",
+  "final_q_hamming_distance": 10,
+  "final_q_min_bit_margin_v": 0.475,
+  "fixed_pd_safe_v": 0.95,
+  "fixed_sample_close_ps": 534.524618567,
+  "gate": "BFE2_L0_SAFE_DOMAIN_PASS",
+  "new_hspice_scenarios": 0,
+  "results": [
+    {
+      "all_q_full_swing": true,
+      "final_q_code": "000000000000000111111111111111",
+      "max_post_close_resolution_ps": 0.0,
+      "post_close_q_crossings": [],
+      "post_close_reflip_taps": [],
+      "probe_sha256": "916c143bc9589db8d58bd5dbf8e89883f2bb6ade1777f30585010467713f51e3",
+      "q_stable": true,
+      "record_count": 415,
+      "scenario_id": "BFE2L-095-N"
+    },
+    {
+      "all_q_full_swing": true,
+      "final_q_code": "000000000001111111111111000000",
+      "max_post_close_resolution_ps": 0.0,
+      "post_close_q_crossings": [],
+      "post_close_reflip_taps": [],
+      "probe_sha256": "6d08e405af4b2684f0aa265b4d0a8d9b7ef1cbf0ec39421460ecf6fe71d19679",
+      "q_stable": true,
+      "record_count": 443,
+      "scenario_id": "BFE2L-095-L2"
+    }
+  ],
+  "scenario_ids": [
+    "BFE2L-095-N",
+    "BFE2L-095-L2"
+  ],
+  "schema_version": 1,
+  "stage": "B-FE2-L0",
+  "vcs_execution": {
+    "compile_logs_retained": true,
+    "host": "166.111.78.45",
+    "status": "blocked",
+    "tool": "VCS P-2019.06-SP2_Full64"
+  },
+  "verification_mode": "offline_replay_due_vcs_compile_block"
+}
