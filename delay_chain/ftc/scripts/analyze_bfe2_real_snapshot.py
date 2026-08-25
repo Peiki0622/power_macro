@@ -85,16 +85,37 @@ def q_transition_diagnostics(trace: Mapping[str, Any], close_ps: float) -> Dict[
             "max_final_resolution_ps": max([record["final_resolution_ps"] or 0.0 for record in per_tap])}
 
 
+def observed_g_close_ps(trace: Mapping[str, Any]) -> float:
+    """Return the one measured local-rail G falling crossing in a snapshot trace.
+
+    ``close_ps`` in a deck is the requested centre of the one-picosecond PWL
+    edge.  The physical latch sees the local-threshold G crossing, which can
+    differ slightly because HSPICE uses adaptive timesteps and G is judged
+    against VDD_MONITORED/2.  Post-close diagnostics must use this measured
+    edge, otherwise an event close to G may be assigned to the wrong side.
+    """
+
+    falls = spatial.crossing_events(trace, "latch_g")["fall_ps"]
+    if len(falls) != 1:
+        raise ValueError("B-FE2.2 snapshot requires exactly one measured G falling crossing")
+    return falls[0]
+
+
 def assess(item: Mapping[str, Any], is_retry: bool) -> Dict[str, Any]:
     """Assess one scenario through transition evidence and final Q code."""
 
     trace = bfe1_frontend.parse_ascii_tr0(trace_path(item, is_retry))
-    close_ps = float(item["close_ps"])
+    requested_close_ps = float(item["close_ps"])
+    close_ps = observed_g_close_ps(trace)
     samples = [{"after_close_ps": offset, "code": q_code(trace, close_ps + offset)} for offset in (5.0, 20.0, 100.0, 500.0, 5000.0)]
     transitions = q_transition_diagnostics(trace, close_ps)
     final_code = samples[-1]["code"]
     stable = (not transitions["reflip_taps"] and not final_code["empty"] and not final_code["fragmented"] and final_code["minimum_bit_margin_v"] > 1.0e-6)
-    return {"scenario_id": item["scenario_id"], "baseline_v": item["baseline_v"], "droop_v": item["droop_v"], "close_ps": close_ps,
+    return {"scenario_id": item["scenario_id"], "baseline_v": item["baseline_v"], "droop_v": item["droop_v"],
+            # Keep both names: requested close identifies the deck, while the
+            # observed crossing is the only valid origin for Q timing.
+            "requested_close_ps": requested_close_ps, "observed_g_close_ps": close_ps,
+            "g_crossing_minus_requested_ps": close_ps - requested_close_ps,
             "evidence_role": "replacement" if is_retry else "first_attempt", "q_samples": samples,
             "transition_diagnostics": transitions, "stable": stable, "final_code": final_code}
 
@@ -125,8 +146,16 @@ def main() -> int:
     all_stable = all(pair[side]["stable"] for pair in pairs for side in ("normal", "l2"))
     all_distinguishable = all(pair["distinguishable"] for pair in pairs)
     gate = "BFE2_2_REAL_SNAPSHOT_GO" if all_stable and all_distinguishable else "BFE2_2_REAL_SNAPSHOT_CONDITIONAL"
-    output = {"schema_version": 1, "stage": "B-FE2.2", "gate": gate, "new_hspice_scenarios": 0,
+    output = {"schema_version": 2, "stage": "B-FE2.2", "gate": gate,
+              # Six distinct snapshot decks were physically simulated: four
+              # first attempts plus the one plan-authorized 0.95-V pair.  The
+              # script itself only rereads them, so expose both accounting
+              # dimensions instead of incorrectly publishing zero runs.
+              "executed_new_hspice_scenarios": 6,
+              "this_analysis_new_hspice_scenarios": 0,
               "total_bfe2_2_new_hspice_scenarios": 6, "all_q_stable": all_stable, "all_pairs_distinguishable": all_distinguishable,
+              "first_attempt_manifest": FIRST_MANIFEST.name, "retry_manifest": RETRY_MANIFEST.name,
+              "selection_policy": "retain all first-attempt evidence; use the authorized retry only for the 0.95-V paired Gate decision",
               "pairs": pairs, "reason": "all paired snapshots stable and distinguishable" if gate.endswith("GO") else "at least one permitted-close scenario has a post-close Q re-flip or unresolved spatial code"}
     (OUTPUT_ROOT / "BFE2_2_GATE_STATUS.json").write_text(json.dumps(output, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(gate)

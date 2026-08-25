@@ -1,11 +1,12 @@
 {
   "all_path_monotonic": true,
   "clean_pair_count": 2,
+  "executed_new_hspice_scenarios": 4,
   "gate": "BFE2_1_LATCH_LOAD_GO",
-  "new_hspice_scenarios": 0,
   "pair_count": 2,
   "real_latch_d_input_load": true,
   "reason": "both formal baselines retain clean positive-width spatial discrimination under 30 real latch D loads",
-  "schema_version": 1,
-  "stage": "B-FE2.1"
+  "schema_version": 2,
+  "stage": "B-FE2.1",
+  "this_analysis_new_hspice_scenarios": 0
 }

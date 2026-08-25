@@ -1,8 +1,9 @@
 {
   "all_pairs_distinguishable": true,
   "all_q_stable": false,
+  "executed_new_hspice_scenarios": 6,
+  "first_attempt_manifest": "BFE2_2_SCENARIO_MANIFEST.json",
   "gate": "BFE2_2_REAL_SNAPSHOT_CONDITIONAL",
-  "new_hspice_scenarios": 0,
   "pairs": [
     {
       "baseline_v": 0.95,
@@ -10,7 +11,6 @@
       "hamming_distance": 5,
       "l2": {
         "baseline_v": 0.95,
-        "close_ps": 320.333956,
         "droop_v": 0.86,
         "evidence_role": "replacement",
         "final_code": {
@@ -28,7 +28,7 @@
               "start": 4
             }
           ],
-          "minimum_bit_margin_v": 0.47498837871531085,
+          "minimum_bit_margin_v": 0.4749883736344833,
           "raw_code": "000011111111000000000000000000",
           "right_headroom": 18,
           "run_count": 1,
@@ -36,6 +36,8 @@
           "touches_left": false,
           "touches_right": false
         },
+        "g_crossing_minus_requested_ps": 0.0471694870273609,
+        "observed_g_close_ps": 320.38112548702736,
         "q_samples": [
           {
             "after_close_ps": 5.0,
@@ -54,7 +56,7 @@
                   "start": 4
                 }
               ],
-              "minimum_bit_margin_v": 0.3854079246607653,
+              "minimum_bit_margin_v": 0.3848505382178819,
               "raw_code": "000011111111000000000000000000",
               "right_headroom": 18,
               "run_count": 1,
@@ -80,7 +82,7 @@
                   "start": 4
                 }
               ],
-              "minimum_bit_margin_v": 0.1190566184096859,
+              "minimum_bit_margin_v": 0.11879894128620178,
               "raw_code": "000011111111000000000000000000",
               "right_headroom": 18,
               "run_count": 1,
@@ -106,7 +108,7 @@
                   "start": 4
                 }
               ],
-              "minimum_bit_margin_v": 0.42988030987077547,
+              "minimum_bit_margin_v": 0.42988080313088234,
               "raw_code": "000011111111000000000000000000",
               "right_headroom": 18,
               "run_count": 1,
@@ -132,7 +134,7 @@
                   "start": 4
                 }
               ],
-              "minimum_bit_margin_v": 0.4299881827361824,
+              "minimum_bit_margin_v": 0.4299879979629905,
               "raw_code": "000011111111000000000000000000",
               "right_headroom": 18,
               "run_count": 1,
@@ -158,7 +160,7 @@
                   "start": 4
                 }
               ],
-              "minimum_bit_margin_v": 0.47498837871531085,
+              "minimum_bit_margin_v": 0.4749883736344833,
               "raw_code": "000011111111000000000000000000",
               "right_headroom": 18,
               "run_count": 1,
@@ -168,6 +170,7 @@
             }
           }
         ],
+        "requested_close_ps": 320.333956,
         "scenario_id": "BFE2L-095-L2",
         "stable": true,
         "transition_diagnostics": {
@@ -360,7 +363,6 @@
       },
       "normal": {
         "baseline_v": 0.95,
-        "close_ps": 320.333956,
         "droop_v": null,
         "evidence_role": "replacement",
         "final_code": {
@@ -386,6 +388,8 @@
           "touches_left": false,
           "touches_right": false
         },
+        "g_crossing_minus_requested_ps": 0.00020548125240793524,
+        "observed_g_close_ps": 320.3341614812524,
         "q_samples": [
           {
             "after_close_ps": 5.0,
@@ -404,7 +408,7 @@
                   "start": 6
                 }
               ],
-              "minimum_bit_margin_v": 0.18025559552024317,
+              "minimum_bit_margin_v": 0.1802457320679125,
               "raw_code": "000000111111111000000000000000",
               "right_headroom": 15,
               "run_count": 1,
@@ -430,7 +434,7 @@
                   "start": 7
                 }
               ],
-              "minimum_bit_margin_v": 0.1858340109350951,
+              "minimum_bit_margin_v": 0.18583419110054633,
               "raw_code": "000000011111111000000000000000",
               "right_headroom": 15,
               "run_count": 1,
@@ -456,7 +460,7 @@
                   "start": 6
                 }
               ],
-              "minimum_bit_margin_v": 0.46779312491299563,
+              "minimum_bit_margin_v": 0.46779330204811576,
               "raw_code": "000000111111111000000000000000",
               "right_headroom": 15,
               "run_count": 1,
@@ -482,7 +486,7 @@
                   "start": 6
                 }
               ],
-              "minimum_bit_margin_v": 0.4749978711167716,
+              "minimum_bit_margin_v": 0.4749978711397805,
               "raw_code": "000000111111111000000000000000",
               "right_headroom": 15,
               "run_count": 1,
@@ -518,14 +522,15 @@
             }
           }
         ],
+        "requested_close_ps": 320.333956,
         "scenario_id": "BFE2L-095-N",
         "stable": false,
         "transition_diagnostics": {
           "first_post_close_event": {
-            "after_close_ps": 8.94500672803207,
+            "after_close_ps": 8.944801246779662,
             "tap": 6
           },
-          "max_final_resolution_ps": 48.06037881169692,
+          "max_final_resolution_ps": 48.06017333044451,
           "per_tap": [
             {
               "final_resolution_ps": null,
@@ -564,7 +569,7 @@
               "tap": 5
             },
             {
-              "final_resolution_ps": 48.06037881169692,
+              "final_resolution_ps": 48.06017333044451,
               "post_close_crossing_count": 2,
               "post_close_crossings_ps": [
                 329.27896272803207,
@@ -723,7 +728,6 @@
       "hamming_distance": 11,
       "l2": {
         "baseline_v": 1.1,
-        "close_ps": 388.354659,
         "droop_v": 0.96,
         "evidence_role": "first_attempt",
         "final_code": {
@@ -749,6 +753,8 @@
           "touches_left": false,
           "touches_right": false
         },
+        "g_crossing_minus_requested_ps": 0.0634532919361277,
+        "observed_g_close_ps": 388.41811229193615,
         "q_samples": [
           {
             "after_close_ps": 5.0,
@@ -767,7 +773,7 @@
                   "start": 10
                 }
               ],
-              "minimum_bit_margin_v": 0.0803921316277163,
+              "minimum_bit_margin_v": 0.08328167927979302,
               "raw_code": "000000000011111111110000000000",
               "right_headroom": 10,
               "run_count": 1,
@@ -793,7 +799,7 @@
                   "start": 10
                 }
               ],
-              "minimum_bit_margin_v": 0.43494103014380436,
+              "minimum_bit_margin_v": 0.4351077140987232,
               "raw_code": "000000000011111111110000000000",
               "right_headroom": 10,
               "run_count": 1,
@@ -819,7 +825,7 @@
                   "start": 10
                 }
               ],
-              "minimum_bit_margin_v": 0.47969991400214773,
+              "minimum_bit_margin_v": 0.4797012598385567,
               "raw_code": "000000000011111111110000000000",
               "right_headroom": 10,
               "run_count": 1,
@@ -845,7 +851,7 @@
                   "start": 10
                 }
               ],
-              "minimum_bit_margin_v": 0.4799807331995982,
+              "minimum_bit_margin_v": 0.47998119441452514,
               "raw_code": "000000000011111111110000000000",
               "right_headroom": 10,
               "run_count": 1,
@@ -881,14 +887,15 @@
             }
           }
         ],
+        "requested_close_ps": 388.354659,
         "scenario_id": "BFE2L-110-L2",
         "stable": true,
         "transition_diagnostics": {
           "first_post_close_event": {
-            "after_close_ps": 2.9757299110239614,
+            "after_close_ps": 2.9122766190878338,
             "tap": 9
           },
-          "max_final_resolution_ps": 2.9757299110239614,
+          "max_final_resolution_ps": 2.9122766190878338,
           "per_tap": [
             {
               "final_resolution_ps": null,
@@ -945,7 +952,7 @@
               "tap": 8
             },
             {
-              "final_resolution_ps": 2.9757299110239614,
+              "final_resolution_ps": 2.9122766190878338,
               "post_close_crossing_count": 1,
               "post_close_crossings_ps": [
                 391.330388911024
@@ -1078,7 +1085,6 @@
       },
       "normal": {
         "baseline_v": 1.1,
-        "close_ps": 388.354659,
         "droop_v": null,
         "evidence_role": "first_attempt",
         "final_code": {
@@ -1096,7 +1102,7 @@
               "start": 15
             }
           ],
-          "minimum_bit_margin_v": 0.5499998214028964,
+          "minimum_bit_margin_v": 0.5499998214029013,
           "raw_code": "000000000000000111111111110000",
           "right_headroom": 4,
           "run_count": 1,
@@ -1104,6 +1110,8 @@
           "touches_left": false,
           "touches_right": false
         },
+        "g_crossing_minus_requested_ps": -0.00020679830646486153,
+        "observed_g_close_ps": 388.35445220169356,
         "q_samples": [
           {
             "after_close_ps": 5.0,
@@ -1122,7 +1130,7 @@
                   "start": 15
                 }
               ],
-              "minimum_bit_margin_v": 0.05962355978240558,
+              "minimum_bit_margin_v": 0.059606503922184584,
               "raw_code": "000000000000000111111111110000",
               "right_headroom": 4,
               "run_count": 1,
@@ -1148,7 +1156,7 @@
                   "start": 15
                 }
               ],
-              "minimum_bit_margin_v": 0.3030325524455669,
+              "minimum_bit_margin_v": 0.3030337302603802,
               "raw_code": "000000000000000111111111110000",
               "right_headroom": 4,
               "run_count": 1,
@@ -1174,7 +1182,7 @@
                   "start": 15
                 }
               ],
-              "minimum_bit_margin_v": 0.5498088824075542,
+              "minimum_bit_margin_v": 0.5498088800627079,
               "raw_code": "000000000000000111111111110000",
               "right_headroom": 4,
               "run_count": 1,
@@ -1200,7 +1208,7 @@
                   "start": 15
                 }
               ],
-              "minimum_bit_margin_v": 0.549999726940434,
+              "minimum_bit_margin_v": 0.5499997269403639,
               "raw_code": "000000000000000111111111110000",
               "right_headroom": 4,
               "run_count": 1,
@@ -1226,7 +1234,7 @@
                   "start": 15
                 }
               ],
-              "minimum_bit_margin_v": 0.5499998214028964,
+              "minimum_bit_margin_v": 0.5499998214029013,
               "raw_code": "000000000000000111111111110000",
               "right_headroom": 4,
               "run_count": 1,
@@ -1236,14 +1244,15 @@
             }
           }
         ],
+        "requested_close_ps": 388.354659,
         "scenario_id": "BFE2L-110-N",
         "stable": true,
         "transition_diagnostics": {
           "first_post_close_event": {
-            "after_close_ps": 4.276037939022842,
+            "after_close_ps": 4.276244737329307,
             "tap": 14
           },
-          "max_final_resolution_ps": 4.276037939022842,
+          "max_final_resolution_ps": 4.276244737329307,
           "per_tap": [
             {
               "final_resolution_ps": null,
@@ -1330,7 +1339,7 @@
               "tap": 13
             },
             {
-              "final_resolution_ps": 4.276037939022842,
+              "final_resolution_ps": 4.276244737329307,
               "post_close_crossing_count": 1,
               "post_close_crossings_ps": [
                 392.63069693902287
@@ -1434,7 +1443,10 @@
     }
   ],
   "reason": "at least one permitted-close scenario has a post-close Q re-flip or unresolved spatial code",
-  "schema_version": 1,
+  "retry_manifest": "BFE2_2_RETRY_MANIFEST.json",
+  "schema_version": 2,
+  "selection_policy": "retain all first-attempt evidence; use the authorized retry only for the 0.95-V paired Gate decision",
   "stage": "B-FE2.2",
+  "this_analysis_new_hspice_scenarios": 0,
   "total_bfe2_2_new_hspice_scenarios": 6
 }

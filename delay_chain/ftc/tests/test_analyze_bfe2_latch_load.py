@@ -33,6 +33,13 @@ class AnalyzeBfe2LatchLoadTest(unittest.TestCase):
         gate = analysis.decide_gate([{"candidate_platforms": []}, {"candidate_platforms": []}], [scenario(), scenario(False)])
         self.assertEqual(gate["gate"], "BFE2_1_LATCH_LOAD_BLOCKED")
 
+    def test_gate_reports_physical_runs_separately_from_offline_analysis(self):
+        """A zero-HSPICE parser invocation must not erase the four source runs."""
+
+        gate = analysis.decide_gate([{"candidate_platforms": [object()]}, {"candidate_platforms": [object()]}], [scenario(), scenario()])
+        self.assertEqual(gate["executed_new_hspice_scenarios"], 4)
+        self.assertEqual(gate["this_analysis_new_hspice_scenarios"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

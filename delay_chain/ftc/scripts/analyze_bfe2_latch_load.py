@@ -34,6 +34,131 @@ def scenario_trace(scenario_id: str) -> Mapping[str, Any]:
     return bfe1_frontend.parse_ascii_tr0(bfe2_latch_load.scenario_dir(RUN_ROOT, scenario_id) / "bfe2l.tr0")
 
 
+def node_events(trace: Mapping[str, Any], node: str) -> List[Dict[str, Any]]:
+    """Return one chronologically ordered local-rail crossing list for ``node``.
+
+    The B-FE2 latch is powered from the monitored rail, so a data or Q event
+    is defined against the same instantaneous VDD/2 threshold as the frozen
+    spatial-code analysis.  Keeping the direction together with the time is
+    important here: a falling D event may only be paired to a falling Q
+    event, never to a merely nearby rising event.
+    """
+
+    crossings = spatial.crossing_events(trace, node)
+    events = [{"time_ps": time_ps, "direction": "rise"} for time_ps in crossings["rise_ps"]]
+    events.extend({"time_ps": time_ps, "direction": "fall"} for time_ps in crossings["fall_ps"])
+    return sorted(events, key=lambda item: item["time_ps"])
+
+
+def pair_transparent_d_to_q(trace: Mapping[str, Any], tap: int) -> Dict[str, Any]:
+    """Measure transparent-mode D→Q propagation for one physical latch tap.
+
+    B-FE2.1 holds G high for the entire observation.  Its saved trace is thus
+    the only valid measurement of this exact latch bank's transparent D→Q
+    delay; no Liberty number is fabricated when a table is unavailable at the
+    required 0.95-V condition.  Events are greedily paired in time order with
+    the first later Q crossing of the same direction.  That deliberately
+    conservative rule leaves an ambiguous event unpaired instead of claiming
+    a causal delay that the waveform cannot support.
+    """
+
+    d_events = node_events(trace, "xor_{}".format(tap))
+    q_events = node_events(trace, "q_{}".format(tap))
+    consumed_q = set()
+    pairs, unmatched_d = [], []
+    for d_index, d_event in enumerate(d_events):
+        match_index = next((q_index for q_index, q_event in enumerate(q_events)
+                            if q_index not in consumed_q and
+                            q_event["direction"] == d_event["direction"] and
+                            q_event["time_ps"] >= d_event["time_ps"] - spatial.EPSILON_PS), None)
+        if match_index is None:
+            unmatched_d.append({"event_index": d_index, **d_event})
+            continue
+        q_event = q_events[match_index]
+        consumed_q.add(match_index)
+        pairs.append({
+            "d_event_index": d_index,
+            "q_event_index": match_index,
+            "direction": d_event["direction"],
+            "d_cross_ps": d_event["time_ps"],
+            "q_cross_ps": q_event["time_ps"],
+            "d_to_q_delay_ps": q_event["time_ps"] - d_event["time_ps"],
+        })
+    unmatched_q = [{"event_index": index, **event} for index, event in enumerate(q_events)
+                   if index not in consumed_q]
+    return {"tap": tap, "d_events": d_events, "q_events": q_events,
+            "matched_d_to_q_events": pairs, "unmatched_d_events": unmatched_d,
+            "unmatched_q_events": unmatched_q}
+
+
+def q_snapshot(trace: Mapping[str, Any], sample_ps: float) -> Dict[str, Any]:
+    """Classify the complete physical Q word at one launch-relative time.
+
+    This mirrors the XOR RAW_CODE convention but intentionally reads latch Q.
+    It makes a Q-code interval auditable without confusing transparent D data
+    with the stable word that a later G-close experiment needs to preserve.
+    """
+
+    absolute_s = (spatial.LAUNCH_PS + sample_ps) * 1.0e-12
+    times = trace["columns"]["time"]
+    rail = spatial.interpolate(times, trace["columns"][bfe1_frontend.label_for("vdd_monitored")], absolute_s)
+    bits, margins = [], []
+    for index in range(30):
+        voltage = spatial.interpolate(times, trace["columns"][bfe1_frontend.label_for("q_{}".format(index))], absolute_s)
+        bits.append(1 if voltage > 0.5 * rail else 0)
+        margins.append(abs(voltage - 0.5 * rail))
+    result = spatial.code_metrics(bits)
+    result.update({"sample_ps": sample_ps, "minimum_bit_margin_v": min(margins),
+                   "undefined_bit_count": sum(margin <= spatial.UNDEFINED_MARGIN_V for margin in margins)})
+    return result
+
+
+def q_code_intervals(trace: Mapping[str, Any]) -> List[Dict[str, Any]]:
+    """Return all piecewise-constant Q-code regions in the transparent trace.
+
+    A region is called stable only in the literal waveform sense: no measured
+    Q threshold crossing occurs inside its open interval.  The interval list
+    retains empty and fragmented words as evidence; consumers select only
+    clean interior regions rather than repairing a spatial code.
+    """
+
+    boundaries = [0.0, spatial.STOP_PS - spatial.LAUNCH_PS]
+    for index in range(30):
+        events = spatial.crossing_events(trace, "q_{}".format(index))
+        boundaries.extend(events["rise_ps"] + events["fall_ps"])
+    edges = spatial.unique_boundaries(boundaries)
+    intervals = []
+    for left, right in zip(edges[:-1], edges[1:]):
+        if right - left <= spatial.EPSILON_PS:
+            continue
+        code = q_snapshot(trace, (left + right) / 2.0)
+        code.update({"interval_start_ps": left, "interval_end_ps": right,
+                     "interval_width_ps": right - left, "q_crossings_inside": 0})
+        intervals.append(code)
+    return intervals
+
+
+def transparent_latch_timing(trace: Mapping[str, Any], scenario_id: str) -> Dict[str, Any]:
+    """Publish per-tap propagation and the Q-code stability regions for B-FE2.2R.
+
+    The output is purposefully a separate artifact from XOR intervals.  An
+    XOR RAW_CODE platform can begin before its last associated Q transition,
+    which is exactly the root-cause distinction being checked in B-FE2.2R.
+    """
+
+    per_tap = [pair_transparent_d_to_q(trace, tap) for tap in range(30)]
+    intervals = q_code_intervals(trace)
+    clean = [item for item in intervals if item["undefined_bit_count"] == 0 and
+             not item["empty"] and not item["fragmented"] and
+             not item["touches_left"] and not item["touches_right"]]
+    return {"scenario_id": scenario_id,
+            "threshold": "instantaneous VDD_MONITORED/2",
+            "g_mode": "continuously high; transparent latch reference",
+            "per_tap": per_tap,
+            "q_code_intervals": intervals,
+            "clean_interior_q_stable_intervals": clean}
+
+
 def scenario_analysis(scenario: Mapping[str, Any]) -> Tuple[Dict[str, Any], Mapping[str, Any]]:
     """Reconstruct crossings and RAW_CODE intervals from one saved load trace."""
 
@@ -100,7 +225,14 @@ def decide_gate(pairs: List[Mapping[str, Any]], scenarios: List[Mapping[str, Any
         gate, reason = "BFE2_1_LATCH_LOAD_CONDITIONAL", "some spatial mechanism remains but at least one baseline lacks a clean common platform or monotonicity"
     else:
         gate, reason = "BFE2_1_LATCH_LOAD_BLOCKED", "real latch D-input loading removes clean distinguishable spatial codes"
-    return {"schema_version": 1, "stage": "B-FE2.1", "gate": gate, "reason": reason, "new_hspice_scenarios": 0, "all_path_monotonic": monotonic, "clean_pair_count": len(clean), "pair_count": len(pairs), "real_latch_d_input_load": True}
+    return {"schema_version": 2, "stage": "B-FE2.1", "gate": gate, "reason": reason,
+            # Four HSPICE scenarios were executed to create the immutable
+            # source traces.  This analyzer itself performs zero simulations;
+            # retain both quantities so a derived-analysis rerun cannot erase
+            # the physical-run accounting.
+            "executed_new_hspice_scenarios": 4,
+            "this_analysis_new_hspice_scenarios": 0,
+            "all_path_monotonic": monotonic, "clean_pair_count": len(clean), "pair_count": len(pairs), "real_latch_d_input_load": True}
 
 
 def main() -> int:
@@ -109,10 +241,11 @@ def main() -> int:
     manifest = read_json(OUTPUT_ROOT / "BFE2_1_SCENARIO_MANIFEST.json")
     if len(manifest.get("scenarios", [])) != 4:
         raise ValueError("B-FE2.1 analysis requires exactly four retained scenarios")
-    scenarios, traces = [], {}
+    scenarios, traces, latch_timing = [], {}, []
     for source in manifest["scenarios"]:
         result, trace = scenario_analysis(source)
         scenarios.append(result); traces[result["scenario_id"]] = trace
+        latch_timing.append(transparent_latch_timing(trace, result["scenario_id"]))
     by_id = {item["scenario_id"]: item for item in scenarios}
     pairs = [pairwise(by_id["BFE2L-095-N"], traces["BFE2L-095-N"], by_id["BFE2L-095-L2"], traces["BFE2L-095-L2"]), pairwise(by_id["BFE2L-110-N"], traces["BFE2L-110-N"], by_id["BFE2L-110-L2"], traces["BFE2L-110-L2"])]
     shifts = [load_shift(pair, read_json(BFE1_PAIRWISE)) for pair in pairs]
@@ -120,6 +253,9 @@ def main() -> int:
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
     (OUTPUT_ROOT / "BFE2_1_SPATIAL_INTERVALS.json").write_text(json.dumps({"scenarios": scenarios}, indent=2, sort_keys=True)+"\n", encoding="utf-8")
     (OUTPUT_ROOT / "BFE2_1_PAIRWISE_DISCRIMINATION.json").write_text(json.dumps({"pairs": pairs, "load_shifts": shifts}, indent=2, sort_keys=True)+"\n", encoding="utf-8")
+    (OUTPUT_ROOT / "BFE2_1_TRANSPARENT_DQ_TIMING.json").write_text(json.dumps({
+        "schema_version": 1, "stage": "B-FE2.1", "source": "four retained transparent-latch .tr0 traces",
+        "new_hspice_scenarios": 0, "scenarios": latch_timing}, indent=2, sort_keys=True)+"\n", encoding="utf-8")
     (OUTPUT_ROOT / "BFE2_1_GATE_STATUS.json").write_text(json.dumps(gate, indent=2, sort_keys=True)+"\n", encoding="utf-8")
     print(gate["gate"])
     return 0

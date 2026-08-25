@@ -1,0 +1,3953 @@
+{
+  "attempt_policy": "first_attempt and retry are separate immutable evidence sets; retry never overwrites first_attempt",
+  "executed_new_hspice_scenarios": {
+    "B-FE2.1": 4,
+    "B-FE2.2": 6,
+    "B-FE2.2R": 0
+  },
+  "first_attempt": [
+    {
+      "attempt": "first_attempt",
+      "baseline_v": 0.95,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_n/bfe2s.sp",
+      "deck_sha256": "cd2c274296580527590adfe9f48d68e32160e1bb7c5bb7a5a41a83c47b845789",
+      "droop_v": null,
+      "electrical_signature": {
+        "attempt": "first_attempt",
+        "authority_scenario_key": null,
+        "baseline_v": 0.95,
+        "droop_v": null,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.404441916000e-09 'VDD_VALUE' 1.405441916000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": null,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 404.941916,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "3dbb28d9204ff69e524a43d67df475a2934e434a8b1b7899cfbbd7f2c3d09e6c",
+      "observed_g_close_ps": 404.94166605512885,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 39.07984393777758
+            },
+            {
+              "direction": "fall",
+              "time_ps": 107.53458285521162
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 79.93344156182104
+            },
+            {
+              "direction": "fall",
+              "time_ps": 154.02381941881129
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 56.14092763076553
+            },
+            {
+              "direction": "fall",
+              "time_ps": 136.32229438744287
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 96.97268098249094
+            },
+            {
+              "direction": "fall",
+              "time_ps": 183.25343672372207
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 73.20089831363555
+            },
+            {
+              "direction": "fall",
+              "time_ps": 165.0600218566077
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 114.02671265856145
+            },
+            {
+              "direction": "fall",
+              "time_ps": 212.08801563314353
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 90.20260908925104
+            },
+            {
+              "direction": "fall",
+              "time_ps": 193.8592301473958
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 131.0467182311769
+            },
+            {
+              "direction": "fall",
+              "time_ps": 240.90030688444597
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 107.22742628116009
+            },
+            {
+              "direction": "fall",
+              "time_ps": 222.51194910348647
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.0519075218707
+            },
+            {
+              "direction": "fall",
+              "time_ps": 269.59854840578566
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 124.24535310955923
+            },
+            {
+              "direction": "fall",
+              "time_ps": 251.3013867387823
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 165.05945701970415
+            },
+            {
+              "direction": "fall",
+              "time_ps": 298.3259699183319
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 141.23045155668422
+            },
+            {
+              "direction": "fall",
+              "time_ps": 280.06620898380413
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 182.02989846018352
+            },
+            {
+              "direction": "fall",
+              "time_ps": 327.15642303916104
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 158.3117964346801
+            },
+            {
+              "direction": "fall",
+              "time_ps": 308.74609000567204
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 199.17872373195257
+            },
+            {
+              "direction": "fall",
+              "time_ps": 355.87564259915155
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 175.37980086913706
+            },
+            {
+              "direction": "fall",
+              "time_ps": 337.5041182458484
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 216.22893375468777
+            },
+            {
+              "direction": "fall",
+              "time_ps": 384.60904146018663
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 192.33443173417697
+            },
+            {
+              "direction": "fall",
+              "time_ps": 366.3349751060731
+            }
+          ],
+          "post_close_event_classification": [
+            {
+              "after_observed_g_close_ps": 11.46978866936297,
+              "classification": "normal_in_flight_data_event",
+              "expected_q_cross_ps": 413.379838710891,
+              "interpretation": "D crossed before G; its measured transparent D-to-Q response completed after G",
+              "prediction_error_ps": 3.0316160136007966,
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.475,
+                "q_v": 0.4750000000000063,
+                "vdd_monitored_v": 0.95
+              },
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 416.4114547244918
+              },
+              "source_d_event": {
+                "direction": "fall",
+                "time_ps": 366.3349751060731
+              },
+              "transparent_reference": {
+                "d_cross_ps": 366.3349751060731,
+                "d_event_index": 1,
+                "d_to_q_delay_ps": 47.04486360481792,
+                "direction": "fall",
+                "q_cross_ps": 413.379838710891,
+                "q_event_index": 1
+              }
+            },
+            {
+              "after_observed_g_close_ps": 28.3028800026068,
+              "classification": "genuine_post_close_reflip",
+              "internal_mechanism_proof": "not_directly_observable_without_internal_LATQ_nodes",
+              "interpretation": "Q crossed after G without a same-direction D threshold crossing; this is not normal transparent D-to-Q propagation",
+              "mechanism_assessment": "not_explained_by_time_consistent_preclose_inflight_event",
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.475,
+                "q_v": 0.47500000000000014,
+                "vdd_monitored_v": 0.95
+              },
+              "q_event": {
+                "direction": "rise",
+                "time_ps": 433.24454605773565
+              },
+              "same_direction_d_events": [
+                {
+                  "direction": "rise",
+                  "time_ps": 192.33443173417697
+                }
+              ]
+            }
+          ],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 233.10381589644032
+            },
+            {
+              "direction": "fall",
+              "time_ps": 416.4114547244918
+            },
+            {
+              "direction": "rise",
+              "time_ps": 433.24454605773565
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 209.3717107182414
+            },
+            {
+              "direction": "fall",
+              "time_ps": 395.0176671112266
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 250.2220157848668
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 226.3435583073998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 423.62753841049437
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 267.2189555769529
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 243.38163072307236
+            },
+            {
+              "direction": "fall",
+              "time_ps": 452.4078810500997
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 284.2040430183562
+            }
+          ],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 260.4253286874681
+            },
+            {
+              "direction": "fall",
+              "time_ps": 481.173473116908
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 301.26680248057335
+            }
+          ],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 277.37319373141156
+            },
+            {
+              "direction": "fall",
+              "time_ps": 509.8420435746265
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 318.20310305723876
+            }
+          ],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 294.3451279959221
+            },
+            {
+              "direction": "fall",
+              "time_ps": 538.7073909333131
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 335.159555698655
+            }
+          ],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 311.41351311723827
+            },
+            {
+              "direction": "fall",
+              "time_ps": 567.5145161630122
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 352.22173409179584
+            }
+          ],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 328.4162584403215
+            },
+            {
+              "direction": "fall",
+              "time_ps": 596.3602775674225
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 369.2546812599413
+            }
+          ],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 345.4680075216005
+            },
+            {
+              "direction": "fall",
+              "time_ps": 625.2006475831716
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 386.29700046493747
+            }
+          ],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 362.4263002419731
+            },
+            {
+              "direction": "fall",
+              "time_ps": 654.0483272382027
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 403.18493480366317
+            }
+          ],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 379.50882993648304
+            },
+            {
+              "direction": "fall",
+              "time_ps": 682.9628517056841
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 396.5197937757504
+            },
+            {
+              "direction": "fall",
+              "time_ps": 711.6812640582485
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 413.3213153857117
+            },
+            {
+              "direction": "fall",
+              "time_ps": 740.6108314051338
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 430.4311602378965
+            },
+            {
+              "direction": "fall",
+              "time_ps": 769.3202693571992
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 447.4850668129783
+            },
+            {
+              "direction": "fall",
+              "time_ps": 798.1287554719521
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 464.5145028539863
+            },
+            {
+              "direction": "fall",
+              "time_ps": 826.887801448071
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 481.5519864137997
+            },
+            {
+              "direction": "fall",
+              "time_ps": 855.6332063087658
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 498.57941402566564
+            },
+            {
+              "direction": "fall",
+              "time_ps": 884.3846649533758
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 515.6077078388954
+            },
+            {
+              "direction": "fall",
+              "time_ps": 913.1338957145218
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 529.9701800169283
+            },
+            {
+              "direction": "fall",
+              "time_ps": 939.3617308764932
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [
+        9
+      ],
+      "requested_close_ps": 404.941916,
+      "scenario_id": "BFE2L-095-N",
+      "source_bfe2_1_scenario": "BFE2L-095-N",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_n/bfe2s.tr0",
+      "tr0_sha256": "462c3df4aa6b8e7150e4d5ce672a4706d393715cd50a6ac4be1fbcc6fe432dc8"
+    },
+    {
+      "attempt": "first_attempt",
+      "baseline_v": 0.95,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_l2/bfe2s.sp",
+      "deck_sha256": "ccd1c207cedc02bb6dc872667b0b1343e0a1b89842c604982531682011db424d",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "attempt": "first_attempt",
+        "authority_scenario_key": "t0_5a_0p95_l2_long",
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.404441916000e-09 'VDD_VALUE' 1.405441916000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 75.0,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 404.941916,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "bac655b88d9260e05f62685cd78bfb868eafa04bab17d81e6bb7eaf911264b56",
+      "observed_g_close_ps": 404.9889255127599,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 39.07984393777758
+            },
+            {
+              "direction": "fall",
+              "time_ps": 118.20431430608971
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 81.4664712871512
+            },
+            {
+              "direction": "fall",
+              "time_ps": 180.3502335028503
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 56.14092763076553
+            },
+            {
+              "direction": "fall",
+              "time_ps": 157.02331312499916
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 102.62062494484292
+            },
+            {
+              "direction": "fall",
+              "time_ps": 219.50750444085168
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 73.20056878450157
+            },
+            {
+              "direction": "fall",
+              "time_ps": 195.81075293336414
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 126.08031724467071
+            },
+            {
+              "direction": "fall",
+              "time_ps": 258.36029245574116
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 94.82859653848402
+            },
+            {
+              "direction": "fall",
+              "time_ps": 234.57797286055518
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.19216123095532
+            },
+            {
+              "direction": "fall",
+              "time_ps": 297.244493392289
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 116.03778479073469
+            },
+            {
+              "direction": "fall",
+              "time_ps": 273.31735222152963
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 168.60665836768032
+            },
+            {
+              "direction": "fall",
+              "time_ps": 335.93764903641693
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 137.08458263998648
+            },
+            {
+              "direction": "fall",
+              "time_ps": 312.25165261811856
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 189.5338751520252
+            },
+            {
+              "direction": "fall",
+              "time_ps": 374.8153429993812
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 158.40336066324733
+            },
+            {
+              "direction": "fall",
+              "time_ps": 351.12388905791374
+            }
+          ],
+          "post_close_event_classification": [
+            {
+              "after_observed_g_close_ps": 12.335967361749454,
+              "classification": "normal_in_flight_data_event",
+              "expected_q_cross_ps": 413.68522814993423,
+              "interpretation": "D crossed before G; its measured transparent D-to-Q response completed after G",
+              "prediction_error_ps": 3.639664724575141,
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.43,
+                "q_v": 0.4299999999999983,
+                "vdd_monitored_v": 0.86
+              },
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 417.3248928745094
+              },
+              "source_d_event": {
+                "direction": "fall",
+                "time_ps": 351.12388905791374
+              },
+              "transparent_reference": {
+                "d_cross_ps": 351.12388905791374,
+                "d_event_index": 1,
+                "d_to_q_delay_ps": 62.56133909202049,
+                "direction": "fall",
+                "q_cross_ps": 413.68522814993423,
+                "q_event_index": 1
+              }
+            },
+            {
+              "after_observed_g_close_ps": 133.6722377271276,
+              "classification": "genuine_post_close_reflip",
+              "internal_mechanism_proof": "not_directly_observable_without_internal_LATQ_nodes",
+              "interpretation": "Q crossed after G without a same-direction D threshold crossing; this is not normal transparent D-to-Q propagation",
+              "mechanism_assessment": "not_explained_by_time_consistent_preclose_inflight_event",
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.43,
+                "q_v": 0.43000000000000016,
+                "vdd_monitored_v": 0.86
+              },
+              "q_event": {
+                "direction": "rise",
+                "time_ps": 538.6611632398875
+              },
+              "same_direction_d_events": [
+                {
+                  "direction": "rise",
+                  "time_ps": 158.40336066324733
+                }
+              ]
+            }
+          ],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 210.7794147950882
+            },
+            {
+              "direction": "fall",
+              "time_ps": 417.3248928745094
+            },
+            {
+              "direction": "rise",
+              "time_ps": 538.6611632398875
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 179.66475466025247
+            },
+            {
+              "direction": "fall",
+              "time_ps": 389.84563012350384
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 231.98199019943866
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 200.84384830488227
+            },
+            {
+              "direction": "fall",
+              "time_ps": 428.65656821087566
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 253.23887806717232
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 222.21376115378087
+            },
+            {
+              "direction": "fall",
+              "time_ps": 467.4342785573232
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 274.53663943219624
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 243.34057011558605
+            },
+            {
+              "direction": "fall",
+              "time_ps": 506.15361934366376
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 295.64903787899595
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 264.71753602036813
+            },
+            {
+              "direction": "fall",
+              "time_ps": 544.903294347887
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 317.0948565558941
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 285.89671932545286
+            },
+            {
+              "direction": "fall",
+              "time_ps": 583.7493031021219
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 338.31528002201696
+            }
+          ],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 307.1548070284317
+            },
+            {
+              "direction": "fall",
+              "time_ps": 622.5169064797855
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 359.4962401157842
+            }
+          ],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 328.4261145185893
+            },
+            {
+              "direction": "fall",
+              "time_ps": 661.3752499458479
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 380.77253250626893
+            }
+          ],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 349.59626064125985
+            },
+            {
+              "direction": "fall",
+              "time_ps": 700.0897120190294
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 401.92434996731856
+            }
+          ],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 370.8130923713694
+            },
+            {
+              "direction": "fall",
+              "time_ps": 739.23674473268
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 392.1300248351041
+            },
+            {
+              "direction": "fall",
+              "time_ps": 778.0084579970572
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 413.2515699021509
+            },
+            {
+              "direction": "fall",
+              "time_ps": 817.1045950219301
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 434.44452597432576
+            },
+            {
+              "direction": "fall",
+              "time_ps": 855.9308876607373
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 455.7545536219544
+            },
+            {
+              "direction": "fall",
+              "time_ps": 895.0009987326281
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 476.92126428337554
+            },
+            {
+              "direction": "fall",
+              "time_ps": 933.9462603782653
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 498.1118527785683
+            },
+            {
+              "direction": "fall",
+              "time_ps": 972.6699191948843
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 519.3553123513362
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1011.5712880936029
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 540.6610079083181
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1050.3496392813136
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 561.8626718543052
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1089.02268538006
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 583.0287883730185
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1127.8294483203554
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 604.2513847589875
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1166.8188580868696
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 625.5863900275302
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1205.6965348778604
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 643.3663957676998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1241.4760039721618
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [
+        6
+      ],
+      "requested_close_ps": 404.941916,
+      "scenario_id": "BFE2L-095-L2",
+      "source_bfe2_1_scenario": "BFE2L-095-L2",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_l2/bfe2s.tr0",
+      "tr0_sha256": "b79d11c24bcf341aff27eaedb767f09cf74b4ad40dd41628ffec7bfae3aad913"
+    },
+    {
+      "attempt": "first_attempt",
+      "baseline_v": 1.1,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_110_n/bfe2s.sp",
+      "deck_sha256": "127024c5adc7cd5a95d47d3382358dea0b1aad4eef1514d8c832a9fd09980ab1",
+      "droop_v": null,
+      "electrical_signature": {
+        "attempt": "first_attempt",
+        "authority_scenario_key": null,
+        "baseline_v": 1.1,
+        "droop_v": null,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.387854659000e-09 'VDD_VALUE' 1.388854659000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": null,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 388.354659,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "c9f846612988ed31f2c00d27d35017fd15c284481e7770958d6328946e03d2dc",
+      "observed_g_close_ps": 388.35445220169356,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 29.89418355092596
+            },
+            {
+              "direction": "fall",
+              "time_ps": 77.06201005340324
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 57.67374223848458
+            },
+            {
+              "direction": "fall",
+              "time_ps": 107.71177734266269
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 42.907610153099654
+            },
+            {
+              "direction": "fall",
+              "time_ps": 97.36463620343955
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 70.70663812421719
+            },
+            {
+              "direction": "fall",
+              "time_ps": 128.41859752589005
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 55.954879820933115
+            },
+            {
+              "direction": "fall",
+              "time_ps": 117.55649428676213
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 83.7826247606123
+            },
+            {
+              "direction": "fall",
+              "time_ps": 148.77130881943629
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 69.00506403304382
+            },
+            {
+              "direction": "fall",
+              "time_ps": 137.7898238785475
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 96.82226210090482
+            },
+            {
+              "direction": "fall",
+              "time_ps": 169.03287507230414
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 82.06364551243621
+            },
+            {
+              "direction": "fall",
+              "time_ps": 158.10812636628418
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 109.84044769505533
+            },
+            {
+              "direction": "fall",
+              "time_ps": 189.310466021661
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 95.08043850700062
+            },
+            {
+              "direction": "fall",
+              "time_ps": 178.347954397355
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 122.82816228047784
+            },
+            {
+              "direction": "fall",
+              "time_ps": 209.5558606235055
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 108.07180596999535
+            },
+            {
+              "direction": "fall",
+              "time_ps": 198.57361562164613
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 135.83000956561398
+            },
+            {
+              "direction": "fall",
+              "time_ps": 229.75234547867979
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 121.07063537272268
+            },
+            {
+              "direction": "fall",
+              "time_ps": 218.71126515926346
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.8402949924922
+            },
+            {
+              "direction": "fall",
+              "time_ps": 249.96070791961813
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 134.1592427883744
+            },
+            {
+              "direction": "fall",
+              "time_ps": 238.93919996791567
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 161.9407213064552
+            },
+            {
+              "direction": "fall",
+              "time_ps": 270.106632118226
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 147.12016951023213
+            },
+            {
+              "direction": "fall",
+              "time_ps": 259.0699750109492
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 174.9413722276987
+            },
+            {
+              "direction": "fall",
+              "time_ps": 290.3083979177237
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 160.14211190165645
+            },
+            {
+              "direction": "fall",
+              "time_ps": 279.307682024653
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 187.90640150719935
+            },
+            {
+              "direction": "fall",
+              "time_ps": 310.513422891852
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 173.18315611262017
+            },
+            {
+              "direction": "fall",
+              "time_ps": 299.52164096804734
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 200.96373642033393
+            },
+            {
+              "direction": "fall",
+              "time_ps": 330.7262947059088
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 186.2333290323362
+            },
+            {
+              "direction": "fall",
+              "time_ps": 319.7338518770074
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 214.07263504222203
+            },
+            {
+              "direction": "fall",
+              "time_ps": 350.9118049223083
+            }
+          ],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 199.2758654733451
+            },
+            {
+              "direction": "fall",
+              "time_ps": 339.9098666614967
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 227.0240104420592
+            },
+            {
+              "direction": "fall",
+              "time_ps": 371.12025289261953
+            }
+          ],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 212.29588882677706
+            },
+            {
+              "direction": "fall",
+              "time_ps": 360.0913275486531
+            }
+          ],
+          "post_close_event_classification": [
+            {
+              "after_observed_g_close_ps": 4.276244737329307,
+              "classification": "normal_in_flight_data_event",
+              "expected_q_cross_ps": 391.34906397878297,
+              "interpretation": "D crossed before G; its measured transparent D-to-Q response completed after G",
+              "prediction_error_ps": 1.2816329602399037,
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.55,
+                "q_v": 0.5499999999999933,
+                "vdd_monitored_v": 1.1
+              },
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 392.63069693902287
+              },
+              "source_d_event": {
+                "direction": "fall",
+                "time_ps": 360.0913275486531
+              },
+              "transparent_reference": {
+                "d_cross_ps": 360.0913275486531,
+                "d_event_index": 1,
+                "d_to_q_delay_ps": 31.257736430129853,
+                "direction": "fall",
+                "q_cross_ps": 391.34906397878297,
+                "q_event_index": 1
+              }
+            }
+          ],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 240.08052354650033
+            },
+            {
+              "direction": "fall",
+              "time_ps": 392.63069693902287
+            }
+          ],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 225.35282715747405
+            },
+            {
+              "direction": "fall",
+              "time_ps": 380.31609639137025
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 253.1682063665886
+            }
+          ],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 238.38851600117835
+            },
+            {
+              "direction": "fall",
+              "time_ps": 400.5548861638491
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 266.1268211152893
+            }
+          ],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 251.36298928413942
+            },
+            {
+              "direction": "fall",
+              "time_ps": 420.86550686979933
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 279.18125299128826
+            }
+          ],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 264.43487859565437
+            },
+            {
+              "direction": "fall",
+              "time_ps": 441.2404998069045
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 292.2485175799294
+            }
+          ],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 277.4416006805819
+            },
+            {
+              "direction": "fall",
+              "time_ps": 461.41834193421425
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 305.2094933517261
+            }
+          ],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 290.4535869581922
+            },
+            {
+              "direction": "fall",
+              "time_ps": 481.7550721355161
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 318.2324013855592
+            }
+          ],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 303.501018275159
+            },
+            {
+              "direction": "fall",
+              "time_ps": 501.92307614502886
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 331.2893560028966
+            }
+          ],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 316.472894141992
+            },
+            {
+              "direction": "fall",
+              "time_ps": 522.0792197439326
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 344.2012673435894
+            }
+          ],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 329.4965980785563
+            },
+            {
+              "direction": "fall",
+              "time_ps": 542.302544739637
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 357.3012923868058
+            }
+          ],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 342.5401883175372
+            },
+            {
+              "direction": "fall",
+              "time_ps": 562.5524683197065
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 370.3535167127287
+            }
+          ],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 355.5891075436699
+            },
+            {
+              "direction": "fall",
+              "time_ps": 582.7902509812706
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 383.3368808527763
+            }
+          ],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 368.5846857642397
+            },
+            {
+              "direction": "fall",
+              "time_ps": 603.1861998672874
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 381.65540786368194
+            },
+            {
+              "direction": "fall",
+              "time_ps": 623.3828302456728
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 394.5335939215098
+            },
+            {
+              "direction": "fall",
+              "time_ps": 643.5944142123248
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 405.5746271215472
+            },
+            {
+              "direction": "fall",
+              "time_ps": 661.9172978410342
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [],
+      "requested_close_ps": 388.354659,
+      "scenario_id": "BFE2L-110-N",
+      "source_bfe2_1_scenario": "BFE2L-110-N",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_110_n/bfe2s.tr0",
+      "tr0_sha256": "dc670b6e50dd62efcf97d09ca2cbbe894d21fbe370f6bdeaa0b0b46e5de71695"
+    },
+    {
+      "attempt": "first_attempt",
+      "baseline_v": 1.1,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_110_l2/bfe2s.sp",
+      "deck_sha256": "8929d4b9cb60830a283112226fa711def4448bca7f464de308d6248219ead4ca",
+      "droop_v": 0.96,
+      "electrical_signature": {
+        "attempt": "first_attempt",
+        "authority_scenario_key": "t0_5a_1p10_l2_long",
+        "baseline_v": 1.1,
+        "droop_v": 0.96,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.387854659000e-09 'VDD_VALUE' 1.388854659000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 25.0,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 388.354659,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "d19fe3c073450e9636f4461760d71fe33b2dc5d6d0dc7b6f35790d8839c4b6a3",
+      "observed_g_close_ps": 388.41811229193615,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 31.493192771757208
+            },
+            {
+              "direction": "fall",
+              "time_ps": 95.9969850701001
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 70.1533738175334
+            },
+            {
+              "direction": "fall",
+              "time_ps": 137.82118028659454
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 48.85411322888751
+            },
+            {
+              "direction": "fall",
+              "time_ps": 123.98955479313588
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 86.28913319436413
+            },
+            {
+              "direction": "fall",
+              "time_ps": 166.28890119805976
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 65.29381398308885
+            },
+            {
+              "direction": "fall",
+              "time_ps": 151.9188301231203
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 102.33589889513053
+            },
+            {
+              "direction": "fall",
+              "time_ps": 194.3280289940318
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 81.97662235174437
+            },
+            {
+              "direction": "fall",
+              "time_ps": 179.84643445919858
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 118.93996956450098
+            },
+            {
+              "direction": "fall",
+              "time_ps": 222.3079800679153
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 98.66183608921858
+            },
+            {
+              "direction": "fall",
+              "time_ps": 207.82692638639503
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 135.59914929077183
+            },
+            {
+              "direction": "fall",
+              "time_ps": 250.27704355517346
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 115.33504575035784
+            },
+            {
+              "direction": "fall",
+              "time_ps": 235.78059221125693
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 152.2417355662161
+            },
+            {
+              "direction": "fall",
+              "time_ps": 278.15323254256884
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 131.97402856379188
+            },
+            {
+              "direction": "fall",
+              "time_ps": 263.80629651841275
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 168.91408910378425
+            },
+            {
+              "direction": "fall",
+              "time_ps": 306.10790211804
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.66509338679828
+            },
+            {
+              "direction": "fall",
+              "time_ps": 291.77244220580985
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 185.51439871183618
+            },
+            {
+              "direction": "fall",
+              "time_ps": 334.0929830086603
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 165.3235800912763
+            },
+            {
+              "direction": "fall",
+              "time_ps": 319.6106055323072
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 202.21300744213534
+            },
+            {
+              "direction": "fall",
+              "time_ps": 361.98166824014754
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 182.02094464620893
+            },
+            {
+              "direction": "fall",
+              "time_ps": 347.55495659395626
+            }
+          ],
+          "post_close_event_classification": [
+            {
+              "after_observed_g_close_ps": 2.9122766190878338,
+              "classification": "normal_in_flight_data_event",
+              "expected_q_cross_ps": 389.89048462598623,
+              "interpretation": "D crossed before G; its measured transparent D-to-Q response completed after G",
+              "prediction_error_ps": 1.4399042850377555,
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.48,
+                "q_v": 0.4799999999999968,
+                "vdd_monitored_v": 0.96
+              },
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 391.330388911024
+              },
+              "source_d_event": {
+                "direction": "fall",
+                "time_ps": 347.55495659395626
+              },
+              "transparent_reference": {
+                "d_cross_ps": 347.55495659395626,
+                "d_event_index": 1,
+                "d_to_q_delay_ps": 42.33552803202997,
+                "direction": "fall",
+                "q_cross_ps": 389.89048462598623,
+                "q_event_index": 1
+              }
+            }
+          ],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 218.9445205215535
+            },
+            {
+              "direction": "fall",
+              "time_ps": 391.330388911024
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 198.72866942429425
+            },
+            {
+              "direction": "fall",
+              "time_ps": 375.4978148342683
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 235.56732031190165
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 215.32068237912551
+            },
+            {
+              "direction": "fall",
+              "time_ps": 403.4133617693907
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 252.21330555270526
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 232.06154965065764
+            },
+            {
+              "direction": "fall",
+              "time_ps": 431.3608886649664
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 268.96013464978375
+            }
+          ],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 248.69643470390395
+            },
+            {
+              "direction": "fall",
+              "time_ps": 459.2874912272365
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 285.54432305882904
+            }
+          ],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 265.2793294009929
+            },
+            {
+              "direction": "fall",
+              "time_ps": 487.2163534300481
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 302.1234931965156
+            }
+          ],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 282.0761859293883
+            },
+            {
+              "direction": "fall",
+              "time_ps": 515.0980632018831
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 318.985710951942
+            }
+          ],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 298.7087339633632
+            },
+            {
+              "direction": "fall",
+              "time_ps": 543.2731271109477
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 335.6108331539459
+            }
+          ],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 315.3048080698976
+            },
+            {
+              "direction": "fall",
+              "time_ps": 571.0469501529554
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 352.1945838176822
+            }
+          ],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 331.98473000300385
+            },
+            {
+              "direction": "fall",
+              "time_ps": 598.9828404508272
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 368.919460856412
+            }
+          ],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 348.639640436273
+            },
+            {
+              "direction": "fall",
+              "time_ps": 626.9221462403972
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 385.50445781408905
+            }
+          ],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 365.32001789789854
+            },
+            {
+              "direction": "fall",
+              "time_ps": 654.8609877381642
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 382.04267188482606
+            },
+            {
+              "direction": "fall",
+              "time_ps": 682.8002373884095
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 398.4678670922698
+            },
+            {
+              "direction": "fall",
+              "time_ps": 710.7402503703571
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 415.3189350075469
+            },
+            {
+              "direction": "fall",
+              "time_ps": 738.6792771264874
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 432.043967120754
+            },
+            {
+              "direction": "fall",
+              "time_ps": 766.6183461794575
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 448.73318167809555
+            },
+            {
+              "direction": "fall",
+              "time_ps": 794.6210492730967
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 465.4345498096101
+            },
+            {
+              "direction": "fall",
+              "time_ps": 822.8183849162987
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 482.10561480502304
+            },
+            {
+              "direction": "fall",
+              "time_ps": 850.7983533447888
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 498.80774810675496
+            },
+            {
+              "direction": "fall",
+              "time_ps": 878.8094252589734
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 512.8693153785929
+            },
+            {
+              "direction": "fall",
+              "time_ps": 904.4208152116497
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [],
+      "requested_close_ps": 388.354659,
+      "scenario_id": "BFE2L-110-L2",
+      "source_bfe2_1_scenario": "BFE2L-110-L2",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_110_l2/bfe2s.tr0",
+      "tr0_sha256": "7a7ffbeed217a086bcc7d4dbad7c4eb10ffe519ad2e48fb64cf8699e130943ef"
+    }
+  ],
+  "retry": [
+    {
+      "attempt": "retry",
+      "baseline_v": 0.95,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_n_retry_320p334ps/bfe2s_retry.sp",
+      "deck_sha256": "2e08ffb03bd3123a52671a47d0f59d33fb79d2b88e0907654649aa79cabcac24",
+      "droop_v": null,
+      "electrical_signature": {
+        "attempt": "retry",
+        "authority_scenario_key": null,
+        "baseline_v": 0.95,
+        "droop_v": null,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.319833956000e-09 'VDD_VALUE' 1.320833956000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": null,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 320.333956,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "ba9eb191107839b16d9fbc200c17f1869af01db3b45f9b91df10b691ac0cfe15",
+      "observed_g_close_ps": 320.3341614812524,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 39.07984393777758
+            },
+            {
+              "direction": "fall",
+              "time_ps": 107.53458285521162
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 79.93344156182104
+            },
+            {
+              "direction": "fall",
+              "time_ps": 154.02381941881129
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 56.14092763076553
+            },
+            {
+              "direction": "fall",
+              "time_ps": 136.32229438744287
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 96.97268098249094
+            },
+            {
+              "direction": "fall",
+              "time_ps": 183.25343672372207
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 73.20089831363555
+            },
+            {
+              "direction": "fall",
+              "time_ps": 165.0600218566077
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 114.02671265856145
+            },
+            {
+              "direction": "fall",
+              "time_ps": 212.08801563314353
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 90.20260908925104
+            },
+            {
+              "direction": "fall",
+              "time_ps": 193.8592301473958
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 131.0467182311769
+            },
+            {
+              "direction": "fall",
+              "time_ps": 240.90030688444597
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 107.22742628116009
+            },
+            {
+              "direction": "fall",
+              "time_ps": 222.51194910348647
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.0519075218707
+            },
+            {
+              "direction": "fall",
+              "time_ps": 269.59854840578566
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 124.24535310955923
+            },
+            {
+              "direction": "fall",
+              "time_ps": 251.3013867387823
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 165.05945701970415
+            },
+            {
+              "direction": "fall",
+              "time_ps": 298.3259699183319
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 141.23045155668422
+            },
+            {
+              "direction": "fall",
+              "time_ps": 280.06620898380413
+            }
+          ],
+          "post_close_event_classification": [
+            {
+              "after_observed_g_close_ps": 8.944801246779662,
+              "classification": "normal_in_flight_data_event",
+              "expected_q_cross_ps": 327.15642303916104,
+              "interpretation": "D crossed before G; its measured transparent D-to-Q response completed after G",
+              "prediction_error_ps": 2.1225396888710293,
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.475,
+                "q_v": 0.47499999999999754,
+                "vdd_monitored_v": 0.95
+              },
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 329.27896272803207
+              },
+              "source_d_event": {
+                "direction": "fall",
+                "time_ps": 280.06620898380413
+              },
+              "transparent_reference": {
+                "d_cross_ps": 280.06620898380413,
+                "d_event_index": 1,
+                "d_to_q_delay_ps": 47.09021405535691,
+                "direction": "fall",
+                "q_cross_ps": 327.15642303916104,
+                "q_event_index": 1
+              }
+            },
+            {
+              "after_observed_g_close_ps": 48.06017333044451,
+              "classification": "genuine_post_close_reflip",
+              "internal_mechanism_proof": "not_directly_observable_without_internal_LATQ_nodes",
+              "interpretation": "Q crossed after G without a same-direction D threshold crossing; this is not normal transparent D-to-Q propagation",
+              "mechanism_assessment": "not_explained_by_time_consistent_preclose_inflight_event",
+              "q_and_vdd_at_crossing": {
+                "local_threshold_v": 0.475,
+                "q_v": 0.4749999999999978,
+                "vdd_monitored_v": 0.95
+              },
+              "q_event": {
+                "direction": "rise",
+                "time_ps": 368.3943348116969
+              },
+              "same_direction_d_events": [
+                {
+                  "direction": "rise",
+                  "time_ps": 141.23045155668422
+                }
+              ]
+            }
+          ],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 182.02989846018352
+            },
+            {
+              "direction": "fall",
+              "time_ps": 329.27896272803207
+            },
+            {
+              "direction": "rise",
+              "time_ps": 368.3943348116969
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 158.3117964346801
+            },
+            {
+              "direction": "fall",
+              "time_ps": 308.74609000567204
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 199.17872373195257
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 175.37980086913706
+            },
+            {
+              "direction": "fall",
+              "time_ps": 337.51934403102484
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 216.22893375468777
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 192.33443173417697
+            },
+            {
+              "direction": "fall",
+              "time_ps": 366.21554488520235
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 233.10381589644032
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 209.3717107182414
+            },
+            {
+              "direction": "fall",
+              "time_ps": 395.0163712942675
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 250.2220157848668
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 226.3435583073998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 423.7285745446642
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 267.2189555769529
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 243.38163072307236
+            },
+            {
+              "direction": "fall",
+              "time_ps": 452.3938980749332
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 284.2040430183562
+            }
+          ],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 260.4253286874681
+            },
+            {
+              "direction": "fall",
+              "time_ps": 481.1928937842109
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 301.26680248057335
+            }
+          ],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 277.37319373141156
+            },
+            {
+              "direction": "fall",
+              "time_ps": 509.86582974495116
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 318.20310305723876
+            }
+          ],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 294.3451279959221
+            },
+            {
+              "direction": "fall",
+              "time_ps": 538.6003733950946
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 311.41351311723827
+            },
+            {
+              "direction": "fall",
+              "time_ps": 567.4392614171
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 328.25855982599194
+            },
+            {
+              "direction": "fall",
+              "time_ps": 596.2822392721502
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 345.3543211851271
+            },
+            {
+              "direction": "fall",
+              "time_ps": 625.1390288413164
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 362.37760286587616
+            },
+            {
+              "direction": "fall",
+              "time_ps": 653.9200157720146
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 379.35340604155556
+            },
+            {
+              "direction": "fall",
+              "time_ps": 682.8052504178344
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 396.44290087154525
+            },
+            {
+              "direction": "fall",
+              "time_ps": 711.6525251366874
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 413.48641358346356
+            },
+            {
+              "direction": "fall",
+              "time_ps": 740.3942549933007
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 430.4769243079837
+            },
+            {
+              "direction": "fall",
+              "time_ps": 769.2727695596326
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 447.51051114044196
+            },
+            {
+              "direction": "fall",
+              "time_ps": 797.9910804340287
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 464.5435424989131
+            },
+            {
+              "direction": "fall",
+              "time_ps": 826.720182274615
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 481.59916496423045
+            },
+            {
+              "direction": "fall",
+              "time_ps": 855.6067704167123
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 498.61120177620603
+            },
+            {
+              "direction": "fall",
+              "time_ps": 884.439789364306
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 515.603078687279
+            },
+            {
+              "direction": "fall",
+              "time_ps": 913.2667420789475
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 529.8678472191808
+            },
+            {
+              "direction": "fall",
+              "time_ps": 939.6188178455501
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [
+        6
+      ],
+      "requested_close_ps": 320.333956,
+      "scenario_id": "BFE2L-095-N",
+      "source_bfe2_1_scenario": "BFE2L-095-N",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_n_retry_320p334ps/bfe2s_retry.tr0",
+      "tr0_sha256": "1a538a47fc304b14a2a21357fc9685e41ff94c9908f7231de6be708b80c0f4a1"
+    },
+    {
+      "attempt": "retry",
+      "baseline_v": 0.95,
+      "deck_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_l2_retry_320p334ps/bfe2s_retry.sp",
+      "deck_sha256": "0c754d93890282bb00c235c81b5347238cc4dd763446a500b43e7ccc372bcc18",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "attempt": "retry",
+        "authority_scenario_key": "t0_5a_0p95_l2_long",
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "g_pwl": "V_LATCH_G latch_g vss_a PWL(0 'VDD_VALUE' 1.319833956000e-09 'VDD_VALUE' 1.320833956000e-09 0 7.000000000000e-09 0)",
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "latch_cell": "LATQ_X0P5M_A9TR40",
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 75.0,
+        "power_semantics": "all XOR/LATQ cells use VDD_MONITORED/vss_a; external ideal G research source",
+        "requested_close_ps": 320.333956,
+        "rvt_lvt_buffer_cells": [
+          "BUF_X0P7M_A9TR40",
+          "BUF_X0P7M_A9TL40"
+        ],
+        "s_clk_pwl": "one 1ps rising edge at 1ns",
+        "topology_version": "bfe2_2_30_xor_30_real_latq_single_finite_g_close_v1",
+        "tran_step_ps": 1.0,
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "f818ada7b793e96e182b642adc94ef226ebdb4fea953e994addb98005998cced",
+      "observed_g_close_ps": 320.38112548702736,
+      "per_tap": [
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 39.07984393777758
+            },
+            {
+              "direction": "fall",
+              "time_ps": 118.20431430608971
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 81.4664712871512
+            },
+            {
+              "direction": "fall",
+              "time_ps": 180.3502335028503
+            }
+          ],
+          "tap": 0
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 56.14092763076553
+            },
+            {
+              "direction": "fall",
+              "time_ps": 157.02331312499916
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 102.62062494484292
+            },
+            {
+              "direction": "fall",
+              "time_ps": 219.50750444085168
+            }
+          ],
+          "tap": 1
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 73.20056878450157
+            },
+            {
+              "direction": "fall",
+              "time_ps": 195.81075293336414
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 126.08031724467071
+            },
+            {
+              "direction": "fall",
+              "time_ps": 258.36029245574116
+            }
+          ],
+          "tap": 2
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 94.82859653848402
+            },
+            {
+              "direction": "fall",
+              "time_ps": 234.57797286055518
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 148.19216123095532
+            },
+            {
+              "direction": "fall",
+              "time_ps": 297.244493392289
+            }
+          ],
+          "tap": 3
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 116.03778479073469
+            },
+            {
+              "direction": "fall",
+              "time_ps": 273.31735222152963
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 168.60665836768032
+            }
+          ],
+          "tap": 4
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 137.08458263998648
+            },
+            {
+              "direction": "fall",
+              "time_ps": 312.25165261811856
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 189.5338751520252
+            }
+          ],
+          "tap": 5
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 158.40336066324733
+            },
+            {
+              "direction": "fall",
+              "time_ps": 350.92068728809943
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 210.7794147950882
+            }
+          ],
+          "tap": 6
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 179.66475466025247
+            },
+            {
+              "direction": "fall",
+              "time_ps": 389.7489140067852
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 231.98199019943866
+            }
+          ],
+          "tap": 7
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 200.84384830488227
+            },
+            {
+              "direction": "fall",
+              "time_ps": 428.51030517583274
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 253.23887806717232
+            }
+          ],
+          "tap": 8
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 222.21376115378087
+            },
+            {
+              "direction": "fall",
+              "time_ps": 467.2804542221455
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 274.53663943219624
+            }
+          ],
+          "tap": 9
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 243.34057011558605
+            },
+            {
+              "direction": "fall",
+              "time_ps": 506.0228833210209
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 295.64903787899595
+            }
+          ],
+          "tap": 10
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 264.71753602036813
+            },
+            {
+              "direction": "fall",
+              "time_ps": 544.7846104711676
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [
+            {
+              "direction": "rise",
+              "time_ps": 317.0948565558941
+            }
+          ],
+          "tap": 11
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 285.89671932545286
+            },
+            {
+              "direction": "fall",
+              "time_ps": 583.5988835927068
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 12
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 307.1548070284317
+            },
+            {
+              "direction": "fall",
+              "time_ps": 622.3177540200298
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 13
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 328.3459939962594
+            },
+            {
+              "direction": "fall",
+              "time_ps": 661.0872284312642
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 14
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 349.5029649263221
+            },
+            {
+              "direction": "fall",
+              "time_ps": 700.0224968804365
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 15
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 370.78086056915106
+            },
+            {
+              "direction": "fall",
+              "time_ps": 738.9192057577922
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 16
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 392.0172038608415
+            },
+            {
+              "direction": "fall",
+              "time_ps": 777.9260851126404
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 17
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 413.24307419643185
+            },
+            {
+              "direction": "fall",
+              "time_ps": 816.8063435127759
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 18
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 434.40614186893674
+            },
+            {
+              "direction": "fall",
+              "time_ps": 855.8745869402115
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 19
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 455.73156121170416
+            },
+            {
+              "direction": "fall",
+              "time_ps": 894.6880994356117
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 20
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 476.75887490862
+            },
+            {
+              "direction": "fall",
+              "time_ps": 933.5721328674505
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 21
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 498.1274114868039
+            },
+            {
+              "direction": "fall",
+              "time_ps": 972.5571754922736
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 22
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 519.2430981718409
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1011.2787578583499
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 23
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 540.4675149489395
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1050.180115636309
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 24
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 561.6367889094098
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1089.085364904658
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 25
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 582.8663492422658
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1128.0404309643295
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 26
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 604.1401741528103
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1166.9369150819384
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 27
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 625.2683905687549
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1205.8940230588796
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 28
+        },
+        {
+          "d_events": [
+            {
+              "direction": "rise",
+              "time_ps": 643.1098917311814
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1241.5537194744156
+            }
+          ],
+          "post_close_event_classification": [],
+          "q_events": [],
+          "tap": 29
+        }
+      ],
+      "reflip_taps": [],
+      "requested_close_ps": 320.333956,
+      "scenario_id": "BFE2L-095-L2",
+      "source_bfe2_1_scenario": "BFE2L-095-L2",
+      "source_transparent_dq_artifact": "latch_load/BFE2_1_TRANSPARENT_DQ_TIMING.json",
+      "tr0_path": "runs/b_fe_frontend/bfe2_real_latch/real_snapshot/scenarios/bfe2l_095_l2_retry_320p334ps/bfe2s_retry.tr0",
+      "tr0_sha256": "864dafddd28b834a04ed09bfa09913f36d4e27990997073ef28f40b2e7ab0ecb"
+    }
+  ],
+  "schema_version": 1,
+  "source_manifests": [
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/latch_load/BFE2_1_SCENARIO_MANIFEST.json",
+      "sha256": "e9a93e661a2051685da53b15124eb6fd337f7298798cde89101f2d9e2948c189"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_SCENARIO_MANIFEST.json",
+      "sha256": "ad12c7d5f352b52916f2049d3d8651969a1464c7f6ffa89f3e0756c42e85482f"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/real_snapshot/BFE2_2_RETRY_MANIFEST.json",
+      "sha256": "b37f4e2afa9a521e756f801466d690a155ce8d093e76c76830a89035a4be2f00"
+    },
+    {
+      "path": "analysis/b_fe_frontend/bfe2_real_latch/BFE2_0_LATCH_CELL_AUDIT.json",
+      "sha256": "ac22bd20fb9a18f78c5cd0fed01af170cf407b66e125e4bea26f987c322f1ef1"
+    }
+  ],
+  "stage": "B-FE2.2R",
+  "this_stage_new_hspice_scenarios": 0
+}
