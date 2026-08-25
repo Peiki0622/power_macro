@@ -1,0 +1,2752 @@
+{
+  "final_q_hamming_distance": 4,
+  "fixed_pd_safe_v": 0.95,
+  "fixed_sample_close_ps": 534.524618567,
+  "gate": "BFE2_L1A_REAL_SAFE_LATCH_FAIL",
+  "l1a_manifest_sha256": "df2cc68a5473ad62127c53a264ec0b26766942c5d40617852bcb74d0a071f0da",
+  "next_stage_authorized": false,
+  "results": [
+    {
+      "final_q_code": "000000000000000011111111111111",
+      "fixed_sample_close_ps": 534.524618567,
+      "g_crossing_minus_requested_ps": -0.0004472788391467475,
+      "mid_rail_taps": [],
+      "observed_g_close_ps": 1534.524171288161,
+      "record_count": 1327,
+      "record_width": 94,
+      "scenario_id": "BFE2L-095-N",
+      "source_free_reflip_taps": [
+        16
+      ],
+      "tail_codes": [
+        "000000000000000011111111111111",
+        "000000000000000011111111111111",
+        "000000000000000011111111111111"
+      ],
+      "tail_stable": true,
+      "tap27": {
+        "classification": "zero-crossing",
+        "final_mid_rail": false,
+        "final_q_v": 0.9499997,
+        "post_close_q_events": [],
+        "q_crossings": [],
+        "safe_d_crossings": [
+          {
+            "direction": "rise",
+            "time_ps": 749.2770742346439
+          },
+          {
+            "direction": "fall",
+            "time_ps": 1691.453550131837
+          }
+        ],
+        "source_free_reflip": false,
+        "tail_stable": true,
+        "tail_values_v": [
+          0.9499997,
+          0.9499997,
+          0.9499997
+        ],
+        "tap": 27,
+        "unresolved": false,
+        "xor_crossings": [
+          {
+            "direction": "rise",
+            "time_ps": 1498.554
+          },
+          {
+            "direction": "rise",
+            "time_ps": 1498.554
+          },
+          {
+            "direction": "fall",
+            "time_ps": 1884.353
+          },
+          {
+            "direction": "fall",
+            "time_ps": 1884.353
+          }
+        ]
+      },
+      "taps": [
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1136.0381561981383
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 519.5399687614733
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1073.3073556930215
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 0,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1039.0800000000002
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1039.0800000000002
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1107.5349999999999
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1107.5349999999999
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1161.5651775999963
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 528.0704715820423
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1096.2315556074136
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 1,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1056.1409999999998
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1056.1409999999998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1136.3220000000001
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1136.3220000000001
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1187.0331655487428
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 536.6004425217919
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1119.130702679467
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 2,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1073.201
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1073.201
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1165.06
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1165.06
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1212.521821281026
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 545.1013077042373
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1142.0309848794302
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 3,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1090.203
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1090.203
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1193.859
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1193.859
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1237.865424671383
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 553.6137353193399
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1164.8696718402641
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 4,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1107.227
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1107.227
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1222.512
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1222.512
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1263.262870840601
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 562.1227073672945
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1187.772875974087
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 5,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1124.245
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1124.245
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1251.301
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1251.301
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1288.5997381480895
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 570.6152372355092
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1210.648141179354
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 6,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1141.23
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1141.23
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1280.066
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1280.066
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1313.8411904494078
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 579.1559333825984
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1233.5289164451933
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 7,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1158.312
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1158.312
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1308.746
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1308.746
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1339.0681270207
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 587.6899159646321
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1256.4420500175268
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 8,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1175.3799999999999
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1175.3799999999999
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1337.504
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1337.504
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1364.216523965466
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 596.1672028216494
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1279.3343880050004
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 9,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1192.334
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1192.334
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1366.3349999999998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1366.3349999999998
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1389.1743901543919
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 604.6859082744954
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1302.1946273136873
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 10,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1209.3719999999998
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1209.3719999999998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1395.018
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1395.018
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1414.0653144066216
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 613.1717514907438
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1325.022509360463
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 11,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1226.344
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1226.344
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1423.701
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1423.701
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1438.929471440996
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 621.6908259769068
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1347.912629025974
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 12,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1243.3819999999998
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1243.3819999999998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1452.444
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1452.444
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1463.7900000727454
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 630.2126884123825
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1370.8476838847698
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 13,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1260.425
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1260.425
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1481.271
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1481.271
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567118e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1488.4376732107721
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 638.6866167728147
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1393.6526083350805
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567802e-07,
+            1.567588e-07,
+            1.567118e-07
+          ],
+          "tap": 14,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1277.373
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1277.373
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1509.932
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1509.932
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567123e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1513.0361747815082
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 647.1726402675341
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1416.4568924640846
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.567808e-07,
+            1.567594e-07,
+            1.567123e-07
+          ],
+          "tap": 15,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1294.345
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1294.345
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1538.5690000000002
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1538.5690000000002
+            }
+          ]
+        },
+        {
+          "classification": "genuine-reflip",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 1540.8112105690666
+              },
+              "source_event": null
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "q_event": {
+                "direction": "rise",
+                "time_ps": 1571.6017550387985
+              },
+              "source_event": null
+            }
+          ],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1540.8112105690666
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1571.6017550387985
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 655.7067617904254
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1439.4909973303331
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 16,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1311.414
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1311.414
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1567.568
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1567.568
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 664.2081443197071
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1462.338322740712
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 17,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1328.416
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1328.416
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1596.26
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1596.26
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 672.7339946630412
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1485.2504253428476
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 18,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1345.468
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1345.468
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1625.0330000000001
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1625.0330000000001
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 681.2131200688327
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1508.2205523290625
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 19,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1362.426
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1362.426
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1654.0149999999999
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1654.0149999999999
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 689.7544541586731
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1531.0927419309423
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 20,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1379.509
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1379.509
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1682.6770000000001
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1682.6770000000001
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 698.2599922653325
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1554.0020462098794
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 21,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1396.52
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1396.52
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1711.485
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1711.485
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 706.7474923065165
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1576.8918092363417
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 22,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1413.495
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1413.495
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1740.288
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1740.288
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 715.2555687209932
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1599.7546531365315
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 23,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1430.511
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1430.511
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1768.998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1768.998
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 723.7996813065029
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1622.6701005662655
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 24,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1447.599
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1447.599
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1797.742
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1797.742
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 732.2813783209675
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1645.587914659571
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 25,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1464.563
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1464.563
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1826.614
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1826.614
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 740.7530807357388
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1668.4845019455254
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 26,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1481.5059999999999
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1481.5059999999999
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1855.462
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1855.462
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 749.2770742346439
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1691.453550131837
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 27,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1498.554
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1498.554
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1884.353
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1884.353
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 757.7597910413538
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1714.307996290408
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 28,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1515.52
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1515.52
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1913.096
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1913.096
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 764.9359447910997
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1734.6677301264588
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 29,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1529.872
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1529.872
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1939.463
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1939.463
+            }
+          ]
+        }
+      ],
+      "trace_sha256": "20074eaec3b12c306441c2c98a55d62334129842b99589dafbd2eeff7dc7ec10",
+      "unresolved_taps": [],
+      "unstable_tail_taps": []
+    },
+    {
+      "final_q_code": "000000000000111111111111111111",
+      "fixed_sample_close_ps": 534.524618567,
+      "g_crossing_minus_requested_ps": 1.3200967714510625e-06,
+      "mid_rail_taps": [],
+      "observed_g_close_ps": 1534.5246198870968,
+      "record_count": 1421,
+      "record_width": 94,
+      "scenario_id": "BFE2L-095-L2",
+      "source_free_reflip_taps": [
+        12
+      ],
+      "tail_codes": [
+        "000000000000111111111111111111",
+        "000000000000111111111111111111",
+        "000000000000111111111111111111"
+      ],
+      "tail_stable": true,
+      "tap27": {
+        "classification": "zero-crossing",
+        "final_mid_rail": false,
+        "final_q_v": 0.9499997,
+        "post_close_q_events": [],
+        "q_crossings": [],
+        "safe_d_crossings": [
+          {
+            "direction": "rise",
+            "time_ps": 802.0873851322418
+          },
+          {
+            "direction": "fall",
+            "time_ps": 1885.597819273199
+          }
+        ],
+        "source_free_reflip": false,
+        "tail_stable": true,
+        "tail_values_v": [
+          0.9499997,
+          0.9499997,
+          0.9499997
+        ],
+        "tap": 27,
+        "unresolved": false,
+        "xor_crossings": [
+          {
+            "direction": "rise",
+            "time_ps": 1606.1180224521454
+          },
+          {
+            "direction": "fall",
+            "time_ps": 2165.986534852309
+          }
+        ]
+      },
+      "taps": [
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1143.921519235544
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 519.539916388851
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1078.6418148733587
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 0,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1039.0800000000002
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1039.0800000000002
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1117.1985609047426
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1176.8250097160474
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 528.0704655888214
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1106.582121027563
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 1,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1056.1409999999998
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1056.1409999999998
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1155.9641800890936
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1209.5898560442595
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 536.6002305349308
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1134.5056653222553
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567868e-07,
+            1.567248e-07
+          ],
+          "tap": 2,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1073.201
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1073.201
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1194.7441840910194
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1243.3784363951822
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 547.4142740378385
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1164.7036596047806
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567868e-07,
+            1.567248e-07
+          ],
+          "tap": 3,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1096.7316810034552
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1233.5096397050288
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1276.9334394659484
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 558.0189047440878
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1194.677721382917
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 4,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1117.943130911503
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1272.2668233519726
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1310.4243638139717
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 568.5422863582428
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1224.6680443804034
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 5,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1139.0197926870972
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1311.1624456628708
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1343.7325142043921
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 579.2016368542434
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1254.763593993553
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 6,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1160.2972230614248
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1350.0039908960794
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1376.797992775107
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 589.8323511034521
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1284.7552722145488
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 7,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1181.5589801692988
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1388.7971317714796
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1409.6900982771251
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 600.4219147053032
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1314.7433860309493
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 8,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1202.7439318883787
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1427.5838363830762
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1442.5964011269978
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 611.1069199334938
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1344.8783073846441
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568161e-07,
+            1.567867e-07,
+            1.567248e-07
+          ],
+          "tap": 9,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1224.1092257501832
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1466.4518002826437
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567248e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1475.208850308568
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 621.6702605368033
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1374.8076532145324
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568162e-07,
+            1.567868e-07,
+            1.567248e-07
+          ],
+          "tap": 10,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1245.2508052675696
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1505.1896439779064
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 1.567252e-07,
+          "post_close_q_events": [],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1507.7295944587452
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 632.3587740867057
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1404.8614220235652
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            1.568167e-07,
+            1.567873e-07,
+            1.567252e-07
+          ],
+          "tap": 11,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1266.6385943853145
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1543.9337105892755
+            }
+          ]
+        },
+        {
+          "classification": "genuine-reflip",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "q_event": {
+                "direction": "fall",
+                "time_ps": 1545.4096248398325
+              },
+              "source_event": null
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "q_event": {
+                "direction": "rise",
+                "time_ps": 1555.7027154004018
+              },
+              "source_event": null
+            }
+          ],
+          "q_crossings": [
+            {
+              "direction": "fall",
+              "time_ps": 1545.4096248398325
+            },
+            {
+              "direction": "rise",
+              "time_ps": 1555.7027154004018
+            }
+          ],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 642.9482759352819
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1434.860040218455
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 12,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1287.8121767471575
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1582.7831718054936
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 653.5774285070916
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1464.8723527628629
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 13,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1309.049283314936
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1621.562200859234
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 664.2130237134886
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1495.0600364748748
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 14,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1330.3572446334251
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1660.5635757870427
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 674.7980951072293
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1524.9608437226404
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 15,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1351.5177266756127
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1699.3000013507403
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 685.4065092650269
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1555.0609646354108
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 16,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1372.7173922221443
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1738.275135526441
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 696.0649782200471
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1585.1640834824395
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 17,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1394.0601451632322
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1777.1509379812408
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 706.6820630995924
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1615.2726945034117
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 18,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1415.2630019989938
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1816.1458218502855
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 717.2621545662463
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1645.2976046658925
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 19,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1436.4414622325917
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1855.0180834281346
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 727.9877415339483
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1675.5177530820083
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 20,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1457.8776906595983
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1894.0220899402411
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 738.5739490487599
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1705.5556884211644
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 21,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1479.0637403690591
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1932.9132459527925
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 749.0638526806191
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1735.4523321954796
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 22,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1500.042872905348
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1971.7252198641766
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 759.7318568745357
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1765.5679202753083
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 23,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1521.3678532786969
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2010.6093435168711
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 770.3461358560116
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1795.5347343563355
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 24,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1542.5164806461444
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2049.2751395323144
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 780.8638762253939
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1825.4330480769231
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 25,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1563.6283667878163
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2088.107787106046
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 791.496185723948
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1855.6280890986482
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 26,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1584.936272473254
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2127.1985464330796
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 802.0873851322418
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1885.597819273199
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 27,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1606.1180224521454
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2165.986534852309
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 812.7097046509296
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1915.781856680162
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 28,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1627.3518962985333
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2205.0855005200447
+            }
+          ]
+        },
+        {
+          "classification": "zero-crossing",
+          "final_mid_rail": false,
+          "final_q_v": 0.9499997,
+          "post_close_q_events": [],
+          "q_crossings": [],
+          "safe_d_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 821.6382046544861
+            },
+            {
+              "direction": "fall",
+              "time_ps": 1942.5109369369368
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_stable": true,
+          "tail_values_v": [
+            0.9499997,
+            0.9499997,
+            0.9499997
+          ],
+          "tap": 29,
+          "unresolved": false,
+          "xor_crossings": [
+            {
+              "direction": "rise",
+              "time_ps": 1645.215026209786
+            },
+            {
+              "direction": "fall",
+              "time_ps": 2240.8066870176635
+            }
+          ]
+        }
+      ],
+      "trace_sha256": "7aa8f6df0ff1bcdcc33cc52675de29e64b9ff58a85915de3b36d02a14bc2ed97",
+      "unresolved_taps": [],
+      "unstable_tail_taps": []
+    }
+  ],
+  "schema_version": 1,
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "stage": "B-FE2-L1A",
+  "stop_after_l1a": true,
+  "transparent_dq_bound_ps": 100.0,
+  "verification_mode": "equivalent causal isolation"
+}

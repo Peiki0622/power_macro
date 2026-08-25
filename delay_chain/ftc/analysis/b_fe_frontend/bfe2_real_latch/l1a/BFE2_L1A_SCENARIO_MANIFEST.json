@@ -1,0 +1,66 @@
+{
+  "authorized_new_physical_scenarios": 2,
+  "fixed_pd_safe_v": 0.95,
+  "fixed_sample_close_ps": 534.524618567,
+  "gate_pending_analysis": true,
+  "latch_audit_sha256": "ac22bd20fb9a18f78c5cd0fed01af170cf407b66e125e4bea26f987c322f1ef1",
+  "latch_cdl_sha256": "1c76297a514ca69abd846adcb957fa563399235728f8796cc76214ed831cc158",
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "latch_liberty_sha256": "07cc4778869657495feee51aa1f9012ce6a18383ec0f7eabe7a5d521dd3b2b2f",
+  "latch_verilog_sha256": "eeddc1e9dcc97f11e0b316ff2d73690ffca2f9c24df291258d2ca9c1188cfe09",
+  "model_path": "/host/data/libtech/SMIC_40LL/PDK/SPDK40LL_1125_2TM_OA_CDS_V1.4/smic40ll_1125_2tm_oa_cds_1P7M_2012_10_11_v1.4/models/hspice/l0040ll_v1p4_1r.lib",
+  "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+  "new_hspice_scenarios": 2,
+  "pwl_generation_contract": {
+    "additional_delay_ps": 0.0,
+    "additional_slew_ps": 0.0,
+    "hysteresis": "none",
+    "safe_d_high_v": 0.95,
+    "safe_d_low_v": 0.0,
+    "source": "immutable B-FE2.2C XOR/VDD_SENSE waveform",
+    "threshold": "xor > 0.5*VDD_SENSE",
+    "x_region": "none"
+  },
+  "restoration_delay_slew_hysteresis_x_region": "none",
+  "restoration_rule": "xor > 0.5*VDD_SENSE ? 0.95 V : 0 V",
+  "results": [
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "f35bce037e18f7b33be85202012816992aec8b5581771c2cb7cd8ef922a87785",
+      "droop_v": null,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 1327,
+      "record_width": 94,
+      "requested_close_ps": 534.524618567,
+      "run_disposition": "reused",
+      "scenario_id": "BFE2L-095-N",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_tr0_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "tr0_sha256": "20074eaec3b12c306441c2c98a55d62334129842b99589dafbd2eeff7dc7ec10",
+      "verification_mode": "equivalent causal isolation"
+    },
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "0ba158bf22b6a388317fdee76ce9a22b2cd0dccfe13febf166cba3779a158985",
+      "droop_v": 0.86,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "record_count": 1421,
+      "record_width": 94,
+      "requested_close_ps": 534.524618567,
+      "run_disposition": "reused",
+      "scenario_id": "BFE2L-095-L2",
+      "source_deck_sha256": "852e38065b51b53c4ceab34d14e1c5e02c764d9bbc91a85ab23160a92c6ddbec",
+      "source_tr0_sha256": "4f2d275977320018ec7b3af23b7b8318cdb91f856a000046ec7ef36ac7403679",
+      "tr0_sha256": "7aa8f6df0ff1bcdcc33cc52675de29e64b9ff58a85915de3b36d02a14bc2ed97",
+      "verification_mode": "equivalent causal isolation"
+    }
+  ],
+  "scenario_ids": [
+    "BFE2L-095-N",
+    "BFE2L-095-L2"
+  ],
+  "schema_version": 1,
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "stage": "B-FE2-L1A",
+  "verification_mode": "equivalent causal isolation"
+}

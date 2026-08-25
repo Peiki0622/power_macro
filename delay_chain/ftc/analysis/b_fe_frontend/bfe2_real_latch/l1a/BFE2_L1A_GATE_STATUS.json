@@ -1,0 +1,16 @@
+{
+  "capture_cell_review_required": true,
+  "failure_follow_up": "BFE2_CAPTURE_CELL_REVIEW_REQUIRED",
+  "final_q_hamming_distance": 4,
+  "gate": "BFE2_L1A_REAL_SAFE_LATCH_FAIL",
+  "mid_rail_taps": [],
+  "new_hspice_scenarios": 2,
+  "next_stage_authorized": false,
+  "source_free_reflip_taps": [
+    12,
+    16
+  ],
+  "stage": "B-FE2-L1A",
+  "stop_after_l1a": true,
+  "unresolved_taps": []
+}
