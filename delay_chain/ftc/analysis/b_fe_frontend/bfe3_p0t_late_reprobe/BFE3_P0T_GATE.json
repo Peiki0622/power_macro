@@ -1,0 +1,32 @@
+{
+  "analysis_sha256": "8be525467dffe1875afc8468336082d9e7674aa94c9b4552f0c6cd3ee4e9f593",
+  "gate": "BFE3_P0T_LATE_DROOP_RECOVERED_BY_REPROBE",
+  "minimum_new_probe_margin": 74,
+  "next_stage_authorized": false,
+  "normal_m_envelope": {
+    "max": 315,
+    "min": 260
+  },
+  "report_sha256": "eedef401518693151ef0f62b7ce8cdc1082ea10759a8bc74ca24c197c76f22e0",
+  "stage": "B-FE3-P0T",
+  "stop_after_stage": true,
+  "worst_new_probe": {
+    "M": 186,
+    "boundary_csv_sha256": "426125557ed8054834505557b75a43c0b26d3ccbb9b487170621cbcf44caeb35",
+    "droop_duration_at_g_close_ps": 1034.5246185669998,
+    "droop_onset_ps": 1500.0,
+    "final_mid_rail_taps": [],
+    "g_close_ps": 2534.524618567,
+    "launch_ps": 2000.0,
+    "m_margin": 74,
+    "outside_normal_m_envelope": true,
+    "phase_label": "REPROBE_PLUS1000",
+    "probe_role": "diagnostic re-probe",
+    "q_raw_29_to_0": "000000001111111111110000000000",
+    "q_raw_tap0_to_tap29": "000000000011111111111100000000",
+    "rail_resolved_and_tail_stable": true,
+    "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0t_late_reprobe/reprobe_plus1000/vcs_xa",
+    "safe_supply_bad_taps": [],
+    "unstable_tail_taps": []
+  }
+}

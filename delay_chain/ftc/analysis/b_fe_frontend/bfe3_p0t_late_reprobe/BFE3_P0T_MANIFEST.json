@@ -1,0 +1,130 @@
+{
+  "baseline_p0r_m": 287,
+  "container_tools": {
+    "vcs": "/home/synopsys/vcs/W-2024.09",
+    "xa": "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09"
+  },
+  "decision_feature": "M=sum(i*q[i]), i=0..29",
+  "dense_scan": false,
+  "droop_duration_ps": 3002.0,
+  "droop_onset_ps": 1500.0,
+  "forbidden": [
+    "RTL",
+    "self_calibration",
+    "N",
+    "T",
+    "lookup_table",
+    "filter",
+    "bubble_repair",
+    "multi_feature_fusion"
+  ],
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "launch_schedule": [
+    {
+      "g_close_ps": 1534.5246185669998,
+      "label": "FIRST",
+      "launch_ps": 1000.0,
+      "role": "retained P0R LATE baseline"
+    },
+    {
+      "g_close_ps": 2534.524618567,
+      "label": "REPROBE_PLUS1000",
+      "launch_ps": 2000.0,
+      "role": "new diagnostic re-probe"
+    },
+    {
+      "g_close_ps": 3534.524618567,
+      "label": "REPROBE_PLUS2000",
+      "launch_ps": 3000.0,
+      "role": "new diagnostic re-probe"
+    }
+  ],
+  "lvt_prefix": 0,
+  "new_launches": [
+    {
+      "label": "REPROBE_PLUS1000",
+      "launch_ps": 2000.0
+    },
+    {
+      "label": "REPROBE_PLUS2000",
+      "launch_ps": 3000.0
+    }
+  ],
+  "next_stage_authorized": false,
+  "normal_m_envelope": {
+    "max": 315,
+    "min": 260
+  },
+  "p0r_analysis_sha256": "190d9edfb7c8f60ebbffc9b0b92339773baee385a0530316067b3a2c5226196d",
+  "p0r_manifest_sha256": "7ce1b1f9d0314e497e18e7b99904143776fa42ab5992f66ddfb7c139d21dd587",
+  "rvt_prefix": 4,
+  "sample_close_ps": 534.524618567,
+  "schema_version": 1,
+  "source_hspice": [
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "dbfd8dcf4129a88755a405a5aefeca16c455a08966534208c67f7e8df0b33b84",
+      "droop_onset_ps": 1500.0,
+      "droop_v": 0.86,
+      "g_close_ps": 2534.524618567,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "launch_ps": 2000.0,
+      "phase_ps": 500.0,
+      "record_count": 446,
+      "record_width": 124,
+      "run_disposition": "new",
+      "sample_close_ps": 534.524618567,
+      "scenario_id": "BFE3P0T-095-L2-REPROBE_PLUS1000",
+      "tr0_sha256": "ef56f4ec0d7d7cd9ae639497b764f182f07d135ba58b0dc43fc1129f8c7bb534"
+    },
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "e23b1f85cfbe8cf08fe3c74764369526ce385632a85e64e08a62692329460495",
+      "droop_onset_ps": 1500.0,
+      "droop_v": 0.86,
+      "g_close_ps": 3534.524618567,
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "launch_ps": 3000.0,
+      "phase_ps": 500.0,
+      "record_count": 442,
+      "record_width": 124,
+      "run_disposition": "new",
+      "sample_close_ps": 534.524618567,
+      "scenario_id": "BFE3P0T-095-L2-REPROBE_PLUS2000",
+      "tr0_sha256": "4098a0ebc6a7471c70716197eb02f509318d6fdc5d5de9ddcd2f7ecaf019671d"
+    }
+  ],
+  "source_scenario": "P0R LATE phase=500 ps, 0.95->0.86 V L2",
+  "stage": "B-FE3-P0T",
+  "stop_after_stage": true,
+  "tap_count": 30,
+  "vdd_safe_v": 0.95,
+  "xa_scenarios": [
+    {
+      "boundary_csv_sha256": "426125557ed8054834505557b75a43c0b26d3ccbb9b487170621cbcf44caeb35",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0t_late_reprobe/reprobe_plus1000/vcs_xa",
+      "g_close_ps": 2534.524618567,
+      "launch_ps": 2000.0,
+      "phase_label": "REPROBE_PLUS1000",
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "8bfd3914f71e77b9127d91ff6f759926d5d502308275d0f873d01f240ed96bcd",
+      "source_tr0_sha256": "ef56f4ec0d7d7cd9ae639497b764f182f07d135ba58b0dc43fc1129f8c7bb534",
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "e247576aef039e4a20d0549f81bc700244cbd40a81532e0d110b953b82da6640",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0t_late_reprobe/reprobe_plus2000/vcs_xa",
+      "g_close_ps": 3534.524618567,
+      "launch_ps": 3000.0,
+      "phase_label": "REPROBE_PLUS2000",
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "e2d54dcb672a32d143931c7cd4bfd8fd1a79f37e3ee1760e087f23e167785280",
+      "source_tr0_sha256": "4098a0ebc6a7471c70716197eb02f509318d6fdc5d5de9ddcd2f7ecaf019671d",
+      "xa_version_marker": true
+    }
+  ]
+}
