@@ -1,0 +1,19 @@
+{
+  "M_FF": 0,
+  "N_FF": 0,
+  "designated": false,
+  "dff_clock_bad_taps": [],
+  "dff_mid_rail_taps": [],
+  "dff_rail_resolved": true,
+  "dff_supply_bad_taps": [],
+  "latq_mid_rail_taps": [],
+  "latq_rail_resolved_at_sample": true,
+  "nearest_system_edge_ps": 51000.0,
+  "q_ff_raw_29_to_0": "000000000000000000000000000000",
+  "q_ff_raw_tap0_to_tap29": "000000000000000000000000000000",
+  "sample_edge_ps": 55034.524618567,
+  "sample_index": 21,
+  "sample_time_ps": 55134.524618567,
+  "system_edge_polarity": "fall",
+  "time_from_nearest_system_edge_ps": 4034.5246185669967
+}

@@ -1,0 +1,100 @@
+{
+  "clk_probe": {
+    "dff_first_rise_ps": 2534.524618567,
+    "dff_sample_offset_from_gfall_ps": 1000.0,
+    "duty_percent": 50.0,
+    "frequency_mhz": 400.0,
+    "g_first_fall_ps": 1534.5246185669998,
+    "period_ns": 2.5,
+    "sample_count": 24
+  },
+  "clock_sys_mon": {
+    "duty_percent": 50.0,
+    "frequency_mhz": 50.0,
+    "period_ns": 20.0,
+    "system_edges": [
+      {
+        "polarity": "rise",
+        "time_ps": 1000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 11000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 21000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 31000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 41000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 51000.0
+      }
+    ]
+  },
+  "designated_failures": [],
+  "designated_fall": {
+    "M_values": [
+      246
+    ],
+    "all_nonempty": true,
+    "all_rail_resolved": true,
+    "codes": [
+      "000000000000000111111111111000"
+    ],
+    "count": 3
+  },
+  "designated_rise": {
+    "M_values": [
+      287
+    ],
+    "all_nonempty": true,
+    "all_rail_resolved": true,
+    "codes": [
+      "000000000000001111111111111100"
+    ],
+    "count": 3
+  },
+  "forbidden": [
+    "droop",
+    "clock_glitch",
+    "phase_sweep",
+    "frequency_sweep",
+    "duty_sweep",
+    "self_calibration",
+    "RTL_fault_decision",
+    "LUT",
+    "multi_feature_fusion",
+    "latch_aperture_optimization",
+    "CLK2_after_this_stage"
+  ],
+  "frozen_structure": {
+    "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+    "latch_cell": "LATQ_X0P5M_A9TR40",
+    "level0_restore": "safe_d = 0.95 V iff XOR > 0.5*VDD_MONITORED",
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "vdd_monitored_v": 0.95,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "gate": "BFE3_CLK2_FTC_LATCH_DFF_CAPTURE_PASS",
+  "next_stage_authorized": false,
+  "non_designated_failures": [],
+  "schema_version": 1,
+  "simulation_run": true,
+  "source_trace": {
+    "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_clk1_real_probe_capture/normal_0p95/source_hspice/bfe3_clk1_source.tr0",
+    "sha256": "f1ea01125c8679b2748ac9b89e05bc82343c19a1b438a4c8718b4a58c0708c79"
+  },
+  "stage": "B-FE3-CLK2",
+  "stop_after_stage": true,
+  "verification_mode": "HSPICE frozen source + VCS/PrimeSim XA real LATQ+DFF"
+}

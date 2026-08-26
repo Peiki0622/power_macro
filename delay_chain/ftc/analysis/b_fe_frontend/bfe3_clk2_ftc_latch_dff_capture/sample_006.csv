@@ -1,0 +1,2 @@
+sample_index,sample_edge_ps,sample_time_ps,nearest_system_edge_ps,system_edge_polarity,time_from_nearest_system_edge_ps,designated,q_ff_raw_tap0_to_tap29,q_ff_raw_29_to_0,M_FF,N_FF,latq_mid_rail_taps,dff_mid_rail_taps,dff_supply_bad_taps,dff_clock_bad_taps,dff_rail_resolved,latq_rail_resolved_at_sample
+6,17534.524618567,17634.524618567,21000.0,rise,-3465.4753814329997,False,000000000000000000000000000000,000000000000000000000000000000,0,0,[],[],[],[],True,True

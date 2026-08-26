@@ -1,0 +1,32 @@
+{
+  "analysis_sha256": "d49b3fdb6e71f80854aade3e12e702578a301b9ee8dd71272f919fe53d939071",
+  "designated_failures": [],
+  "designated_fall": {
+    "M_values": [
+      246
+    ],
+    "all_nonempty": true,
+    "all_rail_resolved": true,
+    "codes": [
+      "000000000000000111111111111000"
+    ],
+    "count": 3
+  },
+  "designated_rise": {
+    "M_values": [
+      287
+    ],
+    "all_nonempty": true,
+    "all_rail_resolved": true,
+    "codes": [
+      "000000000000001111111111111100"
+    ],
+    "count": 3
+  },
+  "gate": "BFE3_CLK2_FTC_LATCH_DFF_CAPTURE_PASS",
+  "next_stage_authorized": false,
+  "non_designated_failures": [],
+  "report_sha256": "c31b20ca34a154c6a88fcd9c87dd2c9bcabbdd8217f8bbad9ddb2025c94f64e6",
+  "stage": "B-FE3-CLK2",
+  "stop_after_stage": true
+}
