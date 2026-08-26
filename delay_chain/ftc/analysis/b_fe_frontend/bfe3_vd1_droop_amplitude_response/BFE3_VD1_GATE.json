@@ -1,0 +1,58 @@
+{
+  "analysis_sha256": "7d143e3e6f80029d1be5300d709e6c0a7e47d39b670f5ae04c5c066245afbbec",
+  "gate": "BFE3_VD1_DROOP_AMPLITUDE_RESPONSE_PASS",
+  "next_stage_authorized": false,
+  "plot_pdf_sha256": "f980dfa1975428eaebeb549d3a75fddda771327bd0918f9dcf3b56aec21c0e6f",
+  "plot_png_sha256": "f017fa8b64ea9503612595676fc2d2992b2204b377e5217ea6898eeeb1bbc626",
+  "report_sha256": "7be379c341b6d640080d2e40f118e6c1b57dc900660ce72840c468e8e8f52502",
+  "stage": "B-FE3-VD1",
+  "stop_after_stage": true,
+  "summary": {
+    "all_points_ok": true,
+    "correlations": {
+      "pearson_vdd_vs_M_FF": 0.9860916889387764,
+      "spearman_vdd_vs_M_FF": 0.9999999999999998
+    },
+    "direction_consistent": true,
+    "gate": "BFE3_VD1_DROOP_AMPLITUDE_RESPONSE_PASS",
+    "points": [
+      {
+        "delta_M": 0,
+        "dff_rail_resolved": true,
+        "droop_rise_HD": 0,
+        "droop_rise_M_FF": 287,
+        "normal_recovery_ok": true,
+        "q_ff": "001111111111111100000000000000",
+        "voltage_v": 0.95
+      },
+      {
+        "delta_M": -14,
+        "dff_rail_resolved": true,
+        "droop_rise_HD": 2,
+        "droop_rise_M_FF": 273,
+        "normal_recovery_ok": true,
+        "q_ff": "000111111111111110000000000000",
+        "voltage_v": 0.92
+      },
+      {
+        "delta_M": -53,
+        "dff_rail_resolved": true,
+        "droop_rise_HD": 5,
+        "droop_rise_M_FF": 234,
+        "normal_recovery_ok": true,
+        "q_ff": "000001111111111111000000000000",
+        "voltage_v": 0.89
+      },
+      {
+        "delta_M": -79,
+        "dff_rail_resolved": true,
+        "droop_rise_HD": 9,
+        "droop_rise_M_FF": 208,
+        "normal_recovery_ok": true,
+        "q_ff": "000000011111111111110000000000",
+        "voltage_v": 0.86
+      }
+    ],
+    "shallow_separation": true
+  }
+}

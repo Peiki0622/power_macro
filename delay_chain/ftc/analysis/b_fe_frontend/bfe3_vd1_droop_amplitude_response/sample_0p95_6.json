@@ -1,0 +1,17 @@
+{
+  "M_FF": 0,
+  "N_FF": 0,
+  "designated": false,
+  "dff_mid_rail_taps": [],
+  "dff_rail_resolved": true,
+  "latq_mid_rail_taps": [],
+  "latq_rail_resolved_at_sample": true,
+  "nearest_system_edge_ps": 21000.0,
+  "q_ff_raw_29_to_0": "000000000000000000000000000000",
+  "q_ff_raw_tap0_to_tap29": "000000000000000000000000000000",
+  "sample_index": 6,
+  "sample_time_ps": 17634.524618567,
+  "system_edge_polarity": "rise",
+  "time_from_nearest_system_edge_ps": -3465.4753814329997,
+  "voltage_v": 0.95
+}
