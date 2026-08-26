@@ -1,0 +1,13 @@
+{
+  "analysis_sha256": "f708f6e4d1a2ffb42520b6cbffc7a504aea53306ab5a2a9d23d63c14598d9a24",
+  "gate": "BFE3_P0_POSTPROCESS_FEATURES_PROMISING",
+  "l2_sample_count": 1,
+  "next_stage_authorized": false,
+  "normal_sample_count": 8,
+  "report_sha256": "ebe17b388b3a43dea815b833e2f42f6e5e5d67fbfe9ea94d9ce1ff01cabfe299",
+  "separating_raw_features": [
+    "M"
+  ],
+  "stage": "B-FE3-P0",
+  "stop_after_stage": true
+}

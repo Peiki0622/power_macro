@@ -1,0 +1,50 @@
+{
+  "excluded_evidence": [
+    {
+      "family": "l1a_vcs_xa_1p10",
+      "reason": "LATQ safe rail is 1.10 V, not this stage's 0.95 V contract"
+    }
+  ],
+  "forbidden_processing": [
+    "bubble_repair",
+    "longest_one_run_encoding",
+    "lookup_table",
+    "machine_learning",
+    "filtering"
+  ],
+  "included_sample_ids": [
+    "L1AR_095_NORMAL",
+    "L1AR_095_L2",
+    "CAL0_LEFT",
+    "CAL0_CENTER",
+    "CAL0_RIGHT",
+    "LATQ_APERTURE_CENTER",
+    "LATQ_APERTURE_MID",
+    "LATQ_APERTURE_RIGHT",
+    "LATQ_APERTURE_LATE_CAPTURE"
+  ],
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "new_vcs_xa_scenarios": 0,
+  "next_stage_authorized": false,
+  "raw_feature_definitions": {
+    "M": "sum(i*q[i]), i=0..29",
+    "N": "sum(q[i])",
+    "T": "sum(q[i] XOR q[i-1]), i=1..29"
+  },
+  "sample_count": {
+    "l2": 1,
+    "normal_or_capture_perturbation": 8
+  },
+  "schema_version": 1,
+  "sensing_geometry": {
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "taps": 30
+  },
+  "simulation_run": false,
+  "stage": "B-FE3-P0",
+  "stop_after_stage": true,
+  "tap_count": 30,
+  "vdd_safe_v": 0.95,
+  "verification_mode": "offline retained VCS-XA final/tail Q feature extraction"
+}
