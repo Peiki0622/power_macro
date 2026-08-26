@@ -1,0 +1,263 @@
+{
+  "base_clk2_commit": "93674bc63392d4a1c6b01a5ad9876b181ff62f70",
+  "clk_probe": {
+    "dff_sample_offset_from_gfall_ps": 1000.0,
+    "duty_percent": 50.0,
+    "frequency_mhz": 400.0,
+    "gfall_offset_ps": 534.524618567
+  },
+  "clock_sys_mon": {
+    "duty_percent": 50.0,
+    "frequency_mhz": 50.0,
+    "period_ns": 20.0,
+    "system_edges": [
+      {
+        "polarity": "rise",
+        "time_ps": 1000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 11000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 21000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 31000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 41000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 51000.0
+      }
+    ]
+  },
+  "forbidden": [
+    "phase_sweep",
+    "amplitude_sweep",
+    "duration_sweep",
+    "threshold_optimization",
+    "self_calibration",
+    "RTL_fault_decision",
+    "clock_glitch",
+    "LUT",
+    "multi_feature_fusion",
+    "latch_aperture_research"
+  ],
+  "frozen_structure": {
+    "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+    "latch_cell": "LATQ_X0P5M_A9TR40",
+    "level0_restore": "dynamic XOR > 0.5*VDD_MONITORED",
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "gate": "BFE3_VD0_L2_END_TO_END_DROOP_SENSITIVITY_PASS",
+  "l2_injection": {
+    "baseline_v": 0.95,
+    "droop_v": 0.86,
+    "fall_end_ps": 21076.0,
+    "fall_ps": 1.0,
+    "hold_end_ps": 24076.0,
+    "hold_ps": 3000.0,
+    "relative_start_ps": 75.0,
+    "rise_end_ps": 24077.0,
+    "rise_ps": 1.0,
+    "start_ps": 21075.0,
+    "target_system_edge_ps": 21000.0,
+    "total_ps": 3002.0
+  },
+  "next_stage_authorized": false,
+  "normal_references": {
+    "fall_M_FF": 246,
+    "rise_M_FF": 287
+  },
+  "result": {
+    "delta_M": -79,
+    "droop_ok": true,
+    "droop_rise": {
+      "M_FF": 208,
+      "N_FF": 13,
+      "designated": true,
+      "dff_mid_rail_taps": [],
+      "dff_rail_resolved": true,
+      "latq_mid_rail_taps": [],
+      "latq_rail_resolved_at_sample": true,
+      "nearest_system_edge_ps": 21000.0,
+      "normal_fall_reference": false,
+      "normal_rise_reference": false,
+      "q_ff_raw_29_to_0": "000000011111111111110000000000",
+      "q_ff_raw_tap0_to_tap29": "000000000011111111111110000000",
+      "sample_edge_ps": 22534.524618567,
+      "sample_index": 8,
+      "sample_time_ps": 22634.524618567,
+      "system_edge_polarity": "rise",
+      "time_from_nearest_system_edge_ps": 1534.5246185670003
+    },
+    "hamming_distance": 9,
+    "normal_falls": [
+      {
+        "M_FF": 246,
+        "N_FF": 12,
+        "designated": true,
+        "dff_mid_rail_taps": [],
+        "dff_rail_resolved": true,
+        "latq_mid_rail_taps": [],
+        "latq_rail_resolved_at_sample": true,
+        "nearest_system_edge_ps": 11000.0,
+        "normal_fall_reference": true,
+        "normal_rise_reference": false,
+        "q_ff_raw_29_to_0": "000111111111111000000000000000",
+        "q_ff_raw_tap0_to_tap29": "000000000000000111111111111000",
+        "sample_edge_ps": 12534.524618567,
+        "sample_index": 4,
+        "sample_time_ps": 12634.524618567,
+        "system_edge_polarity": "fall",
+        "time_from_nearest_system_edge_ps": 1534.5246185670003
+      },
+      {
+        "M_FF": 246,
+        "N_FF": 12,
+        "designated": true,
+        "dff_mid_rail_taps": [],
+        "dff_rail_resolved": true,
+        "latq_mid_rail_taps": [],
+        "latq_rail_resolved_at_sample": true,
+        "nearest_system_edge_ps": 31000.0,
+        "normal_fall_reference": true,
+        "normal_rise_reference": false,
+        "q_ff_raw_29_to_0": "000111111111111000000000000000",
+        "q_ff_raw_tap0_to_tap29": "000000000000000111111111111000",
+        "sample_edge_ps": 32534.524618567,
+        "sample_index": 12,
+        "sample_time_ps": 32634.524618567,
+        "system_edge_polarity": "fall",
+        "time_from_nearest_system_edge_ps": 1534.5246185670003
+      },
+      {
+        "M_FF": 246,
+        "N_FF": 12,
+        "designated": true,
+        "dff_mid_rail_taps": [],
+        "dff_rail_resolved": true,
+        "latq_mid_rail_taps": [],
+        "latq_rail_resolved_at_sample": true,
+        "nearest_system_edge_ps": 51000.0,
+        "normal_fall_reference": true,
+        "normal_rise_reference": false,
+        "q_ff_raw_29_to_0": "000111111111111000000000000000",
+        "q_ff_raw_tap0_to_tap29": "000000000000000111111111111000",
+        "sample_edge_ps": 52534.524618567,
+        "sample_index": 20,
+        "sample_time_ps": 52634.524618567,
+        "system_edge_polarity": "fall",
+        "time_from_nearest_system_edge_ps": 1534.5246185669967
+      }
+    ],
+    "normal_recovery_ok": true,
+    "normal_rises": [
+      {
+        "M_FF": 287,
+        "N_FF": 14,
+        "designated": true,
+        "dff_mid_rail_taps": [],
+        "dff_rail_resolved": true,
+        "latq_mid_rail_taps": [],
+        "latq_rail_resolved_at_sample": true,
+        "nearest_system_edge_ps": 1000.0,
+        "normal_fall_reference": false,
+        "normal_rise_reference": true,
+        "q_ff_raw_29_to_0": "001111111111111100000000000000",
+        "q_ff_raw_tap0_to_tap29": "000000000000001111111111111100",
+        "sample_edge_ps": 2534.524618567,
+        "sample_index": 0,
+        "sample_time_ps": 2634.524618567,
+        "system_edge_polarity": "rise",
+        "time_from_nearest_system_edge_ps": 1534.5246185669998
+      },
+      {
+        "M_FF": 287,
+        "N_FF": 14,
+        "designated": true,
+        "dff_mid_rail_taps": [],
+        "dff_rail_resolved": true,
+        "latq_mid_rail_taps": [],
+        "latq_rail_resolved_at_sample": true,
+        "nearest_system_edge_ps": 41000.0,
+        "normal_fall_reference": false,
+        "normal_rise_reference": true,
+        "q_ff_raw_29_to_0": "001111111111111100000000000000",
+        "q_ff_raw_tap0_to_tap29": "000000000000001111111111111100",
+        "sample_edge_ps": 42534.524618567,
+        "sample_index": 16,
+        "sample_time_ps": 42634.524618567,
+        "system_edge_polarity": "rise",
+        "time_from_nearest_system_edge_ps": 1534.5246185669967
+      }
+    ],
+    "post_rise": {
+      "M_FF": 287,
+      "N_FF": 14,
+      "designated": true,
+      "dff_mid_rail_taps": [],
+      "dff_rail_resolved": true,
+      "latq_mid_rail_taps": [],
+      "latq_rail_resolved_at_sample": true,
+      "nearest_system_edge_ps": 41000.0,
+      "normal_fall_reference": false,
+      "normal_rise_reference": true,
+      "q_ff_raw_29_to_0": "001111111111111100000000000000",
+      "q_ff_raw_tap0_to_tap29": "000000000000001111111111111100",
+      "sample_edge_ps": 42534.524618567,
+      "sample_index": 16,
+      "sample_time_ps": 42634.524618567,
+      "system_edge_polarity": "rise",
+      "time_from_nearest_system_edge_ps": 1534.5246185669967
+    },
+    "pre_rise": {
+      "M_FF": 287,
+      "N_FF": 14,
+      "designated": true,
+      "dff_mid_rail_taps": [],
+      "dff_rail_resolved": true,
+      "latq_mid_rail_taps": [],
+      "latq_rail_resolved_at_sample": true,
+      "nearest_system_edge_ps": 1000.0,
+      "normal_fall_reference": false,
+      "normal_rise_reference": true,
+      "q_ff_raw_29_to_0": "001111111111111100000000000000",
+      "q_ff_raw_tap0_to_tap29": "000000000000001111111111111100",
+      "sample_edge_ps": 2534.524618567,
+      "sample_index": 0,
+      "sample_time_ps": 2634.524618567,
+      "system_edge_polarity": "rise",
+      "time_from_nearest_system_edge_ps": 1534.5246185669998
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "deck_sha256": "800aa6eebfa79f390b4c75a9a3bd9990eabc561e81009755111c4d4d53be3c85",
+    "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+    "record_count": 2424,
+    "record_width": 93,
+    "tr0_sha256": "8795ff4777cbbcdca8b2ce009b49fa50462f32ae95a1756755d7e1234a17736c",
+    "trace_path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_vd0_l2_end_to_end_droop/normal_0p95_l2/source_hspice/bfe3_vd0_source.tr0",
+    "trace_sha256": "8795ff4777cbbcdca8b2ce009b49fa50462f32ae95a1756755d7e1234a17736c"
+  },
+  "stage": "B-FE3-VD0",
+  "stop_after_stage": true,
+  "verification_mode": "new HSPICE L2 source + VCS/PrimeSim XA real LATQ+DFF",
+  "xa": {
+    "compile_returncode": 0,
+    "cosim_marker": true,
+    "run_returncode": 0,
+    "sample_csv_sha256": "739e8f73aaa9964341584934f307b7efb85080776eb5f66b4010b274c34e26cb",
+    "xa_version_marker": true
+  }
+}

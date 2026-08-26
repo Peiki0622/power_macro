@@ -1,0 +1,30 @@
+{
+  "analysis_sha256": "9e51b91672ea0200443208ef7e0407a270b8a304d806c02e017c4e0873c9127d",
+  "delta_M": -79,
+  "droop_sample": {
+    "M_FF": 208,
+    "N_FF": 13,
+    "designated": true,
+    "dff_mid_rail_taps": [],
+    "dff_rail_resolved": true,
+    "latq_mid_rail_taps": [],
+    "latq_rail_resolved_at_sample": true,
+    "nearest_system_edge_ps": 21000.0,
+    "normal_fall_reference": false,
+    "normal_rise_reference": false,
+    "q_ff_raw_29_to_0": "000000011111111111110000000000",
+    "q_ff_raw_tap0_to_tap29": "000000000011111111111110000000",
+    "sample_edge_ps": 22534.524618567,
+    "sample_index": 8,
+    "sample_time_ps": 22634.524618567,
+    "system_edge_polarity": "rise",
+    "time_from_nearest_system_edge_ps": 1534.5246185670003
+  },
+  "gate": "BFE3_VD0_L2_END_TO_END_DROOP_SENSITIVITY_PASS",
+  "hamming_distance": 9,
+  "next_stage_authorized": false,
+  "normal_recovery_ok": true,
+  "report_sha256": "a000593188c49becb0b3d4a8811596e9e571d3d5d10e8d34f16e35e9693a58f1",
+  "stage": "B-FE3-VD0",
+  "stop_after_stage": true
+}
