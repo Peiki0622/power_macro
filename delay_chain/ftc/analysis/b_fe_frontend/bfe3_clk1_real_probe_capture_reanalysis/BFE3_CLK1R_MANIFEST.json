@@ -1,0 +1,39 @@
+{
+  "analog_absolute_difference_rule_used": false,
+  "capture_count": 24,
+  "frozen_contract": {
+    "clk_probe_duty_percent": 50.0,
+    "clk_probe_mhz": 400.0,
+    "clk_sys_mon_duty_percent": 50.0,
+    "clk_sys_mon_mhz": 50.0,
+    "designated_offset_ps": 534.524618567,
+    "latch_cell": "LATQ_X0P5M_A9TR40",
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "vdd_monitored_v": 0.95,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "gate": "BFE3_CLK1R_REAL_LATCH_CAPTURE_SEMANTICS_FAIL",
+  "input_artifacts": {
+    "old_analysis": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe3_clk1_real_probe_capture/BFE3_CLK1_ANALYSIS.json",
+    "old_manifest": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe3_clk1_real_probe_capture/BFE3_CLK1_MANIFEST.json",
+    "xa_capture_csv": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_clk1_real_probe_capture/normal_0p95/vcs_xa/xa_capture_samples.csv",
+    "xa_capture_csv_sha256": "59e633bded068d2f110a0ae58fce5841df183b02f5cde9a445b49aaea6841e04"
+  },
+  "new_hspice_scenarios": 0,
+  "new_semantic_failures_not_reflected_in_old_clk1_gate": [
+    4,
+    12,
+    20
+  ],
+  "new_vcs_xa_scenarios": 0,
+  "next_stage_authorized": false,
+  "old_clk1_gate": "BFE3_CLK1_400MHZ_REAL_PROBE_CAPTURE_FAIL",
+  "old_failure_due_to_overstrict_analog_stability_rule": true,
+  "schema_version": 1,
+  "simulation_run": false,
+  "stage": "B-FE3-CLK1R",
+  "stop_after_stage": true,
+  "verification_mode": "analysis-only reuse of frozen B-FE3-CLK1 HSPICE/VCS/PrimeSim XA evidence"
+}

@@ -1,0 +1,42 @@
+{
+  "M": 246,
+  "N": 12,
+  "capture_index": 12,
+  "designated": true,
+  "digital_code": "000000000000000111111111111000",
+  "digital_idle_code": false,
+  "g_fall_ps": 31534.524618567,
+  "g_hold_bad_taps": [],
+  "logic_mismatch_taps": [],
+  "logical_capture_stable": false,
+  "nearest_system_edge_ps": 31000.0,
+  "old_g_not_closed_taps": [],
+  "old_mid_rail_taps": [],
+  "old_safe_supply_bad_taps": [],
+  "old_source_free_post_close_events": [],
+  "old_unstable_tail_taps": [],
+  "sample_M": 246,
+  "sample_N": 12,
+  "sample_q_raw_29_to_0": "000111111111111000000000000000",
+  "sample_q_raw_tap0_to_tap29": "000000000000000111111111111000",
+  "sample_rail_unresolved_taps": [],
+  "sample_time_ps": 31635.0,
+  "source_free_post_close_q_events": [
+    {
+      "g_v": 0.018869435,
+      "q_v": 0.474999994,
+      "safe_d_v": 0.0,
+      "tap": 14,
+      "time_ps": 31537.0
+    }
+  ],
+  "system_edge_polarity": "fall",
+  "tail_M": 246,
+  "tail_N": 12,
+  "tail_q_raw_29_to_0": "000111111111111000000000000000",
+  "tail_q_raw_tap0_to_tap29": "000000000000000111111111111000",
+  "tail_rail_unresolved_taps": [],
+  "tail_time_ps": 32535.0,
+  "time_from_nearest_system_edge_ps": 534.5246185670003,
+  "vdd_safe_bad_taps": []
+}

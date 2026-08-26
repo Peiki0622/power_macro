@@ -1,0 +1,45 @@
+{
+  "analysis_sha256": "7283e194afcf9893f719a292395594ad7857f558bfb1e88c194b935b78b8ca88",
+  "designated_failure_captures": [
+    4,
+    12,
+    20
+  ],
+  "designated_fall": {
+    "M_values": [
+      246
+    ],
+    "all_logically_stable": false,
+    "all_nonempty": true,
+    "codes": [
+      "000000000000000111111111111000"
+    ],
+    "count": 3
+  },
+  "designated_rise": {
+    "M_values": [
+      287
+    ],
+    "all_logically_stable": true,
+    "all_nonempty": true,
+    "codes": [
+      "000000000000001111111111111100"
+    ],
+    "count": 3
+  },
+  "gate": "BFE3_CLK1R_REAL_LATCH_CAPTURE_SEMANTICS_FAIL",
+  "idle_failure_captures": [],
+  "manifest_sha256": "dea5afb55585251431d4f86610d5f64d36bdc5ae8357d57bd6e32135018b656c",
+  "new_semantic_failures_not_reflected_in_old_clk1_gate": [
+    4,
+    12,
+    20
+  ],
+  "next_stage_authorized": false,
+  "old_clk1_gate": "BFE3_CLK1_400MHZ_REAL_PROBE_CAPTURE_FAIL",
+  "old_failure_due_to_overstrict_analog_stability_rule": true,
+  "report_sha256": "8131c27eb852b6ddf29eb7136e7c763be026844589c534160ee70ffc7e6b2cbb",
+  "schema_version": 1,
+  "stage": "B-FE3-CLK1R",
+  "stop_after_stage": true
+}
