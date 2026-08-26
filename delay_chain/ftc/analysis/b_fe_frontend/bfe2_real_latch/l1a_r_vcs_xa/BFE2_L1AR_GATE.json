@@ -1,0 +1,12 @@
+{
+  "analysis_sha256": "cc8f1eefaceb235fde1831f566768722de981d9f1a413a607151dea737e95ba8",
+  "capture_semantics_pass": true,
+  "failure_class": null,
+  "gate": "BFE2_L1AR_REAL_SAFE_LATCH_PASS",
+  "hamming_distance": 9,
+  "next_stage_authorized": false,
+  "report_sha256": "cef2aff9ba4bd495d3c048e872d05a0ca03dbdbda3a365b71e817d95d520f246",
+  "spatial_discrimination_pass": true,
+  "stage": "B-FE2-L1A-R",
+  "stop_after_stage": true
+}
