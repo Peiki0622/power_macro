@@ -1,0 +1,57 @@
+{
+  "clock": {
+    "edge_count": 8,
+    "first_edge_ps": 1000.0,
+    "frequency_mhz": 50.0,
+    "high_ns": 10.0,
+    "low_ns": 10.0,
+    "name": "CLK_SYS_MON",
+    "period_ns": 20.0,
+    "stop_ps": 81000.0
+  },
+  "deck_sha256": "9f54e405fe47ea1b2d030e139a48aa841d69b3eee8ea810a5bc92bd02b7e3543",
+  "edge_csv_sha256": "c896b5fd7f5280293888038cc78b7c3a360887d21e3d14d921f0b889cf5f5d57",
+  "edge_files": [
+    "edge_000_rise.csv",
+    "edge_001_fall.csv",
+    "edge_002_rise.csv",
+    "edge_003_fall.csv",
+    "edge_004_rise.csv",
+    "edge_005_fall.csv",
+    "edge_006_rise.csv",
+    "edge_007_fall.csv"
+  ],
+  "forbidden": [
+    "CLK_PROBE",
+    "RTL",
+    "self_calibration",
+    "fault_decision",
+    "lookup_table",
+    "multi_feature_fusion",
+    "frequency_scan",
+    "duty_cycle_scan",
+    "phase_scan"
+  ],
+  "gate": "BFE3_CLK0_50MHZ_PERIODIC_FRONTEND_PASS",
+  "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+  "level0_restoration": "q[i]=1 iff XOR_i > 0.5*VDD_MONITORED",
+  "new_hspice_scenarios": 1,
+  "next_stage_authorized": false,
+  "raw_code_definition": "q[i] is the threshold-restored XOR spatial code at the widest packet segment; M=sum(i*q[i])",
+  "real_latch_instantiated_in_this_wavepacket_audit": false,
+  "safe_domain_latch_cell_frozen": "LATQ_X0P5M_A9TR40",
+  "schema_version": 1,
+  "sensing_geometry": {
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "simulation_run": true,
+  "stage": "B-FE3-CLK0",
+  "stop_after_stage": true,
+  "threshold_event_count": 480,
+  "trace_sha256": "bd0cc8fa6d614eb24fa2dbb1fef15ba4e19f27406b652e147cfd86fffa7b3672",
+  "vdd_monitored_v": 0.95,
+  "verification_mode": "HSPICE W-2024.09 transistor-level periodic raw XOR + Level-0 threshold restoration"
+}

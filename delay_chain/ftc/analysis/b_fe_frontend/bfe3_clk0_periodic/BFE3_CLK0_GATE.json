@@ -1,0 +1,40 @@
+{
+  "all_half_cycle_recovery_complete": true,
+  "all_packets_nonoverlap": true,
+  "analysis_sha256": "e2a3720fd2d65b4d170249c0f84367e45bc8a108c1187748ad53bdcd35f6d308",
+  "fall_consistency": {
+    "M_values": [
+      299
+    ],
+    "consistent_M": true,
+    "consistent_position_width": true,
+    "consistent_raw_code": true,
+    "count": 4,
+    "packet_end_span_ps": 0.29221988767312723,
+    "packet_start_span_ps": 0.000553887550267973,
+    "packet_width_span_ps": 0.292683465177106,
+    "raw_codes": [
+      "000000000000000001111111111111"
+    ]
+  },
+  "gate": "BFE3_CLK0_50MHZ_PERIODIC_FRONTEND_PASS",
+  "next_stage_authorized": false,
+  "report_sha256": "08794b100b23939723bef1d363ad83f81caacb8164a635b477b1d2eb5c474215",
+  "rise_consistency": {
+    "M_values": [
+      330
+    ],
+    "consistent_M": true,
+    "consistent_position_width": true,
+    "consistent_raw_code": true,
+    "count": 4,
+    "packet_end_span_ps": 0.4673735612107066,
+    "packet_start_span_ps": 0.14521756011231446,
+    "packet_width_span_ps": 0.6125385231889595,
+    "raw_codes": [
+      "000000000000000111111111111111"
+    ]
+  },
+  "stage": "B-FE3-CLK0",
+  "stop_after_stage": true
+}
