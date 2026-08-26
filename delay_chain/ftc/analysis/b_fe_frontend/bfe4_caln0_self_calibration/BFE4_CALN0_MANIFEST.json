@@ -1,0 +1,140 @@
+{
+  "calibration": {
+    "M_REF": "round_half_up(mean(M_CAL[0:4]))",
+    "designated_normal_rise_edges_ps": [
+      1000.0,
+      21000.0,
+      41000.0,
+      61000.0
+    ],
+    "droop_test_rise_ps": 21000.0,
+    "normal_test_rise_ps": 81000.0
+  },
+  "forbidden": [
+    "temperature_sweep",
+    "PVT_sweep",
+    "DVFS",
+    "threshold_optimization",
+    "online_adaptation",
+    "clock_glitch",
+    "LUT",
+    "multi_feature_fusion",
+    "latch_aperture_research"
+  ],
+  "frozen": {
+    "dff_cell": "DFFRPQ_X0P5M_A9TR40",
+    "dff_offset_ps": 1534.524618567,
+    "gfall_offset_ps": 534.524618567,
+    "latch_cell": "LATQ_X0P5M_A9TR40",
+    "level0_restore": "source XOR threshold replay at 0.5*VDD_SENSE",
+    "lvt_prefix": 0,
+    "probe_clock_mhz": 400.0,
+    "rvt_prefix": 4,
+    "system_clock_mhz": 50.0,
+    "tap_count": 30,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "gate": "BFE4_CALN0_INCONCLUSIVE",
+  "method_point": {
+    "anchor_scope": "healthy methodology anchor only; not a universal chip nominal claim",
+    "anchor_v": 0.95,
+    "droop_v": 0.92,
+    "duration_ps": 3002.0,
+    "relative_phase_ps": 75.0
+  },
+  "monte_carlo": {
+    "instances": 30,
+    "per_seed_pairing": "normal and droop use same HSPICE seed and verified MC random-vector signature",
+    "random_sample": "index=2 after HSPICE nominal index=1",
+    "seed_list": [
+      41001,
+      41002,
+      41003,
+      41004,
+      41005,
+      41006,
+      41007,
+      41008,
+      41009,
+      41010,
+      41011,
+      41012,
+      41013,
+      41014,
+      41015,
+      41016,
+      41017,
+      41018,
+      41019,
+      41020,
+      41021,
+      41022,
+      41023,
+      41024,
+      41025,
+      41026,
+      41027,
+      41028,
+      41029,
+      41030
+    ]
+  },
+  "next_stage_authorized": false,
+  "schema_version": 1,
+  "stage": "B-FE4-CALN0",
+  "stop_after_stage": true,
+  "summary": {
+    "absolute_droop": {
+      "count": 30,
+      "max": 357,
+      "mean": 273.93333333333334,
+      "min": 162,
+      "p05": 183.15,
+      "p50": 273.0,
+      "p95": 357.0
+    },
+    "absolute_normal": {
+      "count": 30,
+      "max": 344,
+      "mean": 293.76666666666665,
+      "min": 171,
+      "p05": 202.95000000000002,
+      "p50": 301.0,
+      "p95": 344.0
+    },
+    "all_q_ff_rail_resolved": true,
+    "calibrated_droop": {
+      "count": 30,
+      "max": 43,
+      "mean": 20.066666666666666,
+      "min": -27,
+      "p05": -14.0,
+      "p50": 26.0,
+      "p95": 42.099999999999994
+    },
+    "calibrated_normal": {
+      "count": 30,
+      "max": 7,
+      "mean": 0.23333333333333334,
+      "min": 0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0
+    },
+    "calibration_beneficial": false,
+    "fixed_absolute_threshold_overlap": true,
+    "gate": "BFE4_CALN0_INCONCLUSIVE",
+    "instance_count": 30,
+    "margins": {
+      "G_ABS": -186,
+      "G_CAL": -34,
+      "W_ABS": 173,
+      "W_CAL": 7
+    }
+  },
+  "tools": {
+    "hspice": "/home/zhupl25/.local/bin/hspice",
+    "vcs": "/home/synopsys/vcs/W-2024.09/bin/vcs"
+  },
+  "verification_mode": "local HSPICE MOS_MC source + local VCS/PrimeSim XA frozen real LATQ/DFF"
+}
