@@ -1,0 +1,2 @@
+capture_index,g_fall_ps,sample_time_ps,tail_time_ps,nearest_system_edge_ps,system_edge_polarity,time_from_nearest_system_edge_ps,designated,q_raw_tap0_to_tap29,q_raw_29_to_0,N,M,T,mid_rail_taps,unstable_tail_taps,safe_supply_bad_taps,g_not_closed_taps,source_free_post_close_events,rail_tail_stable
+0,1534.5246185669998,1635.0,2535.0,1000.0,rise,534.5246185669998,True,000000000000001111111111111100,001111111111111100000000000000,14,287,2,[],"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 18, 28]",[],[],[],False

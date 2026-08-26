@@ -1,0 +1,42 @@
+{
+  "analysis_sha256": "983e05c12096bcf0a99015a32130c60f2dcdea3bedafbb2cca2962446b152667",
+  "designated_fall": {
+    "M_values": [
+      246
+    ],
+    "all_nonempty": true,
+    "all_stable": false,
+    "codes": [
+      "000000000000000111111111111000"
+    ],
+    "count": 3
+  },
+  "designated_rise": {
+    "M_values": [
+      287
+    ],
+    "all_nonempty": true,
+    "all_stable": false,
+    "codes": [
+      "000000000000001111111111111100"
+    ],
+    "count": 3
+  },
+  "failure_reasons": [
+    "designated rise/fall capture is missing, empty, unstable, or non-reproducible",
+    "non-designated capture is non-idle or unstable: [1, 5, 9, 13, 17, 21]"
+  ],
+  "gate": "BFE3_CLK1_400MHZ_REAL_PROBE_CAPTURE_FAIL",
+  "idle_failure_captures": [
+    1,
+    5,
+    9,
+    13,
+    17,
+    21
+  ],
+  "next_stage_authorized": false,
+  "report_sha256": "15ea4af3abad34e7ee0893600d3929dbcbb7f4a2f7162289d4b2cd708fcf1111",
+  "stage": "B-FE3-CLK1",
+  "stop_after_stage": true
+}

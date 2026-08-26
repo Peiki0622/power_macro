@@ -1,0 +1,21 @@
+{
+  "M": 0,
+  "N": 0,
+  "T": 0,
+  "capture_index": 7,
+  "designated": false,
+  "g_fall_ps": 19034.524618567,
+  "g_not_closed_taps": [],
+  "mid_rail_taps": [],
+  "nearest_system_edge_ps": 21000.0,
+  "q_raw_29_to_0": "000000000000000000000000000000",
+  "q_raw_tap0_to_tap29": "000000000000000000000000000000",
+  "rail_tail_stable": true,
+  "safe_supply_bad_taps": [],
+  "sample_time_ps": 19135.0,
+  "source_free_post_close_events": [],
+  "system_edge_polarity": "rise",
+  "tail_time_ps": 20035.0,
+  "time_from_nearest_system_edge_ps": -1965.4753814329997,
+  "unstable_tail_taps": []
+}

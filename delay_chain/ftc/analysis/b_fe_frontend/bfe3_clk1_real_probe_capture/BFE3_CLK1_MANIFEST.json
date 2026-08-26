@@ -1,0 +1,119 @@
+{
+  "clk_probe": {
+    "capture_count": 24,
+    "designated_offset_ps": 534.524618567,
+    "duty_percent": 50.0,
+    "first_falling_edge_ps": 1534.5246185669998,
+    "frequency_mhz": 400.0,
+    "period_ns": 2.5
+  },
+  "clock_sys_mon": {
+    "duty_percent": 50.0,
+    "frequency_mhz": 50.0,
+    "period_ns": 20.0,
+    "system_edges": [
+      {
+        "polarity": "rise",
+        "time_ps": 1000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 11000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 21000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 31000.0
+      },
+      {
+        "polarity": "rise",
+        "time_ps": 41000.0
+      },
+      {
+        "polarity": "fall",
+        "time_ps": 51000.0
+      }
+    ]
+  },
+  "forbidden": [
+    "droop",
+    "clock_glitch",
+    "frequency_scan",
+    "phase_scan",
+    "duty_scan",
+    "RTL",
+    "self_calibration",
+    "fault_decision",
+    "lookup_table",
+    "multi_feature_fusion",
+    "CLK2"
+  ],
+  "gate": "BFE3_CLK1_400MHZ_REAL_PROBE_CAPTURE_FAIL",
+  "level0_restoration": "xor > 0.5*VDD_MONITORED ? 0.95 V : 0 V",
+  "new_hspice_scenarios": 1,
+  "new_vcs_xa_scenarios": 1,
+  "next_stage_authorized": false,
+  "safe_latch_cell": "LATQ_X0P5M_A9TR40",
+  "schema_version": 1,
+  "sensing_geometry": {
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "source": {
+    "deck_sha256": "da59aadf94978af0d107f3b4a9c0ebbbe8c3c109f1a530c151d36079ec885a89",
+    "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+    "record_count": 2403,
+    "record_width": 93,
+    "run_disposition": "reused-completed",
+    "tr0_sha256": "f1ea01125c8679b2748ac9b89e05bc82343c19a1b438a4c8718b4a58c0708c79"
+  },
+  "stage": "B-FE3-CLK1",
+  "stop_after_stage": true,
+  "vdd_monitored_v": 0.95,
+  "verification_mode": "HSPICE W-2024.09 source + VCS W-2024.09 / PrimeSim XA W-2024.09 real LATQ capture",
+  "xa": {
+    "capture_csv_sha256": "59e633bded068d2f110a0ae58fce5841df183b02f5cde9a445b49aaea6841e04",
+    "compile_returncode": 0,
+    "cosim_marker": true,
+    "initial_safe_d_states": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "ledger_sha256": "f60f5f5af85a2802deed079de01692b5b8890d4df4930f65bd5bd2abaf83dfde",
+    "run_returncode": 0,
+    "xa_version_marker": true
+  }
+}
