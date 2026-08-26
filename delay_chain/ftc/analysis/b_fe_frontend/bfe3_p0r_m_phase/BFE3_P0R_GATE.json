@@ -1,0 +1,28 @@
+{
+  "analysis_sha256": "190d9edfb7c8f60ebbffc9b0b92339773baee385a0530316067b3a2c5226196d",
+  "gate": "BFE3_P0R_M_PHASE_OVERLAP",
+  "minimum_positive_margin": 0,
+  "next_stage_authorized": false,
+  "normal_m_envelope": {
+    "max": 315,
+    "min": 260
+  },
+  "report_sha256": "6d2d04f8e6a90629c2e7b5a9ca4b72bb6cca5bc8c393181207e3eb4f551bd9f3",
+  "stage": "B-FE3-P0R",
+  "stop_after_stage": true,
+  "worst_phase": {
+    "M": 287,
+    "boundary_csv_sha256": "bbe7aa71d667d73abff0338d96cbceef4f69269321b7b1bfc27ffdcd74db3aaf",
+    "final_mid_rail_taps": [],
+    "m_margin": 0,
+    "outside_normal_m_envelope": false,
+    "phase_label": "LATE",
+    "phase_ps": 500.0,
+    "q_raw_29_to_0": "001111111111111100000000000000",
+    "q_raw_tap0_to_tap29": "000000000000001111111111111100",
+    "rail_resolved_and_tail_stable": true,
+    "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/late/vcs_xa",
+    "safe_supply_bad_taps": [],
+    "unstable_tail_taps": []
+  }
+}

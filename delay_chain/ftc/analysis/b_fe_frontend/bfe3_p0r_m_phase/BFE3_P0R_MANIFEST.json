@@ -1,0 +1,195 @@
+{
+  "container_tools": {
+    "vcs": "/home/synopsys/vcs/W-2024.09",
+    "xa": "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09"
+  },
+  "decision_feature": "M=sum(i*q[i]), i=0..29",
+  "dense_phase_scan": false,
+  "fixed_g_close_ps": 1534.524618567,
+  "forbidden": [
+    "RTL",
+    "self_calibration",
+    "N_or_T_decision",
+    "lookup_table",
+    "filter",
+    "bubble_repair",
+    "multi_feature_fusion"
+  ],
+  "frozen_normal_m_envelope": {
+    "max": 315,
+    "min": 260
+  },
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "new_hspice_source_scenarios": 3,
+  "new_phase_points": 3,
+  "new_vcs_xa_scenarios": 3,
+  "next_stage_authorized": false,
+  "p0_analysis_sha256": "f708f6e4d1a2ffb42520b6cbffc7a504aea53306ab5a2a9d23d63c14598d9a24",
+  "p0_manifest_sha256": "d40c88f59cc70cd2dcb5c575bedb91cc2567054b00143ab441211f72309dd462",
+  "phase_selection": [
+    {
+      "label": "EARLY",
+      "phase_ps": 0.0,
+      "role": "launch-aligned early"
+    },
+    {
+      "label": "MIDDLE",
+      "phase_ps": 250.0,
+      "role": "transparent-window middle"
+    },
+    {
+      "label": "LATE",
+      "phase_ps": 500.0,
+      "role": "pre-close late"
+    }
+  ],
+  "safe_d_rule": "xor > 0.5*VDD_SENSE ? 0.95 V : 0 V",
+  "schema_version": 1,
+  "sensing_geometry": {
+    "lvt_prefix": 0,
+    "rvt_prefix": 4,
+    "tap_count": 30,
+    "xor_cell": "XOR2_X0P5M_A9TL40"
+  },
+  "source_hspice": [
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "d4f6624da1e98d9a755c281ff12602f344d23eab0a1b84effbcae2f479a6d0e7",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "fixed_safe_g_close_ps": 1534.524618567,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "lvt_cell": "BUF_X0P7M_A9TL40",
+        "lvt_prefix": 0,
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 0.0,
+        "rvt_cell": "BUF_X0P7M_A9TR40",
+        "rvt_prefix": 4,
+        "safe_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_sample_close_ps": 534.524618567,
+        "tap_count": 30,
+        "topology": "bfe2_2c_30tap_4over0_loaded_xor_source",
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "27035af516f5284977b38feb1a451fcf400c49c5dbac1622a18a37df0e3c1a90",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 0.0,
+      "record_count": 440,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE3P0R-095-L2-EARLY",
+      "source_sample_close_ps": 534.524618567,
+      "tr0_sha256": "944774fec191571164702a6e5af3322067f41b089cd5f188ac48826ef3d468f5"
+    },
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "3cc75ba7007da7468013ff560bbad2f42b0354e1f4a1082a7d0c9216e42f6ea6",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "fixed_safe_g_close_ps": 1534.524618567,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "lvt_cell": "BUF_X0P7M_A9TL40",
+        "lvt_prefix": 0,
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 250.0,
+        "rvt_cell": "BUF_X0P7M_A9TR40",
+        "rvt_prefix": 4,
+        "safe_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_sample_close_ps": 534.524618567,
+        "tap_count": 30,
+        "topology": "bfe2_2c_30tap_4over0_loaded_xor_source",
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "22c5c5f2c6c540d14ba4116805a488d5f5e66e2bed3d1be0e92446549c9cabc3",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 250.0,
+      "record_count": 441,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE3P0R-095-L2-MIDDLE",
+      "source_sample_close_ps": 534.524618567,
+      "tr0_sha256": "01257102c40e319c0adc66ff856fe709247db6671ea30bc5b418b0796006194c"
+    },
+    {
+      "baseline_v": 0.95,
+      "deck_sha256": "d0e82e180da9cf6cbf149e33b64b14ea686ea898abf3cc5306dd24b4c212fc6d",
+      "droop_v": 0.86,
+      "electrical_signature": {
+        "baseline_v": 0.95,
+        "droop_v": 0.86,
+        "fixed_safe_g_close_ps": 1534.524618567,
+        "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+        "lvt_cell": "BUF_X0P7M_A9TL40",
+        "lvt_prefix": 0,
+        "model_sha256": "8793380f561498958019d8c9f31062d23f892499a611f77240c743b59f52232e",
+        "phase_ps": 500.0,
+        "rvt_cell": "BUF_X0P7M_A9TR40",
+        "rvt_prefix": 4,
+        "safe_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_latch_cell": "LATQ_X0P5M_A9TR40",
+        "source_sample_close_ps": 534.524618567,
+        "tap_count": 30,
+        "topology": "bfe2_2c_30tap_4over0_loaded_xor_source",
+        "xor_cell": "XOR2_X0P5M_A9TL40"
+      },
+      "electrical_signature_id": "f307f0bf8d08117e61d3f3f9a8b4b207b827ef08043ce9fa379a0f275dd4b038",
+      "hspice_version": "Using: /home/synopsys/hspice/W-2024.09/hspice/linux64/hspice -v\n  HSPICE Version W-2024.09 linux64 (Aug 27 2024 9174816)\n\n  Copyright (c) 1986 - 2026 by Synopsys, Inc. All Rights Reserved.",
+      "phase_ps": 500.0,
+      "record_count": 426,
+      "record_width": 124,
+      "run_disposition": "new",
+      "scenario_id": "BFE3P0R-095-L2-LATE",
+      "source_sample_close_ps": 534.524618567,
+      "tr0_sha256": "82f13bcf151e1133c01e26c03ca0790a5dfa1c98737b03ff3064824671d8580d"
+    }
+  ],
+  "source_sample_close_ps": 534.524618567,
+  "stage": "B-FE3-P0R",
+  "stop_after_stage": true,
+  "vdd_safe_v": 0.95,
+  "verification_mode": "representative-phase HSPICE source + VCS W-2024.09 / PrimeSim XA W-2024.09 real LATQ capture",
+  "xa_scenarios": [
+    {
+      "boundary_csv_sha256": "278a447ad2ca78ab82e1ebcd69c6801e05fd6f0869d4c71512e9b19b487429e2",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/early/vcs_xa",
+      "phase_label": "EARLY",
+      "phase_ps": 0.0,
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "d3760393a7f7a24db690d61df205849a0fac32079b55c00c27f3fbf1c93f1b6b",
+      "source_tr0_sha256": "944774fec191571164702a6e5af3322067f41b089cd5f188ac48826ef3d468f5",
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "870116983cf3700adbdfc4523f9228958b2a28cb2dcab7af819ee9b40a15173e",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/middle/vcs_xa",
+      "phase_label": "MIDDLE",
+      "phase_ps": 250.0,
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "7e381377c29d7abdb06f02b03b061ce1bc228bc273a265e0bd17468ebdf16f20",
+      "source_tr0_sha256": "01257102c40e319c0adc66ff856fe709247db6671ea30bc5b418b0796006194c",
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "bbe7aa71d667d73abff0338d96cbceef4f69269321b7b1bfc27ffdcd74db3aaf",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/late/vcs_xa",
+      "phase_label": "LATE",
+      "phase_ps": 500.0,
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "87b4eaae132908c33e3f82a252a2e96cfa799f27b90ca06375f921929ec6449d",
+      "source_tr0_sha256": "82f13bcf151e1133c01e26c03ca0790a5dfa1c98737b03ff3064824671d8580d",
+      "xa_version_marker": true
+    }
+  ]
+}

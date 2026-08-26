@@ -1,0 +1,90 @@
+{
+  "existing_l2_phase_reference": {
+    "M": 208,
+    "m_margin": 52,
+    "phase_ps": 75.0,
+    "q_raw_29_to_0": "000000011111111111110000000000",
+    "sample_id": "L1AR_095_L2"
+  },
+  "gate": "BFE3_P0R_M_PHASE_OVERLAP",
+  "manifest_sha256": "7ce1b1f9d0314e497e18e7b99904143776fa42ab5992f66ddfb7c139d21dd587",
+  "minimum_positive_margin": 0,
+  "new_vcs_xa_scenarios": 3,
+  "next_stage_authorized": false,
+  "normal_m_envelope": {
+    "max": 315,
+    "min": 260
+  },
+  "p0_analysis_sha256": "f708f6e4d1a2ffb42520b6cbffc7a504aea53306ab5a2a9d23d63c14598d9a24",
+  "results": [
+    {
+      "M": 186,
+      "boundary_csv_sha256": "278a447ad2ca78ab82e1ebcd69c6801e05fd6f0869d4c71512e9b19b487429e2",
+      "final_mid_rail_taps": [],
+      "m_margin": 74,
+      "outside_normal_m_envelope": true,
+      "phase_label": "EARLY",
+      "phase_ps": 0.0,
+      "q_raw_29_to_0": "000000001111111111110000000000",
+      "q_raw_tap0_to_tap29": "000000000011111111111100000000",
+      "rail_resolved_and_tail_stable": true,
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/early/vcs_xa",
+      "safe_supply_bad_taps": [],
+      "unstable_tail_taps": []
+    },
+    {
+      "M": 234,
+      "boundary_csv_sha256": "870116983cf3700adbdfc4523f9228958b2a28cb2dcab7af819ee9b40a15173e",
+      "final_mid_rail_taps": [],
+      "m_margin": 26,
+      "outside_normal_m_envelope": true,
+      "phase_label": "MIDDLE",
+      "phase_ps": 250.0,
+      "q_raw_29_to_0": "000001111111111111000000000000",
+      "q_raw_tap0_to_tap29": "000000000000111111111111100000",
+      "rail_resolved_and_tail_stable": true,
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/middle/vcs_xa",
+      "safe_supply_bad_taps": [],
+      "unstable_tail_taps": []
+    },
+    {
+      "M": 287,
+      "boundary_csv_sha256": "bbe7aa71d667d73abff0338d96cbceef4f69269321b7b1bfc27ffdcd74db3aaf",
+      "final_mid_rail_taps": [],
+      "m_margin": 0,
+      "outside_normal_m_envelope": false,
+      "phase_label": "LATE",
+      "phase_ps": 500.0,
+      "q_raw_29_to_0": "001111111111111100000000000000",
+      "q_raw_tap0_to_tap29": "000000000000001111111111111100",
+      "rail_resolved_and_tail_stable": true,
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/late/vcs_xa",
+      "safe_supply_bad_taps": [],
+      "unstable_tail_taps": []
+    }
+  ],
+  "sample_csv_sha256": "4e8532ce22496bfeecf7d9e32009b5e50d027c1a7ffd66b974b71de4bed1da19",
+  "schema_version": 1,
+  "stage": "B-FE3-P0R",
+  "stop_after_stage": true,
+  "uses_M_only": true,
+  "uses_N_or_T": false,
+  "uses_bubble_repair": false,
+  "uses_filter": false,
+  "uses_lookup_table": false,
+  "worst_phase": {
+    "M": 287,
+    "boundary_csv_sha256": "bbe7aa71d667d73abff0338d96cbceef4f69269321b7b1bfc27ffdcd74db3aaf",
+    "final_mid_rail_taps": [],
+    "m_margin": 0,
+    "outside_normal_m_envelope": false,
+    "phase_label": "LATE",
+    "phase_ps": 500.0,
+    "q_raw_29_to_0": "001111111111111100000000000000",
+    "q_raw_tap0_to_tap29": "000000000000001111111111111100",
+    "rail_resolved_and_tail_stable": true,
+    "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe3_p0r_m_phase/late/vcs_xa",
+    "safe_supply_bad_taps": [],
+    "unstable_tail_taps": []
+  }
+}
