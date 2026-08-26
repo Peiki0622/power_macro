@@ -1,0 +1,12 @@
+{
+  "analysis_sha256": "4f889b206651b836b81d8a2a2879d72362adb241910172112e665198b112571b",
+  "blocking_reason": "NO_CAPTURE_SAFE_INTERVALS_NEAR_NOMINAL",
+  "capture_safe_verified": false,
+  "gate": "BFE2_CAL0_CAPTURE_SAFE_WINDOW_BLOCKED",
+  "local_monotonic_feature": false,
+  "new_physical_scenarios": 0,
+  "next_stage_authorized": false,
+  "report_sha256": "647a2457f53e2dbd7db1149301dc8a42f7987ba6425c13f51f207e8bf8f110db",
+  "stage": "B-FE2-CAL0-CAPTURE-SAFE",
+  "stop_after_stage": true
+}

@@ -1,0 +1,1288 @@
+{
+  "cal0_analysis_sha256": "cedfc869595e4cfe051c54bd82d15f11461f386465b1c0f8011e719cf2b1e41e",
+  "cal0_manifest_sha256": "db1c57276171da690ce3909419ff33c1acc8235c4fb21a7a807e0185798a721d",
+  "cal0_offline_sha256": "6e9f9870fca8e5200d1ce7106a8bfe04d172868576c1684f77a2407e60723dc2",
+  "capture_safe_intervals": [],
+  "capture_safe_rule": "close is forbidden from each pre-close safe_d crossing until its measured Q threshold resolution endpoint",
+  "dense_grid_scan": false,
+  "flight_completion_proxy": "first XA q_event threshold crossing; no added delay margin",
+  "flight_evidence": {
+    "direction_source": "Q state before/after each q_event; safe_d_v is never used for direction",
+    "global_direction_max_delay_ps": {
+      "fall": 40.06819644499819,
+      "rise": 32.128162846688156
+    },
+    "per_tap_direction_ranges_ps": {
+      "tap_10_fall": {
+        "count": 4,
+        "max": 39.98233288877327,
+        "min": 39.98233288877327
+      },
+      "tap_10_rise": {
+        "count": 4,
+        "max": 28.628289281758498,
+        "min": 28.628289281758498
+      },
+      "tap_11_fall": {
+        "count": 4,
+        "max": 39.298710735845134,
+        "min": 39.298710735845134
+      },
+      "tap_11_rise": {
+        "count": 4,
+        "max": 28.656441692600083,
+        "min": 28.656441692600083
+      },
+      "tap_12_fall": {
+        "count": 4,
+        "max": 39.55568626525428,
+        "min": 39.55568626525428
+      },
+      "tap_12_rise": {
+        "count": 4,
+        "max": 28.618369276927524,
+        "min": 28.618369276927524
+      },
+      "tap_13_fall": {
+        "count": 4,
+        "max": 39.729418660158444,
+        "min": 39.729418660158444
+      },
+      "tap_13_rise": {
+        "count": 4,
+        "max": 28.57467131253179,
+        "min": 28.57467131253179
+      },
+      "tap_14_fall": {
+        "count": 1,
+        "max": 40.06819644499819,
+        "min": 40.06819644499819
+      },
+      "tap_14_rise": {
+        "count": 4,
+        "max": 28.626806268588325,
+        "min": 28.626806268588325
+      },
+      "tap_15_rise": {
+        "count": 4,
+        "max": 28.654872004077788,
+        "min": 28.654872004077788
+      },
+      "tap_16_rise": {
+        "count": 4,
+        "max": 28.58648688276162,
+        "min": 28.58648688276162
+      },
+      "tap_17_rise": {
+        "count": 4,
+        "max": 28.5837415596784,
+        "min": 28.5837415596784
+      },
+      "tap_18_rise": {
+        "count": 4,
+        "max": 28.53199247839939,
+        "min": 28.53199247839939
+      },
+      "tap_19_rise": {
+        "count": 4,
+        "max": 28.573699758026805,
+        "min": 28.573699758026805
+      },
+      "tap_20_rise": {
+        "count": 4,
+        "max": 29.491170063516847,
+        "min": 29.491170063516847
+      },
+      "tap_21_rise": {
+        "count": 4,
+        "max": 29.480206224249514,
+        "min": 29.480206224249514
+      },
+      "tap_22_rise": {
+        "count": 4,
+        "max": 28.505054151544982,
+        "min": 28.505054151544982
+      },
+      "tap_23_rise": {
+        "count": 4,
+        "max": 29.488914432016827,
+        "min": 29.488914432016827
+      },
+      "tap_24_rise": {
+        "count": 4,
+        "max": 29.400584696637907,
+        "min": 29.400584696637907
+      },
+      "tap_25_rise": {
+        "count": 4,
+        "max": 29.43721649602412,
+        "min": 29.43721649602412
+      },
+      "tap_26_rise": {
+        "count": 4,
+        "max": 29.49375929854,
+        "min": 29.49375929854
+      },
+      "tap_27_rise": {
+        "count": 4,
+        "max": 29.44590666253498,
+        "min": 29.44590666253498
+      },
+      "tap_28_rise": {
+        "count": 1,
+        "max": 29.4803802540373,
+        "min": 29.4803802540373
+      },
+      "tap_29_rise": {
+        "count": 1,
+        "max": 32.128162846688156,
+        "min": 32.128162846688156
+      }
+    },
+    "q_event_counts_after_time_zero": {
+      "CAL0-CENTER": 22,
+      "CAL0-LEFT": 23,
+      "CAL0-RIGHT": 26,
+      "L1A-R-NORMAL": 22
+    }
+  },
+  "flight_observations": [
+    {
+      "delay_ps": 28.628289281758498,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1238.0,
+      "source_time_ps": 1209.3717107182415,
+      "tap": 10
+    },
+    {
+      "delay_ps": 39.98233288877327,
+      "direction": "fall",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1435.0,
+      "source_time_ps": 1395.0176671112267,
+      "tap": 10
+    },
+    {
+      "delay_ps": 28.656441692600083,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1255.0,
+      "source_time_ps": 1226.3435583074,
+      "tap": 11
+    },
+    {
+      "delay_ps": 39.298710735845134,
+      "direction": "fall",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1463.0,
+      "source_time_ps": 1423.7012892641549,
+      "tap": 11
+    },
+    {
+      "delay_ps": 28.618369276927524,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1272.0,
+      "source_time_ps": 1243.3816307230725,
+      "tap": 12
+    },
+    {
+      "delay_ps": 39.55568626525428,
+      "direction": "fall",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1492.0,
+      "source_time_ps": 1452.4443137347457,
+      "tap": 12
+    },
+    {
+      "delay_ps": 28.57467131253179,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1289.0,
+      "source_time_ps": 1260.4253286874682,
+      "tap": 13
+    },
+    {
+      "delay_ps": 39.729418660158444,
+      "direction": "fall",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1521.0,
+      "source_time_ps": 1481.2705813398416,
+      "tap": 13
+    },
+    {
+      "delay_ps": 28.626806268588325,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1306.0,
+      "source_time_ps": 1277.3731937314117,
+      "tap": 14
+    },
+    {
+      "delay_ps": 28.654872004077788,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1323.0,
+      "source_time_ps": 1294.3451279959222,
+      "tap": 15
+    },
+    {
+      "delay_ps": 28.58648688276162,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1340.0,
+      "source_time_ps": 1311.4135131172384,
+      "tap": 16
+    },
+    {
+      "delay_ps": 28.5837415596784,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1357.0,
+      "source_time_ps": 1328.4162584403216,
+      "tap": 17
+    },
+    {
+      "delay_ps": 28.53199247839939,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1374.0,
+      "source_time_ps": 1345.4680075216006,
+      "tap": 18
+    },
+    {
+      "delay_ps": 28.573699758026805,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1391.0,
+      "source_time_ps": 1362.4263002419732,
+      "tap": 19
+    },
+    {
+      "delay_ps": 29.491170063516847,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1409.0,
+      "source_time_ps": 1379.5088299364832,
+      "tap": 20
+    },
+    {
+      "delay_ps": 29.480206224249514,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1426.0,
+      "source_time_ps": 1396.5197937757505,
+      "tap": 21
+    },
+    {
+      "delay_ps": 28.505054151544982,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1442.0,
+      "source_time_ps": 1413.494945848455,
+      "tap": 22
+    },
+    {
+      "delay_ps": 29.488914432016827,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1460.0,
+      "source_time_ps": 1430.5110855679832,
+      "tap": 23
+    },
+    {
+      "delay_ps": 29.400584696637907,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1477.0,
+      "source_time_ps": 1447.599415303362,
+      "tap": 24
+    },
+    {
+      "delay_ps": 29.43721649602412,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1494.0,
+      "source_time_ps": 1464.5627835039759,
+      "tap": 25
+    },
+    {
+      "delay_ps": 29.49375929854,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1511.0,
+      "source_time_ps": 1481.50624070146,
+      "tap": 26
+    },
+    {
+      "delay_ps": 29.44590666253498,
+      "direction": "rise",
+      "evidence_point": "L1A-R-NORMAL",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1528.0,
+      "source_time_ps": 1498.554093337465,
+      "tap": 27
+    },
+    {
+      "delay_ps": 28.628289281758498,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1238.0,
+      "source_time_ps": 1209.3717107182415,
+      "tap": 10
+    },
+    {
+      "delay_ps": 39.98233288877327,
+      "direction": "fall",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1435.0,
+      "source_time_ps": 1395.0176671112267,
+      "tap": 10
+    },
+    {
+      "delay_ps": 28.656441692600083,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1255.0,
+      "source_time_ps": 1226.3435583074,
+      "tap": 11
+    },
+    {
+      "delay_ps": 39.298710735845134,
+      "direction": "fall",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1463.0,
+      "source_time_ps": 1423.7012892641549,
+      "tap": 11
+    },
+    {
+      "delay_ps": 28.618369276927524,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1272.0,
+      "source_time_ps": 1243.3816307230725,
+      "tap": 12
+    },
+    {
+      "delay_ps": 39.55568626525428,
+      "direction": "fall",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1492.0,
+      "source_time_ps": 1452.4443137347457,
+      "tap": 12
+    },
+    {
+      "delay_ps": 28.57467131253179,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1289.0,
+      "source_time_ps": 1260.4253286874682,
+      "tap": 13
+    },
+    {
+      "delay_ps": 39.729418660158444,
+      "direction": "fall",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1521.0,
+      "source_time_ps": 1481.2705813398416,
+      "tap": 13
+    },
+    {
+      "delay_ps": 28.626806268588325,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1306.0,
+      "source_time_ps": 1277.3731937314117,
+      "tap": 14
+    },
+    {
+      "delay_ps": 28.654872004077788,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1323.0,
+      "source_time_ps": 1294.3451279959222,
+      "tap": 15
+    },
+    {
+      "delay_ps": 28.58648688276162,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1340.0,
+      "source_time_ps": 1311.4135131172384,
+      "tap": 16
+    },
+    {
+      "delay_ps": 28.5837415596784,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1357.0,
+      "source_time_ps": 1328.4162584403216,
+      "tap": 17
+    },
+    {
+      "delay_ps": 28.53199247839939,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1374.0,
+      "source_time_ps": 1345.4680075216006,
+      "tap": 18
+    },
+    {
+      "delay_ps": 28.573699758026805,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1391.0,
+      "source_time_ps": 1362.4263002419732,
+      "tap": 19
+    },
+    {
+      "delay_ps": 29.491170063516847,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1409.0,
+      "source_time_ps": 1379.5088299364832,
+      "tap": 20
+    },
+    {
+      "delay_ps": 29.480206224249514,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1426.0,
+      "source_time_ps": 1396.5197937757505,
+      "tap": 21
+    },
+    {
+      "delay_ps": 28.505054151544982,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1442.0,
+      "source_time_ps": 1413.494945848455,
+      "tap": 22
+    },
+    {
+      "delay_ps": 29.488914432016827,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1460.0,
+      "source_time_ps": 1430.5110855679832,
+      "tap": 23
+    },
+    {
+      "delay_ps": 29.400584696637907,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1477.0,
+      "source_time_ps": 1447.599415303362,
+      "tap": 24
+    },
+    {
+      "delay_ps": 29.43721649602412,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1494.0,
+      "source_time_ps": 1464.5627835039759,
+      "tap": 25
+    },
+    {
+      "delay_ps": 29.49375929854,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1511.0,
+      "source_time_ps": 1481.50624070146,
+      "tap": 26
+    },
+    {
+      "delay_ps": 29.44590666253498,
+      "direction": "rise",
+      "evidence_point": "CAL0-LEFT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1528.0,
+      "source_time_ps": 1498.554093337465,
+      "tap": 27
+    },
+    {
+      "delay_ps": 28.628289281758498,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1238.0,
+      "source_time_ps": 1209.3717107182415,
+      "tap": 10
+    },
+    {
+      "delay_ps": 39.98233288877327,
+      "direction": "fall",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1435.0,
+      "source_time_ps": 1395.0176671112267,
+      "tap": 10
+    },
+    {
+      "delay_ps": 28.656441692600083,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1255.0,
+      "source_time_ps": 1226.3435583074,
+      "tap": 11
+    },
+    {
+      "delay_ps": 39.298710735845134,
+      "direction": "fall",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1463.0,
+      "source_time_ps": 1423.7012892641549,
+      "tap": 11
+    },
+    {
+      "delay_ps": 28.618369276927524,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1272.0,
+      "source_time_ps": 1243.3816307230725,
+      "tap": 12
+    },
+    {
+      "delay_ps": 39.55568626525428,
+      "direction": "fall",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1492.0,
+      "source_time_ps": 1452.4443137347457,
+      "tap": 12
+    },
+    {
+      "delay_ps": 28.57467131253179,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1289.0,
+      "source_time_ps": 1260.4253286874682,
+      "tap": 13
+    },
+    {
+      "delay_ps": 39.729418660158444,
+      "direction": "fall",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1521.0,
+      "source_time_ps": 1481.2705813398416,
+      "tap": 13
+    },
+    {
+      "delay_ps": 28.626806268588325,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1306.0,
+      "source_time_ps": 1277.3731937314117,
+      "tap": 14
+    },
+    {
+      "delay_ps": 28.654872004077788,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1323.0,
+      "source_time_ps": 1294.3451279959222,
+      "tap": 15
+    },
+    {
+      "delay_ps": 28.58648688276162,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1340.0,
+      "source_time_ps": 1311.4135131172384,
+      "tap": 16
+    },
+    {
+      "delay_ps": 28.5837415596784,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1357.0,
+      "source_time_ps": 1328.4162584403216,
+      "tap": 17
+    },
+    {
+      "delay_ps": 28.53199247839939,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1374.0,
+      "source_time_ps": 1345.4680075216006,
+      "tap": 18
+    },
+    {
+      "delay_ps": 28.573699758026805,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1391.0,
+      "source_time_ps": 1362.4263002419732,
+      "tap": 19
+    },
+    {
+      "delay_ps": 29.491170063516847,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1409.0,
+      "source_time_ps": 1379.5088299364832,
+      "tap": 20
+    },
+    {
+      "delay_ps": 29.480206224249514,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1426.0,
+      "source_time_ps": 1396.5197937757505,
+      "tap": 21
+    },
+    {
+      "delay_ps": 28.505054151544982,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1442.0,
+      "source_time_ps": 1413.494945848455,
+      "tap": 22
+    },
+    {
+      "delay_ps": 29.488914432016827,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1460.0,
+      "source_time_ps": 1430.5110855679832,
+      "tap": 23
+    },
+    {
+      "delay_ps": 29.400584696637907,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1477.0,
+      "source_time_ps": 1447.599415303362,
+      "tap": 24
+    },
+    {
+      "delay_ps": 29.43721649602412,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1494.0,
+      "source_time_ps": 1464.5627835039759,
+      "tap": 25
+    },
+    {
+      "delay_ps": 29.49375929854,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1511.0,
+      "source_time_ps": 1481.50624070146,
+      "tap": 26
+    },
+    {
+      "delay_ps": 29.44590666253498,
+      "direction": "rise",
+      "evidence_point": "CAL0-CENTER",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1528.0,
+      "source_time_ps": 1498.554093337465,
+      "tap": 27
+    },
+    {
+      "delay_ps": 28.628289281758498,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1238.0,
+      "source_time_ps": 1209.3717107182415,
+      "tap": 10
+    },
+    {
+      "delay_ps": 39.98233288877327,
+      "direction": "fall",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1435.0,
+      "source_time_ps": 1395.0176671112267,
+      "tap": 10
+    },
+    {
+      "delay_ps": 28.656441692600083,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1255.0,
+      "source_time_ps": 1226.3435583074,
+      "tap": 11
+    },
+    {
+      "delay_ps": 39.298710735845134,
+      "direction": "fall",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1463.0,
+      "source_time_ps": 1423.7012892641549,
+      "tap": 11
+    },
+    {
+      "delay_ps": 28.618369276927524,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1272.0,
+      "source_time_ps": 1243.3816307230725,
+      "tap": 12
+    },
+    {
+      "delay_ps": 39.55568626525428,
+      "direction": "fall",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1492.0,
+      "source_time_ps": 1452.4443137347457,
+      "tap": 12
+    },
+    {
+      "delay_ps": 28.57467131253179,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1289.0,
+      "source_time_ps": 1260.4253286874682,
+      "tap": 13
+    },
+    {
+      "delay_ps": 39.729418660158444,
+      "direction": "fall",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1521.0,
+      "source_time_ps": 1481.2705813398416,
+      "tap": 13
+    },
+    {
+      "delay_ps": 28.626806268588325,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1306.0,
+      "source_time_ps": 1277.3731937314117,
+      "tap": 14
+    },
+    {
+      "delay_ps": 40.06819644499819,
+      "direction": "fall",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 0,
+      "q_state_before": 1,
+      "q_time_ps": 1550.0,
+      "source_time_ps": 1509.9318035550018,
+      "tap": 14
+    },
+    {
+      "delay_ps": 28.654872004077788,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1323.0,
+      "source_time_ps": 1294.3451279959222,
+      "tap": 15
+    },
+    {
+      "delay_ps": 28.58648688276162,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1340.0,
+      "source_time_ps": 1311.4135131172384,
+      "tap": 16
+    },
+    {
+      "delay_ps": 28.5837415596784,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1357.0,
+      "source_time_ps": 1328.4162584403216,
+      "tap": 17
+    },
+    {
+      "delay_ps": 28.53199247839939,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1374.0,
+      "source_time_ps": 1345.4680075216006,
+      "tap": 18
+    },
+    {
+      "delay_ps": 28.573699758026805,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1391.0,
+      "source_time_ps": 1362.4263002419732,
+      "tap": 19
+    },
+    {
+      "delay_ps": 29.491170063516847,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1409.0,
+      "source_time_ps": 1379.5088299364832,
+      "tap": 20
+    },
+    {
+      "delay_ps": 29.480206224249514,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1426.0,
+      "source_time_ps": 1396.5197937757505,
+      "tap": 21
+    },
+    {
+      "delay_ps": 28.505054151544982,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1442.0,
+      "source_time_ps": 1413.494945848455,
+      "tap": 22
+    },
+    {
+      "delay_ps": 29.488914432016827,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1460.0,
+      "source_time_ps": 1430.5110855679832,
+      "tap": 23
+    },
+    {
+      "delay_ps": 29.400584696637907,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1477.0,
+      "source_time_ps": 1447.599415303362,
+      "tap": 24
+    },
+    {
+      "delay_ps": 29.43721649602412,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1494.0,
+      "source_time_ps": 1464.5627835039759,
+      "tap": 25
+    },
+    {
+      "delay_ps": 29.49375929854,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1511.0,
+      "source_time_ps": 1481.50624070146,
+      "tap": 26
+    },
+    {
+      "delay_ps": 29.44590666253498,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1528.0,
+      "source_time_ps": 1498.554093337465,
+      "tap": 27
+    },
+    {
+      "delay_ps": 29.4803802540373,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1545.0,
+      "source_time_ps": 1515.5196197459627,
+      "tap": 28
+    },
+    {
+      "delay_ps": 32.128162846688156,
+      "direction": "rise",
+      "evidence_point": "CAL0-RIGHT",
+      "q_state_after": 1,
+      "q_state_before": 0,
+      "q_time_ps": 1562.0,
+      "source_time_ps": 1529.8718371533118,
+      "tap": 29
+    }
+  ],
+  "l2_used": false,
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "legacy_event_free_intervals": [
+    {
+      "blocking_taps": [
+        13,
+        14,
+        27,
+        28
+      ],
+      "blocking_windows": [
+        {
+          "direction": "fall",
+          "end_ps": 1521.0,
+          "flight_ps": 39.729418660158444,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1481.2705813398416,
+          "start_ps": 1481.2705813398416,
+          "tap": 13
+        },
+        {
+          "direction": "fall",
+          "end_ps": 1550.0,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1509.9318035550018,
+          "start_ps": 1509.9318035550018,
+          "tap": 14
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1528.0,
+          "flight_ps": 29.44590666253498,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1498.554093337465,
+          "start_ps": 1498.554093337465,
+          "tap": 27
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1545.0,
+          "flight_ps": 29.4803802540373,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1515.5196197459627,
+          "start_ps": 1515.5196197459627,
+          "tap": 28
+        }
+      ],
+      "capture_safe": false,
+      "end_g_ps": 1529.8718371533118,
+      "event_free": true,
+      "point": "LEFT",
+      "start_g_ps": 1515.5196197459627
+    },
+    {
+      "blocking_taps": [
+        14,
+        28,
+        29
+      ],
+      "blocking_windows": [
+        {
+          "direction": "fall",
+          "end_ps": 1550.0,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1509.9318035550018,
+          "start_ps": 1509.9318035550018,
+          "tap": 14
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1545.0,
+          "flight_ps": 29.4803802540373,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1515.5196197459627,
+          "start_ps": 1515.5196197459627,
+          "tap": 28
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1562.0,
+          "flight_ps": 32.128162846688156,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1529.8718371533118,
+          "start_ps": 1529.8718371533118,
+          "tap": 29
+        }
+      ],
+      "capture_safe": false,
+      "end_g_ps": 1538.5686505829597,
+      "event_free": true,
+      "point": "CENTER",
+      "start_g_ps": 1529.8718371533118
+    },
+    {
+      "blocking_taps": [
+        14,
+        15,
+        28,
+        29
+      ],
+      "blocking_windows": [
+        {
+          "direction": "fall",
+          "end_ps": 1550.0,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1509.9318035550018,
+          "start_ps": 1509.9318035550018,
+          "tap": 14
+        },
+        {
+          "direction": "fall",
+          "end_ps": 1578.6368470279579,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "direction-observed-fallback",
+          "source_crossing_ps": 1538.5686505829597,
+          "start_ps": 1538.5686505829597,
+          "tap": 15
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1545.0,
+          "flight_ps": 29.4803802540373,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1515.5196197459627,
+          "start_ps": 1515.5196197459627,
+          "tap": 28
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1562.0,
+          "flight_ps": 32.128162846688156,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1529.8718371533118,
+          "start_ps": 1529.8718371533118,
+          "tap": 29
+        }
+      ],
+      "capture_safe": false,
+      "end_g_ps": 1567.5684955567003,
+      "event_free": true,
+      "point": "RIGHT",
+      "start_g_ps": 1538.5686505829597
+    }
+  ],
+  "local_envelope_g_ps": {
+    "end": 1567.5684955567003,
+    "len": 52.04887581073763,
+    "start": 1515.5196197459627
+  },
+  "merged_forbidden_windows": [
+    {
+      "causes": [
+        {
+          "direction": "fall",
+          "end_ps": 1521.0,
+          "flight_ps": 39.729418660158444,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1481.2705813398416,
+          "start_ps": 1481.2705813398416,
+          "tap": 13
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1528.0,
+          "flight_ps": 29.44590666253498,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1498.554093337465,
+          "start_ps": 1498.554093337465,
+          "tap": 27
+        },
+        {
+          "direction": "fall",
+          "end_ps": 1550.0,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1509.9318035550018,
+          "start_ps": 1509.9318035550018,
+          "tap": 14
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1545.0,
+          "flight_ps": 29.4803802540373,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1515.5196197459627,
+          "start_ps": 1515.5196197459627,
+          "tap": 28
+        },
+        {
+          "direction": "rise",
+          "end_ps": 1562.0,
+          "flight_ps": 32.128162846688156,
+          "flight_source": "per-tap-observed",
+          "source_crossing_ps": 1529.8718371533118,
+          "start_ps": 1529.8718371533118,
+          "tap": 29
+        },
+        {
+          "direction": "fall",
+          "end_ps": 1578.6368470279579,
+          "flight_ps": 40.06819644499819,
+          "flight_source": "direction-observed-fallback",
+          "source_crossing_ps": 1538.5686505829597,
+          "start_ps": 1538.5686505829597,
+          "tap": 15
+        }
+      ],
+      "end_ps": 1578.6368470279579,
+      "start_ps": 1481.2705813398416
+    }
+  ],
+  "new_physical_scenarios": 0,
+  "next_step_authorized": false,
+  "nominal_g_close_ps": 1534.524618567,
+  "nominal_sample_close_ps": 534.524618567,
+  "q_event_direction_rule": "direction = Q state after minus Q state before; safe_d_v is not used",
+  "schema_version": 1,
+  "selected_capture_safe_points": [],
+  "simulation_run": false,
+  "source_ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+  "source_waveform": "BFE2L-095-N",
+  "stage": "B-FE2-CAL0-CAPTURE-SAFE",
+  "stop_after_stage": true,
+  "vdd_safe_v": 0.95
+}
