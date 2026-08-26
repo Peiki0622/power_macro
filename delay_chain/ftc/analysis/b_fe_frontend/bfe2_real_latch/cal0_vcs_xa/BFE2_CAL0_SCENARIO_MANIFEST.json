@@ -1,0 +1,258 @@
+{
+  "additional_delay_ps": 0.0,
+  "additional_slew": "none",
+  "container_tools": {
+    "vcs": "/home/synopsys/vcs/W-2024.09",
+    "xa": "/home/zhupl25/synopsys/pt_xa/xa/W-2024.09"
+  },
+  "fsm_added": false,
+  "gate_pending_analysis": true,
+  "hysteresis": "none",
+  "l1ar_analysis_sha256": "cc8f1eefaceb235fde1831f566768722de981d9f1a413a607151dea737e95ba8",
+  "l2_used": false,
+  "latch_cdl_sha256": "1c76297a514ca69abd846adcb957fa563399235728f8796cc76214ed831cc158",
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "launch_ps": 1000.0,
+  "m_f_code_table_used": false,
+  "new_physical_scenarios": 3,
+  "next_stage_authorized": false,
+  "nominal_g_close_ps": 1534.524618567,
+  "nominal_sample_close_ps": 534.524618567,
+  "offline_intervals_sha256": "6e9f9870fca8e5200d1ce7106a8bfe04d172868576c1684f77a2407e60723dc2",
+  "offline_selected_intervals": [
+    {
+      "center_ps": 522.6957284496373,
+      "end_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 29,
+        "time_ps": 1529.8718371533118
+      },
+      "end_g_ps": 1529.8718371533118,
+      "end_ps": 529.8718371533118,
+      "event_free": true,
+      "left_headroom_ps": 7.176108703674572,
+      "len_ps": 14.352217407349144,
+      "point": "LEFT",
+      "right_headroom_ps": 7.176108703674572,
+      "scenario_id": "BFE2C0-095-N-LEFT",
+      "selected_g_close_ps": 1522.6957284496373,
+      "selected_sample_close_ps": 522.6957284496373,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 28,
+        "time_ps": 1515.5196197459627
+      },
+      "start_g_ps": 1515.5196197459627,
+      "start_ps": 515.5196197459627
+    },
+    {
+      "center_ps": 534.2202438681358,
+      "end_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 15,
+        "time_ps": 1538.5686505829597
+      },
+      "end_g_ps": 1538.5686505829597,
+      "end_ps": 538.5686505829597,
+      "event_free": true,
+      "left_headroom_ps": 4.652781413688103,
+      "len_ps": 8.696813429647818,
+      "point": "CENTER",
+      "right_headroom_ps": 4.044032015959715,
+      "scenario_id": "BFE2C0-095-N-CENTER",
+      "selected_g_close_ps": 1534.524618567,
+      "selected_sample_close_ps": 534.524618567,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 29,
+        "time_ps": 1529.8718371533118
+      },
+      "start_g_ps": 1529.8718371533118,
+      "start_ps": 529.8718371533118
+    },
+    {
+      "center_ps": 553.06857306983,
+      "end_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 16,
+        "time_ps": 1567.5684955567003
+      },
+      "end_g_ps": 1567.5684955567003,
+      "end_ps": 567.5684955567003,
+      "event_free": true,
+      "left_headroom_ps": 14.499922486870446,
+      "len_ps": 28.999844973740664,
+      "point": "RIGHT",
+      "right_headroom_ps": 14.499922486870219,
+      "scenario_id": "BFE2C0-095-N-RIGHT",
+      "selected_g_close_ps": 1553.06857306983,
+      "selected_sample_close_ps": 553.0685730698301,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 15,
+        "time_ps": 1538.5686505829597
+      },
+      "start_g_ps": 1538.5686505829597,
+      "start_ps": 538.5686505829597
+    }
+  ],
+  "rvt_lvt_path_cells": [
+    "BUF_X0P7M_A9TR40",
+    "BUF_X0P7M_A9TL40"
+  ],
+  "safe_d_rule": "xor > 0.5*VDD_SENSE ? 0.95 V : 0 V",
+  "scenarios": [
+    {
+      "boundary_csv_sha256": "1fe370d4d6c72bb14f7053029c7bb2268a2229b1b42f5e3a967c65bcb991f753",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/left",
+      "interval": {
+        "center_ps": 522.6957284496373,
+        "end_event": {
+          "direction": "rise",
+          "logic_state": 1,
+          "tap": 29,
+          "time_ps": 1529.8718371533118
+        },
+        "end_g_ps": 1529.8718371533118,
+        "end_ps": 529.8718371533118,
+        "event_free": true,
+        "left_headroom_ps": 7.176108703674572,
+        "len_ps": 14.352217407349144,
+        "point": "LEFT",
+        "right_headroom_ps": 7.176108703674572,
+        "scenario_id": "BFE2C0-095-N-LEFT",
+        "selected_g_close_ps": 1522.6957284496373,
+        "selected_sample_close_ps": 522.6957284496373,
+        "source_crossing_count_inside": 0,
+        "start_event": {
+          "direction": "rise",
+          "logic_state": 1,
+          "tap": 28,
+          "time_ps": 1515.5196197459627
+        },
+        "start_g_ps": 1515.5196197459627,
+        "start_ps": 515.5196197459627
+      },
+      "ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "point": "LEFT",
+      "run_disposition": "reused-completed",
+      "run_returncode": 0,
+      "scenario_id": "BFE2C0-095-N-LEFT",
+      "selected_g_close_ps": 1522.6957284496373,
+      "selected_sample_close_ps": 522.6957284496373,
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "19facbf92fb55e9285e58c6bde8bb315c0faeeb3d26eabede8039d99c9b0da79",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/center",
+      "interval": {
+        "center_ps": 534.2202438681358,
+        "end_event": {
+          "direction": "fall",
+          "logic_state": 0,
+          "tap": 15,
+          "time_ps": 1538.5686505829597
+        },
+        "end_g_ps": 1538.5686505829597,
+        "end_ps": 538.5686505829597,
+        "event_free": true,
+        "left_headroom_ps": 4.652781413688103,
+        "len_ps": 8.696813429647818,
+        "point": "CENTER",
+        "right_headroom_ps": 4.044032015959715,
+        "scenario_id": "BFE2C0-095-N-CENTER",
+        "selected_g_close_ps": 1534.524618567,
+        "selected_sample_close_ps": 534.524618567,
+        "source_crossing_count_inside": 0,
+        "start_event": {
+          "direction": "rise",
+          "logic_state": 1,
+          "tap": 29,
+          "time_ps": 1529.8718371533118
+        },
+        "start_g_ps": 1529.8718371533118,
+        "start_ps": 529.8718371533118
+      },
+      "ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "point": "CENTER",
+      "run_disposition": "reused-completed",
+      "run_returncode": 0,
+      "scenario_id": "BFE2C0-095-N-CENTER",
+      "selected_g_close_ps": 1534.524618567,
+      "selected_sample_close_ps": 534.524618567,
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "42ed7bf310890415bd534c5afad9e30298695f0555e55a3e6e355b21694a0d4c",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/right",
+      "interval": {
+        "center_ps": 553.06857306983,
+        "end_event": {
+          "direction": "fall",
+          "logic_state": 0,
+          "tap": 16,
+          "time_ps": 1567.5684955567003
+        },
+        "end_g_ps": 1567.5684955567003,
+        "end_ps": 567.5684955567003,
+        "event_free": true,
+        "left_headroom_ps": 14.499922486870446,
+        "len_ps": 28.999844973740664,
+        "point": "RIGHT",
+        "right_headroom_ps": 14.499922486870219,
+        "scenario_id": "BFE2C0-095-N-RIGHT",
+        "selected_g_close_ps": 1553.06857306983,
+        "selected_sample_close_ps": 553.0685730698301,
+        "source_crossing_count_inside": 0,
+        "start_event": {
+          "direction": "fall",
+          "logic_state": 0,
+          "tap": 15,
+          "time_ps": 1538.5686505829597
+        },
+        "start_g_ps": 1538.5686505829597,
+        "start_ps": 538.5686505829597
+      },
+      "ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "point": "RIGHT",
+      "run_disposition": "reused-completed",
+      "run_returncode": 0,
+      "scenario_id": "BFE2C0-095-N-RIGHT",
+      "selected_g_close_ps": 1553.06857306983,
+      "selected_sample_close_ps": 553.0685730698301,
+      "xa_version_marker": true
+    }
+  ],
+  "schema_version": 1,
+  "sensing_geometry_id": "bfe2_real_latch_30tap_4over0_corrected_seed_v1",
+  "sensing_geometry_modified": false,
+  "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+  "source_waveform": "BFE2L-095-N",
+  "stage": "B-FE2-CAL0",
+  "stop_after_stage": true,
+  "tap_count": 30,
+  "vdd_safe_v": 0.95,
+  "verification_mode": "VCS-XA mixed-signal latch-boundary validation of offline close intervals",
+  "vnw_v": 0.95,
+  "vpw_v": 0.0,
+  "vss_v": 0.0,
+  "x_region": "none",
+  "xor_cell": "XOR2_X0P5M_A9TL40"
+}

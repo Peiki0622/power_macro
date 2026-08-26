@@ -1,0 +1,148 @@
+{
+  "dense_grid_scan": false,
+  "l1ar_analysis_sha256": "cc8f1eefaceb235fde1831f566768722de981d9f1a413a607151dea737e95ba8",
+  "latch_cell": "LATQ_X0P5M_A9TR40",
+  "launch_ps": 1000.0,
+  "local_events": [
+    {
+      "direction": "rise",
+      "logic_state": 1,
+      "tap": 28,
+      "time_ps": 1515.5196197459627
+    },
+    {
+      "direction": "rise",
+      "logic_state": 1,
+      "tap": 29,
+      "time_ps": 1529.8718371533118
+    },
+    {
+      "direction": "fall",
+      "logic_state": 0,
+      "tap": 15,
+      "time_ps": 1538.5686505829597
+    },
+    {
+      "direction": "fall",
+      "logic_state": 0,
+      "tap": 16,
+      "time_ps": 1567.5684955567003
+    }
+  ],
+  "mode": "offline safe_d crossing ledger reconstruction",
+  "next_step_authorized": "exactly three representative normal VCS-XA points",
+  "nominal_g_close_ps": 1534.524618567,
+  "nominal_sample_close_ps": 534.524618567,
+  "reconstruction_rule": "event-free gaps between adjacent normal safe_d crossings; no dense scan",
+  "rvt_lvt_path_cells": [
+    "BUF_X0P7M_A9TR40",
+    "BUF_X0P7M_A9TL40"
+  ],
+  "safe_d_ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+  "schema_version": 1,
+  "selected_intervals": [
+    {
+      "center_ps": 522.6957284496373,
+      "end_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 29,
+        "time_ps": 1529.8718371533118
+      },
+      "end_g_ps": 1529.8718371533118,
+      "end_ps": 529.8718371533118,
+      "event_free": true,
+      "left_headroom_ps": 7.176108703674572,
+      "len_ps": 14.352217407349144,
+      "point": "LEFT",
+      "right_headroom_ps": 7.176108703674572,
+      "scenario_id": "BFE2C0-095-N-LEFT",
+      "selected_g_close_ps": 1522.6957284496373,
+      "selected_sample_close_ps": 522.6957284496373,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 28,
+        "time_ps": 1515.5196197459627
+      },
+      "start_g_ps": 1515.5196197459627,
+      "start_ps": 515.5196197459627
+    },
+    {
+      "center_ps": 534.2202438681358,
+      "end_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 15,
+        "time_ps": 1538.5686505829597
+      },
+      "end_g_ps": 1538.5686505829597,
+      "end_ps": 538.5686505829597,
+      "event_free": true,
+      "left_headroom_ps": 4.652781413688103,
+      "len_ps": 8.696813429647818,
+      "point": "CENTER",
+      "right_headroom_ps": 4.044032015959715,
+      "scenario_id": "BFE2C0-095-N-CENTER",
+      "selected_g_close_ps": 1534.524618567,
+      "selected_sample_close_ps": 534.524618567,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "rise",
+        "logic_state": 1,
+        "tap": 29,
+        "time_ps": 1529.8718371533118
+      },
+      "start_g_ps": 1529.8718371533118,
+      "start_ps": 529.8718371533118
+    },
+    {
+      "center_ps": 553.06857306983,
+      "end_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 16,
+        "time_ps": 1567.5684955567003
+      },
+      "end_g_ps": 1567.5684955567003,
+      "end_ps": 567.5684955567003,
+      "event_free": true,
+      "left_headroom_ps": 14.499922486870446,
+      "len_ps": 28.999844973740664,
+      "point": "RIGHT",
+      "right_headroom_ps": 14.499922486870219,
+      "scenario_id": "BFE2C0-095-N-RIGHT",
+      "selected_g_close_ps": 1553.06857306983,
+      "selected_sample_close_ps": 553.0685730698301,
+      "source_crossing_count_inside": 0,
+      "start_event": {
+        "direction": "fall",
+        "logic_state": 0,
+        "tap": 15,
+        "time_ps": 1538.5686505829597
+      },
+      "start_g_ps": 1538.5686505829597,
+      "start_ps": 538.5686505829597
+    }
+  ],
+  "selected_points": [
+    522.6957284496373,
+    534.524618567,
+    553.0685730698301
+  ],
+  "sensing_geometry_id": "bfe2_real_latch_30tap_4over0_corrected_seed_v1",
+  "simulation_run": false,
+  "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "source_scenario": "BFE2L-095-N",
+  "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+  "stage": "B-FE2-CAL0",
+  "stop_after_stage": true,
+  "tap_count": 30,
+  "vdd_safe_v": 0.95,
+  "vnw_v": 0.95,
+  "vpw_v": 0.0,
+  "vss_v": 0.0,
+  "xor_cell": "XOR2_X0P5M_A9TL40"
+}

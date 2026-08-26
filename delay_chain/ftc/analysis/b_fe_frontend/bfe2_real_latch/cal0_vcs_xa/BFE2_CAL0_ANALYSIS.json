@@ -1,0 +1,4072 @@
+{
+  "capture_semantics_pass": false,
+  "codes_sequence": [
+    "000000000000001111111111111000",
+    "000000000000001111111111111100",
+    "000000000000000111111111111110"
+  ],
+  "failure_class": "CAPTURE_SEMANTICS_FAIL",
+  "fixed_nominal_g_close_ps": 1534.524618567,
+  "fixed_nominal_sample_close_ps": 534.524618567,
+  "gate": "BFE2_CAL0_SAMPLE_CLOSE_NOT_CALIBRATABLE",
+  "l2_used": false,
+  "local_monotonic_feature": true,
+  "manifest_sha256": "db1c57276171da690ce3909419ff33c1acc8235c4fb21a7a807e0185798a721d",
+  "next_stage_authorized": false,
+  "offline_intervals_sha256": "6e9f9870fca8e5200d1ce7106a8bfe04d172868576c1684f77a2407e60723dc2",
+  "ones_sequence": [
+    13,
+    14,
+    14
+  ],
+  "positive_width_stable_window": true,
+  "results": [
+    {
+      "CENTER": 522.6957284496373,
+      "END": 529.8718371533118,
+      "LEFT_HEADROOM": 7.176108703674572,
+      "LEN": 14.352217407349144,
+      "RIGHT_HEADROOM": 7.176108703674572,
+      "START": 515.5196197459627,
+      "boundary_csv_sha256": "1fe370d4d6c72bb14f7053029c7bb2268a2229b1b42f5e3a967c65bcb991f753",
+      "capture_semantics_pass": false,
+      "final_ones": 13,
+      "final_q_code": "000000000000001111111111111000",
+      "final_q_stable": true,
+      "initialization_mismatch_taps": [],
+      "mid_rail_taps": [],
+      "point": "LEFT",
+      "post_close_safe_d_changed_q_taps": [],
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/left",
+      "safe_d_ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "scenario_id": "BFE2C0-095-N-LEFT",
+      "selected_g_close_ps": 1522.6957284496373,
+      "selected_sample_close_ps": 522.6957284496373,
+      "source_free_reflip_taps": [
+        27
+      ],
+      "tap27": {
+        "final_mid_rail": false,
+        "final_q_v": 1.57e-07,
+        "g_v_final": -0.0,
+        "initialization": {
+          "logic_state": 0,
+          "safe_d_v": 0.0,
+          "threshold_v": 0.475,
+          "vdd_sense_v": 0.95,
+          "xor_v": 6.995221e-06
+        },
+        "initialization_mismatch": false,
+        "post_close_q_events": [
+          {
+            "classification": "source-backed",
+            "delay_ps": 29.44590666253498,
+            "direction": "rise",
+            "q_v": 0.474999994,
+            "source_event": {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            },
+            "time_ps": 1528.0
+          },
+          {
+            "classification": "source-free",
+            "delay_ps": null,
+            "direction": "rise",
+            "q_v": 0.474999994,
+            "source_event": null,
+            "time_ps": 1544.0
+          }
+        ],
+        "post_close_safe_d_changed_q": false,
+        "post_close_safe_d_crossings": [
+          {
+            "direction": "fall",
+            "logic_state": 0,
+            "time_ps": 1884.3530407008059
+          }
+        ],
+        "pre_close_safe_d_crossings": [
+          {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1498.554093337465
+          }
+        ],
+        "source_free_reflip": true,
+        "tail_q_v": 1.81e-07,
+        "tail_stable": true,
+        "tap": 27,
+        "unresolved": true,
+        "vdd_safe_v": 0.95
+      },
+      "taps": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1039.0798439377777
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1107.5345828552117
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 0,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1056.1409276307656
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1136.322294387443
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 1,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1073.2008983136357
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1165.0600218566078
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 2,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1090.2026090892512
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1193.859230147396
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 3,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1107.2274262811602
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1222.5119491034866
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 4,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1124.2453531095593
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1251.3013867387824
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 5,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1141.2304515566843
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1280.0662089838042
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 6,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1158.3117964346802
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1308.7460900056722
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 7,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1175.3798008691372
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1337.5041182458485
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 8,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1192.334431734177
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1366.3349751060732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 9,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1209.3717107182415
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1395.0176671112267
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 10,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1226.3435583074
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1423.7012892641549
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 11,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1243.3816307230725
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1452.4443137347457
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 12,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1260.4253286874682
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1481.2705813398416
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.81e-07,
+          "tail_stable": true,
+          "tap": 13,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1277.3731937314117
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1509.9318035550018
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 14,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1538.5686505829597
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1294.3451279959222
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 15,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1567.5684955567003
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1311.4135131172384
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 16,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1596.2597130777278
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1328.4162584403216
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 17,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1625.0328501805602
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1345.4680075216006
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 18,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1654.0145415428276
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1362.4263002419732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 19,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1682.6770621761088
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1379.5088299364832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 20,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1711.4845303705326
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1396.5197937757505
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 21,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1740.2882783476698
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1413.494945848455
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 22,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1768.9976470236763
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1430.5110855679832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 23,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [
+            {
+              "classification": "source-backed",
+              "delay_ps": 29.44590666253498,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": {
+                "direction": "rise",
+                "logic_state": 1,
+                "time_ps": 1498.554093337465
+              },
+              "time_ps": 1528.0
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": null,
+              "time_ps": 1544.0
+            }
+          ],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_q_v": 1.81e-07,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": true,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [],
+          "source_free_reflip": false,
+          "tail_q_v": 1.66e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "taps24_29": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.94999968,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [
+            {
+              "classification": "source-backed",
+              "delay_ps": 29.44590666253498,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": {
+                "direction": "rise",
+                "logic_state": 1,
+                "time_ps": 1498.554093337465
+              },
+              "time_ps": 1528.0
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": null,
+              "time_ps": 1544.0
+            }
+          ],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_q_v": 1.81e-07,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": true,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.8e-07,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [],
+          "source_free_reflip": false,
+          "tail_q_v": 1.66e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "unresolved_taps": [
+        27
+      ],
+      "unstable_tail_taps": []
+    },
+    {
+      "CENTER": 534.2202438681358,
+      "END": 538.5686505829597,
+      "LEFT_HEADROOM": 4.652781413688103,
+      "LEN": 8.696813429647818,
+      "RIGHT_HEADROOM": 4.044032015959715,
+      "START": 529.8718371533118,
+      "boundary_csv_sha256": "19facbf92fb55e9285e58c6bde8bb315c0faeeb3d26eabede8039d99c9b0da79",
+      "capture_semantics_pass": true,
+      "final_ones": 14,
+      "final_q_code": "000000000000001111111111111100",
+      "final_q_stable": true,
+      "initialization_mismatch_taps": [],
+      "mid_rail_taps": [],
+      "point": "CENTER",
+      "post_close_safe_d_changed_q_taps": [],
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/center",
+      "safe_d_ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "scenario_id": "BFE2C0-095-N-CENTER",
+      "selected_g_close_ps": 1534.524618567,
+      "selected_sample_close_ps": 534.524618567,
+      "source_free_reflip_taps": [],
+      "tap27": {
+        "final_mid_rail": false,
+        "final_q_v": 0.949999698,
+        "g_v_final": -0.0,
+        "initialization": {
+          "logic_state": 0,
+          "safe_d_v": 0.0,
+          "threshold_v": 0.475,
+          "vdd_sense_v": 0.95,
+          "xor_v": 6.995221e-06
+        },
+        "initialization_mismatch": false,
+        "post_close_q_events": [],
+        "post_close_safe_d_changed_q": false,
+        "post_close_safe_d_crossings": [
+          {
+            "direction": "fall",
+            "logic_state": 0,
+            "time_ps": 1884.3530407008059
+          }
+        ],
+        "pre_close_safe_d_crossings": [
+          {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1498.554093337465
+          }
+        ],
+        "source_free_reflip": false,
+        "tail_q_v": 0.949999685,
+        "tail_stable": true,
+        "tap": 27,
+        "unresolved": false,
+        "vdd_safe_v": 0.95
+      },
+      "taps": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1039.0798439377777
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1107.5345828552117
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 0,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1056.1409276307656
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1136.322294387443
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 1,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1073.2008983136357
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1165.0600218566078
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 2,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1090.2026090892512
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1193.859230147396
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 3,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1107.2274262811602
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1222.5119491034866
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 4,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1124.2453531095593
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1251.3013867387824
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 5,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1141.2304515566843
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1280.0662089838042
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 6,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1158.3117964346802
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1308.7460900056722
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 7,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1175.3798008691372
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1337.5041182458485
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 8,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1192.334431734177
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1366.3349751060732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 9,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1209.3717107182415
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1395.0176671112267
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 10,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1226.3435583074
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1423.7012892641549
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 11,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1243.3816307230725
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1452.4443137347457
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 12,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1260.4253286874682
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1481.2705813398416
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 13,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1277.3731937314117
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1509.9318035550018
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 14,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1538.5686505829597
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1294.3451279959222
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 15,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1567.5684955567003
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1311.4135131172384
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 16,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1596.2597130777278
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1328.4162584403216
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 17,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1625.0328501805602
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1345.4680075216006
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 18,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1654.0145415428276
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1362.4263002419732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 19,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1682.6770621761088
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1379.5088299364832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 20,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1711.4845303705326
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1396.5197937757505
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 21,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1740.2882783476698
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1413.494945848455
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 22,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1768.9976470236763
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1430.5110855679832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 23,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.76e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "taps24_29": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999685,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.75e-07,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.76e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "unresolved_taps": [],
+      "unstable_tail_taps": []
+    },
+    {
+      "CENTER": 553.06857306983,
+      "END": 567.5684955567003,
+      "LEFT_HEADROOM": 14.499922486870446,
+      "LEN": 28.999844973740664,
+      "RIGHT_HEADROOM": 14.499922486870219,
+      "START": 538.5686505829597,
+      "boundary_csv_sha256": "42ed7bf310890415bd534c5afad9e30298695f0555e55a3e6e355b21694a0d4c",
+      "capture_semantics_pass": false,
+      "final_ones": 14,
+      "final_q_code": "000000000000000111111111111110",
+      "final_q_stable": true,
+      "initialization_mismatch_taps": [],
+      "mid_rail_taps": [],
+      "point": "RIGHT",
+      "post_close_safe_d_changed_q_taps": [],
+      "run_directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/cal0_vcs_xa/right",
+      "safe_d_ledger_sha256": "ad63b8e249a2383ecb7e1ec49e88ac7c0a4198dab4c94453919bbb09841c6140",
+      "scenario_id": "BFE2C0-095-N-RIGHT",
+      "selected_g_close_ps": 1553.06857306983,
+      "selected_sample_close_ps": 553.0685730698301,
+      "source_free_reflip_taps": [
+        29
+      ],
+      "tap27": {
+        "final_mid_rail": false,
+        "final_q_v": 0.949999698,
+        "g_v_final": -0.0,
+        "initialization": {
+          "logic_state": 0,
+          "safe_d_v": 0.0,
+          "threshold_v": 0.475,
+          "vdd_sense_v": 0.95,
+          "xor_v": 6.995221e-06
+        },
+        "initialization_mismatch": false,
+        "post_close_q_events": [],
+        "post_close_safe_d_changed_q": false,
+        "post_close_safe_d_crossings": [
+          {
+            "direction": "fall",
+            "logic_state": 0,
+            "time_ps": 1884.3530407008059
+          }
+        ],
+        "pre_close_safe_d_crossings": [
+          {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1498.554093337465
+          }
+        ],
+        "source_free_reflip": false,
+        "tail_q_v": 0.949999684,
+        "tail_stable": true,
+        "tap": 27,
+        "unresolved": false,
+        "vdd_safe_v": 0.95
+      },
+      "taps": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1039.0798439377777
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1107.5345828552117
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 0,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1056.1409276307656
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1136.322294387443
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 1,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1073.2008983136357
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1165.0600218566078
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 2,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1090.2026090892512
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1193.859230147396
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 3,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1107.2274262811602
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1222.5119491034866
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 4,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1124.2453531095593
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1251.3013867387824
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 5,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1141.2304515566843
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1280.0662089838042
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 6,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1158.3117964346802
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1308.7460900056722
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 7,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1175.3798008691372
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1337.5041182458485
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 8,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1192.334431734177
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1366.3349751060732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 9,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1209.3717107182415
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1395.0176671112267
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 10,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1226.3435583074
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1423.7012892641549
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 11,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1243.3816307230725
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1452.4443137347457
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 12,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1260.4253286874682
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1481.2705813398416
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 13,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1277.3731937314117
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1509.9318035550018
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 14,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1294.3451279959222
+            },
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1538.5686505829597
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 15,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1567.5684955567003
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1311.4135131172384
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 16,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1596.2597130777278
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1328.4162584403216
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 17,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1625.0328501805602
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1345.4680075216006
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 18,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1654.0145415428276
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1362.4263002419732
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 19,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1682.6770621761088
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1379.5088299364832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 20,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1711.4845303705326
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1396.5197937757505
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 21,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1740.2882783476698
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1413.494945848455
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 22,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1768.9976470236763
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1430.5110855679832
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 23,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999683,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [
+            {
+              "classification": "source-backed",
+              "delay_ps": 32.128162846688156,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": {
+                "direction": "rise",
+                "logic_state": 1,
+                "time_ps": 1529.8718371533118
+              },
+              "time_ps": 1562.0
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": null,
+              "time_ps": 1565.0
+            }
+          ],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": true,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "taps24_29": [
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1797.7416503691989
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1447.599415303362
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 24,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1826.6136105968837
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1464.5627835039759
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 25,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1855.4621123216318
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1481.50624070146
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 26,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1884.3530407008059
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1498.554093337465
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999684,
+          "tail_stable": true,
+          "tap": 27,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 0.949999698,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.995221e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1913.0957133896695
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1515.5196197459627
+            }
+          ],
+          "source_free_reflip": false,
+          "tail_q_v": 0.949999683,
+          "tail_stable": true,
+          "tap": 28,
+          "unresolved": false,
+          "vdd_safe_v": 0.95
+        },
+        {
+          "final_mid_rail": false,
+          "final_q_v": 1.57e-07,
+          "g_v_final": -0.0,
+          "initialization": {
+            "logic_state": 0,
+            "safe_d_v": 0.0,
+            "threshold_v": 0.475,
+            "vdd_sense_v": 0.95,
+            "xor_v": 6.99522e-06
+          },
+          "initialization_mismatch": false,
+          "post_close_q_events": [
+            {
+              "classification": "source-backed",
+              "delay_ps": 32.128162846688156,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": {
+                "direction": "rise",
+                "logic_state": 1,
+                "time_ps": 1529.8718371533118
+              },
+              "time_ps": 1562.0
+            },
+            {
+              "classification": "source-free",
+              "delay_ps": null,
+              "direction": "rise",
+              "q_v": 0.474999994,
+              "source_event": null,
+              "time_ps": 1565.0
+            }
+          ],
+          "post_close_safe_d_changed_q": false,
+          "post_close_safe_d_crossings": [
+            {
+              "direction": "fall",
+              "logic_state": 0,
+              "time_ps": 1939.4632597447746
+            }
+          ],
+          "pre_close_safe_d_crossings": [
+            {
+              "direction": "rise",
+              "logic_state": 1,
+              "time_ps": 1529.8718371533118
+            }
+          ],
+          "source_free_reflip": true,
+          "tail_q_v": 1.77e-07,
+          "tail_stable": true,
+          "tap": 29,
+          "unresolved": true,
+          "vdd_safe_v": 0.95
+        }
+      ],
+      "unresolved_taps": [
+        29
+      ],
+      "unstable_tail_taps": []
+    }
+  ],
+  "schema_version": 1,
+  "source_manifest_sha256": "2be7e6f69deb4852f502e8c6a84106aeb9ada35716d26a4225c2d2b5f6333650",
+  "source_waveform": "BFE2L-095-N",
+  "stage": "B-FE2-CAL0",
+  "stop_after_stage": true,
+  "vdd_safe_v": 0.95,
+  "verification_mode": "VCS-XA mixed-signal latch-boundary validation of offline close intervals",
+  "vnw_v": 0.95,
+  "vpw_v": 0.0,
+  "vss_v": 0.0
+}

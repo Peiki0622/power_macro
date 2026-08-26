@@ -1,0 +1,17 @@
+{
+  "analysis_sha256": "cedfc869595e4cfe051c54bd82d15f11461f386465b1c0f8011e719cf2b1e41e",
+  "capture_semantics_pass": false,
+  "failure_class": "CAPTURE_SEMANTICS_FAIL",
+  "gate": "BFE2_CAL0_SAMPLE_CLOSE_NOT_CALIBRATABLE",
+  "local_monotonic_feature": true,
+  "next_stage_authorized": false,
+  "ones_sequence": [
+    13,
+    14,
+    14
+  ],
+  "positive_width_stable_window": true,
+  "report_sha256": "9a905e999cb3be3639ca7a1fa06ec789b3ecb88e1a17d66f37f63fc45a02464c",
+  "stage": "B-FE2-CAL0",
+  "stop_after_stage": true
+}
