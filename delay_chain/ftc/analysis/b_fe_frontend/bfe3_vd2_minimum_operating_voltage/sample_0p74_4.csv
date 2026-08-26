@@ -1,0 +1,2 @@
+M_FF,N_FF,designated,dff_mid_rail_taps,dff_rail_resolved,latq_mid_rail_taps,latq_rail_resolved_at_sample,nearest_system_edge_ps,q_ff_raw_29_to_0,q_ff_raw_tap0_to_tap29,sample_index,sample_time_ps,system_edge_polarity,time_from_nearest_system_edge_ps,voltage_v
+246,12,True,[],True,[],True,11000.0,000111111111111000000000000000,000000000000000111111111111000,4,12634.524618567,fall,1534.5246185670003,0.74

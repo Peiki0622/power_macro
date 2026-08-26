@@ -1,0 +1,138 @@
+{
+  "analysis_sha256": "c1bf0594e7b667773b41b09a8f22daf3082f891106eccfa6ebffec28b50b7d9e",
+  "gate": "BFE3_VD2_MINIMUM_OPERATING_VOLTAGE_CHARACTERIZATION_FAIL",
+  "hd_pdf_sha256": "19afc9f92f259cb7a88d40df1b7f8448cc82171d2279fd6be8d635f78c251434",
+  "hd_png_sha256": "90e6cbae78188347af4c08b9758ac46b229bd2280e083a763d58cbcba7880c34",
+  "m_ff_pdf_sha256": "d5f9a07f05892694da4987641e7b7d8b4e01e0bb787ccac985ec256f30d12ff0",
+  "m_ff_png_sha256": "658ae6a26e14c3d1ae852c6cf545f66126e06227db26ebd9dd5cb04c6c331ce2",
+  "next_stage_authorized": false,
+  "report_sha256": "722c100bc60bd6d726c0f1b4e817d910f8d3f1bfc60ce5c2c82b10f56c26e0fe",
+  "stage": "B-FE3-VD2",
+  "stop_after_stage": true,
+  "summary": {
+    "all_pass_before_first_fail": true,
+    "coarse_points_v": [
+      0.86,
+      0.83,
+      0.8,
+      0.77,
+      0.74,
+      0.71,
+      0.68,
+      0.65,
+      0.62,
+      0.59,
+      0.56,
+      0.53,
+      0.5,
+      0.47
+    ],
+    "fine_points_v": [],
+    "first_fail_found": false,
+    "first_fail_v": null,
+    "gate": "BFE3_VD2_MINIMUM_OPERATING_VOLTAGE_CHARACTERIZATION_FAIL",
+    "incomplete_points": [
+      {
+        "capture_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "expected_capture_count": 24,
+        "observed_capture_count": 16,
+        "reason": "XA CSV contains only capture indices 0-15 after user-requested stop",
+        "voltage_v": 0.44
+      },
+      {
+        "capture_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "expected_capture_count": 24,
+        "observed_capture_count": 16,
+        "reason": "XA CSV contains only capture indices 0-15 after user-requested stop",
+        "voltage_v": 0.41
+      },
+      {
+        "capture_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "expected_capture_count": 24,
+        "observed_capture_count": 16,
+        "reason": "XA CSV contains only capture indices 0-15 after user-requested stop",
+        "voltage_v": 0.38
+      },
+      {
+        "capture_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "expected_capture_count": 24,
+        "observed_capture_count": 16,
+        "reason": "XA CSV contains only capture indices 0-15 after user-requested stop",
+        "voltage_v": 0.35
+      }
+    ],
+    "merged_m_ff_trend": {
+      "pearson": 0.9739034313046765,
+      "spearman": 0.9810153749788859
+    },
+    "vmin_sense_v": null
+  }
+}
