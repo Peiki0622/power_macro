@@ -1,0 +1,205 @@
+{
+  "classification_sequence": [
+    "SAFE_REJECT",
+    "SAFE_REJECT",
+    "UNSAFE_APERTURE",
+    "SAFE_CAPTURE"
+  ],
+  "d_crossing_ps": 1529.871837153,
+  "delta_t_definition": "G_close_ps - D_crossing_ps",
+  "gate": "BFE2_LATQ_DG_APERTURE_READY",
+  "manifest_sha256": "660e27f24ce09b4d56a20d87b84b9a0003e984f06e01d00a8034dd7ebffb2c2c",
+  "new_hspice_scenarios": 0,
+  "next_stage_authorized": false,
+  "ordered_safe_reject_unsafe_safe_capture": true,
+  "results": [
+    {
+      "boundary_csv_sha256": "19facbf92fb55e9285e58c6bde8bb315c0faeeb3d26eabede8039d99c9b0da79",
+      "classification": "SAFE_REJECT",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "d_crossing_ps": 1529.871837153,
+      "delta_t_ps": 4.652781414,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/latq_aperture/center",
+      "final_q": 0,
+      "final_q_v": 1.57e-07,
+      "g_close_ps": 1534.5246185669998,
+      "mid_rail": false,
+      "note": "known safe-reject anchor",
+      "point": "CENTER",
+      "post_close_q_events": [],
+      "q_crossings_ps": [],
+      "q_events": [],
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "8cc20d0a92bb4223a8ca26244572806dfb638ef8b7fbffb469e6cc92fc8a381a",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_free_reflip": false,
+      "source_manifest_entry": "BFE2L-095-N",
+      "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "tail_q_v": 1.76e-07,
+      "tail_stable": true,
+      "unresolved": false,
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "5342148d97b568261f6778f6bd85242c92c6f534eb682ea9cdde19c21adfe88b",
+      "classification": "SAFE_REJECT",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "d_crossing_ps": 1529.871837153,
+      "delta_t_ps": 15.0,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/latq_aperture/mid",
+      "final_q": 0,
+      "final_q_v": 1.57e-07,
+      "g_close_ps": 1544.871837153,
+      "mid_rail": false,
+      "note": "representative aperture point",
+      "point": "MID",
+      "post_close_q_events": [],
+      "q_crossings_ps": [],
+      "q_events": [],
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "8cc20d0a92bb4223a8ca26244572806dfb638ef8b7fbffb469e6cc92fc8a381a",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_free_reflip": false,
+      "source_manifest_entry": "BFE2L-095-N",
+      "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "tail_q_v": 1.76e-07,
+      "tail_stable": true,
+      "unresolved": false,
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "c0c10e592b12d66741d8b61b4a4925f011790cfe2edbcc8af06021e4ed216f76",
+      "classification": "UNSAFE_APERTURE",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "d_crossing_ps": 1529.871837153,
+      "delta_t_ps": 23.196735917,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/latq_aperture/right",
+      "final_q": 0,
+      "final_q_v": 1.57e-07,
+      "g_close_ps": 1553.06857307,
+      "mid_rail": false,
+      "note": "known failure anchor",
+      "point": "RIGHT",
+      "post_close_q_events": [
+        {
+          "classification": "source-backed",
+          "delay_ps": 32.128162846688156,
+          "direction": "rise",
+          "q_state_after": 1,
+          "q_state_before": 0,
+          "q_v": 0.474999994,
+          "source_event": {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1529.8718371533118
+          },
+          "time_ps": 1562.0
+        },
+        {
+          "classification": "source-free",
+          "delay_ps": null,
+          "direction": "fall",
+          "q_state_after": 0,
+          "q_state_before": 1,
+          "q_v": 0.474999994,
+          "source_event": null,
+          "time_ps": 1565.0
+        }
+      ],
+      "q_crossings_ps": [
+        1562.0,
+        1565.0
+      ],
+      "q_events": [
+        {
+          "classification": "source-backed",
+          "delay_ps": 32.128162846688156,
+          "direction": "rise",
+          "q_state_after": 1,
+          "q_state_before": 0,
+          "q_v": 0.474999994,
+          "source_event": {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1529.8718371533118
+          },
+          "time_ps": 1562.0
+        },
+        {
+          "classification": "source-free",
+          "delay_ps": null,
+          "direction": "fall",
+          "q_state_after": 0,
+          "q_state_before": 1,
+          "q_v": 0.474999994,
+          "source_event": null,
+          "time_ps": 1565.0
+        }
+      ],
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "8cc20d0a92bb4223a8ca26244572806dfb638ef8b7fbffb469e6cc92fc8a381a",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_free_reflip": true,
+      "source_manifest_entry": "BFE2L-095-N",
+      "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "tail_q_v": 1.77e-07,
+      "tail_stable": true,
+      "unresolved": true,
+      "xa_version_marker": true
+    },
+    {
+      "boundary_csv_sha256": "aa34fe18fd0adfaa55ab570b1a695399913cebb6fb959dfaea38f213a797dcb9",
+      "classification": "SAFE_CAPTURE",
+      "compile_returncode": 0,
+      "cosim_marker": true,
+      "d_crossing_ps": 1529.871837153,
+      "delta_t_ps": 45.0,
+      "directory": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe2_real_latch/latq_aperture/late_capture",
+      "final_q": 1,
+      "final_q_v": 0.949999696,
+      "g_close_ps": 1574.871837153,
+      "mid_rail": false,
+      "note": "late safe-capture anchor",
+      "point": "LATE_CAPTURE",
+      "post_close_q_events": [],
+      "q_crossings_ps": [
+        1559.0
+      ],
+      "q_events": [
+        {
+          "classification": "source-backed",
+          "delay_ps": 29.128162846688156,
+          "direction": "rise",
+          "q_state_after": 1,
+          "q_state_before": 0,
+          "q_v": 0.474999994,
+          "source_event": {
+            "direction": "rise",
+            "logic_state": 1,
+            "time_ps": 1529.8718371533118
+          },
+          "time_ps": 1559.0
+        }
+      ],
+      "run_returncode": 0,
+      "safe_d_ledger_sha256": "8cc20d0a92bb4223a8ca26244572806dfb638ef8b7fbffb469e6cc92fc8a381a",
+      "source_deck_sha256": "4c2a75cdb4c97b0c31b5cb9e597b88b0ec689a0f646771401b5902341a12e7a1",
+      "source_free_reflip": false,
+      "source_manifest_entry": "BFE2L-095-N",
+      "source_trace_sha256": "e1e76ac9b5817a074b3691f578277665a61bfa529a1fadba0125a5cdbd47028c",
+      "tail_q_v": 0.949999635,
+      "tail_stable": true,
+      "unresolved": false,
+      "xa_version_marker": true
+    }
+  ],
+  "schema_version": 1,
+  "stage": "B-FE2-LATQ-APERTURE",
+  "stop_after_stage": true,
+  "tap": 29,
+  "uses_d_to_q_delay_as_window": false,
+  "uses_direction_global_fallback": false
+}

@@ -1,0 +1,10 @@
+{
+  "analysis_sha256": "e3086fdc07f14fe039cd4f8ee657160120788a1457292f494b2461c41ef052e1",
+  "gate": "BFE2_LATQ_DG_APERTURE_READY",
+  "next_stage_authorized": false,
+  "ordered_safe_reject_unsafe_safe_capture": true,
+  "report_sha256": "9d23991e63fabf473ceef4217cd9d31d067b4de9aaf0725253024bb7faa0f84d",
+  "stage": "B-FE2-LATQ-APERTURE",
+  "stop_after_stage": true,
+  "tap": 29
+}
