@@ -277,3 +277,17 @@ hspice_command.log
 !/delay_chain/ftc/analysis/t0_transient_droop/cadence/cadence_summary.json
 delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/reports/evidence_sha256.txt
 delay_chain/ftc/controller/analysis/phase9_autonomous_transistor_level/vcs_xa_corrected/inputs/input_sha256.txt
+
+# FTC backend synthesis outputs are reproducible from the checked-in RTL and
+# backend Tcl drivers.  Design Compiler/VCS work libraries, mapped netlists,
+# and per-stage tool transcripts are local run products; retain only the
+# authored top-level gate summary for review.
+/delay_chain/ftc/backend/netlist/
+/delay_chain/ftc/backend/work/
+/delay_chain/ftc/backend/reports/**
+!/delay_chain/ftc/backend/reports/*.md
+
+# This dated HSPICE Monte Carlo audit directory contains only a generated
+# deck, solver listings/state, and command/return-code transcripts.  The
+# reproducible audit scripts and curated conclusions live elsewhere.
+/reports/smic40ll_hspice_monte_carlo_audit_20260826/

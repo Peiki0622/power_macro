@@ -38,6 +38,38 @@ evidence needed to reproduce the published 0.70--1.10 V conclusion; scenario
 directories, generated decks, listings, waveforms, command logs, and all
 screening outputs remain ignored.
 
+### FTC Backend And Monte Carlo Audit Outputs
+
+`delay_chain/ftc/backend/` is an authored backend implementation area, so the
+ignore policy is deliberately partitioned rather than ignoring the whole
+directory:
+
+- `backend/synthesis/*.tcl` remains visible.  These are the reproducible DC
+  drivers and therefore the source of the synthesis procedure.
+- `backend/netlist/` is ignored.  Its mapped Verilog, SDC exports, and binary
+  DDC databases are compiler outputs; a clean run recreates them from the RTL,
+  constraints, libraries, and Tcl drivers.
+- `backend/work/` is ignored.  It contains Design Compiler analyzed libraries,
+  checksums, VCS executables, and elaboration databases tied to a specific
+  host/tool installation.
+- `backend/reports/**` is ignored except `backend/reports/*.md`.  Per-stage
+  `*.rpt`, `*.log`, and return-code files are run transcripts, while a
+  top-level Markdown gate summary is a compact human-reviewed conclusion and
+  remains eligible for version control.
+
+The dated directory
+`reports/smic40ll_hspice_monte_carlo_audit_20260826/` is wholly ignored.  Its
+SPICE deck, listing, Monte Carlo data, solver state, and command/return-code
+files form one reproducible local audit bundle, rather than a maintained
+report.  This path-specific rule avoids concealing other source decks or
+curated reports elsewhere in `reports/`.
+
+These rules do not affect files already tracked by Git and never delete local
+EDA artifacts.  To intentionally version a future compact backend conclusion,
+place it as a top-level Markdown document in `backend/reports/`; retain raw
+tool products locally or export a concise reviewed result outside an ignored
+path.
+
 ## Verification And Maintenance
 
 Before a commit, inspect the effect with:
