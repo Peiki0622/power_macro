@@ -57,9 +57,14 @@ module bfe_backend_ctrl (
     reg [4:0]  sub_high_ref_q;
     reg        sub_borrow_q;
     reg [8:0]  sub_margin_q;
+    // P4b companion context: sub_margin_q advances for the next event at the
+    // same edge that delta_q is written for the current event.  Retaining the
+    // old P4a margin here keeps the comparison pair atomic at the output
+    // boundary while preserving one-event-per-clock throughput.
+    reg [8:0]  alarm_margin_q;
 
     assign cal_lock_o = done_rise_q && done_fall_q;
-    assign droop_alarm_o = delta_valid_q && (delta_q > sub_margin_q);
+    assign droop_alarm_o = delta_valid_q && (delta_q > alarm_margin_q);
 
     // Four samples require eleven accumulator bits (4*435=1740).  On the
     // fourth valid sample the current M value is included before the divide
@@ -92,6 +97,7 @@ module bfe_backend_ctrl (
             sub_high_ref_q <= 5'd0;
             sub_borrow_q <= 1'b0;
             sub_margin_q <= 9'd0;
+            alarm_margin_q <= 9'd0;
             droop_alarm_sticky_o <= 1'b0;
         end else begin
             // First detector register captures the M/reference/margin context.
@@ -141,6 +147,11 @@ module bfe_backend_ctrl (
             // P4b: only a five-bit high-half subtraction remains here.  The
             // registered low result and borrow complete delta_q atomically.
             delta_valid_q <= sub_valid_q;
+            // sub_margin_q is the P4a margin for the event entering the
+            // subtraction stage.  At this same clock edge it is replaced by
+            // the next event's margin, so copy its pre-edge value alongside
+            // delta_q for the P4b alarm comparison.
+            alarm_margin_q <= sub_margin_q;
             if (sub_dir_q)
                 delta_q <= {sub_high_m_q - sub_high_ref_q - sub_borrow_q, sub_low_q};
             else
