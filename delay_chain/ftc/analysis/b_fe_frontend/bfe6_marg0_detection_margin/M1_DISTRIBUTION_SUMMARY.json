@@ -1,0 +1,40 @@
+{
+  "distribution_figure": true,
+  "droop_092": {
+    "max": 43,
+    "mean": 25.466666666666665,
+    "median": 26.5,
+    "min": 0,
+    "p05": 5.150000000000001
+  },
+  "gate": "BFE6_MARG0_M1_RETAINED_SHALLOW_MARGIN_CHARACTERIZED",
+  "historical_absolute_M_ablation": {
+    "reason": "CALN0 retains overlap and spread metrics but no exact historical absolute-threshold decision rule",
+    "status": "not_reproducible"
+  },
+  "new_simulations": 0,
+  "next_stage_authorized": true,
+  "no_response_seed_count": 1,
+  "normal": {
+    "max": 7,
+    "mean": 0.23333333333333334,
+    "min": 0,
+    "p95": 0.0,
+    "p99": 4.970000000000006
+  },
+  "reuse_ledger": [
+    {
+      "datum": "CALN0 30-seed calibration/normal/0.92 droop",
+      "disposition": "reused",
+      "new_physical_simulations": 0
+    }
+  ],
+  "reverse_response_seed_count": 5,
+  "sample_count": {
+    "droop_092": 30,
+    "normal": 30
+  },
+  "separation_gap": -7,
+  "stage": "B-FE6-MARG0-M1",
+  "stop_after_stage": true
+}
