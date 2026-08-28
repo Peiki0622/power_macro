@@ -1,0 +1,13 @@
+{
+  "gate": "BFE6_MARG0_M5_RTL_REPLAY_PASS",
+  "status": "PASS",
+  "condition": "captured-vector ARCH0 RTL replay at 0.95 V / 25 C methodology anchor",
+  "strict_rule": "D_M > margin",
+  "production_rtl_modified": false,
+  "evidence": [
+    "M5_REPORT.md",
+    "M5_RUN_LEDGER.json",
+    "delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m5/replay_seed41001_41002/replay_v3.log"
+  ],
+  "next_stage": "M6"
+}
