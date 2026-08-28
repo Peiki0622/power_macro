@@ -61,21 +61,47 @@
       "voltage_v": 0.86
     },
     {
-      "calibration_availability": "single_instance_only",
+      "calibration_availability": "population_30_seed_from_retained_raw_XA",
       "droop_availability": "absent",
       "edge": "FALL",
-      "normal_validation_availability": "single_instance_only",
+      "normal_validation_availability": "population_30_seed_from_retained_raw_XA",
       "per_chip_D_M_derivable_without_rerun": false,
-      "process_seed_count": 1,
+      "process_seed_count": 30,
       "q_ff_M_FF_availability": true,
-      "retained_single_instance": true,
-      "seed_identity_proof": "single_instance_no_population_pairing",
+      "retained_single_instance": false,
+      "seed_identity_proof": "CALN0_seed_and_raw_XA_artifact",
       "source_artifacts": [
-        "ftc/analysis/b_fe_frontend/bfe3_clk0_periodic/BFE3_CLK0_ANALYSIS.json",
-        "ftc/analysis/b_fe_frontend/bfe3_clk1_real_probe_capture/BFE3_CLK1_ANALYSIS.json",
-        "ftc/analysis/b_fe_frontend/bfe3_clk2_ftc_latch_dff_capture/BFE3_CLK2_ANALYSIS.json",
-        "ftc/analysis/b_fe_frontend/bfe3_vd0_l2_end_to_end_droop/BFE3_VD0_ANALYSIS.json",
-        "ftc/analysis/b_fe_frontend/bfe3_vd1_droop_amplitude_response/BFE3_VD1_ANALYSIS.json"
+        "ftc/analysis/b_fe_frontend/bfe4_caln0_self_calibration/BFE4_CALN0_RESULTS.json",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41001/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41002/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41003/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41004/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41005/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41006/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41007/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41008/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41009/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41010/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41011/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41012/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41013/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41014/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41015/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41016/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41017/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41018/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41019/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41020/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41021/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41022/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41023/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41024/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41025/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41026/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41027/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41028/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41029/normal/vcs_xa/xa_dff_samples.csv",
+        "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41030/normal/vcs_xa/xa_dff_samples.csv"
       ],
       "voltage_v": 0.95
     },
@@ -358,6 +384,1148 @@
   ],
   "new_simulations": 0,
   "next_stage_authorized": true,
+  "retained_caln0_fall_population": [
+    {
+      "M_CAL_FALL": [
+        180,
+        180,
+        180,
+        180
+      ],
+      "M_REF_FALL_recomputed": 180,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41001/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "01a2da4e8df17bb83194b72a9e7841644f9fbc80bfe548749543ae46b3a7e0a1",
+      "samples": [
+        {
+          "M_FF": 180,
+          "q_ff": "000001111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 180,
+          "q_ff": "000001111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 180,
+          "q_ff": "000001111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 180,
+          "q_ff": "000001111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41001
+    },
+    {
+      "M_CAL_FALL": [
+        273,
+        273,
+        273,
+        273
+      ],
+      "M_REF_FALL_recomputed": 273,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41002/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "21169120533c85e05d3b1383a8e36f6ad0a94f6dd3dd59304f086cea30c0a2f3",
+      "samples": [
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41002
+    },
+    {
+      "M_CAL_FALL": [
+        242,
+        242,
+        242,
+        242
+      ],
+      "M_REF_FALL_recomputed": 242,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41003/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "341c187d79df79ac62c21634d3dd248de0bfeb9eb181d68870fb12f4ea1682fe",
+      "samples": [
+        {
+          "M_FF": 242,
+          "q_ff": "001111111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 242,
+          "q_ff": "001111111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 242,
+          "q_ff": "001111111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 242,
+          "q_ff": "001111111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41003
+    },
+    {
+      "M_CAL_FALL": [
+        315,
+        315,
+        315,
+        315
+      ],
+      "M_REF_FALL_recomputed": 315,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41004/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "990fcc1d6348d53cec24da5676bb61489efed94ad904b7630ec2afb5bd21d7a4",
+      "samples": [
+        {
+          "M_FF": 315,
+          "q_ff": "111111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "111111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "111111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "111111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41004
+    },
+    {
+      "M_CAL_FALL": [
+        273,
+        273,
+        273,
+        273
+      ],
+      "M_REF_FALL_recomputed": 273,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41005/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "21169120533c85e05d3b1383a8e36f6ad0a94f6dd3dd59304f086cea30c0a2f3",
+      "samples": [
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41005
+    },
+    {
+      "M_CAL_FALL": [
+        148,
+        148,
+        148,
+        148
+      ],
+      "M_REF_FALL_recomputed": 148,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41006/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "91beeefcba4c6d16007c6e12e62b9fb831aae8356e0d5d9e784a83200893d3db",
+      "samples": [
+        {
+          "M_FF": 148,
+          "q_ff": "000000011111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 148,
+          "q_ff": "000000011111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 148,
+          "q_ff": "000000011111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 148,
+          "q_ff": "000000011111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41006
+    },
+    {
+      "M_CAL_FALL": [
+        246,
+        246,
+        246,
+        246
+      ],
+      "M_REF_FALL_recomputed": 246,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41007/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "2448eb6a37755c265bc264645e7793fbcd0660c85748819b268278e16ad320a6",
+      "samples": [
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41007
+    },
+    {
+      "M_CAL_FALL": [
+        246,
+        246,
+        246,
+        246
+      ],
+      "M_REF_FALL_recomputed": 246,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41008/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "460ce9e15b32adba856aa3bf201dc93fb494ced723b4f1b00d640e653f571b7d",
+      "samples": [
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41008
+    },
+    {
+      "M_CAL_FALL": [
+        286,
+        286,
+        286,
+        286
+      ],
+      "M_REF_FALL_recomputed": 286,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41009/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "samples": [
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41009
+    },
+    {
+      "M_CAL_FALL": [
+        286,
+        286,
+        286,
+        286
+      ],
+      "M_REF_FALL_recomputed": 286,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41010/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "samples": [
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41010
+    },
+    {
+      "M_CAL_FALL": [
+        258,
+        258,
+        258,
+        258
+      ],
+      "M_REF_FALL_recomputed": 258,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41011/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "bab4553b2991aab074d3540c2f389c8e80b09290d43abacc0288d33647462a0e",
+      "samples": [
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41011
+    },
+    {
+      "M_CAL_FALL": [
+        246,
+        246,
+        246,
+        246
+      ],
+      "M_REF_FALL_recomputed": 246,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41012/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "abafccf90de5e2431a6deab0c3710da8dc6970ef9c58c90165186b76be356a4f",
+      "samples": [
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 246,
+          "q_ff": "000111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41012
+    },
+    {
+      "M_CAL_FALL": [
+        209,
+        209,
+        209,
+        209
+      ],
+      "M_REF_FALL_recomputed": 209,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41013/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "67f0492d7cda2ea6afbfd0e2e55b8f8f5c179a7097c0b83be9c00874e27c4838",
+      "samples": [
+        {
+          "M_FF": 209,
+          "q_ff": "000001111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 209,
+          "q_ff": "000001111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 209,
+          "q_ff": "000001111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 209,
+          "q_ff": "000001111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41013
+    },
+    {
+      "M_CAL_FALL": [
+        286,
+        286,
+        286,
+        286
+      ],
+      "M_REF_FALL_recomputed": 286,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41014/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "samples": [
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 286,
+          "q_ff": "011111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41014
+    },
+    {
+      "M_CAL_FALL": [
+        258,
+        258,
+        258,
+        258
+      ],
+      "M_REF_FALL_recomputed": 258,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41015/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "780b22bb37ea23c09b72562808fb2bdc8b1fca95d92c363ee4d58eb4f728b615",
+      "samples": [
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41015
+    },
+    {
+      "M_CAL_FALL": [
+        258,
+        258,
+        258,
+        258
+      ],
+      "M_REF_FALL_recomputed": 258,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41016/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "7d9c71db5f7444433a67e14dd081306d2ef0c8b3d00366d6fc39b0cb152cc008",
+      "samples": [
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41016
+    },
+    {
+      "M_CAL_FALL": [
+        220,
+        220,
+        220,
+        220
+      ],
+      "M_REF_FALL_recomputed": 220,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41017/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "7eabce12713fddb275dd6fb55220fecd2e837be4b87d245c8855f2362960868a",
+      "samples": [
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41017
+    },
+    {
+      "M_CAL_FALL": [
+        315,
+        315,
+        315,
+        315
+      ],
+      "M_REF_FALL_recomputed": 315,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41018/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "f3ad62a11928e7913feeb8ad770deab242519c2b68aa32268a7ee7dc3fe64f00",
+      "samples": [
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41018
+    },
+    {
+      "M_CAL_FALL": [
+        258,
+        258,
+        258,
+        258
+      ],
+      "M_REF_FALL_recomputed": 258,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41019/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "682b74368a7b82cf6458dedc89ab7bd2fd124441653f3c25248136577ab95efd",
+      "samples": [
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 258,
+          "q_ff": "001111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41019
+    },
+    {
+      "M_CAL_FALL": [
+        189,
+        189,
+        189,
+        189
+      ],
+      "M_REF_FALL_recomputed": 189,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41020/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "3035251c88c41175724fc7f7ba1aad48a5227ee5b6c7801b15b2f3aa65d3a325",
+      "samples": [
+        {
+          "M_FF": 189,
+          "q_ff": "000011111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 189,
+          "q_ff": "000011111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 189,
+          "q_ff": "000011111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 189,
+          "q_ff": "000011111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41020
+    },
+    {
+      "M_CAL_FALL": [
+        231,
+        231,
+        231,
+        231
+      ],
+      "M_REF_FALL_recomputed": 231,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41021/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b37baaf2c1dc3ada69357dbc2fe449481dd391817c79eadde42de58dcebb0f4c",
+      "samples": [
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41021
+    },
+    {
+      "M_CAL_FALL": [
+        220,
+        220,
+        220,
+        220
+      ],
+      "M_REF_FALL_recomputed": 220,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41022/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "dcf1d764d2bee57273fcf2d1b82c477206c976788bf32718375cf2cdbf1d39bb",
+      "samples": [
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 220,
+          "q_ff": "000011111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41022
+    },
+    {
+      "M_CAL_FALL": [
+        315,
+        315,
+        315,
+        315
+      ],
+      "M_REF_FALL_recomputed": 315,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41023/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "f3ad62a11928e7913feeb8ad770deab242519c2b68aa32268a7ee7dc3fe64f00",
+      "samples": [
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 315,
+          "q_ff": "011111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41023
+    },
+    {
+      "M_CAL_FALL": [
+        231,
+        231,
+        231,
+        231
+      ],
+      "M_REF_FALL_recomputed": 231,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41024/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b37baaf2c1dc3ada69357dbc2fe449481dd391817c79eadde42de58dcebb0f4c",
+      "samples": [
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41024
+    },
+    {
+      "M_CAL_FALL": [
+        344,
+        344,
+        344,
+        344
+      ],
+      "M_REF_FALL_recomputed": 344,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41025/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "5978883d7261c8dabdddb6fc9a90e0cb4cdff0bb6f53814846f735e4b01346d3",
+      "samples": [
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41025
+    },
+    {
+      "M_CAL_FALL": [
+        205,
+        205,
+        205,
+        205
+      ],
+      "M_REF_FALL_recomputed": 205,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41026/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "8244e3e40030b69efc16df073f45bea8925b999bf3d71b56667414187c0f1ff1",
+      "samples": [
+        {
+          "M_FF": 205,
+          "q_ff": "000011111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 205,
+          "q_ff": "000011111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 205,
+          "q_ff": "000011111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 205,
+          "q_ff": "000011111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41026
+    },
+    {
+      "M_CAL_FALL": [
+        140,
+        140,
+        140,
+        140
+      ],
+      "M_REF_FALL_recomputed": 140,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41027/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "8653086e84f3623c1faaad9f44deb4a1c10546489bb6cf53dfd389c6d4da58e6",
+      "samples": [
+        {
+          "M_FF": 140,
+          "q_ff": "000000111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 140,
+          "q_ff": "000000111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 140,
+          "q_ff": "000000111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 140,
+          "q_ff": "000000111111100000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41027
+    },
+    {
+      "M_CAL_FALL": [
+        273,
+        273,
+        273,
+        273
+      ],
+      "M_REF_FALL_recomputed": 273,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41028/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "05b522920867c095045588ed1ebf7a23159ac7408d5ef706baea98346b8c9b8c",
+      "samples": [
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 273,
+          "q_ff": "001111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41028
+    },
+    {
+      "M_CAL_FALL": [
+        231,
+        231,
+        231,
+        231
+      ],
+      "M_REF_FALL_recomputed": 231,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41029/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "ad3ed9bbb674d813a111c5f35d1d02d1c8a9d22a5fce93a9f857bc30e237e44a",
+      "samples": [
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 231,
+          "q_ff": "000111111111110000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41029
+    },
+    {
+      "M_CAL_FALL": [
+        344,
+        330,
+        344,
+        344
+      ],
+      "M_REF_FALL_recomputed": 341,
+      "raw_xa_artifact": "ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41030/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b6bf74d1b449f74b5aba5b9dbc50bfd217ccfa8752be62540325a826a0ab4ac9",
+      "samples": [
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 4
+        },
+        {
+          "M_FF": 330,
+          "q_ff": "111111111111111000000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 12
+        },
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 20
+        },
+        {
+          "M_FF": 344,
+          "q_ff": "111111111111111100000000000000",
+          "q_ff_rail_resolved": true,
+          "sample_index": 28
+        }
+      ],
+      "seed": 41030
+    }
+  ],
   "retained_fall_sources": [
     {
       "artifact": "ftc/analysis/b_fe_frontend/bfe3_clk0_periodic/BFE3_CLK0_ANALYSIS.json",

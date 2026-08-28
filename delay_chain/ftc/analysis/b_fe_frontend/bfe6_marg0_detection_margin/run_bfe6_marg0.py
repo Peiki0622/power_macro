@@ -213,6 +213,58 @@ def load_caln0():
     return [by_seed[seed] for seed in CALN0_SEEDS]
 
 
+def load_retained_caln0_fall(caln0_rows):
+    """Recover the four healthy FALL captures from each raw CALN0 XA run.
+
+    CALN0's published summary intentionally reported only RISE calibration,
+    but its XA CSV contains every 400 MHz probe capture.  The designated FALL
+    samples are indices 4, 12, 20, and 28 (system FALL edges at 11, 31, 51,
+    and 71 ns).  Reusing them is both more complete and less expensive than
+    launching a duplicate healthy FALL simulation.
+    """
+
+    recovered = []
+    for item in caln0_rows:
+        seed = item["seed"]
+        path = (FTC_ROOT / "runs" / "b_fe_frontend" /
+                "bfe4_caln0_self_calibration" / "instances" /
+                "seed_{:05d}".format(seed) / "normal" / "vcs_xa" / "xa_dff_samples.csv")
+        if not path.is_file():
+            raise FileNotFoundError("retained CALN0 FALL XA samples are missing: {}".format(path))
+        grouped = {}
+        with path.open(newline="", encoding="ascii") as stream:
+            for row in csv.DictReader(stream):
+                index = int(row["sample_index"])
+                if index in (4, 12, 20, 28):
+                    grouped.setdefault(index, []).append({
+                        "tap": int(row["tap"]),
+                        "q_ff_v": float(row["q_ff_v"]),
+                    })
+        samples = []
+        for index in (4, 12, 20, 28):
+            tap_rows = sorted(grouped.get(index, []), key=lambda row: row["tap"])
+            if [row["tap"] for row in tap_rows] != list(range(TAPS)):
+                raise ValueError("retained FALL sample {} is incomplete for seed {}".format(index, seed))
+            if not all(value < 0.1 * 0.95 or value > 0.9 * 0.95 for value in (row["q_ff_v"] for row in tap_rows)):
+                raise ValueError("retained FALL sample {} has unresolved q_ff rails for seed {}".format(index, seed))
+            bits = [1 if row["q_ff_v"] > 0.5 * 0.95 else 0 for row in tap_rows]
+            samples.append({
+                "sample_index": index,
+                "M_FF": sum(tap * bit for tap, bit in enumerate(bits)),
+                "q_ff": "".join(str(bit) for bit in reversed(bits)),
+                "q_ff_rail_resolved": True,
+            })
+        recovered.append({
+            "seed": seed,
+            "M_CAL_FALL": [sample["M_FF"] for sample in samples],
+            "M_REF_FALL_recomputed": round_mean([sample["M_FF"] for sample in samples]),
+            "samples": samples,
+            "raw_xa_artifact": str(path.relative_to(FTC_ROOT.parent)),
+            "raw_xa_sha256": sha256(path),
+        })
+    return recovered
+
+
 def retained_fall_summary():
     """Summarize retained FALL evidence without treating it as population data."""
 
@@ -234,7 +286,7 @@ def retained_fall_summary():
     return sources
 
 
-def availability_cell(edge, voltage, caln0_rows, fall_sources):
+def availability_cell(edge, voltage, caln0_rows, fall_sources, retained_fall):
     """Build one explicit availability cell for the M0 matrix.
 
     The matrix distinguishes a single-instance waveform from a paired
@@ -262,6 +314,22 @@ def availability_cell(edge, voltage, caln0_rows, fall_sources):
             "per_chip_D_M_derivable_without_rerun": paired,
             "retained_single_instance": single,
         }
+    if voltage == 0.95 and len(retained_fall) == len(CALN0_SEEDS):
+        return {
+            "edge": edge,
+            "voltage_v": voltage,
+            "source_artifacts": [str((CALN0_ROOT / "BFE4_CALN0_RESULTS.json").relative_to(FTC_ROOT.parent))] + [
+                item["raw_xa_artifact"] for item in retained_fall
+            ],
+            "process_seed_count": len(retained_fall),
+            "calibration_availability": "population_30_seed_from_retained_raw_XA",
+            "normal_validation_availability": "population_30_seed_from_retained_raw_XA",
+            "droop_availability": "absent",
+            "q_ff_M_FF_availability": True,
+            "seed_identity_proof": "CALN0_seed_and_raw_XA_artifact",
+            "per_chip_D_M_derivable_without_rerun": False,
+            "retained_single_instance": False,
+        }
     return {
         "edge": edge,
         "voltage_v": voltage,
@@ -283,7 +351,8 @@ def run_m0():
     inventory = artifact_inventory()
     caln0_rows = load_caln0()
     fall_sources = retained_fall_summary()
-    cells = [availability_cell(edge, voltage, caln0_rows, fall_sources)
+    retained_fall = load_retained_caln0_fall(caln0_rows)
+    cells = [availability_cell(edge, voltage, caln0_rows, fall_sources, retained_fall)
              for edge in ("RISE", "FALL") for voltage in VOLTAGES]
     matrix = {
         "schema_version": 1,
@@ -299,6 +368,7 @@ def run_m0():
             "reference_arithmetic": "floor(sum(M_CAL)/4 + 0.5)",
         },
         "retained_fall_sources": fall_sources,
+        "retained_caln0_fall_population": retained_fall,
         "availability": cells,
         "reuse_ledger": [{
             "datum": "BFE3/BFE4/BFE5 retained evidence",
@@ -318,7 +388,7 @@ def run_m0():
         "",
         "CALN0 provides 30 paired RISE process instances at healthy 0.95 V and droop 0.92 V. VD1 provides single-instance RISE amplitude points at 0.95/0.92/0.89/0.86 V.",
         "",
-        "Retained CLK/VD products provide single-instance FALL observations, but no same-seed FALL droop population; FALL per-chip D_M therefore remains unavailable without new evidence.",
+        "CALN0 raw XA CSVs also contain four healthy FALL captures for all 30 seeds. They close the healthy FALL population, but no same-seed FALL droop population is retained; FALL per-chip D_M therefore still needs droop evidence.",
         "",
         "| Edge | VDD (V) | Seeds | Calibration | Normal | Droop | Per-chip D_M without rerun |",
         "|---|---:|---:|---|---|---|---|",
