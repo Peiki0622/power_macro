@@ -84,8 +84,8 @@ module bfe6_marg0_m5_replay_tb;
                 stimulus[15] = 30'h3f800005; expected_m[15] = 184; expected_ref[15] = 180; expected_pol[15] = 1; expected_margin[15] = 3;
                 // Captured FALL 0.89/0.86 V vectors exercise larger response.
                 stimulus[16] = 30'h000ff800; expected_m[16] = 135; expected_ref[16] = 180; expected_pol[16] = 1; expected_margin[16] = 3;
-                stimulus[17] = 30'h000ff800; expected_m[17] = 135; expected_ref[17] = 220; expected_pol[17] = 0; expected_margin[17] = 7;
-                stimulus[18] = 30'h000ff800; expected_m[18] = 135; expected_ref[18] = 220; expected_pol[18] = 0; expected_margin[18] = 7;
+                stimulus[17] = 30'h001ff800; expected_m[17] = 155; expected_ref[17] = 220; expected_pol[17] = 0; expected_margin[17] = 7;
+                stimulus[18] = 30'h003ff000; expected_m[18] = 165; expected_ref[18] = 220; expected_pol[18] = 0; expected_margin[18] = 7;
                 stimulus[19] = 30'h000ff800; expected_m[19] = 135; expected_ref[19] = 180; expected_pol[19] = 1; expected_margin[19] = 3;
                 total_events = 20;
             end else begin

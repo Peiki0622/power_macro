@@ -15,3 +15,6 @@ rule `D_M > margin`; no production RTL was changed.
 
 This is a captured-vector RTL replay, not a new HSPICE run, physical signoff,
 PVT claim, or universal operating-range result.
+
+Final VCS verification used the isolated `build_v5` compilation and
+`replay_v5.log` runtime log under the task-scoped M5 run directory.
