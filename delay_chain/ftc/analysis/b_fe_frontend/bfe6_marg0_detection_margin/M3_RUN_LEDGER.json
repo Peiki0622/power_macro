@@ -1,0 +1,1167 @@
+{
+  "droop_timing": {
+    "duration_ps": 3002.0,
+    "start_ps": 91075.0,
+    "target_fall_edge_ps": 91000.0
+  },
+  "gate": "BFE6_MARG0_M3_RISE_FALL_DISTRIBUTIONS_READY",
+  "new_case_hashes": [
+    {
+      "mc_random_signature": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+      "seed": 41001,
+      "source_deck_sha256": "747d317ca559d00c9fa6b4f45a1223de1649f82e6064ea2d57864df9ea94b2c2",
+      "source_mc0_sha256": "f0f0513358271b05ca5a28c069091e6e11b96f0c9eee85bc8121ee464a66227d",
+      "source_measurements_sha256": "6413d1999ff2ef1ade8cc82eb96081d959773c33afdb28633b76d650d326412c",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41001/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41001/droop/vcs_xa",
+      "xa_samples_sha256": "8a17ffc707027443831c447e6e1feec099fabf6630d5db0f94a84c27592c4cb9"
+    },
+    {
+      "mc_random_signature": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+      "seed": 41002,
+      "source_deck_sha256": "ce2d8feb4a3be9b23a5103be73faa4558933a5e4fb731373b700798dc2c7d152",
+      "source_mc0_sha256": "e980fec841af919c617847d8db65068994bd6f940f0c98b4ff2c272920af3dff",
+      "source_measurements_sha256": "b1613ee0a7e376e774780984e65ee6c5e1efc9109ed87f9a028b8ff3745c3585",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41002/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41002/droop/vcs_xa",
+      "xa_samples_sha256": "ea62e58d94af142448d036236885a6ca3f69d5604a3c82cd9d3cf2ae5d7a40d5"
+    },
+    {
+      "mc_random_signature": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+      "seed": 41003,
+      "source_deck_sha256": "af639c50ecbbdb3b42169f3aa9d72b92a35a0ad1cf7c5b46ea321e72171fdc4a",
+      "source_mc0_sha256": "582da237cb7e9ee1a5448cba7ddb6dac99c156b06eaa627f2de702623883e86c",
+      "source_measurements_sha256": "a0d53c5be168d5d95320a27fa1e03684043bae66b2f94ea2ec4ea289b98d2f32",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41003/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41003/droop/vcs_xa",
+      "xa_samples_sha256": "5a34c2a2496b22ff8993a30f21864f8c0897eafe194ef3ea12c29ba69231125c"
+    },
+    {
+      "mc_random_signature": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+      "seed": 41004,
+      "source_deck_sha256": "7716ed343f8ff7382186ca4a1ee160596a0ddf068011edd34fec2ad268df11b8",
+      "source_mc0_sha256": "d8b5f82dd5fafc2420132c14f88e517ba89a28ae8b5c9e3deef1cf50cb29de04",
+      "source_measurements_sha256": "f9142f64fce59737464b955d4f457176b0fc1dbf18e99fd01cfff7e8e113c651",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41004/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41004/droop/vcs_xa",
+      "xa_samples_sha256": "aec8cbc27484e8bfd46eb63d85faae14034a3c4c006f9b5d64ca0fcf43bcecc8"
+    },
+    {
+      "mc_random_signature": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+      "seed": 41005,
+      "source_deck_sha256": "8f96695229f226053a8fb790e79c6489eb5dfc830c539a25367ac2d2ee746f4d",
+      "source_mc0_sha256": "a0d23da6dc7d535b04363b4367eacca1f0e97ee6cade0ed699762dd7e443de28",
+      "source_measurements_sha256": "28602be56c59cd460149101110ec70b701308170bfb8b4b889e37d298548e83a",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41005/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41005/droop/vcs_xa",
+      "xa_samples_sha256": "5d0c73001c9a190c3a072df66d8f0bff22a0159979de98a92e581312a8b3be56"
+    },
+    {
+      "mc_random_signature": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+      "seed": 41006,
+      "source_deck_sha256": "a65a758e2233ef617fcf3c8fe96ace89b79bc02bb9bf3a31c83a597c0b634de5",
+      "source_mc0_sha256": "f0ad4a0dee1db96c780b1112c49880aeac87d690c06f7c2a87330fff870da9fb",
+      "source_measurements_sha256": "f09b994393464345b4532d4b7bbecb346c8dc63845f5ae2431922535379b8f92",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41006/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41006/droop/vcs_xa",
+      "xa_samples_sha256": "4ccdad8f3423c1ffe332f6e6421231779b1825c66583712b67724c888dd11795"
+    },
+    {
+      "mc_random_signature": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+      "seed": 41007,
+      "source_deck_sha256": "1a1730db7f03cc9f98bcc06e9b20deb8e3736c79aa4b312310f695ad1b676a77",
+      "source_mc0_sha256": "b2f8f79e1d094c2604db469c4fc987e6d6425d4c655dad4823c0a9f847031d6c",
+      "source_measurements_sha256": "a5800b0d2b7f91d9da9358499098b51f875dfa9c3ccd1d3328d4dbc5f4bf40f1",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41007/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41007/droop/vcs_xa",
+      "xa_samples_sha256": "7c93dd46552ecec30eed52856cfafe49f75f098d4f6e0745466bc9f7a292ff6a"
+    },
+    {
+      "mc_random_signature": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+      "seed": 41008,
+      "source_deck_sha256": "0a3a3b57f68fbfb6cb00d76d0056dc7e91d67fc99e726eac75fbd28117545cb5",
+      "source_mc0_sha256": "ea802ed8c7bf6be0ea3f4df2a83642985c434caa4083e62f474cd9c8310d948f",
+      "source_measurements_sha256": "713899e7a6fbf71af577d7e279daaf3bc542e9af7b69257b12f8b62934d83402",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41008/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41008/droop/vcs_xa",
+      "xa_samples_sha256": "1427278d6558a6c32909b6903c722d3e8d8c3bc7771741bbd2d84bca308c0372"
+    },
+    {
+      "mc_random_signature": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+      "seed": 41009,
+      "source_deck_sha256": "cabfceea072ffd9d2e018b9dd8c9daf31088125bf8feba460ba0b748e2025489",
+      "source_mc0_sha256": "35f1ac5e605fd43432fad4faf56336aeb28adc00932bcf003a1c0134a415a16f",
+      "source_measurements_sha256": "04d28e7171b1896dfe36930cf0cf915cc2ecfc62fb568a566516b1a922788493",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41009/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41009/droop/vcs_xa",
+      "xa_samples_sha256": "f6bd88a47c30e9d7969af64858faa789243f1525fa557d3cb0744e96f5a6e4db"
+    },
+    {
+      "mc_random_signature": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+      "seed": 41010,
+      "source_deck_sha256": "ff1fa9eb330703baebc5de7be00c2b010389a345b9abcbcd93ce9bbbae90c65c",
+      "source_mc0_sha256": "a834f8790d5406cd32f9b3a627842476eb09e4a96b113af12b71b74da51d288a",
+      "source_measurements_sha256": "066c57dc917679a62bf0f2d8611eb6cd74d797b203aac2e1b04da8fa10a42587",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41010/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41010/droop/vcs_xa",
+      "xa_samples_sha256": "f6bd88a47c30e9d7969af64858faa789243f1525fa557d3cb0744e96f5a6e4db"
+    },
+    {
+      "mc_random_signature": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+      "seed": 41011,
+      "source_deck_sha256": "9186bfffe443fae3f6f6f4444897803f3d9ed583f530135e4261adac1ac40d66",
+      "source_mc0_sha256": "77dbb2666b0cdffb7b6af1668489fd378ef02075eda9b9950af3bc741608e925",
+      "source_measurements_sha256": "7d560b6a19a335e2abce22dd3b51ee63c9a52ef5227652b2b812988740206eec",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41011/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41011/droop/vcs_xa",
+      "xa_samples_sha256": "cb3926a93415796d514d1fcdddf65899e59f66833f483693fc4a348e03eafe03"
+    },
+    {
+      "mc_random_signature": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+      "seed": 41012,
+      "source_deck_sha256": "85330bedfa72611e62c32380d114de5d6c47b132be21c6aed6f185856968544a",
+      "source_mc0_sha256": "3c44ee0b728ed4cbe1d38442de833217880cd7734afd8300a87e3e6461b3cd13",
+      "source_measurements_sha256": "a1c9790dfa5086939222261fb0b9ae705e5c860f915173ccb83933bd5acdb709",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41012/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41012/droop/vcs_xa",
+      "xa_samples_sha256": "2274bc0b5bf077b82ca75dd54ec8b79dccfb76f5472c86818e02204e40059a36"
+    },
+    {
+      "mc_random_signature": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+      "seed": 41013,
+      "source_deck_sha256": "6fd5ec88003ac402c95bf830e97350082a6c8b96f22d3a7402e8bd841b33c6b3",
+      "source_mc0_sha256": "6350e6f05ff17bad422cc913a313956b338516e1ccf884a64d88dd73f264fb50",
+      "source_measurements_sha256": "49a4b6f2437e208169e4d93702464619aca39dcee093d5c8eb082bc4047045d6",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41013/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41013/droop/vcs_xa",
+      "xa_samples_sha256": "46a27ebee283054509fc61da9139d19a8a7f144daf7d9b46ad66a96a5858bdc8"
+    },
+    {
+      "mc_random_signature": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+      "seed": 41014,
+      "source_deck_sha256": "e6fba3951985de581babef4d9c9f948c31ce72394ca15eef3708d83ef89f47ce",
+      "source_mc0_sha256": "01b507fb5cdfe6a0d065283250169aa2ac2839a2bef60a99a89ce09e26f5571a",
+      "source_measurements_sha256": "0ca3b39904a879c1eb8aea4c5a71c980d58eb1998b4b7411afea3a8787216c42",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41014/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41014/droop/vcs_xa",
+      "xa_samples_sha256": "f6bd88a47c30e9d7969af64858faa789243f1525fa557d3cb0744e96f5a6e4db"
+    },
+    {
+      "mc_random_signature": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+      "seed": 41015,
+      "source_deck_sha256": "987e51e8ba9c1309eb45bff70d1c0aba3ced64a24e6a88bf6a00621181e05c3a",
+      "source_mc0_sha256": "d512f41db7386a5eeee38a4324609b4818a1996fb9daffdd9a5b564836abac14",
+      "source_measurements_sha256": "3cc413d8467d61e57f8f7d3e7dbb74b4ec0fa47adf514063d6b24a2ff6529d5d",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41015/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41015/droop/vcs_xa",
+      "xa_samples_sha256": "c6c234f6b6b03ca4c1f5646fc45fff94a6356cfcc33bb82b5b01918d54a2606d"
+    },
+    {
+      "mc_random_signature": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+      "seed": 41016,
+      "source_deck_sha256": "e2016836170aed8a2f1d7f68ae2372807a5d70d146094dd19a64284890a29795",
+      "source_mc0_sha256": "75aa9d243ade367df1a146ae165c55d2471295a8823f532fee60eff2ef50f5e4",
+      "source_measurements_sha256": "a706b052442717d705e06137872ee2b13aff723514b0bb54a9781f5f69acbdae",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41016/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41016/droop/vcs_xa",
+      "xa_samples_sha256": "5ae5977253e281494be9e211944c8e60d450eaa73ea1baaf7567815ad468457d"
+    },
+    {
+      "mc_random_signature": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+      "seed": 41017,
+      "source_deck_sha256": "0b6e5f08d835dcc817d19da5238aaef8e2bb5597ab584ccc37e2b8568c11c90c",
+      "source_mc0_sha256": "12fc5b1f0da444edbedc9b638b63c9489d4ffebe3e39000ac2e8ac4021d0d4b9",
+      "source_measurements_sha256": "7851aa3482341703f9731ab6ab700787adf8f8cdbac28a650c233e850fba46dc",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41017/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41017/droop/vcs_xa",
+      "xa_samples_sha256": "bee3f902f4cc2733e8e634a6de4fe7a99f0be342b5c840c5ef5e7dd34954a84f"
+    },
+    {
+      "mc_random_signature": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+      "seed": 41018,
+      "source_deck_sha256": "05af15a69edd52b7a8eae7fe02814405d462a0c9d1c9264ffb5a1ef594f84272",
+      "source_mc0_sha256": "18eb4532bc5dd6626590ab8ae32cf4aa5fe98421d9b2afdbb02faecbf82b0456",
+      "source_measurements_sha256": "fa0b46ddbcf5aed9f33a7a41a90987271c8f5bb66580fecfd098649fd069c4c0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41018/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41018/droop/vcs_xa",
+      "xa_samples_sha256": "755fd7fc202837912f862a47059cae557918121b1169196f2e2661588007f261"
+    },
+    {
+      "mc_random_signature": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+      "seed": 41019,
+      "source_deck_sha256": "86e12fc4de1b9fc0aa8296b86ba31ef1abb02dc20d6ea5939350e5a49196152a",
+      "source_mc0_sha256": "bd4923d57527aa60a19e67b65ae83c6a2c0941990e01d920d17dcf7c27c8fc4b",
+      "source_measurements_sha256": "2d1ef139b7dc120f28c37e13e41e9ec60a0bc960cc87dadcf9dba9f8ae746eca",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41019/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41019/droop/vcs_xa",
+      "xa_samples_sha256": "c691ccc40b4fc4e8eab717386310f3ac86e482e57f716ff0f4d72ab5ad7e7706"
+    },
+    {
+      "mc_random_signature": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+      "seed": 41020,
+      "source_deck_sha256": "e31aab060a435cd315915b4563cc0529818d180dddecad4f266a246afa1fd830",
+      "source_mc0_sha256": "d5820f79b19f0826550dbc34316fc85a74498100630113590c75a6ce191e6c1c",
+      "source_measurements_sha256": "cfbb99fe2e83735355abdba9eb6db66a42be422f5ee1b0f85d9e39aa6c565309",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41020/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41020/droop/vcs_xa",
+      "xa_samples_sha256": "8727e462992d46146303d7ec86276e6c4685c0a5b4c1c91244b015fed7adeaa4"
+    },
+    {
+      "mc_random_signature": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+      "seed": 41021,
+      "source_deck_sha256": "e4ea13b9b01b90e11a15c78781fdecab2ad167e022ccfff853f8d3b910ca4167",
+      "source_mc0_sha256": "6de7a5519402bc26b00928bc9db4fbf017c23f91b65b840bfab66df5357432af",
+      "source_measurements_sha256": "7d7c7e87eae0e0fa2002a321b5752d6ceccf73622f7977d1ebb75962fa9b6782",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41021/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41021/droop/vcs_xa",
+      "xa_samples_sha256": "b6b92149fcd78e7497ce447ee4838c204e52ae5a883e07633fcb4e73608f8fa0"
+    },
+    {
+      "mc_random_signature": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+      "seed": 41022,
+      "source_deck_sha256": "1ce63a34f9d9677ef3d118c358c1e367d1f185af3142a60f57f86b0618489125",
+      "source_mc0_sha256": "ca4f6b0b022f8e9844fba104a4c97f51949e9bca1f1a36e008e83eb4cb7d5fed",
+      "source_measurements_sha256": "c4845f3a4cb61ee08c5a21c31cb008b654df826ead07c1bceebb976d9bdbb98e",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41022/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41022/droop/vcs_xa",
+      "xa_samples_sha256": "165c674efc9a19f359995a426d7db7af7f42e40291d4b1c84d0bdaa3cdd5e9dc"
+    },
+    {
+      "mc_random_signature": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+      "seed": 41023,
+      "source_deck_sha256": "b33e81a7a581bedb7cf5e9cc75ec06980f575b5ba704abff1622f86f672d33d2",
+      "source_mc0_sha256": "6cf2743173b41f2e4b72deabcedc58d58347b783a60e4c4c54361bed3c9d02a7",
+      "source_measurements_sha256": "fa66455964c7099e2165639e7c7880b2430ec8d55901f0fe349ef9c04efc2803",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41023/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41023/droop/vcs_xa",
+      "xa_samples_sha256": "755fd7fc202837912f862a47059cae557918121b1169196f2e2661588007f261"
+    },
+    {
+      "mc_random_signature": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+      "seed": 41024,
+      "source_deck_sha256": "13bd458b9b0f39ba95bfb71e95865154a7583579634c52ef60c0b3a54786299f",
+      "source_mc0_sha256": "9480b7568902a0e090c56595700e5d389eb9864494fcca5141c1b5c0df342b88",
+      "source_measurements_sha256": "d7236cbb3e1dc813390a60af706b3080982ce661424304548e81ebbe3f6d2f23",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41024/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41024/droop/vcs_xa",
+      "xa_samples_sha256": "b6b92149fcd78e7497ce447ee4838c204e52ae5a883e07633fcb4e73608f8fa0"
+    },
+    {
+      "mc_random_signature": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+      "seed": 41025,
+      "source_deck_sha256": "5d66d213b7c24ced4b0ae45b323f55b062ba9d0615c7455840a72f302e054f30",
+      "source_mc0_sha256": "0fef91264ad3ad1871a3ef62920646c0f1290e8fecee5e78ddc26c997f4242ba",
+      "source_measurements_sha256": "090e7f525f6a5afd0550fd72832d78c066a39b39ea4eb156c7ff73dd045e239b",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41025/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41025/droop/vcs_xa",
+      "xa_samples_sha256": "715c36e450c51b818d2e06f35fc50e6d25b34e115ef16cf64c516360d8485d1c"
+    },
+    {
+      "mc_random_signature": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+      "seed": 41026,
+      "source_deck_sha256": "ea3354d1abd09b7f1ddd1c706de26431423a92417042333226d5f39793af35fa",
+      "source_mc0_sha256": "630a9d66811dd36a16579f26de820e3311cf8ba1fd6d600cee01b0efa35ef570",
+      "source_measurements_sha256": "a18eaf3ebbd67057c7ac7e94a45b38f2149ff657cb6f2ca2d7a5b4f9d95718b6",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41026/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41026/droop/vcs_xa",
+      "xa_samples_sha256": "441c07ef74115e55d9c317d4c8fb9a5ad003a30880aaf2f0cbac007c20eb39eb"
+    },
+    {
+      "mc_random_signature": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+      "seed": 41027,
+      "source_deck_sha256": "178ca27e574f33825cf30c424ac751f41e28c98b5149abed6c33bf81ffc8a19c",
+      "source_mc0_sha256": "c70d8cc15431f836ddb59269c3f7957cea241ef9a0757cf220d42b8e5c9c25b6",
+      "source_measurements_sha256": "368926d7e5bdbfc165066333299ed7e20dccd294d1a44705536aae197ca2d7a1",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41027/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41027/droop/vcs_xa",
+      "xa_samples_sha256": "02deb2c59d845f541bcb161cebd677351efb5cdaed6492a7df4b11197c38b617"
+    },
+    {
+      "mc_random_signature": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+      "seed": 41028,
+      "source_deck_sha256": "8563f074363adcf537fd44e44de3c5d565ec070e4e23d6259651e999fae5fba4",
+      "source_mc0_sha256": "a5af49bd0ff9c516ecb05b6b7c023ffe86ff99c17b0816dbeaf1be95d703ed74",
+      "source_measurements_sha256": "5836ca45daebd2e6e6f67389b7399c149160b0070059e6ee4e24d115c14b9fed",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41028/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41028/droop/vcs_xa",
+      "xa_samples_sha256": "8b62fd3ab6f55aa640e459ec4e3dc03482c9f1a919735f2e0da3be3d4ed2caa4"
+    },
+    {
+      "mc_random_signature": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+      "seed": 41029,
+      "source_deck_sha256": "83eddf502c41cacb16e46aad21e2c86c4957943410a5867e56b416e32aea7daf",
+      "source_mc0_sha256": "a79e9f95795ca9db898c397bf1b289685d84f77c4e46d08608f5e73624404141",
+      "source_measurements_sha256": "e171592a3ffdb0b156e1a6f7746890e58f6aa135539c53bc681bbb09a64b6265",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41029/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41029/droop/vcs_xa",
+      "xa_samples_sha256": "f4bb3f1cad2ba155410462c04265145771937f7d59633804bcb5b8f4e9ac89a3"
+    },
+    {
+      "mc_random_signature": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023",
+      "seed": 41030,
+      "source_deck_sha256": "1fc6ec9d77edc73fc16170eae97de025985c58dc63e49a94fff09d1e9412435e",
+      "source_mc0_sha256": "c842a0e51c2e99ee35181208c4c02da74a22f4eee2691dac1e962f0c51480f8b",
+      "source_measurements_sha256": "4b96c16c7a5c757396a2a723b4ecedf396979916e1f422c69182a532fa69fee1",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41030/droop/source_hspice",
+      "voltage_v": 0.92,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p92/instances/seed_41030/droop/vcs_xa",
+      "xa_samples_sha256": "b967311045375bb5a5674b7ddff5ea145dc8dc4b4c86e369879ea996fd7bdf8b"
+    },
+    {
+      "mc_random_signature": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+      "seed": 41001,
+      "source_deck_sha256": "77b24c80740e1fca0fa8bde80afbcf97e1d6352039a88bda755a8147d049fad8",
+      "source_mc0_sha256": "f0f0513358271b05ca5a28c069091e6e11b96f0c9eee85bc8121ee464a66227d",
+      "source_measurements_sha256": "1f962e8367d55b0b29f19b57efcf3f3dc8738ffec2846e3355421614196d6934",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41001/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41001/droop/vcs_xa",
+      "xa_samples_sha256": "dc9851ffd940e074d4a9d70a15aeb0480c6998174791e52caebc11668305b7f3"
+    },
+    {
+      "mc_random_signature": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+      "seed": 41002,
+      "source_deck_sha256": "fc48ccf29ca269242689dc341df952569ab6a1cb15d573f687a7ad9301bab92e",
+      "source_mc0_sha256": "e980fec841af919c617847d8db65068994bd6f940f0c98b4ff2c272920af3dff",
+      "source_measurements_sha256": "c25da9198fa15b3e442295aa9ccef20c62b0406f3af0ed4494700503dfde23fc",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41002/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41002/droop/vcs_xa",
+      "xa_samples_sha256": "1109c60f9e8e58bed740ed16ff3245d426ec6201a47bda2ff7253892d125c901"
+    },
+    {
+      "mc_random_signature": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+      "seed": 41003,
+      "source_deck_sha256": "2b443d973df183644e839b9e7bdeac600980f4e7cb36d80ed121053d3436243d",
+      "source_mc0_sha256": "582da237cb7e9ee1a5448cba7ddb6dac99c156b06eaa627f2de702623883e86c",
+      "source_measurements_sha256": "c68bb37047666a7415890341972c42e32931b7cb8abd2a7fb56834d5bc499bce",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41003/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41003/droop/vcs_xa",
+      "xa_samples_sha256": "d0246382314cfe0ee90457ab4479b5a179613d8de5a668f13e079a85199800c8"
+    },
+    {
+      "mc_random_signature": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+      "seed": 41004,
+      "source_deck_sha256": "a3d3dc9d98129581be612d15498ace12e8b34cde57e35dea60f3cce4b4e0b324",
+      "source_mc0_sha256": "d8b5f82dd5fafc2420132c14f88e517ba89a28ae8b5c9e3deef1cf50cb29de04",
+      "source_measurements_sha256": "700968c003504615dcd45070e048fffe8bca651cb0a617f4a07710b744c8d80f",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41004/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41004/droop/vcs_xa",
+      "xa_samples_sha256": "9ebca3caea0a4da9d630c9b897c98232de364052f1c000326d53867ad497a2cc"
+    },
+    {
+      "mc_random_signature": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+      "seed": 41005,
+      "source_deck_sha256": "b126f9c1c5b934c5fd3825792ea2bdbdec0aa6f45f0d7ac2fe2acd4b9fb2374a",
+      "source_mc0_sha256": "a0d23da6dc7d535b04363b4367eacca1f0e97ee6cade0ed699762dd7e443de28",
+      "source_measurements_sha256": "6aabbc84456ef15fd81f99eae5d62a9b9ae7bd5cdf94715df5322351f6d88c83",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41005/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41005/droop/vcs_xa",
+      "xa_samples_sha256": "1109c60f9e8e58bed740ed16ff3245d426ec6201a47bda2ff7253892d125c901"
+    },
+    {
+      "mc_random_signature": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+      "seed": 41006,
+      "source_deck_sha256": "197160b62e981894a2eb50177d1c06fcd4edd13d7d9ed59be10e7a9ea6a6f8c1",
+      "source_mc0_sha256": "f0ad4a0dee1db96c780b1112c49880aeac87d690c06f7c2a87330fff870da9fb",
+      "source_measurements_sha256": "b27ce213b0f982292b8cdaa9182bf6ec5d12b048cacf382bebaeaf62ec84f7d0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41006/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41006/droop/vcs_xa",
+      "xa_samples_sha256": "4e52ee6ce70533a3ff2de9e33ed0d1921ac9ae97d2cc08cf8e1ded17c11f54f9"
+    },
+    {
+      "mc_random_signature": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+      "seed": 41007,
+      "source_deck_sha256": "dd9be11b4dec503eee79f750f8edb4a315c9e22068d22f21b4196eeaf52de6c9",
+      "source_mc0_sha256": "b2f8f79e1d094c2604db469c4fc987e6d6425d4c655dad4823c0a9f847031d6c",
+      "source_measurements_sha256": "62ef4f66cacc1a95ace5d2b8cef4c9d22442e1b22191a8e566fe9d5529c0437a",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41007/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41007/droop/vcs_xa",
+      "xa_samples_sha256": "65b806ae44bd97a4410d747457fd4c2e184ee5fe9218e7d99b2a98f583322c36"
+    },
+    {
+      "mc_random_signature": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+      "seed": 41008,
+      "source_deck_sha256": "67d8a399b650dc5c6de8c95908c69a7fb82750819b80cb976d74a772c118d8c6",
+      "source_mc0_sha256": "ea802ed8c7bf6be0ea3f4df2a83642985c434caa4083e62f474cd9c8310d948f",
+      "source_measurements_sha256": "b8aee36cf1d08196a6d4a59c6d111557f0d320644acfae4bf174f15371cf2376",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41008/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41008/droop/vcs_xa",
+      "xa_samples_sha256": "8635fbff6abe89b700d34fad7520378312c448358df43d083191eb8d0d03725f"
+    },
+    {
+      "mc_random_signature": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+      "seed": 41009,
+      "source_deck_sha256": "0eed711df3b287c9ab30672d1183197cc8bcb66a5568067a7481a0523ae216d7",
+      "source_mc0_sha256": "35f1ac5e605fd43432fad4faf56336aeb28adc00932bcf003a1c0134a415a16f",
+      "source_measurements_sha256": "1f224f0f4fb67480bf5c7f321baf132ad57f3539767eff52f7c38bee839145dd",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41009/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41009/droop/vcs_xa",
+      "xa_samples_sha256": "377da6d6cbd5f17464d97f4aca6331988f3d1e2e197200dc7e5b5093190178bd"
+    },
+    {
+      "mc_random_signature": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+      "seed": 41010,
+      "source_deck_sha256": "34560f5a920bcbf99761a7dba985fefdc18644dfd1353b1df1436665263fc4c1",
+      "source_mc0_sha256": "a834f8790d5406cd32f9b3a627842476eb09e4a96b113af12b71b74da51d288a",
+      "source_measurements_sha256": "96f69a6eb3c075148caf81fb3724ea45d473740c818602eadb1f32afec7673e5",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41010/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41010/droop/vcs_xa",
+      "xa_samples_sha256": "377da6d6cbd5f17464d97f4aca6331988f3d1e2e197200dc7e5b5093190178bd"
+    },
+    {
+      "mc_random_signature": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+      "seed": 41011,
+      "source_deck_sha256": "e25c4600f27b200f7952e0257667881d49728ae45109f3ce6885fb2a8df33d33",
+      "source_mc0_sha256": "77dbb2666b0cdffb7b6af1668489fd378ef02075eda9b9950af3bc741608e925",
+      "source_measurements_sha256": "ccfc08b58532efd49258e6ebf298f4883c897c17966d5c3fe89898276bbb48c3",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41011/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41011/droop/vcs_xa",
+      "xa_samples_sha256": "0de30ef125ef8788a4ee5a27fbe239ba6c3c3ad4cd7352c05c4e94bf8de36d93"
+    },
+    {
+      "mc_random_signature": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+      "seed": 41012,
+      "source_deck_sha256": "8a6ce2505064e03a0210f2dc26c05d19621bafce1ed3728121cfbb0fdc1789ea",
+      "source_mc0_sha256": "3c44ee0b728ed4cbe1d38442de833217880cd7734afd8300a87e3e6461b3cd13",
+      "source_measurements_sha256": "878beb3a2a14085a20f364a0a875cda6b7cfd97bc0fca8dcfc68ffd67068f9e8",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41012/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41012/droop/vcs_xa",
+      "xa_samples_sha256": "17c5f051580d36d053d0121f650c299da4853abb57c06b64ea042ebd05af8772"
+    },
+    {
+      "mc_random_signature": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+      "seed": 41013,
+      "source_deck_sha256": "0a381392a4e24b308d6093db1cf14cda8d62cad36d844f9cde5471d4ec0ecbfc",
+      "source_mc0_sha256": "6350e6f05ff17bad422cc913a313956b338516e1ccf884a64d88dd73f264fb50",
+      "source_measurements_sha256": "ddc98fd04ae94cc091f07eaa334645b3c4f14d177f9b274d36cbe700f6d0e098",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41013/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41013/droop/vcs_xa",
+      "xa_samples_sha256": "b4451d3b3ddadf2ddda25c031d805119ebf228443c25b55eab7d7a89fae78cdd"
+    },
+    {
+      "mc_random_signature": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+      "seed": 41014,
+      "source_deck_sha256": "a3010ee93bb40b980033ec75e09376ce885707f05086bb0256339c0e0dd475a4",
+      "source_mc0_sha256": "01b507fb5cdfe6a0d065283250169aa2ac2839a2bef60a99a89ce09e26f5571a",
+      "source_measurements_sha256": "47f4a609c334596a1a2bc7a9a9f1e62fe041b3fe9542881f7ca462de1ab13a23",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41014/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41014/droop/vcs_xa",
+      "xa_samples_sha256": "377da6d6cbd5f17464d97f4aca6331988f3d1e2e197200dc7e5b5093190178bd"
+    },
+    {
+      "mc_random_signature": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+      "seed": 41015,
+      "source_deck_sha256": "1d9a8ea7a851132df52b045223a19229293fd1b6ff189f7b1c0e31391cd01576",
+      "source_mc0_sha256": "d512f41db7386a5eeee38a4324609b4818a1996fb9daffdd9a5b564836abac14",
+      "source_measurements_sha256": "02ae1e6fb0a94c2d276baa1217d0fbe087e9cc698aca26db690d8242181f18a8",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41015/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41015/droop/vcs_xa",
+      "xa_samples_sha256": "8ca87021e8653774da1017c6becb976d371c8c29f4a22fda604d96629664c981"
+    },
+    {
+      "mc_random_signature": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+      "seed": 41016,
+      "source_deck_sha256": "a7f3d0611c3b9f2c624a9e887c3eedbaa796369daaa301a36b15f326257490af",
+      "source_mc0_sha256": "75aa9d243ade367df1a146ae165c55d2471295a8823f532fee60eff2ef50f5e4",
+      "source_measurements_sha256": "19d6e16eea5ccad6ac431ddd4b7bf913892c1060bacb1bd6e749e96f18a262e2",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41016/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41016/droop/vcs_xa",
+      "xa_samples_sha256": "da9e744671e05abda503f319cedfed43efe0ee63a2a4c12079700c5baa8b5a62"
+    },
+    {
+      "mc_random_signature": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+      "seed": 41017,
+      "source_deck_sha256": "22b8636ba90b1c1c982e99af22d61af91b7361988152de00ff34a71be40c1f92",
+      "source_mc0_sha256": "12fc5b1f0da444edbedc9b638b63c9489d4ffebe3e39000ac2e8ac4021d0d4b9",
+      "source_measurements_sha256": "520107640a041ad604b338e1a18bafed77b2851f910b78332e0794601720ee32",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41017/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41017/droop/vcs_xa",
+      "xa_samples_sha256": "b03831815c6691ca13bd596749733e8e6e49c6a069a7ecf440870f59736ee92c"
+    },
+    {
+      "mc_random_signature": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+      "seed": 41018,
+      "source_deck_sha256": "9a4f218eb7cfbe3d23dd7eb1a2c75443bdc8c2010ac38429ce82ed1589f3d11c",
+      "source_mc0_sha256": "18eb4532bc5dd6626590ab8ae32cf4aa5fe98421d9b2afdbb02faecbf82b0456",
+      "source_measurements_sha256": "d9c8c6a41b9e7f969299d02c70d56a24671c1e02545e5b5b1d232cf33048ccd1",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41018/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41018/droop/vcs_xa",
+      "xa_samples_sha256": "cb739680ee42e24117f8fbea91698cc2a150a5fd37eaab54844fb23655372bc6"
+    },
+    {
+      "mc_random_signature": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+      "seed": 41019,
+      "source_deck_sha256": "9c5e6b2835c71fc5ed1f4b6044130f20572cebc97ff8e18a35c3fbe95e1cf687",
+      "source_mc0_sha256": "bd4923d57527aa60a19e67b65ae83c6a2c0941990e01d920d17dcf7c27c8fc4b",
+      "source_measurements_sha256": "cf3291cf49abf2de594f050d358a872fb9049d3c52b59b2d0593780398d47755",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41019/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41019/droop/vcs_xa",
+      "xa_samples_sha256": "b7ca628b7bb131e2957152aa00a20cc19c93e172df1e8b7fd594d3cbb0bdc7cb"
+    },
+    {
+      "mc_random_signature": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+      "seed": 41020,
+      "source_deck_sha256": "9734d29b845af8b0d8897722d95660e3ec1b7e9d6378f5033bc6751a0e6439b2",
+      "source_mc0_sha256": "d5820f79b19f0826550dbc34316fc85a74498100630113590c75a6ce191e6c1c",
+      "source_measurements_sha256": "cec20b80b4488a097928422b127c2e211e3d34f3f46d4761da85a6d6cce799e7",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41020/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41020/droop/vcs_xa",
+      "xa_samples_sha256": "cc592e440001ecd929a4f30298c29b72e2d7a95921a4def152d99a17626e7daa"
+    },
+    {
+      "mc_random_signature": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+      "seed": 41021,
+      "source_deck_sha256": "ab34b39061750217bbdf503791d815aa6cacf807d99aecb8b238fd9be02edeeb",
+      "source_mc0_sha256": "6de7a5519402bc26b00928bc9db4fbf017c23f91b65b840bfab66df5357432af",
+      "source_measurements_sha256": "dce2d4be01f339f67ac9da7242343326a9babfe97de1c4df5bbf70d1a5e6699a",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41021/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41021/droop/vcs_xa",
+      "xa_samples_sha256": "3a1a75a6ba81cf694ddc6b79a1df1840f7219d2968633c424e94e38e13abacab"
+    },
+    {
+      "mc_random_signature": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+      "seed": 41022,
+      "source_deck_sha256": "6cab6f31a42a08feaa7c133a82e0468089f523d80605aecae554d29f8bdf6a5f",
+      "source_mc0_sha256": "ca4f6b0b022f8e9844fba104a4c97f51949e9bca1f1a36e008e83eb4cb7d5fed",
+      "source_measurements_sha256": "94e6cb8763b4f896c85ec2523f6d612b38d1f9d3572481107865bff03053ab44",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41022/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41022/droop/vcs_xa",
+      "xa_samples_sha256": "f66549d283de803764896e3a4483c718841c0262e48adb019440787f1f977a68"
+    },
+    {
+      "mc_random_signature": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+      "seed": 41023,
+      "source_deck_sha256": "9bc7278f0d9efdc19a0c73a7447f4d0fd6d9ee35958d3ef46ad9ded58a6bffa8",
+      "source_mc0_sha256": "6cf2743173b41f2e4b72deabcedc58d58347b783a60e4c4c54361bed3c9d02a7",
+      "source_measurements_sha256": "67f3448c0cb1fb7abad645afebbc172a93ffa4fca3d7e9eb9c0a4b6fc8e80093",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41023/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41023/droop/vcs_xa",
+      "xa_samples_sha256": "cb739680ee42e24117f8fbea91698cc2a150a5fd37eaab54844fb23655372bc6"
+    },
+    {
+      "mc_random_signature": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+      "seed": 41024,
+      "source_deck_sha256": "6c415aeb3fe2feeefa5e4b473f6ec672f276b1d30901ce8d1efcbe9c9a2c2288",
+      "source_mc0_sha256": "9480b7568902a0e090c56595700e5d389eb9864494fcca5141c1b5c0df342b88",
+      "source_measurements_sha256": "f62edd209678ab73db88dedf251e6f5ba00ded83c00ec4d3f456951d29a4a785",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41024/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41024/droop/vcs_xa",
+      "xa_samples_sha256": "3a1a75a6ba81cf694ddc6b79a1df1840f7219d2968633c424e94e38e13abacab"
+    },
+    {
+      "mc_random_signature": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+      "seed": 41025,
+      "source_deck_sha256": "8c56c0c7b53f81587273331dc3e2d30441d5744bddec9822c61e13f157e3ac4f",
+      "source_mc0_sha256": "0fef91264ad3ad1871a3ef62920646c0f1290e8fecee5e78ddc26c997f4242ba",
+      "source_measurements_sha256": "6eda4c86506ca54382104c3bac18b08f9d9f6d4b584ce44d049527749bd59a2c",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41025/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41025/droop/vcs_xa",
+      "xa_samples_sha256": "5cfdf9d459dfd48353f8b62b327691df21bea5c3b700c33bf7cb8bf01c1bd0dc"
+    },
+    {
+      "mc_random_signature": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+      "seed": 41026,
+      "source_deck_sha256": "03e7252e333603a975d03194a1068d57e9b7e12ca6c27eb73ee53fb6e950f9c6",
+      "source_mc0_sha256": "630a9d66811dd36a16579f26de820e3311cf8ba1fd6d600cee01b0efa35ef570",
+      "source_measurements_sha256": "c3f6c6d5bc1ea9b5b08d88ed4dab5993546f3946dbf643392985ceaf4466fa1b",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41026/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41026/droop/vcs_xa",
+      "xa_samples_sha256": "d8183a7a33c32b93d4bb7a0883d780992c0662a680199ad772f18155ca190c29"
+    },
+    {
+      "mc_random_signature": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+      "seed": 41027,
+      "source_deck_sha256": "200a9c61ffdf5def639eeaf1f92b77caf3616b2f53df613808466ed93dfb1a3b",
+      "source_mc0_sha256": "c70d8cc15431f836ddb59269c3f7957cea241ef9a0757cf220d42b8e5c9c25b6",
+      "source_measurements_sha256": "285a1c00d1c9dcdd17e64907ac8a01040b46e751f9000809d8af9d489f9bd317",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41027/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41027/droop/vcs_xa",
+      "xa_samples_sha256": "858051d1564b2b8de1eb25f1ce6056555dd30918df0bfb79ac80d7f224df5bc7"
+    },
+    {
+      "mc_random_signature": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+      "seed": 41028,
+      "source_deck_sha256": "7efb0eb97f1586c820de9c87717886bd667b86944556f6828ca8b2fa7314a7b1",
+      "source_mc0_sha256": "a5af49bd0ff9c516ecb05b6b7c023ffe86ff99c17b0816dbeaf1be95d703ed74",
+      "source_measurements_sha256": "6f9914aa7114d4fbb4400dd16a5065eaf56d4e75b8e620ba7099e26bbfa6f290",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41028/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41028/droop/vcs_xa",
+      "xa_samples_sha256": "7536360e7a8eca0887145a0ac8b6e3be4be009517ce0cc65e578cd117c0f3c6e"
+    },
+    {
+      "mc_random_signature": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+      "seed": 41029,
+      "source_deck_sha256": "2b7e09df7f371f4fc8d802724e0d34be524c879ec349981c77eb6a9ba7aed3d1",
+      "source_mc0_sha256": "a79e9f95795ca9db898c397bf1b289685d84f77c4e46d08608f5e73624404141",
+      "source_measurements_sha256": "291e11a76ab654d5c9ed7724ace2f775e913eca18f8e41c5707dc0d8c38e1c3b",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41029/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41029/droop/vcs_xa",
+      "xa_samples_sha256": "8d113994c7ee2b5e14cc622642d19fa32aab660da7d7f4d96dcb19e71de290ce"
+    },
+    {
+      "mc_random_signature": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023",
+      "seed": 41030,
+      "source_deck_sha256": "0a4e97a4f0829e8dab154c8564ce629932788f42b6cd2b992ea3a8deeb61e931",
+      "source_mc0_sha256": "c842a0e51c2e99ee35181208c4c02da74a22f4eee2691dac1e962f0c51480f8b",
+      "source_measurements_sha256": "6522c342e15002d4718f250472a28ea1a69bd556dc4e6cef594b8191d5b34e36",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41030/droop/source_hspice",
+      "voltage_v": 0.89,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p89/instances/seed_41030/droop/vcs_xa",
+      "xa_samples_sha256": "86d97842592ddaa94892d05184d4fb1309dc7af7e0ee756f84d931c77b154afe"
+    },
+    {
+      "mc_random_signature": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+      "seed": 41001,
+      "source_deck_sha256": "c21bb046ad9e844257ae0f0a1e01e4e6b1733f0a86a6c6aa45e5555b4c515205",
+      "source_mc0_sha256": "f0f0513358271b05ca5a28c069091e6e11b96f0c9eee85bc8121ee464a66227d",
+      "source_measurements_sha256": "fe012bae984d66c844bed848710320bacc52ad65c415cc1c82e0ec174e12cac0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41001/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41001/droop/vcs_xa",
+      "xa_samples_sha256": "96db17f1b990362082e81ec3d3d7e0c062806766596ed451939af4ccf9c90240"
+    },
+    {
+      "mc_random_signature": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+      "seed": 41002,
+      "source_deck_sha256": "acb0eec7dc4c80f99f2b49007a660262e943116cd14468b81a493a60b7e51e50",
+      "source_mc0_sha256": "e980fec841af919c617847d8db65068994bd6f940f0c98b4ff2c272920af3dff",
+      "source_measurements_sha256": "c65561470434985bc192437beb8a3180cab342b0724b57997c7ad1d148b38c77",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41002/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41002/droop/vcs_xa",
+      "xa_samples_sha256": "38cd215f2f690fba4d9f20b364995a4e1c9670647547fbc15f0b2481ea333a83"
+    },
+    {
+      "mc_random_signature": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+      "seed": 41003,
+      "source_deck_sha256": "8e1ba158ff045c882002c4b5368d1cf4c7576d32cc6f60541a4aa0f21e143646",
+      "source_mc0_sha256": "582da237cb7e9ee1a5448cba7ddb6dac99c156b06eaa627f2de702623883e86c",
+      "source_measurements_sha256": "2722a1d2261486996b504a76c432b6176eb64f27eb52e4babb92c5906eddcbb0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41003/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41003/droop/vcs_xa",
+      "xa_samples_sha256": "cbcb4eced5a50f48122d238cf4bf12f3d0e58e57c76c85214ee0983ffd43f0c1"
+    },
+    {
+      "mc_random_signature": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+      "seed": 41004,
+      "source_deck_sha256": "bdb1f98b1a9f61621c3c43c782d21c359f36ec154a7c5625acdbcd09bd2d3f0e",
+      "source_mc0_sha256": "d8b5f82dd5fafc2420132c14f88e517ba89a28ae8b5c9e3deef1cf50cb29de04",
+      "source_measurements_sha256": "f0e43a3cad2e4eac8679356b3e048c9e9726ce7647e86f5f19c837883d59cc80",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41004/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41004/droop/vcs_xa",
+      "xa_samples_sha256": "c4f951713d6a48666152c83e24e5dcc84a342cecf3887c95f19dfd4da3738f5e"
+    },
+    {
+      "mc_random_signature": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+      "seed": 41005,
+      "source_deck_sha256": "94f231df39cc544f778051cbad952595f7f4f8c695c992e1b9ff49b85fb02fac",
+      "source_mc0_sha256": "a0d23da6dc7d535b04363b4367eacca1f0e97ee6cade0ed699762dd7e443de28",
+      "source_measurements_sha256": "0adb095911d7527b1735afdc4399e16f4199d39f4c65b36dac1aef649c70dac6",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41005/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41005/droop/vcs_xa",
+      "xa_samples_sha256": "d4f12b2d4222f9c1f2228289e2fff223a114587405e0908a3c3b17d02d6b22e0"
+    },
+    {
+      "mc_random_signature": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+      "seed": 41006,
+      "source_deck_sha256": "d9dc867ec4fcf61a523843ce255cebdc6f37e616488e81ffd61042a87a8ab6c5",
+      "source_mc0_sha256": "f0ad4a0dee1db96c780b1112c49880aeac87d690c06f7c2a87330fff870da9fb",
+      "source_measurements_sha256": "ce4d090099b490ab7eb2282362df9d6c2ab7be6e9123e92b326ca65b17578d49",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41006/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41006/droop/vcs_xa",
+      "xa_samples_sha256": "dfeeddeabe1c1ba8711d9b6851153f9bfe1a4b5a27139a890b0600e1afe8549e"
+    },
+    {
+      "mc_random_signature": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+      "seed": 41007,
+      "source_deck_sha256": "6340aef95582f7201d01cc44e0e43c7c21870eab0fe8cc9f175596e647f3298a",
+      "source_mc0_sha256": "b2f8f79e1d094c2604db469c4fc987e6d6425d4c655dad4823c0a9f847031d6c",
+      "source_measurements_sha256": "6c2bd79e475a7f006c2137451b7837a6def03a755eec964f655defd99c3adb81",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41007/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41007/droop/vcs_xa",
+      "xa_samples_sha256": "b24a640eacdbfbf719322d776d81f5ce1479365c34d8e113858e9a4101b221a9"
+    },
+    {
+      "mc_random_signature": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+      "seed": 41008,
+      "source_deck_sha256": "ed98b00e61ee43eeceea82723a3bf58649f15339f90810f87fb564caeaf3d9f2",
+      "source_mc0_sha256": "ea802ed8c7bf6be0ea3f4df2a83642985c434caa4083e62f474cd9c8310d948f",
+      "source_measurements_sha256": "368520b2d62039cd4b6bbbb4352b26465118fbd588363de4fd53ac8f80ce110d",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41008/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41008/droop/vcs_xa",
+      "xa_samples_sha256": "c4d539eed8c8846271193fb6cfc03c40a58825a5aba1c9947a167f01c0d2744a"
+    },
+    {
+      "mc_random_signature": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+      "seed": 41009,
+      "source_deck_sha256": "ad3e8540f4e5a69522348c65cb67904589657fa58e91c6556c4c5444e8c65c4d",
+      "source_mc0_sha256": "35f1ac5e605fd43432fad4faf56336aeb28adc00932bcf003a1c0134a415a16f",
+      "source_measurements_sha256": "c4ed34128d817050fdbdba93c5fee48209b0d5d276c07ed741df5dce46c5911f",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41009/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41009/droop/vcs_xa",
+      "xa_samples_sha256": "e969ea25a1b58216cd68745243afb457325beedd26dad5f542b62ca78eb9faeb"
+    },
+    {
+      "mc_random_signature": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+      "seed": 41010,
+      "source_deck_sha256": "2be97d94ae94ac8e579852d2b034f5bfd8d4aad18848bf670aea4661ea98763c",
+      "source_mc0_sha256": "a834f8790d5406cd32f9b3a627842476eb09e4a96b113af12b71b74da51d288a",
+      "source_measurements_sha256": "0aafe80c879d6cfde86a34b5dc3375095f4db980a35ce1e8c970a40c448a5622",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41010/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41010/droop/vcs_xa",
+      "xa_samples_sha256": "dd10441d53c9f8af4ed8b1cd4af4984140c988de80ec8555169bcb7322ff190b"
+    },
+    {
+      "mc_random_signature": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+      "seed": 41011,
+      "source_deck_sha256": "dfcd7a201db3fffa1aaf1fda9c7ee44e556dc712e72386946369598f3f079657",
+      "source_mc0_sha256": "77dbb2666b0cdffb7b6af1668489fd378ef02075eda9b9950af3bc741608e925",
+      "source_measurements_sha256": "0f5877db2462ddcbdefc892e01359ed462098d92f3219cd25aade8a7c2513c5a",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41011/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41011/droop/vcs_xa",
+      "xa_samples_sha256": "dcd409d6d49c14d2e690ed2b8db3d5a167eb245608101a9afccc58e7168127bc"
+    },
+    {
+      "mc_random_signature": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+      "seed": 41012,
+      "source_deck_sha256": "0da8009098e444155c9ed71df0f01dfdbf3c179ea03fad29286af29d350ecf2a",
+      "source_mc0_sha256": "3c44ee0b728ed4cbe1d38442de833217880cd7734afd8300a87e3e6461b3cd13",
+      "source_measurements_sha256": "0945b2235baade03519ec39c346c342dec44db9d77bc4a2a6c716db06c2f9288",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41012/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41012/droop/vcs_xa",
+      "xa_samples_sha256": "5e0401db5b4717b6665007cf64423f0ca091113736b9d22d96ae0c7e130a0b37"
+    },
+    {
+      "mc_random_signature": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+      "seed": 41013,
+      "source_deck_sha256": "3f0e1a0b99f811b45283adeee02e8e654cc3e94337b31ac5adfe7230dd9215f4",
+      "source_mc0_sha256": "6350e6f05ff17bad422cc913a313956b338516e1ccf884a64d88dd73f264fb50",
+      "source_measurements_sha256": "e2598a032fe5c6ec61aa13eba214abc9b9e7c55c3c247ba5e9b1f733e5b2267f",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41013/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41013/droop/vcs_xa",
+      "xa_samples_sha256": "e57b3294791dc2561f6d72fc8a56883d72fabb965dd1694a570fec145dff9627"
+    },
+    {
+      "mc_random_signature": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+      "seed": 41014,
+      "source_deck_sha256": "7c2d6021996cbc4045f2783ecb3a89ef1afd7ddb813a4c8562c41ad33d73b51c",
+      "source_mc0_sha256": "01b507fb5cdfe6a0d065283250169aa2ac2839a2bef60a99a89ce09e26f5571a",
+      "source_measurements_sha256": "e61d2260c9c8cb607c2270fb1ecb1a1b87b16d49c6bab0b83bf0d9a41841bdf1",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41014/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41014/droop/vcs_xa",
+      "xa_samples_sha256": "dd10441d53c9f8af4ed8b1cd4af4984140c988de80ec8555169bcb7322ff190b"
+    },
+    {
+      "mc_random_signature": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+      "seed": 41015,
+      "source_deck_sha256": "6c2d5a07e9c9bfb4cc4ff7597f81ccc1912e6de56aca19370eac8e5b0223aefe",
+      "source_mc0_sha256": "d512f41db7386a5eeee38a4324609b4818a1996fb9daffdd9a5b564836abac14",
+      "source_measurements_sha256": "e617888391764436cb8de8706604a0668e7252d2eb5fc522f41f3b4e246fc5fb",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41015/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41015/droop/vcs_xa",
+      "xa_samples_sha256": "62eb0a7bcaaab288c24f90ad09ede4909602a100cb39eea2bf1e70c3f46aab89"
+    },
+    {
+      "mc_random_signature": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+      "seed": 41016,
+      "source_deck_sha256": "763f59ed1e571ce760de196d8cb6a7417912dbc3bcf3fde7160378094008333f",
+      "source_mc0_sha256": "75aa9d243ade367df1a146ae165c55d2471295a8823f532fee60eff2ef50f5e4",
+      "source_measurements_sha256": "09007276df975c47bb4c864239741a5d7c2939158b4e31ba1187a6f293b53c1c",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41016/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41016/droop/vcs_xa",
+      "xa_samples_sha256": "de163e6f3d8bec39d61b979cb51a4b6bb53b27c4af119d1de57417d9a72ae144"
+    },
+    {
+      "mc_random_signature": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+      "seed": 41017,
+      "source_deck_sha256": "f7bb50870b769ca676314d6b49cdf44f3fbb3153b7962a33d63feb7850460d75",
+      "source_mc0_sha256": "12fc5b1f0da444edbedc9b638b63c9489d4ffebe3e39000ac2e8ac4021d0d4b9",
+      "source_measurements_sha256": "4304c62a884e3aa5bab4aa8b4a8c8a2822bff16840d5bff520815d568ceca7d6",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41017/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41017/droop/vcs_xa",
+      "xa_samples_sha256": "697f260ecc78d119bc5bc7e305294959ff85f0bc62971b2f2931bfcbbd2ab338"
+    },
+    {
+      "mc_random_signature": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+      "seed": 41018,
+      "source_deck_sha256": "1b59def767a661b057d5a2456f3dbab9a83e80e7c0b82b4bf6c7d39761dccc34",
+      "source_mc0_sha256": "18eb4532bc5dd6626590ab8ae32cf4aa5fe98421d9b2afdbb02faecbf82b0456",
+      "source_measurements_sha256": "ce24da406f20e1b3a02c248ca6de581f93e4607176fd9076f2b145bac6c0a730",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41018/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41018/droop/vcs_xa",
+      "xa_samples_sha256": "05b92f80f9ece666672163debaa22ffe7ef809739fe8e37e316dd49e0c34e5c4"
+    },
+    {
+      "mc_random_signature": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+      "seed": 41019,
+      "source_deck_sha256": "810a60d51ec5778263eb5c6ff78f103be5ec482f7eb7cd2656cfe6696178bc5e",
+      "source_mc0_sha256": "bd4923d57527aa60a19e67b65ae83c6a2c0941990e01d920d17dcf7c27c8fc4b",
+      "source_measurements_sha256": "c7a3561c6afc1b5850e894273511b57229f89b0c3612213ee1bc9e2c72e15503",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41019/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41019/droop/vcs_xa",
+      "xa_samples_sha256": "666d7396d77077976daeb3e0092985e4ed902559e5340e8e835e874f4f5f271b"
+    },
+    {
+      "mc_random_signature": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+      "seed": 41020,
+      "source_deck_sha256": "ec89caad0e2a8c141a2dcd8ac5452812074492cae3801de3a2541dee978c5aaa",
+      "source_mc0_sha256": "d5820f79b19f0826550dbc34316fc85a74498100630113590c75a6ce191e6c1c",
+      "source_measurements_sha256": "a80534e3eaa23e1d8599091994beb06d0e9b570df8588640ab5ddf0569c74e74",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41020/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41020/droop/vcs_xa",
+      "xa_samples_sha256": "4588f53e228b4702e5970dfabe4c9f4e18ce7a3b77fcd1b2e94c5448ecf236c3"
+    },
+    {
+      "mc_random_signature": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+      "seed": 41021,
+      "source_deck_sha256": "f08607c1a6fd22a981e6911b2c86610f66db6368d892b6a3285a3a44401cee89",
+      "source_mc0_sha256": "6de7a5519402bc26b00928bc9db4fbf017c23f91b65b840bfab66df5357432af",
+      "source_measurements_sha256": "8c351e7eb95198220f303d562f15120d20883cbbedee2813a9f422325b472a62",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41021/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41021/droop/vcs_xa",
+      "xa_samples_sha256": "ba86a56dd8ad25fdbd0f3787480f31676fe689d83bc7e21df8f76f88d73ed327"
+    },
+    {
+      "mc_random_signature": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+      "seed": 41022,
+      "source_deck_sha256": "4b79e1d86c94e584fe25f1362beb014a71f92a8e77952974d35cb1eacd6cdcd7",
+      "source_mc0_sha256": "ca4f6b0b022f8e9844fba104a4c97f51949e9bca1f1a36e008e83eb4cb7d5fed",
+      "source_measurements_sha256": "d8a91ad24366b6572b1ecadabaefdaf5f19cb239977db1db22e55106009af0da",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41022/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41022/droop/vcs_xa",
+      "xa_samples_sha256": "5369c0cc886a049ef1078a01b4064afab633232210c69c540d8cde72cd3b51c6"
+    },
+    {
+      "mc_random_signature": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+      "seed": 41023,
+      "source_deck_sha256": "f77ce0901bc7c37889d0425ad43707d606da77c7083b9dbfa571d5774508ef21",
+      "source_mc0_sha256": "6cf2743173b41f2e4b72deabcedc58d58347b783a60e4c4c54361bed3c9d02a7",
+      "source_measurements_sha256": "44317118ccc706b86081969f0c9ed8a030579b57209ec8e40784b3c57d3cf917",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41023/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41023/droop/vcs_xa",
+      "xa_samples_sha256": "05b92f80f9ece666672163debaa22ffe7ef809739fe8e37e316dd49e0c34e5c4"
+    },
+    {
+      "mc_random_signature": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+      "seed": 41024,
+      "source_deck_sha256": "c24f5ede42a5f304ae167b419df288040ee6fb96ea5cad5ef8365c37057ec728",
+      "source_mc0_sha256": "9480b7568902a0e090c56595700e5d389eb9864494fcca5141c1b5c0df342b88",
+      "source_measurements_sha256": "3725e7723b971c68af374dc8b8161b2159c62af6e4f8832dda09f4327b35e306",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41024/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41024/droop/vcs_xa",
+      "xa_samples_sha256": "ba86a56dd8ad25fdbd0f3787480f31676fe689d83bc7e21df8f76f88d73ed327"
+    },
+    {
+      "mc_random_signature": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+      "seed": 41025,
+      "source_deck_sha256": "dcc9657ace5026f43367c13a4308de879213b8d83a5efd8c77448e0fcff3a769",
+      "source_mc0_sha256": "0fef91264ad3ad1871a3ef62920646c0f1290e8fecee5e78ddc26c997f4242ba",
+      "source_measurements_sha256": "9311149935879d20696e3ef3bda76cb61b987499d20ef352528947a666d7e1b0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41025/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41025/droop/vcs_xa",
+      "xa_samples_sha256": "86f8df14d6bcc727efd029729845aef9f54de96f317bd245773abbb09a368d3a"
+    },
+    {
+      "mc_random_signature": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+      "seed": 41026,
+      "source_deck_sha256": "6a019b54273dd60807df7b14b2d93401ab9290eb4a7d94845aa45d2f7e2e1bfc",
+      "source_mc0_sha256": "630a9d66811dd36a16579f26de820e3311cf8ba1fd6d600cee01b0efa35ef570",
+      "source_measurements_sha256": "9580cad0010d7f4944b60ec2bb8e0819a744b16749033f4e538cd6a56a0b7cd0",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41026/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41026/droop/vcs_xa",
+      "xa_samples_sha256": "cbfe51dac9c9769bbc30d8efb964397ec6636d2dea91eb9d3c20f44ce9d8db97"
+    },
+    {
+      "mc_random_signature": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+      "seed": 41027,
+      "source_deck_sha256": "051c9eb096f462ffd42881535db5dbf7e636e730c5d2a0ac63f7f95e6c571ace",
+      "source_mc0_sha256": "c70d8cc15431f836ddb59269c3f7957cea241ef9a0757cf220d42b8e5c9c25b6",
+      "source_measurements_sha256": "ee9a745d8b956843e8a5d8cb4d59d8f1e85218f8d7a90c154ac1234bab33db5b",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41027/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41027/droop/vcs_xa",
+      "xa_samples_sha256": "178d1e93e6161ddfab557d639c9f56e68c7fee6afb817d487f56e0a59185101d"
+    },
+    {
+      "mc_random_signature": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+      "seed": 41028,
+      "source_deck_sha256": "2447b79655c133b16a5f129115e7925f6588feb5be5cd062027e0f8384ba45c9",
+      "source_mc0_sha256": "a5af49bd0ff9c516ecb05b6b7c023ffe86ff99c17b0816dbeaf1be95d703ed74",
+      "source_measurements_sha256": "1226a976cb7cb559c8300766f1f73cee3f82aca107697412d52c0b0b01542b70",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41028/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41028/droop/vcs_xa",
+      "xa_samples_sha256": "21fac99d374ed9418a342e757362b93d58d73872843a157b83bc0736b39f09cb"
+    },
+    {
+      "mc_random_signature": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+      "seed": 41029,
+      "source_deck_sha256": "bb7fbbedc2d7abd5ecf5ced562bec809a757a7c93f057eb567082e7534c90556",
+      "source_mc0_sha256": "a79e9f95795ca9db898c397bf1b289685d84f77c4e46d08608f5e73624404141",
+      "source_measurements_sha256": "2d03396b8a723b2ece2e93d48aeb34be09283194d2851d290d5e5590d0c99747",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41029/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41029/droop/vcs_xa",
+      "xa_samples_sha256": "edcd91544b4b3d9cda54260e36eb507bb00f1d8c1c53ad3a8bb8378c9c0b7ea8"
+    },
+    {
+      "mc_random_signature": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023",
+      "seed": 41030,
+      "source_deck_sha256": "f3d957eccc5768a1e651ac1a6962e8815053c62a8d065bb6d0ee140967c43a67",
+      "source_mc0_sha256": "c842a0e51c2e99ee35181208c4c02da74a22f4eee2691dac1e962f0c51480f8b",
+      "source_measurements_sha256": "68aaa21426daac26c62d8ac7ec1d2d6a4a762a110533ccb89f3140ff4838d656",
+      "source_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41030/droop/source_hspice",
+      "voltage_v": 0.86,
+      "xa_run_dir": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3/droop_0p86/instances/seed_41030/droop/vcs_xa",
+      "xa_samples_sha256": "ab6a4891b70374cb852c1d307146488bd9b2f62dca98504c1838dd9e0047346a"
+    }
+  ],
+  "new_simulations": {
+    "hspice_source_cases": 90,
+    "seeds": 30,
+    "vcs_xa_capture_cases": 90,
+    "voltages_v": [
+      0.92,
+      0.89,
+      0.86
+    ]
+  },
+  "next_stage_authorized": true,
+  "provenance_rule": "new MC signature equals retained CALN0 signature for the same seed",
+  "reused_healthy_fall": [
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41001/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "01a2da4e8df17bb83194b72a9e7841644f9fbc80bfe548749543ae46b3a7e0a1",
+      "seed": 41001
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41002/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "21169120533c85e05d3b1383a8e36f6ad0a94f6dd3dd59304f086cea30c0a2f3",
+      "seed": 41002
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41003/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "341c187d79df79ac62c21634d3dd248de0bfeb9eb181d68870fb12f4ea1682fe",
+      "seed": 41003
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41004/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "990fcc1d6348d53cec24da5676bb61489efed94ad904b7630ec2afb5bd21d7a4",
+      "seed": 41004
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41005/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "21169120533c85e05d3b1383a8e36f6ad0a94f6dd3dd59304f086cea30c0a2f3",
+      "seed": 41005
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41006/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "91beeefcba4c6d16007c6e12e62b9fb831aae8356e0d5d9e784a83200893d3db",
+      "seed": 41006
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41007/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "2448eb6a37755c265bc264645e7793fbcd0660c85748819b268278e16ad320a6",
+      "seed": 41007
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41008/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "460ce9e15b32adba856aa3bf201dc93fb494ced723b4f1b00d640e653f571b7d",
+      "seed": 41008
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41009/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "seed": 41009
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41010/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "seed": 41010
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41011/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "bab4553b2991aab074d3540c2f389c8e80b09290d43abacc0288d33647462a0e",
+      "seed": 41011
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41012/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "abafccf90de5e2431a6deab0c3710da8dc6970ef9c58c90165186b76be356a4f",
+      "seed": 41012
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41013/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "67f0492d7cda2ea6afbfd0e2e55b8f8f5c179a7097c0b83be9c00874e27c4838",
+      "seed": 41013
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41014/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "d93c7f56576002b8275f47be736b4f3350d16ed3f5f0229ffc1397c3b80c122b",
+      "seed": 41014
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41015/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "780b22bb37ea23c09b72562808fb2bdc8b1fca95d92c363ee4d58eb4f728b615",
+      "seed": 41015
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41016/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "7d9c71db5f7444433a67e14dd081306d2ef0c8b3d00366d6fc39b0cb152cc008",
+      "seed": 41016
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41017/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "7eabce12713fddb275dd6fb55220fecd2e837be4b87d245c8855f2362960868a",
+      "seed": 41017
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41018/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "f3ad62a11928e7913feeb8ad770deab242519c2b68aa32268a7ee7dc3fe64f00",
+      "seed": 41018
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41019/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "682b74368a7b82cf6458dedc89ab7bd2fd124441653f3c25248136577ab95efd",
+      "seed": 41019
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41020/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "3035251c88c41175724fc7f7ba1aad48a5227ee5b6c7801b15b2f3aa65d3a325",
+      "seed": 41020
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41021/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b37baaf2c1dc3ada69357dbc2fe449481dd391817c79eadde42de58dcebb0f4c",
+      "seed": 41021
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41022/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "dcf1d764d2bee57273fcf2d1b82c477206c976788bf32718375cf2cdbf1d39bb",
+      "seed": 41022
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41023/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "f3ad62a11928e7913feeb8ad770deab242519c2b68aa32268a7ee7dc3fe64f00",
+      "seed": 41023
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41024/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b37baaf2c1dc3ada69357dbc2fe449481dd391817c79eadde42de58dcebb0f4c",
+      "seed": 41024
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41025/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "5978883d7261c8dabdddb6fc9a90e0cb4cdff0bb6f53814846f735e4b01346d3",
+      "seed": 41025
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41026/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "8244e3e40030b69efc16df073f45bea8925b999bf3d71b56667414187c0f1ff1",
+      "seed": 41026
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41027/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "8653086e84f3623c1faaad9f44deb4a1c10546489bb6cf53dfd389c6d4da58e6",
+      "seed": 41027
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41028/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "05b522920867c095045588ed1ebf7a23159ac7408d5ef706baea98346b8c9b8c",
+      "seed": 41028
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41029/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "ad3ed9bbb674d813a111c5f35d1d02d1c8a9d22a5fce93a9f857bc30e237e44a",
+      "seed": 41029
+    },
+    {
+      "raw_xa": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe4_caln0_self_calibration/instances/seed_41030/normal/vcs_xa/xa_dff_samples.csv",
+      "raw_xa_sha256": "b6bf74d1b449f74b5aba5b9dbc50bfd217ccfa8752be62540325a826a0ab4ac9",
+      "seed": 41030
+    }
+  ],
+  "run_root": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe6_marg0/m3",
+  "stage": "B-FE6-MARG0-M3",
+  "stop_after_stage": true
+}

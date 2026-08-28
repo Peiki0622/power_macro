@@ -1,0 +1,47 @@
+{
+  "cdf_figure": true,
+  "droop_fall": {
+    "0.86": {
+      "count": 30,
+      "max": 93,
+      "mean": 68.76666666666667,
+      "median": 66,
+      "min": 35,
+      "p05": 45,
+      "separation_gap": 32
+    },
+    "0.89": {
+      "count": 30,
+      "max": 64,
+      "mean": 42.833333333333336,
+      "median": 39,
+      "min": 21,
+      "p05": 21,
+      "separation_gap": 18
+    },
+    "0.92": {
+      "count": 30,
+      "max": 42,
+      "mean": 25.666666666666668,
+      "median": 26,
+      "min": 2,
+      "p05": 5,
+      "separation_gap": -1
+    }
+  },
+  "gate": "BFE6_MARG0_M3_RISE_FALL_DISTRIBUTIONS_READY",
+  "healthy_fall_reused_count": 30,
+  "new_fall_droop_count": 90,
+  "new_simulations": {
+    "hspice_source_cases": 90,
+    "vcs_xa_capture_cases": 90
+  },
+  "next_stage_authorized": true,
+  "normal_fall": {
+    "max": 3,
+    "mean": 0.1,
+    "min": 0
+  },
+  "stage": "B-FE6-MARG0-M3",
+  "stop_after_stage": true
+}
