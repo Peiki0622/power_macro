@@ -1,0 +1,41 @@
+{
+  "cdf_figure": true,
+  "droop_distributions": {
+    "0.86": {
+      "count": 30,
+      "max": 116,
+      "mean": 77.56666666666666,
+      "median": 75,
+      "min": 11,
+      "p05": 34,
+      "separation_gap": 4
+    },
+    "0.89": {
+      "count": 30,
+      "max": 78,
+      "mean": 50.266666666666666,
+      "median": 55,
+      "min": 10,
+      "p05": 10,
+      "separation_gap": 3
+    },
+    "0.92": {
+      "count": 30,
+      "max": 43,
+      "mean": 25.466666666666665,
+      "median": 26,
+      "min": 0,
+      "p05": 2,
+      "separation_gap": -7
+    }
+  },
+  "gate": "BFE6_MARG0_M2_RISE_AMPLITUDE_POPULATION_CHARACTERIZED",
+  "new_case_count": 60,
+  "new_simulations": 60,
+  "next_stage_authorized": true,
+  "normal_reused_count": 30,
+  "physical_simulation_ledger": "M2_RUN_LEDGER.json",
+  "stage": "B-FE6-MARG0-M2",
+  "stop_after_stage": true,
+  "summary_reused_completed_raw_runs": true
+}
