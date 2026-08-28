@@ -1,0 +1,3 @@
+3
+criterion: smallest integer margin with zero observed healthy FPR
+condition: 0.95 V / 25 C fixed-condition process-population characterization

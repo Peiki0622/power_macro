@@ -1,0 +1,167 @@
+{
+  "calibration_ablation": {
+    "claim": "Only observed calibrated spread and D_M distributions are reported; no absolute-M comparator is invented.",
+    "historical_absolute_M_rule_recoverable": false
+  },
+  "candidates": {
+    "FALL": {
+      "criterion": "smallest integer margin with zero observed healthy FPR",
+      "droop": {
+        "0.86": {
+          "droop_alarm_count": 30,
+          "droop_count": 30,
+          "fnr": 0.0,
+          "tpr": 1.0
+        },
+        "0.89": {
+          "droop_alarm_count": 30,
+          "droop_count": 30,
+          "fnr": 0.0,
+          "tpr": 1.0
+        },
+        "0.92": {
+          "droop_alarm_count": 29,
+          "droop_count": 30,
+          "fnr": 0.033333333333333326,
+          "tpr": 0.9666666666666667
+        }
+      },
+      "margin": 3,
+      "normal_fpr": 0.0,
+      "normal_max": 3
+    },
+    "RISE": {
+      "criterion": "smallest integer margin with zero observed healthy FPR",
+      "droop": {
+        "0.86": {
+          "droop_alarm_count": 30,
+          "droop_count": 30,
+          "fnr": 0.0,
+          "tpr": 1.0
+        },
+        "0.89": {
+          "droop_alarm_count": 30,
+          "droop_count": 30,
+          "fnr": 0.0,
+          "tpr": 1.0
+        },
+        "0.92": {
+          "droop_alarm_count": 28,
+          "droop_count": 30,
+          "fnr": 0.06666666666666665,
+          "tpr": 0.9333333333333333
+        }
+      },
+      "margin": 7,
+      "normal_fpr": 0.0,
+      "normal_max": 7
+    }
+  },
+  "condition": "0.95 V / 25 C fixed-condition process-population characterization",
+  "datasets": {
+    "FALL": {
+      "droop": {
+        "0.86": {
+          "count": 30,
+          "max": 93,
+          "mean": 68.76666666666667,
+          "median": 66,
+          "min": 35,
+          "p05": 45,
+          "p95": 89,
+          "p99": 91,
+          "separation_gap": 32
+        },
+        "0.89": {
+          "count": 30,
+          "max": 64,
+          "mean": 42.833333333333336,
+          "median": 39,
+          "min": 21,
+          "p05": 21,
+          "p95": 64,
+          "p99": 64,
+          "separation_gap": 18
+        },
+        "0.92": {
+          "count": 30,
+          "max": 42,
+          "mean": 25.666666666666668,
+          "median": 26,
+          "min": 2,
+          "p05": 5,
+          "p95": 39,
+          "p99": 42,
+          "separation_gap": -1
+        }
+      },
+      "normal": {
+        "count": 30,
+        "max": 3,
+        "mean": 0.1,
+        "median": 0,
+        "min": 0,
+        "p05": 0,
+        "p95": 0,
+        "p99": 0
+      }
+    },
+    "RISE": {
+      "droop": {
+        "0.86": {
+          "count": 30,
+          "max": 116,
+          "mean": 77.56666666666666,
+          "median": 75,
+          "min": 11,
+          "p05": 34,
+          "p95": 109,
+          "p99": 109,
+          "separation_gap": 4
+        },
+        "0.89": {
+          "count": 30,
+          "max": 78,
+          "mean": 50.266666666666666,
+          "median": 55,
+          "min": 10,
+          "p05": 10,
+          "p95": 71,
+          "p99": 77,
+          "separation_gap": 3
+        },
+        "0.92": {
+          "count": 30,
+          "max": 43,
+          "mean": 25.466666666666665,
+          "median": 26,
+          "min": 0,
+          "p05": 2,
+          "p95": 41,
+          "p99": 43,
+          "separation_gap": -7
+        }
+      },
+      "normal": {
+        "count": 30,
+        "max": 7,
+        "mean": 0.23333333333333334,
+        "median": 0,
+        "min": 0,
+        "p05": 0,
+        "p95": 0,
+        "p99": 0
+      }
+    }
+  },
+  "gate": "BFE6_MARG0_M4_MARGIN_SWEEP_COMPLETE",
+  "margin_range": [
+    0,
+    435
+  ],
+  "margin_rule": "D_M > margin",
+  "next_stage_authorized": true,
+  "overlap_policy": "Observed overlap is retained; candidates are not universal silicon settings.",
+  "stage": "B-FE6-MARG0-M4",
+  "stop_after_stage": true
+}
