@@ -1,0 +1,26 @@
+{
+  "gate": "BFE7_DROOP12_WAVEFORM_CONTRACT_FROZEN",
+  "status": "PASS",
+  "contract": "DROOP12_WAVEFORM_CONTRACT.json",
+  "manifest": "DROOP12_MANIFEST.json",
+  "run_ledger": "DROOP12_RUN_LEDGER.json",
+  "upstream_gates": [
+    "BFE7_DROOP12_W0_AUTHORITY_FROZEN",
+    "BFE7_DROOP12_W1_NORMAL_BACKGROUND_FROZEN",
+    "BFE7_DROOP12_W2_SCENARIO_CONTRACT_FROZEN",
+    "BFE7_DROOP12_W3_HSPICE_PWL_PACKAGE_READY",
+    "BFE7_DROOP12_W4_WAVEFORM_VALIDATION_PASS",
+    "BFE7_DROOP12_W5_SCI_VISUALIZATION_PASS"
+  ],
+  "scenario_count": 12,
+  "frozen": true,
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0,
+    "arch0_tests": 0,
+    "arch1_tests": 0
+  },
+  "next_stage": "separately authorize ARCH0 evaluation using unchanged frozen waveform files"
+}

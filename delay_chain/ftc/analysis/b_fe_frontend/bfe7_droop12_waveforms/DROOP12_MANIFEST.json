@@ -1,5 +1,22 @@
 {
-  "figures": {},
+  "figures": {
+    "BFE7_DROOP12_WAVEFORM_ATLAS.pdf": {
+      "path": "BFE7_DROOP12_WAVEFORM_ATLAS.pdf",
+      "sha256": "ac4db4f7eec4ebac194efa0af8fc918599ed9fa3b08a478e72b6102f31a28fc5"
+    },
+    "BFE7_DROOP12_WAVEFORM_ATLAS.png": {
+      "path": "BFE7_DROOP12_WAVEFORM_ATLAS.png",
+      "sha256": "aa3e95db6e14995f92238bc497d654beb0274be894084f58449c095283eacb07"
+    },
+    "BFE7_DROOP12_WAVEFORM_ATLAS_CAPTION.md": {
+      "path": "BFE7_DROOP12_WAVEFORM_ATLAS_CAPTION.md",
+      "sha256": "48bc4bad8926ba2c93dc690fd532e3a16c63ee0754c48974a3048a0bb86cd8be"
+    },
+    "BFE7_W5_PLOT_INPUT_AUDIT.json": {
+      "path": "BFE7_W5_PLOT_INPUT_AUDIT.json",
+      "sha256": "97c45a90c8483426beb8ed59b8774ed1f38dba978da4a8e40692f33b14d9d69d"
+    }
+  },
   "files": {
     "D01_SHALLOW_CANONICAL.csv": {
       "path": "waveforms/D01_SHALLOW_CANONICAL.csv",
@@ -117,12 +134,16 @@
       "path": "normal_background/NBG_7301_METADATA.json",
       "sha256": "593553957ef5f79aadf72e65f6a6eadd99f982a4cbccf3f3a58aa4b5533f32ab"
     },
+    "plotter": {
+      "path": "plot_droop12_waveforms.py",
+      "sha256": "35ef677f592a422066b4477aa22a03d8f3ecff2d8cbf13dfc8f3be3cdece2723"
+    },
     "validator": {
       "path": "validate_droop12_waveforms.py",
-      "sha256": "959bfdd3c45e5629cc19461fe92ce98030f34427f1fb112a4874239ec6c6f012"
+      "sha256": "2deb6863394b8c2747ab7b51a17063e2b7d17dba6d34078286b7a6a1c0a22499"
     }
   },
-  "frozen": false,
+  "frozen": true,
   "schema_version": 1,
   "simulation_accounting": {
     "arch0_tests": 0,

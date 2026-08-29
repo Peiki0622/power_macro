@@ -151,22 +151,32 @@ def _assert_special_geometry(records):
     assert _attack_value(d12, 31000) == 0.030
 
 
-def build_manifest(root, contract_path, background_paths, artifact_paths):
+def build_manifest(root, contract_path, background_paths, artifact_paths, final=False):
     """Build the W4 hash manifest; figure hashes are added by W5 later."""
 
     files = {"contract": str(contract_path.relative_to(root)), "generator": str((root / "generate_droop12_waveforms.py").relative_to(root)),
-             "validator": str((root / "validate_droop12_waveforms.py").relative_to(root))}
+             "validator": str((root / "validate_droop12_waveforms.py").relative_to(root)),
+             "plotter": str((root / "plot_droop12_waveforms.py").relative_to(root))}
     files.update({"normal_background_csv": str(background_paths[0].relative_to(root)),
                   "normal_background_inc": str(background_paths[1].relative_to(root)),
                   "normal_background_metadata": str(background_paths[2].relative_to(root))})
     for path in artifact_paths:
         files[path.name] = str(path.relative_to(root))
-    return {"schema_version": 1, "study": "B-FE7-DROOP12", "frozen": False,
+    optional = ("BFE7_DROOP12_WAVEFORM_ATLAS.pdf", "BFE7_DROOP12_WAVEFORM_ATLAS.png",
+                "BFE7_DROOP12_WAVEFORM_ATLAS_CAPTION.md", "BFE7_W5_PLOT_INPUT_AUDIT.json")
+    figures = {}
+    if final:
+        for name in optional:
+            path = root / name
+            if not path.is_file():
+                raise ValueError("final manifest is missing {}".format(name))
+            figures[name] = {"path": name, "sha256": sha256_file(path)}
+    return {"schema_version": 1, "study": "B-FE7-DROOP12", "frozen": bool(final),
             "files": {key: {"path": value, "sha256": sha256_file(root / value)} for key, value in sorted(files.items())},
-            "figures": {}, "simulation_accounting": {"hspice_runs": 0, "vcs_runs": 0, "primesim_runs": 0, "dc_runs": 0, "arch0_tests": 0, "arch1_tests": 0}}
+            "figures": figures, "simulation_accounting": {"hspice_runs": 0, "vcs_runs": 0, "primesim_runs": 0, "dc_runs": 0, "arch0_tests": 0, "arch1_tests": 0}}
 
 
-def validate_package(root):
+def validate_package(root, final=False):
     """Validate the complete W3 package and write the W4 manifest."""
 
     root = Path(root)
@@ -195,7 +205,7 @@ def validate_package(root):
         source_text = "\n".join(line.split("*", 1)[0] for line in inc_path.read_text(encoding="ascii").splitlines()).lower()
         assert not any(token.lower() in source_text for token in FORBIDDEN_TOKENS)
     _assert_special_geometry(records)
-    manifest = build_manifest(root, contract_path, background_paths, artifact_paths)
+    manifest = build_manifest(root, contract_path, background_paths, artifact_paths, final=final)
     manifest_path = root / "DROOP12_MANIFEST.json"
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="ascii")
     return manifest
@@ -206,8 +216,9 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--final", action="store_true", help="include W5 figures and mark the final manifest frozen")
     args = parser.parse_args(argv)
-    manifest = validate_package(args.root)
+    manifest = validate_package(args.root, final=args.final)
     print("BFE7_W4_VALIDATION_PASS files={} scenarios=12".format(len(manifest["files"])))
     return 0
 

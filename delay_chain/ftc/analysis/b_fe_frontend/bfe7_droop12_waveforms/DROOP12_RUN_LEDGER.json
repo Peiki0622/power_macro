@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "study": "BFE7-DROOP12",
+  "purpose": "stimulus construction and offline validation only",
+  "hspice_runs": 0,
+  "vcs_runs": 0,
+  "primesim_runs": 0,
+  "dc_runs": 0,
+  "arch0_tests": 0,
+  "arch1_tests": 0,
+  "notes": [
+    "No simulator was invoked in W0-W6.",
+    "Historical BFE3/BFE4/BFE6 products were read only for provenance and timing conventions.",
+    "The frozen files are reusable inputs for separately authorized future ARCH0/ARCH1 studies."
+  ]
+}
