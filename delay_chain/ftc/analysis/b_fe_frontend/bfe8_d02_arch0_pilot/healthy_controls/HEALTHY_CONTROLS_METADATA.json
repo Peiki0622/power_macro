@@ -1,0 +1,35 @@
+{
+  "algorithm": "BFE7 PCG64 slow+fast centered/clipped",
+  "background_limit_v": 0.008,
+  "composite": {
+    "csv_sha256": "43f9b06a6369ab4c57acf39f0b5af0079945c4b1a4adfc14456cb89d920c983c",
+    "event_map_sha256": "c47f93455a6cbeff74a48f07fdfb09fc1ae237cda2bccad0e1ca8cb5993b28d9",
+    "inc_sha256": "a47522d223ca7148c306a44da11f67079a1cfe671bedd6fc8652c5821fa55af5",
+    "stop_ps": 250000
+  },
+  "nominal_vdd_v": 1.1,
+  "segments": [
+    {
+      "csv_sha256": "f3463ce5ac14e73d3c68260259bd366b257f1c32b681879d3df49318e94f3937",
+      "inc_sha256": "b95973e2a0ef21bb84d690ecf2a52e053413eb59f652d74aed93ae8c075d4022",
+      "name": "CAL",
+      "row_count": 321,
+      "seed": 7300
+    },
+    {
+      "csv_sha256": "ff4570720e6f6793aacd2a7a0c8e979389adec9d01d4adc8d287ba141cdf3bd9",
+      "inc_sha256": "c1df624d64d174709a9faada3e1b13ed55fd287c1a9d37aeb50ca956a95d3149",
+      "name": "MARGIN",
+      "row_count": 321,
+      "seed": 7302
+    },
+    {
+      "csv_sha256": "6164056dff3574ae43286481e995e4edc7f828e6351e128caffcc48ee3877be5",
+      "inc_sha256": "93ece8d4837592e7e2260f440abae5d86518974fe8753cc2c7909e6cf97cbb06",
+      "name": "FPR",
+      "row_count": 321,
+      "seed": 7303
+    }
+  ],
+  "temperature_c": 25.0
+}

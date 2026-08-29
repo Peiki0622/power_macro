@@ -1,0 +1,16 @@
+{
+  "gate": "BFE8_D02_P1_RUNNER_AND_HEALTHY_CONTROLS_READY",
+  "healthy_seeds": {
+    "CAL": 7300,
+    "FPR": 7303,
+    "MARGIN": 7302
+  },
+  "simulation_accounting": {
+    "hspice": 0,
+    "primesim": 0,
+    "vcs": 0
+  },
+  "status": "PASS",
+  "stop_after_stage": true,
+  "valid_event_count": 24
+}

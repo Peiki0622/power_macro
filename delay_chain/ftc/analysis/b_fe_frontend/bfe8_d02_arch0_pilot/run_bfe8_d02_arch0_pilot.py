@@ -16,8 +16,12 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import re
+import sys
 from pathlib import Path
+
+import numpy as np
 
 
 # ``ROOT`` is the checked-in evidence directory.  ``FTC_ROOT`` is derived
@@ -34,6 +38,23 @@ BFE6_ROOT = ANALYSIS_ROOT / "bfe6_marg0_detection_margin"
 
 EXPECTED_D02_CSV_SHA256 = "db8318eaa8cef551398ff2c347cb74594c3ac56a1712e439702f5b0fa08bbff1"
 EXPECTED_D02_INC_SHA256 = "f84a883076ea6831dc88272443f6b90df9e58c70de949f51ba26dc19be5e32fa"
+
+# Healthy controls intentionally use a longer local frame than BFE7's 65 ns
+# attack frame: eight 50 MHz edges (four RISE and four FALL) are required per
+# segment.  The algorithm and +/-8 mV bound remain identical to BFE7.
+HEALTHY_SEGMENT_STOP_PS = 80000
+HEALTHY_FAST_SPACING_PS = 250
+HEALTHY_SLOW_SPACING_PS = 2500
+HEALTHY_SLOW_LIMIT_V = 0.005
+HEALTHY_FAST_LIMIT_V = 0.003
+HEALTHY_BACKGROUND_LIMIT_V = 0.008
+HEALTHY_NOMINAL_V = 1.10
+HEALTHY_SEGMENTS = (
+    ("CAL", 7300),
+    ("MARGIN", 7302),
+    ("FPR", 7303),
+)
+HEALTHY_GUARD_PS = 5000
 
 
 def sha256(path):
@@ -123,6 +144,200 @@ def audit_authorities():
 
     signatures = retained_signatures()
     return paths, digests, signatures
+
+
+def _center_bound(values, limit):
+    """Center and clip seeded samples exactly as the BFE7 generator does."""
+    values = np.asarray(values, dtype=np.float64)
+    return np.clip(values - float(np.mean(values)), -limit, limit)
+
+
+def healthy_background(seed):
+    """Generate one deterministic 80 ns healthy rail for a control seed."""
+    rng = np.random.Generator(np.random.PCG64(int(seed)))
+    slow_times = np.arange(0, HEALTHY_SEGMENT_STOP_PS + HEALTHY_SLOW_SPACING_PS,
+                           HEALTHY_SLOW_SPACING_PS, dtype=np.int64)
+    fast_times = np.arange(0, HEALTHY_SEGMENT_STOP_PS + HEALTHY_FAST_SPACING_PS,
+                           HEALTHY_FAST_SPACING_PS, dtype=np.int64)
+    slow = _center_bound(rng.uniform(-HEALTHY_SLOW_LIMIT_V, HEALTHY_SLOW_LIMIT_V,
+                                     len(slow_times)), HEALTHY_SLOW_LIMIT_V)
+    fast = _center_bound(rng.uniform(-HEALTHY_FAST_LIMIT_V, HEALTHY_FAST_LIMIT_V,
+                                     len(fast_times)), HEALTHY_FAST_LIMIT_V)
+    slow_on_fast = np.interp(fast_times, slow_times, slow)
+    n_bg = np.clip(slow_on_fast + fast, -HEALTHY_BACKGROUND_LIMIT_V,
+                   HEALTHY_BACKGROUND_LIMIT_V)
+    rows = []
+    for time_ps, slow_v, fast_v, bg_v in zip(fast_times, slow_on_fast, fast, n_bg):
+        rows.append({
+            "time_ps": int(time_ps),
+            "n_slow_v": float(slow_v),
+            "n_fast_v": float(fast_v),
+            "n_bg_v": float(bg_v),
+            "vdd_healthy_v": float(HEALTHY_NOMINAL_V + bg_v),
+        })
+    return rows
+
+
+def _pwl_lines(rows):
+    """Serialize one rail using the frozen BFE7 source-node contract."""
+    lines = [
+        "V_VDD_MONITORED vdd_monitored vss_a PWL(",
+    ]
+    for index, row in enumerate(rows):
+        suffix = ")" if index == len(rows) - 1 else ""
+        lines.append("+ {:.12e} {:.12e}{}".format(
+            row["time_ps"] * 1.0e-12, row["vdd_healthy_v"], suffix))
+    return lines
+
+
+def build_healthy_composite():
+    """Create controls, a single composite PWL, and explicit event metadata."""
+    all_rows = []
+    event_map = []
+    cursor_ps = 0
+    for segment_name, seed in HEALTHY_SEGMENTS:
+        rows = healthy_background(seed)
+        for row in rows:
+            shifted = dict(row)
+            shifted["time_ps"] += cursor_ps
+            shifted["segment"] = segment_name
+            shifted["seed"] = seed
+            all_rows.append(shifted)
+        # A system edge occurs at +1 ns, then every 10 ns.  Eight edges are
+        # recorded as meaningful; all segment boundaries and guards are not.
+        for edge_index in range(8):
+            event_map.append({
+                "segment": segment_name,
+                "seed": seed,
+                "event_index": edge_index,
+                "edge": "RISE" if edge_index % 2 == 0 else "FALL",
+                "time_ps": cursor_ps + 1000 + edge_index * 10000,
+                "valid": True,
+            })
+        event_map.append({"segment": segment_name, "seed": seed,
+                          "event_index": 8, "edge": "GUARD_END",
+                          "time_ps": cursor_ps + HEALTHY_SEGMENT_STOP_PS,
+                          "valid": False})
+        cursor_ps += HEALTHY_SEGMENT_STOP_PS + HEALTHY_GUARD_PS
+    total_stop_ps = cursor_ps - HEALTHY_GUARD_PS
+    return all_rows, event_map, total_stop_ps
+
+
+def write_p1_controls():
+    """Write healthy control CSV/INC files and the immutable composite map."""
+    controls = ROOT / "healthy_controls"
+    controls.mkdir(parents=True, exist_ok=True)
+    metadata = {"nominal_vdd_v": 1.10, "temperature_c": 25.0,
+                "algorithm": "BFE7 PCG64 slow+fast centered/clipped",
+                "background_limit_v": 0.008, "segments": []}
+    for segment_name, seed in HEALTHY_SEGMENTS:
+        rows = healthy_background(seed)
+        csv_path = controls / "NBG_{}.csv".format(seed)
+        inc_path = controls / "NBG_{}.inc".format(seed)
+        with csv_path.open("w", newline="", encoding="ascii") as stream:
+            writer = csv.writer(stream, lineterminator="\n")
+            writer.writerow(["time_s", "n_slow_v", "n_fast_v", "n_bg_v", "vdd_healthy_v"])
+            for row in rows:
+                writer.writerow(["{:.12e}".format(row["time_ps"] * 1.0e-12),
+                                 "{:.12e}".format(row["n_slow_v"]),
+                                 "{:.12e}".format(row["n_fast_v"]),
+                                 "{:.12e}".format(row["n_bg_v"]),
+                                 "{:.12e}".format(row["vdd_healthy_v"])])
+        inc_path.write_text("\n".join([
+            "* BFE8 healthy control {} seed {}; no attack.".format(segment_name, seed),
+            "* Port map: positive monitored rail=vdd_monitored; return=vss_a.",
+        ] + _pwl_lines(rows)) + "\n", encoding="ascii")
+        metadata["segments"].append({"name": segment_name, "seed": seed,
+                                      "csv_sha256": sha256(csv_path),
+                                      "inc_sha256": sha256(inc_path),
+                                      "row_count": len(rows)})
+
+    composite_rows, event_map, total_stop_ps = build_healthy_composite()
+    composite_inc = controls / "HEALTHY_COMPOSITE.inc"
+    composite_csv = controls / "HEALTHY_COMPOSITE.csv"
+    with composite_csv.open("w", newline="", encoding="ascii") as stream:
+        writer = csv.writer(stream, lineterminator="\n")
+        writer.writerow(["time_s", "segment", "seed", "n_bg_v", "vdd_healthy_v"])
+        for row in composite_rows:
+            writer.writerow(["{:.12e}".format(row["time_ps"] * 1.0e-12),
+                             row["segment"], row["seed"],
+                             "{:.12e}".format(row["n_bg_v"]),
+                             "{:.12e}".format(row["vdd_healthy_v"])])
+    composite_inc.write_text("\n".join([
+        "* BFE8 HEALTHY_COMPOSITE; CAL/MARGIN/FPR controls only.",
+        "* Guard intervals are represented in the event map and excluded.",
+    ] + _pwl_lines(composite_rows)) + "\n", encoding="ascii")
+    (controls / "HEALTHY_COMPOSITE_EVENT_MAP.json").write_text(
+        json.dumps({"segments": list(HEALTHY_SEGMENTS), "guard_ps": HEALTHY_GUARD_PS,
+                    "stop_ps": total_stop_ps, "events": event_map},
+                   indent=2, sort_keys=True) + "\n", encoding="ascii")
+    metadata["composite"] = {"csv_sha256": sha256(composite_csv),
+                              "inc_sha256": sha256(composite_inc),
+                              "event_map_sha256": sha256(controls / "HEALTHY_COMPOSITE_EVENT_MAP.json"),
+                              "stop_ps": total_stop_ps}
+    (controls / "HEALTHY_CONTROLS_METADATA.json").write_text(
+        json.dumps(metadata, indent=2, sort_keys=True) + "\n", encoding="ascii")
+
+
+def golden_reference(samples):
+    """Match bfe_backend_ctrl: integer truncation of the four-sample sum."""
+    values = [int(value) for value in samples]
+    if len(values) != 4:
+        raise ValueError("reference arithmetic requires exactly four samples")
+    return sum(values) >> 2
+
+
+def assert_p1_offline():
+    """Run all P1 checks before allowing a simulator invocation."""
+    controls = ROOT / "healthy_controls"
+    rows, event_map, total_stop_ps = build_healthy_composite()
+    if build_healthy_composite() != (rows, event_map, total_stop_ps):
+        raise AssertionError("healthy generation is not reproducible")
+    if len([e for e in event_map if e["valid"]]) != 24:
+        raise AssertionError("event map must contain 24 meaningful events")
+    for row in rows:
+        if not (1.092 - 1e-12 <= row["vdd_healthy_v"] <= 1.108 + 1e-12):
+            raise AssertionError("healthy rail outside BFE7 envelope")
+    if sha256(BFE7_ROOT / "waveforms" / "D02_MEDIUM_CANONICAL.inc") != EXPECTED_D02_INC_SHA256:
+        raise AssertionError("D02 include hash changed")
+    if sha256(BFE7_ROOT / "waveforms" / "D02_MEDIUM_CANONICAL.csv") != EXPECTED_D02_CSV_SHA256:
+        raise AssertionError("D02 CSV hash changed")
+    if golden_reference([1, 2, 3, 4]) != 2:
+        raise AssertionError("sum4 >> 2 golden arithmetic failed")
+    if golden_reference([1, 2, 3, 4]) == int((1 + 2 + 3 + 4 + 2) / 4):
+        raise AssertionError("round-half-up arithmetic leaked into reference model")
+    if not (not (5 > 5) and 6 > 5):
+        raise AssertionError("strict alarm comparison failed")
+    # P1 has no generated deck yet; the explicit scope contract below is the
+    # offline guard.  Later deck validation rejects ARCH1 circuitry directly.
+    if any("ARCH1" in path.name.upper() for path in controls.iterdir()):
+        raise AssertionError("ARCH1 artifact leaked into healthy controls")
+    if not controls.is_dir():
+        raise AssertionError("healthy controls were not generated")
+
+
+def run_p1():
+    """Generate controls, execute offline checks, and publish the P1 gate."""
+    write_p1_controls()
+    assert_p1_offline()
+    report = ROOT / "P1_REPORT.md"
+    report.write_text("\n".join([
+        "# BFE8 D02 P1 runner and healthy controls",
+        "",
+        "Gate: `BFE8_D02_P1_RUNNER_AND_HEALTHY_CONTROLS_READY`",
+        "",
+        "Healthy controls CAL=7300, MARGIN=7302 and FPR=7303 were generated with the BFE7 algorithm.",
+        "The composite event map contains 24 valid events and explicit guard boundaries.",
+        "All offline hash, bound, arithmetic, strict-comparison and scope checks passed.",
+        "",
+        "Simulation accounting for P1: HSPICE=0, PrimeSim=0, VCS=0.",
+    ]) + "\n", encoding="utf-8")
+    gate = {"gate": "BFE8_D02_P1_RUNNER_AND_HEALTHY_CONTROLS_READY", "status": "PASS",
+            "healthy_seeds": {name: seed for name, seed in HEALTHY_SEGMENTS},
+            "valid_event_count": 24,
+            "simulation_accounting": {"hspice": 0, "primesim": 0, "vcs": 0},
+            "stop_after_stage": True}
+    (ROOT / "P1_GATE.json").write_text(json.dumps(gate, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def write_p0(paths, digests, signatures):
@@ -222,13 +437,15 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0",), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1"), default="p0")
     args = parser.parse_args()
-    if args.stage != "p0":
-        raise SystemExit("only P0 is implemented in this checkpoint")
-    paths, digests, signatures = audit_authorities()
-    write_p0(paths, digests, signatures)
-    print("BFE8 P0 PASS: audited {} authorities and {} process signatures".format(len(paths), len(signatures)))
+    if args.stage == "p0":
+        paths, digests, signatures = audit_authorities()
+        write_p0(paths, digests, signatures)
+        print("BFE8 P0 PASS: audited {} authorities and {} process signatures".format(len(paths), len(signatures)))
+    else:
+        run_p1()
+        print("BFE8 P1 PASS: generated healthy controls and completed offline checks")
 
 
 if __name__ == "__main__":

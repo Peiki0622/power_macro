@@ -1,0 +1,236 @@
+{
+  "events": [
+    {
+      "edge": "RISE",
+      "event_index": 0,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 1000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 1,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 11000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 2,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 21000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 3,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 31000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 4,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 41000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 5,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 51000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 6,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 61000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 7,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 71000,
+      "valid": true
+    },
+    {
+      "edge": "GUARD_END",
+      "event_index": 8,
+      "seed": 7300,
+      "segment": "CAL",
+      "time_ps": 80000,
+      "valid": false
+    },
+    {
+      "edge": "RISE",
+      "event_index": 0,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 86000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 1,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 96000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 2,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 106000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 3,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 116000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 4,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 126000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 5,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 136000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 6,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 146000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 7,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 156000,
+      "valid": true
+    },
+    {
+      "edge": "GUARD_END",
+      "event_index": 8,
+      "seed": 7302,
+      "segment": "MARGIN",
+      "time_ps": 165000,
+      "valid": false
+    },
+    {
+      "edge": "RISE",
+      "event_index": 0,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 171000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 1,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 181000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 2,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 191000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 3,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 201000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 4,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 211000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 5,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 221000,
+      "valid": true
+    },
+    {
+      "edge": "RISE",
+      "event_index": 6,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 231000,
+      "valid": true
+    },
+    {
+      "edge": "FALL",
+      "event_index": 7,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 241000,
+      "valid": true
+    },
+    {
+      "edge": "GUARD_END",
+      "event_index": 8,
+      "seed": 7303,
+      "segment": "FPR",
+      "time_ps": 250000,
+      "valid": false
+    }
+  ],
+  "guard_ps": 5000,
+  "segments": [
+    [
+      "CAL",
+      7300
+    ],
+    [
+      "MARGIN",
+      7302
+    ],
+    [
+      "FPR",
+      7303
+    ]
+  ],
+  "stop_ps": 250000
+}
