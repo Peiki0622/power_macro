@@ -1,0 +1,53 @@
+{
+  "arch1_implemented": false,
+  "coverage_observed": {
+    "detected": 30,
+    "fraction": 1.0,
+    "total": 30,
+    "wilson_95": [
+      0.8864866068260312,
+      0.9999999999999999
+    ]
+  },
+  "evidence_sha256": {
+    "BFE8_D02_HEADROOM.png": "dbcb82ee1f91fa97246e03cda5dc7ff020aaa961a693dc12f6fed3d72a85f971",
+    "BFE8_D02_HEALTHY_FPR.csv": "4a50c05e752ff384a586bdb682af6b2e7c68dba69c92d9251bcfa3332321258a",
+    "BFE8_D02_HEALTHY_FPR_METRICS.json": "4bdf285a895ac445b287f3d606c632b87d4c5b80e4dae33af217e45866b7f2d9",
+    "BFE8_D02_MARGIN_LOCK.json": "4c9323710bdf8cb7198b42977b8a5920f8e20301e1be77ee1d9b65ba241c0de7",
+    "BFE8_D02_METRICS.json": "fdb15dc3f7af53f4f175870758dfc48db1120a112de428adc3cc9f7ca8a5045f",
+    "BFE8_D02_PER_SEED.csv": "f68c181ae57f7f7cf6528b91aa7968060195d0415c9e7adb9229786d1d5e1482",
+    "BFE8_D02_REPORT.md": "dde0c9f01faad4ee8cd381906b84cb0a1f9fa67e53fa2544c1e356d9d4de3413",
+    "BFE8_D02_RUN_LEDGER.json": "c1e13f25c72c7b6f63e412e9b59346606c4781329071d894be5b63a2409a8bfc",
+    "P0_EVIDENCE_MATRIX.json": "2bc9fe9fad9dbcf7e62827606c532158d5d957512283cb2ed013cd241a472470",
+    "P0_EVIDENCE_MATRIX.md": "3fdc86c5264965aa23fcd7412688019eaf92632aefb7cc5cd340159bf57c48d3",
+    "P0_EXPECTED_PROCESS_SIGNATURES.csv": "3f0140b9ce1a5fde8cda09d4d1bbfa0507a099bc8713346f55d1b29ceb958a32",
+    "P0_SIMULATION_BUDGET.json": "d260014432ea0815e5606ebc816d25ec47a591f51d6b5b69feee683263f44f02",
+    "P4_GATE.json": "80ddcc0a2d0f47d4dee85373a296c1b58cb308cecd8ec795e39f72673203fcb9",
+    "P6_GATE.json": "0af7bec614cfab850d8b17da3fc20b9fb18303f575328bdb35536fad537892b4",
+    "P7_GATE.json": "7b757d1689a6c8910ff481717d98736717105027387576a81605522bf610d475"
+  },
+  "figure_sha256": "dbcb82ee1f91fa97246e03cda5dc7ff020aaa961a693dc12f6fed3d72a85f971",
+  "gate": "BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN",
+  "healthy_fpr_observed": {
+    "alarms": 1,
+    "events": 240,
+    "fpr": 0.004166666666666667,
+    "wilson_95": [
+      0.0007358980250827037,
+      0.02322007258362979
+    ]
+  },
+  "margin_lock_sha256": "4c9323710bdf8cb7198b42977b8a5920f8e20301e1be77ee1d9b65ba241c0de7",
+  "production_rtl_modified": false,
+  "scope": "D02 MEDIUM_CANONICAL ARCH0 only",
+  "simulation_accounting": {
+    "d02_capture": 30,
+    "d02_hspice": 30,
+    "healthy_capture": 30,
+    "healthy_hspice": 30,
+    "p4_physical": 0,
+    "p7_vcs": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

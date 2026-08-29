@@ -1157,6 +1157,76 @@ def run_p7():
     (ROOT / "P7_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS", "status": "PASS", "representative_seeds": selected, "simulation_accounting": {"hspice": 0, "vcs": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def run_p8():
+    """Publish the compact final pilot package and freeze the methodology."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    required = ["P0_EVIDENCE_MATRIX.md", "P0_EVIDENCE_MATRIX.json", "P0_EXPECTED_PROCESS_SIGNATURES.csv",
+                "P0_SIMULATION_BUDGET.json", "BFE8_D02_MARGIN_LOCK.json", "BFE8_D02_PER_SEED.csv",
+                "BFE8_D02_HEALTHY_FPR.csv", "BFE8_D02_METRICS.json", "P4_GATE.json", "P6_GATE.json", "P7_GATE.json"]
+    missing = [name for name in required if not (ROOT / name).is_file()]
+    if missing:
+        raise RuntimeError("P8 missing required evidence: {}".format(", ".join(missing)))
+    metrics, fpr, lock = read_json(ROOT / "BFE8_D02_METRICS.json"), read_json(ROOT / "BFE8_D02_HEALTHY_FPR_METRICS.json"), read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    with (ROOT / "BFE8_D02_PER_SEED.csv").open(newline="", encoding="ascii") as stream:
+        rows = list(csv.DictReader(stream))
+    if len(rows) != 30 or not all(row["target_event"] == "21 ns RISE" for row in rows):
+        raise RuntimeError("P8 per-seed table is incomplete or target event drifted")
+    headrooms = [int(row["H_D"]) for row in rows]
+    figure_path = ROOT / "BFE8_D02_HEADROOM.png"
+    plt.figure(figsize=(6.0, 3.4), dpi=180)
+    plt.axhline(0.0, color="black", linewidth=0.9)
+    plt.scatter([int(row["seed"]) for row in rows], headrooms, s=22, color="#1769aa")
+    plt.xlabel("Process seed")
+    plt.ylabel("Decision headroom H_D (M-codes)")
+    plt.title("D02 ARCH0 headroom across 30 paired process seeds")
+    plt.grid(axis="y", alpha=0.25)
+    plt.tight_layout()
+    plt.savefig(str(figure_path))
+    plt.close()
+    ledger = {
+        "gate": "BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN",
+        "stages": [
+            {"stage": "P0", "hspice": 0, "vcs": 0, "reason_new_data_required": "authority hashes and retained signatures already available"},
+            {"stage": "P1", "hspice": 0, "vcs": 0, "reason_new_data_required": "healthy controls and offline contract tests"},
+            {"stage": "P2", "hspice": 1, "vcs": 1, "reason_new_data_required": "no valid 1.10 V healthy composite capture existed"},
+            {"stage": "P3", "hspice": 29, "vcs": 29, "reason_new_data_required": "missing healthy process-population captures; seed 41001 reused"},
+            {"stage": "P4", "hspice": 0, "vcs": 0, "reason_new_data_required": "FPR parsed from existing FPR_BG captures"},
+            {"stage": "P5", "hspice": 1, "vcs": 1, "reason_new_data_required": "first frozen D02 capture after margin lock"},
+            {"stage": "P6", "hspice": 29, "vcs": 29, "reason_new_data_required": "missing D02 process-population captures; seed 41001 reused"},
+            {"stage": "P7", "hspice": 0, "vcs": 1, "reason_new_data_required": "representative captured-vector production RTL replay"},
+            {"stage": "P8", "hspice": 0, "vcs": 0, "reason_new_data_required": "final report and figure generated from frozen CSV/JSON"},
+        ],
+        "totals": {"healthy_hspice": 30, "healthy_capture": 30, "d02_hspice": 30, "d02_capture": 30, "p7_vcs": 1, "p4_physical": 0},
+        "scope": "D02 MEDIUM_CANONICAL only; no D01/D03-D12 and no ARCH1",
+    }
+    (ROOT / "BFE8_D02_RUN_LEDGER.json").write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    report = [
+        "# BFE8 D02 ARCH0 quantitative pilot",
+        "",
+        "Gate: `BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN`",
+        "",
+        "| Metric | D02 ARCH0 pilot |",
+        "|---|---:|",
+        "| Healthy FPR | {}/{} observed healthy events |".format(fpr["FPR_healthy"]["alarms"], fpr["FPR_healthy"]["events"]),
+        "| Detection coverage C_det | {}/30 ({:.1f}%) |".format(metrics["coverage"]["detected"], 100.0 * metrics["coverage"]["fraction"]),
+        "| Decision headroom H_D | {} / {} M-codes (min / median) |".format(metrics["headroom_all_seeds"]["min"], metrics["headroom_all_seeds"]["median"]),
+        "| First-alarm latency L_det | {:.6f} / {:.6f} ns (median / worst) |".format(metrics["first_alarm_latency_detected_only_ns"]["median"], metrics["first_alarm_latency_detected_only_ns"]["worst"]),
+        "",
+        "Frozen margins: `M_MARGIN_RISE_P0={}` and `M_MARGIN_FALL_P0={}` M-codes.".format(lock["M_MARGIN_RISE_P0"], lock["M_MARGIN_FALL_P0"]),
+        "Margins were selected from healthy-only MARGIN_BG=7302 development data and committed before any D02 attack simulation.",
+        "Coverage is observed over 30 paired process seeds, not a universal silicon claim; FPR is observed over independent FPR_BG=7303 events.",
+        "",
+        "The single figure `BFE8_D02_HEADROOM.png` is generated from the final per-seed CSV; the method is now frozen for later DROOP12 expansion.",
+    ]
+    (ROOT / "BFE8_D02_REPORT.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+    final_files = required + ["BFE8_D02_HEALTHY_FPR_METRICS.json", "BFE8_D02_RUN_LEDGER.json", "BFE8_D02_HEADROOM.png", "BFE8_D02_REPORT.md"]
+    final_hashes = {name: sha256(ROOT / name) for name in final_files}
+    final_gate = {"gate": "BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN", "status": "PASS", "scope": "D02 MEDIUM_CANONICAL ARCH0 only", "coverage_observed": metrics["coverage"], "healthy_fpr_observed": fpr["FPR_healthy"], "margin_lock_sha256": sha256(ROOT / "BFE8_D02_MARGIN_LOCK.json"), "figure_sha256": final_hashes["BFE8_D02_HEADROOM.png"], "evidence_sha256": final_hashes, "simulation_accounting": ledger["totals"], "production_rtl_modified": False, "arch1_implemented": False, "stop_after_stage": True}
+    (ROOT / "BFE8_D02_GATE.json").write_text(json.dumps(final_gate, indent=2, sort_keys=True) + "\n", encoding="ascii")
+
+
 def run_p2():
     """Execute P2 and publish its PASS gate; failures remain blocking evidence."""
     case_root = run_p2_seed()
@@ -1261,7 +1331,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -1285,9 +1355,12 @@ def main():
     elif args.stage == "p6":
         run_p6()
         print("BFE8 P6 PASS: D02 ARCH0 population metrics characterized")
-    else:
+    elif args.stage == "p7":
         run_p7()
         print("BFE8 P7 PASS: representative ARCH0 RTL replay validated")
+    else:
+        run_p8()
+        print("BFE8 P8 PASS: quantitative pilot package frozen")
 
 
 if __name__ == "__main__":

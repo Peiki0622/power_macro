@@ -1,0 +1,68 @@
+{
+  "gate": "BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN",
+  "scope": "D02 MEDIUM_CANONICAL only; no D01/D03-D12 and no ARCH1",
+  "stages": [
+    {
+      "hspice": 0,
+      "reason_new_data_required": "authority hashes and retained signatures already available",
+      "stage": "P0",
+      "vcs": 0
+    },
+    {
+      "hspice": 0,
+      "reason_new_data_required": "healthy controls and offline contract tests",
+      "stage": "P1",
+      "vcs": 0
+    },
+    {
+      "hspice": 1,
+      "reason_new_data_required": "no valid 1.10 V healthy composite capture existed",
+      "stage": "P2",
+      "vcs": 1
+    },
+    {
+      "hspice": 29,
+      "reason_new_data_required": "missing healthy process-population captures; seed 41001 reused",
+      "stage": "P3",
+      "vcs": 29
+    },
+    {
+      "hspice": 0,
+      "reason_new_data_required": "FPR parsed from existing FPR_BG captures",
+      "stage": "P4",
+      "vcs": 0
+    },
+    {
+      "hspice": 1,
+      "reason_new_data_required": "first frozen D02 capture after margin lock",
+      "stage": "P5",
+      "vcs": 1
+    },
+    {
+      "hspice": 29,
+      "reason_new_data_required": "missing D02 process-population captures; seed 41001 reused",
+      "stage": "P6",
+      "vcs": 29
+    },
+    {
+      "hspice": 0,
+      "reason_new_data_required": "representative captured-vector production RTL replay",
+      "stage": "P7",
+      "vcs": 1
+    },
+    {
+      "hspice": 0,
+      "reason_new_data_required": "final report and figure generated from frozen CSV/JSON",
+      "stage": "P8",
+      "vcs": 0
+    }
+  ],
+  "totals": {
+    "d02_capture": 30,
+    "d02_hspice": 30,
+    "healthy_capture": 30,
+    "healthy_hspice": 30,
+    "p4_physical": 0,
+    "p7_vcs": 1
+  }
+}
