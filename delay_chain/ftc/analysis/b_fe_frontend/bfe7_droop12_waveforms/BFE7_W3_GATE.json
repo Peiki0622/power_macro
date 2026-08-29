@@ -1,0 +1,12 @@
+{
+  "gate": "BFE7_DROOP12_W3_HSPICE_PWL_PACKAGE_READY",
+  "status": "PASS",
+  "scenario_count": 12,
+  "generated_artifacts": 24,
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0
+  }
+}
