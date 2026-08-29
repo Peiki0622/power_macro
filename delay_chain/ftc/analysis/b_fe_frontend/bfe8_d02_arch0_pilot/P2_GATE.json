@@ -1,0 +1,12 @@
+{
+  "case": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe8_d02_arch0_pilot/healthy/seed_41001",
+  "gate": "BFE8_D02_P2_HEALTHY_SINGLE_SEED_CAPTURE_PASS",
+  "seed": 41001,
+  "simulation_accounting": {
+    "hspice": 1,
+    "primesim": 1,
+    "vcs": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}
