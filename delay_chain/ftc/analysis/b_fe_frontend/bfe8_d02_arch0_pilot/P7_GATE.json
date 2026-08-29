@@ -1,0 +1,14 @@
+{
+  "gate": "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS",
+  "representative_seeds": [
+    41022,
+    41028,
+    41027
+  ],
+  "simulation_accounting": {
+    "hspice": 0,
+    "vcs": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

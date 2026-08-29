@@ -1025,6 +1025,138 @@ def run_p6():
     (ROOT / "P6_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED", "status": "PASS", "seed_count": len(rows), "coverage": metrics["coverage"], "headroom": metrics["headroom_all_seeds"], "latency": metrics["first_alarm_latency_detected_only_ns"], "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def q_word(bits):
+    """Convert tap-0..29 bits to the bfe_backend_top [29:0] integer word."""
+    if len(bits) != 30 or any(int(bit) not in (0, 1) for bit in bits):
+        raise ValueError("q_ff must contain exactly thirty binary taps")
+    return sum(int(bit) << index for index, bit in enumerate(bits))
+
+
+def render_rtl_replay_tb(representatives, lock):
+    """Generate one self-checking, synthesizable-RTL-compatible replay bench."""
+    lines = [
+        "// BFE8 P7 ARCH0 replay: simulation-only verification of production RTL.",
+        "// No production module or interface is altered by this testbench.",
+        "`timescale 1ns/1ps", "`default_nettype none", "module bfe8_backend_replay_tb;",
+        "    // ARCH0 public input: restored 30-bit safe-domain capture word.",
+        "    reg [29:0] safe_d;",
+        "    // ARCH0 public input: active-high LATQ transparency control.",
+        "    reg latch_gate;",
+        "    // ARCH0 public input: 400 MHz probe/backend clock.",
+        "    reg clk_probe;",
+        "    // ARCH0 public input: active-high asynchronous reset.",
+        "    reg reset;",
+        "    // ARCH0 public input: E4 consume strobe for the captured event.",
+        "    reg event_valid;",
+        "    // ARCH0 public input: 0=RISE, 1=FALL reference selection.",
+        "    reg edge_pol;",
+        "    // ARCH0 public input: 1 for the eight startup calibration samples.",
+        "    reg cal_mode;",
+        "    // ARCH0 public input: strict RISE M-code margin.",
+        "    reg [8:0] m_margin_rise;",
+        "    // ARCH0 public input: strict FALL M-code margin.",
+        "    reg [8:0] m_margin_fall;",
+        "    // ARCH0 status: high after four valid samples of each polarity.",
+        "    wire cal_lock;",
+        "    // ARCH0 status: registered E7 alarm pulse.",
+        "    wire droop_alarm;",
+        "    // ARCH0 status: E8 sticky alarm state.",
+        "    wire droop_alarm_sticky;",
+        "    bfe_backend_top dut (.safe_d(safe_d), .latch_gate(latch_gate), .clk_probe(clk_probe),",
+        "        .reset(reset), .event_valid(event_valid), .edge_pol(edge_pol), .cal_mode(cal_mode),",
+        "        .m_margin_rise(m_margin_rise), .m_margin_fall(m_margin_fall), .cal_lock(cal_lock),",
+        "        .droop_alarm(droop_alarm), .droop_alarm_sticky(droop_alarm_sticky));",
+        "    always #1.25 clk_probe = ~clk_probe;",
+        "    integer cycle; integer source_index; integer i; integer expected_alarm; integer alarm_count;",
+        "    reg [29:0] stimulus [0:10]; reg [8:0] expected_m [0:10]; reg [8:0] expected_ref [0:10];",
+        "    reg [8:0] expected_margin [0:10]; reg expected_pol [0:10]; reg expected_cal [0:10];",
+    ]
+    for rep_index, rep in enumerate(representatives):
+        seed = rep["seed"]
+        healthy = rep["healthy_events"]
+        d02 = rep["d02_events"]
+        events = healthy[:8] + d02[:3]
+        lines += ["    // Representative seed {}: min/median/max headroom replay.".format(seed),
+                  "    task run_seed_{:05d};".format(seed), "    begin"]
+        for index, event in enumerate(events):
+            bits = [int(bit) for bit in event["q_ff"]]
+            m_value = q_word(bits)
+            m_code = int(event.get("m_ff", event.get("M_FF")))
+            if index < 8:
+                ref = 0
+                margin = 0
+                cal = 1
+                pol = 0 if index % 2 == 0 else 1
+            else:
+                pol = 0 if event["edge"] == "RISE" else 1
+                ref = rep["ref_rise"] if pol == 0 else rep["ref_fall"]
+                margin = int(lock["M_MARGIN_RISE_P0"] if pol == 0 else lock["M_MARGIN_FALL_P0"])
+                cal = 0
+            lines.append("        stimulus[{}] = 30'h{:08x}; expected_m[{}] = 9'd{}; expected_ref[{}] = 9'd{}; expected_margin[{}] = 9'd{}; expected_pol[{}] = 1'b{}; expected_cal[{}] = 1'b{};".format(index, m_value, index, m_code, index, ref, index, margin, index, pol, index, cal))
+        lines += [
+            "        safe_d=30'd0; latch_gate=1'b1; event_valid=1'b0; edge_pol=1'b0; cal_mode=1'b0;",
+            "        m_margin_rise=9'd0; m_margin_fall=9'd0; alarm_count=0; reset=1'b1; #2.0; reset=1'b0;",
+            "        for (cycle=0; cycle<25; cycle=cycle+1) begin",
+            "            @(negedge clk_probe);",
+            "            if (cycle<11) safe_d=stimulus[cycle]; else safe_d=30'd0;",
+            "            source_index=cycle-4; event_valid=(source_index>=0 && source_index<11);",
+            "            if (event_valid) begin edge_pol=expected_pol[source_index]; cal_mode=expected_cal[source_index];",
+            "                m_margin_rise=(expected_pol[source_index]==1'b0) ? expected_margin[source_index] : 9'd0;",
+            "                m_margin_fall=(expected_pol[source_index]==1'b1) ? expected_margin[source_index] : 9'd0; end",
+            "            else begin edge_pol=1'b0; cal_mode=1'b0; m_margin_rise=9'd0; m_margin_fall=9'd0; end",
+            "            @(posedge clk_probe); #0.01;",
+            "            if (event_valid && dut.u_backend_ctrl.event_m_q !== expected_m[source_index]) $fatal(1, \"P7 M mismatch seed=%0d event=%0d\", {}, source_index);".format(seed),
+            "            if (cycle>=7) begin source_index=cycle-7; expected_alarm=(source_index>=8 && source_index<11) ? ((expected_m[source_index]>=expected_ref[source_index]) ? (expected_m[source_index]-expected_ref[source_index] > expected_margin[source_index]) : (expected_ref[source_index]-expected_m[source_index] > expected_margin[source_index])) : 0; if (droop_alarm !== expected_alarm[0]) $fatal(1, \"P7 E7 mismatch seed=%0d event=%0d\", {}, source_index); if (droop_alarm) alarm_count=alarm_count+1; end".format(seed),
+            "        end",
+            "        if (!cal_lock) $fatal(1, \"P7 CAL_LOCK missing seed=%0d\", {});".format(seed),
+            "        if (!droop_alarm_sticky) $fatal(1, \"P7 E8 sticky missing seed=%0d\", {});".format(seed),
+            "    end", "    endtask",
+        ]
+    lines += ["    initial begin clk_probe=1'b0; safe_d=30'd0; latch_gate=1'b1; reset=1'b1; event_valid=1'b0; edge_pol=1'b0; cal_mode=1'b0; m_margin_rise=9'd0; m_margin_fall=9'd0; #1;",]
+    for rep in representatives:
+        lines.append("        run_seed_{:05d};".format(rep["seed"]))
+    lines += ["        $display(\"BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS\"); $finish;", "    end", "endmodule", "`default_nettype wire", ""]
+    return "\n".join(lines)
+
+
+def run_p7():
+    """Replay representative real vectors through the unchanged ARCH0 RTL."""
+    lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    with (ROOT / "BFE8_D02_PER_SEED.csv").open(newline="", encoding="ascii") as stream:
+        d02_rows = {int(row["seed"]): row for row in csv.DictReader(stream)}
+    with (ROOT / "BFE8_HEALTHY_PER_SEED.csv").open(newline="", encoding="ascii") as stream:
+        healthy_rows = {int(row["seed"]): row for row in csv.DictReader(stream)}
+    ordered = sorted(d02_rows.values(), key=lambda row: int(row["H_D"]))
+    selected = [int(ordered[0]["seed"]), int(ordered[len(ordered) // 2]["seed"]), int(ordered[-1]["seed"])]
+    representatives = []
+    for seed in selected:
+        healthy_payload = read_json(RUN_ROOT / "healthy" / "seed_{:05d}".format(seed) / "HEALTHY_CASE.json")
+        d02_payload = read_json(RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "D02_CASE.json")
+        representatives.append({"seed": seed, "ref_rise": int(healthy_rows[seed]["M_REF_RISE"]),
+                                "ref_fall": int(healthy_rows[seed]["M_REF_FALL"]),
+                                "healthy_events": healthy_payload["events"], "d02_events": d02_payload["events"]})
+    replay_root = RUN_ROOT / "p7_rtl_replay"
+    replay_root.mkdir(parents=True, exist_ok=True)
+    tb = replay_root / "tb_bfe8_backend_replay.sv"
+    tb.write_text(render_rtl_replay_tb(representatives, lock), encoding="ascii")
+    vcs = shutil.which("vcs") or "/home/synopsys/vcs/W-2024.09/bin/vcs"
+    rtl_files = [FTC_ROOT / "rtl" / name for name in ("ftc_capture_struct.sv", "bfe_capture_bank.sv", "bfe_m_feature.sv", "bfe_backend_ctrl.sv", "bfe_backend_top.sv")]
+    # Logical cell stubs are test-only elaboration models for the production
+    # capture wrapper; they are not synthesized or copied into production RTL.
+    rtl_files.append(FTC_ROOT / "tests" / "ftc_standard_cell_elab_stubs.sv")
+    command = [vcs, "-full64", "-sverilog", "-timescale=1ns/1ps", "-o", "simv", str(tb)] + [str(path) for path in rtl_files]
+    compile_result = subprocess.run(command, cwd=replay_root, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, check=False, timeout=900)
+    (replay_root / "compile.log").write_text(compile_result.stdout, encoding="utf-8", errors="replace")
+    if compile_result.returncode:
+        raise RuntimeError("P7 VCS compilation failed")
+    run_result = subprocess.run(["./simv"], cwd=replay_root, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, check=False, timeout=900)
+    (replay_root / "run.log").write_text(run_result.stdout, encoding="utf-8", errors="replace")
+    if run_result.returncode or "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS" not in run_result.stdout:
+        raise RuntimeError("P7 RTL replay failed")
+    (ROOT / "P7_REPORT.md").write_text("# BFE8 D02 P7 ARCH0 RTL replay\n\nGate: `BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS`\n\nThe weakest, near-median and strongest actual D02 headroom seeds were replayed through the unchanged production ARCH0 RTL. Calibration, strict comparison, E7 alignment and E8 sticky behavior passed without new HSPICE.\n", encoding="utf-8")
+    (ROOT / "P7_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS", "status": "PASS", "representative_seeds": selected, "simulation_accounting": {"hspice": 0, "vcs": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def run_p2():
     """Execute P2 and publish its PASS gate; failures remain blocking evidence."""
     case_root = run_p2_seed()
@@ -1129,7 +1261,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -1150,9 +1282,12 @@ def main():
     elif args.stage == "p5":
         run_p5()
         print("BFE8 P5 PASS: frozen D02 seed 41001 captured")
-    else:
+    elif args.stage == "p6":
         run_p6()
         print("BFE8 P6 PASS: D02 ARCH0 population metrics characterized")
+    else:
+        run_p7()
+        print("BFE8 P7 PASS: representative ARCH0 RTL replay validated")
 
 
 if __name__ == "__main__":
