@@ -995,10 +995,15 @@ def run_p6():
         headroom, detected = d_m - margin, int(d_m > margin)
         headrooms.append(headroom)
         latency = "N/A"
+        latency_basis = "MISS"
         if detected:
-            # E0 is the real DFF capture at target edge + 1534.524618567 ps;
-            # E7 is seven 400 MHz probe edges later (2.5 ns each).
-            latency = (21000.0 + CAPTURE_DFF_OFFSET_PS + 7.0 * PROBE_PERIOD_PS) / 1000.0 - onset_ns
+            # E0 is the real DFF capture at this seed's measured target edge
+            # plus the frozen DFF offset.  E7 is seven 400 MHz probe edges
+            # later.  This is a deterministic TIM0 derivation, not a claim
+            # that every seed happened to produce the same analog waveform.
+            target_edge_ps = float(target["edge_ps"])
+            latency = (target_edge_ps + CAPTURE_DFF_OFFSET_PS + 7.0 * PROBE_PERIOD_PS) / 1000.0 - onset_ns
+            latency_basis = "derived_fixed_tim0_pipeline"
             latencies.append(latency)
         pre_alarm = [int(abs(int(event["M_FF"]) - ref) > margin) for event in case["events"] if int(event["event_index"]) < 2]
         rows.append({"seed": seed, "mc_random_signature": case["mc_random_signature"],
@@ -1006,7 +1011,8 @@ def run_p6():
                      "M_FF_target": int(target["M_FF"]), "M_REF_RISE": ref,
                      "D_M": d_m, "locked_rise_margin": margin, "H_D": headroom,
                      "detected": detected, "pre_attack_alarm_count": sum(pre_alarm),
-                     "first_alarm_latency_ns": latency, "rail_resolved": True,
+                     "first_alarm_latency_ns": latency, "first_alarm_latency_basis": latency_basis,
+                     "rail_resolved": True,
                      "source_measurements_sha256": case["source_measurements_sha256"],
                      "source_mc0_sha256": case["source_mc0_sha256"], "capture_sha256": case["capture_sha256"]})
     out = ROOT / "BFE8_D02_PER_SEED.csv"
@@ -1019,6 +1025,9 @@ def run_p6():
     metrics = {"coverage": {"detected": detected_count, "total": len(rows), "fraction": detected_count / float(len(rows)), "wilson_95": coverage_ci},
                "headroom_all_seeds": {"min": min(headrooms), "median": float(np.median(headrooms))},
                "first_alarm_latency_detected_only_ns": {"median": float(np.median(latencies_sorted)) if latencies_sorted else "N/A", "worst": max(latencies_sorted) if latencies_sorted else "N/A"},
+               "first_alarm_latency_basis": "derived_fixed_tim0_pipeline",
+               "first_alarm_latency_formula": "(target_edge_ps + 1534.524618567 ps + 7 * 2500 ps) - attack_onset",
+               "pipeline_probe_edges": {"e0_to_e4": 4, "e4_to_e7": 3, "e0_to_e7": 7},
                "attack_onset_ns": onset_ns, "target_event": "21 ns RISE", "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]), "simulation_accounting": {"d02_hspice": len(rows), "d02_capture": len(rows)}}
     (ROOT / "BFE8_D02_METRICS.json").write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="ascii")
     (ROOT / "P6_REPORT.md").write_text("# BFE8 D02 P6 ARCH0 population metrics\n\nGate: `BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED`\n\nAll 30 process seeds were paired to healthy signatures. Coverage and headroom use only the frozen 21 ns RISE event; pre-attack events are retained as diagnostics.\n", encoding="utf-8")
@@ -1068,6 +1077,13 @@ def render_rtl_replay_tb(representatives, lock):
         "        .droop_alarm(droop_alarm), .droop_alarm_sticky(droop_alarm_sticky));",
         "    always #1.25 clk_probe = ~clk_probe;",
         "    integer cycle; integer source_index; integer i; integer expected_alarm; integer alarm_count;",
+        "    // Timing evidence is kept in nanoseconds because the bench timescale",
+        "    // is 1 ns/1 ps.  event_valid is the E4 backend consume boundary,",
+        "    // so its timestamp is E4; the alarm timestamp is captured at the",
+        "    // registered E7 output edge below.  The frozen capture contract",
+        "    // separately contributes four probe periods from E0 to E4.",
+        "    real e4_event_time_ns [0:10];",
+        "    integer timing_fd;",
         "    reg [29:0] stimulus [0:10]; reg [8:0] expected_m [0:10]; reg [8:0] expected_ref [0:10];",
         "    reg [8:0] expected_margin [0:10]; reg expected_pol [0:10]; reg expected_cal [0:10];",
     ]
@@ -1105,17 +1121,18 @@ def render_rtl_replay_tb(representatives, lock):
             "                m_margin_fall=(expected_pol[source_index]==1'b1) ? expected_margin[source_index] : 9'd0; end",
             "            else begin edge_pol=1'b0; cal_mode=1'b0; m_margin_rise=9'd0; m_margin_fall=9'd0; end",
             "            @(posedge clk_probe); #0.01;",
+            "            if (event_valid) begin e4_event_time_ns[source_index] = $realtime; end",
             "            if (event_valid && dut.u_backend_ctrl.event_m_q !== expected_m[source_index]) $fatal(1, \"P7 M mismatch seed=%0d event=%0d\", {}, source_index);".format(seed),
-            "            if (cycle>=7) begin source_index=cycle-7; expected_alarm=(source_index>=8 && source_index<11) ? ((expected_m[source_index]>=expected_ref[source_index]) ? (expected_m[source_index]-expected_ref[source_index] > expected_margin[source_index]) : (expected_ref[source_index]-expected_m[source_index] > expected_margin[source_index])) : 0; if (droop_alarm !== expected_alarm[0]) $fatal(1, \"P7 E7 mismatch seed=%0d event=%0d\", {}, source_index); if (droop_alarm) alarm_count=alarm_count+1; end".format(seed),
+            "            if (cycle>=7) begin source_index=cycle-7; expected_alarm=(source_index>=8 && source_index<11) ? ((expected_m[source_index]>=expected_ref[source_index]) ? (expected_m[source_index]-expected_ref[source_index] > expected_margin[source_index]) : (expected_ref[source_index]-expected_m[source_index] > expected_margin[source_index])) : 0; if (droop_alarm !== expected_alarm[0]) $fatal(1, \"P7 E7 mismatch seed=%0d event=%0d\", {}, source_index); if (droop_alarm) begin alarm_count=alarm_count+1; $fwrite(timing_fd, \"{},%0d,%.6f,%.6f,%.6f\\n\", source_index, e4_event_time_ns[source_index], $realtime, $realtime-e4_event_time_ns[source_index]); $display(\"P7_ALARM_TIMESTAMP seed={} event=%0d alarm_ns=%.6f e4_ns=%.6f e4_to_e7_ns=%.6f\", source_index, $realtime, e4_event_time_ns[source_index], $realtime-e4_event_time_ns[source_index]); end end".format(seed, seed, seed),
             "        end",
             "        if (!cal_lock) $fatal(1, \"P7 CAL_LOCK missing seed=%0d\", {});".format(seed),
             "        if (!droop_alarm_sticky) $fatal(1, \"P7 E8 sticky missing seed=%0d\", {});".format(seed),
             "    end", "    endtask",
         ]
-    lines += ["    initial begin clk_probe=1'b0; safe_d=30'd0; latch_gate=1'b1; reset=1'b1; event_valid=1'b0; edge_pol=1'b0; cal_mode=1'b0; m_margin_rise=9'd0; m_margin_fall=9'd0; #1;",]
+    lines += ["    initial begin timing_fd=$fopen(\"P7_ALARM_TIMING.csv\",\"w\"); if (timing_fd==0) $fatal(1, \"P7 timing evidence file could not be opened\"); $fwrite(timing_fd,\"seed,event_index,e4_event_ns,alarm_ns,e4_to_e7_ns\\n\"); clk_probe=1'b0; safe_d=30'd0; latch_gate=1'b1; reset=1'b1; event_valid=1'b0; edge_pol=1'b0; cal_mode=1'b0; m_margin_rise=9'd0; m_margin_fall=9'd0; #1;",]
     for rep in representatives:
         lines.append("        run_seed_{:05d};".format(rep["seed"]))
-    lines += ["        $display(\"BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS\"); $finish;", "    end", "endmodule", "`default_nettype wire", ""]
+    lines += ["        $fclose(timing_fd); $display(\"BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS\"); $finish;", "    end", "endmodule", "`default_nettype wire", ""]
     return "\n".join(lines)
 
 
@@ -1153,8 +1170,41 @@ def run_p7():
     (replay_root / "run.log").write_text(run_result.stdout, encoding="utf-8", errors="replace")
     if run_result.returncode or "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS" not in run_result.stdout:
         raise RuntimeError("P7 RTL replay failed")
-    (ROOT / "P7_REPORT.md").write_text("# BFE8 D02 P7 ARCH0 RTL replay\n\nGate: `BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS`\n\nThe weakest, near-median and strongest actual D02 headroom seeds were replayed through the unchanged production ARCH0 RTL. Calibration, strict comparison, E7 alignment and E8 sticky behavior passed without new HSPICE.\n", encoding="utf-8")
-    (ROOT / "P7_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS", "status": "PASS", "representative_seeds": selected, "simulation_accounting": {"hspice": 0, "vcs": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # The bench writes one row for each detected representative target event.
+    # Check the measured E0-to-E7 interval independently of the P6 latency
+    # derivation.  The absolute timestamps are task-local simulation times;
+    # the invariant that matters for TIM0 is seven probe periods.
+    timing_path = replay_root / "P7_ALARM_TIMING.csv"
+    if not timing_path.is_file():
+        raise RuntimeError("P7 timing evidence was not produced")
+    with timing_path.open(newline="", encoding="ascii") as stream:
+        timing_rows = list(csv.DictReader(stream))
+    # event_valid is E4; the RTL comparison reaches E7 after three clocks.
+    # The four-clock E0-to-E4 capture leg is already included in P6's
+    # seven-period absolute latency derivation.
+    expected_pipeline_ns = 3.0 * PROBE_PERIOD_PS / 1000.0
+    if len(timing_rows) != len(selected):
+        raise RuntimeError("P7 timing evidence does not contain one alarm per representative")
+    for row in timing_rows:
+        if int(row["event_index"]) != 10:
+            raise RuntimeError("P7 timing row is not the D02 target event")
+        if abs(float(row["e4_to_e7_ns"]) - expected_pipeline_ns) > 1.0e-6:
+            raise RuntimeError("P7 E0-to-E7 interval is not seven probe periods")
+    timing_text = [
+        "# BFE8 D02 P7 ARCH0 RTL replay",
+        "",
+        "Gate: `BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS`",
+        "",
+        "The weakest, near-median and strongest actual D02 headroom seeds were replayed through the unchanged production ARCH0 RTL. Calibration, strict comparison, E7 alignment and E8 sticky behavior passed without new HSPICE.",
+        "",
+        "The task-scoped `P7_ALARM_TIMING.csv` records the actual `$realtime` E4 consume and E7 alarm timestamps. All three target rows measured an E4-to-E7 interval of {:.6f} ns (3 x 2.5 ns probe periods); the frozen capture contract contributes 4 probe periods from E0 to E4, so E0-to-E7 remains 7 periods. Absolute rows are sequential bench epochs; P6's absolute latency is the target-edge + DFF-offset + seven-period derivation.".format(expected_pipeline_ns),
+        "",
+        "| Seed | E4 event (ns) | E7 alarm (ns) | E4->E7 (ns) |",
+        "|---:|---:|---:|---:|",
+    ]
+    timing_text.extend("| {seed} | {e4_event_ns} | {alarm_ns} | {e4_to_e7_ns} |".format(**row) for row in timing_rows)
+    (ROOT / "P7_REPORT.md").write_text("\n".join(timing_text) + "\n", encoding="utf-8")
+    (ROOT / "P7_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P7_ARCH0_RTL_REPLAY_PASS", "status": "PASS", "representative_seeds": selected, "timing_evidence": {"path": str(timing_path), "sha256": sha256(timing_path), "rows": timing_rows, "expected_pipeline_ns": expected_pipeline_ns}, "simulation_accounting": {"hspice": 0, "vcs": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def run_p8():
@@ -1217,6 +1267,7 @@ def run_p8():
         "Frozen margins: `M_MARGIN_RISE_P0={}` and `M_MARGIN_FALL_P0={}` M-codes.".format(lock["M_MARGIN_RISE_P0"], lock["M_MARGIN_FALL_P0"]),
         "Margins were selected from healthy-only MARGIN_BG=7302 development data and committed before any D02 attack simulation.",
         "Coverage is observed over 30 paired process seeds, not a universal silicon claim; FPR is observed over independent FPR_BG=7303 events.",
+        "First-alarm latency is a derived fixed-TIM0 pipeline value (target edge + frozen DFF offset + seven probe periods); P7 measured the three-period E4-to-E7 leg on representative real vectors, while the frozen capture contract supplies four periods from E0 to E4.",
         "",
         "The single figure `BFE8_D02_HEADROOM.png` is generated from the final per-seed CSV; the method is now frozen for later DROOP12 expansion.",
     ]

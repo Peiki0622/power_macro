@@ -9,15 +9,22 @@
       0.9999999999999999
     ]
   },
+  "first_alarm_latency_basis": "derived_fixed_tim0_pipeline",
   "first_alarm_latency_detected_only_ns": {
     "median": 20.534524618566998,
     "worst": 20.534524618566998
   },
+  "first_alarm_latency_formula": "(target_edge_ps + 1534.524618567 ps + 7 * 2500 ps) - attack_onset",
   "headroom_all_seeds": {
     "median": 38.0,
     "min": 19
   },
   "locked_rise_margin": 22,
+  "pipeline_probe_edges": {
+    "e0_to_e4": 4,
+    "e0_to_e7": 7,
+    "e4_to_e7": 3
+  },
   "simulation_accounting": {
     "d02_capture": 30,
     "d02_hspice": 30

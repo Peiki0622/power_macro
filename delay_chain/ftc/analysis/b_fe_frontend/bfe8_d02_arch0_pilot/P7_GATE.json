@@ -10,5 +10,33 @@
     "vcs": 1
   },
   "status": "PASS",
-  "stop_after_stage": true
+  "stop_after_stage": true,
+  "timing_evidence": {
+    "expected_pipeline_ns": 7.5,
+    "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe8_d02_arch0_pilot/p7_rtl_replay/P7_ALARM_TIMING.csv",
+    "rows": [
+      {
+        "alarm_ns": "48.760000",
+        "e4_event_ns": "41.260000",
+        "e4_to_e7_ns": "7.500000",
+        "event_index": "10",
+        "seed": "41022"
+      },
+      {
+        "alarm_ns": "113.760000",
+        "e4_event_ns": "106.260000",
+        "e4_to_e7_ns": "7.500000",
+        "event_index": "10",
+        "seed": "41028"
+      },
+      {
+        "alarm_ns": "178.760000",
+        "e4_event_ns": "171.260000",
+        "e4_to_e7_ns": "7.500000",
+        "event_index": "10",
+        "seed": "41027"
+      }
+    ],
+    "sha256": "ca70d27b8d4e7dd9e64dcb69d4f93d61bc1dbd25be273ab92c9926f5f9a32159"
+  }
 }

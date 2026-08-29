@@ -12,5 +12,6 @@ Gate: `BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN`
 Frozen margins: `M_MARGIN_RISE_P0=22` and `M_MARGIN_FALL_P0=24` M-codes.
 Margins were selected from healthy-only MARGIN_BG=7302 development data and committed before any D02 attack simulation.
 Coverage is observed over 30 paired process seeds, not a universal silicon claim; FPR is observed over independent FPR_BG=7303 events.
+First-alarm latency is a derived fixed-TIM0 pipeline value (target edge + frozen DFF offset + seven probe periods); P7 measured the three-period E4-to-E7 leg on representative real vectors, while the frozen capture contract supplies four periods from E0 to E4.
 
 The single figure `BFE8_D02_HEADROOM.png` is generated from the final per-seed CSV; the method is now frozen for later DROOP12 expansion.
