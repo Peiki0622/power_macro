@@ -1,0 +1,22 @@
+{
+  "background_limit_v": 0.008,
+  "csv_sha256": "e461808e887171119234c170b07747ec566ce4520ef01589ff1e49b978e4a70b",
+  "fast_knot_spacing_s": 2.5e-10,
+  "generator_version": "bfe7_droop12_generator_v1",
+  "inc_sha256": "695e25adda946cdb0b7720f5b0854d859451d22af7bca6d809aa3d9f193147b7",
+  "nominal_vdd_v": 1.1,
+  "numpy": "2.0.2",
+  "python": "3.9.25",
+  "rng": "numpy.random.Generator(numpy.random.PCG64(7301))",
+  "schema_version": 1,
+  "seed": 7301,
+  "simulation_accounting": {
+    "dc_runs": 0,
+    "hspice_runs": 0,
+    "primesim_runs": 0,
+    "vcs_runs": 0
+  },
+  "slow_knot_spacing_s": 2.5e-09,
+  "stop_time_s": 6.5e-08,
+  "temperature_c": 25.0
+}

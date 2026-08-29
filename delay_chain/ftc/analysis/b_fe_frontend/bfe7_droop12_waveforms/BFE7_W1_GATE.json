@@ -1,0 +1,15 @@
+{
+  "gate": "BFE7_DROOP12_W1_NORMAL_BACKGROUND_FROZEN",
+  "status": "PASS",
+  "seed": 7301,
+  "rng": "numpy.random.Generator(numpy.random.PCG64(7301))",
+  "rows": 261,
+  "csv": "normal_background/NBG_7301.csv",
+  "inc": "normal_background/NBG_7301.inc",
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0
+  }
+}
