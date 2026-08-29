@@ -357,17 +357,61 @@ def run_p1():
 def healthy_clock_pwl(total_stop_ps):
     """Render the frozen 50 MHz system clock across the three segments."""
     events = json.loads((ROOT / "healthy_controls" / "HEALTHY_COMPOSITE_EVENT_MAP.json").read_text(encoding="utf-8"))["events"]
+    return clock_pwl_for_edges(events, total_stop_ps)
+
+
+def clock_pwl_for_edges(events, total_stop_ps):
+    """Render a 50 MHz clock for an explicit ``(time_ps, polarity)`` map."""
     points = [(0.0, 0.0)]
     state = 0.0
     for event in events:
-        if not event["valid"]:
+        if isinstance(event, dict) and not event["valid"]:
             continue
-        edge = float(event["time_ps"])
+        edge = float(event["time_ps"] if isinstance(event, dict) else event[0])
         points.extend([(edge - 0.5, state), (edge + 0.5, BFE8_SAFE_V if state == 0.0 else 0.0)])
         state = BFE8_SAFE_V if state == 0.0 else 0.0
     points.append((float(total_stop_ps), state))
     return "V_SCLK s_clk vss_a PWL({})".format(" ".join(
         "{:.12e} {:.12e}".format(t * 1.0e-12, v) for t, v in points))
+
+
+def d02_edges():
+    """Return frozen D02 system edges through the 65 ns canonical stop."""
+    csv_path = BFE7_ROOT / "waveforms" / "D02_MEDIUM_CANONICAL.csv"
+    if sha256(csv_path) != EXPECTED_D02_CSV_SHA256:
+        raise ValueError("D02 CSV hash changed before source generation")
+    # The contract's target is the 21 ns RISE edge; the fixed 50 MHz edge
+    # convention starts at 1 ns and alternates polarity every 10 ns.
+    return [(1000.0 + index * 10000.0, "RISE" if index % 2 == 0 else "FALL")
+            for index in range(7)]
+
+
+def d02_source_deck(cells, model, seed, total_stop_ps):
+    """Render D02 source HSPICE deck with the exact frozen include."""
+    scenario = {"scenario_id": "BFE8-D02-{}".format(seed), "baseline_v": BFE8_SAFE_V,
+                "droop_v": None, "phase_ps": None}
+    deck = bfe1_frontend.render_deck(cells, scenario, model)
+    deck = re.sub(r"\* Normal condition:[^\n]*\nV_VDD_MONITORED[^\n]*\n",
+                  '.include "D02_MEDIUM_CANONICAL.inc"\n', deck)
+    deck = re.sub(r"V_SCLK s_clk vss_a PWL\([^\n]+",
+                  clock_pwl_for_edges(d02_edges(), total_stop_ps), deck)
+    deck = deck.replace('.lib "{}" tt'.format(model), '.lib "{}" MOS_MC'.format(model))
+    deck = deck.replace(".option post=2 probe nomod measform=3 measdgt=10 runlvl=3",
+                        ".option post=0 nomod measform=3 measdgt=10 runlvl=3 seed={}".format(seed))
+    measures = []
+    for index, (edge_ps, _polarity) in enumerate(d02_edges()):
+        at_s = "{:.12e}".format((edge_ps + CAPTURE_G_CLOSE_OFFSET_PS) * 1.0e-12)
+        measures.append(".measure tran m_rail_{:02d} find v(vdd_monitored) at={}".format(index, at_s))
+        for tap in range(30):
+            measures.append(".measure tran m_x_{:02d}_{:02d} find v(xor_{}) at={}".format(index, tap, tap, at_s))
+    deck = deck.replace(".end", "\n" + "\n".join(measures) + "\n.end")
+    deck = re.sub(r"\.tran\s+[^\s]+\s+[^\n]+", ".tran {:.12e} {:.12e} sweep monte=2".format(
+        SOURCE_TRAN_STEP_S, total_stop_ps * 1.0e-12), deck, count=1)
+    if deck.count("MOS_MC") != 1 or "D02_MEDIUM_CANONICAL.inc" not in deck:
+        raise ValueError("D02 deck lost the exact frozen include or MC mode")
+    if "0.95" in deck or "9.500000" in deck:
+        raise ValueError("historical 0.95 V constant leaked into D02 deck")
+    return deck
 
 
 def healthy_source_deck(cells, model, seed, total_stop_ps):
@@ -403,7 +447,7 @@ def healthy_source_deck(cells, model, seed, total_stop_ps):
     return deck
 
 
-def parse_measurements(path, total_stop_ps):
+def parse_measurements(path, total_stop_ps, edge_items=None):
     """Read index-2 HSPICE measurements and apply the instantaneous threshold."""
     lines = [line for line in path.read_text(encoding="ascii", errors="strict").splitlines()
              if line and not line.startswith("$") and not line.startswith(".TITLE")]
@@ -413,7 +457,8 @@ def parse_measurements(path, total_stop_ps):
         raise ValueError("healthy mt0.csv lacks Monte-Carlo index 2")
     row = by_index[2]
     samples = []
-    for index, (edge_ps, polarity) in enumerate(_capture_edges(total_stop_ps)):
+    edges = _capture_edges(total_stop_ps) if edge_items is None else edge_items
+    for index, (edge_ps, polarity) in enumerate(edges):
         rail = float(row["m_rail_{:02d}".format(index)])
         xor = [float(row["m_x_{:02d}_{:02d}".format(index, tap)]) for tap in range(30)]
         if not math.isfinite(rail) or not all(math.isfinite(value) for value in xor):
@@ -447,9 +492,10 @@ def _capture_edges(total_stop_ps):
     return [(float(item["time_ps"]), item["edge"].lower()) for item in mapping["events"] if item["valid"]]
 
 
-def _dff_rises(total_stop_ps):
+def _dff_rises(total_stop_ps, edge_items=None):
     """Return one DFF sample 1534.524618567 ps after each system edge."""
-    return [(edge + CAPTURE_DFF_OFFSET_PS, polarity) for edge, polarity in _capture_edges(total_stop_ps)
+    edges = _capture_edges(total_stop_ps) if edge_items is None else edge_items
+    return [(edge + CAPTURE_DFF_OFFSET_PS, polarity) for edge, polarity in edges
             if edge + CAPTURE_DFF_OFFSET_PS < total_stop_ps]
 
 
@@ -488,7 +534,7 @@ def render_capture_wrapper(columns, times, total_stop_ps):
     return "\n".join(lines)
 
 
-def render_capture_tb(schedules, states, values, total_stop_ps):
+def render_capture_tb(schedules, states, values, total_stop_ps, edge_items=None):
     """Generate VCS/XA glue with documented per-port and clock behavior."""
     d_ports = ["safe_d_{:02d}".format(t) for t in range(30)]
     q_lat_ports = ["q_lat_{:02d}".format(t) for t in range(30)]
@@ -509,7 +555,8 @@ def render_capture_tb(schedules, states, values, total_stop_ps):
         "  initial begin latch_g=1'b1;",
     ]
     previous = 0.0
-    for edge_ps, _polarity in _capture_edges(total_stop_ps):
+    edges = _capture_edges(total_stop_ps) if edge_items is None else edge_items
+    for edge_ps, _polarity in edges:
         gfall = edge_ps + CAPTURE_G_CLOSE_OFFSET_PS
         if gfall >= total_stop_ps:
             continue
@@ -535,7 +582,7 @@ def render_capture_tb(schedules, states, values, total_stop_ps):
     lines += ["  integer fd;", "  initial begin", "    fd=$fopen(\"xa_dff_samples.csv\",\"w\");",
               "    $fwrite(fd,\"sample_index,sample_time_ps,nearest_system_edge_ps,system_polarity,tap,q_lat_v,q_ff_v,vdd_safe_v\\n\");"]
     previous = 0.0
-    for index, (sample_ps, polarity) in enumerate(_dff_rises(total_stop_ps)):
+    for index, (sample_ps, polarity) in enumerate(_dff_rises(total_stop_ps, edge_items)):
         lines.append("    #( {:.12f} );".format(sample_ps + 100.0 - previous))
         previous = sample_ps + 100.0
         edge_ps = sample_ps - CAPTURE_DFF_OFFSET_PS
@@ -819,6 +866,94 @@ def run_p4():
     (ROOT / "P4_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P4_INDEPENDENT_HEALTHY_FPR_CHARACTERIZED", "status": "PASS", "healthy_alarm_count": total_alarm, "healthy_event_count": total_events, "wilson_95": overall_ci, "by_polarity": diagnostics, "simulation_accounting": {"hspice": 0, "primesim": 0}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def run_d02_seed(seed=41001):
+    """Run one frozen D02 source/capture case after margin lock."""
+    lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    if not lock.get("locked") or lock.get("attack_data_generated"):
+        raise RuntimeError("D02 run requires the immutable pre-attack margin lock")
+    config, cells = read_json(FTC_ROOT / "ftc_config.json"), read_json(FTC_ROOT / "discovery" / "selected_cells.json")
+    model, hspice = str(config["model_library"]), str(Path(config["hspice"]).resolve())
+    vcs = shutil.which("vcs") or "/home/synopsys/vcs/W-2024.09/bin/vcs"
+    total_stop_ps, edges = 65000, d02_edges()
+    d02_inc = BFE7_ROOT / "waveforms" / "D02_MEDIUM_CANONICAL.inc"
+    if sha256(d02_inc) != EXPECTED_D02_INC_SHA256:
+        raise RuntimeError("D02 include hash changed")
+    case_root, source_dir = RUN_ROOT / "d02" / "seed_{:05d}".format(seed), RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "source_hspice"
+    xa_dir = case_root / "vcs_xa"
+    listing, measures, mc0 = source_dir / "source.lis", source_dir / "source.mt0.csv", source_dir / "source.mc0.csv"
+    if not (listing.is_file() and measures.is_file() and mc0.is_file()):
+        source_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(FTC_ROOT / "spice" / "empty_subckt.sp_cal", source_dir / "empty_subckt.sp_cal")
+        shutil.copyfile(d02_inc, source_dir / "D02_MEDIUM_CANONICAL.inc")
+        (source_dir / "source.sp").write_text(d02_source_deck(cells, model, seed, total_stop_ps), encoding="ascii")
+        result = subprocess.run([hspice, "source.sp", "-o", "source"], cwd=source_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, check=False, timeout=1800)
+        (source_dir / "hspice_command.log").write_text(result.stdout, encoding="utf-8", errors="replace")
+        if result.returncode:
+            raise RuntimeError("D02 HSPICE failed for seed {}".format(seed))
+    if not (listing.is_file() and measures.is_file() and mc0.is_file()):
+        raise RuntimeError("D02 HSPICE missing listing/mt0/mc0")
+    listing_text = listing.read_text(encoding="utf-8", errors="replace").lower()
+    if "job concluded" not in listing_text or "monte carlo simulation is detected" not in listing_text or "**error**" in listing_text:
+        raise RuntimeError("D02 listing is not clean")
+    signature = None
+    for line in mc0.read_text(encoding="ascii", errors="replace").splitlines():
+        if line.startswith("2,"):
+            signature = hashlib.sha256(line[2:].encode("ascii")).hexdigest(); break
+    if signature != retained_signatures()[seed]:
+        raise RuntimeError("D02 process signature mismatch for seed {}".format(seed))
+    measured = parse_measurements(measures, total_stop_ps, edges)
+    states_list, schedules_list = measured_capture_schedule(measured)
+    capture_times = [0.0, total_stop_ps * 1.0e-12]
+    columns = {bfe1_frontend.label_for("vdd_monitored"): [BFE8_SAFE_V, BFE8_SAFE_V]}
+    for tap in range(30):
+        columns[bfe1_frontend.label_for("xor_{}".format(tap))] = [states_list[tap] * BFE8_SAFE_V] * 2
+    schedules = {tap: schedules_list[tap] for tap in range(30)}
+    states = {tap: states_list[tap] for tap in range(30)}
+    values = {tap: {"xor_v": columns[bfe1_frontend.label_for("xor_{}".format(tap))][0], "threshold_v": 0.5 * BFE8_SAFE_V} for tap in range(30)}
+    samples = xa_dir / "xa_dff_samples.csv"
+    if not samples.is_file():
+        xa_dir.mkdir(parents=True, exist_ok=True)
+        (xa_dir / "bfe8_capture_ams_wrapper.sp").write_text(render_capture_wrapper(columns, capture_times, total_stop_ps), encoding="ascii")
+        (xa_dir / "tb_bfe8_capture_vcs_xa.sv").write_text(render_capture_tb(schedules, states, values, total_stop_ps, edges), encoding="ascii")
+        (xa_dir / "xa.cfg").write_text("set_sim_level 7\nset_waveform -format fsdb\n", encoding="ascii")
+        (xa_dir / "vcsAD.init").write_text("bus_format [%d];\nuse_spice -cell bfe8_capture_ams;\nchoose xa -hspice bfe8_capture_ams.sp -c xa.cfg -o xa;\n", encoding="ascii")
+        (xa_dir / "bfe8_capture_ams.sp").write_text("* BFE8 D02 XA top deck.\n.option post=1 probe\n.lib '{}' tt\n.include '{}'\n.include '{}'\n.include '{}'\n.include '{}'\n.tran 2p {:.12e}\n.end\n".format(model, cells["source_files"]["rvt_cdl"], cells["source_files"]["lvt_cdl"], FTC_ROOT / "spice" / "empty_subckt.sp_cal", xa_dir / "bfe8_capture_ams_wrapper.sp", total_stop_ps * 1.0e-12), encoding="ascii")
+        shutil.copyfile(FTC_ROOT / "spice" / "empty_subckt.sp_cal", xa_dir / "empty_subckt.sp_cal")
+        compile_result = subprocess.run([vcs, "-full64", "-sverilog", "-timescale=1ps/1ps", "-ad=vcsAD.init", "-debug_access+all", "-o", "simv", "tb_bfe8_capture_vcs_xa.sv"], cwd=xa_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, check=False, timeout=1800)
+        (xa_dir / "compile.log").write_text(compile_result.stdout, encoding="utf-8", errors="replace")
+        if compile_result.returncode:
+            raise RuntimeError("D02 VCS compile failed")
+        run_result = subprocess.run(["./simv"], cwd=xa_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, check=False, timeout=1800)
+        (xa_dir / "run.log").write_text(run_result.stdout, encoding="utf-8", errors="replace")
+        if run_result.returncode:
+            raise RuntimeError("D02 VCS/XA run failed")
+    rows = list(csv.DictReader(samples.open(newline="", encoding="ascii")))
+    if len(rows) != len(edges) * 30:
+        raise RuntimeError("D02 capture does not contain 30 taps for each event")
+    rail_low, rail_high = 0.1 * BFE8_SAFE_V, 0.9 * BFE8_SAFE_V
+    if any(rail_low < float(row["q_ff_v"]) < rail_high or rail_low < float(row["q_lat_v"]) < rail_high for row in rows):
+        raise RuntimeError("D02 LATQ/DFF output is not rail resolved")
+    target = measured[2]
+    with (ROOT / "BFE8_HEALTHY_PER_SEED.csv").open(newline="", encoding="ascii") as healthy_stream:
+        healthy_reference = next(row for row in csv.DictReader(healthy_stream) if int(row["seed"]) == seed)["M_REF_RISE"]
+    (case_root / "D02_CASE.json").write_text(json.dumps({
+        "seed": seed, "mc_random_signature": signature, "d02_inc_sha256": sha256(d02_inc),
+        "source_measurements_sha256": sha256(measures), "source_mc0_sha256": sha256(mc0),
+        "capture_sha256": sha256(samples), "target_event": "21 ns RISE", "target_event_index": 2,
+        "M_D02_target": target["m_ff"], "q_ff_target": "".join(map(str, target["bits"])),
+        "M_REF_RISE": int(healthy_reference),
+        "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]),
+    }, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    return case_root
+
+
+def run_p5():
+    """Run D02 seed 41001 after the immutable margin lock."""
+    case = run_d02_seed(41001)
+    (ROOT / "P5_REPORT.md").write_text("# BFE8 D02 P5 single-seed attack sanity\n\nGate: `BFE8_D02_P5_D02_SINGLE_SEED_CAPTURE_PASS`\n\nFrozen D02 seed 41001 used the manifest-hashed include and targeted the 21 ns RISE event with the locked P3 margin.\n", encoding="utf-8")
+    (ROOT / "P5_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P5_D02_SINGLE_SEED_CAPTURE_PASS", "status": "PASS", "seed": 41001, "case": str(case), "simulation_accounting": {"d02_hspice": 1, "d02_capture": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def run_p2():
     """Execute P2 and publish its PASS gate; failures remain blocking evidence."""
     case_root = run_p2_seed()
@@ -923,7 +1058,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -938,9 +1073,12 @@ def main():
     elif args.stage == "p3":
         run_p3()
         print("BFE8 P3 PASS: healthy population completed and margins locked")
-    else:
+    elif args.stage == "p4":
         run_p4()
         print("BFE8 P4 PASS: independent healthy FPR characterized")
+    else:
+        run_p5()
+        print("BFE8 P5 PASS: frozen D02 seed 41001 captured")
 
 
 if __name__ == "__main__":
