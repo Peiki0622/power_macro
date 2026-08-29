@@ -1,0 +1,89 @@
+{
+  "arch0": {
+    "level0": "xor_i > 0.5 * instantaneous vdd_monitored",
+    "lvt_prefix": 0,
+    "m_ff_range": [
+      0,
+      435
+    ],
+    "rvt_prefix": 4,
+    "taps": 30
+  },
+  "authority_sha256": {
+    "backend_ctrl": "737c56e454b00f428c998eb4a9fad584e065ba6faa941f230ec70bc6cd6ac128",
+    "backend_top": "285d65fc40bca3075770798542671d12fcedaca2ad55b894ad64d2f507fcacc4",
+    "bfe0_contract": "876c6cddc3ae06f735866c25734d8191e0314062c12fd1b311e3c4d572cfa032",
+    "bfe3_timing": "c31b20ca34a154c6a88fcd9c87dd2c9bcabbdd8217f8bbad9ddb2025c94f64e6",
+    "bfe4_results": "c4cfe4bbdb6172b7537839da5f4ffda2b13c2342648dd5caee954709e905bddb",
+    "bfe4_runner": "3cb5a5ac56b3a5f1713436a706a162fe5c95cbbc89948b010219b9c51d629ca2",
+    "bfe5_timing": "9f3407ee7d3d198c12049b0856c650e6cba9ef107d82fb67a5a868f0ba17c761",
+    "bfe6_runner": "7e9a748471687babde7ca8a6461cf1bb43d8dd93ee6b0d754e79464631e2f248",
+    "bfe7_contract": "c92e2df7a7b6e861de7410f766e2105055624876075dcb82770e8cd6785a3407",
+    "bfe7_gate": "ddef9c9877e859a62b272839c436fb982d9ed5538bb3eb2c5d3d91f15472bfba",
+    "bfe7_manifest": "44f4a20c8d5a2cbbcfdd44bd3a9cf0fefc2e880bf0b48432edca1c2c073ff4d1",
+    "d02_csv": "db8318eaa8cef551398ff2c347cb74594c3ac56a1712e439702f5b0fa08bbff1",
+    "d02_inc": "f84a883076ea6831dc88272443f6b90df9e58c70de949f51ba26dc19be5e32fa"
+  },
+  "branch": "bfe-multitap-latched-frontend",
+  "d02_contract": {
+    "attack_mv": 60,
+    "attack_onset_ns": 19.5,
+    "background_seed": 7301,
+    "nominal_v": 1.1,
+    "stop_ns": 65.0,
+    "target_event": "21 ns RISE",
+    "temperature_c": 25.0
+  },
+  "d02_csv_sha256": "db8318eaa8cef551398ff2c347cb74594c3ac56a1712e439702f5b0fa08bbff1",
+  "d02_inc_sha256": "f84a883076ea6831dc88272443f6b90df9e58c70de949f51ba26dc19be5e32fa",
+  "gate": "BFE8_D02_P0_AUTHORITY_AND_REUSE_AUDIT_READY",
+  "new_bfe8_artifacts_present": false,
+  "reused_without_rerun": [
+    "BFE3 timing constants",
+    "BFE4 process signatures and retained captures",
+    "BFE5 TIM0 contract",
+    "BFE6 parser/replay methodology only"
+  ],
+  "seed_count": 30,
+  "seeds": [
+    41001,
+    41002,
+    41003,
+    41004,
+    41005,
+    41006,
+    41007,
+    41008,
+    41009,
+    41010,
+    41011,
+    41012,
+    41013,
+    41014,
+    41015,
+    41016,
+    41017,
+    41018,
+    41019,
+    41020,
+    41021,
+    41022,
+    41023,
+    41024,
+    41025,
+    41026,
+    41027,
+    41028,
+    41029,
+    41030
+  ],
+  "status": "PASS",
+  "timing": {
+    "clk_probe_hz": 400000000,
+    "clk_sys_hz": 50000000,
+    "dff_sample_offset_ps": 1534.524618567,
+    "e0_to_e4_probe_edges": 4,
+    "e0_to_e7_probe_edges": 7,
+    "e8": "sticky alarm"
+  }
+}

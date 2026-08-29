@@ -1,0 +1,16 @@
+{
+  "evidence": [
+    "P0_EVIDENCE_MATRIX.md",
+    "P0_EVIDENCE_MATRIX.json",
+    "P0_EXPECTED_PROCESS_SIGNATURES.csv",
+    "P0_SIMULATION_BUDGET.json"
+  ],
+  "gate": "BFE8_D02_P0_AUTHORITY_AND_REUSE_AUDIT_READY",
+  "simulation_accounting": {
+    "hspice": 0,
+    "primesim": 0,
+    "vcs": 0
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

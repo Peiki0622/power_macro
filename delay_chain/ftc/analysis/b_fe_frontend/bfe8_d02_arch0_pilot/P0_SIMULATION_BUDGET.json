@@ -1,0 +1,22 @@
+{
+  "gate": "BFE8_D02_P0_AUTHORITY_AND_REUSE_AUDIT_READY",
+  "reuse_rule": "authority -> BFE8 reparse -> validated case resume -> new simulator call",
+  "simulation_count_so_far": {
+    "hspice": 0,
+    "primesim": 0,
+    "vcs": 0
+  },
+  "unavailable_and_reason": {
+    "d02_1p10v_population_captures": "not present; attack data must be generated after margin lock",
+    "healthy_1p10v_composite_captures": "not present in retained BFE4/BFE6 evidence",
+    "healthy_margin_development_at_1p10v": "not present; cannot reuse 0.95 V BFE6 margins",
+    "independent_healthy_fpr": "not present; requires FPR_BG=7303 captures"
+  },
+  "upper_bound_new_cases": {
+    "d02_source_capture": 30,
+    "healthy_source_capture": 30,
+    "p4_physical": 0,
+    "p7_hspice": 0,
+    "p7_vcs_replay": 1
+  }
+}
