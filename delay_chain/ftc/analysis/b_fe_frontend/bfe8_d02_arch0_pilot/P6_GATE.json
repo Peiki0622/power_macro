@@ -1,0 +1,23 @@
+{
+  "coverage": {
+    "detected": 30,
+    "fraction": 1.0,
+    "total": 30,
+    "wilson_95": [
+      0.8864866068260312,
+      0.9999999999999999
+    ]
+  },
+  "gate": "BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED",
+  "headroom": {
+    "median": 38.0,
+    "min": 19
+  },
+  "latency": {
+    "median": 20.534524618566998,
+    "worst": 20.534524618566998
+  },
+  "seed_count": 30,
+  "status": "PASS",
+  "stop_after_stage": true
+}

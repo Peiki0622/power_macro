@@ -1,0 +1,26 @@
+{
+  "attack_onset_ns": 19.5,
+  "coverage": {
+    "detected": 30,
+    "fraction": 1.0,
+    "total": 30,
+    "wilson_95": [
+      0.8864866068260312,
+      0.9999999999999999
+    ]
+  },
+  "first_alarm_latency_detected_only_ns": {
+    "median": 20.534524618566998,
+    "worst": 20.534524618566998
+  },
+  "headroom_all_seeds": {
+    "median": 38.0,
+    "min": 19
+  },
+  "locked_rise_margin": 22,
+  "simulation_accounting": {
+    "d02_capture": 30,
+    "d02_hspice": 30
+  },
+  "target_event": "21 ns RISE"
+}

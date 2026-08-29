@@ -943,6 +943,9 @@ def run_d02_seed(seed=41001):
         "M_D02_target": target["m_ff"], "q_ff_target": "".join(map(str, target["bits"])),
         "M_REF_RISE": int(healthy_reference),
         "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]),
+        "events": [{"event_index": sample["event_index"], "edge": sample["edge"],
+                    "edge_ps": sample["edge_ps"], "M_FF": sample["m_ff"],
+                    "q_ff": "".join(map(str, sample["bits"]))} for sample in measured],
     }, indent=2, sort_keys=True) + "\n", encoding="ascii")
     return case_root
 
@@ -952,6 +955,74 @@ def run_p5():
     case = run_d02_seed(41001)
     (ROOT / "P5_REPORT.md").write_text("# BFE8 D02 P5 single-seed attack sanity\n\nGate: `BFE8_D02_P5_D02_SINGLE_SEED_CAPTURE_PASS`\n\nFrozen D02 seed 41001 used the manifest-hashed include and targeted the 21 ns RISE event with the locked P3 margin.\n", encoding="utf-8")
     (ROOT / "P5_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P5_D02_SINGLE_SEED_CAPTURE_PASS", "status": "PASS", "seed": 41001, "case": str(case), "simulation_accounting": {"d02_hspice": 1, "d02_capture": 1}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def d02_attack_onset_ns():
+    """Read the onset from the frozen CSV rather than a hand-entered value."""
+    path = BFE7_ROOT / "waveforms" / "D02_MEDIUM_CANONICAL.csv"
+    if sha256(path) != EXPECTED_D02_CSV_SHA256:
+        raise RuntimeError("D02 CSV hash changed while deriving attack onset")
+    with path.open(newline="", encoding="ascii") as stream:
+        for row in csv.DictReader(stream):
+            if float(row["attack_depth_v"]) > 0.0:
+                return float(row["time_s"]) * 1.0e9
+    raise RuntimeError("D02 CSV contains no attack onset")
+
+
+def run_p6():
+    """Complete D02 population and compute the three frozen primary metrics."""
+    import multiprocessing as mp
+    lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    if not lock.get("locked"):
+        raise RuntimeError("P6 requires P3 margin lock")
+    missing = [seed for seed in SEEDS if not (RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "D02_CASE.json").is_file()]
+    if 41001 in missing:
+        raise RuntimeError("P6 cannot proceed without P5 seed 41001")
+    if missing:
+        with mp.Pool(processes=2) as pool:
+            pool.map(run_d02_seed, missing)
+    with (ROOT / "BFE8_HEALTHY_PER_SEED.csv").open(newline="", encoding="ascii") as stream:
+        healthy = {int(row["seed"]): row for row in csv.DictReader(stream)}
+    rows, headrooms, latencies = [], [], []
+    onset_ns = d02_attack_onset_ns()
+    for seed in SEEDS:
+        case = read_json(RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "D02_CASE.json")
+        if case["mc_random_signature"] != healthy[seed]["mc_random_signature"]:
+            raise RuntimeError("P6 healthy/D02 signature mismatch for seed {}".format(seed))
+        target = next(event for event in case["events"] if int(event["event_index"]) == 2)
+        ref = int(healthy[seed]["M_REF_RISE"])
+        d_m, margin = abs(int(target["M_FF"]) - ref), int(lock["M_MARGIN_RISE_P0"])
+        headroom, detected = d_m - margin, int(d_m > margin)
+        headrooms.append(headroom)
+        latency = "N/A"
+        if detected:
+            # E0 is the real DFF capture at target edge + 1534.524618567 ps;
+            # E7 is seven 400 MHz probe edges later (2.5 ns each).
+            latency = (21000.0 + CAPTURE_DFF_OFFSET_PS + 7.0 * PROBE_PERIOD_PS) / 1000.0 - onset_ns
+            latencies.append(latency)
+        pre_alarm = [int(abs(int(event["M_FF"]) - ref) > margin) for event in case["events"] if int(event["event_index"]) < 2]
+        rows.append({"seed": seed, "mc_random_signature": case["mc_random_signature"],
+                     "target_event": "21 ns RISE", "q_ff_target": target["q_ff"],
+                     "M_FF_target": int(target["M_FF"]), "M_REF_RISE": ref,
+                     "D_M": d_m, "locked_rise_margin": margin, "H_D": headroom,
+                     "detected": detected, "pre_attack_alarm_count": sum(pre_alarm),
+                     "first_alarm_latency_ns": latency, "rail_resolved": True,
+                     "source_measurements_sha256": case["source_measurements_sha256"],
+                     "source_mc0_sha256": case["source_mc0_sha256"], "capture_sha256": case["capture_sha256"]})
+    out = ROOT / "BFE8_D02_PER_SEED.csv"
+    fields = list(rows[0])
+    with out.open("w", newline="", encoding="ascii") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n"); writer.writeheader(); writer.writerows(rows)
+    detected_count = sum(int(row["detected"]) for row in rows)
+    coverage_ci = wilson_interval(detected_count, len(rows))
+    latencies_sorted = sorted(latencies)
+    metrics = {"coverage": {"detected": detected_count, "total": len(rows), "fraction": detected_count / float(len(rows)), "wilson_95": coverage_ci},
+               "headroom_all_seeds": {"min": min(headrooms), "median": float(np.median(headrooms))},
+               "first_alarm_latency_detected_only_ns": {"median": float(np.median(latencies_sorted)) if latencies_sorted else "N/A", "worst": max(latencies_sorted) if latencies_sorted else "N/A"},
+               "attack_onset_ns": onset_ns, "target_event": "21 ns RISE", "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]), "simulation_accounting": {"d02_hspice": len(rows), "d02_capture": len(rows)}}
+    (ROOT / "BFE8_D02_METRICS.json").write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    (ROOT / "P6_REPORT.md").write_text("# BFE8 D02 P6 ARCH0 population metrics\n\nGate: `BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED`\n\nAll 30 process seeds were paired to healthy signatures. Coverage and headroom use only the frozen 21 ns RISE event; pre-attack events are retained as diagnostics.\n", encoding="utf-8")
+    (ROOT / "P6_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED", "status": "PASS", "seed_count": len(rows), "coverage": metrics["coverage"], "headroom": metrics["headroom_all_seeds"], "latency": metrics["first_alarm_latency_detected_only_ns"], "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def run_p2():
@@ -1058,7 +1129,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -1076,9 +1147,12 @@ def main():
     elif args.stage == "p4":
         run_p4()
         print("BFE8 P4 PASS: independent healthy FPR characterized")
-    else:
+    elif args.stage == "p5":
         run_p5()
         print("BFE8 P5 PASS: frozen D02 seed 41001 captured")
+    else:
+        run_p6()
+        print("BFE8 P6 PASS: D02 ARCH0 population metrics characterized")
 
 
 if __name__ == "__main__":
