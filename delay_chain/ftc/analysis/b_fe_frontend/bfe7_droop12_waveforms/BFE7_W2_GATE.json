@@ -1,0 +1,15 @@
+{
+  "gate": "BFE7_DROOP12_W2_SCENARIO_CONTRACT_FROZEN",
+  "status": "PASS",
+  "scenario_count": 12,
+  "scenario_ids": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10", "D11", "D12"],
+  "contract": "DROOP12_WAVEFORM_CONTRACT.json",
+  "scenario_table": "DROOP12_SCENARIOS.csv",
+  "d09_ramp_semantics": "starts at each reference edge and reaches the next depth 10 ps later",
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0
+  }
+}

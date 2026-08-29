@@ -1,0 +1,522 @@
+{
+  "background": {
+    "background_limit_v": 0.008,
+    "csv_sha256": "e461808e887171119234c170b07747ec566ce4520ef01589ff1e49b978e4a70b",
+    "fast_knot_spacing_s": 2.5e-10,
+    "generator_version": "bfe7_droop12_generator_v1",
+    "inc_sha256": "695e25adda946cdb0b7720f5b0854d859451d22af7bca6d809aa3d9f193147b7",
+    "nominal_vdd_v": 1.1,
+    "numpy": "2.0.2",
+    "python": "3.9.25",
+    "rng": "numpy.random.Generator(numpy.random.PCG64(7301))",
+    "schema_version": 1,
+    "seed": 7301,
+    "simulation_accounting": {
+      "dc_runs": 0,
+      "hspice_runs": 0,
+      "primesim_runs": 0,
+      "vcs_runs": 0
+    },
+    "slow_knot_spacing_s": 2.5e-09,
+    "stop_time_s": 6.5e-08,
+    "temperature_c": 25.0
+  },
+  "baseline_commit": "9794e960374a0e8b881a6c936ddbc69816d87cba",
+  "finite_slope_slew_ps": 10,
+  "frozen": true,
+  "generator_version": "bfe7_droop12_generator_v1",
+  "nominal_vdd_v": 1.1,
+  "scenarios": [
+    {
+      "attack_breakpoints_ps": [
+        [
+          19490,
+          0.0
+        ],
+        [
+          19500,
+          0.03
+        ],
+        [
+          22500,
+          0.03
+        ],
+        [
+          22510,
+          0.0
+        ]
+      ],
+      "attack_kind": "rect",
+      "group": "A",
+      "nominal_depth_v": 0.03,
+      "purpose": "shallow single-event canonical challenge",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D01",
+      "short_name": "SHALLOW_CANONICAL"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          19490,
+          0.0
+        ],
+        [
+          19500,
+          0.06
+        ],
+        [
+          22500,
+          0.06
+        ],
+        [
+          22510,
+          0.0
+        ]
+      ],
+      "attack_kind": "rect",
+      "group": "A",
+      "nominal_depth_v": 0.06,
+      "purpose": "medium single-event control",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D02",
+      "short_name": "MEDIUM_CANONICAL"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          19490,
+          0.0
+        ],
+        [
+          19500,
+          0.14
+        ],
+        [
+          22500,
+          0.14
+        ],
+        [
+          22510,
+          0.0
+        ]
+      ],
+      "attack_kind": "rect",
+      "group": "A",
+      "nominal_depth_v": 0.14,
+      "purpose": "strong positive-control attack",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D03",
+      "short_name": "STRONG_CANONICAL"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          20690,
+          0.0
+        ],
+        [
+          20700,
+          0.06
+        ],
+        [
+          21300,
+          0.06
+        ],
+        [
+          21310,
+          0.0
+        ]
+      ],
+      "attack_kind": "rect",
+      "group": "B",
+      "nominal_depth_v": 0.06,
+      "purpose": "same medium depth with short exposure",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D04",
+      "short_name": "SHORT_MEDIUM"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          20250,
+          0.0
+        ],
+        [
+          21000,
+          0.14
+        ],
+        [
+          21750,
+          0.0
+        ]
+      ],
+      "attack_kind": "v",
+      "group": "B",
+      "nominal_depth_v": 0.14,
+      "purpose": "deep transient with no low-voltage dwell",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D05",
+      "short_name": "DEEP_V_SHAPE"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          18500,
+          0.0
+        ],
+        [
+          20900,
+          0.06
+        ],
+        [
+          21100,
+          0.06
+        ],
+        [
+          21110,
+          0.0
+        ]
+      ],
+      "attack_kind": "slow",
+      "group": "B",
+      "nominal_depth_v": 0.06,
+      "purpose": "slow sag crossing the meaningful edge",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D06",
+      "short_name": "SLOW_FALL_FAST_RECOVERY"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          20590,
+          0.0
+        ],
+        [
+          20600,
+          0.03
+        ],
+        [
+          21400,
+          0.03
+        ],
+        [
+          21410,
+          0.0
+        ],
+        [
+          30590,
+          0.0
+        ],
+        [
+          30600,
+          0.03
+        ],
+        [
+          31400,
+          0.03
+        ],
+        [
+          31410,
+          0.0
+        ]
+      ],
+      "attack_kind": "double",
+      "group": "C",
+      "nominal_depth_v": 0.03,
+      "purpose": "two weak events on consecutive edges",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D07",
+      "short_name": "DOUBLE_SHALLOW"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          20590,
+          0.0
+        ],
+        [
+          20600,
+          0.03
+        ],
+        [
+          21400,
+          0.03
+        ],
+        [
+          21410,
+          0.0
+        ],
+        [
+          30590,
+          0.0
+        ],
+        [
+          30600,
+          0.03
+        ],
+        [
+          31400,
+          0.03
+        ],
+        [
+          31410,
+          0.0
+        ],
+        [
+          40590,
+          0.0
+        ],
+        [
+          40600,
+          0.03
+        ],
+        [
+          41400,
+          0.03
+        ],
+        [
+          41410,
+          0.0
+        ],
+        [
+          50590,
+          0.0
+        ],
+        [
+          50600,
+          0.03
+        ],
+        [
+          51400,
+          0.03
+        ],
+        [
+          51410,
+          0.0
+        ]
+      ],
+      "attack_kind": "burst",
+      "group": "C",
+      "nominal_depth_v": 0.03,
+      "purpose": "four weak events across four edges",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D08",
+      "short_name": "FOUR_PULSE_SHALLOW_BURST"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          0,
+          0.0
+        ],
+        [
+          21000,
+          0.0
+        ],
+        [
+          21010,
+          0.01
+        ],
+        [
+          31000,
+          0.01
+        ],
+        [
+          31010,
+          0.02
+        ],
+        [
+          41000,
+          0.02
+        ],
+        [
+          41010,
+          0.03
+        ],
+        [
+          51000,
+          0.03
+        ],
+        [
+          51010,
+          0.04
+        ],
+        [
+          58000,
+          0.04
+        ],
+        [
+          58010,
+          0.0
+        ]
+      ],
+      "attack_kind": "staircase",
+      "group": "C",
+      "nominal_depth_v": 0.04,
+      "purpose": "four cumulative finite-ramp depth steps",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D09",
+      "short_name": "STAIRCASE_SAG"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          17990,
+          0.0
+        ],
+        [
+          18000,
+          0.06
+        ],
+        [
+          21000,
+          0.06
+        ],
+        [
+          21010,
+          0.0
+        ]
+      ],
+      "attack_kind": "pre",
+      "group": "D",
+      "nominal_depth_v": 0.06,
+      "purpose": "medium droop concentrated before the edge",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D10",
+      "short_name": "PRE_EDGE_MEDIUM"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          20990,
+          0.0
+        ],
+        [
+          21000,
+          0.06
+        ],
+        [
+          24000,
+          0.06
+        ],
+        [
+          24010,
+          0.0
+        ]
+      ],
+      "attack_kind": "post",
+      "group": "D",
+      "nominal_depth_v": 0.06,
+      "purpose": "medium droop concentrated after the edge",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D11",
+      "short_name": "POST_EDGE_MEDIUM"
+    },
+    {
+      "attack_breakpoints_ps": [
+        [
+          19990,
+          0.0
+        ],
+        [
+          20000,
+          0.03
+        ],
+        [
+          32000,
+          0.03
+        ],
+        [
+          32010,
+          0.0
+        ]
+      ],
+      "attack_kind": "span",
+      "group": "D",
+      "nominal_depth_v": 0.03,
+      "purpose": "one shallow event spanning two edges",
+      "reference_edges_ps": {
+        "T_E": 21000,
+        "T_E1": 31000,
+        "T_E2": 41000,
+        "T_E3": 51000
+      },
+      "scenario_id": "D12",
+      "short_name": "DUAL_EDGE_SHALLOW_SPAN"
+    }
+  ],
+  "schema_version": 1,
+  "scope": [
+    "stimulus definitions only",
+    "no ARCH0/ARCH1 result implication",
+    "no simulator noise source"
+  ],
+  "source_contract": "V_VDD_MONITORED vdd_monitored vss_a",
+  "study": "B-FE7-DROOP12-WAVEFORM-CONTRACT",
+  "temperature_c": 25.0,
+  "time_frame": {
+    "reference_edges_s": {
+      "T_E": 2.1e-08,
+      "T_E1": 3.1e-08,
+      "T_E2": 4.0999999999999997e-08,
+      "T_E3": 5.1e-08
+    },
+    "stop_s": 6.5e-08
+  },
+  "waveform_formula": "vdd_v = 1.10 + noise_v - attack_depth_v"
+}
