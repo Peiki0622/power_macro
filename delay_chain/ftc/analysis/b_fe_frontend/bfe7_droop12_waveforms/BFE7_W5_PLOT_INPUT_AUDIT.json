@@ -1,0 +1,65 @@
+{
+  "source": "generated CSV only",
+  "traces": [
+    {
+      "path": "waveforms/D01_SHALLOW_CANONICAL.csv",
+      "scenario_id": "D01",
+      "sha256": "49ae91c52ed12f1603a0d25303da855f05df9ca3bf5eaed35b1d9123b9fb42ff"
+    },
+    {
+      "path": "waveforms/D02_MEDIUM_CANONICAL.csv",
+      "scenario_id": "D02",
+      "sha256": "db8318eaa8cef551398ff2c347cb74594c3ac56a1712e439702f5b0fa08bbff1"
+    },
+    {
+      "path": "waveforms/D03_STRONG_CANONICAL.csv",
+      "scenario_id": "D03",
+      "sha256": "7d7da367040c0dd939349c24e95bd50520ed1eb489b295664d3e88c26a643809"
+    },
+    {
+      "path": "waveforms/D04_SHORT_MEDIUM.csv",
+      "scenario_id": "D04",
+      "sha256": "4c08d1efcb8d37c03627d740abcd7840d4b939e97f3d55f03f2f43e9bf081415"
+    },
+    {
+      "path": "waveforms/D05_DEEP_V_SHAPE.csv",
+      "scenario_id": "D05",
+      "sha256": "6b63c1cfd574ce55cd5fa993265cfcf6655b6aafb715fe39dd818b75afb12f70"
+    },
+    {
+      "path": "waveforms/D06_SLOW_FALL_FAST_RECOVERY.csv",
+      "scenario_id": "D06",
+      "sha256": "34e8a14e466f672de6587484ddc7531ce8d72e2a6acde12af6e28bd5587a69ce"
+    },
+    {
+      "path": "waveforms/D07_DOUBLE_SHALLOW.csv",
+      "scenario_id": "D07",
+      "sha256": "ec287f87477cc1c636ff1fce6ddc1356ecaedf02e740c1a6c26a30eec19e06ce"
+    },
+    {
+      "path": "waveforms/D08_FOUR_PULSE_SHALLOW_BURST.csv",
+      "scenario_id": "D08",
+      "sha256": "933ec2539a896dfdcd19764614efb61e499e6ee0e30cafca31f5665299e642cc"
+    },
+    {
+      "path": "waveforms/D09_STAIRCASE_SAG.csv",
+      "scenario_id": "D09",
+      "sha256": "982ee3b027d64b1396f1d0c1a6f5b4a92c309786d340b1f4156f695148fc0e44"
+    },
+    {
+      "path": "waveforms/D10_PRE_EDGE_MEDIUM.csv",
+      "scenario_id": "D10",
+      "sha256": "73f9b0dda2de365c2628b645b1eba9940748dab1482618e680dfdc5554a9d9d6"
+    },
+    {
+      "path": "waveforms/D11_POST_EDGE_MEDIUM.csv",
+      "scenario_id": "D11",
+      "sha256": "15cac20aef7f3b77dac76058a536c5ebd97c2190785d1d9dd1ea5418c09df7ba"
+    },
+    {
+      "path": "waveforms/D12_DUAL_EDGE_SHALLOW_SPAN.csv",
+      "scenario_id": "D12",
+      "sha256": "ba97ca5662460b6ce6173d815cabd8dc4e69be47632abb6640ebf74096a7858d"
+    }
+  ]
+}

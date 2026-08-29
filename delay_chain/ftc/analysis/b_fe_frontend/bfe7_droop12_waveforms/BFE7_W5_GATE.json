@@ -1,0 +1,17 @@
+{
+  "gate": "BFE7_DROOP12_W5_SCI_VISUALIZATION_PASS",
+  "status": "PASS",
+  "pdf": "BFE7_DROOP12_WAVEFORM_ATLAS.pdf",
+  "png": "BFE7_DROOP12_WAVEFORM_ATLAS.png",
+  "png_pixels": [4320, 4200],
+  "png_dpi": 600,
+  "trace_audit": "BFE7_W5_PLOT_INPUT_AUDIT.json",
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0,
+    "arch0_tests": 0,
+    "arch1_tests": 0
+  }
+}
