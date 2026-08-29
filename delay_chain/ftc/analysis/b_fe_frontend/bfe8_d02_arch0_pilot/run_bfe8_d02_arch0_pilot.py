@@ -757,6 +757,68 @@ def run_p3():
     (ROOT / "P3_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P3_HEALTHY_MARGIN_FROZEN", "status": "PASS", "seed_count": len(rows), "M_MARGIN_RISE_P0": rise_margin, "M_MARGIN_FALL_P0": fall_margin, "attack_data_generated": False, "simulation_accounting": {"healthy_hspice": len(rows), "healthy_capture": len(rows), "d02_hspice": 0}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def wilson_interval(successes, trials, z=1.959963984540054):
+    """Return a two-sided 95% Wilson interval for a binomial proportion."""
+    if trials <= 0 or successes < 0 or successes > trials:
+        raise ValueError("invalid binomial counts")
+    p = float(successes) / float(trials)
+    denominator = 1.0 + z * z / trials
+    center = (p + z * z / (2.0 * trials)) / denominator
+    radius = z * math.sqrt((p * (1.0 - p) + z * z / (4.0 * trials)) / trials) / denominator
+    return max(0.0, center - radius), min(1.0, center + radius)
+
+
+def run_p4():
+    """Characterize independent healthy FPR from already captured FPR events."""
+    lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    if not lock.get("locked") or lock.get("attack_data_generated"):
+        raise RuntimeError("P4 requires a pre-attack-data margin lock")
+    with (ROOT / "BFE8_HEALTHY_PER_SEED.csv").open(newline="", encoding="ascii") as stream:
+        healthy_rows = list(csv.DictReader(stream))
+    if len(healthy_rows) != 30:
+        raise RuntimeError("P4 requires all 30 healthy seeds")
+    margin = {"RISE": int(lock["M_MARGIN_RISE_P0"]), "FALL": int(lock["M_MARGIN_FALL_P0"])}
+    event_rows, polarity_counts = [], {"RISE": [0, 0], "FALL": [0, 0]}
+    for row in healthy_rows:
+        seed = int(row["seed"])
+        ref = {"RISE": int(row["M_REF_RISE"]), "FALL": int(row["M_REF_FALL"])}
+        m_values = [int(value) for value in row["FPR_M_FF"].split(";")]
+        if len(m_values) != 8:
+            raise RuntimeError("FPR event count is not eight for seed {}".format(seed))
+        for local_index, m_ff in enumerate(m_values):
+            polarity = "RISE" if local_index % 2 == 0 else "FALL"
+            d_m = abs(m_ff - ref[polarity])
+            alarm = int(d_m > margin[polarity])
+            polarity_counts[polarity][0] += alarm
+            polarity_counts[polarity][1] += 1
+            event_rows.append({"seed": seed, "segment": "FPR", "event_index": local_index + 16,
+                               "polarity": polarity, "M_FF": m_ff, "M_REF": ref[polarity],
+                               "D_M": d_m, "margin": margin[polarity], "healthy_alarm": alarm})
+    out_csv = ROOT / "BFE8_D02_HEALTHY_FPR.csv"
+    with out_csv.open("w", newline="", encoding="ascii") as stream:
+        fields = list(event_rows[0])
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(event_rows)
+    total_alarm = sum(int(row["healthy_alarm"]) for row in event_rows)
+    total_events = len(event_rows)
+    overall_ci = wilson_interval(total_alarm, total_events)
+    diagnostics = {}
+    for polarity in ("RISE", "FALL"):
+        alarms, events = polarity_counts[polarity]
+        diagnostics[polarity] = {"alarms": alarms, "events": events,
+                                 "fpr": alarms / float(events),
+                                 "wilson_95": wilson_interval(alarms, events)}
+    metrics = {"FPR_healthy": {"alarms": total_alarm, "events": total_events,
+                                "fpr": total_alarm / float(total_events),
+                                "wilson_95": overall_ci},
+               "by_polarity": diagnostics, "source": "FPR_BG=7303 only",
+               "input_sha256": sha256(out_csv), "simulation_accounting": {"hspice": 0, "primesim": 0}}
+    (ROOT / "BFE8_D02_HEALTHY_FPR_METRICS.json").write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    (ROOT / "P4_REPORT.md").write_text("# BFE8 D02 P4 independent healthy FPR\n\nGate: `BFE8_D02_P4_INDEPENDENT_HEALTHY_FPR_CHARACTERIZED`\n\nFPR was computed from the held-out FPR_BG=7303 segment only, with the P3 locked margins; CAL and MARGIN events were not reused.\n\nSimulation accounting: HSPICE=0, PrimeSim=0.\n", encoding="utf-8")
+    (ROOT / "P4_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P4_INDEPENDENT_HEALTHY_FPR_CHARACTERIZED", "status": "PASS", "healthy_alarm_count": total_alarm, "healthy_event_count": total_events, "wilson_95": overall_ci, "by_polarity": diagnostics, "simulation_accounting": {"hspice": 0, "primesim": 0}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def run_p2():
     """Execute P2 and publish its PASS gate; failures remain blocking evidence."""
     case_root = run_p2_seed()
@@ -861,7 +923,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -873,9 +935,12 @@ def main():
     elif args.stage == "p2":
         run_p2()
         print("BFE8 P2 PASS: healthy seed 41001 real capture validated")
-    else:
+    elif args.stage == "p3":
         run_p3()
         print("BFE8 P3 PASS: healthy population completed and margins locked")
+    else:
+        run_p4()
+        print("BFE8 P4 PASS: independent healthy FPR characterized")
 
 
 if __name__ == "__main__":

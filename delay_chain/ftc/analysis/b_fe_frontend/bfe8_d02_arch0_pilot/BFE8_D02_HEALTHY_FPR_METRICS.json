@@ -1,0 +1,37 @@
+{
+  "FPR_healthy": {
+    "alarms": 1,
+    "events": 240,
+    "fpr": 0.004166666666666667,
+    "wilson_95": [
+      0.0007358980250827037,
+      0.02322007258362979
+    ]
+  },
+  "by_polarity": {
+    "FALL": {
+      "alarms": 1,
+      "events": 120,
+      "fpr": 0.008333333333333333,
+      "wilson_95": [
+        0.0014725557333420923,
+        0.045696291245049675
+      ]
+    },
+    "RISE": {
+      "alarms": 0,
+      "events": 120,
+      "fpr": 0.0,
+      "wilson_95": [
+        0.0,
+        0.031019166418703486
+      ]
+    }
+  },
+  "input_sha256": "4a50c05e752ff384a586bdb682af6b2e7c68dba69c92d9251bcfa3332321258a",
+  "simulation_accounting": {
+    "hspice": 0,
+    "primesim": 0
+  },
+  "source": "FPR_BG=7303 only"
+}
