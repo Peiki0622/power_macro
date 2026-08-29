@@ -1,0 +1,14 @@
+{
+  "M_MARGIN_FALL_P0": 24,
+  "M_MARGIN_RISE_P0": 22,
+  "attack_data_generated": false,
+  "gate": "BFE8_D02_P3_HEALTHY_MARGIN_FROZEN",
+  "seed_count": 30,
+  "simulation_accounting": {
+    "d02_hspice": 0,
+    "healthy_capture": 30,
+    "healthy_hspice": 30
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

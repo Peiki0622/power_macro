@@ -1,0 +1,16 @@
+{
+  "M_MARGIN_FALL_P0": 24,
+  "M_MARGIN_RISE_P0": 22,
+  "attack_data_generated": false,
+  "comparison": "strict D_M > margin",
+  "healthy_development_event_count_FALL": 120,
+  "healthy_development_event_count_RISE": 120,
+  "input_hashes": {
+    "controls_metadata_sha256": "c00cbcdcf5b6196deb0de107f5edea3e24c9ea2acf3d68843fc9f9240cdfc254",
+    "healthy_per_seed_sha256": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691",
+    "p0_matrix_sha256": "2bc9fe9fad9dbcf7e62827606c532158d5d957512283cb2ed013cd241a472470"
+  },
+  "locked": true,
+  "process_seed_count": 30,
+  "reference_arithmetic": "sum4 >> 2"
+}

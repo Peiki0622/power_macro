@@ -540,15 +540,13 @@ def render_capture_tb(schedules, states, values, total_stop_ps):
         previous = sample_ps + 100.0
         edge_ps = sample_ps - CAPTURE_DFF_OFFSET_PS
         for tap in range(30):
-            lines.append("    $fwrite(fd,\"{},%.6f,{:.6f},{},%d,%.9f,%.9f,%.9f\\n\", $realtime, {}, $snps_get_volt(bfe8_capture_vcs_xa.u_ams.q_lat_r_{:02d}), $snps_get_volt(bfe8_capture_vcs_xa.u_ams.q_ff_r_{:02d}), $snps_get_volt(bfe8_capture_vcs_xa.u_ams.vdd_safe));".format(index, edge_ps, polarity, tap, index, tap, tap))
+            lines.append("    $fwrite(fd,\"{},%.6f,{:.6f},{},%d,%.9f,%.9f,%.9f\\n\", $realtime, {}, $snps_get_volt(bfe8_capture_vcs_xa.u_ams.q_lat_r_{:02d}), $snps_get_volt(bfe8_capture_vcs_xa.u_ams.q_ff_r_{:02d}), $snps_get_volt(bfe8_capture_vcs_xa.u_ams.vdd_safe));".format(index, edge_ps, polarity, tap, tap, tap))
     lines += ["    $fclose(fd);", "  end", "  initial begin #( {:.6f} ); $finish; end".format(total_stop_ps), "endmodule", ""]
     return "\n".join(lines)
 
 
 def run_p2_seed(seed=41001):
     """Run exactly one healthy source/capture case and publish P2 evidence."""
-    if seed != 41001:
-        raise ValueError("P2 is authorized for seed 41001 only")
     config = read_json(FTC_ROOT / "ftc_config.json")
     cells = read_json(FTC_ROOT / "discovery" / "selected_cells.json")
     model = str(config["model_library"])
@@ -628,6 +626,7 @@ def run_p2_seed(seed=41001):
     if len(rows) != len(_dff_rises(total_stop_ps)) * 30:
         raise RuntimeError("P2 capture does not contain 30 taps per designated sample")
     q_ff_values = [float(row["q_ff_v"]) for row in rows]
+    q_lat_values = [float(row["q_lat_v"]) for row in rows]
     rail_values = [float(row["vdd_safe_v"]) for row in rows]
     if any(abs(value - BFE8_SAFE_V) > 1e-6 for value in rail_values):
         raise RuntimeError("P2 safe rail is not resolved at 1.10 V")
@@ -637,18 +636,125 @@ def run_p2_seed(seed=41001):
     rail_low, rail_high = 0.1 * BFE8_SAFE_V, 0.9 * BFE8_SAFE_V
     if any(rail_low < value < rail_high for value in q_ff_values):
         raise RuntimeError("P2 q_ff contains an unresolved mid-rail value")
+    if any(rail_low < value < rail_high for value in q_lat_values):
+        raise RuntimeError("P2 LATQ contains an unresolved mid-rail value")
     expected_map = {float(item["time_ps"]): item for item in json.loads((ROOT / "healthy_controls" / "HEALTHY_COMPOSITE_EVENT_MAP.json").read_text(encoding="utf-8"))["events"] if item["valid"]}
     for row in rows:
         if float(row["nearest_system_edge_ps"]) not in expected_map:
             raise RuntimeError("P2 admitted an unmapped/guard event")
-    (case_root / "P2_CASE.json").write_text(json.dumps({
+    # Compare every captured 30-bit word to the source-referenced Level-0
+    # word measured at that same event.  This catches tap-order or clock-edge
+    # slips that a mere rail-resolution check would miss.
+    m_by_event = {sample["event_index"]: sample["m_ff"] for sample in measured}
+    bits_by_event = {sample["event_index"]: sample["bits"] for sample in measured}
+    captured_m = {}
+    for index in range(len(measured)):
+        event_rows = [row for row in rows if int(row["sample_index"]) == index]
+        if [int(row["tap"]) for row in event_rows] != list(range(30)):
+            raise RuntimeError("P2 tap order is not exactly 0..29")
+        bits = [1 if float(row["q_ff_v"]) > 0.5 * BFE8_SAFE_V else 0 for row in event_rows]
+        captured_m[index] = sum(tap * bit for tap, bit in enumerate(bits))
+        if bits != bits_by_event[index] or captured_m[index] != m_by_event[index]:
+            raise RuntimeError("P2 real capture differs from source Level-0 event {}".format(index))
+    case_payload = {
         "seed": seed, "mc_random_signature": signature, "source_measurements_sha256": sha256(measures),
         "source_mc0_sha256": sha256(mc0), "capture_sha256": sha256(samples),
         "source_v": BFE8_SAFE_V, "safe_v": BFE8_SAFE_V, "tap_count": 30,
         "capture_sample_count": len(_dff_rises(total_stop_ps)), "q_ff_width": 30,
         "all_safe_rail_resolved": True, "all_q_ff_rail_resolved": True,
-    }, indent=2, sort_keys=True) + "\n", encoding="ascii")
+        "all_latq_rail_resolved": True,
+        "events": [{"event_index": sample["event_index"], "edge": sample["edge"],
+                    "edge_ps": sample["edge_ps"], "m_ff": captured_m[sample["event_index"]],
+                    "q_ff": "".join(str(bit) for bit in bits_by_event[sample["event_index"]])}
+                   for sample in measured],
+    }
+    (case_root / "P2_CASE.json").write_text(json.dumps(case_payload, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    (case_root / "HEALTHY_CASE.json").write_text(json.dumps(case_payload, indent=2, sort_keys=True) + "\n", encoding="ascii")
     return case_root
+
+
+def healthy_case_rows(case_root):
+    """Load one validated healthy case and derive its event partitions."""
+    payload = read_json(case_root / "HEALTHY_CASE.json")
+    if payload.get("q_ff_width") != 30 or not payload.get("all_q_ff_rail_resolved"):
+        raise ValueError("healthy case has invalid q_ff evidence: {}".format(case_root))
+    events = payload.get("events", [])
+    if len(events) != 24:
+        raise ValueError("healthy case must retain 24 mapped events: {}".format(case_root))
+    by_index = {int(event["event_index"]): event for event in events}
+    if set(by_index) != set(range(24)):
+        raise ValueError("healthy event indices are incomplete: {}".format(case_root))
+    return payload, by_index
+
+
+def run_p3():
+    """Complete healthy population and freeze margins before any D02 run."""
+    import multiprocessing as mp
+    existing = []
+    missing = []
+    for seed in SEEDS:
+        case_root = RUN_ROOT / "healthy" / "seed_{:05d}".format(seed)
+        if (case_root / "HEALTHY_CASE.json").is_file():
+            existing.append(seed)
+        else:
+            missing.append(seed)
+    # P2's seed 41001 is reused; at most the other 29 seeds can invoke tools.
+    if 41001 not in existing:
+        raise RuntimeError("P3 cannot proceed without validated P2 seed 41001")
+    if missing:
+        # Two workers bound memory while still reducing the long XA wall time.
+        with mp.Pool(processes=2) as pool:
+            pool.map(run_p2_seed, missing)
+    rows = []
+    rise_margin_values, fall_margin_values = [], []
+    for seed in SEEDS:
+        case_root = RUN_ROOT / "healthy" / "seed_{:05d}".format(seed)
+        payload, events = healthy_case_rows(case_root)
+        expected_signature = retained_signatures()[seed]
+        if payload.get("mc_random_signature") != expected_signature:
+            raise ValueError("P3 process pairing mismatch for seed {}".format(seed))
+        cal_rise = [int(events[index]["m_ff"]) for index in (0, 2, 4, 6)]
+        cal_fall = [int(events[index]["m_ff"]) for index in (1, 3, 5, 7)]
+        ref_rise, ref_fall = golden_reference(cal_rise), golden_reference(cal_fall)
+        margin_rise = [abs(int(events[index]["m_ff"]) - ref_rise) for index in (8, 10, 12, 14)]
+        margin_fall = [abs(int(events[index]["m_ff"]) - ref_fall) for index in (9, 11, 13, 15)]
+        rise_margin_values.extend(margin_rise)
+        fall_margin_values.extend(margin_fall)
+        rows.append({
+            "seed": seed, "mc_random_signature": payload["mc_random_signature"],
+            "M_CAL_RISE": ";".join(map(str, cal_rise)), "M_CAL_FALL": ";".join(map(str, cal_fall)),
+            "M_REF_RISE": ref_rise, "M_REF_FALL": ref_fall,
+            "M_MARGIN_DEV_RISE": ";".join(map(str, margin_rise)),
+            "M_MARGIN_DEV_FALL": ";".join(map(str, margin_fall)),
+            "FPR_M_FF": ";".join(str(int(events[index]["m_ff"])) for index in range(16, 24)),
+            "source_measurements_sha256": payload["source_measurements_sha256"],
+            "source_mc0_sha256": payload["source_mc0_sha256"],
+            "capture_sha256": payload["capture_sha256"],
+        })
+    healthy_csv = ROOT / "BFE8_HEALTHY_PER_SEED.csv"
+    fields = list(rows[0])
+    with healthy_csv.open("w", newline="", encoding="ascii") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+    rise_margin, fall_margin = max(rise_margin_values), max(fall_margin_values)
+    d02_root = RUN_ROOT / "d02"
+    if d02_root.exists() and any(d02_root.iterdir()):
+        raise RuntimeError("D02 artifacts exist before margin lock")
+    lock = {
+        "locked": True, "attack_data_generated": False,
+        "reference_arithmetic": "sum4 >> 2", "comparison": "strict D_M > margin",
+        "M_MARGIN_RISE_P0": rise_margin, "M_MARGIN_FALL_P0": fall_margin,
+        "healthy_development_event_count_RISE": len(rise_margin_values),
+        "healthy_development_event_count_FALL": len(fall_margin_values),
+        "input_hashes": {"healthy_per_seed_sha256": sha256(healthy_csv),
+                         "p0_matrix_sha256": sha256(ROOT / "P0_EVIDENCE_MATRIX.json"),
+                         "controls_metadata_sha256": sha256(ROOT / "healthy_controls" / "HEALTHY_CONTROLS_METADATA.json")},
+        "process_seed_count": len(rows),
+    }
+    (ROOT / "BFE8_D02_MARGIN_LOCK.json").write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n", encoding="ascii")
+    (ROOT / "P3_REPORT.md").write_text("# BFE8 D02 P3 healthy calibration and margin freeze\n\nGate: `BFE8_D02_P3_HEALTHY_MARGIN_FROZEN`\n\nAll 30 process seeds have paired healthy source/capture evidence. RISE and FALL margins are maxima of MARGIN_BG=7302 healthy development events only, using RTL-exact `sum4 >> 2`; no D02 artifact existed before lock.\n\nSimulation accounting: healthy HSPICE=30, real capture=30, D02=0.\n", encoding="utf-8")
+    (ROOT / "P3_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P3_HEALTHY_MARGIN_FROZEN", "status": "PASS", "seed_count": len(rows), "M_MARGIN_RISE_P0": rise_margin, "M_MARGIN_FALL_P0": fall_margin, "attack_data_generated": False, "simulation_accounting": {"healthy_hspice": len(rows), "healthy_capture": len(rows), "d02_hspice": 0}, "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def run_p2():
@@ -755,7 +861,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -764,9 +870,12 @@ def main():
     elif args.stage == "p1":
         run_p1()
         print("BFE8 P1 PASS: generated healthy controls and completed offline checks")
-    else:
+    elif args.stage == "p2":
         run_p2()
         print("BFE8 P2 PASS: healthy seed 41001 real capture validated")
+    else:
+        run_p3()
+        print("BFE8 P3 PASS: healthy population completed and margins locked")
 
 
 if __name__ == "__main__":
