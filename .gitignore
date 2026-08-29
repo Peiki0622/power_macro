@@ -153,6 +153,10 @@ hspice_command.log
 /delay_chain/ftc/reports/figures/**
 !/delay_chain/ftc/reports/*.md
 
+# BFE7 waveform contract manifests are compact authored evidence; the
+# surrounding generated CSV/INC files remain covered by normal source rules.
+!/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/DROOP12_MANIFEST.json
+
 # Phase-diverse FTC keeps only the compact source evidence needed by the
 # post-processing regressions.  Each exception names a task-owned run root;
 # generated HSPICE decks, listings, waveforms, command logs, and scenario

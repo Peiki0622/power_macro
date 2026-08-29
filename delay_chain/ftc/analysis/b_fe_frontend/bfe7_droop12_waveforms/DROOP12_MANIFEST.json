@@ -1,0 +1,136 @@
+{
+  "figures": {},
+  "files": {
+    "D01_SHALLOW_CANONICAL.csv": {
+      "path": "waveforms/D01_SHALLOW_CANONICAL.csv",
+      "sha256": "49ae91c52ed12f1603a0d25303da855f05df9ca3bf5eaed35b1d9123b9fb42ff"
+    },
+    "D01_SHALLOW_CANONICAL.inc": {
+      "path": "waveforms/D01_SHALLOW_CANONICAL.inc",
+      "sha256": "cc264410443f03ce1ca1f1ef2b6f7870f08b2a8f1a8fb9befe44c92b9f050fdc"
+    },
+    "D02_MEDIUM_CANONICAL.csv": {
+      "path": "waveforms/D02_MEDIUM_CANONICAL.csv",
+      "sha256": "db8318eaa8cef551398ff2c347cb74594c3ac56a1712e439702f5b0fa08bbff1"
+    },
+    "D02_MEDIUM_CANONICAL.inc": {
+      "path": "waveforms/D02_MEDIUM_CANONICAL.inc",
+      "sha256": "f84a883076ea6831dc88272443f6b90df9e58c70de949f51ba26dc19be5e32fa"
+    },
+    "D03_STRONG_CANONICAL.csv": {
+      "path": "waveforms/D03_STRONG_CANONICAL.csv",
+      "sha256": "7d7da367040c0dd939349c24e95bd50520ed1eb489b295664d3e88c26a643809"
+    },
+    "D03_STRONG_CANONICAL.inc": {
+      "path": "waveforms/D03_STRONG_CANONICAL.inc",
+      "sha256": "ef22415ed7668c9a67497ab4a6c75f274e64977ae61be5b32e2ce85f4cbe88dc"
+    },
+    "D04_SHORT_MEDIUM.csv": {
+      "path": "waveforms/D04_SHORT_MEDIUM.csv",
+      "sha256": "4c08d1efcb8d37c03627d740abcd7840d4b939e97f3d55f03f2f43e9bf081415"
+    },
+    "D04_SHORT_MEDIUM.inc": {
+      "path": "waveforms/D04_SHORT_MEDIUM.inc",
+      "sha256": "a2be7662b35b4a11ed640a9e66bb2acc30ec84054d5b619e4a5a6242b3e6c5ac"
+    },
+    "D05_DEEP_V_SHAPE.csv": {
+      "path": "waveforms/D05_DEEP_V_SHAPE.csv",
+      "sha256": "6b63c1cfd574ce55cd5fa993265cfcf6655b6aafb715fe39dd818b75afb12f70"
+    },
+    "D05_DEEP_V_SHAPE.inc": {
+      "path": "waveforms/D05_DEEP_V_SHAPE.inc",
+      "sha256": "635ad035b9f4725541904995f805feec8a48f5fd69fd03450252e94907816b7d"
+    },
+    "D06_SLOW_FALL_FAST_RECOVERY.csv": {
+      "path": "waveforms/D06_SLOW_FALL_FAST_RECOVERY.csv",
+      "sha256": "34e8a14e466f672de6587484ddc7531ce8d72e2a6acde12af6e28bd5587a69ce"
+    },
+    "D06_SLOW_FALL_FAST_RECOVERY.inc": {
+      "path": "waveforms/D06_SLOW_FALL_FAST_RECOVERY.inc",
+      "sha256": "43e7db5eb3123aa42c401d7e5250dbd5659397b98a4c113cfb2c5e9bb36e7f67"
+    },
+    "D07_DOUBLE_SHALLOW.csv": {
+      "path": "waveforms/D07_DOUBLE_SHALLOW.csv",
+      "sha256": "ec287f87477cc1c636ff1fce6ddc1356ecaedf02e740c1a6c26a30eec19e06ce"
+    },
+    "D07_DOUBLE_SHALLOW.inc": {
+      "path": "waveforms/D07_DOUBLE_SHALLOW.inc",
+      "sha256": "fcfc6a9d211a1bc457310076c2297aa89154b6886165628d21565fe8cb898672"
+    },
+    "D08_FOUR_PULSE_SHALLOW_BURST.csv": {
+      "path": "waveforms/D08_FOUR_PULSE_SHALLOW_BURST.csv",
+      "sha256": "933ec2539a896dfdcd19764614efb61e499e6ee0e30cafca31f5665299e642cc"
+    },
+    "D08_FOUR_PULSE_SHALLOW_BURST.inc": {
+      "path": "waveforms/D08_FOUR_PULSE_SHALLOW_BURST.inc",
+      "sha256": "d6e8f7a648b1638b297c8a3509ab873be36c7d0075e60729a0834144ddf4a765"
+    },
+    "D09_STAIRCASE_SAG.csv": {
+      "path": "waveforms/D09_STAIRCASE_SAG.csv",
+      "sha256": "982ee3b027d64b1396f1d0c1a6f5b4a92c309786d340b1f4156f695148fc0e44"
+    },
+    "D09_STAIRCASE_SAG.inc": {
+      "path": "waveforms/D09_STAIRCASE_SAG.inc",
+      "sha256": "3dff0e322e6393e8f67559d58535a6913f86510b3b9280e5f97fc5d6d6f88d54"
+    },
+    "D10_PRE_EDGE_MEDIUM.csv": {
+      "path": "waveforms/D10_PRE_EDGE_MEDIUM.csv",
+      "sha256": "73f9b0dda2de365c2628b645b1eba9940748dab1482618e680dfdc5554a9d9d6"
+    },
+    "D10_PRE_EDGE_MEDIUM.inc": {
+      "path": "waveforms/D10_PRE_EDGE_MEDIUM.inc",
+      "sha256": "9ce45d1aa7bc741718878fa789e44e5b2c35f36ad28ab704f315313c8429fd9f"
+    },
+    "D11_POST_EDGE_MEDIUM.csv": {
+      "path": "waveforms/D11_POST_EDGE_MEDIUM.csv",
+      "sha256": "15cac20aef7f3b77dac76058a536c5ebd97c2190785d1d9dd1ea5418c09df7ba"
+    },
+    "D11_POST_EDGE_MEDIUM.inc": {
+      "path": "waveforms/D11_POST_EDGE_MEDIUM.inc",
+      "sha256": "b02be01f4eba1b3a4645d6104feb107d9cbd8ca68eb0cd83cc9f7ef7f386db70"
+    },
+    "D12_DUAL_EDGE_SHALLOW_SPAN.csv": {
+      "path": "waveforms/D12_DUAL_EDGE_SHALLOW_SPAN.csv",
+      "sha256": "ba97ca5662460b6ce6173d815cabd8dc4e69be47632abb6640ebf74096a7858d"
+    },
+    "D12_DUAL_EDGE_SHALLOW_SPAN.inc": {
+      "path": "waveforms/D12_DUAL_EDGE_SHALLOW_SPAN.inc",
+      "sha256": "d7c2746ee3069579795c19be65d5ff9f9d083cb156bc809f1def895187976350"
+    },
+    "contract": {
+      "path": "DROOP12_WAVEFORM_CONTRACT.json",
+      "sha256": "c92e2df7a7b6e861de7410f766e2105055624876075dcb82770e8cd6785a3407"
+    },
+    "generator": {
+      "path": "generate_droop12_waveforms.py",
+      "sha256": "9ede419d75fb3c77a3ae3cd9b7c18d993a5f7ae56a950c2a2faa65ebf8a38d04"
+    },
+    "normal_background_csv": {
+      "path": "normal_background/NBG_7301.csv",
+      "sha256": "e461808e887171119234c170b07747ec566ce4520ef01589ff1e49b978e4a70b"
+    },
+    "normal_background_inc": {
+      "path": "normal_background/NBG_7301.inc",
+      "sha256": "695e25adda946cdb0b7720f5b0854d859451d22af7bca6d809aa3d9f193147b7"
+    },
+    "normal_background_metadata": {
+      "path": "normal_background/NBG_7301_METADATA.json",
+      "sha256": "593553957ef5f79aadf72e65f6a6eadd99f982a4cbccf3f3a58aa4b5533f32ab"
+    },
+    "validator": {
+      "path": "validate_droop12_waveforms.py",
+      "sha256": "959bfdd3c45e5629cc19461fe92ce98030f34427f1fb112a4874239ec6c6f012"
+    }
+  },
+  "frozen": false,
+  "schema_version": 1,
+  "simulation_accounting": {
+    "arch0_tests": 0,
+    "arch1_tests": 0,
+    "dc_runs": 0,
+    "hspice_runs": 0,
+    "primesim_runs": 0,
+    "vcs_runs": 0
+  },
+  "study": "B-FE7-DROOP12"
+}
