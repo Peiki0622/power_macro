@@ -1,0 +1,12 @@
+{
+  "gate": "BFE7_DROOP12_W0_AUTHORITY_FROZEN",
+  "status": "PASS",
+  "verification_mode": "offline input/hash audit",
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0
+  },
+  "next_stage": "W1 deterministic normal-supply background"
+}

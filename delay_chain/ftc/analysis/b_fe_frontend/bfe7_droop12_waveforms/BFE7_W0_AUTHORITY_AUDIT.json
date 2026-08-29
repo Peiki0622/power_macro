@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "study": "B-FE7-DROOP12-W0",
+  "gate": "BFE7_DROOP12_W0_AUTHORITY_FROZEN",
+  "status": "PASS",
+  "baseline_branch": "bfe-multitap-latched-frontend",
+  "baseline_commit": "9794e960374a0e8b881a6c936ddbc69816d87cba",
+  "planning_commit": "f0820a44f43cf356c7a8c9cc59ec1d09e0582683",
+  "canonical_frame": {
+    "t_stop_s": 6.5e-8,
+    "t_e_s": 2.1e-8,
+    "t_e1_s": 3.1e-8,
+    "t_e2_s": 4.1e-8,
+    "t_e3_s": 5.1e-8,
+    "edge_spacing_s": 1.0e-8,
+    "nominal_vdd_v": 1.1,
+    "temperature_c": 25.0
+  },
+  "authoritative_inputs": {
+    "delay_chain/ftc/ftc_config.json": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f",
+    "delay_chain/ftc/analysis/t0_transient_droop/contract/T0_TRANSIENT_THREAT_CONTRACT.json": "6a532c24b7f90eb4a285a5a3b8c7ef86a40b5b0120737495c4d73558cb397d7f",
+    "delay_chain/ftc/scripts/bfe1_frontend.py": "cfdf3a97b20d90dbb53ed09e935e6d5d4780cc7c74c8a76e5f0c24a9fabd0990",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe4_caln0_self_calibration/run_bfe4_caln0_self_calibration.py": "3cb5a5ac56b3a5f1713436a706a162fe5c95cbbc89948b010219b9c51d629ca2"
+  },
+  "provenance_only_inputs": {
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe3_clk0_periodic/BFE3_CLK0_REPORT.md": "08794b100b23939723bef1d363ad83f81caacb8164a635b477b1d2eb5c474215",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe4_caln0_self_calibration/BFE4_CALN0_REPORT.md": "dc2f3b3014f80e336d10b4819131995ebf7f3f66fcc374804ee3962e2f9a725f",
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe6_marg0_detection_margin/BFE6_MARG0_REPORT.md": "1f8c782c930d6495806ebde65318e2c3d153bc639627910a493b0d393677966b"
+  },
+  "simulation_accounting": {
+    "hspice_runs": 0,
+    "vcs_runs": 0,
+    "primesim_runs": 0,
+    "dc_runs": 0
+  },
+  "scope_boundary": [
+    "stimulus construction only",
+    "no ARCH0 or ARCH1 evaluation",
+    "no production RTL changes",
+    "no simulator invocation"
+  ]
+}
