@@ -1,0 +1,10 @@
+{
+  "gate": "BFE9_D01_P1_RUNNER_CONTRACT_READY",
+  "status": "PASS",
+  "simulation_accounting": {
+    "hspice": 0,
+    "capture": 0,
+    "vcs": 0
+  },
+  "stop_after_stage": true
+}

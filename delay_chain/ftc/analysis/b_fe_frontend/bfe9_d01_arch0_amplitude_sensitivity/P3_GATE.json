@@ -1,0 +1,10 @@
+{
+  "gate": "BFE9_D01_P3_POPULATION_CAPTURE_COMPLETE",
+  "status": "PASS",
+  "seed_count": 30,
+  "simulation_accounting": {
+    "d01_hspice": 30,
+    "d01_capture": 30
+  },
+  "stop_after_stage": true
+}

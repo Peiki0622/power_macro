@@ -1,0 +1,30 @@
+{
+  "attack_onset_ns": 19.5,
+  "common_healthy_fpr": "1/240",
+  "coverage": {
+    "detected": 22,
+    "fraction": 0.7333333333333333,
+    "total": 30,
+    "wilson_95": [
+      0.555520383048111,
+      0.8581733668040368
+    ]
+  },
+  "first_alarm_latency_detected_only_ns": {
+    "median": 20.534524618566998,
+    "worst": 20.534524618566998
+  },
+  "headroom_all_seeds": {
+    "median": 6.5,
+    "min": -2
+  },
+  "locked_fall_margin": 24,
+  "locked_rise_margin": 22,
+  "pre_attack_alarm_total": 0,
+  "simulation_accounting": {
+    "capture": 0,
+    "d02_rerun": 0,
+    "hspice": 0
+  },
+  "target_event": "21 ns RISE"
+}

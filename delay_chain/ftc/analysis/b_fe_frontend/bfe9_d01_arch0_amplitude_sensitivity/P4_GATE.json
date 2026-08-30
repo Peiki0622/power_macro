@@ -1,0 +1,18 @@
+{
+  "gate": "BFE9_D01_P4_ARCH0_AMPLITUDE_METRICS_CHARACTERIZED",
+  "status": "PASS",
+  "coverage": {
+    "detected": 22,
+    "total": 30,
+    "fraction": 0.7333333333333333,
+    "wilson_95": [
+      0.555520383048111,
+      0.8581733668040368
+    ]
+  },
+  "headroom": {
+    "min": -2,
+    "median": 6.5
+  },
+  "stop_after_stage": true
+}

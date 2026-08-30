@@ -1,0 +1,11 @@
+{
+  "gate": "BFE9_D01_P2_SINGLE_SEED_CAPTURE_PASS",
+  "status": "PASS",
+  "seed": 41001,
+  "case": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41001",
+  "simulation_accounting": {
+    "d01_hspice": 1,
+    "d01_capture": 1
+  },
+  "stop_after_stage": true
+}

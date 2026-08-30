@@ -1,0 +1,51 @@
+{
+  "cases": [
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41001/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41002/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41003/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41004/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41005/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41006/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41007/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41008/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41009/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41010/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41011/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41012/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41013/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41014/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41015/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41016/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41017/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41018/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41019/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41020/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41021/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41022/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41023/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41024/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41025/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41026/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41027/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41028/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41029/D01_CASE.json",
+    "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe9_d01_arch0_amplitude_sensitivity/d01/seed_41030/D01_CASE.json"
+  ],
+  "final_artifacts": {
+    "BFE9_D01_D02_COMPARISON.json": "f05d79dea045f92a18f4b8803fb652f021dc0b457b776c68026d1d46c0d97190",
+    "BFE9_D01_D02_PAIRED.csv": "a6c5510be9c7c65bab833b118b1e181e622382a524deed977099c078f3771747",
+    "BFE9_D01_D02_PAIRED_HEADROOM.pdf": "0252221f69947b99a7872e2c27cdf0ef36c09abc59d0de4340312dcc23c8f604",
+    "BFE9_D01_D02_PAIRED_HEADROOM.png": "18e36036d086401073b30c8bf3d744c849a67b0515c48c1863271e45fbf61365",
+    "BFE9_D01_METRICS.json": "ca3528ca14b9015dc5621f6a74456eed71b8d4da1428c8e1b65f61ba66c1ae59",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674",
+    "BFE9_D01_REPORT.md": "10e7d7e081d1f7b4da52dda73a9ce9f0c606486b274dd91c4d02fab8c4462fc2"
+  },
+  "simulation_accounting": {
+    "d01_capture": 30,
+    "d01_hspice": 30,
+    "d02": 0,
+    "healthy": 0,
+    "new_rtl": 1
+  },
+  "stage": "P6"
+}

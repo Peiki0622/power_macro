@@ -1,0 +1,37 @@
+{
+  "arch1_implemented": false,
+  "artifact_sha256": {
+    "BFE9_D01_D02_COMPARISON.json": "f05d79dea045f92a18f4b8803fb652f021dc0b457b776c68026d1d46c0d97190",
+    "BFE9_D01_D02_PAIRED.csv": "a6c5510be9c7c65bab833b118b1e181e622382a524deed977099c078f3771747",
+    "BFE9_D01_D02_PAIRED_HEADROOM.pdf": "0252221f69947b99a7872e2c27cdf0ef36c09abc59d0de4340312dcc23c8f604",
+    "BFE9_D01_D02_PAIRED_HEADROOM.png": "18e36036d086401073b30c8bf3d744c849a67b0515c48c1863271e45fbf61365",
+    "BFE9_D01_METRICS.json": "ca3528ca14b9015dc5621f6a74456eed71b8d4da1428c8e1b65f61ba66c1ae59",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674",
+    "BFE9_D01_REPORT.md": "10e7d7e081d1f7b4da52dda73a9ce9f0c606486b274dd91c4d02fab8c4462fc2"
+  },
+  "common_healthy_fpr": "1/240",
+  "coverage": {
+    "detected": 22,
+    "fraction": 0.7333333333333333,
+    "total": 30,
+    "wilson_95": [
+      0.555520383048111,
+      0.8581733668040368
+    ]
+  },
+  "gate": "BFE9_D01_ARCH0_AMPLITUDE_SENSITIVITY_FROZEN",
+  "headroom": {
+    "median": 6.5,
+    "min": -2
+  },
+  "production_rtl_modified": false,
+  "simulation_accounting": {
+    "d01_capture": 30,
+    "d01_hspice": 30,
+    "d02": 0,
+    "healthy": 0,
+    "new_rtl": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

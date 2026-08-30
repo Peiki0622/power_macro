@@ -1,0 +1,20 @@
+{
+  "gate": "BFE9_D01_P0_AUTHORITY_AND_REUSE_FROZEN",
+  "resume_rule": "authority -> BFE9 reparse -> matching case resume -> new simulator call",
+  "simulation_count_so_far": {
+    "d01_capture": 0,
+    "d01_hspice": 0,
+    "production_rtl_vcs": 0
+  },
+  "upper_bound": {
+    "d01_capture": 30,
+    "d01_hspice": 30,
+    "d02_capture": 0,
+    "d02_hspice": 0,
+    "dc_sta_pnr": 0,
+    "fpr": 0,
+    "healthy_capture": 0,
+    "healthy_hspice": 0,
+    "production_rtl_vcs": 1
+  }
+}
