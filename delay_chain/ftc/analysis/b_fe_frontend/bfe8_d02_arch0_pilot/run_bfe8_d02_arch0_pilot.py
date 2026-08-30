@@ -969,7 +969,7 @@ def d02_attack_onset_ns():
     raise RuntimeError("D02 CSV contains no attack onset")
 
 
-def run_p6():
+def run_p6(reparse_only=False):
     """Complete D02 population and compute the three frozen primary metrics."""
     import multiprocessing as mp
     lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
@@ -978,6 +978,8 @@ def run_p6():
     missing = [seed for seed in SEEDS if not (RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "D02_CASE.json").is_file()]
     if 41001 in missing:
         raise RuntimeError("P6 cannot proceed without P5 seed 41001")
+    if missing and reparse_only:
+        raise RuntimeError("R0 requires all 30 existing D02 captured-vector cases; missing seeds: {}".format(missing))
     if missing:
         with mp.Pool(processes=2) as pool:
             pool.map(run_d02_seed, missing)
@@ -990,8 +992,11 @@ def run_p6():
         if case["mc_random_signature"] != healthy[seed]["mc_random_signature"]:
             raise RuntimeError("P6 healthy/D02 signature mismatch for seed {}".format(seed))
         target = next(event for event in case["events"] if int(event["event_index"]) == 2)
-        ref = int(healthy[seed]["M_REF_RISE"])
-        d_m, margin = abs(int(target["M_FF"]) - ref), int(lock["M_MARGIN_RISE_P0"])
+        refs = {"RISE": int(healthy[seed]["M_REF_RISE"]), "FALL": int(healthy[seed]["M_REF_FALL"])}
+        margins = {"RISE": int(lock["M_MARGIN_RISE_P0"]), "FALL": int(lock["M_MARGIN_FALL_P0"])}
+        target_polarity = target["edge"]
+        ref = refs[target_polarity]
+        d_m, margin = abs(int(target["M_FF"]) - ref), margins[target_polarity]
         headroom, detected = d_m - margin, int(d_m > margin)
         headrooms.append(headroom)
         latency = "N/A"
@@ -1005,12 +1010,26 @@ def run_p6():
             latency = (target_edge_ps + CAPTURE_DFF_OFFSET_PS + 7.0 * PROBE_PERIOD_PS) / 1000.0 - onset_ns
             latency_basis = "derived_fixed_tim0_pipeline"
             latencies.append(latency)
-        pre_alarm = [int(abs(int(event["M_FF"]) - ref) > margin) for event in case["events"] if int(event["event_index"]) < 2]
+        pre_attack_events = [event for event in case["events"] if int(event["event_index"]) < 2]
+        pre_attack_polarities = [event["edge"] for event in pre_attack_events]
+        pre_attack_refs = [refs[polarity] for polarity in pre_attack_polarities]
+        pre_attack_margins = [margins[polarity] for polarity in pre_attack_polarities]
+        pre_attack_d_m = [abs(int(event["M_FF"]) - event_ref)
+                          for event, event_ref in zip(pre_attack_events, pre_attack_refs)]
+        pre_alarm = [int(event_d_m > event_margin)
+                     for event_d_m, event_margin in zip(pre_attack_d_m, pre_attack_margins)]
         rows.append({"seed": seed, "mc_random_signature": case["mc_random_signature"],
                      "target_event": "21 ns RISE", "q_ff_target": target["q_ff"],
-                     "M_FF_target": int(target["M_FF"]), "M_REF_RISE": ref,
-                     "D_M": d_m, "locked_rise_margin": margin, "H_D": headroom,
+                     "M_FF_target": int(target["M_FF"]), "M_REF_RISE": refs["RISE"],
+                     "M_REF_FALL": refs["FALL"], "D_M": d_m,
+                     "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]),
+                     "locked_fall_margin": int(lock["M_MARGIN_FALL_P0"]), "H_D": headroom,
                      "detected": detected, "pre_attack_alarm_count": sum(pre_alarm),
+                     "pre_attack_polarities": ";".join(pre_attack_polarities),
+                     "pre_attack_M_REF_selected": ";".join(map(str, pre_attack_refs)),
+                     "pre_attack_margin_selected": ";".join(map(str, pre_attack_margins)),
+                     "pre_attack_D_M": ";".join(map(str, pre_attack_d_m)),
+                     "pre_attack_alarm_vector": ";".join(map(str, pre_alarm)),
                      "first_alarm_latency_ns": latency, "first_alarm_latency_basis": latency_basis,
                      "rail_resolved": True,
                      "source_measurements_sha256": case["source_measurements_sha256"],
@@ -1028,10 +1047,113 @@ def run_p6():
                "first_alarm_latency_basis": "derived_fixed_tim0_pipeline",
                "first_alarm_latency_formula": "(target_edge_ps + 1534.524618567 ps + 7 * 2500 ps) - attack_onset",
                "pipeline_probe_edges": {"e0_to_e4": 4, "e4_to_e7": 3, "e0_to_e7": 7},
-               "attack_onset_ns": onset_ns, "target_event": "21 ns RISE", "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]), "simulation_accounting": {"d02_hspice": len(rows), "d02_capture": len(rows)}}
+               "attack_onset_ns": onset_ns, "target_event": "21 ns RISE",
+               "locked_rise_margin": int(lock["M_MARGIN_RISE_P0"]),
+               "locked_fall_margin": int(lock["M_MARGIN_FALL_P0"]),
+               "pre_attack_alarm_logic": "per-event edge selects matching M_REF_RISE/FALL and M_MARGIN_RISE/FALL",
+               "simulation_accounting": {"d02_hspice": len(rows), "d02_capture": len(rows)}}
     (ROOT / "BFE8_D02_METRICS.json").write_text(json.dumps(metrics, indent=2, sort_keys=True) + "\n", encoding="ascii")
-    (ROOT / "P6_REPORT.md").write_text("# BFE8 D02 P6 ARCH0 population metrics\n\nGate: `BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED`\n\nAll 30 process seeds were paired to healthy signatures. Coverage and headroom use only the frozen 21 ns RISE event; pre-attack events are retained as diagnostics.\n", encoding="utf-8")
-    (ROOT / "P6_GATE.json").write_text(json.dumps({"gate": "BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED", "status": "PASS", "seed_count": len(rows), "coverage": metrics["coverage"], "headroom": metrics["headroom_all_seeds"], "latency": metrics["first_alarm_latency_detected_only_ns"], "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (ROOT / "P6_REPORT.md").write_text("# BFE8 D02 P6 ARCH0 population metrics\n\nGate: `BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED`\n\nAll 30 process seeds were paired to healthy signatures. Coverage and headroom use only the frozen 21 ns RISE event; pre-attack events are retained as diagnostics. Each pre-attack event now selects its own polarity-matched reference and margin.\n", encoding="utf-8")
+    pre_attack_counts = [int(row["pre_attack_alarm_count"]) for row in rows]
+    (ROOT / "P6_GATE.json").write_text(json.dumps({
+        "gate": "BFE8_D02_P6_ARCH0_METRICS_CHARACTERIZED", "status": "PASS", "seed_count": len(rows),
+        "coverage": metrics["coverage"], "headroom": metrics["headroom_all_seeds"],
+        "latency": metrics["first_alarm_latency_detected_only_ns"],
+        "pre_attack_alarm_count": {"min": min(pre_attack_counts), "max": max(pre_attack_counts), "total": sum(pre_attack_counts)},
+        "pre_attack_alarm_logic": "per-event edge selects matching M_REF_RISE/FALL and M_MARGIN_RISE/FALL",
+        "stop_after_stage": True}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def run_r0():
+    """Reparse frozen D02 cases with polarity-aware pre-attack diagnostics."""
+    run_p6(reparse_only=True)
+    per_seed = ROOT / "BFE8_D02_PER_SEED.csv"
+    with per_seed.open(newline="", encoding="ascii") as stream:
+        rows = list(csv.DictReader(stream))
+    if len(rows) != 30:
+        raise RuntimeError("R0 reparse did not produce exactly 30 seeds")
+    required_columns = {"M_REF_RISE", "M_REF_FALL", "locked_rise_margin", "locked_fall_margin",
+                        "pre_attack_polarities", "pre_attack_M_REF_selected", "pre_attack_margin_selected",
+                        "pre_attack_D_M", "pre_attack_alarm_vector", "pre_attack_alarm_count"}
+    if not required_columns.issubset(rows[0]):
+        raise RuntimeError("R0 polarity-aware columns are missing from per-seed CSV")
+    if any(int(row["pre_attack_alarm_count"]) != 0 for row in rows):
+        raise RuntimeError("R0 corrected pre-attack diagnostic still reports an alarm")
+    expected_metrics = {
+        "coverage": (30, 30),
+        "headroom_min": 19,
+        "headroom_median": 38.0,
+        "latency_ns": 20.534524618567,
+    }
+    metrics = read_json(ROOT / "BFE8_D02_METRICS.json")
+    if (metrics["coverage"]["detected"], metrics["coverage"]["total"]) != expected_metrics["coverage"]:
+        raise RuntimeError("R0 changed formal detection coverage")
+    if metrics["headroom_all_seeds"]["min"] != expected_metrics["headroom_min"] or metrics["headroom_all_seeds"]["median"] != expected_metrics["headroom_median"]:
+        raise RuntimeError("R0 changed formal decision headroom")
+    latency = metrics["first_alarm_latency_detected_only_ns"]["median"]
+    if abs(latency - expected_metrics["latency_ns"]) > 1.0e-12:
+        raise RuntimeError("R0 changed formal first-alarm latency: {}".format(latency))
+    fpr = read_json(ROOT / "BFE8_D02_HEALTHY_FPR_METRICS.json")["FPR_healthy"]
+    if (fpr["alarms"], fpr["events"]) != (1, 240):
+        raise RuntimeError("R0 changed formal healthy FPR")
+
+    lock = read_json(ROOT / "BFE8_D02_MARGIN_LOCK.json")
+    if (lock["M_MARGIN_RISE_P0"], lock["M_MARGIN_FALL_P0"]) != (22, 24):
+        raise RuntimeError("R0 margin lock changed")
+    case_hashes = {}
+    for seed in SEEDS:
+        case_path = RUN_ROOT / "d02" / "seed_{:05d}".format(seed) / "D02_CASE.json"
+        if not case_path.is_file():
+            raise RuntimeError("R0 missing reused D02 case for seed {}".format(seed))
+        case = read_json(case_path)
+        case_hashes[str(seed)] = {
+            "case_sha256": sha256(case_path),
+            "source_measurements_sha256": case["source_measurements_sha256"],
+            "source_mc0_sha256": case["source_mc0_sha256"],
+            "capture_sha256": case["capture_sha256"],
+        }
+    polarity_counts = {}
+    for row in rows:
+        polarity_counts[row["pre_attack_polarities"]] = polarity_counts.get(row["pre_attack_polarities"], 0) + 1
+    report = [
+        "# BFE8 D02 R0 polarity-aware diagnostic reparse",
+        "",
+        "Gate: `BFE8_D02_R0_POLARITY_AWARE_PRE_ATTACK_REPARSE_PASS`",
+        "",
+        "Bug: P6 pre-attack diagnostics used `M_REF_RISE` and `M_MARGIN_RISE_P0` for every event, including FALL events.",
+        "Fix: each event selects `M_REF_RISE`/`M_MARGIN_RISE_P0` for RISE or `M_REF_FALL`/`M_MARGIN_FALL_P0` for FALL before computing `D_M` and the strict alarm comparison.",
+        "",
+        "Reuse evidence: all 30 existing D02_CASE.json records, healthy per-seed references, frozen margins, and captured vectors were read in place. No source deck, waveform, RTL, calibration, or population artifact was regenerated.",
+        "Simulation accounting for R0: HSPICE=0, VCS=0, PrimeSim=0, DC=0.",
+        "",
+        "Corrected result: 30/30 seeds have `pre_attack_alarm_count=0`; the per-event polarity, selected reference, selected margin, `D_M`, and alarm vector are recorded in `BFE8_D02_PER_SEED.csv`.",
+        "Formal metrics verified unchanged: Detection Coverage=30/30; Decision Headroom=min 19 / median 38 M-codes; First-Alarm Latency=20.534524618567 ns; Healthy FPR=1/240.",
+    ]
+    (ROOT / "R0_REPORT.md").write_text("\n".join(report) + "\n", encoding="utf-8")
+    gate = {
+        "gate": "BFE8_D02_R0_POLARITY_AWARE_PRE_ATTACK_REPARSE_PASS",
+        "status": "PASS",
+        "seed_count": len(rows),
+        "pre_attack_alarm_count": {"min": 0, "max": 0, "total": 0, "distribution": {"0": len(rows)}},
+        "pre_attack_polarity_patterns": polarity_counts,
+        "formal_metrics_unchanged": {
+            "detection_coverage": "30/30",
+            "decision_headroom_m_codes": {"min": 19, "median": 38},
+            "first_alarm_latency_ns": 20.534524618567,
+            "healthy_fpr": "1/240",
+        },
+        "frozen_parameters": {"M_MARGIN_RISE_P0": 22, "M_MARGIN_FALL_P0": 24,
+                              "startup_calibration_unchanged": True, "production_rtl_modified": False,
+                              "arch1_modified": False},
+        "reuse": {"d02_case_count": len(case_hashes), "case_hashes": case_hashes,
+                  "per_seed_csv_sha256": sha256(per_seed),
+                  "healthy_per_seed_sha256": sha256(ROOT / "BFE8_HEALTHY_PER_SEED.csv"),
+                  "margin_lock_sha256": sha256(ROOT / "BFE8_D02_MARGIN_LOCK.json")},
+        "simulation_accounting": {"hspice": 0, "vcs": 0, "primesim": 0, "dc": 0},
+        "scope": "bfe8_d02_arch0_pilot only; no D01 or other DROOP12 scenarios",
+        "stop_after_stage": True,
+    }
+    (ROOT / "R0_GATE.json").write_text(json.dumps(gate, indent=2, sort_keys=True) + "\n", encoding="ascii")
 
 
 def q_word(bits):
@@ -1214,7 +1336,8 @@ def run_p8():
     import matplotlib.pyplot as plt
     required = ["P0_EVIDENCE_MATRIX.md", "P0_EVIDENCE_MATRIX.json", "P0_EXPECTED_PROCESS_SIGNATURES.csv",
                 "P0_SIMULATION_BUDGET.json", "BFE8_D02_MARGIN_LOCK.json", "BFE8_D02_PER_SEED.csv",
-                "BFE8_D02_HEALTHY_FPR.csv", "BFE8_D02_METRICS.json", "P4_GATE.json", "P6_GATE.json", "P7_GATE.json"]
+                "BFE8_D02_HEALTHY_FPR.csv", "BFE8_D02_METRICS.json", "P4_GATE.json", "P6_GATE.json", "P7_GATE.json",
+                "R0_REPORT.md", "R0_GATE.json"]
     missing = [name for name in required if not (ROOT / name).is_file()]
     if missing:
         raise RuntimeError("P8 missing required evidence: {}".format(", ".join(missing)))
@@ -1247,9 +1370,11 @@ def run_p8():
             {"stage": "P6", "hspice": 29, "vcs": 29, "reason_new_data_required": "missing D02 process-population captures; seed 41001 reused"},
             {"stage": "P7", "hspice": 0, "vcs": 1, "reason_new_data_required": "representative captured-vector production RTL replay"},
             {"stage": "P8", "hspice": 0, "vcs": 0, "reason_new_data_required": "final report and figure generated from frozen CSV/JSON"},
+            {"stage": "R0", "hspice": 0, "vcs": 0, "primesim": 0, "dc": 0, "reason_new_data_required": "polarity-aware diagnostic reparse from existing D02/healthy artifacts"},
         ],
         "totals": {"healthy_hspice": 30, "healthy_capture": 30, "d02_hspice": 30, "d02_capture": 30, "p7_vcs": 1, "p4_physical": 0},
         "scope": "D02 MEDIUM_CANONICAL only; no D01/D03-D12 and no ARCH1",
+        "r0_simulation_accounting": {"hspice": 0, "vcs": 0, "primesim": 0, "dc": 0},
     }
     (ROOT / "BFE8_D02_RUN_LEDGER.json").write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="ascii")
     report = [
@@ -1268,6 +1393,7 @@ def run_p8():
         "Margins were selected from healthy-only MARGIN_BG=7302 development data and committed before any D02 attack simulation.",
         "Coverage is observed over 30 paired process seeds, not a universal silicon claim; FPR is observed over independent FPR_BG=7303 events.",
         "First-alarm latency is a derived fixed-TIM0 pipeline value (target edge + frozen DFF offset + seven probe periods); P7 measured the three-period E4-to-E7 leg on representative real vectors, while the frozen capture contract supplies four periods from E0 to E4.",
+        "R0 corrected the pre-attack diagnostic to be polarity-aware using only existing D02/healthy raw artifacts and captured vectors; R0 simulation accounting is HSPICE=0, VCS=0, PrimeSim=0, DC=0. Corrected pre-attack alarms are 0/30 seeds.",
         "",
         "The single figure `BFE8_D02_HEADROOM.png` is generated from the final per-seed CSV; the method is now frozen for later DROOP12 expansion.",
     ]
@@ -1382,7 +1508,7 @@ def write_p0(paths, digests, signatures):
 
 def main():
     parser = argparse.ArgumentParser(description="BFE8 D02 ARCH0 staged pilot runner")
-    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8"), default="p0")
+    parser.add_argument("--stage", choices=("p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "r0"), default="p0")
     args = parser.parse_args()
     if args.stage == "p0":
         paths, digests, signatures = audit_authorities()
@@ -1409,6 +1535,9 @@ def main():
     elif args.stage == "p7":
         run_p7()
         print("BFE8 P7 PASS: representative ARCH0 RTL replay validated")
+    elif args.stage == "r0":
+        run_r0()
+        print("BFE8 R0 PASS: polarity-aware pre-attack diagnostic reparsed from existing artifacts")
     else:
         run_p8()
         print("BFE8 P8 PASS: quantitative pilot package frozen")

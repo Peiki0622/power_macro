@@ -1,5 +1,11 @@
 {
   "gate": "BFE8_D02_ARCH0_QUANTITATIVE_PILOT_FROZEN",
+  "r0_simulation_accounting": {
+    "dc": 0,
+    "hspice": 0,
+    "primesim": 0,
+    "vcs": 0
+  },
   "scope": "D02 MEDIUM_CANONICAL only; no D01/D03-D12 and no ARCH1",
   "stages": [
     {
@@ -54,6 +60,14 @@
       "hspice": 0,
       "reason_new_data_required": "final report and figure generated from frozen CSV/JSON",
       "stage": "P8",
+      "vcs": 0
+    },
+    {
+      "dc": 0,
+      "hspice": 0,
+      "primesim": 0,
+      "reason_new_data_required": "polarity-aware diagnostic reparse from existing D02/healthy artifacts",
+      "stage": "R0",
       "vcs": 0
     }
   ],

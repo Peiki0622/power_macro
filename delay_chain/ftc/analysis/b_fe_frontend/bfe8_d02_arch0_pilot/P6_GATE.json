@@ -17,6 +17,12 @@
     "median": 20.534524618566998,
     "worst": 20.534524618566998
   },
+  "pre_attack_alarm_count": {
+    "max": 0,
+    "min": 0,
+    "total": 0
+  },
+  "pre_attack_alarm_logic": "per-event edge selects matching M_REF_RISE/FALL and M_MARGIN_RISE/FALL",
   "seed_count": 30,
   "status": "PASS",
   "stop_after_stage": true

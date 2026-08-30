@@ -19,12 +19,14 @@
     "median": 38.0,
     "min": 19
   },
+  "locked_fall_margin": 24,
   "locked_rise_margin": 22,
   "pipeline_probe_edges": {
     "e0_to_e4": 4,
     "e0_to_e7": 7,
     "e4_to_e7": 3
   },
+  "pre_attack_alarm_logic": "per-event edge selects matching M_REF_RISE/FALL and M_MARGIN_RISE/FALL",
   "simulation_accounting": {
     "d02_capture": 30,
     "d02_hspice": 30
