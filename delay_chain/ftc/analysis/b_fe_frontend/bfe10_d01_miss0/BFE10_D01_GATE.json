@@ -1,0 +1,53 @@
+{
+  "arch1_modified": false,
+  "artifact_sha256": {
+    "BFE10_D01_D_M_DISTRIBUTIONS.pdf": "d7b027cfbb3cdb67ce96368660cea83bec890de9480518eeaadb8bddc078e258",
+    "BFE10_D01_D_M_DISTRIBUTIONS.png": "34c231e64f32720b1aec8feb535c37602b06215aea3a740ebcdb247f61fd2bf4",
+    "BFE10_D01_MISS_MECHANISM.csv": "140658753d15548e06a3ab098f28b6e2c152c6c7286a21557862b52f55e6ef99",
+    "BFE10_D01_MISS_MECHANISM.json": "ea57bfa173fcca02b5d05a5313147692b8455efab01543efc68eea9aff8da99e",
+    "BFE10_D01_MISS_MECHANISM_REPORT.md": "226766bdc34da2cad5b521475879397c0bdcad9287c41dcb6324b69f7847992c",
+    "BFE10_D01_MISS_SPATIAL_HEATMAP.pdf": "7a21f1112aef0ee37d4d0d9330c2c5963314311d695b5f94e6a38814b23a947a",
+    "BFE10_D01_MISS_SPATIAL_HEATMAP.png": "b3919565ec342b81a3afa6d7bb9e244d3431bae744eeff39536cdda1f5c1bc0d",
+    "BFE10_D01_SCALAR_THRESHOLD_SWEEP.csv": "4d0b2a3d9d4f5c78447f10834291674df1a6ddda4d5e36b9431caa544ac308a1"
+  },
+  "classification": "MIXED_SCALAR_THRESHOLD_OVERLAP+SPATIAL_COMPRESSION_LOSS",
+  "frontend_modified": false,
+  "gate": "BFE10_D01_ARCH0_MISS_MECHANISM_FROZEN",
+  "input_authority_sha256": {
+    "BFE8_D02_GATE.json": "f73fedd892f8b54c10246ed0b0c90f0ec23c5c02812fdc5defba2522838a6ab2",
+    "BFE8_D02_PER_SEED.csv": "f77f35ff7e1f0c97cffa68b45cdd009d76074a2a99c0ce234cf1f258d968de9a",
+    "BFE8_HEALTHY_PER_SEED.csv": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691",
+    "BFE9_D01_D02_PAIRED.csv": "a6c5510be9c7c65bab833b118b1e181e622382a524deed977099c078f3771747",
+    "BFE9_D01_GATE.json": "42d4fa4ff27c3cc6869273d73d496c2e5c8dc13d3201d16edbe74dffc300e640",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674"
+  },
+  "locked_margins": {
+    "M_MARGIN_FALL": 24,
+    "M_MARGIN_RISE": 22
+  },
+  "miss_seeds": [
+    41005,
+    41007,
+    41012,
+    41015,
+    41016,
+    41022,
+    41025,
+    41028
+  ],
+  "no_d04_or_arch1_followup": true,
+  "population_modified": false,
+  "production_rtl_modified": false,
+  "scope": "D01 eight ARCH0 MISS offline mechanism audit",
+  "simulation_accounting": {
+    "DC": 0,
+    "HSPICE": 0,
+    "PrimeSim": 0,
+    "VCS": 0
+  },
+  "single_scalar_threshold_exists": false,
+  "startup_reference_modified": false,
+  "status": "PASS",
+  "stop_after_stage": true,
+  "waveforms_modified": false
+}
