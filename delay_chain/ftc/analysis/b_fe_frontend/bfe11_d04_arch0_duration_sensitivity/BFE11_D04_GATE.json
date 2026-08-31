@@ -1,0 +1,48 @@
+{
+  "arch1_implemented": false,
+  "artifact_sha256": {
+    "BFE11_D04_D02_COMPARISON.json": "fd0b8d7fcfcfe3fd7a35a3e43425105b27aaad9f79f39106bfa7e4938b110760",
+    "BFE11_D04_D02_PAIRED.csv": "2ce54c92dfcdf2206609e691b4cf848e54926d693880fe58ed178e15712a5e17",
+    "BFE11_D04_D02_PAIRED_HEADROOM.pdf": "3019042ec8e3770d6c7cd73bb149afbe6f153a6e8e4554c111839f42b2538eee",
+    "BFE11_D04_D02_PAIRED_HEADROOM.png": "909beb5dc59e4647116fe6d64cdd2757a9fc208e70aad7a71777f615c0117955",
+    "BFE11_D04_METRICS.json": "f293bc2eeb58dac19f49fede6265892a4bfa06a6df5f400f080853e86641f2d0",
+    "BFE11_D04_PER_SEED.csv": "15e1c869fc691037b4f71fcac57eebaf46a92207181729d396c0a89e6aca4183",
+    "BFE11_D04_REPORT.md": "5343f8c90a74ad67c2dd2684a33368cfac6bf7d9cfee029ec53fb6e139c5c54e",
+    "BFE11_D04_SIGNED_SHADOW.csv": "f4354a3c7fc400b42095735612e4839ff6afcb2f098f78e3111d277924780602",
+    "BFE11_D04_SIGNED_SHADOW.json": "7d03bac9c305380e7fff80724aec04a3d51cf3af74c8d71b745d578e4e4435bf"
+  },
+  "common_healthy_fpr": "1/240",
+  "coverage": {
+    "detected": 24,
+    "fraction": 0.8,
+    "total": 30,
+    "wilson_95": [
+      0.6269430358685175,
+      0.9049489282271013
+    ]
+  },
+  "gate": "BFE11_D04_ARCH0_DURATION_SENSITIVITY_FROZEN",
+  "headroom": {
+    "median": 10.5,
+    "min": -2
+  },
+  "interpretation_class": "PARTIAL_SHORT_PULSE_COVERAGE",
+  "production_rtl_modified": false,
+  "simulation_accounting": {
+    "d01": 0,
+    "d02": 0,
+    "d04_capture": 30,
+    "d04_capture_p2": 1,
+    "d04_capture_p3_new": 29,
+    "d04_hspice": 30,
+    "d04_hspice_p2": 1,
+    "d04_hspice_p3_new": 29,
+    "dc_sta_pnr": 0,
+    "fpr": 0,
+    "healthy": 0,
+    "primesim": 0,
+    "production_rtl_vcs": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

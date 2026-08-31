@@ -1,0 +1,37 @@
+{
+  "attack_onset_ns": 20.7,
+  "common_healthy_fpr": "1/240",
+  "coverage": {
+    "detected": 24,
+    "fraction": 0.8,
+    "total": 30,
+    "wilson_95": [
+      0.6269430358685175,
+      0.9049489282271013
+    ]
+  },
+  "first_alarm_latency_basis": "derived_fixed_tim0_pipeline",
+  "first_alarm_latency_detected_only_ns": {
+    "median": 19.334524618567,
+    "worst": 19.334524618567
+  },
+  "first_alarm_latency_formula": "(target_edge_ps + 1534.524618567 ps + 7 * 2500 ps) - attack_onset",
+  "headroom_all_seeds": {
+    "median": 10.5,
+    "min": -2
+  },
+  "locked_fall_margin": 24,
+  "locked_rise_margin": 22,
+  "pipeline_probe_edges": {
+    "e0_to_e4": 4,
+    "e0_to_e7": 7,
+    "e4_to_e7": 3
+  },
+  "pre_attack_alarm_total": 0,
+  "simulation_accounting": {
+    "capture": 0,
+    "d02_rerun": 0,
+    "hspice": 0
+  },
+  "target_event": "21 ns RISE"
+}

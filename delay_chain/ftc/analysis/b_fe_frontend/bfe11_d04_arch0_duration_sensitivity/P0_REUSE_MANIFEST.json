@@ -1,0 +1,38 @@
+{
+  "authority_paths": {
+    "bfe0_contract": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe0_architecture_contract.json",
+    "bfe10_gate": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe10_d01_miss0/BFE10_D01_GATE.json",
+    "bfe4_results": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe4_caln0_self_calibration/BFE4_CALN0_RESULTS.csv",
+    "bfe5_tim0": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/backend/reports/BFE5_TIM0_PIPELINE_CONTRACT.md",
+    "bfe7_contract": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/DROOP12_WAVEFORM_CONTRACT.json",
+    "bfe7_gate": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/BFE7_DROOP12_GATE.json",
+    "bfe7_manifest": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/DROOP12_MANIFEST.json",
+    "bfe8_gate": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_GATE.json",
+    "d02_metrics": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_METRICS.json",
+    "d02_per_seed": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_PER_SEED.csv",
+    "d04_csv": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/waveforms/D04_SHORT_MEDIUM.csv",
+    "d04_inc": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe7_droop12_waveforms/waveforms/D04_SHORT_MEDIUM.inc",
+    "fpr": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_HEALTHY_FPR_METRICS.json",
+    "healthy": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_HEALTHY_PER_SEED.csv",
+    "margin_lock": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_MARGIN_LOCK.json",
+    "r0_gate": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/R0_GATE.json",
+    "signed_gate": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_error_separability_audit/ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT_GATE.json",
+    "signed_json": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_error_separability_audit/ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT.json",
+    "signed_report": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_error_separability_audit/ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT_REPORT.md"
+  },
+  "matrix_sha256": "a89d77bad185a67373d3bc7a890f58544e86fdf6bb57f9fdfe4ef6465c75cc3a",
+  "new": [
+    "D04 transistor-level source response",
+    "D04 real LATQ/DFF capture"
+  ],
+  "reused": [
+    "BFE4 process signatures",
+    "BFE8 M_REF_RISE/FALL",
+    "BFE8 margins 22/24",
+    "BFE8 healthy FPR 1/240",
+    "BFE8 D02 per-seed physical/capture/metrics",
+    "BFE10 mechanism context",
+    "signed-error healthy distribution and T_POS=18/19",
+    "BFE5 TIM0/backend evidence"
+  ]
+}

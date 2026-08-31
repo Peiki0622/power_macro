@@ -1,0 +1,20 @@
+{
+  "coverage": {
+    "detected": 24,
+    "fraction": 0.8,
+    "total": 30,
+    "wilson_95": [
+      0.6269430358685175,
+      0.9049489282271013
+    ]
+  },
+  "d02_resimulated": false,
+  "gate": "BFE11_D04_P4_ARCH0_DURATION_METRICS_CHARACTERIZED",
+  "headroom": {
+    "median": 10.5,
+    "min": -2
+  },
+  "interpretation_class": "PARTIAL_SHORT_PULSE_COVERAGE",
+  "status": "PASS",
+  "stop_after_stage": true
+}

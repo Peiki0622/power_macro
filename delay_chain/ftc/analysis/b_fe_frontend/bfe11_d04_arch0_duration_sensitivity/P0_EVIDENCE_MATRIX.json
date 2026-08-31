@@ -1,0 +1,152 @@
+{
+  "authority_sha256": {
+    "bfe0_contract": "876c6cddc3ae06f735866c25734d8191e0314062c12fd1b311e3c4d572cfa032",
+    "bfe10_gate": "cc6981328bd651aea8b70f766acc9ba8a89b856b7b846a83202f96e975a878cb",
+    "bfe4_results": "c4cfe4bbdb6172b7537839da5f4ffda2b13c2342648dd5caee954709e905bddb",
+    "bfe5_tim0": "9f3407ee7d3d198c12049b0856c650e6cba9ef107d82fb67a5a868f0ba17c761",
+    "bfe7_contract": "c92e2df7a7b6e861de7410f766e2105055624876075dcb82770e8cd6785a3407",
+    "bfe7_gate": "ddef9c9877e859a62b272839c436fb982d9ed5538bb3eb2c5d3d91f15472bfba",
+    "bfe7_manifest": "44f4a20c8d5a2cbbcfdd44bd3a9cf0fefc2e880bf0b48432edca1c2c073ff4d1",
+    "bfe8_gate": "f73fedd892f8b54c10246ed0b0c90f0ec23c5c02812fdc5defba2522838a6ab2",
+    "d02_metrics": "1cef93cbd9e7f30238c2751ed0fa40b7780e426b475e4b5251657446b4c6a04c",
+    "d02_per_seed": "f77f35ff7e1f0c97cffa68b45cdd009d76074a2a99c0ce234cf1f258d968de9a",
+    "d04_csv": "4c08d1efcb8d37c03627d740abcd7840d4b939e97f3d55f03f2f43e9bf081415",
+    "d04_inc": "a2be7662b35b4a11ed640a9e66bb2acc30ec84054d5b619e4a5a6242b3e6c5ac",
+    "fpr": "4bdf285a895ac445b287f3d606c632b87d4c5b80e4dae33af217e45866b7f2d9",
+    "healthy": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691",
+    "margin_lock": "4c9323710bdf8cb7198b42977b8a5920f8e20301e1be77ee1d9b65ba241c0de7",
+    "r0_gate": "c9de7dd126ace3d953699d7484af5e89dc34a791990e71757b5afd540c708083",
+    "signed_gate": "ff363dc47dd6bbd6c56678c91089548ce64e3bf3bc29e965be2d18b24e4af044",
+    "signed_json": "4afd02ec742cbb3c0fc53009c74b023e9a04e8c14874db2b9df35c651645c604",
+    "signed_report": "90ec9d435df72b643b28ea9c31c4170474fe001762a266e27dd0be98f2027383"
+  },
+  "conditional_only": [
+    "one task-scoped ARCH0 RTL replay for a new boundary/alignment class"
+  ],
+  "control": {
+    "coverage": "30/30",
+    "depth_mv": 60,
+    "dwell_ns": 3.0,
+    "headroom_min_median": [
+      19,
+      38
+    ],
+    "id": "D02"
+  },
+  "gate": "BFE11_D04_P0_AUTHORITY_AND_REUSE_FROZEN",
+  "new_data_required": [
+    "D04 transistor-level source response",
+    "D04 real LATQ/DFF capture"
+  ],
+  "process_signatures": {
+    "41001": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+    "41002": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+    "41003": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+    "41004": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+    "41005": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+    "41006": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+    "41007": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+    "41008": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+    "41009": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+    "41010": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+    "41011": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+    "41012": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+    "41013": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+    "41014": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+    "41015": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+    "41016": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+    "41017": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+    "41018": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+    "41019": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+    "41020": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+    "41021": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+    "41022": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+    "41023": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+    "41024": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+    "41025": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+    "41026": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+    "41027": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+    "41028": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+    "41029": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+    "41030": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023"
+  },
+  "prohibitions": [
+    "no waveform or margin retuning",
+    "no healthy/D01/D02 rerun",
+    "no ARCH1",
+    "no D03-D12"
+  ],
+  "reuse_without_rerun": [
+    "BFE4 process signatures",
+    "BFE8 M_REF_RISE/FALL",
+    "BFE8 margins 22/24",
+    "BFE8 healthy FPR 1/240",
+    "BFE8 D02 per-seed physical/capture/metrics",
+    "BFE10 mechanism context",
+    "signed-error healthy distribution and T_POS=18/19",
+    "BFE5 TIM0/backend evidence"
+  ],
+  "scenario": {
+    "background_seed": 7301,
+    "breakpoints_ps": [
+      [
+        20690,
+        0
+      ],
+      [
+        20700,
+        60
+      ],
+      [
+        21300,
+        60
+      ],
+      [
+        21310,
+        0
+      ]
+    ],
+    "depth_mv": 60,
+    "dwell_ns": 0.6,
+    "id": "D04",
+    "nominal_v": 1.1,
+    "onset_ns": 20.7,
+    "short_name": "SHORT_MEDIUM",
+    "target": "21 ns RISE",
+    "temperature_c": 25.0
+  },
+  "seed_count": 30,
+  "seeds": [
+    41001,
+    41002,
+    41003,
+    41004,
+    41005,
+    41006,
+    41007,
+    41008,
+    41009,
+    41010,
+    41011,
+    41012,
+    41013,
+    41014,
+    41015,
+    41016,
+    41017,
+    41018,
+    41019,
+    41020,
+    41021,
+    41022,
+    41023,
+    41024,
+    41025,
+    41026,
+    41027,
+    41028,
+    41029,
+    41030
+  ],
+  "status": "PASS"
+}

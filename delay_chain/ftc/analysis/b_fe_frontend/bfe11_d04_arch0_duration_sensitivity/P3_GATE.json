@@ -1,0 +1,51 @@
+{
+  "gate": "BFE11_D04_P3_POPULATION_CAPTURE_COMPLETE",
+  "launched_seeds": [
+    41002,
+    41003,
+    41004,
+    41005,
+    41006,
+    41007,
+    41008,
+    41009,
+    41010,
+    41011,
+    41012,
+    41013,
+    41014,
+    41015,
+    41016,
+    41017,
+    41018,
+    41019,
+    41020,
+    41021,
+    41022,
+    41023,
+    41024,
+    41025,
+    41026,
+    41027,
+    41028,
+    41029,
+    41030
+  ],
+  "reused_seeds": [
+    41001
+  ],
+  "seed_count": 30,
+  "simulation_accounting": {
+    "d01": 0,
+    "d02": 0,
+    "d04_capture": 29,
+    "d04_hspice": 29,
+    "dc_sta_pnr": 0,
+    "fpr": 0,
+    "healthy": 0,
+    "primesim": 0,
+    "production_rtl_vcs": 0
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

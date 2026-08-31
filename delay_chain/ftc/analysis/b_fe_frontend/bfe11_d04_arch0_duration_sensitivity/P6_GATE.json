@@ -1,0 +1,28 @@
+{
+  "gate": "BFE11_D04_P6_BOUNDARY_RTL_REPLAY_PASS",
+  "new_rtl_replay": true,
+  "representative_seeds": [
+    41025,
+    41016,
+    41020
+  ],
+  "simulation_accounting": {
+    "hspice": 0,
+    "vcs": 1
+  },
+  "status": "PASS",
+  "stop_after_stage": true,
+  "timing_evidence": {
+    "path": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe11_d04_arch0_duration_sensitivity/p6_rtl_replay/P5_ALARM_TIMING.csv",
+    "rows": [
+      {
+        "alarm_ns": "163.760000",
+        "e4_event_ns": "156.260000",
+        "e4_to_e7_ns": "7.500000",
+        "event_index": "8",
+        "seed": "41020"
+      }
+    ],
+    "sha256": "1b85c07252173a19c70513ee1e8af8042a04758230e447c52f0e1db031ba8872"
+  }
+}

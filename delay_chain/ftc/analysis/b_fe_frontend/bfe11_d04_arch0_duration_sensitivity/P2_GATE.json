@@ -1,0 +1,13 @@
+{
+  "capture_simulated": true,
+  "case": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe11_d04_arch0_duration_sensitivity/d04/seed_41001",
+  "gate": "BFE11_D04_P2_SINGLE_SEED_CAPTURE_PASS",
+  "seed": 41001,
+  "simulation_accounting": {
+    "d04_capture": 1,
+    "d04_hspice": 1
+  },
+  "source_simulated": true,
+  "status": "PASS",
+  "stop_after_stage": true
+}

@@ -1,0 +1,66 @@
+{
+  "candidates": {
+    "T_POS_18": {
+      "ARCH0_HIT_SEEDS_NOT_SHADOW_DETECTED": [],
+      "ARCH0_MISS_SEEDS_RECOVERED": [
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025
+      ],
+      "coverage": 1.0,
+      "detected": 30,
+      "diagnostic_only": true,
+      "rule": "e_D04 > 18",
+      "signed_e_min_median_max": [
+        20,
+        32.5,
+        45
+      ],
+      "total": 30,
+      "weakest_detected_signed_headroom": 2
+    },
+    "T_POS_19": {
+      "ARCH0_HIT_SEEDS_NOT_SHADOW_DETECTED": [],
+      "ARCH0_MISS_SEEDS_RECOVERED": [
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025
+      ],
+      "coverage": 1.0,
+      "detected": 30,
+      "diagnostic_only": true,
+      "rule": "e_D04 > 19",
+      "signed_e_min_median_max": [
+        20,
+        32.5,
+        45
+      ],
+      "total": 30,
+      "weakest_detected_signed_headroom": 1
+    }
+  },
+  "formal_ARCH0_rule_unchanged": "abs(M_FF-M_REF_RISE) > 22",
+  "frozen_candidates": [
+    18,
+    19
+  ],
+  "gate": "BFE11_D04_P5_SIGNED_SHADOW_FROZEN",
+  "healthy_signed_e_max_authority": 18,
+  "interpretation": "GENERALIZES_TO_D04",
+  "no_comparator_implemented": true,
+  "no_threshold_sweep": true,
+  "simulation_accounting": {
+    "DC": 0,
+    "HSPICE": 0,
+    "PrimeSim": 0,
+    "VCS": 0
+  },
+  "status": "PASS",
+  "target_event": "21 ns RISE"
+}

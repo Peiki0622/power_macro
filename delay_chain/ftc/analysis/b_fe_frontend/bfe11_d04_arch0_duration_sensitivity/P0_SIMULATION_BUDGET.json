@@ -1,0 +1,23 @@
+{
+  "gate": "BFE11_D04_P0_AUTHORITY_AND_REUSE_FROZEN",
+  "resume_rule": "authority -> offline reparse -> matching D04 case -> new simulator call",
+  "simulation_count_so_far": {
+    "d04_capture": 0,
+    "d04_hspice": 0,
+    "production_rtl_vcs": 0
+  },
+  "upper_bound": {
+    "d01_capture": 0,
+    "d01_hspice": 0,
+    "d02_capture": 0,
+    "d02_hspice": 0,
+    "d04_capture": 30,
+    "d04_hspice": 30,
+    "dc_sta_pnr": 0,
+    "fpr": 0,
+    "healthy_capture": 0,
+    "healthy_hspice": 0,
+    "primesim": 0,
+    "production_rtl_vcs": 1
+  }
+}
