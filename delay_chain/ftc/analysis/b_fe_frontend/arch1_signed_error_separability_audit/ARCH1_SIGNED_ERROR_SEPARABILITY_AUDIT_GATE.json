@@ -1,0 +1,44 @@
+{
+  "arch1_candidate_modified": false,
+  "artifact_sha256": {
+    "ARCH1_SIGNED_ERROR_DISTRIBUTION.pdf": "a7d181d37020936a55ab938a4323656d37ebaed300eba1697e8fff8ada793cd0",
+    "ARCH1_SIGNED_ERROR_DISTRIBUTION.png": "4144df6d6c7c6cf157ec9a5c36a45115ef72eca5aabac2775bc878f8e5cad58b",
+    "ARCH1_SIGNED_ERROR_PER_SAMPLE.csv": "cb659cdf09c65219e76d90376ac58e9cd2b2da57d8667241d69a03ae86fdca3f",
+    "ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT.json": "4afd02ec742cbb3c0fc53009c74b023e9a04e8c14874db2b9df35c651645c604",
+    "ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT_REPORT.md": "90ec9d435df72b643b28ea9c31c4170474fe001762a266e27dd0be98f2027383",
+    "ARCH1_SIGNED_ERROR_THRESHOLD_SWEEP.csv": "8d79198982df0dd4194ac1f304694f3b1f13fcac5daff34005b230b34af0853d"
+  },
+  "candidate_T_POS_continuous": "[18,20)",
+  "candidate_T_POS_integer": [
+    18,
+    19
+  ],
+  "formal_margin_modified": false,
+  "frontend_modified": false,
+  "gate": "ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT_FROZEN",
+  "input_authority_sha256": {
+    "BFE10_D01_GATE.json": "cc6981328bd651aea8b70f766acc9ba8a89b856b7b846a83202f96e975a878cb",
+    "BFE10_D01_MISS_MECHANISM.json": "ea57bfa173fcca02b5d05a5313147692b8455efab01543efc68eea9aff8da99e",
+    "BFE5_ARCH1_CANDIDATE.md": "66feff553756a1f3794af16af602a1783c39c2a88e7545ba721e293bc2b5c13c",
+    "BFE8_D02_GATE.json": "f73fedd892f8b54c10246ed0b0c90f0ec23c5c02812fdc5defba2522838a6ab2",
+    "BFE8_D02_PER_SEED.csv": "f77f35ff7e1f0c97cffa68b45cdd009d76074a2a99c0ce234cf1f258d968de9a",
+    "BFE8_HEALTHY_PER_SEED.csv": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691",
+    "BFE9_D01_D02_PAIRED.csv": "a6c5510be9c7c65bab833b118b1e181e622382a524deed977099c078f3771747",
+    "BFE9_D01_GATE.json": "42d4fa4ff27c3cc6869273d73d496c2e5c8dc13d3201d16edbe74dffc300e640",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674"
+  },
+  "population_modified": false,
+  "production_rtl_modified": false,
+  "scope": "post-SUBTRACT/pre-ABS retained-data diagnostic",
+  "separation_exists": true,
+  "simulation_accounting": {
+    "DC": 0,
+    "HSPICE": 0,
+    "PrimeSim": 0,
+    "VCS": 0
+  },
+  "startup_reference_modified": false,
+  "status": "PASS",
+  "stop_after_stage": true,
+  "waveform_modified": false
+}
