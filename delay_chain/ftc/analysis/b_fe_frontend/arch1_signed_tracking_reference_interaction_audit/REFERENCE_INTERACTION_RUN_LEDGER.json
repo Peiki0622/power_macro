@@ -1,0 +1,27 @@
+{
+  "analysis_script": "run_reference_interaction_audit.py",
+  "gate": "ARCH1_SIGNED_TRACKING_REFERENCE_INTERACTION_AUDIT_FROZEN",
+  "modified_authorities": [],
+  "population_or_waveform_regeneration": false,
+  "recommendation": {
+    "policy": "B_STARTUP_ANCHOR_SOURCE",
+    "reason": "It preserves the signed separation for the full common representable DeltaR range without moving the signed threshold or adding compensation arithmetic; policy C is numerically equivalent only with exact, representable threshold compensation, while A has a narrow retained-population safe interval."
+  },
+  "simulation_accounting": {
+    "DC": 0,
+    "HSPICE": 0,
+    "PrimeSim": 0,
+    "VCS": 0
+  },
+  "source_artifact_sha256": {
+    "BFE11_D04_PER_SEED.csv": "15e1c869fc691037b4f71fcac57eebaf46a92207181729d396c0a89e6aca4183",
+    "BFE11_D04_SIGNED_SHADOW.json": "7d03bac9c305380e7fff80724aec04a3d51cf3af74c8d71b745d578e4e4435bf",
+    "BFE12_P3_REPLAY_MANIFEST.csv": "47a6b1055c7be5fe6670326a3b238f74ec53d781cc0fa44488d3cc6bfbd92199",
+    "BFE12_SIGN0_GATE.json": "d92892a0b47c089e89039bae8bb5beabe7335cd63d28813b41b802d02a49c953",
+    "BFE8_D02_HEALTHY_FPR.csv": "4a50c05e752ff384a586bdb682af6b2e7c68dba69c92d9251bcfa3332321258a",
+    "BFE8_D02_PER_SEED.csv": "f77f35ff7e1f0c97cffa68b45cdd009d76074a2a99c0ce234cf1f258d968de9a",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674"
+  },
+  "status": "PASS",
+  "sweep_csv": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_tracking_reference_interaction_audit/REFERENCE_INTERACTION_SWEEP.csv"
+}
