@@ -1,0 +1,9 @@
+{
+  "classification": "RTL_REPRODUCES_FROZEN_SHADOW",
+  "dut_b_event_equivalent_to_arch0": true,
+  "dut_c_d_fall_event_equivalent_to_arch0": true,
+  "event_context_alignment_checked": true,
+  "gate": "BFE12_SIGN0_P4_RETAINED_AB_RTL_CHARACTERIZED",
+  "mismatches": 0,
+  "status": "PASS"
+}

@@ -1,0 +1,83 @@
+{
+  "classification": "RTL_REPRODUCES_FROZEN_SHADOW",
+  "coverage": {
+    "d01": {
+      "arch0": 22,
+      "sign0_18": 30,
+      "sign0_19": 30,
+      "total": 30
+    },
+    "d02": {
+      "arch0": 30,
+      "sign0_18": 30,
+      "sign0_19": 30,
+      "total": 30
+    },
+    "d04": {
+      "arch0": 24,
+      "sign0_18": 30,
+      "sign0_19": 30,
+      "total": 30
+    }
+  },
+  "event_rows_checked": 690,
+  "fall_equivalence_checked": true,
+  "gate": "BFE12_SIGN0_P4_RETAINED_AB_RTL_CHARACTERIZED",
+  "healthy_fpr": {
+    "arch0": 1,
+    "sign0_18": 1,
+    "sign0_19": 1,
+    "total": 240
+  },
+  "healthy_signed_rise": {
+    "sign0_18": 0,
+    "sign0_19": 0,
+    "total": 360
+  },
+  "physical_simulation_calls": 0,
+  "recovered_seed_lists": {
+    "d01": {
+      "arch0": [],
+      "sign0_18": [
+        41005,
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025,
+        41028
+      ],
+      "sign0_19": [
+        41005,
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025,
+        41028
+      ]
+    },
+    "d04": {
+      "arch0": [],
+      "sign0_18": [
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025
+      ],
+      "sign0_19": [
+        41007,
+        41012,
+        41015,
+        41016,
+        41022,
+        41025
+      ]
+    }
+  },
+  "status": "PASS"
+}

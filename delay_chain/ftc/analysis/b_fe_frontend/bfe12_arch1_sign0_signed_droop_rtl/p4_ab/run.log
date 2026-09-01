@@ -1,0 +1,10 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  1 12:32 2026
+BFE12_SIGN0_P4_RETAINED_AB_RTL_CHARACTERIZED
+$finish called from file "tb_bfe12_sign0_retained_ab.sv", line 1126.
+$finish at simulation time              7471000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7471000 ps
+CPU Time:      0.760 seconds;       Data structure size:   0.0Mb
+Tue Sep  1 12:32:49 2026
