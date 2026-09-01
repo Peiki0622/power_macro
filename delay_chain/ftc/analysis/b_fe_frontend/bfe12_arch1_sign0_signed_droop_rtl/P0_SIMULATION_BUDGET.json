@@ -1,0 +1,20 @@
+{
+  "gate": "BFE12_SIGN0_P0_AUTHORITIES_FROZEN",
+  "status": "PASS",
+  "physical_simulation": {
+    "hspice_or_physical_source": 0,
+    "latq_dff_capture_rerun": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0,
+    "healthy_physical_rerun": 0,
+    "d01_physical_rerun": 0,
+    "d02_physical_rerun": 0,
+    "d04_physical_rerun": 0
+  },
+  "new_rtl_vcs_scientific_regressions": {
+    "directed_full_top": 1,
+    "retained_data_ab_replay": 1,
+    "total_logical_regressions": 2
+  },
+  "policy": "Only the two listed logical regressions are authorized; no threshold retuning or physical rerun is permitted."
+}

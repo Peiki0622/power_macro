@@ -1,0 +1,44 @@
+{
+  "gate": "BFE12_SIGN0_P0_AUTHORITIES_FROZEN",
+  "status": "PASS",
+  "branch": "bfe-multitap-latched-frontend",
+  "baseline_commit": "e517af7e06ec109825c417da10c82f29a6d29b52",
+  "architecture_authority": {
+    "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe5_arch1_candidate/BFE5_ARCH1_CANDIDATE.md",
+    "sha256": "1c0b5fa42903e604bb590aa02e5d0a4afb2f4635a5b5a46bf56d3dde3b263185"
+  },
+  "arch0_git_blob_hashes": {
+    "delay_chain/ftc/rtl/bfe_backend_ctrl.sv": "e340980efc7535348721276c7500d881c59ec1d7",
+    "delay_chain/ftc/rtl/bfe_backend_top.sv": "2216b8ed5111b4a9f7c4c5b9c34a1e33af685d30",
+    "delay_chain/ftc/rtl/bfe_capture_bank.sv": "d9d01f77c234afaad0edabe40df2b7e20e131d76",
+    "delay_chain/ftc/rtl/bfe_m_feature.sv": "294c1de5b3dfb91855b1623237ff64bb4dfce2aa",
+    "delay_chain/ftc/tests/bfe_backend_rtl2_tb.sv": "56b63fddf116174ed5f7c6cdc708c8a58b73e787"
+  },
+  "arch0_sha256": {
+    "delay_chain/ftc/rtl/bfe_backend_ctrl.sv": "737c56e454b00f428c998eb4a9fad584e065ba6faa941f230ec70bc6cd6ac128",
+    "delay_chain/ftc/rtl/bfe_backend_top.sv": "285d65fc40bca3075770798542671d12fcedaca2ad55b894ad64d2f507fcacc4",
+    "delay_chain/ftc/rtl/bfe_capture_bank.sv": "5a203009dc0d1eb79fc7bd1b77b83fa2cd7ddbfd8a57d299c2fd69ab2c7fcc5d",
+    "delay_chain/ftc/rtl/bfe_m_feature.sv": "c9b26e4ea828edbe8f2548dc4c0b2b82d8ac7d0f5e14ee9948409a572a817582",
+    "delay_chain/ftc/tests/bfe_backend_rtl2_tb.sv": "e297d71733cbad28bea2da7fa250f0fe16fe970d4857d00674af016240b314be"
+  },
+  "retained_evidence_sha256": {
+    "BFE8_HEALTHY_PER_SEED.csv": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691",
+    "BFE8_D02_MARGIN_LOCK.json": "4c9323710bdf8cb7198b42977b8a5920f8e20301e1be77ee1d9b65ba241c0de7",
+    "BFE8_D02_HEALTHY_FPR.csv": "4a50c05e752ff384a586bdb682af6b2e7c68dba69c92d9251bcfa3332321258a",
+    "BFE8_D02_HEALTHY_FPR_METRICS.json": "4bdf285a895ac445b287f3d606c632b87d4c5b80e4dae33af217e45866b7f2d9",
+    "BFE8_D02_PER_SEED.csv": "f77f35ff7e1f0c97cffa68b45cdd009d76074a2a99c0ce234cf1f258d968de9a",
+    "BFE9_D01_PER_SEED.csv": "01f9578d1a4bbaae351d1796b47c4057d104cb420a72e05265b80adc25f86674",
+    "ARCH1_SIGNED_ERROR_PER_SAMPLE.csv": "cb659cdf09c65219e76d90376ac58e9cd2b2da57d8667241d69a03ae86fdca3f",
+    "ARCH1_SIGNED_ERROR_SEPARABILITY_AUDIT_GATE.json": "ff363dc47dd6bbd6c56678c91089548ce64e3bf3bc29e965be2d18b24e4af044",
+    "BFE11_D04_PER_SEED.csv": "15e1c869fc691037b4f71fcac57eebaf46a92207181729d396c0a89e6aca4183",
+    "BFE11_D04_SIGNED_SHADOW.json": "7d03bac9c305380e7fff80724aec04a3d51cf3af74c8d71b745d578e4e4435bf"
+  },
+  "frozen_rules": {
+    "m_margin_rise": 22,
+    "m_margin_fall": 24,
+    "calibration": "sum4 >> 2",
+    "signed_rule": "RISE_event && positive_direction && delta > T_POS_RISE",
+    "diagnostic_t_pos_rise": [18, 19],
+    "production_threshold_frozen": false
+  }
+}
