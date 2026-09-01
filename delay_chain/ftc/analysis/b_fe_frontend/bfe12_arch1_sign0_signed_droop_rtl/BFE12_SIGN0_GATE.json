@@ -1,0 +1,28 @@
+{
+  "gate": "BFE12_ARCH1_SIGNED_DROOP_COMPARATOR_RTL_FROZEN",
+  "status": "PASS",
+  "classification": "RTL_REPRODUCES_FROZEN_SHADOW",
+  "arch0_authorities_unchanged": true,
+  "frontend_capture_unchanged": true,
+  "physical_simulations": 0,
+  "sign0_435_event_equivalent": true,
+  "fall_behavior_unchanged": true,
+  "healthy_fpr": "1/240",
+  "healthy_signed_rise_additions": "0/360",
+  "coverage": {
+    "d01_arch0": "22/30",
+    "d01_sign0_18": "30/30",
+    "d01_sign0_19": "30/30",
+    "d02_arch0": "30/30",
+    "d02_sign0_18": "30/30",
+    "d02_sign0_19": "30/30",
+    "d04_arch0": "24/30",
+    "d04_sign0_18": "30/30",
+    "d04_sign0_19": "30/30"
+  },
+  "arch0_attack_hits_lost": 0,
+  "alarm_output_stage_shared": true,
+  "production_t_pos_rise_frozen": false,
+  "fine_step_tracker_implemented": false,
+  "next_stage": "Stop after BFE12; defer full ARCH1 tracker/adaptation work."
+}

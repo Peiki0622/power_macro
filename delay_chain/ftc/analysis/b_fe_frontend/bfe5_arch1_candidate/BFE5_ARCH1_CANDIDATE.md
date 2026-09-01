@@ -445,3 +445,11 @@ For the currently characterized RISE droop direction, the evidence-backed candid
 Until an integration/validation stage explicitly promotes this architecture, `B-FE5-ARCH0` remains the authoritative production implementation contract.
 
 Candidate tag: `BFE5_ARCH1_GATED_FINE_TRACK_SIGNED_DROOP_CANDIDATE_FROZEN`
+
+## BFE12 SIGN0 evidence cross-reference
+
+The required pre-ABS positive RISE signed-error comparator has a validated
+SIGN0 research RTL implementation and retained-data replay gate in
+`delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/BFE12_SIGN0_GATE.json`.
+This cross-reference does not promote the complete ARCH1 architecture; the
+fine-step tracker and all production/PVT threshold decisions remain deferred.

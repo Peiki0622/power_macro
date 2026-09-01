@@ -1,0 +1,58 @@
+{
+  "task": "BFE12-ARCH1-SIGN0",
+  "status": "PASS",
+  "classification": "RTL_REPRODUCES_FROZEN_SHADOW",
+  "gates": {
+    "P0": "BFE12_SIGN0_P0_AUTHORITIES_FROZEN",
+    "P1": "BFE12_SIGN0_P1_CANDIDATE_RTL_READY",
+    "P2": "BFE12_SIGN0_P2_DIRECTED_TOP_RTL_PASS",
+    "P3": "BFE12_SIGN0_P3_RETAINED_REPLAY_PACK_FROZEN",
+    "P4": "BFE12_SIGN0_P4_RETAINED_AB_RTL_CHARACTERIZED",
+    "P5": "BFE12_ARCH1_SIGNED_DROOP_COMPARATOR_RTL_FROZEN"
+  },
+  "tool_runs": [
+    {
+      "stage": "P2",
+      "logical_scientific_regression": true,
+      "tool": "VCS W-2024.09_Full64",
+      "status": "PASS",
+      "run_dir": "p2_directed",
+      "compile_harness_retries": 3,
+      "retry_reasons": [
+        "relative RTL source path",
+        "hierarchical m_ff_o observation name",
+        "tap-index vector encoding and E8 sticky observation"
+      ],
+      "stimulus_changed_after_retry": false,
+      "run_log_sha256": "6df0caf3b6e24c175dac2fa122edd6eae395ed73c533982b9d046236cbb382b7"
+    },
+    {
+      "stage": "P4",
+      "logical_scientific_regression": true,
+      "tool": "VCS W-2024.09_Full64",
+      "status": "PASS",
+      "run_dir": "p4_ab",
+      "event_rows": 690,
+      "run_log_sha256": "a5917f89f52a1a65ef69b79ac4b5b1042e7707098b03ea36be259b301d9f1210"
+    }
+  ],
+  "simulation_accounting": {
+    "hspice_or_physical_source": 0,
+    "latq_dff_capture_rerun": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0,
+    "healthy_physical_rerun": 0,
+    "d01_physical_rerun": 0,
+    "d02_physical_rerun": 0,
+    "d04_physical_rerun": 0,
+    "new_rtl_vcs_logical_regressions": 2
+  },
+  "artifact_sha256": {
+    "P2_DIRECTED_TOP_RESULTS.json": "c7cc8fa09a776a14754be219de646b1ba35433d2249a036001d5d57830cf308d",
+    "P3_REPLAY_MANIFEST.csv": "47a6b1055c7be5fe6670326a3b238f74ec53d781cc0fa44488d3cc6bfbd92199",
+    "P4_EVENT_RESULTS.csv": "1ee6e8b23260718906c084303c930609b46483ba2410da33356b92c7e95f9914",
+    "P4_COVERAGE_SUMMARY.json": "9ac652924dc297ad80ef50baa7a4c18209aee2809b138b105dc1b0cc1be362c3",
+    "P4_EQUIVALENCE_SUMMARY.json": "a196315c0695b8e494f0327bfd5a66973b6f567d8033b23390c576906b9a44e5"
+  },
+  "temporary_artifacts": "VCS binaries and generated csrc/simv.daidir trees were moved out of the workspace after verification; retained evidence and logs remain under this task directory."
+}
