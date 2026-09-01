@@ -1,0 +1,560 @@
+{
+  "calibration": [
+    {
+      "fall_samples": [
+        182,
+        159,
+        182,
+        182
+      ],
+      "m_ref_fall": 176,
+      "m_ref_rise": 198,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        182
+      ],
+      "seed": 41001
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 198,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        182
+      ],
+      "seed": 41002
+    },
+    {
+      "fall_samples": [
+        135,
+        110,
+        135,
+        135
+      ],
+      "m_ref_fall": 128,
+      "m_ref_rise": 159,
+      "rise_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "seed": 41003
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 187,
+      "rise_samples": [
+        182,
+        182,
+        204,
+        182
+      ],
+      "seed": 41004
+    },
+    {
+      "fall_samples": [
+        182,
+        159,
+        182,
+        182
+      ],
+      "m_ref_fall": 176,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41005
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41006
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41007
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41008
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 187,
+      "rise_samples": [
+        182,
+        182,
+        204,
+        182
+      ],
+      "seed": 41009
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41010
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 176,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        159
+      ],
+      "seed": 41011
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41012
+    },
+    {
+      "fall_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "m_ref_fall": 204,
+      "m_ref_rise": 235,
+      "rise_samples": [
+        245,
+        225,
+        245,
+        225
+      ],
+      "seed": 41013
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41014
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41015
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41016
+    },
+    {
+      "fall_samples": [
+        182,
+        159,
+        182,
+        159
+      ],
+      "m_ref_fall": 170,
+      "m_ref_rise": 198,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        182
+      ],
+      "seed": 41017
+    },
+    {
+      "fall_samples": [
+        204,
+        182,
+        204,
+        182
+      ],
+      "m_ref_fall": 193,
+      "m_ref_rise": 219,
+      "rise_samples": [
+        225,
+        225,
+        225,
+        204
+      ],
+      "seed": 41018
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 187,
+      "rise_samples": [
+        182,
+        182,
+        204,
+        182
+      ],
+      "seed": 41019
+    },
+    {
+      "fall_samples": [
+        135,
+        135,
+        135,
+        135
+      ],
+      "m_ref_fall": 135,
+      "m_ref_rise": 159,
+      "rise_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "seed": 41020
+    },
+    {
+      "fall_samples": [
+        159,
+        135,
+        135,
+        135
+      ],
+      "m_ref_fall": 141,
+      "m_ref_rise": 182,
+      "rise_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "seed": 41021
+    },
+    {
+      "fall_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "m_ref_fall": 159,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41022
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 209,
+      "rise_samples": [
+        204,
+        204,
+        225,
+        204
+      ],
+      "seed": 41023
+    },
+    {
+      "fall_samples": [
+        159,
+        135,
+        159,
+        135
+      ],
+      "m_ref_fall": 147,
+      "m_ref_rise": 164,
+      "rise_samples": [
+        159,
+        159,
+        182,
+        159
+      ],
+      "seed": 41024
+    },
+    {
+      "fall_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "m_ref_fall": 204,
+      "m_ref_rise": 225,
+      "rise_samples": [
+        225,
+        225,
+        225,
+        225
+      ],
+      "seed": 41025
+    },
+    {
+      "fall_samples": [
+        159,
+        135,
+        159,
+        159
+      ],
+      "m_ref_fall": 153,
+      "m_ref_rise": 164,
+      "rise_samples": [
+        159,
+        159,
+        182,
+        159
+      ],
+      "seed": 41026
+    },
+    {
+      "fall_samples": [
+        135,
+        135,
+        135,
+        135
+      ],
+      "m_ref_fall": 135,
+      "m_ref_rise": 153,
+      "rise_samples": [
+        159,
+        159,
+        159,
+        135
+      ],
+      "seed": 41027
+    },
+    {
+      "fall_samples": [
+        182,
+        159,
+        182,
+        182
+      ],
+      "m_ref_fall": 176,
+      "m_ref_rise": 204,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        204
+      ],
+      "seed": 41028
+    },
+    {
+      "fall_samples": [
+        159,
+        135,
+        159,
+        159
+      ],
+      "m_ref_fall": 153,
+      "m_ref_rise": 159,
+      "rise_samples": [
+        159,
+        159,
+        159,
+        159
+      ],
+      "seed": 41029
+    },
+    {
+      "fall_samples": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "m_ref_fall": 182,
+      "m_ref_rise": 198,
+      "rise_samples": [
+        204,
+        204,
+        204,
+        182
+      ],
+      "seed": 41030
+    }
+  ],
+  "coverage": {
+    "d01_arch0": "22/30",
+    "d01_sign0_t18": "30/30",
+    "d01_sign0_t19": "30/30",
+    "d02_arch0": "30/30",
+    "d04_arch0": "24/30",
+    "d04_sign0_t18": "30/30",
+    "d04_sign0_t19": "30/30"
+  },
+  "event_counts": {
+    "d01_target": 30,
+    "d02_target": 30,
+    "d04_target": 30,
+    "healthy_fpr": 240,
+    "healthy_signed_rise": 360
+  },
+  "gate": "BFE12_SIGN0_P3_RETAINED_REPLAY_PACK_FROZEN",
+  "healthy_fpr": {
+    "alarms": 1,
+    "events": 240,
+    "fraction": 0.004166666666666667
+  },
+  "healthy_signed_rise_max": 18,
+  "manifest_csv": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/P3_REPLAY_MANIFEST.csv",
+  "physical_simulation_calls": 0,
+  "recovered_seed_lists": {
+    "d01": [
+      41005,
+      41007,
+      41012,
+      41015,
+      41016,
+      41022,
+      41025,
+      41028
+    ],
+    "d04": [
+      41007,
+      41012,
+      41015,
+      41016,
+      41022,
+      41025
+    ]
+  },
+  "status": "PASS"
+}
