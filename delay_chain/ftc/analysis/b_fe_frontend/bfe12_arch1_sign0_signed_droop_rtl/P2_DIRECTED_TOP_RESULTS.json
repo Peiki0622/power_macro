@@ -1,0 +1,29 @@
+{
+  "gate": "BFE12_SIGN0_P2_DIRECTED_TOP_RTL_PASS",
+  "status": "PASS",
+  "tool": "VCS W-2024.09_Full64",
+  "testbench": "p2_directed/tb_bfe12_sign0_directed_top.sv",
+  "cycle_table": "p2_directed/P2_DIRECTED_CYCLE_TABLE.csv",
+  "latency": {
+    "e0_to_e7_probe_edges": 7,
+    "e7_to_e8_sticky_edges": 1,
+    "signed_only_rows": [
+      {"m_ff": 119, "t_pos_rise": 18, "abs_alarm": 0, "signed_rise_alarm": 1},
+      {"m_ff": 120, "t_pos_rise": 19, "abs_alarm": 0, "signed_rise_alarm": 1}
+    ],
+    "abs_only_rows": [
+      {"m_ff": 130, "t_pos_rise": 435, "abs_alarm": 1, "signed_rise_alarm": 0},
+      {"m_ff": 70, "t_pos_rise": 435, "abs_alarm": 1, "signed_rise_alarm": 0}
+    ]
+  },
+  "coverage": [
+    "pre-lock normal event quiet",
+    "four-sample RISE/FALL sum4 >> 2 calibration",
+    "strict signed equality at thresholds 18 and 19",
+    "negative RISE and positive FALL signed branch suppression",
+    "absolute positive/negative alarm and equality boundary",
+    "calibration/invalid event suppression",
+    "sticky next-edge set and reset-only clear"
+  ],
+  "compile_retry": "One harness-only retry corrected a relative source path, a hierarchical m_ff_o name, tap-index vector encoding, and E8 observation point; stimulus and DUT were unchanged."
+}
