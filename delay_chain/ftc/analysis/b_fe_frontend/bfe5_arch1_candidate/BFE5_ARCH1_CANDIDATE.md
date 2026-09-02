@@ -323,7 +323,7 @@ Authority:
 
 Gate: `ARCH1_SIGNED_TRACKING_REFERENCE_INTERACTION_AUDIT_FROZEN`
 
-These results justify freezing both the **presence of the signed-error droop comparator** and the **dual-reference source policy** into ARCH1. They do not freeze 18 or 19 as silicon/PVT-signoff threshold values and do not yet validate a runtime tracker implementation.
+These results justify freezing both the **presence of the signed-error droop comparator** and the **dual-reference source policy** into ARCH1. They do not freeze 18 or 19 as silicon/PVT-signoff threshold values. BFE13 now provides a minimal TRACK0 research-candidate RTL implementation and validates its digital/event-atomic mechanics; it does not establish real benign-drift efficacy or production readiness.
 
 ## 6. Frozen safety gate concept
 
@@ -524,7 +524,7 @@ This candidate freeze does **not** authorize or decide:
 - any modification to sensor path, latch aperture, DFF timing, tap structure, or raw-code semantics;
 - `N=sum(q)`, LUT/ML classifiers, broad spatial-feature expansion, or clock-glitch feature fusion unless later evidence shows the current architecture is insufficient.
 
-The important distinction is: **the signed-error droop comparator and its default startup/trusted security-anchor source are no longer deferred; exact implementation parameters, tracker implementation, trusted rebase mechanics, and signoff remain deferred.**
+The important distinction is: **the signed-error droop comparator and its default startup/trusted security-anchor source are no longer deferred, and a minimal TRACK0 research RTL candidate now exists; exact production parameters, trusted rebase mechanics, benign-drift efficacy, and signoff remain deferred.**
 
 ## 14. Freeze statement
 
@@ -556,6 +556,16 @@ The required positive RISE signed-error comparator has a validated SIGN0 researc
 `delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/BFE12_SIGN0_GATE.json`
 
 BFE12 used the startup/frozen reference because the tracker was not implemented. This remains consistent with the security-anchor source role. The cross-reference does not promote the complete ARCH1 architecture; the fine-step tracker and all production/PVT threshold decisions remain deferred.
+
+## BFE13 TRACK0 status cross-reference
+
+`delay_chain/ftc/analysis/b_fe_frontend/bfe13_arch1_track0_rtl/BFE13_TRACK0_GATE.json`
+records `BFE13_ARCH1_TRACK0_RTL_FROZEN` with a PASS classification for the
+minimal dual-reference, event-atomic TRACK0 research candidate. BFE13 validates
+the digital tracker mechanics only. Real benign-temperature efficacy,
+slow-attack poisoning robustness, trusted OPP/rebase behavior, production
+parameters, PVT/silicon signoff, and promotion over authoritative ARCH0 remain
+deferred.
 
 ## Reference-interaction evidence cross-reference
 

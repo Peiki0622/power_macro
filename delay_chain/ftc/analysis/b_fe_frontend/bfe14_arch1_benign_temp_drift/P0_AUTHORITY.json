@@ -1,0 +1,90 @@
+{
+  "gate": "BFE14_TEMP0_P0_AUTHORITIES_AND_ARCH1_STATUS_FROZEN",
+  "status": "PASS",
+  "branch": "bfe-multitap-latched-frontend",
+  "current_head": "82a2c2b8130926e5afcad01133ee966cb2c31aca",
+  "plan_baseline_commit": "77a1834516e3324b4cabfa09de52415865d8bacd",
+  "temperature_authority": {
+    "path": "delay_chain/ftc/analysis/real_xor_pvt_baseline/temperature_screen.csv",
+    "git_blob": "4daf454ca908a8ff7d77652a8cfc8c9c94240acd",
+    "sha256": "5eedd81a54ba6858705f1379e80e19539f65b139c89c2b3d65d1ad3ffa9980a9",
+    "valid_tt_nominal_vdd_rows_c": [-40, 25, 85, 125]
+  },
+  "bfe13_authority": {
+    "gate": "BFE13_ARCH1_TRACK0_RTL_FROZEN",
+    "status": "PASS",
+    "classification": "DUAL_REFERENCE_EVENT_ATOMIC_TRACK0_RTL_PASS",
+    "gate_sha256": "8c0aa4cbb4ef779772e297a17e173f9d01de2bd9a35823c90046378fe2e97e9c"
+  },
+  "authorities": {
+    "bfe13_report": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe13_arch1_track0_rtl/BFE13_TRACK0_REPORT.md",
+      "sha256": "d90b5659593659175ba8b49f513287cc5c5894a1abb67347e1a4ac0aab4a8493"
+    },
+    "track0_controller": {
+      "path": "delay_chain/ftc/rtl/bfe_backend_ctrl_arch1_track0.sv",
+      "sha256": "d8d9128ccbdc65dc1fa0f96662afeca638e82efd380d9f72da98b7b5ff92d723"
+    },
+    "track0_top": {
+      "path": "delay_chain/ftc/rtl/bfe_backend_arch1_track0_top.sv",
+      "sha256": "aeb865c0d7a6a7bca6a8907484deb956d9037b1fed166f4838e9cf97c5ce0f33"
+    },
+    "arch1_document_after_sync": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe5_arch1_candidate/BFE5_ARCH1_CANDIDATE.md",
+      "sha256": "3e15dc2a4f97b2ba631d352affbbd8b2128aa9cf7f2e712e3c5e6727832719d0"
+    },
+    "bfe8_healthy_per_seed": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_HEALTHY_PER_SEED.csv",
+      "sha256": "488a056e92c35614af2e54c09fb8351cb1ff48aae8e4b0df973f2f14c6967691"
+    },
+    "bfe8_healthy_fpr": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_HEALTHY_FPR.csv",
+      "sha256": "4a50c05e752ff384a586bdb682af6b2e7c68dba69c92d9251bcfa3332321258a"
+    },
+    "bfe8_run_ledger": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/BFE8_D02_RUN_LEDGER.json",
+      "sha256": "50ad892fbd66c21ac8926303513bc002b619014f9c6f826664f206821f03e38f"
+    },
+    "bfe12_replay_csv": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/P3_REPLAY_MANIFEST.csv",
+      "sha256": "47a6b1055c7be5fe6670326a3b238f74ec53d781cc0fa44488d3cc6bfbd92199"
+    },
+    "bfe12_replay_json": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/P3_REPLAY_MANIFEST.json",
+      "sha256": "4fa39c389647b5ede6eb61a496df73a5510c7b446c20f0f6a397265f6cc6a002"
+    },
+    "bfe12_authority": {
+      "path": "delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/P0_AUTHORITY.json",
+      "sha256": "abe5859ecd9a179921ef0cffe391b48ccaf8b3997ae9c792ea92791c9a220010"
+    },
+    "config": {
+      "path": "delay_chain/ftc/ftc_config.json",
+      "sha256": "13f30a39a2efcfb3c666bb838081418fb6afe4f733bced658b1e1525aca5466f"
+    },
+    "selected_cells": {
+      "path": "delay_chain/ftc/discovery/selected_cells.json",
+      "sha256": "8bf24667ac0531cdec8af560c3467a630e3608e06ec6befa8a067b764f1b4318"
+    }
+  },
+  "frozen_operating_point": {
+    "startup_temperature_c": 25,
+    "temperatures_c": [-40, 25, 85, 125],
+    "vdd_v": 1.1,
+    "corner": "tt",
+    "seed_first": 41001,
+    "seed_last": 41030,
+    "seed_range_inclusive": true,
+    "tap_count": 30,
+    "m_margin_rise": 22,
+    "m_margin_fall": 24,
+    "t_pos_rise_diagnostic": [18, 19],
+    "calibration": "four RISE plus four FALL; exact sum4 >> 2"
+  },
+  "simulation_accounting": {
+    "hspice": 0,
+    "vcs": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0
+  },
+  "stop_after_stage": true
+}

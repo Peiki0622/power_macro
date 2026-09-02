@@ -1,0 +1,23 @@
+{
+  "gate": "BFE14_TEMP0_P0_AUTHORITIES_AND_ARCH1_STATUS_FROZEN",
+  "status": "PASS",
+  "simulation_count_so_far": {
+    "new_hspice_temperature_runs": 0,
+    "required_capture_support_vcs": 0,
+    "backend_scientific_vcs": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0
+  },
+  "planned_upper_bounds": {
+    "p2_scout_hspice": 9,
+    "p2_scout_capture_support": 9,
+    "p3_endpoint_population_unique_hspice": 60,
+    "p3_full_85c_additional_hspice_if_required": 30,
+    "p3_nominal25_control_hspice_if_reuse_invalidated": 30,
+    "p5_backend_scientific_vcs_regressions": 1
+  },
+  "reuse_policy": "Reuse compatible retained 25 C data and validated P2 cases; do not rerun completed physical cases.",
+  "temperature_policy": "Only simulator temperature changes; nominal VDD=1.10 V, TT, healthy waveform and process seed mapping remain fixed.",
+  "threshold_policy": "Only diagnostic T_POS_RISE=18/19 and fixed BFE13 probe T_TRACK=5/B_TRACK=2 are allowed; no production selection.",
+  "stop_after_stage": true
+}
