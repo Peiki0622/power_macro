@@ -1,0 +1,40 @@
+{
+  "gate": "BFE13_TRACK0_P2_CANDIDATE_RTL_READY",
+  "status": "PASS",
+  "simulator_calls": 0,
+  "candidate_files": [
+    "delay_chain/ftc/rtl/bfe_backend_ctrl_arch1_track0.sv",
+    "delay_chain/ftc/rtl/bfe_backend_arch1_track0_top.sv"
+  ],
+  "top_interface": {
+    "matches_bfe12_sign0_ports": true,
+    "new_external_track_ports": 0,
+    "parameters": {
+      "T_TRACK_RISE": 0,
+      "T_TRACK_FALL": 0,
+      "B_TRACK_RISE": 0,
+      "B_TRACK_FALL": 0
+    }
+  },
+  "structural_checks": {
+    "unchanged_arch0_and_sign0_authorities": true,
+    "startup_refs_only_reset_or_fourth_calibration_write": true,
+    "track_refs_only_reset_calibration_or_e8_commit_write": true,
+    "startup_anchor_aliases_startup_reference": true,
+    "split_tracking_subtraction_reused": true,
+    "ten_bit_anchor_trip_lane": true,
+    "no_fall_signed_comparator": true,
+    "e7_alarm_is_abs_or_signed_rise": true,
+    "tracker_state_not_in_e7_alarm_cone": true,
+    "no_e8_to_e4_reference_bypass": true,
+    "no_second_full_signed_subtractor": true,
+    "no_function_or_task_in_synthesizable_rtl": true,
+    "two_fsm_bits_per_polarity": true,
+    "e8_only_reference_commit": true
+  },
+  "reused_unchanged": [
+    "delay_chain/ftc/rtl/bfe_capture_bank.sv",
+    "delay_chain/ftc/rtl/bfe_m_feature.sv"
+  ],
+  "notes": "Static source audit only; no VCS, physical simulation, synthesis, STA, or threshold tuning was performed."
+}
