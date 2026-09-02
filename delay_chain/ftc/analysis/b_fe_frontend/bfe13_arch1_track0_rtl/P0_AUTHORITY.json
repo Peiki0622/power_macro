@@ -1,0 +1,34 @@
+{
+  "gate": "BFE13_TRACK0_P0_AUTHORITIES_FROZEN",
+  "status": "PASS",
+  "branch": "bfe-multitap-latched-frontend",
+  "head_commit": "d38fd905ccdf723badb9b1b42cf1156b75bd66a6",
+  "plan_baseline_commit": "ce3b650c2dde71f90f13f13f1a5adbe031ffa744",
+  "architecture_and_evidence": {
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe5_arch1_candidate/BFE5_ARCH1_CANDIDATE.md": {
+      "git_blob": "98ffceffb9041a0ac3b6c97d79bef06cea4f900c",
+      "sha256": "cf53851f6f88e24b19fe43623e098ec5c3e99a515a0c890d4d4349d736d2b227"
+    },
+    "delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_tracking_reference_interaction_audit/REFERENCE_INTERACTION_REPORT.md": {
+      "git_blob": "53b9b1ff90f9c3d673104e564e9fad3d22ecd878",
+      "sha256": "07a4824bb8a91ec64a9199b487845c114e529507da5b221dd26cabc00751bc4e"
+    },
+    "delay_chain/ftc/analysis/b_fe_frontend/arch1_signed_tracking_reference_interaction_audit/REFERENCE_INTERACTION_SUMMARY.json": {
+      "git_blob": "684dd37d396b04e60c2fe6b1b7deba0ea0b949ce",
+      "sha256": "dd84175ae0d9d4659b130632af4e4ff77a2b04972501776a854e2cece289ccb4"
+    },
+    "delay_chain/ftc/analysis/b_fe_frontend/bfe12_arch1_sign0_signed_droop_rtl/BFE12_SIGN0_GATE.json": {
+      "git_blob": "4e06be9d4a81c54c5243b1d70e8071d15271c466",
+      "sha256": "d92892a0b47c089e89039bae8bb5beabe7335cd63d28813b41b802d02a49c953"
+    }
+  },
+  "rtl_authorities": {
+    "delay_chain/ftc/rtl/bfe_backend_ctrl.sv": {"git_blob": "e340980efc7535348721276c7500d881c59ec1d7", "sha256": "737c56e454b00f428c998eb4a9fad584e065ba6faa941f230ec70bc6cd6ac128"},
+    "delay_chain/ftc/rtl/bfe_backend_top.sv": {"git_blob": "2216b8ed5111b4a9f7c4c5b9c34a1e33af685d30", "sha256": "285d65fc40bca3075770798542671d12fcedaca2ad55b894ad64d2f507fcacc4"},
+    "delay_chain/ftc/rtl/bfe_capture_bank.sv": {"git_blob": "d9d01f77c234afaad0edabe40df2b7e20e131d76", "sha256": "5a203009dc0d1eb79fc7bd1b77b83fa2cd7ddbfd8a57d299c2fd69ab2c7fcc5d"},
+    "delay_chain/ftc/rtl/bfe_m_feature.sv": {"git_blob": "294c1de5b3dfb91855b1623237ff64bb4dfce2aa", "sha256": "c9b26e4ea828edbe8f2548dc4c0b2b82d8ac7d0f5e14ee9948409a572a817582"},
+    "delay_chain/ftc/rtl/bfe_backend_ctrl_arch1_sign0.sv": {"git_blob": "9f8b5768d2a502ebc16e0639ed474cce44e36632", "sha256": "27a00f59f2c41b0d72383468ada39652b49a66bc3e5e65636efe96d91ba3aaed"},
+    "delay_chain/ftc/rtl/bfe_backend_arch1_sign0_top.sv": {"git_blob": "f6230067c0a3cf6e9d2b966fdd23c871b7e408b5", "sha256": "49ef2d70b8f389cdb5b1471fd916ed3bc8a871064d3c5c110dc6a410aa44f707"}
+  },
+  "authority_policy": "ARCH0, BFE12 SIGN0, capture frontend, and M_FF definition remain byte-identical; TRACK0 is a new candidate fork."
+}

@@ -1,0 +1,21 @@
+{
+  "gate": "BFE13_TRACK0_P0_AUTHORITIES_FROZEN",
+  "status": "PASS",
+  "physical_simulation": {
+    "hspice_or_physical_source": 0,
+    "latq_dff_capture_regeneration": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0,
+    "healthy_physical_rerun": 0,
+    "d01_physical_rerun": 0,
+    "d02_physical_rerun": 0,
+    "d04_physical_rerun": 0
+  },
+  "new_rtl_vcs_logical_regressions": {
+    "directed_track0_full_top_controller": 1,
+    "retained_bfe12_sign0_ab_replay": 1,
+    "maximum_total": 2
+  },
+  "retry_policy": "A compile or harness retry may repeat only identical stimulus after its reason is recorded in BFE13_TRACK0_RUN_LEDGER.json.",
+  "threshold_policy": "No production T_POS_RISE, T_TRACK, or B_TRACK value is selected or frozen."
+}
