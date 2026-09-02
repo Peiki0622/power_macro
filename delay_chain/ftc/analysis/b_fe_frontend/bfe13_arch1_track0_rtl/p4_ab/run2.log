@@ -1,0 +1,9 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  2 14:45 2026
+Fatal: "p4_ab/tb_bfe13_track0_retained_ab.sv", 47: tb_bfe13_track0_retained_ab.check_event: at time 4845000 ps
+P4 event mismatch dataset=1 seed=41020 M=110 A0/B0/A18/B18/A19/B19=1/1/1/1/1/1
+$finish called from file "p4_ab/tb_bfe13_track0_retained_ab.sv", line 47.
+$finish at simulation time              4845000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 4845000 ps

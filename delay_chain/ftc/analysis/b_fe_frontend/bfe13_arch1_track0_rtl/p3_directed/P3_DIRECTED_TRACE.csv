@@ -1,0 +1,2 @@
+check,ref_startup_rise,ref_track_rise,ref_startup_fall,ref_track_fall,state_rise,state_fall,alarm,sticky
+controller,100,101,200,200,0,0,0,0

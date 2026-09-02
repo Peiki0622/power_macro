@@ -1,0 +1,29 @@
+{
+  "task": "BFE13-ARCH1-TRACK0",
+  "status": "PASS",
+  "classification": "DUAL_REFERENCE_EVENT_ATOMIC_TRACK0_RTL_PASS",
+  "gates": {
+    "P0": "BFE13_TRACK0_P0_AUTHORITIES_FROZEN",
+    "P1": "BFE13_TRACK0_P1_RTL_ARCH_FROZEN",
+    "P2": "BFE13_TRACK0_P2_CANDIDATE_RTL_READY",
+    "P3": "BFE13_TRACK0_P3_DIRECTED_RTL_PASS",
+    "P4": "BFE13_TRACK0_P4_SIGN0_EQUIVALENCE_PASS",
+    "P5": "BFE13_ARCH1_TRACK0_RTL_FROZEN"
+  },
+  "tool_runs": [
+    {"stage":"P3","tool":"VCS W-2024.09_Full64","status":"PASS","scientific_regression":true,"run_dir":"p3_directed","compile_harness_retries":6,"stimulus_changed_after_retry":false},
+    {"stage":"P4","tool":"VCS W-2024.09_Full64","status":"PASS","scientific_regression":true,"run_dir":"p4_ab","event_rows":690,"compile_harness_retries":3,"stimulus_changed_after_retry":false}
+  ],
+  "simulation_accounting": {
+    "hspice_or_physical_source": 0,
+    "latq_dff_capture_regeneration": 0,
+    "primesim": 0,
+    "dc_sta_pnr": 0,
+    "healthy_physical_rerun": 0,
+    "d01_physical_rerun": 0,
+    "d02_physical_rerun": 0,
+    "d04_physical_rerun": 0,
+    "new_rtl_vcs_logical_regressions": 2
+  },
+  "artifact_policy": "VCS compile databases and binaries were kept under /tmp task-scoped directories; reports and CSV evidence remain only under this task directory."
+}

@@ -1,0 +1,10 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  2 14:41 2026
+P3 bound debug ref=101 state=01 delta=1 dir=1 snap=101 upper=102 valid=0 alarm=0 sticky=0
+Fatal: "tb_bfe13_track0_directed.sv", 187: tb_bfe13_track0_directed: at time 185000 ps
+P3 upper bound reach failed
+$finish called from file "tb_bfe13_track0_directed.sv", line 187.
+$finish at simulation time               185000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 185000 ps

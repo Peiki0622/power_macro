@@ -1,0 +1,7 @@
+Command exited with non-zero status 255
+{"vcs1":{"timestamp_begin":1788360038.059558776, "rt":0.62, "ut":0.24, "st":0.36}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788360037.349878776}
+{"VCS_COMP_START_TIME": 1788360037.349878776}
+{"VCS_COMP_END_TIME": 1788360038.860962748}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -Mdir=build -o p3_simv tb_bfe13_track0_directed.sv ../../../../rtl/ftc_capture_struct.sv ../../../../rtl/bfe_capture_bank.sv ../../../../rtl/bfe_m_feature.sv ../../../../rtl/bfe_backend_ctrl_arch1_track0.sv ../../../../rtl/bfe_backend_arch1_track0_top.sv"}
+{"vcs1": {"peak_mem": 321996}}

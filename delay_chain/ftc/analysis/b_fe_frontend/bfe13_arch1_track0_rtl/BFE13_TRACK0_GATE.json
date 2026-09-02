@@ -1,0 +1,29 @@
+{
+  "gate": "BFE13_ARCH1_TRACK0_RTL_FROZEN",
+  "status": "PASS",
+  "classification": "DUAL_REFERENCE_EVENT_ATOMIC_TRACK0_RTL_PASS",
+  "requirements": {
+    "arch0_rtl_unchanged": true,
+    "bfe12_sign0_rtl_unchanged": true,
+    "frontend_capture_unchanged": true,
+    "external_track0_ports_added": 0,
+    "physical_simulations": 0,
+    "alarm_stage_e7": true,
+    "tracker_commit_e8_only": true,
+    "startup_security_refs_immutable": true,
+    "track_step_max_one_lsb": true,
+    "independent_rise_fall_2bit_fsms": true,
+    "two_observation_persistence": true,
+    "bounded_no_wrap": true,
+    "abs_alarm_blocks_update": true,
+    "signed_alarm_blocks_update": true,
+    "sticky_freezes_until_reset": true,
+    "stale_snapshot_guard": true,
+    "no_e8_to_e4_bypass": true,
+    "default_disable_equivalent_to_bfe12_sign0": true,
+    "production_thresholds_not_frozen": true,
+    "trusted_opp_rebase_not_implemented": true,
+    "fall_signed_comparator_not_implemented": true
+  },
+  "evidence": ["P0_AUTHORITY.json", "TRACK0_RTL_ARCH_CONTRACT.md", "P2_STRUCTURAL_AUDIT.json", "P3_DIRECTED_RESULTS.json", "P4_EQUIVALENCE_SUMMARY.json", "BFE13_TRACK0_RUN_LEDGER.json"]
+}

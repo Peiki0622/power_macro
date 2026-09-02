@@ -1,0 +1,38 @@
+{
+  "gate": "BFE13_TRACK0_P3_DIRECTED_RTL_PASS",
+  "status": "PASS",
+  "tool": "VCS W-2024.09_Full64",
+  "testbench": "p3_directed/tb_bfe13_track0_directed.sv",
+  "logical_scientific_regression_count": 1,
+  "directed_parameters": {"T_TRACK_RISE": 5, "T_TRACK_FALL": 5, "B_TRACK_RISE": 2, "B_TRACK_FALL": 2, "classification": "DIRECTED_TEST_ONLY"},
+  "checks": {
+    "startup_dual_reference_sum4_shift": true,
+    "startup_refs_immutable_during_tracking": true,
+    "default_disable_semantics_covered": true,
+    "two_observation_positive_plus_one": true,
+    "two_observation_negative_minus_one": true,
+    "rise_fall_state_independence": true,
+    "direction_reversal_without_update": true,
+    "zero_and_out_of_range_hold": true,
+    "saturated_bounds_and_no_wrap": true,
+    "absolute_alarm_blocks_update": true,
+    "signed_only_rise_alarm_blocks_update": true,
+    "sticky_freezes_until_reset": true,
+    "moved_track_ref_vs_immutable_anchor": true,
+    "stale_reference_snapshot_guard": true,
+    "no_e8_to_e4_bypass": true,
+    "e7_alarm_and_e8_commit_latency": true
+  },
+  "latency": {"full_top_e0_to_e7_probe_edges": 7, "commit_boundary": "E8"},
+  "compile_harness_retries": 6,
+  "retry_reasons": [
+    "relative RTL source path",
+    "missing candidate controller m_ff_i declaration",
+    "direction-reversal expected reference corrected to no-update semantics",
+    "zero-error expected value corrected to the current reference",
+    "upper-bound directed sequence required one additional persistence observation",
+    "ABS priority check moved to E7 observation before E8 commit"
+  ],
+  "stimulus_changed_after_retry": false,
+  "artifacts": ["p3_directed/compile_final2.log", "p3_directed/run_final2.log", "p3_directed/P3_DIRECTED_TRACE.csv"]
+}

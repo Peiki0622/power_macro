@@ -1,0 +1,10 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  2 14:50 2026
+BFE13_TRACK0_P4_SIGN0_EQUIVALENCE_PASS
+$finish called from file "p4_ab/tb_bfe13_track0_retained_ab.sv", line 1076.
+$finish at simulation time              7471000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7471000 ps
+CPU Time:      0.740 seconds;       Data structure size:   0.0Mb
+Wed Sep  2 14:50:04 2026

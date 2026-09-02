@@ -1,0 +1,30 @@
+                         Chronologic VCS (TM)
+         Version W-2024.09_Full64 -- Wed Sep  2 14:45:42 2026
+
+                    Copyright (c) 1991 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'p4_ab/tb_bfe13_track0_retained_ab.sv'
+
+Error-[SFCOR] Source file cannot be opened
+  Source file "../../../../rtl/bfe_backend_ctrl.sv" cannot be opened for 
+  reading due to 'No such file or directory'.
+  Please fix above issue and compile again.
+  
+  
+
+1 error
+CPU time: .749 seconds to compile

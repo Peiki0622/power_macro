@@ -1,0 +1,34 @@
+{
+  "gate": "BFE13_TRACK0_P4_SIGN0_EQUIVALENCE_PASS",
+  "status": "PASS",
+  "classification": "TRACK0_DEFAULT_DISABLE_EVENT_EQUIVALENT_TO_BFE12_SIGN0",
+  "tool": "VCS W-2024.09_Full64",
+  "stimulus_source": "../bfe12_arch1_sign0_signed_droop_rtl/P3_REPLAY_MANIFEST.csv",
+  "event_rows": 690,
+  "datasets": {"healthy_fpr": 240, "healthy_signed_rise": 360, "d01_target": 30, "d02_target": 30, "d04_target": 30},
+  "thresholds": [435, 18, 19],
+  "mismatches": 0,
+  "checks": {
+    "cal_lock_event_equivalence": true,
+    "droop_alarm_event_equivalence": true,
+    "sticky_event_equivalence": true,
+    "default_disable_no_reference_movement": true,
+    "fall_behavior_equivalence": true,
+    "signed_and_absolute_timing_equivalence": true
+  },
+  "reproduced_retained_conclusions": {
+    "healthy_held_out_fpr": "1/240 unchanged",
+    "healthy_signed_additions": "0/360 unchanged",
+    "d01": "30/30 at signed candidates, event-equivalent to SIGN0",
+    "d02": "30/30, event-equivalent to SIGN0",
+    "d04": "30/30 at signed candidates, event-equivalent to SIGN0"
+  },
+  "compile_harness_retries": 3,
+  "retry_reasons": [
+    "relative RTL source path",
+    "manifest signed-only fields corrected to total ABS-or-signed alarm",
+    "healthy signed-only counter expectation corrected to total alarm semantics"
+  ],
+  "stimulus_changed_after_retry": false,
+  "artifacts": ["p4_ab/compile_final.log", "p4_ab/run_final.log", "p4_ab/P4_EVENT_RESULTS.csv"]
+}

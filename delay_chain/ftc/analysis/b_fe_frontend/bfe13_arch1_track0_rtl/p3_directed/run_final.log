@@ -1,0 +1,9 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  2 14:42 2026
+Fatal: "tb_bfe13_track0_directed.sv", 195: tb_bfe13_track0_directed: at time 225000 ps
+P3 ABS alarm priority failed
+$finish called from file "tb_bfe13_track0_directed.sv", line 195.
+$finish at simulation time               225000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 225000 ps

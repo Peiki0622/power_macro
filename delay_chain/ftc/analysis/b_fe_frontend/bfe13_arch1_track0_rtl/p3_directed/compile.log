@@ -1,0 +1,41 @@
+                         Chronologic VCS (TM)
+         Version W-2024.09_Full64 -- Wed Sep  2 14:40:12 2026
+
+                    Copyright (c) 1991 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Parsing design file 'tb_bfe13_track0_directed.sv'
+Parsing design file '../../../../rtl/ftc_capture_struct.sv'
+Parsing design file '../../../../rtl/bfe_capture_bank.sv'
+Parsing design file '../../../../rtl/bfe_m_feature.sv'
+Parsing design file '../../../../rtl/bfe_backend_ctrl_arch1_track0.sv'
+Parsing design file '../../../../rtl/bfe_backend_arch1_track0_top.sv'
+Parsing design file '../../../../tests/ftc_standard_cell_elab_stubs.sv'
+Top Level Modules:
+       tb_bfe13_track0_directed
+       BUF_X0P7M_A9TR40
+       BUF_X0P7M_A9TL40
+       XOR2_X0P5M_A9TR40
+TimeScale is 1 ns / 1 ps
+Starting vcs inline pass...
+6 modules and 0 UDP read.
+recompiling module tb_bfe13_track0_directed
+	However, due to incremental compilation, only 1 module needs to be compiled. 
+rm -f _cuarc*.so _csrc*.so pre_vcsobj_*.so share_vcsobj_*.so
+if [ -x ../p3_simv ]; then chmod a-x ../p3_simv; fi
+g++  -o ../p3_simv      -rdynamic  -Wl,-rpath='$ORIGIN'/p3_simv.daidir -Wl,-rpath=./p3_simv.daidir -Wl,-rpath=/home/synopsys/vcs/W-2024.09/linux64/lib -L/home/synopsys/vcs/W-2024.09/linux64/lib  -Wl,-rpath-link=./  /usr/lib64/libnuma.so.1   objs/amcQw_d.o   _24855_archive_1.so _prev_archive_1.so   SIM_l.o      rmapats_mop.o rmapats.o rmar.o rmar_nd.o  rmar_llvm_0_1.o rmar_llvm_0_0.o            -lvirsim -lerrorinf -lsnpsmalloc -lvfs    -lvcsnew -lsimprofile -luclinative /home/synopsys/vcs/W-2024.09/linux64/lib/vcs_tls.o   -Wl,-whole-archive  -lvcsucli    -Wl,-no-whole-archive          /home/synopsys/vcs/W-2024.09/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+../p3_simv up to date
+CPU time: 1.259 seconds to compile + .959 seconds to elab + .393 seconds to link

@@ -35,6 +35,9 @@ module bfe_backend_ctrl_arch1_track0 #(
     // High only for startup-calibration samples.  Calibration and pre-lock
     // events are excluded from the alarm and tracking pipelines.
     input  wire       cal_mode_i,
+    // Nine-bit weighted feature from the unchanged bfe_m_feature pipeline;
+    // legal values are 0..435 and this is the only sampled data operand.
+    input  wire [8:0] m_ff_i,
     // Existing strict absolute-error margins for RISE and FALL events.
     input  wire [8:0] m_margin_rise_i,
     input  wire [8:0] m_margin_fall_i,

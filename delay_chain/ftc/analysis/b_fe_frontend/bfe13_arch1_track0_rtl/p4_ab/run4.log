@@ -1,0 +1,9 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  2 14:47 2026
+Fatal: "p4_ab/tb_bfe13_track0_retained_ab.sv", 1065: tb_bfe13_track0_retained_ab: at time 7471000 ps
+P4 healthy mismatch a0=1 b0=1 a18=0 b18=0
+$finish called from file "p4_ab/tb_bfe13_track0_retained_ab.sv", line 1065.
+$finish at simulation time              7471000
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 7471000 ps

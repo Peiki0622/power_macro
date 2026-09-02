@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1788360012.123096636, "rt":1.14, "ut":0.44, "st":0.66}}
+{"vcselab":{"timestamp_begin":1788360013.445532951, "rt":0.90, "ut":0.43, "st":0.47}}
+{"link":{"timestamp_begin":1788360014.510773661, "rt":0.29, "ut":0.17, "st":0.14}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1788360011.364510286}
+{"VCS_COMP_START_TIME": 1788360011.364510286}
+{"VCS_COMP_END_TIME": 1788360014.969424683}
+{"VCS_USER_OPTIONS": "-full64 -sverilog -timescale=1ns/1ps -Mdir=build -o p3_simv tb_bfe13_track0_directed.sv ../../../../rtl/ftc_capture_struct.sv ../../../../rtl/bfe_capture_bank.sv ../../../../rtl/bfe_m_feature.sv ../../../../rtl/bfe_backend_ctrl_arch1_track0.sv ../../../../rtl/bfe_backend_arch1_track0_top.sv ../../../../tests/ftc_standard_cell_elab_stubs.sv"}
+{"vcs1": {"peak_mem": 336984}}
+{"vcselab": {"peak_mem": 202344}}
