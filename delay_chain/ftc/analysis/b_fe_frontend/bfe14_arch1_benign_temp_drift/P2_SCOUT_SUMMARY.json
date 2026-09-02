@@ -1,0 +1,32 @@
+{
+  "checks": {
+    "M_FF_range_0_435": true,
+    "background_unchanged": true,
+    "capture_method_unchanged": true,
+    "healthy_no_droop": true,
+    "paired_process_signatures": true,
+    "q_ff_width_30": true
+  },
+  "decision_basis": {
+    "85c_more_critical_than_endpoints": false,
+    "nonmonotonic_85c": false
+  },
+  "event_count": 216,
+  "full_85c_required": false,
+  "gate": "BFE14_TEMP0_P2_SCOUT_VALID",
+  "scout_seeds": [
+    41027,
+    41019,
+    41013
+  ],
+  "simulation_accounting": {
+    "capture_support_vcs": 9,
+    "hspice": 9
+  },
+  "status": "PASS",
+  "temperatures_c": [
+    -40,
+    85,
+    125
+  ]
+}

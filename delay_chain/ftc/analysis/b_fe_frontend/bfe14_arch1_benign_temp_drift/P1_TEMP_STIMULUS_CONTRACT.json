@@ -1,0 +1,65 @@
+{
+  "calibration": {
+    "arithmetic": "sum4 >> 2",
+    "samples": "four RISE plus four FALL",
+    "startup_reference": "retained 25 C BFE8_HEALTHY_PER_SEED.csv"
+  },
+  "capture": {
+    "feature": "M_FF=sum(tap*q_ff[tap])",
+    "method": "BFE8 source-referenced Level-0 then real LATQ/DFF VCS-XA",
+    "q_ff_threshold": "q_ff_v > 0.5 * 1.10 V",
+    "runner": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/run_bfe8_d02_arch0_pilot.py",
+    "runner_sha256": "f7a104da0b7ea4bd666537c4f0511b470025d971a8eae080553c1251570a8116",
+    "tap_count": 30
+  },
+  "gate": "BFE14_TEMP0_P1_STIMULUS_AND_REUSE_FROZEN",
+  "nominal25_classification": "NOMINAL25_REUSE_VALID",
+  "operating_point": {
+    "corner": "tt",
+    "startup_temperature_c": 25,
+    "temperatures_c": [
+      -40,
+      25,
+      85,
+      125
+    ],
+    "vdd_v": 1.1
+  },
+  "process_population": {
+    "count": 30,
+    "seed_first": 41001,
+    "seed_last": 41030,
+    "signature_rule": "HSPICE MOS_MC index-2 source.mc0.csv line hash",
+    "signature_source": "BFE4_CALN0_RESULTS.csv"
+  },
+  "schema": [
+    "seed",
+    "mc_process_signature",
+    "temperature_c",
+    "background_stimulus_signature",
+    "event_index",
+    "polarity",
+    "q_ff",
+    "M_FF",
+    "M_REF_STARTUP_RISE",
+    "M_REF_STARTUP_FALL",
+    "source_run",
+    "capture_status"
+  ],
+  "simulation_count": {
+    "capture_support_vcs": 0,
+    "hspice": 0
+  },
+  "status": "PASS",
+  "stimulus": {
+    "allowed_physical_difference": "HSPICE .temp line only",
+    "background_signature": "a47522d223ca7148c306a44da11f67079a1cfe671bedd6fc8652c5821fa55af5",
+    "event_map": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/healthy_controls/HEALTHY_COMPOSITE_EVENT_MAP.json",
+    "event_map_sha256": "c47f93455a6cbeff74a48f07fdfb09fc1ae237cda2bccad0e1ca8cb5993b28d9",
+    "healthy_only": true,
+    "source": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe8_d02_arch0_pilot/healthy_controls/HEALTHY_COMPOSITE.inc",
+    "source_sha256": "a47522d223ca7148c306a44da11f67079a1cfe671bedd6fc8652c5821fa55af5",
+    "valid_events_per_case": 24
+  },
+  "stop_after_stage": true
+}

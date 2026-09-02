@@ -1,0 +1,15 @@
+{
+  "gate": "BFE14_TEMP0_P1_STIMULUS_AND_REUSE_FROZEN",
+  "nominal25_classification": "NOMINAL25_REUSE_VALID",
+  "scout_seeds": [
+    41027,
+    41019,
+    41013
+  ],
+  "simulation_accounting": {
+    "hspice": 0,
+    "vcs": 0
+  },
+  "status": "PASS",
+  "stop_after_stage": true
+}

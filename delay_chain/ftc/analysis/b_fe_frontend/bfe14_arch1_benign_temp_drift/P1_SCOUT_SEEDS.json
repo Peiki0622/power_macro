@@ -1,0 +1,16 @@
+{
+  "gate": "BFE14_TEMP0_P1_STIMULUS_AND_REUSE_FROZEN",
+  "new_temperature_c": [
+    -40,
+    85,
+    125
+  ],
+  "scout_seeds": [
+    41027,
+    41019,
+    41013
+  ],
+  "selected_before_new_temperature_simulation": true,
+  "selection_rule": "sort (M_REF_RISE, seed); ranks 0, 15, 29",
+  "selection_source": "retained 25 C M_REF_RISE only"
+}
