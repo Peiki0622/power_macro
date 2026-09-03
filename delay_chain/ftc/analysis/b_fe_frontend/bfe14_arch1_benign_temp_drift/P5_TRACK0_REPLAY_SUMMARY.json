@@ -1,0 +1,1865 @@
+{
+  "A18": {
+    "abs_only_alarm_count": 366,
+    "accepted_tracker_updates": 0,
+    "candidate_event_definition": "no E7 alarm and 0<D_track<=5 before E8; a non-commit may be first persistence observation or bound/sticky rejection",
+    "candidate_events_without_commit": 47,
+    "combined_alarm_count": 554,
+    "residual_D_track_distribution": {
+      "count": 1512,
+      "max": 51,
+      "median": 22.0,
+      "min": 0,
+      "p95": 41
+    },
+    "signed_rise_alarm_count": 188,
+    "signed_rise_only_alarm_count": 122
+  },
+  "A19": {
+    "abs_only_alarm_count": 366,
+    "accepted_tracker_updates": 0,
+    "candidate_event_definition": "no E7 alarm and 0<D_track<=5 before E8; a non-commit may be first persistence observation or bound/sticky rejection",
+    "candidate_events_without_commit": 47,
+    "combined_alarm_count": 554,
+    "residual_D_track_distribution": {
+      "count": 1512,
+      "max": 51,
+      "median": 22.0,
+      "min": 0,
+      "p95": 41
+    },
+    "signed_rise_alarm_count": 188,
+    "signed_rise_only_alarm_count": 122
+  },
+  "B18": {
+    "abs_only_alarm_count": 366,
+    "accepted_tracker_updates": 7,
+    "candidate_event_definition": "no E7 alarm and 0<D_track<=5 before E8; a non-commit may be first persistence observation or bound/sticky rejection",
+    "candidate_events_without_commit": 40,
+    "combined_alarm_count": 554,
+    "residual_D_track_distribution": {
+      "count": 1512,
+      "max": 51,
+      "median": 22.0,
+      "min": 0,
+      "p95": 41
+    },
+    "signed_rise_alarm_count": 188,
+    "signed_rise_only_alarm_count": 122
+  },
+  "B19": {
+    "abs_only_alarm_count": 366,
+    "accepted_tracker_updates": 7,
+    "candidate_event_definition": "no E7 alarm and 0<D_track<=5 before E8; a non-commit may be first persistence observation or bound/sticky rejection",
+    "candidate_events_without_commit": 40,
+    "combined_alarm_count": 554,
+    "residual_D_track_distribution": {
+      "count": 1512,
+      "max": 51,
+      "median": 22.0,
+      "min": 0,
+      "p95": 41
+    },
+    "signed_rise_alarm_count": 188,
+    "signed_rise_only_alarm_count": 122
+  },
+  "backend_scientific_vcs_regressions": 1,
+  "backend_vcs_invocation_note": "Two identical fixed-config invocations occurred while correcting trace accounting; they are one unique scientific regression with no new physical input or parameter combination.",
+  "backend_vcs_invocations": 2,
+  "checks": {
+    "event_order_preserved": true,
+    "no_parameter_sweep": true,
+    "security_anchor_isolation": true,
+    "vcs_pass": true
+  },
+  "configurations": {
+    "A": {
+      "B_TRACK": 0,
+      "T_TRACK": 0
+    },
+    "B": {
+      "B_TRACK": 2,
+      "T_TRACK": 5
+    }
+  },
+  "final_track_reference_displacements": [
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41001,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41002,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41003,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -2,
+      "seed": 41004,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -2,
+      "seed": 41004,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41004,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41005,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41006,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41007,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41008,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41009,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41009,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41009,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41010,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41011,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41012,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41013,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41014,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41015,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41016,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41017,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41018,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41019,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41019,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41019,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41020,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41021,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41022,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -2,
+      "seed": 41023,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -2,
+      "seed": 41023,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41023,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41024,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41025,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41026,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": -1,
+      "seed": 41026,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41026,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 85
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41027,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41028,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41029,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": -40
+    },
+    {
+      "configuration": "A18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B18",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "A19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": 125
+    },
+    {
+      "configuration": "B19",
+      "fall_final_displacement": 0,
+      "rise_final_displacement": 0,
+      "seed": 41030,
+      "temperature_c": 125
+    }
+  ],
+  "gate": "BFE14_TEMP0_P5_TRACK0_PHYSICAL_REPLAY_CHARACTERIZED",
+  "rows": 1512,
+  "signed_alarm_unchanged_by_tracker": true,
+  "stale_snapshot_rejections": 0,
+  "status": "PASS",
+  "thresholds": [
+    18,
+    19
+  ],
+  "tracker_reduces_abs_pressure_in_any_block": false,
+  "tracker_rejection_accounting": {
+    "reason": "four idle clocks separate replay events; the trace has no overlapping event parcels",
+    "stale_snapshot_rejections": 0
+  }
+}

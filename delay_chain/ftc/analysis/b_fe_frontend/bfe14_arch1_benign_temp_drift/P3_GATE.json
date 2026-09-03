@@ -1,0 +1,13 @@
+{
+  "event_rows": 1440,
+  "full_85c_required": false,
+  "gate": "BFE14_TEMP0_P3_HEALTHY_PHYSICS_FROZEN",
+  "seed_count": 30,
+  "status": "PASS",
+  "stop_after_stage": true,
+  "temperatures_c": [
+    -40,
+    125
+  ],
+  "threshold_selection": false
+}

@@ -1,0 +1,497 @@
+{
+  "attack_runs": 0,
+  "capture_support_vcs_unique_runs": 60,
+  "full_85c_required": false,
+  "gate": "BFE14_TEMP0_P3_HEALTHY_PHYSICS_FROZEN",
+  "ledger": [
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41001/t_-040C/vcs_xa",
+      "mc_process_signature": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+      "seed": 41001,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41001/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41001/t_+125C/vcs_xa",
+      "mc_process_signature": "872f414712bc0a75e7e7e5db29cf2e9b43fab71f3535e8480ad882302177bc4d",
+      "seed": 41001,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41001/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41002/t_-040C/vcs_xa",
+      "mc_process_signature": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+      "seed": 41002,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41002/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41002/t_+125C/vcs_xa",
+      "mc_process_signature": "6dace8106119b4409b89fa9089489bb4a8a08408e2b4e60cc383a9ec26beb652",
+      "seed": 41002,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41002/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41003/t_-040C/vcs_xa",
+      "mc_process_signature": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+      "seed": 41003,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41003/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41003/t_+125C/vcs_xa",
+      "mc_process_signature": "633c1708c14f0ca327d366892321ebd783a5a158d0ca863392266115d27742d5",
+      "seed": 41003,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41003/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41004/t_-040C/vcs_xa",
+      "mc_process_signature": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+      "seed": 41004,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41004/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41004/t_+125C/vcs_xa",
+      "mc_process_signature": "8ba9c1a71d742bcb0f4b20065d63276a64bf8373f9edc9b9a83a1683806bbf23",
+      "seed": 41004,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41004/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41005/t_-040C/vcs_xa",
+      "mc_process_signature": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+      "seed": 41005,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41005/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41005/t_+125C/vcs_xa",
+      "mc_process_signature": "78ec35f87dabab08082cd50954fc18094bbb1de54b7d81418fdede92caa2bd1f",
+      "seed": 41005,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41005/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41006/t_-040C/vcs_xa",
+      "mc_process_signature": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+      "seed": 41006,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41006/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41006/t_+125C/vcs_xa",
+      "mc_process_signature": "696854591f8b714e22e7ead41c95225b4703902d0f6115afa40b4e6798fc3190",
+      "seed": 41006,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41006/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41007/t_-040C/vcs_xa",
+      "mc_process_signature": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+      "seed": 41007,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41007/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41007/t_+125C/vcs_xa",
+      "mc_process_signature": "18955488bf7a297b208b8a7f3cb70b618e6d9f7f0ea87e8f5651c30a4028ea92",
+      "seed": 41007,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41007/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41008/t_-040C/vcs_xa",
+      "mc_process_signature": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+      "seed": 41008,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41008/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41008/t_+125C/vcs_xa",
+      "mc_process_signature": "73462fedaeeab1ba2b4e0f816532d1795bdfb0f65eb930eb4a6a9f345c007502",
+      "seed": 41008,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41008/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41009/t_-040C/vcs_xa",
+      "mc_process_signature": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+      "seed": 41009,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41009/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41009/t_+125C/vcs_xa",
+      "mc_process_signature": "43df2a9a140ba65a4ec960d914267c160e0578006ff6a647af8d9c102036abb4",
+      "seed": 41009,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41009/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41010/t_-040C/vcs_xa",
+      "mc_process_signature": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+      "seed": 41010,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41010/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41010/t_+125C/vcs_xa",
+      "mc_process_signature": "ddd71eb247598986e0f2ee5fe98fc066deb22fc5aeae14f6fe1c618fa300fd86",
+      "seed": 41010,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41010/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41011/t_-040C/vcs_xa",
+      "mc_process_signature": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+      "seed": 41011,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41011/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41011/t_+125C/vcs_xa",
+      "mc_process_signature": "6252db7cb1622cbeb7291fbe24ce9935ed8e0f48a4e61dd2839e7bd3d74935c8",
+      "seed": 41011,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41011/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41012/t_-040C/vcs_xa",
+      "mc_process_signature": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+      "seed": 41012,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41012/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41012/t_+125C/vcs_xa",
+      "mc_process_signature": "caa6eaa24b7d8fb062e268de2061f42e98b43b32af13a1bd01456fbaa611f791",
+      "seed": 41012,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41012/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41013/t_-040C/vcs_xa",
+      "mc_process_signature": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+      "seed": 41013,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41013/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41013/t_+125C/vcs_xa",
+      "mc_process_signature": "9b0c0bba410a345ede4a4335782dc764c8c6190369dbbc90be44895674d4007a",
+      "seed": 41013,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41013/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41014/t_-040C/vcs_xa",
+      "mc_process_signature": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+      "seed": 41014,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41014/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41014/t_+125C/vcs_xa",
+      "mc_process_signature": "85c4986afe03b6b3e3a0333927ca56b67ae2d4f43ca257ea9c2829c307c54565",
+      "seed": 41014,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41014/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41015/t_-040C/vcs_xa",
+      "mc_process_signature": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+      "seed": 41015,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41015/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41015/t_+125C/vcs_xa",
+      "mc_process_signature": "d07f2cc08012711f31599693b7813c5f7b11252f75851a566fa826afc1f49b09",
+      "seed": 41015,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41015/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41016/t_-040C/vcs_xa",
+      "mc_process_signature": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+      "seed": 41016,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41016/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41016/t_+125C/vcs_xa",
+      "mc_process_signature": "8da7492d08f89c56aab6bbf8673d3aaeb15003e0163a7592f1fc1c7ab72b18ff",
+      "seed": 41016,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41016/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41017/t_-040C/vcs_xa",
+      "mc_process_signature": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+      "seed": 41017,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41017/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41017/t_+125C/vcs_xa",
+      "mc_process_signature": "f2b93d5ff1c3ba28cccfba450f6ea33efdad1cea9d8ad1c6cf167fd71751bd55",
+      "seed": 41017,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41017/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41018/t_-040C/vcs_xa",
+      "mc_process_signature": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+      "seed": 41018,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41018/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41018/t_+125C/vcs_xa",
+      "mc_process_signature": "f4f901fc83162b4a630f2e5760f01562402a733ac6ae5c0575d3c83d3a6dbb76",
+      "seed": 41018,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41018/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41019/t_-040C/vcs_xa",
+      "mc_process_signature": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+      "seed": 41019,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41019/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41019/t_+125C/vcs_xa",
+      "mc_process_signature": "fd0a0b5a62db110824da9ed6ded63e50260b11ce3e2857d8c0d5e1802b43acb5",
+      "seed": 41019,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41019/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41020/t_-040C/vcs_xa",
+      "mc_process_signature": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+      "seed": 41020,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41020/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41020/t_+125C/vcs_xa",
+      "mc_process_signature": "057b4f67032f525c904f4a6c0c293606789132adac5b5a8f442228cf5eee3f01",
+      "seed": 41020,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41020/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41021/t_-040C/vcs_xa",
+      "mc_process_signature": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+      "seed": 41021,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41021/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41021/t_+125C/vcs_xa",
+      "mc_process_signature": "2ce1fc0342bede38f029ca88fe66b503c962de181c40c98b0d1bea91c55b07b7",
+      "seed": 41021,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41021/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41022/t_-040C/vcs_xa",
+      "mc_process_signature": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+      "seed": 41022,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41022/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41022/t_+125C/vcs_xa",
+      "mc_process_signature": "0c7782e877ccf0bab7ce0e0137d86236866b6f7e0fa50dfc4be6dcdda05bfa5d",
+      "seed": 41022,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41022/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41023/t_-040C/vcs_xa",
+      "mc_process_signature": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+      "seed": 41023,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41023/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41023/t_+125C/vcs_xa",
+      "mc_process_signature": "84f87b94eb0649b56da2ef95989c7285f2d5646957fbbf6e040dcba60f04decb",
+      "seed": 41023,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41023/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41024/t_-040C/vcs_xa",
+      "mc_process_signature": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+      "seed": 41024,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41024/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41024/t_+125C/vcs_xa",
+      "mc_process_signature": "bedfc4ae8a4e4d2cc1e290e635b8811deb495565d982c25381bfbb314d16e19b",
+      "seed": 41024,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41024/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41025/t_-040C/vcs_xa",
+      "mc_process_signature": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+      "seed": 41025,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41025/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41025/t_+125C/vcs_xa",
+      "mc_process_signature": "f0b2949e77adbd5946f383bee01df953a1bfb187950354ff55523168360548dc",
+      "seed": 41025,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41025/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41026/t_-040C/vcs_xa",
+      "mc_process_signature": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+      "seed": 41026,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41026/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41026/t_+125C/vcs_xa",
+      "mc_process_signature": "e70f1d64563bbdab8af19e602b1e4e382a8d8fa09fc38105106fc9a6eb1f377b",
+      "seed": 41026,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41026/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41027/t_-040C/vcs_xa",
+      "mc_process_signature": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+      "seed": 41027,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41027/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41027/t_+125C/vcs_xa",
+      "mc_process_signature": "946dfa47654e4f0c03723f92a972e36befbeeebaba206d020eec60291d5f72dc",
+      "seed": 41027,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41027/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "reused_P2_scout"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41028/t_-040C/vcs_xa",
+      "mc_process_signature": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+      "seed": 41028,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41028/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41028/t_+125C/vcs_xa",
+      "mc_process_signature": "f8f31ed95a933b7a48bf1a4b7797af1cb9f079fc5d5614bd2571ddb35eaebc93",
+      "seed": 41028,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41028/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41029/t_-040C/vcs_xa",
+      "mc_process_signature": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+      "seed": 41029,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41029/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41029/t_+125C/vcs_xa",
+      "mc_process_signature": "fda09ea699b722b6216f33f143080294d948c5b5806d81a0b49c4f2b578991a0",
+      "seed": 41029,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41029/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41030/t_-040C/vcs_xa",
+      "mc_process_signature": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023",
+      "seed": 41030,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41030/t_-040C/source_hspice",
+      "temperature_c": -40,
+      "type": "new_hspice_plus_capture_support_vcs"
+    },
+    {
+      "capture_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41030/t_+125C/vcs_xa",
+      "mc_process_signature": "51313437e0071309e73daffa0a73fca3ce6ee3f665745e02742add2cb2ffa023",
+      "seed": 41030,
+      "source_run": "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/runs/b_fe_frontend/bfe14_arch1_benign_temp_drift/physical/seed_41030/t_+125C/source_hspice",
+      "temperature_c": 125,
+      "type": "new_hspice_plus_capture_support_vcs"
+    }
+  ],
+  "new_hspice_unique_runs": 54,
+  "reused_p2_runs": 6,
+  "reused_retained_25c": true,
+  "status": "PASS",
+  "temperatures_c": [
+    -40,
+    125
+  ],
+  "vdd_sweep_runs": 0
+}

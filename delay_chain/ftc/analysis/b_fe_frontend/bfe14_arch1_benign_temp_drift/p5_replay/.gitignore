@@ -1,0 +1,9 @@
+# P5 retains only reproducibility evidence: generated testbench, CSV trace,
+# and concise VCS compile/run logs. The following files are VCS-generated
+# binaries and compile caches; they remain task-local but are not source or
+# reviewable evidence, and are recreated by the documented P5 command.
+simv
+simv.daidir/
+csrc/
+ucli.key
+vc_hdrs.h

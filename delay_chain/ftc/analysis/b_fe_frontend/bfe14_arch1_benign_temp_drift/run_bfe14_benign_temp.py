@@ -293,7 +293,26 @@ def capture_case(seed, temperature_c):
     listing = source_dir / "source.lis"
     measures = source_dir / "source.mt0.csv"
     mc0 = source_dir / "source.mc0.csv"
-    if not (listing.is_file() and measures.is_file() and mc0.is_file()):
+    # A file's presence alone is not evidence that HSPICE reached the required
+    # Monte-Carlo sample.  In particular, the prior user-requested P3 stop can
+    # leave a syntactically valid ``.lis/.mt0/.mc0`` set whose listing records
+    # SIGINT before index 2 completed.  Only reuse a source result when all
+    # required files exist *and* the established clean-listing criteria hold.
+    # This keeps resume behavior deterministic: an interrupted case is rerun
+    # with the identical frozen seed, healthy stimulus, 1.10 V rail, and .temp.
+    source_ready = False
+    if listing.is_file() and measures.is_file() and mc0.is_file():
+        listing_text = listing.read_text(encoding="ascii", errors="replace").lower()
+        source_ready = ("job concluded" in listing_text and
+                        "monte carlo simulation is detected" in listing_text and
+                        "**error**" not in listing_text)
+    if not source_ready:
+        # Preserve the interrupted listing as task-local forensic evidence
+        # before HSPICE replaces the ``source.*`` output stem on this retry.
+        # The copy is intentionally limited to this exact case directory; no
+        # healthy result from another seed or temperature is modified.
+        if listing.is_file() and not source_ready:
+            shutil.copyfile(listing, source_dir / "source_interrupted_prior.lis")
         result = subprocess.run([hspice, "source.sp", "-o", "source"], cwd=source_dir,
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                 universal_newlines=True, check=False, timeout=3600)
@@ -457,6 +476,49 @@ def write_event_csv(path, rows):
         writer.writerows(rows)
 
 
+def p4_p5_physical_rows():
+    """Return each frozen non-nominal physical event exactly once.
+
+    P3 owns the complete -40 C/125 C population.  P2 additionally owns the
+    three-seed 85 C interior scout because its frozen decision did not require
+    a full 85 C population.  Keeping those streams separate during collection
+    prevents P2's endpoint rows from being replayed twice, while including the
+    sole valid interior evidence in both the offline audit and RTL replay.
+    """
+    rows = []
+    with (ROOT / "BFE14_HEALTHY_TEMP_PER_EVENT.csv").open(newline="", encoding="ascii") as stream:
+        rows.extend(csv.DictReader(stream))
+    with (ROOT / "P2_SCOUT_PER_EVENT.csv").open(newline="", encoding="ascii") as stream:
+        rows.extend(row for row in csv.DictReader(stream) if int(row["temperature_c"]) == 85)
+    seen = set()
+    for row in rows:
+        key = (int(row["seed"]), int(row["temperature_c"]), int(row["event_index"]))
+        if key in seen:
+            raise RuntimeError("duplicate physical event in P4/P5 source: {}".format(key))
+        seen.add(key)
+    return rows
+
+
+def integer_distribution(values):
+    """Summarize integer residuals without importing an analysis dependency.
+
+    The frozen reports need transparent descriptive statistics rather than a
+    parameter optimizer.  Nearest-rank p95 and the median make the residual
+    distribution auditable while retaining every individual value in CSV.
+    """
+    ordered = sorted(int(value) for value in values)
+    if not ordered:
+        return {"count": 0, "min": 0, "median": 0, "p95": 0, "max": 0}
+    middle = len(ordered) // 2
+    if len(ordered) % 2:
+        median = ordered[middle]
+    else:
+        median = (ordered[middle - 1] + ordered[middle]) / 2.0
+    p95_index = int(math.ceil(0.95 * len(ordered))) - 1
+    return {"count": len(ordered), "min": ordered[0], "median": median,
+            "p95": ordered[p95_index], "max": ordered[-1]}
+
+
 def p2():
     """Run the three-seed endpoint/interior temperature scout."""
     # Re-read the P1 section before any physical call, as required by the plan.
@@ -528,6 +590,17 @@ def p3():
     p2_summary = read_json(ROOT / "P2_SCOUT_SUMMARY.json")
     full_85c = bool(p2_summary["full_85c_required"])
     temperatures = [-40, 125] + ([85] if full_85c else [])
+    jobs = []
+    for seed in SEEDS:
+        for temperature_c in temperatures:
+            case_json = RUN_ROOT / "physical" / "seed_{:05d}".format(seed) / "t_{:+04d}C".format(temperature_c) / "CASE.json"
+            if not case_json.is_file():
+                jobs.append((seed, temperature_c))
+    # Keep the P3 budget unchanged while using the same two-worker pattern as
+    # P2. Existing P2 scout cases are never submitted to the pool again.
+    if jobs:
+        with mp.Pool(processes=2) as pool:
+            pool.map(capture_job, jobs)
     all_rows = []
     ledger = []
     for seed in SEEDS:
@@ -535,7 +608,13 @@ def p3():
             case_json = RUN_ROOT / "physical" / "seed_{:05d}".format(seed) / "t_{:+04d}C".format(temperature_c) / "CASE.json"
             if case_json.is_file():
                 payload = read_json(case_json)
-                reuse_type = "reused_P2_scout"
+                # Only the three frozen scout seeds were physically completed
+                # before P3.  All later endpoint cases are new P3 captures,
+                # even though a resumed P3 invocation simply reuses their
+                # already validated task-local CASE.json evidence.
+                reuse_type = ("reused_P2_scout" if seed in
+                              read_json(ROOT / "P1_SCOUT_SEEDS.json")["scout_seeds"]
+                              else "new_hspice_plus_capture_support_vcs")
             else:
                 payload = capture_case(seed, temperature_c)
                 reuse_type = "new_hspice_plus_capture_support_vcs"
@@ -568,6 +647,7 @@ def p3():
         "temperatures_c": temperatures, "full_85c_required": full_85c,
         "new_hspice_unique_runs": sum(item["type"] == "new_hspice_plus_capture_support_vcs" for item in ledger),
         "reused_p2_runs": sum(item["type"] == "reused_P2_scout" for item in ledger),
+        "capture_support_vcs_unique_runs": len(ledger),
         "reused_retained_25c": True, "attack_runs": 0, "vdd_sweep_runs": 0,
         "ledger": ledger,
     })
@@ -585,9 +665,7 @@ def p4():
     p3_gate = read_json(ROOT / "P3_GATE.json")
     if p3_gate.get("status") != "PASS":
         raise RuntimeError("P3 physical data are not frozen")
-    source_rows = []
-    with (ROOT / "BFE14_HEALTHY_TEMP_PER_EVENT.csv").open(newline="", encoding="ascii") as stream:
-        source_rows = list(csv.DictReader(stream))
+    source_rows = p4_p5_physical_rows()
     audit_rows = []
     for row in source_rows:
         m_ff = int(row["M_FF"])
@@ -626,6 +704,14 @@ def p4():
             "outside_T_TRACK_5_count": sum(row["outside_T_TRACK_5"] for row in current),
             "outside_B_TRACK_2_count": sum(row["outside_B_TRACK_2"] for row in current),
             "max_abs_temperature_displacement": max(int(row["D_anchor"]) for row in current),
+            "median_abs_temperature_displacement": integer_distribution(
+                [row["D_anchor"] for row in current])["median"],
+            "affected_signed_alarm_18_seed_events": [
+                {"seed": row["seed"], "event_index": row["event_index"]} for row in rise
+                if row["signed_alarm_18"]],
+            "affected_signed_alarm_19_seed_events": [
+                {"seed": row["seed"], "event_index": row["event_index"]} for row in rise
+                if row["signed_alarm_19"]],
         }
     anchor_conflict = any(row["signed_alarm_18"] or row["signed_alarm_19"] for row in audit_rows)
     max_displacement = max([int(row["D_anchor"]) for row in audit_rows] or [0])
@@ -641,10 +727,18 @@ def p4():
     p2_summary = read_json(ROOT / "P2_SCOUT_SUMMARY.json")
     if p2_summary.get("decision_basis", {}).get("nonmonotonic_85c"):
         classes.append("TEMPERATURE_RESPONSE_NONMONOTONIC_NEEDS_MORE_CHARACTERIZATION")
+    conflict_temperatures = [temp for temp in temperatures if
+                             by_temp[str(temp)]["healthy_signed_alarm_18"] or
+                             by_temp[str(temp)]["healthy_signed_alarm_19"]]
     summary = {"gate": "BFE14_TEMP0_P4_DUAL_REFERENCE_CHARACTERIZED", "status": "PASS",
                "thresholds_evaluated": [18, 19], "margins": {"RISE": 22, "FALL": 24},
                "tracking_probe": {"T_TRACK": 5, "B_TRACK": 2, "classification": "DIRECTED_TEST_ONLY"},
                "event_count": len(audit_rows), "by_temperature": by_temp,
+               "temperature_displacement_distribution": integer_distribution(
+                   [row["D_anchor"] for row in audit_rows]),
+               "conflict_temperatures_c": conflict_temperatures,
+               "first_conflict_location": ("85C_scout_interior" if 85 in conflict_temperatures
+                                           else "endpoint_only" if conflict_temperatures else "none"),
                "interpretation_classes": classes, "simulator_count": 0}
     write_json(ROOT / "P4_DUAL_REFERENCE_SUMMARY.json", summary)
     (ROOT / "P4_DUAL_REFERENCE_REPORT.md").write_text(
@@ -656,8 +750,19 @@ def p4():
         "Margins remain 22/24. The values T_TRACK=5 and B_TRACK=2 are reported only "
         "as the BFE13 directed-test probe. Machine-readable per-event values and "
         "temperature aggregates are in the accompanying CSV/JSON.\n\n"
+        "Observed event rows: {} (endpoint population plus retained 85 C scout). "
+        "Conflict location: {}.\n\n"
+        "-40 C: signed alarms at 18/19 = {}/{}; startup ABS pressure = {}.\n"
+        "85 C scout: signed alarms at 18/19 = {}/{}; startup ABS pressure = {}.\n"
+        "125 C: signed alarms at 18/19 = {}/{}; startup ABS pressure = {}.\n\n"
         "Interpretation classes: {}\n\nSimulation accounting: HSPICE=0, VCS=0.\n".format(
-            ", ".join(classes)), encoding="ascii")
+            len(audit_rows), summary["first_conflict_location"],
+            by_temp["-40"]["healthy_signed_alarm_18"], by_temp["-40"]["healthy_signed_alarm_19"],
+            by_temp["-40"]["startup_abs_alarm_count"],
+            by_temp["85"]["healthy_signed_alarm_18"], by_temp["85"]["healthy_signed_alarm_19"],
+            by_temp["85"]["startup_abs_alarm_count"],
+            by_temp["125"]["healthy_signed_alarm_18"], by_temp["125"]["healthy_signed_alarm_19"],
+            by_temp["125"]["startup_abs_alarm_count"], ", ".join(classes)), encoding="ascii")
 
 
 def sv_literal(value):
@@ -728,23 +833,34 @@ def build_p5_testbench(rows, calibrations):
         "        input integer seed_value; input integer temperature_value; input integer index_value;",
         "        input integer m_value; input integer polarity_value; input integer margin_value;",
         "        input integer calibration_value;",
-        "        integer before_ar; integer before_af; integer before_br; integer before_bf;",
-        "        integer after_ar; integer after_af; integer after_br; integer after_bf;",
+        "        // Every mutable reference is sampled separately.  The explicit",
+        "        // A18/B18/A19/B19 names prevent either diagnostic threshold",
+        "        // subcase from being inferred from a different controller state.",
+        "        integer before_a18_r; integer before_a18_f; integer before_b18_r; integer before_b18_f;",
+        "        integer before_a19_r; integer before_a19_f; integer before_b19_r; integer before_b19_f;",
+        "        integer after_a18_r; integer after_a18_f; integer after_b18_r; integer after_b18_f;",
+        "        integer after_a19_r; integer after_a19_f; integer after_b19_r; integer after_b19_f;",
         "        begin",
-        "            before_ar=u_a18.m_ref_track_rise_q; before_af=u_a18.m_ref_track_fall_q;",
-        "            before_br=u_b18.m_ref_track_rise_q; before_bf=u_b18.m_ref_track_fall_q;",
+        "            before_a18_r=u_a18.m_ref_track_rise_q; before_a18_f=u_a18.m_ref_track_fall_q;",
+        "            before_b18_r=u_b18.m_ref_track_rise_q; before_b18_f=u_b18.m_ref_track_fall_q;",
+        "            before_a19_r=u_a19.m_ref_track_rise_q; before_a19_f=u_a19.m_ref_track_fall_q;",
+        "            before_b19_r=u_b19.m_ref_track_rise_q; before_b19_f=u_b19.m_ref_track_fall_q;",
         "            m_ff=m_value[8:0]; edge_pol=polarity_value[0]; cal_mode=calibration_value[0];",
         "            margin_rise=(!polarity_value && !calibration_value) ? margin_value[8:0] : 9'd0;",
         "            margin_fall=(polarity_value && !calibration_value) ? margin_value[8:0] : 9'd0;",
         "            event_valid=1'b1; clock_once(); event_valid=1'b0;",
         "            clock_once(); clock_once(); clock_once();",
-        "            after_ar=u_a18.m_ref_track_rise_q; after_af=u_a18.m_ref_track_fall_q;",
-        "            after_br=u_b18.m_ref_track_rise_q; after_bf=u_b18.m_ref_track_fall_q;",
+        "            after_a18_r=u_a18.m_ref_track_rise_q; after_a18_f=u_a18.m_ref_track_fall_q;",
+        "            after_b18_r=u_b18.m_ref_track_rise_q; after_b18_f=u_b18.m_ref_track_fall_q;",
+        "            after_a19_r=u_a19.m_ref_track_rise_q; after_a19_f=u_a19.m_ref_track_fall_q;",
+        "            after_b19_r=u_b19.m_ref_track_rise_q; after_b19_f=u_b19.m_ref_track_fall_q;",
         "            $fwrite(fd," +
-        "\"%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d\\n\",",
+        "\"%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d,%0d\\n\",",
         "                seed_value,temperature_value,index_value,polarity_value,m_value,calibration_value,",
         "                alarm_a18,alarm_b18,alarm_a19,alarm_b19,sticky_a18,sticky_b18,",
-        "                before_ar,before_af,before_br,before_bf,after_ar,after_af,after_br,after_bf,",
+        "                sticky_a19,sticky_b19,before_a18_r,before_a18_f,before_b18_r,before_b18_f,",
+        "                before_a19_r,before_a19_f,before_b19_r,before_b19_f,after_a18_r,after_a18_f,",
+        "                after_b18_r,after_b18_f,after_a19_r,after_a19_f,after_b19_r,after_b19_f,",
         "                lock_a18,lock_b18,lock_a19,lock_b19,event_count);",
         "            event_count=event_count+1;",
         "        end",
@@ -755,7 +871,7 @@ def build_p5_testbench(rows, calibrations):
         "        m_ff=9'd0; margin_rise=9'd0; margin_fall=9'd0; t18=9'd18; t19=9'd19;",
         "        block_count=0; event_count=0; fd=$fopen(\"P5_VCS_EVENT_TRACE.csv\",\"w\");",
         "        if (fd==0) $fatal(1,\"P5 trace file could not be opened\");",
-        "        $fwrite(fd,\"seed,temperature_c,event_index,polarity,m_ff,calibration,alarm_a18,alarm_b18,alarm_a19,alarm_b19,sticky_a18,sticky_b18,before_a_rise,before_a_fall,before_b_rise,before_b_fall,after_a_rise,after_a_fall,after_b_rise,after_b_fall,lock_a18,lock_b18,lock_a19,lock_b19,event_count\\n\");",
+        "        $fwrite(fd,\"seed,temperature_c,event_index,polarity,m_ff,calibration,alarm_a18,alarm_b18,alarm_a19,alarm_b19,sticky_a18,sticky_b18,sticky_a19,sticky_b19,before_a18_rise,before_a18_fall,before_b18_rise,before_b18_fall,before_a19_rise,before_a19_fall,before_b19_rise,before_b19_fall,after_a18_rise,after_a18_fall,after_b18_rise,after_b18_fall,after_a19_rise,after_a19_fall,after_b19_rise,after_b19_fall,lock_a18,lock_b18,lock_a19,lock_b19,event_count\\n\");",
         "        #1; reset=1'b0;",
     ]
     current_key = None
@@ -796,9 +912,7 @@ def p5():
     p4_summary = read_json(ROOT / "P4_DUAL_REFERENCE_SUMMARY.json")
     if p4_summary.get("status") != "PASS":
         raise RuntimeError("P4 audit is not frozen")
-    rows = []
-    with (ROOT / "BFE14_HEALTHY_TEMP_PER_EVENT.csv").open(newline="", encoding="ascii") as stream:
-        rows = list(csv.DictReader(stream))
+    rows = p4_p5_physical_rows()
     calibrations = {}
     for seed in SEEDS:
         refs = startup_refs(seed)
@@ -810,68 +924,100 @@ def p5():
     vcs = shutil.which("vcs") or "/home/synopsys/vcs/W-2024.09/bin/vcs"
     if not Path(vcs).is_file():
         raise RuntimeError("VCS W-2024.09 is unavailable")
-    compile_result = subprocess.run(
-        [vcs, "-full64", "-sverilog", "-timescale=1ns/1ps", "-debug_access+all", "-o", "simv",
-         str(tb), str(FTC_ROOT / "rtl" / "bfe_backend_ctrl_arch1_track0.sv")],
-        cwd=p5_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-        universal_newlines=True, check=False, timeout=1800)
-    (p5_dir / "compile.log").write_text(compile_result.stdout, encoding="ascii", errors="replace")
-    if compile_result.returncode:
-        raise RuntimeError("P5 VCS compile failed")
-    run_result = subprocess.run(["./simv"], cwd=p5_dir, stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT, universal_newlines=True,
-                                check=False, timeout=3600)
-    (p5_dir / "run.log").write_text(run_result.stdout, encoding="ascii", errors="replace")
-    if run_result.returncode:
-        raise RuntimeError("P5 VCS regression failed")
     trace_path = p5_dir / "P5_VCS_EVENT_TRACE.csv"
+    # Preserve the one fixed scientific regression on resume.  Once a valid
+    # trace with the expected physical/calibration row count exists, later
+    # report-only invocations parse that trace rather than spending another
+    # backend VCS run.  This is particularly important because P5 authorizes
+    # no parameter or stimulus sweep.
+    trace_ready = trace_path.is_file() and (p5_dir / "run.log").is_file()
+    if trace_ready:
+        trace_ready = "BFE14_TRACK0_P5_VCS_PASS" in (p5_dir / "run.log").read_text(
+            encoding="ascii", errors="replace")
+    if not trace_ready:
+        compile_result = subprocess.run(
+            [vcs, "-full64", "-sverilog", "-timescale=1ns/1ps", "-debug_access+all", "-o", "simv",
+             str(tb), str(FTC_ROOT / "rtl" / "bfe_backend_ctrl_arch1_track0.sv")],
+            cwd=p5_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            universal_newlines=True, check=False, timeout=1800)
+        (p5_dir / "compile.log").write_text(compile_result.stdout, encoding="ascii", errors="replace")
+        if compile_result.returncode:
+            raise RuntimeError("P5 VCS compile failed")
+        run_result = subprocess.run(["./simv"], cwd=p5_dir, stdout=subprocess.PIPE,
+                                    stderr=subprocess.STDOUT, universal_newlines=True,
+                                    check=False, timeout=3600)
+        (p5_dir / "run.log").write_text(run_result.stdout, encoding="ascii", errors="replace")
+        if run_result.returncode:
+            raise RuntimeError("P5 VCS regression failed")
     if not trace_path.is_file():
         raise RuntimeError("P5 VCS trace is missing")
     trace = list(csv.DictReader(trace_path.open(newline="", encoding="ascii")))
-    if len(trace) != len(rows) + 8 * len(SEEDS):
+    block_count = len({(int(row["seed"]), int(row["temperature_c"])) for row in rows})
+    if len(trace) != len(rows) + 8 * block_count:
         raise RuntimeError("P5 trace count includes unexpected calibration/event rows")
     # Discard calibration rows and keep the physical event rows in the required result file.
     physical = [row for row in trace if int(row["calibration"]) == 0]
     if len(physical) != len(rows):
         raise RuntimeError("P5 physical event row count mismatch")
+    # Keep all four replay instances distinct in the evidence.  A/B selects
+    # tracker configuration; 18/19 selects the frozen security comparator.
+    configs = ("a18", "b18", "a19", "b19")
     result_fields = ["seed", "temperature_c", "event_index", "polarity", "M_FF",
-                     "alarm_a18", "alarm_b18", "alarm_a19", "alarm_b19",
-                     "sticky_a18", "sticky_b18", "before_a_rise", "before_a_fall",
-                     "before_b_rise", "before_b_fall", "after_a_rise", "after_a_fall",
-                     "after_b_rise", "after_b_fall", "M_REF_STARTUP_RISE",
-                     "M_REF_STARTUP_FALL", "D_track_a", "D_track_b",
-                     "abs_alarm_a", "abs_alarm_b", "signed_alarm_18", "signed_alarm_19"]
+                     "M_REF_STARTUP_RISE", "M_REF_STARTUP_FALL",
+                     "signed_alarm_18", "signed_alarm_19"]
+    for config_name in configs:
+        result_fields += ["alarm_{}".format(config_name), "sticky_{}".format(config_name),
+                          "before_{}_rise".format(config_name), "before_{}_fall".format(config_name),
+                          "after_{}_rise".format(config_name), "after_{}_fall".format(config_name),
+                          "D_track_{}".format(config_name), "abs_alarm_{}".format(config_name),
+                          "tracker_update_{}".format(config_name)]
     result_rows = []
     for source, observed in zip(rows, physical):
         seed = int(source["seed"]); temperature_c = int(source["temperature_c"])
         polarity = source["polarity"]; m_ff = int(source["M_FF"])
         refs = startup_refs(seed)
-        selected_a = int(observed["before_a_rise"] if polarity == "RISE" else observed["before_a_fall"])
-        selected_b = int(observed["before_b_rise"] if polarity == "RISE" else observed["before_b_fall"])
         margin = 22 if polarity == "RISE" else 24
         signed18 = int(polarity == "RISE" and m_ff - refs["rise"] > 18)
         signed19 = int(polarity == "RISE" and m_ff - refs["rise"] > 19)
-        result_rows.append({
+        item = {
             "seed": seed, "temperature_c": temperature_c, "event_index": int(source["event_index"]),
             "polarity": polarity, "M_FF": m_ff,
-            "alarm_a18": int(observed["alarm_a18"]), "alarm_b18": int(observed["alarm_b18"]),
-            "alarm_a19": int(observed["alarm_a19"]), "alarm_b19": int(observed["alarm_b19"]),
-            "sticky_a18": int(observed["sticky_a18"]), "sticky_b18": int(observed["sticky_b18"]),
-            "before_a_rise": int(observed["before_a_rise"]), "before_a_fall": int(observed["before_a_fall"]),
-            "before_b_rise": int(observed["before_b_rise"]), "before_b_fall": int(observed["before_b_fall"]),
-            "after_a_rise": int(observed["after_a_rise"]), "after_a_fall": int(observed["after_a_fall"]),
-            "after_b_rise": int(observed["after_b_rise"]), "after_b_fall": int(observed["after_b_fall"]),
             "M_REF_STARTUP_RISE": refs["rise"], "M_REF_STARTUP_FALL": refs["fall"],
-            "D_track_a": abs(m_ff - selected_a), "D_track_b": abs(m_ff - selected_b),
-            "abs_alarm_a": int(abs(m_ff - selected_a) > margin),
-            "abs_alarm_b": int(abs(m_ff - selected_b) > margin),
             "signed_alarm_18": signed18, "signed_alarm_19": signed19,
-        })
+        }
+        for config_name in configs:
+            selected = int(observed["before_{}_rise".format(config_name)] if polarity == "RISE"
+                           else observed["before_{}_fall".format(config_name)])
+            after = int(observed["after_{}_rise".format(config_name)] if polarity == "RISE"
+                        else observed["after_{}_fall".format(config_name)])
+            item.update({
+                "alarm_{}".format(config_name): int(observed["alarm_{}".format(config_name)]),
+                "sticky_{}".format(config_name): int(observed["sticky_{}".format(config_name)]),
+                "before_{}_rise".format(config_name): int(observed["before_{}_rise".format(config_name)]),
+                "before_{}_fall".format(config_name): int(observed["before_{}_fall".format(config_name)]),
+                "after_{}_rise".format(config_name): int(observed["after_{}_rise".format(config_name)]),
+                "after_{}_fall".format(config_name): int(observed["after_{}_fall".format(config_name)]),
+                "D_track_{}".format(config_name): abs(m_ff - selected),
+                "abs_alarm_{}".format(config_name): int(abs(m_ff - selected) > margin),
+                # The E8 commit is aligned to an earlier parcel.  It can be
+                # observed while the next externally driven event has the
+                # opposite polarity, so accepted-update evidence compares
+                # both mutable references rather than only ``selected``.
+                "tracker_update_{}".format(config_name): int(
+                    int(observed["after_{}_rise".format(config_name)]) !=
+                    int(observed["before_{}_rise".format(config_name)]) or
+                    int(observed["after_{}_fall".format(config_name)]) !=
+                    int(observed["before_{}_fall".format(config_name)])),
+            })
+        result_rows.append(item)
     with (ROOT / "P5_TRACK0_REPLAY_RESULTS.csv").open("w", newline="", encoding="ascii") as stream:
         writer = csv.DictWriter(stream, fieldnames=result_fields, lineterminator="\n")
         writer.writeheader(); writer.writerows(result_rows)
     summary = {"gate": "BFE14_TEMP0_P5_TRACK0_PHYSICAL_REPLAY_CHARACTERIZED", "status": "PASS",
-               "backend_scientific_vcs_regressions": 1, "rows": len(result_rows),
+               "backend_scientific_vcs_regressions": 1,
+               "backend_vcs_invocations": 2,
+               "backend_vcs_invocation_note": "Two identical fixed-config invocations occurred while correcting trace accounting; they are one unique scientific regression with no new physical input or parameter combination.",
+               "rows": len(result_rows),
                "configurations": {"A": {"T_TRACK": 0, "B_TRACK": 0},
                                   "B": {"T_TRACK": 5, "B_TRACK": 2}},
                "thresholds": [18, 19], "stale_snapshot_rejections": 0,
@@ -879,17 +1025,46 @@ def p5():
                            "security_anchor_isolation": True, "no_parameter_sweep": True}}
     for name, prefix in (("A18", "a18"), ("B18", "b18"), ("A19", "a19"), ("B19", "b19")):
         alarm_key = "alarm_{}".format(prefix)
+        signed_key = "signed_alarm_18" if name.endswith("18") else "signed_alarm_19"
+        candidate_rows = [row for row in result_rows
+                          if not row[alarm_key] and 0 < row["D_track_{}".format(prefix)] <= T_TRACK_PROBE]
+        updates = sum(row["tracker_update_{}".format(prefix)] for row in result_rows)
         summary[name] = {
             "combined_alarm_count": sum(row[alarm_key] for row in result_rows),
-            "abs_alarm_count": sum(row["abs_alarm_{}".format("a" if prefix.startswith("a") else "b")] for row in result_rows),
-            "signed_alarm_count": sum(row["signed_alarm_18" if name.endswith("18") else "signed_alarm_19"] for row in result_rows),
-            "accepted_tracker_updates": sum(
-                (row["after_a_rise"] != row["before_a_rise"] or row["after_a_fall"] != row["before_a_fall"])
-                if prefix.startswith("a") else
-                (row["after_b_rise"] != row["before_b_rise"] or row["after_b_fall"] != row["before_b_fall"])
-                for row in result_rows),
-            "max_D_track": max(row["D_track_a" if prefix.startswith("a") else "D_track_b"] for row in result_rows),
+            "abs_only_alarm_count": sum(row["abs_alarm_{}".format(prefix)] and not row[signed_key]
+                                        for row in result_rows),
+            "signed_rise_only_alarm_count": sum(not row["abs_alarm_{}".format(prefix)] and row[signed_key]
+                                                 for row in result_rows),
+            "signed_rise_alarm_count": sum(row[signed_key] for row in result_rows),
+            "accepted_tracker_updates": updates,
+            "candidate_events_without_commit": len(candidate_rows) - updates,
+            "candidate_event_definition": "no E7 alarm and 0<D_track<=5 before E8; a non-commit may be first persistence observation or bound/sticky rejection",
+            "residual_D_track_distribution": integer_distribution(
+                [row["D_track_{}".format(prefix)] for row in result_rows]),
         }
+    final_refs = []
+    for seed, temperature_c in sorted({(row["seed"], row["temperature_c"]) for row in result_rows}):
+        block_rows = [row for row in result_rows if row["seed"] == seed and row["temperature_c"] == temperature_c]
+        final_row = block_rows[-1]
+        refs = startup_refs(seed)
+        for prefix in configs:
+            final_refs.append({"configuration": prefix.upper(), "seed": seed, "temperature_c": temperature_c,
+                               "rise_final_displacement": final_row["after_{}_rise".format(prefix)] - refs["rise"],
+                               "fall_final_displacement": final_row["after_{}_fall".format(prefix)] - refs["fall"]})
+    summary["final_track_reference_displacements"] = final_refs
+    summary["tracker_rejection_accounting"] = {
+        "stale_snapshot_rejections": 0,
+        "reason": "four idle clocks separate replay events; the trace has no overlapping event parcels",
+    }
+    summary["tracker_reduces_abs_pressure_in_any_block"] = any(
+        sum(row["abs_alarm_b18"] for row in result_rows if row["seed"] == seed and row["temperature_c"] == temp) <
+        sum(row["abs_alarm_a18"] for row in result_rows if row["seed"] == seed and row["temperature_c"] == temp)
+        for seed, temp in {(row["seed"], row["temperature_c"]) for row in result_rows})
+    summary["signed_alarm_unchanged_by_tracker"] = all(
+        row["alarm_a18"] == row["alarm_b18"] or
+        row["signed_alarm_18"] == 0 for row in result_rows) and all(
+        row["alarm_a19"] == row["alarm_b19"] or
+        row["signed_alarm_19"] == 0 for row in result_rows)
     write_json(ROOT / "P5_TRACK0_REPLAY_SUMMARY.json", summary)
 
 
@@ -902,6 +1077,8 @@ def p6():
         if not (ROOT / name).is_file():
             raise RuntimeError("missing required stage artifact: {}".format(name))
     p4_summary = read_json(ROOT / "P4_DUAL_REFERENCE_SUMMARY.json")
+    p5_summary = read_json(ROOT / "P5_TRACK0_REPLAY_SUMMARY.json")
+    p3_ledger = read_json(ROOT / "BFE14_HEALTHY_TEMP_PHYSICAL_LEDGER.json")
     if "SECURITY_ANCHOR_HEALTHY_CONFLICT_OBSERVED" in p4_summary["interpretation_classes"]:
         next_stage = "TRUSTED-ANCHOR-MANAGEMENT / REBASE0 architecture study"
     elif "BFE13_TEST_TRACK_WINDOW_TOO_NARROW" in p4_summary["interpretation_classes"]:
@@ -915,6 +1092,25 @@ def p6():
     report += "PVT, silicon, aging, poisoning, OPP/rebase, or physical Level-0 signoff.\n\n"
     report += "P4 interpretation classes: {}\n\n".format(
         ", ".join(p4_summary["interpretation_classes"]))
+    report += "Observed physical event rows: {} (P3 endpoints=1440; P2 85 C scout=72). " \
+              "P3 unique endpoint runs: {} new + {} reused P2.\n\n".format(
+                  p4_summary["event_count"], p3_ledger["new_hspice_unique_runs"],
+                  p3_ledger["reused_p2_runs"])
+    report += "Anchor audit: -40 C signed18/signed19={}/{}, 85 C scout={}/{}, " \
+              "125 C={}/{}. The first observed conflict is {}.\n\n".format(
+                  p4_summary["by_temperature"]["-40"]["healthy_signed_alarm_18"],
+                  p4_summary["by_temperature"]["-40"]["healthy_signed_alarm_19"],
+                  p4_summary["by_temperature"]["85"]["healthy_signed_alarm_18"],
+                  p4_summary["by_temperature"]["85"]["healthy_signed_alarm_19"],
+                  p4_summary["by_temperature"]["125"]["healthy_signed_alarm_18"],
+                  p4_summary["by_temperature"]["125"]["healthy_signed_alarm_19"],
+                  p4_summary["first_conflict_location"])
+    report += "P5 fixed A/B replay: B18/B19 accepted {} / {} tracker updates; " \
+              "ABS pressure reduced in any block={}; signed-anchor isolation={}.\n\n".format(
+                  p5_summary["B18"]["accepted_tracker_updates"],
+                  p5_summary["B19"]["accepted_tracker_updates"],
+                  p5_summary["tracker_reduces_abs_pressure_in_any_block"],
+                  p5_summary["signed_alarm_unchanged_by_tracker"])
     report += "Next candidate direction: {}\n\n".format(next_stage)
     report += "No threshold, tracker parameter, startup calibration, security anchor, "
     report += "frontend, waveform, or RTL was retuned in BFE14.\n"
@@ -929,6 +1125,16 @@ def p6():
                         "P5": "BFE14_TEMP0_P5_TRACK0_PHYSICAL_REPLAY_CHARACTERIZED"},
         "prohibited_campaigns": {"droop": 0, "vdd_sweep": 0, "corner_matrix": 0,
                                  "aging": 0, "opp_rebase": 0, "threshold_sweep": 0},
+        "simulation_accounting": {
+            "p2_hspice_unique_runs": 9,
+            "p2_capture_support_vcs_runs": 9,
+            "p3_endpoint_hspice_unique_runs": p3_ledger["new_hspice_unique_runs"],
+            "p3_endpoint_reused_p2_runs": p3_ledger["reused_p2_runs"],
+            "p3_endpoint_capture_support_vcs_unique_runs": p3_ledger["capture_support_vcs_unique_runs"],
+            "retained_25c_reruns": 0,
+            "backend_scientific_unique_regressions": p5_summary["backend_scientific_vcs_regressions"],
+            "backend_vcs_invocations": p5_summary["backend_vcs_invocations"],
+        },
         "next_stage": next_stage,
     })
     write_json(ROOT / "BFE14_BENIGN_TEMP_GATE.json", {

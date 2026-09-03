@@ -1,0 +1,31 @@
+{
+  "gate": "BFE14_ARCH1_BENIGN_TEMP_DRIFT_CHARACTERIZED",
+  "next_stage": "TRUSTED-ANCHOR-MANAGEMENT / REBASE0 architecture study",
+  "prohibited_campaigns": {
+    "aging": 0,
+    "corner_matrix": 0,
+    "droop": 0,
+    "opp_rebase": 0,
+    "threshold_sweep": 0,
+    "vdd_sweep": 0
+  },
+  "simulation_accounting": {
+    "backend_scientific_unique_regressions": 1,
+    "backend_vcs_invocations": 2,
+    "p2_capture_support_vcs_runs": 9,
+    "p2_hspice_unique_runs": 9,
+    "p3_endpoint_capture_support_vcs_unique_runs": 60,
+    "p3_endpoint_hspice_unique_runs": 54,
+    "p3_endpoint_reused_p2_runs": 6,
+    "retained_25c_reruns": 0
+  },
+  "stage_gates": {
+    "P0": "BFE14_TEMP0_P0_AUTHORITIES_AND_ARCH1_STATUS_FROZEN",
+    "P1": "BFE14_TEMP0_P1_STIMULUS_AND_REUSE_FROZEN",
+    "P2": "BFE14_TEMP0_P2_SCOUT_VALID",
+    "P3": "BFE14_TEMP0_P3_HEALTHY_PHYSICS_FROZEN",
+    "P4": "BFE14_TEMP0_P4_DUAL_REFERENCE_CHARACTERIZED",
+    "P5": "BFE14_TEMP0_P5_TRACK0_PHYSICAL_REPLAY_CHARACTERIZED"
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,10 @@
+Chronologic VCS simulator copyright 1991-2024
+Contains Synopsys proprietary information.
+Compiler version W-2024.09_Full64; Runtime version W-2024.09_Full64;  Sep  3 04:57 2026
+BFE14_TRACK0_P5_VCS_PASS
+$finish called from file "/home/zhupl25/chiplet_side_channel/chiplet_gds_data/power_macro/delay_chain/ftc/analysis/b_fe_frontend/bfe14_arch1_benign_temp_drift/p5_replay/tb_bfe14_track0_physical_replay.sv", line 2242.
+$finish at simulation time             16192000
+           V C S   S i m u l a t i o n   R e p o r t
+Time: 16192000 ps
+CPU Time:      0.760 seconds;       Data structure size:   0.0Mb
+Thu Sep  3 04:57:27 2026

@@ -1,0 +1,8 @@
+{
+  "classification": "HEALTHY_TEMPERATURE_CHARACTERIZATION_COMPLETE",
+  "gate": "BFE14_ARCH1_BENIGN_TEMP_DRIFT_CHARACTERIZED",
+  "next_stage": "TRUSTED-ANCHOR-MANAGEMENT / REBASE0 architecture study",
+  "production_safe_claim": false,
+  "status": "PASS",
+  "stop_after_stage": true
+}
